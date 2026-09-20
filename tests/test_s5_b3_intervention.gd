@@ -84,7 +84,10 @@ func _init() -> void:
 		PlayerIntent.Action.WAIT,
 		PlayerIntent.Action.TRAVEL,
 		PlayerIntent.Action.BUY,
-		PlayerIntent.Action.SELL
+		PlayerIntent.Action.SELL,
+		# S5-B4 added answering a roadside encounter. It is a closed, enumerated
+		# verb like the rest, not an escape hatch.
+		PlayerIntent.Action.RESOLVE_ENCOUNTER
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:
@@ -247,8 +250,13 @@ func _init() -> void:
 		engine.execute_player_wait(wb)
 		engine.execute_player_wait(wc)
 		if d == 3:
-			var s_b := engine.execute_player_sell(wb, &"water", 12)
-			var s_c := engine.execute_player_sell(wc, &"water", 4)
+			# Sell everything carried. Since S5-B5 the traveller drinks on the
+			# road (and may fall back on a private ration in a dry town), so the
+			# exact stock on arrival is a simulation outcome, not a fixed number.
+			# What the gate compares is the SIZE of the donation, which is still
+			# clearly B >> C.
+			var s_b := engine.execute_player_sell(wb, &"water", wb.player.inventory.water)
+			var s_c := engine.execute_player_sell(wc, &"water", wc.player.inventory.water)
 			if not s_b.get("success", false) or not s_c.get("success", false):
 				print("FAIL I5: Day 3 sell failed: wb=%s, wc=%s" % [s_b, s_c])
 				quit(1)
@@ -357,7 +365,7 @@ func _init() -> void:
 	# Continue restored world to Day 16
 	engine.execute_player_wait(wb_restored) # Day 2
 	engine.execute_player_wait(wb_restored) # Day 3
-	engine.execute_player_sell(wb_restored, &"water", 12)
+	engine.execute_player_sell(wb_restored, &"water", wb_restored.player.inventory.water)
 	# Mirror World B exactly: deliver the water, then leave (see I5).
 	engine.begin_player_travel(wb_restored, PlayerIntent.create_travel(wb_restored.player.npc_id, &"settlement:new_hope"))
 	for d in range(3, 16):

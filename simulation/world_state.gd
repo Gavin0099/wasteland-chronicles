@@ -19,6 +19,9 @@ var player: PlayerState = null
 # holds committed facts only, while REJECTED intents live here and nowhere else.
 var decision_audit_trail: Array[NpcDecisionEvidence] = []
 
+# S5-B4: the encounter currently halting the player's journey, or null.
+var active_encounter: TravelEncounterState = null
+
 func get_settlement(id: StringName) -> SettlementState:
 	return settlements.get(id, null)
 
@@ -156,7 +159,8 @@ func to_dict() -> Dictionary:
 		# state, they must only check it agrees with the ledger.
 		"event_count": events_arr.size(),
 		"events": events_arr,
-		"decision_audit_trail": decisions_arr
+		"decision_audit_trail": decisions_arr,
+		"active_encounter": active_encounter.to_dict() if active_encounter != null else {}
 	}
 	if player != null:
 		result["player"] = player.to_dict()
@@ -232,6 +236,14 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 				return {"success": false, "world": null, "error": "AUDIT_TRAIL_MALFORMED: %s" % d_err}
 		for i in range(decisions_data.size()):
 			w.decision_audit_trail.append(NpcDecisionEvidence.from_dict(decisions_data[i]))
+
+	if data.has("active_encounter") and typeof(data["active_encounter"]) == TYPE_DICTIONARY:
+		var enc_data: Dictionary = data["active_encounter"]
+		if not enc_data.is_empty():
+			var enc := TravelEncounterState.from_dict(enc_data)
+			if not TravelEncounter.is_valid_type(enc.encounter_type):
+				return {"success": false, "world": null, "error": "ENCOUNTER_MALFORMED: unknown encounter type '%s'" % enc.encounter_type}
+			w.active_encounter = enc
 
 	return {"success": true, "world": w, "error": ""}
 

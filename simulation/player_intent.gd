@@ -13,16 +13,18 @@ extends RefCounted
 #   TRAVEL = 1 (Move to another settlement via physical route)
 #   BUY    = 2 (Purchase commodity from current settlement)
 #   SELL   = 3 (Sell commodity to current settlement)
+#   RESOLVE_ENCOUNTER = 4 (S5-B4: choose an option on a roadside encounter)
 # ==============================================================================
 
 enum Action {
-	WAIT   = 0,
-	TRAVEL = 1,
-	BUY    = 2,
-	SELL   = 3,
+	WAIT              = 0,
+	TRAVEL            = 1,
+	BUY               = 2,
+	SELL              = 3,
+	RESOLVE_ENCOUNTER = 4,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -52,6 +54,7 @@ static func action_name(value: int) -> String:
 		Action.TRAVEL: return "TRAVEL"
 		Action.BUY: return "BUY"
 		Action.SELL: return "SELL"
+		Action.RESOLVE_ENCOUNTER: return "RESOLVE_ENCOUNTER"
 		_: return "INVALID(%d)" % value
 
 static func is_authorized_action(value: int) -> bool:
@@ -87,4 +90,11 @@ static func from_dict(data: Dictionary) -> PlayerIntent:
 		data.get("payload", {}),
 		StringName(data.get("commodity", "")),
 		int(data.get("quantity", 0))
+	)
+
+# S5-B4: the chosen option travels as an intent like everything else. A UI
+# button handler must never apply an encounter's effects itself.
+static func create_resolve_encounter(p_player_id: StringName, p_option_id: StringName) -> PlayerIntent:
+	return PlayerIntent.new(
+		Action.RESOLVE_ENCOUNTER, p_player_id, &"", {"option_id": String(p_option_id)}
 	)

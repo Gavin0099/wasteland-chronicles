@@ -186,7 +186,8 @@ func _init() -> void:
 
 	# In a town that cannot meet its own needs, the player suffers with it -
 	# even with a full backpack, and without that backpack being consumed.
-	var w7 := make_world(engine, 9, 9)
+	# With an EMPTY backpack, a dry town is fatal: you share its fortune.
+	var w7 := make_world(engine, 0, 9)
 	var p7: PlayerState = w7.player
 	var gv: SettlementState = w7.get_settlement(&"settlement:gray_valley")
 	var bp7_water: int = p7.inventory.water
@@ -198,14 +199,34 @@ func _init() -> void:
 		print("FAIL S4: the town ran dry but the player was personally immune!")
 		quit(1)
 		return
-	if p7.inventory.water != bp7_water:
-		print("FAIL S4: settled player consumed the backpack while the town was dry!")
+	var town_ratio := engine._settlement_unmet_ratio(gv, "water")
+	print("  Dry town, empty backpack: exposure rose to %.2f (unmet ratio %.2f)" % [
+		p7.water_exposure, town_ratio])
+
+	# But a player CARRYING water may fall back on their own supply, and that
+	# private ration must help only them - the town is no better off for it.
+	var w9 := make_world(engine, 6, 9)
+	var p9: PlayerState = w9.player
+	var gv9: SettlementState = w9.get_settlement(&"settlement:gray_valley")
+	for i in range(4):
+		gv9.inventory.water = 0
+		gv9.production.water = 0
+		engine.execute_player_wait(w9)
+	if p9.water_exposure != 0.0:
+		print("FAIL S4: a player with their own water still went thirsty! exposure=%.2f" % p9.water_exposure)
 		quit(1)
 		return
-	var town_ratio := engine._settlement_unmet_ratio(gv, "water")
-	print("  Town ran dry: player exposure rose to %.2f while the backpack stayed at %d" % [
-		p7.water_exposure, p7.inventory.water])
-	print("  Player shares the settlement's fortune (today unmet ratio %.2f), never charged twice" % town_ratio)
+	if p9.inventory.water != 2:
+		print("FAIL S4: expected 4 private rations drunk (6 -> 2), got %d" % p9.inventory.water)
+		quit(1)
+		return
+	if gv9.water_pressure <= 0.0:
+		print("FAIL S4: the player's private ration relieved the TOWN's thirst!")
+		quit(1)
+		return
+	print("  Dry town, 6 water carried: drank 4 private rations (6 -> %d), exposure stayed 0.00" % p9.inventory.water)
+	print("  The town is no better off for it (its pressure is still %.1f): drinking your own" % gv9.water_pressure)
+	print("  water and giving it to a town remain completely different acts")
 	print("PASS GATE S4: Settlement No Double Metabolism verified.")
 
 	# --------------------------------------------------------------------------

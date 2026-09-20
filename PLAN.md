@@ -24,8 +24,8 @@
 - [x] S4-F1 : Autonomous Decision Authority (+ G2-lite) — CLOSED
 - [x] S5-B3 : Travel Auto-Advance (journey runs itself) — CLOSED
 - [x] S5-B5 : Player Survival (water/food pressure, exposure, death) — CLOSED
-- [ ] **S5-B4 : Travel Encounters (5-8 deterministic roadside events + Scavenge) — CURRENT**
-- [ ] ★ FP1 : FIRST PLAYABLE (full loop closes)
+- [x] S5-B4 : Travel Encounters (4 deterministic roadside events, Scavenge folded in) — CLOSED
+- [ ] **★ FP1 : FIRST PLAYABLE — play 20-30 minutes and record findings — CURRENT**
 - [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
 - [ ] S4-F3 : Multi-NPC Determinism at scale
 - [ ] S4-G : NPC Relationships (split out of S4-C)
@@ -45,6 +45,9 @@
 - 2026-09-20: **S4-A / S4-B / S4-C CLOSED ✅** (identity materialization, lifecycle atomicity, immutable background profile with zero action authority).
 - 2026-09-20: **S4-C.1 Event Ledger Persistence CLOSED ✅** — committed events are the sole authority for historical world facts; `event_count` demoted to derived metadata.
 - 2026-09-20: **S4-C.2 Snapshot Numeric Canonicality CLOSED ✅** — save-time `snapped()` removed; authoritative floats canonicalized at the end-of-day commit boundary via the persistence codec. Save/Load is now a transparent boundary (N4: interrupted and uninterrupted Day 100 worlds are identical in state, ledger and projection). Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` → **RESOLVED**. Canonical artifacts intentionally regenerated.
+- 2026-09-20: **S5-B4 Travel Encounters CLOSED** — the road can now stop you. Four encounters (wreck, rockslide, roadblock, dehydrated traveller), chosen as a pure function of route + departure day + travel-day index, with no RNG. Scavenge is folded into the wreck rather than built as its own system. Choices go through a RESOLVE_ENCOUNTER intent; a day spent is a real tick that drinks water and eats food, and a detour is padded so it costs time without shortening the road.
+- 2026-09-20: **Owner ruling (S5-B5 follow-up)** — a settled player MAY fall back on their own backpack when the town's need goes unmet. The private ration protects only the player: it adds nothing to settlement stock, relieves nobody else's pressure and changes no aggregate. Drinking your own water and giving it to a town stay different acts.
+- 2026-09-20: **Note** — transit deaths are attributed to the ORIGIN settlement's cumulative_deaths for population accounting. Read that as "the cohort they left", not as "they died in Gray Valley".
 - 2026-09-20: **S5-B5 Player Survival CLOSED** — water and food are real resources now. Reuses the settlement model: need outcome -> pressure -> exposure -> grace -> death. In transit needs come from the backpack; settled, the player shares the town's own fulfillment ratio and the backpack is never touched, so there is no double metabolism. Replaced days_deprived_* with exposure so half rations accumulate as half a day of suffering. Two superseded rules, both rewritten rather than deleted: S4-B forbade IN_TRANSIT -> DEAD (you can now die on the road, counted against the settlement you left), and the autonomous NPC decision engine was quietly evacuating the PLAYER from failing towns — the player is now excluded from it.
 - 2026-09-20: **Open design question (S5-B5)** — a SETTLED player cannot drink their own backpack, so camping in a town that cannot find water is fatal even with a full canteen. This follows directly from "the player shares the settlement's fortune", but the inverse case was not explicitly decided. Awaiting Owner ruling.
 - 2026-09-20: **Play-test findings (Owner)** — the build is an operable world shell, not yet a First Playable: travel, events and survival are three open loops. Baked-in map art was lying about player position; travel made the player press "wait one day" per leg; with no events, trade is just spending down caps; water/food cannot kill, so they are decorative resources.

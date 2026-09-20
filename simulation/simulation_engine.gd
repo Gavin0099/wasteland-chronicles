@@ -22,6 +22,8 @@ const DEFAULT_MIGRATION_ROUTE_DAYS: int = 3
 # A journey must never run away with the simulation if arrival goes wrong, so
 # auto-advance is bounded rather than trusting the loop to terminate.
 const TRAVEL_SAFETY_MARGIN_DAYS: int = 2
+# What the people at the barricade ask for. Not a faction, just a price.
+const ROADBLOCK_TOLL_CAPS: int = 10
 
 var enable_migration: bool = true
 
@@ -1354,6 +1356,18 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 		water_unmet_ratio = _settlement_unmet_ratio(s, "water")
 		food_unmet_ratio = _settlement_unmet_ratio(s, "food")
 
+		# Private rations. If the town could not meet its need today, the player
+		# may fall back on what they are carrying. This protects the PLAYER only:
+		# it adds nothing to settlement inventory, relieves nobody else's
+		# pressure and changes no aggregate figure. Sharing your water with a
+		# town and drinking it yourself stay completely different acts.
+		if water_unmet_ratio > 0.0 and p.inventory.get_amount("water") >= 1:
+			p.inventory.set_amount("water", p.inventory.get_amount("water") - 1)
+			water_unmet_ratio = 0.0
+		if food_unmet_ratio > 0.0 and p.inventory.get_amount("food") >= 1:
+			p.inventory.set_amount("food", p.inventory.get_amount("food") - 1)
+			food_unmet_ratio = 0.0
+
 	_apply_player_need_outcome(p, water_unmet_ratio, food_unmet_ratio)
 	_check_player_mortality(world, p, ls, current_day, tick_events)
 
@@ -1489,6 +1503,176 @@ static func get_sell_quote(settlement: SettlementState, commodity: StringName) -
 	var price := settlement.get_current_price(String(commodity))
 	return maxi(1, int(floor(price)))
 
+# ==============================================================================
+# S5-B4: TRAVEL ENCOUNTERS
+# ==============================================================================
+# The travel-day index is DERIVED from the party rather than stored, so a saved
+# journey cannot come back disagreeing with itself about how far along it is.
+func _travel_day_index(party: RefugeePartyState) -> int:
+	return party.route_days - party.days_remaining
+
+func _check_travel_encounter(world: WorldState, ls: NpcLifeState) -> void:
+	if world.active_encounter != null:
+		return
+	var party: RefugeePartyState = world.get_refugee_party(ls.population_container_id)
+	if party == null:
+		return
+	# Nothing happens on the day you arrive; the road is behind you.
+	if party.days_remaining <= 0:
+		return
+
+	var index := _travel_day_index(party)
+	var encounter_type := TravelEncounter.select(
+		party.origin_id, party.destination_id, party.departure_day, index
+	)
+	if encounter_type == &"":
+		return
+
+	world.active_encounter = TravelEncounterState.create(
+		encounter_type, world.current_day, party.origin_id, party.destination_id, index
+	)
+
+	var evt := EventRecord.new(
+		world.current_day,
+		"TRAVEL_ENCOUNTER",
+		world.player.npc_id if world.player != null else &"",
+		party.destination_id,
+		{
+			"encounter_type": String(encounter_type),
+			"origin": String(party.origin_id),
+			"destination": String(party.destination_id),
+			"travel_day_index": index,
+		}
+	)
+	world.record_event(evt)
+
+# Spend a day without getting any closer. The journey is padded by one day so
+# that ticking costs time and supplies without also advancing progress: a
+# detour is lost time, not free travel.
+func _spend_extra_travel_day(world: WorldState, player_id: StringName) -> void:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(player_id)
+	if ls != null and ls.status == NpcLifeState.Status.IN_TRANSIT:
+		var party: RefugeePartyState = world.get_refugee_party(ls.population_container_id)
+		if party != null:
+			party.days_remaining += 1
+	tick(world)
+
+# What an encounter option costs, checked before anything is committed.
+func authorize_encounter_option(world: WorldState, option_id: StringName) -> String:
+	var enc := world.active_encounter
+	if enc == null:
+		return "NO_ACTIVE_ENCOUNTER: there is nothing on the road to answer"
+	if not TravelEncounter.has_option(enc.encounter_type, option_id):
+		return "INVALID_OPTION: %s is not an option for %s" % [option_id, enc.encounter_type]
+
+	var p: PlayerState = world.player
+	match option_id:
+		&"CLEAR":
+			if p.inventory.get_amount("scrap") < 1:
+				return "INSUFFICIENT_SCRAP: clearing the road needs 1 scrap"
+		&"PAY":
+			if p.money < ROADBLOCK_TOLL_CAPS:
+				return "INSUFFICIENT_FUNDS: the toll is %d caps" % ROADBLOCK_TOLL_CAPS
+		&"GIVE_WATER":
+			if p.inventory.get_amount("water") < 1:
+				return "INSUFFICIENT_WATER: you have none to give"
+	return ""
+
+# Apply the chosen option atomically, record it, then let the journey resume.
+func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictionary:
+	var auth := authorize_encounter_option(world, option_id)
+	if auth != "":
+		return {"success": false, "error": auth}
+
+	var enc := world.active_encounter
+	var p: PlayerState = world.player
+	var encounter_type := enc.encounter_type
+	var gained: Dictionary = {}
+	var spent: Dictionary = {}
+	var extra_day := false
+
+	match option_id:
+		&"SEARCH":
+			# Loot is capped by what you can actually carry. The ledger records
+			# what was really taken, not what was theoretically on offer.
+			gained = _give_player_goods(p, {"scrap": 3, "fuel": 1})
+			extra_day = true
+		&"CLEAR":
+			p.inventory.add_amount("scrap", -1)
+			spent["scrap"] = 1
+		&"PAY":
+			p.money -= ROADBLOCK_TOLL_CAPS
+			spent["caps"] = ROADBLOCK_TOLL_CAPS
+		&"GIVE_WATER":
+			p.inventory.add_amount("water", -1)
+			spent["water"] = 1
+			gained = _give_player_goods(p, {"scrap": 2})
+		&"DETOUR":
+			extra_day = true
+		&"LEAVE":
+			pass
+
+	var evt := EventRecord.new(
+		world.current_day,
+		"TRAVEL_ENCOUNTER_RESOLVED",
+		p.npc_id,
+		enc.destination_id,
+		{
+			"encounter_type": String(encounter_type),
+			"option": String(option_id),
+			"gained": gained,
+			"spent": spent,
+			"cost_extra_day": extra_day,
+		}
+	)
+	world.record_event(evt)
+
+	# Clear the encounter BEFORE any further time passes, otherwise the extra
+	# day would immediately halt on the encounter it just resolved.
+	world.active_encounter = null
+
+	if extra_day:
+		_spend_extra_travel_day(world, p.npc_id)
+
+	# Resume the journey unless the road has already killed us.
+	var days_travelled := 0
+	var arrived := false
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(p.npc_id)
+	if ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.IN_TRANSIT:
+		var party: RefugeePartyState = world.get_refugee_party(ls.population_container_id)
+		var remaining := party.days_remaining if party != null else 0
+		var resume := advance_player_travel(world, p.npc_id, remaining)
+		days_travelled = resume["days_travelled"]
+		arrived = resume["arrived"]
+	else:
+		arrived = ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.SETTLED
+
+	return {
+		"success": true,
+		"action": "RESOLVE_ENCOUNTER",
+		"encounter_type": String(encounter_type),
+		"option": String(option_id),
+		"gained": gained,
+		"spent": spent,
+		"cost_extra_day": extra_day,
+		"days_travelled": days_travelled,
+		"arrived": arrived,
+		"current_day": world.current_day,
+	}
+
+# Hand goods to the player, limited by what the backpack can hold. Returns what
+# was actually received.
+func _give_player_goods(p: PlayerState, goods: Dictionary) -> Dictionary:
+	var received: Dictionary = {}
+	for key in goods:
+		var wanted: int = int(goods[key])
+		var room: int = p.capacity_total - p.get_total_inventory_load()
+		var actual: int = clampi(wanted, 0, maxi(room, 0))
+		if actual > 0:
+			p.inventory.add_amount(String(key), actual)
+			received[key] = actual
+	return received
+
 func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	if world.player == null:
 		return "NO_PLAYER: World does not have an active player avatar"
@@ -1503,7 +1687,13 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	if ls == null or not ls.is_alive():
 		return "DECEASED_OR_NO_LIFE_STATE: Player is not alive or has no life state"
 
+	# Standing in front of an unanswered encounter, nothing else is available.
+	if world.active_encounter != null and intent.action != PlayerIntent.Action.RESOLVE_ENCOUNTER:
+		return "ENCOUNTER_PENDING: the road is waiting for an answer"
+
 	match intent.action:
+		PlayerIntent.Action.RESOLVE_ENCOUNTER:
+			return authorize_encounter_option(world, StringName(String(intent.payload.get("option_id", ""))))
 		PlayerIntent.Action.WAIT:
 			return ""
 		PlayerIntent.Action.TRAVEL:
@@ -1637,6 +1827,7 @@ func advance_player_travel(world: WorldState, player_id: StringName, route_days:
 		var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(player_id)
 		if ls == null or ls.status != NpcLifeState.Status.IN_TRANSIT:
 			break
+		_check_travel_encounter(world, ls)
 		if is_player_travel_interrupted(world, player_id):
 			break
 
@@ -1646,11 +1837,9 @@ func advance_player_travel(world: WorldState, player_id: StringName, route_days:
 		"arrived": arrival_ls != null and arrival_ls.status == NpcLifeState.Status.SETTLED
 	}
 
-# Interruption hook for S5-B4 Travel Encounters. Nothing can interrupt a journey
-# yet, so this answers honestly rather than pretending to be a system: today the
-# road is empty, and the loop says so.
-func is_player_travel_interrupted(_world: WorldState, _player_id: StringName) -> bool:
-	return false
+# A journey halts while an encounter is waiting for an answer.
+func is_player_travel_interrupted(world: WorldState, _player_id: StringName) -> bool:
+	return world.active_encounter != null
 
 func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
 	var auth_err := authorize_player_intent(world, intent)
@@ -1658,6 +1847,9 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.RESOLVE_ENCOUNTER:
+			return commit_encounter_choice(world, StringName(String(intent.payload.get("option_id", ""))))
+
 		PlayerIntent.Action.WAIT:
 			var wait_evt := EventRecord.new(
 				world.current_day,

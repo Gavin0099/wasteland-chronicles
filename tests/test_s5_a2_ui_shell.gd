@@ -148,15 +148,22 @@ func _init() -> void:
 		quit(1)
 		return
 
-	var expected_days: int = int(travel_res.get("route_days", 3))
-	if world.current_day != day_before + expected_days:
-		print("FAIL UI3: expected the journey to take %d days (day %d -> %d), got day %d" % [
-			expected_days, day_before, day_before + expected_days, world.current_day
-		])
+	# Since S5-B4 the road can stop you. Answer whatever it asks, then the
+	# journey must finish on its own - that is the behaviour under test.
+	var encounters_answered := 0
+	while world.active_encounter != null and encounters_answered < 8:
+		var opts := TravelEncounter.options(world.active_encounter.encounter_type)
+		var cheapest := String(opts[opts.size() - 1]["id"])
+		shell.on_encounter_option_pressed(cheapest)
+		encounters_answered += 1
+
+	if world.current_day <= day_before:
+		print("FAIL UI3: travelling advanced no days at all!")
 		quit(1)
 		return
-	if not travel_res.get("arrived", false):
-		print("FAIL UI3: player did not arrive after travelling!")
+	var final_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if final_ls.status != NpcLifeState.Status.SETTLED:
+		print("FAIL UI3: player never arrived (status %d)" % final_ls.status)
 		quit(1)
 		return
 	var arrived_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
@@ -167,7 +174,8 @@ func _init() -> void:
 
 	print("  Selected New Hope and pressed TRAVEL")
 	print("  UI dispatched PlayerIntent(TRAVEL) -> Authorization -> Atomic Commit")
-	print("  Journey ran itself: day %d -> %d, arrived at New Hope" % [day_before, world.current_day])
+	print("  Journey ran itself: day %d -> %d, arrived at New Hope (%d encounter(s) answered)" % [
+		day_before, world.current_day, encounters_answered])
 	print("  The player was never asked to confirm each day of walking")
 	print("PASS GATE UI3: Travel Interaction verified.")
 

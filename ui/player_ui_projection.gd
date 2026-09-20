@@ -24,9 +24,41 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"current_settlement": _project_current_settlement(world),
 		"destinations": _project_destinations(world),
 		"events": _project_recent_events(world, 8) if debug_feed_enabled else [],
-		"debug_feed_enabled": debug_feed_enabled
+		"debug_feed_enabled": debug_feed_enabled,
+		"active_encounter": _project_encounter(world),
 	}
 	return proj
+
+# S5-B4: what the road is currently asking. Options carry an `enabled` flag so
+# the UI can grey out a choice the player cannot afford, using the SAME check
+# the engine will apply when it authorizes the intent.
+static func _project_encounter(world: WorldState) -> Dictionary:
+	var enc := world.active_encounter
+	if enc == null:
+		return {}
+
+	var options: Array = []
+	for o in TravelEncounter.options(enc.encounter_type):
+		var option_id: StringName = o["id"]
+		var reason := SimulationEngine.new().authorize_encounter_option(world, option_id)
+		options.append({
+			"id": String(option_id),
+			"label": o["label"],
+			"detail": o["detail"],
+			"enabled": reason == "",
+			"blocked_reason": reason,
+		})
+
+	return {
+		"encounter_type": String(enc.encounter_type),
+		"title": TravelEncounter.title(enc.encounter_type),
+		"body": TravelEncounter.body(enc.encounter_type),
+		"day": enc.day,
+		"route_label": "%s → %s" % [
+			_settlement_name(String(enc.origin_id)), _settlement_name(String(enc.destination_id))
+		],
+		"options": options,
+	}
 
 static func _project_player(world: WorldState) -> Dictionary:
 	if world.player == null:

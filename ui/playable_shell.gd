@@ -61,6 +61,13 @@ var lbl_hud_commodities: Label
 
 # Settlement Panel Nodes
 var s_panel: PanelContainer
+var encounter_panel: PanelContainer
+var encounter_vbox: VBoxContainer
+var lbl_encounter_route: Label
+var lbl_encounter_title: Label
+var lbl_encounter_body: Label
+var lbl_encounter_supplies: Label
+var encounter_options_box: VBoxContainer
 var lbl_settlement_title: Label
 var lbl_settlement_subtitle: Label
 var lbl_settlement_condition: Label
@@ -191,6 +198,7 @@ func _render_projection(proj: Dictionary) -> void:
 
 	# 5. Event Feed
 	_render_event_feed(proj.get("events", []))
+	_render_encounter(proj.get("active_encounter", {}))
 
 func _render_settlement_panel(proj: Dictionary) -> void:
 	if lbl_settlement_title == null or lbl_settlement_details == null:
@@ -852,6 +860,66 @@ func _build_ui_layout_if_needed() -> void:
 	btn_travel.pressed.connect(func(): on_travel_pressed())
 	s_vbox.add_child(btn_travel)
 
+	# ==========================================================================
+	# TRAVEL ENCOUNTER PANEL (Active only while the road is asking something)
+	# ==========================================================================
+	# Shown INSTEAD of the settlement panel: standing at a barricade is not a
+	# moment for reading market prices.
+	encounter_panel = PanelContainer.new()
+	encounter_panel.size_flags_vertical = SIZE_EXPAND_FILL
+	encounter_panel.visible = false
+	right_col.add_child(encounter_panel)
+
+	encounter_vbox = VBoxContainer.new()
+	encounter_vbox.add_theme_constant_override("separation", 6)
+	encounter_panel.add_child(encounter_vbox)
+
+	encounter_vbox.add_child(_create_window_header("路上 TRAVEL ENCOUNTER", "⚠"))
+
+	lbl_encounter_route = Label.new()
+	lbl_encounter_route.add_theme_color_override("font_color", Color("#96938B"))
+	lbl_encounter_route.add_theme_font_size_override("font_size", 11)
+	encounter_vbox.add_child(lbl_encounter_route)
+
+	# Reserved for encounter scene art (see note in the slice write-up).
+	var art_placeholder := PanelContainer.new()
+	art_placeholder.custom_minimum_size = Vector2(0, 96)
+	var art_style := StyleBoxFlat.new()
+	art_style.bg_color = Color("#141A24")
+	art_style.border_color = Color("#344158")
+	art_style.set_border_width_all(1)
+	art_style.set_corner_radius_all(2)
+	art_placeholder.add_theme_stylebox_override("panel", art_style)
+	var art_lbl := Label.new()
+	art_lbl.text = "（場景插畫）"
+	art_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	art_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	art_lbl.add_theme_color_override("font_color", Color("#3D4657"))
+	art_lbl.add_theme_font_size_override("font_size", 11)
+	art_placeholder.add_child(art_lbl)
+	encounter_vbox.add_child(art_placeholder)
+
+	lbl_encounter_title = Label.new()
+	lbl_encounter_title.add_theme_color_override("font_color", Color("#D9822B"))
+	lbl_encounter_title.add_theme_font_size_override("font_size", 14)
+	encounter_vbox.add_child(lbl_encounter_title)
+
+	lbl_encounter_body = Label.new()
+	lbl_encounter_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl_encounter_body.add_theme_color_override("font_color", Color("#D8D3C8"))
+	lbl_encounter_body.add_theme_font_size_override("font_size", 12)
+	encounter_vbox.add_child(lbl_encounter_body)
+
+	# What you are carrying, shown right next to the decision that spends it.
+	lbl_encounter_supplies = Label.new()
+	lbl_encounter_supplies.add_theme_color_override("font_color", Color("#C9A227"))
+	lbl_encounter_supplies.add_theme_font_size_override("font_size", 12)
+	encounter_vbox.add_child(lbl_encounter_supplies)
+
+	encounter_options_box = VBoxContainer.new()
+	encounter_options_box.add_theme_constant_override("separation", 4)
+	encounter_vbox.add_child(encounter_options_box)
+
 	# Lower Right: Marketplace Panel
 	var m_panel := PanelContainer.new()
 	m_panel.size_flags_vertical = SIZE_EXPAND_FILL
@@ -958,6 +1026,60 @@ func _build_ui_layout_if_needed() -> void:
 	event_feed_container = VBoxContainer.new()
 	event_feed_container.size_flags_horizontal = SIZE_EXPAND_FILL
 	scroll.add_child(event_feed_container)
+
+
+# ==============================================================================
+# S5-B4: TRAVEL ENCOUNTER
+# ==============================================================================
+func _render_encounter(enc: Dictionary) -> void:
+	if encounter_panel == null:
+		return
+
+	var active: bool = not enc.is_empty()
+	encounter_panel.visible = active
+	if s_panel != null and active:
+		s_panel.visible = false
+	if market_panel != null and market_panel.get_parent() != null:
+		market_panel.get_parent().visible = not active
+	if btn_wait != null:
+		btn_wait.visible = not active
+
+	for child in encounter_options_box.get_children():
+		encounter_options_box.remove_child(child)
+		child.queue_free()
+	if not active:
+		return
+
+	lbl_encounter_route.text = String(enc.get("route_label", ""))
+	lbl_encounter_title.text = String(enc.get("title", ""))
+	lbl_encounter_body.text = String(enc.get("body", ""))
+
+	var bp: Dictionary = current_projection.get("player", {}).get("backpack", {})
+	lbl_encounter_supplies.text = "目前：💧 %d　🍴 %d　⚙ %d　⛽ %d　💰 %d" % [
+		int(bp.get("water", 0)), int(bp.get("food", 0)),
+		int(bp.get("scrap", 0)), int(bp.get("fuel", 0)),
+		int(current_projection.get("player", {}).get("money", 0))
+	]
+
+	for option in enc.get("options", []):
+		var btn := Button.new()
+		btn.text = "%s　—　%s" % [String(option.get("label", "")), String(option.get("detail", ""))]
+		btn.custom_minimum_size = Vector2(0, 30)
+		btn.disabled = not bool(option.get("enabled", true))
+		if btn.disabled:
+			btn.tooltip_text = String(option.get("blocked_reason", ""))
+		var option_id := String(option.get("id", ""))
+		btn.pressed.connect(func(): on_encounter_option_pressed(option_id))
+		encounter_options_box.add_child(btn)
+
+# The button dispatches an intent. It never applies the encounter itself.
+func on_encounter_option_pressed(option_id: String) -> Dictionary:
+	if world == null or engine == null or world.player == null:
+		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+	var intent := PlayerIntent.create_resolve_encounter(world.player.npc_id, StringName(option_id))
+	var res := engine.commit_player_intent(world, intent)
+	refresh_ui()
+	return res
 
 func _create_window_header(title_text: String, icon_str: String = "") -> PanelContainer:
 	var header_panel := PanelContainer.new()
