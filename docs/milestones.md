@@ -370,10 +370,22 @@ Aptitudes  = 這個人可能比較容易學哪類事情
     - **P5 (Save/Load Round-Trip Fixed Point)**：世界含玩家化身經序列化/反序列化後為嚴格數學不動點，Canonical JSON SHA-256 位元完全一致（`b23f4d47843cac3de0118d351e50cb39b4458a2fd32e0de265d6ce3317672b6c`）。
     - **P6 (Coexistence with NPC Ecosystem)**：玩家與多名自主 NPC 同場並行模擬 10 天，世界全域不變量 0 違規，生命總量守恆 300 == 300。
   - 全專案 25 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
-* **S5-A.2 — Playable UI Shell**：
-  - 核心問題：玩家如何看得到世界與操作化身？
-  - 介面範疇：World Map、Settlement HUD、Intel/Events 面板、Basic Navigation。
-  - 結合 Wasteland Chronicles UI Skill 打造首個 World Map 錨點。
+* **S5-A.2 — Playable UI Shell**：**CLOSED ✅**
+  - **核心問題已回答**：玩家如何看得到世界與操作化身？——**YES**。打開 Godot 介面第一次像「一款遊戲」，且嚴格僅提供目前世界已有權威之能力。
+  - **三層隔離架構 (UI5 Simulation Isolation)**：`WorldState` $\to$ `PlayerUIProjection` $\to$ `Godot UI`。UI 控制器無任何直接讀寫 `WorldState` 之代碼路徑，僅能透過受控唯讀投影與 `PlayerIntent` 交易鏈。
+  - **動詞邊界**：A.2 嚴格**不實作 WAIT 按鈕**（留待 S5-B1）。點擊 `[TRAVEL]` 僅提交 `PlayerIntent(TRAVEL)` 並將玩家狀態轉為 `IN_TRANSIT`，不自動推進時間。
+  - **資訊邊界 (LIVE vs Remote)**：目前所在聚落呈現 LIVE 真實資料；遠端聚落僅顯示路線可用性與旅途天數（嚴禁洩漏遠端經濟／庫存／物價，預留 S7 Information Fog 邊界）。
+  - **HUD 規範**：僅顯示位置、在途狀態、金錢、水/糧/廢料/燃料、背包容量負重；嚴格無 HP、體力、輻射、XP、等級。
+  - **除錯日誌標記**：事件帳本於介面明確標註為 `[DEBUG WORLD FEED]`，並提供 `debug_world_feed_enabled` 開關。
+  - **視覺規範與錨點**：正式發布 [`.agents/skills/wasteland-chronicles-ui-v1/SKILL.md`](file:///d:/wasteland-chronicles/.agents/skills/wasteland-chronicles-ui-v1/SKILL.md)（Survivor PDA，Dark Industrial，Charcoal、Dirty Ivory、Muted Amber、Rust Red；綠色僅限小面積狀態指示）。生成並鎖定首組視覺錨點（World Map Anchor 與 Settlement HUD Anchor）。
+  - **驗收成果**：[tests/test_s5_a2_ui_shell.gd](file:///d:/wasteland-chronicles/tests/test_s5_a2_ui_shell.gd) 六大 Gate (UI1 ~ UI6) 全數 PASS：
+    - **UI1 (World Visibility)**：玩家位置（灰谷）與扇區 3 大世界節點（灰谷、乾井、新希望）及有效路線完整可見。
+    - **UI2 (State Fidelity)**：HUD 顯示數值與底層 `PlayerState` / `PlayerUIProjection` 100% 保真，遠端節點無經濟資訊洩漏。
+    - **UI3 (Travel Interaction)**：點擊遠端聚落僅發出合法 `PlayerIntent(TRAVEL)`，世界天數保持不變（不偷跑自動時間推進）。
+    - **UI4 (Transit Feedback & Axiom 9)**：出發後狀態即時反映為 `IN_TRANSIT`；外部驅動 3 次 tick 後精確抵達新希望並切換為 LIVE 面板，嚴禁瞬移。
+    - **UI5 (Simulation Isolation)**：非法目的地強制 Fail-Closed；UI 無任何直接篡改世界的途徑。
+    - **UI6 (Playable Smoke Test)**：完整生命週期（開局 $\to$ 選地點 $\to$ Travel $\to$ 在途 $\to$ 外部 tick $\to$ 抵達 $\to$ Feed 切換）0 error 0 crash。
+  - 全專案 26 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
 * **S5-B — Player Verbs (核心動詞循環)**：
   - **S5-B1 (Travel + Wait)**：玩家物理在地圖移動與等待時間流逝（遵守 Axiom 9，無瞬移）。
   - **S5-B2 (Trade)**：玩家在聚落買賣物資，利用供需利差獲利或緩解短缺。
