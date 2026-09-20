@@ -1047,6 +1047,15 @@ func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -
 	return ""
 
 func validate_invariants(world: WorldState) -> String:
+	if world.player != null:
+		if world.player.capability == null:
+			return "MISSING_CAPABILITY_PROFILE"
+		var capability_data: Dictionary = world.player.capability.to_dict()
+		var capability_error: String = PlayerState.Capability.validate(capability_data)
+		if capability_error != "":
+			return capability_error
+		if capability_data.npc_id != String(world.player.npc_id):
+			return "CAPABILITY_OWNER_MISMATCH"
 	for s_id in world.settlements:
 		var s: SettlementState = world.settlements[s_id]
 		for res in COMMODITIES:
@@ -1431,6 +1440,59 @@ func _check_player_mortality(world: WorldState, p: PlayerState, ls: NpcLifeState
 	if tick_events != null:
 		tick_events.append(death_evt)
 	world.record_event(death_evt)
+
+# C0 headless entry point. Stage the existing materialization lifecycle on a
+# private copy; a rejected operation never allocates IDs or writes real history.
+func commit_character_creation(world: WorldState, intent: RefCounted) -> Dictionary:
+	const CreationIntent = preload("res://simulation/character_creation_intent.gd")
+	const Catalogue = preload("res://simulation/background_catalogue.gd")
+	if not intent is CreationIntent:
+		return {"success": false, "error": "INVALID_CREATION_INTENT"}
+	var input: Dictionary = intent.to_dict()
+	if input.size() != 5:
+		return {"success": false, "error": "INVALID_CREATION_FIELDS"}
+	for field in ["source_settlement_id", "character_name", "background_id", "trait_ids", "age"]:
+		if not input.has(field):
+			return {"success": false, "error": "MISSING_CREATION_FIELD: " + field}
+	if typeof(input.source_settlement_id) != TYPE_STRING or typeof(input.character_name) != TYPE_STRING or input.character_name.strip_edges().is_empty() or typeof(input.age) != TYPE_INT or input.age < 0:
+		return {"success": false, "error": "INVALID_CREATION_IDENTITY"}
+	if world.player != null:
+		return {"success": false, "error": "PLAYER_ALREADY_EXISTS"}
+	var package: Dictionary = Catalogue.resolve(input.background_id)
+	if not package.success:
+		return package
+	var trait_error: String = PlayerState.Capability.validate_traits(input.trait_ids)
+	if trait_error != "":
+		return {"success": false, "error": trait_error}
+	var existing_error := validate_invariants(world)
+	if existing_error != "":
+		return {"success": false, "error": existing_error}
+	var staged := world.duplicate_state()
+	var result := materialize_player(staged, StringName(input.source_settlement_id), input.character_name, input.age, package.background)
+	if not result.success:
+		return result
+	var profile_result: Dictionary = PlayerState.Capability.from_dict_checked({
+		"npc_id": String(staged.player.npc_id), "creation_origin": "CHARACTER_CREATION",
+		"background_id": input.background_id, "package_version": package.version,
+		"skill_ranks": package.ranks, "selected_creation_traits": input.trait_ids,
+	})
+	if not profile_result.success:
+		return {"success": false, "error": profile_result.error}
+	staged.player.capability = profile_result.profile
+	staged.record_event(EventRecord.new(staged.current_day, "CHARACTER_CREATED", staged.player.npc_id, StringName(input.source_settlement_id), {
+		"background_id": input.background_id, "package_version": package.version,
+		"selected_creation_traits": profile_result.profile.to_dict().selected_creation_traits,
+	}))
+	var error := validate_invariants(staged)
+	if error != "":
+		return {"success": false, "error": error}
+	world.npc_registry = staged.npc_registry
+	world.npc_life_state_registry = staged.npc_life_state_registry
+	world.npc_profile_registry = staged.npc_profile_registry
+	world.next_npc_sequence = staged.next_npc_sequence
+	world.player = staged.player
+	world.event_log = staged.event_log
+	return {"success": true, "npc_id": world.player.npc_id, "player": world.player, "error": ""}
 
 func materialize_player(
 	world: WorldState,

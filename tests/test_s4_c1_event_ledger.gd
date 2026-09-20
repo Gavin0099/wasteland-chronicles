@@ -81,7 +81,7 @@ func _init() -> void:
 	# Idempotence: for the LEDGER, save -> load -> save must be a FIXED POINT,
 	# not merely "equivalent". Otherwise every load/save cycle rewrites recorded
 	# history, and an audit of a reloaded save would disagree with the original.
-	var reloaded_twice := WorldState.from_dict(JSON.parse_string(JSON.stringify(loaded.to_dict())))
+	var reloaded_twice := WorldState.from_json(JSON.stringify(loaded.to_dict()))
 	if reloaded_twice == null:
 		print("FAIL L1: second load was refused!")
 		quit(1)
@@ -114,7 +114,7 @@ func _init() -> void:
 	ordered.record_event(EventRecord.new(3, "ALPHA_EVENT", &"actor:a", &"target:a", {"seq": 2}))
 	ordered.record_event(EventRecord.new(7, "MIKE_EVENT", &"actor:m", &"target:m", {"seq": 3}))
 
-	var ordered_loaded := WorldState.from_dict(JSON.parse_string(JSON.stringify(ordered.to_dict())))
+	var ordered_loaded := WorldState.from_json(JSON.stringify(ordered.to_dict()))
 	if ordered_loaded == null:
 		print("FAIL L2: loader refused the ordering fixture!")
 		quit(1)
@@ -179,7 +179,7 @@ func _init() -> void:
 	}
 	nested.record_event(EventRecord.new(12, "RICH_PAYLOAD", &"actor:x", &"target:y", rich_payload))
 
-	var nested_loaded := WorldState.from_dict(JSON.parse_string(JSON.stringify(nested.to_dict())))
+	var nested_loaded := WorldState.from_json(JSON.stringify(nested.to_dict()))
 	if nested_loaded == null:
 		print("FAIL L3: loader refused the payload fixture!")
 		quit(1)
@@ -360,7 +360,7 @@ func _init() -> void:
 
 	# And it must survive a load, so an audit performed on a reloaded save
 	# reaches the same conclusion as one performed on the live world.
-	var reloaded := WorldState.from_dict(JSON.parse_string(JSON.stringify(run_a.to_dict())))
+	var reloaded := WorldState.from_json(JSON.stringify(run_a.to_dict()))
 	var ledger_reloaded := JSON.stringify(ledger_of(reloaded), "\t", true).sha256_text()
 	if ledger_reloaded != ledger_a:
 		print("FAIL L5: ledger SHA changed after a save/load cycle!")

@@ -1,0 +1,42 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S3-C REFUGEE MIGRATION TEST SUITE
+================================================================================
+
+--- [GATE C1] Conservation of World Population ---
+  Initial World Population: 300 | Day 100 World Population: 300
+PASS GATE C1: Conservation of Population strictly maintained across all 100 days.
+
+--- [GATE C2] Migration Trigger Sensitivity & Cooldown ---
+  Day 43 (Pressure 40.0 < 60.0): Pop = 100, Refugees = 0
+  Day 44 (Pressure 65.0 >= 60.0): Pop = 90, Refugees = 1 (Wave 1 Departed!)
+  Day 45~46 (Cooldown Active): Pop = 90, Refugees = 1 (Cooldown Respected)
+  Day 47 (Cooldown Expired): Pop = 81, Refugees = 2 (Wave 2 Departed!)
+PASS GATE C2: Migration Trigger Sensitivity & Cooldown strictly verified.
+
+--- [GATE C3] Physical In-Transit Travel Semantics ---
+  Departure Day: 44 | Route Days: 3 | Arrival Day: 46 (Exact match: 44 + 3 - 1 = 46)
+  Day 44 Remaining: 2 | Day 45 Remaining: 1 | Day 46 Arrived: true, New Hope Pop: 130
+PASS GATE C3: Axiom 9 Physical Travel Semantics strictly verified.
+
+--- [GATE C4] Closed-Loop Demand Ripple Effect ---
+  New Hope Pop 120 -> 130: Water Demand 6 -> 7 (+16.7%)
+  Gray Valley Pop 100 -> 81: Water Demand 5 -> 4 (-20.0%)
+PASS GATE C4: Closed-Loop Demand Ripple Effect strictly verified.
+
+--- [GATE C5] Rational Destination Selection ---
+  Gray Valley refugees selected destination: settlement:new_hope (Oasis chosen over arid oil well)
+PASS GATE C5: Rational Destination Selection verified.
+
+--- [GATE C6] Invariant & State Serialization Consistency ---
+  State serialization and duplicate identical (Length: 40442 chars)
+PASS GATE C6: Invariant and Serialization consistency 100% verified.
+
+--- [GATE C7] Determinism Replay & Full Regression Pass ---
+  World B Day 100 SHA-256 with Refugee Migration: bb5da0fb6392ef8e6c528e88f991b9f4450a2dbd8fde34177c950226f9ba48ad
+PASS GATE C7: Bitwise Determinism Replay 100% verified.
+
+================================================================================
+ALL S3-C ACCEPTANCE GATES (C1 ~ C7) PASSED!
+================================================================================

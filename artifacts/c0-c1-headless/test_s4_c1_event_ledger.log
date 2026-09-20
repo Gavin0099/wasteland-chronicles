@@ -1,0 +1,54 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+      WASTELAND CHRONICLES - S4-C.1 EVENT LEDGER PERSISTENCE TEST SUITE
+================================================================================
+
+--- [GATE L1] Non-empty Round-trip ---
+  Fixture world produced 357 committed events across 7 distinct types
+  Required event types present: CARAVAN_ARRIVED, REFUGEES_DEPARTED, SETTLEMENT_MORTALITY
+  Through JSON text and back: 357 events in, 357 events out
+  Serialized ledger byte-identical: 46397bfb52927ab5c56888706413e129681bc4880ad2470195ab9ca2f9f21b71
+  Ledger save -> load -> save is a fixed point (identical across two cycles)
+PASS GATE L1: Non-empty Round-trip verified.
+
+--- [GATE L2] Ordering Preservation ---
+  Commit order Z, A, M survives load as Z, A, M (not alphabetized)
+  Days 9, 3, 7 survive unsorted (canonical key ordering != event ordering)
+  All 357 fixture events preserved positionally
+PASS GATE L2: Ordering Preservation verified.
+
+--- [GATE L3] Payload Fidelity ---
+  Nested payload recursively equal after round-trip
+  Arrays, 3-level nesting, bool, null, string and empty containers all intact
+  Value types identical in and out (payload canonicalized at commit time)
+PASS GATE L3: Payload Fidelity verified.
+
+--- [GATE L4] Single Authority / Fail-Closed Count ---
+  Runtime and serialized counts both derived from the ledger (357)
+  Legal fixture accepted: events = 7, event_count = 7
+  Illegal fixture refused: LEDGER_COUNT_MISMATCH: declared event_count 9 != serialized events 7
+  No partial world acceptance: no truncation to 7, no padding to 9, no empty fallback
+  Undercount (declared 5, present 7) also refused
+  Legacy snapshot refused: LEDGER_MISSING: snapshot has no 'events' array (a pre-S4-C.1 snapshot cannot be trusted as history)
+  Malformed record refused: LEDGER_MALFORMED: events[3] is missing required field 'payload'
+  Empty ledger accepted: events = [], event_count = 0
+PASS GATE L4: Single Authority / Fail-Closed Count verified.
+
+--- [GATE L5] Deterministic Ledger Replay ---
+  Two identical runs -> identical ledger SHA-256 (357 events):
+    46397bfb52927ab5c56888706413e129681bc4880ad2470195ab9ca2f9f21b71
+  Ledger SHA unchanged after save/load: an audit of the save agrees with the live world
+PASS GATE L5: Deterministic Ledger Replay verified.
+
+--- [GATE L6] Independent Verification ---
+  Engine invariants PASS on the eventful world (357 events)
+  Engine invariants PASS on the reloaded world
+  Negative test: unpersistable payload detected -> S4-C.1 L3: events[0] (CORRUPT) is not persistable: payload value at payload.bad_value has unsupported type 5
+  Negative test: empty event type detected
+  Exported artifacts/world_snapshot_s4c1.json (357 events) for independent validation.
+PASS GATE L6: Independent Verification verified.
+
+================================================================================
+ALL S4-C.1 EVENT LEDGER HARD GATES (L1 ~ L6) PASSED CLEANLY!
+================================================================================

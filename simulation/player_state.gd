@@ -1,6 +1,9 @@
 class_name PlayerState
 extends RefCounted
 
+const Capability = preload("res://simulation/capability_profile.gd")
+var capability: RefCounted
+
 # ==============================================================================
 # S5-A: PLAYER AVATAR STATE
 # ==============================================================================
@@ -43,6 +46,7 @@ func _init(
 	capacity_total = p_capacity
 	money = p_money
 	inventory = ResourceState.new()
+	capability = Capability.legacy(npc_id) if npc_id != &"" else null
 
 func get_total_inventory_load() -> int:
 	if inventory == null:
@@ -60,11 +64,13 @@ func duplicate_state() -> PlayerState:
 	copy.food_pressure = food_pressure
 	copy.water_exposure = water_exposure
 	copy.food_exposure = food_exposure
+	copy.capability = capability.duplicate_profile() if capability != null else null
 	return copy
 
 func to_dict() -> Dictionary:
 	return {
 		"npc_id": String(npc_id),
+		"capability": capability.to_dict() if capability != null else null,
 		"capacity_total": capacity_total,
 		"money": money,
 		"inventory": inventory.to_dict() if inventory != null else {},
@@ -79,6 +85,8 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var cap := int(data.get("capacity_total", 20))
 	var mon := int(data.get("money", 50))
 	var p := PlayerState.new(nid, cap, mon)
+	if data.has("capability"):
+		p.capability = Capability.from_dict_checked(data.capability).profile
 
 	if data.has("inventory") and typeof(data["inventory"]) == TYPE_DICTIONARY:
 		p.inventory = ResourceState.from_dict(data["inventory"])

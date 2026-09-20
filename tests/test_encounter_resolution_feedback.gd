@@ -45,7 +45,7 @@ func run() -> void:
 	engine.advance_player_travel(w, w.player.npc_id, 3)
 	check(w.to_canonical_json().sha256_text() == before, "direct travel advance must honor receipt pause")
 
-	var restored := WorldState.from_dict(JSON.parse_string(JSON.stringify(w.to_dict())))
+	var restored := WorldState.from_json(JSON.stringify(w.to_dict()))
 	check(restored != null and restored.to_canonical_json().sha256_text() == before, "pending receipt must survive save/load exactly")
 	if restored == null:
 		quit(1)

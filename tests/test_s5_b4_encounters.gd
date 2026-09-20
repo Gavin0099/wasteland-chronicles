@@ -330,7 +330,7 @@ func _init() -> void:
 		quit(1)
 		return
 
-	var wb := WorldState.from_dict(JSON.parse_string(JSON.stringify(wa.to_dict())))
+	var wb := WorldState.from_json(JSON.stringify(wa.to_dict()))
 	if wb == null:
 		print("FAIL E6: loader refused a snapshot paused on an encounter!")
 		quit(1)

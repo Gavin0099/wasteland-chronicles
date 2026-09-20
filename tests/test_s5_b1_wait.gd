@@ -361,7 +361,7 @@ func _init() -> void:
 	# Save/Load round trip
 	var json_snap := wb.to_canonical_json()
 	var snap_dict: Dictionary = JSON.parse_string(json_snap)
-	var wb_restored := WorldState.from_dict(snap_dict)
+	var wb_restored := WorldState.from_json(json_snap)
 	if wb_restored == null:
 		print("FAIL B6: WorldState.from_dict failed to restore snapshot!")
 		quit(1)

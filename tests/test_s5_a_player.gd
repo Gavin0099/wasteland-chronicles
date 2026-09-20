@@ -296,7 +296,7 @@ func _init() -> void:
 
 	var snap_json := JSON.stringify(snap_dict)
 	var restored_dict: Variant = JSON.parse_string(snap_json)
-	var w_restored := WorldState.from_dict(restored_dict as Dictionary)
+	var w_restored := WorldState.from_json(snap_json)
 	if w_restored == null:
 		print("FAIL P5: WorldState.from_dict refused snapshot with player avatar!")
 		quit(1)

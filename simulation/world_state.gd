@@ -1,6 +1,9 @@
 class_name WorldState
 extends RefCounted
 
+const Capability = preload("res://simulation/capability_profile.gd")
+const RankCodec = preload("res://simulation/rank_json_codec.gd")
+
 var current_day: int = 0
 var total_initial_population: int = -1
 var next_npc_sequence: int = 1
@@ -150,6 +153,7 @@ func to_dict() -> Dictionary:
 		decisions_arr.append((ev as NpcDecisionEvidence).to_dict())
 
 	var result := {
+		"progression_schema_version": 1,
 		"current_day": current_day,
 		"total_initial_population": total_initial_population,
 		"next_npc_sequence": next_npc_sequence,
@@ -225,6 +229,47 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		if err != "":
 			return {"success": false, "world": null, "error": "LEDGER_MALFORMED: %s" % err}
 
+	# Missing version + missing capability is the explicit pre-C1 migration.
+	# A versioned partial profile is corruption, never a migration fallback.
+	var player_data: Variant = data.get("player")
+	var has_player_data := typeof(player_data) == TYPE_DICTIONARY
+	if player_data != null and not has_player_data:
+		return {"success": false, "world": null, "error": "INVALID_PLAYER_PROFILE"}
+	if data.has("progression_schema_version"):
+		var version: Variant = data.progression_schema_version
+		if typeof(version) not in [TYPE_INT, TYPE_FLOAT] or version != 1:
+			return {"success": false, "world": null, "error": "UNSUPPORTED_PROGRESSION_SCHEMA"}
+		if has_player_data:
+			var capability_error := Capability.validate(player_data.get("capability"))
+			if capability_error != "":
+				return {"success": false, "world": null, "error": capability_error}
+			if player_data.capability.npc_id != player_data.get("npc_id"):
+				return {"success": false, "world": null, "error": "CAPABILITY_OWNER_MISMATCH"}
+	elif has_player_data and player_data.has("capability"):
+		return {"success": false, "world": null, "error": "MISSING_PROGRESSION_SCHEMA"}
+	if has_player_data:
+		# Old profile loaders canonicalize metadata. Before migration, reject
+		# malformed values rather than repairing them into a different biography.
+		var profiles: Variant = data.get("npc_profile_registry")
+		if typeof(profiles) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "MISSING_PROFILE_REGISTRY"}
+		for owner in profiles:
+			var biography: Variant = profiles[owner]
+			if typeof(biography) != TYPE_DICTIONARY or biography.get("npc_id") != owner:
+				return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_OWNER"}
+			var background := NumericCanon.restore_int(biography.get("background"), "background", 0, 3)
+			if not background.ok:
+				return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_BACKGROUND"}
+			for field in ["traits", "aptitudes"]:
+				var tags: Variant = biography.get(field, [])
+				if typeof(tags) != TYPE_ARRAY:
+					return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_TAGS"}
+				var previous := -1
+				for tag in tags:
+					var restored := NumericCanon.restore_int(tag, field, 0, 5 if field == "traits" else 4)
+					if not restored.ok or restored.value <= previous:
+						return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_TAGS"}
+					previous = restored.value
 	var w := from_dict_unchecked(data)
 
 	# Rebuild the ledger from the events themselves, in serialized order.
@@ -259,7 +304,30 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		var evt := w.event_log[w.pending_encounter_result]
 		if w.active_encounter != null or w.player == null or evt.actor_id != w.player.npc_id or evt.type != "TRAVEL_ENCOUNTER_RESOLVED" or not TravelEncounter.valid_resolution(evt.payload):
 			return {"success": false, "world": null, "error": "ENCOUNTER_RESULT_MALFORMED: invalid receipt"}
-	return {"success": true, "world": w, "error": ""}
+	if w.player != null:
+		var owner_id := w.player.npc_id
+		if not w.npc_registry.has_npc(owner_id) or not w.npc_life_state_registry.has_life_state(owner_id) or not w.npc_profile_registry.has_profile(owner_id):
+			return {"success": false, "world": null, "error": "INVALID_CAPABILITY_OWNER_REFERENCE"}
+		var capability_data: Dictionary = w.player.capability.to_dict()
+		if capability_data.creation_origin == "CHARACTER_CREATION" and capability_data.background_id != NpcProfile.background_name(w.npc_profile_registry.get_profile(owner_id).background):
+			return {"success": false, "world": null, "error": "CAPABILITY_BACKGROUND_MISMATCH"}
+		var world_error := SimulationEngine.new().validate_invariants(w)
+		if world_error != "":
+			return {"success": false, "world": null, "error": world_error}
+	return {"success": true, "world": w, "error": "", "migrated": not data.has("progression_schema_version")}
+
+# Raw saves must enter here, before Godot erases rank-token spelling.
+static func from_json_checked(raw: String) -> Dictionary:
+	var decoded := RankCodec.decode(raw)
+	if not decoded.success:
+		return {"success": false, "world": null, "error": decoded.error}
+	return from_dict_checked(decoded.data)
+
+static func from_json(raw: String) -> WorldState:
+	var result := from_json_checked(raw)
+	if not result.success:
+		push_error("WorldState.from_json refused snapshot: %s" % result.error)
+	return result.world
 
 # Thin wrapper: returns the world, or null when the snapshot is refused.
 static func from_dict(data: Dictionary) -> WorldState:

@@ -26,8 +26,22 @@
 - [x] S5-B5 : Player Survival (water/food pressure, exposure, death) — CLOSED
 - [x] S5-B4 : Travel Encounters (4 deterministic roadside events, Scavenge folded in) — CLOSED
 - [x] S5-B4.1 : World-Reactive Encounters — CLOSED
-- [ ] **S5-C0 : World Expansion 3 -> 5 settlements (sparse road network with chokepoints) — CURRENT**
-- [ ] S5-B4.2 : Encounter Variety 4 -> 8-10 state-aware templates
+- [x] Encounter Resolution Feedback — committed locally as `e18b88e`; explicit gains/losses/time, persistent receipt, confirmation before travel resumes. Not new gameplay content.
+- [x] Character Progression Foundation — OWNER DIRECTION LOCKED
+- [x] S5-C0/C1 Contract — COMPLETE / FROZEN FOR IMPLEMENTATION (not feature closure)
+- [x] C0-P0 Background Package Mapping — four existing packages approved by Owner
+- [x] C1-P0 Strict Rank Codec — raw integer tokens proven; existing float codec unchanged
+- [ ] **S5-C0 : Character Creation — HEADLESS IMPLEMENTED / TESTED_LOCAL; creation UI not started; not CLOSED**
+- [ ] S5-C1 : Capability Foundation — HEADLESS IMPLEMENTED / TESTED_LOCAL; uncommitted; not overall CLOSED
+- [ ] S5-C2 : Trait & Skill Encounters — different characters unlock different approaches
+- [ ] S5-C3 : Skill Growth — relevant use and work develop the corresponding skill
+- [ ] S5-C4 : Level & Perks — experience milestones and sparse, consequential specialization choices
+- [ ] S5-C4.5 : Acquired Traits — real-life history creates opt-in candidates; 6 target identities, effects and tradeoffs required
+- [ ] S5-C5 : Equipment Progression — equipment enables previously unavailable actions and places
+- [ ] S5-C6 : Job Progression — natural capability requirements, not quest-level labels
+- [ ] S5-C7 : Capstone — advanced builds and rare items reconnect character growth to world consequences
+- [ ] World Expansion 3 -> 5 settlements — deferred; sparse roads/chokepoints retained, former S5-C0 identifier superseded
+- [ ] S5-B4.2 : Encounter Variety 4 -> 8-10 state-aware templates — after growth foundation
 - [ ] ★ FP2 : still finding new decisions after 20 minutes
 - [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
 - [ ] S4-F3 : Multi-NPC Determinism at scale
@@ -41,6 +55,17 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-20: **Owner froze C0/C1 contract** as SPEC / AUTHORITY CONTRACT COMPLETE, distinct from feature completion. Owner explicitly approved all four C0-P0 packages. C1-P0 uses structural raw-token verification at the rank path plus unchanged native JSON for world floats. Headless sequence C1-A/B → C0-A/B/C implemented locally, tested before UI; evidence and boundaries in `docs/c0-c1-headless-implementation.md`. No C2/XP/Perk/equipment/combat/Legacy authority added; this work is not committed or pushed.
+
+- 2026-09-20: **Encounter UX delivery** — local commit `e18b88e` on `codex/encounter-result-feedback`, no push/merge. 33 Godot suites exit 0; recorded UI shutdown leak diagnostics remain. Progression documents were excluded from the commit.
+- 2026-09-20: **C0/C1 authoritative contract defined, implementation not started** — `docs/s5-c0-c1-contract.md`: Background package 2/1/1, no free points; 0–2 distinct Core Traits with no forbidden pairs; atomic materialization from existing anonymous population; legacy ranks zero and selected Core empty, existing S4 metadata preserved; ten int 0–5 Skills, skill-only AND eligibility and strict persistence. Integer JSON token preservation and background catalogue mapping are explicit implementation prerequisites. C2/XP/Level/Perk/Equipment/Combat are excluded from this task.
+- 2026-09-20: **Trait origins separated** — Core at creation; Acquired from verifiable current-life history with opt-in acceptance and tradeoffs (new C4.5, six target identities); Legacy opportunities after death belong to S6. No automatic inheritance of the deceased character's Skills/Traits and no permanent account stat bonuses.
+
+- 2026-09-20: **Owner catalogue refinement** — target 1 Background, 0–2 Traits from a 14-entry catalogue, and 10 Skills ranked 0–5: FIREARMS, MELEE, SURVIVAL, SCAVENGING, STEALTH, MECHANICS, ELECTRONICS, MEDICINE, SPEECH, BARTER. Trait is approach, Skill is capability; Level and Perks remain distinct. This is design scope, not implemented combat/XP or approval to invent missing world systems. Detailed catalogue and open creation contracts are in `docs/character-progression-foundation.md`.
+
+- 2026-09-20: **Owner direction — Character Progression Foundation** supersedes immediate map expansion and standalone four-tool prioritization. Trait = starting identity; Skill = practiced capability; Level = accumulated experience; Perk = later specialization. The target is "previously impossible, now possible", with distinct approaches to the same world. See `docs/character-progression-foundation.md`; thresholds and XP rules remain design work, not implemented systems.
+- 2026-09-20: **Encounter Result UX fixed locally** — the engine previously resolved rewards and immediately resumed travel, while UI discarded the returned result. Resolution now ends at a saved ledger receipt; only explicit confirmation resumes travel. Actual consumption includes the extra day but excludes later road days; empty loot, capacity leftovers and fatal outcomes are explicit. This is UX repair, not added gameplay depth. No commit/push performed.
 
 - 2026-09-20: **S3 Human Ecology CLOSED ✅** and tagged `v0.0.1-s3` (S3-A through S3-F fully verified).
 - 2026-09-20: **G1.5-A NPC Authority Contract CLOSED ✅** (Authority matrix, Single population membership, deterministic ID minting, validate-before-commit).
