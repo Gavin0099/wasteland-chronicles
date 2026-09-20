@@ -22,7 +22,11 @@
 - [x] S4-D : Traits — CLOSED (Fast Lane)
 - [x] S4-E : Aptitude Schema (No XP) — CLOSED (Fast Lane)
 - [x] S4-F1 : Autonomous Decision Authority (+ G2-lite) — CLOSED
-- [ ] **S4-F2 : Autonomous Migration (decision to physical arrival) — CURRENT**
+- [x] S5-B3 : Travel Auto-Advance (journey runs itself) — CLOSED
+- [ ] **S5-B4 : Travel Encounters (5-8 deterministic roadside events + Scavenge) — CURRENT**
+- [ ] S5-B5 : Player Survival (water/food pressure, exposure, death)
+- [ ] ★ FP1 : FIRST PLAYABLE (full loop closes)
+- [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
 - [ ] S4-F3 : Multi-NPC Determinism at scale
 - [ ] S4-G : NPC Relationships (split out of S4-C)
 
@@ -41,6 +45,9 @@
 - 2026-09-20: **S4-A / S4-B / S4-C CLOSED ✅** (identity materialization, lifecycle atomicity, immutable background profile with zero action authority).
 - 2026-09-20: **S4-C.1 Event Ledger Persistence CLOSED ✅** — committed events are the sole authority for historical world facts; `event_count` demoted to derived metadata.
 - 2026-09-20: **S4-C.2 Snapshot Numeric Canonicality CLOSED ✅** — save-time `snapped()` removed; authoritative floats canonicalized at the end-of-day commit boundary via the persistence codec. Save/Load is now a transparent boundary (N4: interrupted and uninterrupted Day 100 worlds are identical in state, ledger and projection). Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` → **RESOLVED**. Canonical artifacts intentionally regenerated.
+- 2026-09-20: **Play-test findings (Owner)** — the build is an operable world shell, not yet a First Playable: travel, events and survival are three open loops. Baked-in map art was lying about player position; travel made the player press "wait one day" per leg; with no events, trade is just spending down caps; water/food cannot kill, so they are decorative resources.
+- 2026-09-20: **Map art rule (Owner)** — background artwork may contain terrain, ruins, roads and buildings ONLY. Place names, player markers, route day counts, node circles and UI text must be drawn by Godot at runtime, because baked text cannot follow a world that changes. AI-generated art answers "what does the world look like", never "where are you now".
+- 2026-09-20: **S5-B3 Travel Auto-Advance CLOSED** — choosing a destination is the decision; the days of walking are not a second decision to keep confirming. Travel split into begin_player_travel + advance_player_travel so encounters can interrupt a journey later. This supersedes the S5-A.2 "no auto-tick" principle, and gate UI3 was rewritten rather than deleted so the change of intent stays visible.
 - 2026-09-20: **S4-F1 Autonomous Decision Authority CLOSED ✅ (G2-lite)** — closed action space of STAY/MIGRATE only; the decision engine never holds a WorldState, so zero mutation authority is structural. Batch semantics with an immutable start-of-phase snapshot and lexicographic npc_id order. Rejected intents stay in the decision audit trail and never reach the event ledger. Traits/Aptitudes/Backgrounds deliberately do NOT influence decisions in F1.
 - 2026-09-20: **Finding `STRINGNAME_SORT_IS_NOT_LEXICOGRAPHIC` CONFIRMED** — Godot sorts StringName by internal pointer. Avoided in the decision phase; existing engine iteration sites still sort StringName keys and are only coincidentally ordered. Awaiting Owner disposition.
 - 2026-09-20: **S4-E Aptitude CLOSED ✅ (Fast Lane)** — closed-domain tag set on `NpcProfile`; deliberately no numeric ratings, since no Skill Growth system exists yet to give a rating meaning. S5-D will decide how TECHNICAL relates to Mechanics, not the reverse.

@@ -6,7 +6,13 @@ extends SceneTree
 # Acceptance Gates:
 #   UI1: World Visibility (Player location + 3 settlements visible)
 #   UI2: State Fidelity (Projection & UI display match authoritative state 100%)
-#   UI3: Travel Interaction (Travel button dispatches PlayerIntent only; no auto-tick)
+#   UI3: Travel Interaction (Travel runs the journey through to arrival)
+#
+# NOTE: UI3 previously asserted the opposite - that pressing Travel must NOT
+# advance time, leaving the player to press WAIT once per day. Play-testing
+# showed that turns a journey into paperwork, and the Owner superseded that
+# principle in S5-B3. The gate is rewritten to assert the new behaviour rather
+# than removed, so the change of intent stays visible.
 #   UI4: Transit Feedback (Shows IN_TRANSIT; external tick updates progress to arrival)
 #   UI5: Simulation Isolation (UI reads via projection, mutations via Intent only)
 #   UI6: Playable Smoke (Lifecycle from start to arrival with 0 crashes)
@@ -135,27 +141,56 @@ func _init() -> void:
 
 	var day_before: int = world.current_day
 
-	# Trigger travel through UI controller (does NOT auto-tick!)
+	# Pressing Travel commits the whole journey: the days pass on their own.
 	var travel_res := shell.on_travel_pressed()
 	if not travel_res.get("success", false):
 		print("FAIL UI3: Travel action through UI failed: %s" % travel_res.get("error", ""))
 		quit(1)
 		return
 
-	# Assert that day did NOT advance automatically
-	if world.current_day != day_before:
-		print("FAIL UI3: Travel button auto-ticked the simulation! (Violates A.2 no-WAIT principle)")
+	var expected_days: int = int(travel_res.get("route_days", 3))
+	if world.current_day != day_before + expected_days:
+		print("FAIL UI3: expected the journey to take %d days (day %d -> %d), got day %d" % [
+			expected_days, day_before, day_before + expected_days, world.current_day
+		])
+		quit(1)
+		return
+	if not travel_res.get("arrived", false):
+		print("FAIL UI3: player did not arrive after travelling!")
+		quit(1)
+		return
+	var arrived_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if arrived_ls.population_container_id != &"settlement:new_hope":
+		print("FAIL UI3: player did not end up at New Hope: %s" % arrived_ls.population_container_id)
 		quit(1)
 		return
 
 	print("  Selected New Hope and pressed TRAVEL")
 	print("  UI dispatched PlayerIntent(TRAVEL) -> Authorization -> Atomic Commit")
-	print("  World day remains %d (time did NOT auto-advance; WAIT preserved for S5-B1)" % world.current_day)
+	print("  Journey ran itself: day %d -> %d, arrived at New Hope" % [day_before, world.current_day])
+	print("  The player was never asked to confirm each day of walking")
 	print("PASS GATE UI3: Travel Interaction verified.")
 
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE UI4] Transit Feedback & External Tick Progression ---")
-	var proj_transit := shell.current_projection
+	# Since S5-B3 the travel action carries the player all the way to arrival, so
+	# nobody is left mid-route by pressing it. This gate is about how transit is
+	# RENDERED, so it starts a journey explicitly on its own world and walks the
+	# days forward one at a time to prove there is no teleport.
+	var t_world := S1WorldData.create_s1_world()
+	engine.materialize_player(t_world, &"settlement:gray_valley", "Drifter", 25)
+	var t_shell := PlayableShell.new()
+	get_root().add_child(t_shell)
+	t_shell.setup(t_world, engine)
+	var t_intent := PlayerIntent.create_travel(t_world.player.npc_id, &"settlement:new_hope")
+	var t_begin := engine.begin_player_travel(t_world, t_intent)
+	if not t_begin.get("success", false):
+		print("FAIL UI4: could not start the journey: %s" % t_begin.get("error", ""))
+		quit(1)
+		return
+	t_shell.refresh_ui()
+
+	var proj_transit := t_shell.current_projection
 	var p_transit: Dictionary = proj_transit["player"]
 
 	if p_transit["status"] != "IN_TRANSIT" or not p_transit["is_in_transit"]:
@@ -169,50 +204,38 @@ func _init() -> void:
 		quit(1)
 		return
 
-	# Travel button must now be disabled while in transit
-	if not shell.btn_travel.disabled:
+	if not t_shell.btn_travel.disabled:
 		print("FAIL UI4: Travel button must be disabled while in transit!")
 		quit(1)
 		return
 
 	print("  Post-departure UI: Player in transit: %s" % p_transit["location_display"])
 
-	# External tick 1 (Day 0 tick executes, days_remaining becomes 2, current_day becomes 1)
-	shell.advance_day()
-	var proj_d1 := shell.current_projection
-	if not proj_d1["player"]["is_in_transit"]:
-		print("FAIL UI4: Premature arrival on Day 1 (teleportation detected)!")
-		quit(1)
-		return
-	print("  Day 1: In-transit conserved: %s" % proj_d1["player"]["location_display"])
+	var route_len: int = int(t_begin["route_days"])
+	for day_step in range(route_len - 1):
+		t_shell.advance_day()
+		if not t_shell.current_projection["player"]["is_in_transit"]:
+			print("FAIL UI4: Premature arrival on day %d of %d (teleportation detected)!" % [day_step + 1, route_len])
+			quit(1)
+			return
+		print("  Day %d: In-transit conserved: %s" % [
+			t_world.current_day, t_shell.current_projection["player"]["location_display"]
+		])
 
-	# External tick 2 (Day 1 tick executes, days_remaining becomes 1, current_day becomes 2)
-	shell.advance_day()
-	var proj_d2 := shell.current_projection
-	if not proj_d2["player"]["is_in_transit"]:
-		print("FAIL UI4: Premature arrival on Day 2 (teleportation detected)!")
-		quit(1)
-		return
-	print("  Day 2: In-transit conserved: %s" % proj_d2["player"]["location_display"])
-
-	# External tick 3 (Day 2 arrival tick executes, arrived at New Hope, current_day becomes 3)
-	shell.advance_day()
-	var proj_arr := shell.current_projection
-	var p_arr: Dictionary = proj_arr["player"]
-
+	# Final leg: the arrival tick.
+	t_shell.advance_day()
+	var p_arr: Dictionary = t_shell.current_projection["player"]
 	if p_arr["status"] != "SETTLED" or p_arr["is_in_transit"]:
-		print("FAIL UI4: Player did not arrive and settle on Day 3! status=%s" % p_arr["status"])
+		print("FAIL UI4: Player did not arrive and settle after %d days! status=%s" % [route_len, p_arr["status"]])
 		quit(1)
 		return
-
 	if p_arr["current_container_id"] != "settlement:new_hope":
 		print("FAIL UI4: Player settled at %s instead of New Hope!" % p_arr["current_container_id"])
 		quit(1)
 		return
 
-	# Settlement view at New Hope is now LIVE
-	shell.select_settlement("settlement:new_hope")
-	var nh_view: Dictionary = shell.current_projection["current_settlement"]
+	t_shell.select_settlement("settlement:new_hope")
+	var nh_view: Dictionary = t_shell.current_projection["current_settlement"]
 	if nh_view.get("id") != "settlement:new_hope" or not nh_view.get("is_live", false):
 		print("FAIL UI4: New Hope is not marked as LIVE current location upon arrival!")
 		quit(1)
@@ -220,7 +243,6 @@ func _init() -> void:
 
 	print("  Arrival tick executed: Player safely arrived at New Hope: %s" % p_arr["location_display"])
 	print("  New Hope panel switched to LIVE authoritative readout")
-	print("PASS GATE UI4: Transit Feedback & External Tick Progression verified.")
 
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE UI5] Simulation Isolation ---")
@@ -254,7 +276,8 @@ func _init() -> void:
 	shell.debug_world_feed_enabled = false
 	shell.refresh_ui()
 	var first_child: Label = shell.event_feed_container.get_child(0) as Label
-	if first_child == null or not first_child.text.contains("disabled"):
+	# UX-P1 replaced the debug wording with an in-fiction line.
+	if first_child == null or not first_child.text.contains("電台靜默"):
 		print("FAIL UI6: Debug feed toggle did not disable feed display!")
 		quit(1)
 		return

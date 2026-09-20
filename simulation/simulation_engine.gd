@@ -19,6 +19,9 @@ const MIGRATION_POPULATION_RATIO: float = 0.10
 const MIGRATION_MIN_POPULATION: int = 10
 const MIGRATION_COOLDOWN_DAYS: int = 3
 const DEFAULT_MIGRATION_ROUTE_DAYS: int = 3
+# A journey must never run away with the simulation if arrival goes wrong, so
+# auto-advance is bounded rather than trusting the loop to terminate.
+const TRAVEL_SAFETY_MARGIN_DAYS: int = 2
 
 var enable_migration: bool = true
 
@@ -1479,6 +1482,83 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			return ""
 	return "UNKNOWN_ACTION"
 
+# ==============================================================================
+# PLAYER TRAVEL (two explicit stages)
+# ==============================================================================
+# Stage 1 starts the journey and advances no time. Stage 2 lets the days pass.
+# They are separate for two reasons: a travel encounter must be able to stop a
+# journey mid-route and hand control back to the player, and the transit
+# mechanics themselves (departure accounting, Axiom 9 arrival timing, backpack
+# consumption) are verified one day at a time.
+func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+	if ls == null:
+		return {"success": false, "error": "INVALID_PLAYER: no life state"}
+	var origin_id: StringName = ls.population_container_id
+	var dest_id: StringName = intent.destination_id
+	var route_days := get_route_days_between(world, origin_id, dest_id)
+	var party_id := StringName("refugee:player_d%d_%s_to_%s" % [
+		world.current_day,
+		String(origin_id).replace("settlement:", ""),
+		String(dest_id).replace("settlement:", "")
+	])
+
+	var result: Dictionary = world.npc_life_state_registry.begin_named_migration(
+		world, intent.player_id, dest_id, party_id, route_days, world.current_day
+	)
+	if not result["success"]:
+		return result
+
+	var travel_evt := EventRecord.new(
+		world.current_day,
+		"PLAYER_TRAVEL_STARTED",
+		intent.player_id,
+		dest_id,
+		{
+			"origin": String(origin_id),
+			"destination": String(dest_id),
+			"party_id": String(party_id),
+			"route_days": route_days
+		}
+	)
+	if tick_events != null:
+		tick_events.append(travel_evt)
+	world.record_event(travel_evt)
+
+	return {
+		"success": true,
+		"action": "TRAVEL",
+		"party_id": party_id,
+		"route_days": route_days
+	}
+
+# Stage 2: run the clock until the journey ends. Written as "advance until
+# something stops us" rather than "advance exactly route_days", so that a travel
+# encounter can later halt the loop while the player is still on the road.
+func advance_player_travel(world: WorldState, player_id: StringName, route_days: int) -> Dictionary:
+	var days_travelled := 0
+	var max_days := route_days + TRAVEL_SAFETY_MARGIN_DAYS
+	while days_travelled < max_days:
+		tick(world)
+		days_travelled += 1
+		var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(player_id)
+		if ls == null or ls.status != NpcLifeState.Status.IN_TRANSIT:
+			break
+		if is_player_travel_interrupted(world, player_id):
+			break
+
+	var arrival_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(player_id)
+	return {
+		"days_travelled": days_travelled,
+		"arrived": arrival_ls != null and arrival_ls.status == NpcLifeState.Status.SETTLED
+	}
+
+# Interruption hook for S5-B4 Travel Encounters. Nothing can interrupt a journey
+# yet, so this answers honestly rather than pretending to be a system: today the
+# road is empty, and the loop says so.
+func is_player_travel_interrupted(_world: WorldState, _player_id: StringName) -> bool:
+	return false
+
 func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
 	var auth_err := authorize_player_intent(world, intent)
 	if auth_err != "":
@@ -1500,44 +1580,17 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			return {"success": true, "action": "WAIT", "current_day": world.current_day}
 
 		PlayerIntent.Action.TRAVEL:
-			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
-			var origin_id: StringName = ls.population_container_id
-			var dest_id: StringName = intent.destination_id
-			var route_days := get_route_days_between(world, origin_id, dest_id)
-			var party_id := StringName("refugee:player_d%d_%s_to_%s" % [
-				world.current_day,
-				String(origin_id).replace("settlement:", ""),
-				String(dest_id).replace("settlement:", "")
-			])
-
-			var result: Dictionary = world.npc_life_state_registry.begin_named_migration(
-				world, intent.player_id, dest_id, party_id, route_days, world.current_day
-			)
-			if not result["success"]:
-				return result
-
-			var travel_evt := EventRecord.new(
-				world.current_day,
-				"PLAYER_TRAVEL_STARTED",
-				intent.player_id,
-				dest_id,
-				{
-					"origin": String(origin_id),
-					"destination": String(dest_id),
-					"party_id": String(party_id),
-					"route_days": route_days
-				}
-			)
-			if tick_events != null:
-				tick_events.append(travel_evt)
-			world.record_event(travel_evt)
-
-			return {
-				"success": true,
-				"action": "TRAVEL",
-				"party_id": party_id,
-				"route_days": route_days
-			}
+			# Choosing a destination IS the decision. The days of walking are not
+			# a second decision the player has to keep confirming, so time runs
+			# forward on its own until the journey ends.
+			var begin_res := begin_player_travel(world, intent, tick_events)
+			if not begin_res.get("success", false):
+				return begin_res
+			var advance_res := advance_player_travel(world, intent.player_id, int(begin_res["route_days"]))
+			begin_res["days_travelled"] = advance_res["days_travelled"]
+			begin_res["arrived"] = advance_res["arrived"]
+			begin_res["current_day"] = world.current_day
+			return begin_res
 
 		PlayerIntent.Action.BUY:
 			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)

@@ -5,7 +5,7 @@ extends SceneTree
 # ==============================================================================
 # Verifies that player intervention produces genuine causal, physical divergence
 # across counterfactual worlds using existing verbs without cheat/quest mechanics:
-#   I1: Crisis Readability (UI reflects [CRITICAL] / [HIGH_RISK] tags clearly)
+#   I1: Crisis Readability (UI states the crisis in plain language)
 #   I2: Legal Intervention (Strictly PlayerIntent BUY / TRAVEL / WAIT / SELL)
 #   I3: Physical Conservation (Backpack load, market cash, zero free goods)
 #   I4: Causal Effect (Sold water is metabolized by settlement population)
@@ -55,18 +55,20 @@ func _init() -> void:
 	root.add_child(shell1)
 	shell1.setup(w1, engine)
 
-	if not shell1.lbl_settlement_details.text.contains("[CRITICAL]"):
-		print("FAIL I1: Settlement details UI does not display [CRITICAL] tag: %s" % shell1.lbl_settlement_details.text)
+	# UX-P1 replaced internal status codes with plain language, so this gate now
+	# asserts the wording a player actually reads.
+	if not shell1.lbl_settlement_condition.text.contains("吃緊"):
+		print("FAIL I1: Settlement card does not state the water crisis: %s" % shell1.lbl_settlement_condition.text)
 		quit(1)
 		return
 
-	if not shell1.lbl_settlement_details.text.contains("[HIGH_RISK]"):
-		print("FAIL I1: Settlement details UI does not display [HIGH_RISK] tag: %s" % shell1.lbl_settlement_details.text)
+	if not shell1.lbl_settlement_details.text.contains("（高風險）"):
+		print("FAIL I1: Settlement details do not flag the high-risk pressure: %s" % shell1.lbl_settlement_details.text)
 		quit(1)
 		return
 
 	shell1.queue_free()
-	print("  UI Projection surfaces stock status [CRITICAL] and pressure status [HIGH_RISK]")
+	print("  UI states the water crisis in plain language and flags the high-risk pressure")
 	print("  Remote settlements strictly hide status (Zero information leak)")
 	print("  No artificial quest popups; crisis readability is 100% grounded in simulation telemetry")
 	print("PASS GATE I1: Crisis Readability verified.")
@@ -223,11 +225,13 @@ func _init() -> void:
 
 	# Day 0: World B buys 12 water and departs for Gray Valley
 	engine.execute_player_buy(wb, &"water", 12)
-	engine.commit_player_intent(wb, PlayerIntent.create_travel(wb.player.npc_id, &"settlement:gray_valley"))
+	# Stage 1 only: worlds A/B/C must advance in lockstep through the shared
+	# wait loop below, so the journey must not jump ahead on its own (S5-B3).
+	engine.begin_player_travel(wb, PlayerIntent.create_travel(wb.player.npc_id, &"settlement:gray_valley"))
 
 	# Day 0: World C buys 4 water and departs for Gray Valley
 	engine.execute_player_buy(wc, &"water", 4)
-	engine.commit_player_intent(wc, PlayerIntent.create_travel(wc.player.npc_id, &"settlement:gray_valley"))
+	engine.begin_player_travel(wc, PlayerIntent.create_travel(wc.player.npc_id, &"settlement:gray_valley"))
 
 	# Advance synchronized simulation for 16 days
 	# World B and C start their journey on Day 0, arrive Day 2, and sell on Day 3
@@ -328,7 +332,7 @@ func _init() -> void:
 
 	# Day 0: Buy 12 water & depart
 	engine.execute_player_buy(wb_rep, &"water", 12)
-	engine.commit_player_intent(wb_rep, PlayerIntent.create_travel(wb_rep.player.npc_id, &"settlement:gray_valley"))
+	engine.begin_player_travel(wb_rep, PlayerIntent.create_travel(wb_rep.player.npc_id, &"settlement:gray_valley"))
 	engine.execute_player_wait(wb_rep) # Day 1 (in transit)
 
 	# Save & Restore mid-journey

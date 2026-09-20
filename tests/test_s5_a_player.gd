@@ -153,7 +153,10 @@ func _init() -> void:
 	var pop_gv_pre := gv1.population
 	var pop_nh_pre := w1.get_settlement(&"settlement:new_hope").population
 
-	var commit_res := engine.commit_player_intent(w1, valid_travel)
+	# Stage 1 only: this gate is about departure accounting and Axiom 9 timing,
+	# so it drives the route a day at a time. Since S5-B3 the TRAVEL intent
+	# itself runs the clock through to arrival.
+	var commit_res := engine.begin_player_travel(w1, valid_travel)
 	if not commit_res["success"]:
 		print("FAIL P3: Failed to commit valid travel intent: %s" % commit_res.get("error", ""))
 		quit(1)

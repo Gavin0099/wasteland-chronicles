@@ -154,7 +154,8 @@ func _init() -> void:
 	print("\n--- [GATE B4] Transit Wait (Travel Progress + Personal Consumption) ---")
 	# Initiate travel from Gray Valley to New Hope (Route: 3 days)
 	var travel_intent := PlayerIntent.create_travel(p.npc_id, &"settlement:new_hope")
-	var travel_res := engine.commit_player_intent(w1, travel_intent)
+	# Stage 1 only (see S5-B3): this gate checks each individual day of transit.
+	var travel_res := engine.begin_player_travel(w1, travel_intent)
 	if not travel_res.get("success", false):
 		print("FAIL B4: Failed to commit travel intent: %s" % travel_res.get("error", ""))
 		quit(1)
@@ -299,13 +300,32 @@ func _init() -> void:
 		quit(1)
 		return
 
-	# Initiate travel via UI
+	# Initiate travel via UI. Since S5-B3 this runs the whole journey, so the
+	# player ends up settled again rather than stranded mid-route.
 	shell.select_settlement("settlement:new_hope")
-	shell.on_travel_pressed()
+	var ui_travel_res := shell.on_travel_pressed()
+	if not ui_travel_res.get("arrived", false):
+		print("FAIL B6: UI travel did not carry the player to arrival: %s" % ui_travel_res)
+		quit(1)
+		return
+	if shell.btn_wait.text != "[ 原地等待 1 天 ]" and shell.btn_wait.text != "[WAIT 1 DAY]":
+		print("FAIL B6: after arriving the button should be the settlement wait action, got '%s'" % shell.btn_wait.text)
+		quit(1)
+		return
 
-	# When in transit: button text dynamically switches to [ 繼續前進 1 天 ] (or [CONTINUE — 1 DAY])
-	if shell.btn_wait.text != "[ 繼續前進 1 天 ]" and shell.btn_wait.text != "[CONTINUE — 1 DAY]":
-		print("FAIL B6: Expected btn_wait '[ 繼續前進 1 天 ]' or '[CONTINUE — 1 DAY]', got '%s'" % shell.btn_wait.text)
+	# The mid-route button label still matters for S5-B4, when an encounter can
+	# stop a journey, so it is exercised by putting the shell into transit
+	# directly rather than through the (now non-stop) travel action.
+	var transit_world := S1WorldData.create_s1_world()
+	engine.materialize_player(transit_world, &"settlement:gray_valley", "Vagrant", 25)
+	var transit_shell := PlayableShell.new()
+	get_root().add_child(transit_shell)
+	transit_shell.setup(transit_world, engine)
+	var transit_intent := PlayerIntent.create_travel(transit_world.player.npc_id, &"settlement:new_hope")
+	engine.begin_player_travel(transit_world, transit_intent)
+	transit_shell.refresh_ui()
+	if transit_shell.btn_wait.text != "[ 繼續前進 1 天 ]" and transit_shell.btn_wait.text != "[CONTINUE — 1 DAY]":
+		print("FAIL B6: Expected mid-route btn_wait '[ 繼續前進 1 天 ]', got '%s'" % transit_shell.btn_wait.text)
 		quit(1)
 		return
 
@@ -315,7 +335,7 @@ func _init() -> void:
 	engine.materialize_player(wa, &"settlement:gray_valley", "Vagrant", 25)
 	engine.execute_player_wait(wa) # Day 1
 	var tr_a := PlayerIntent.create_travel(wa.player.npc_id, &"settlement:new_hope")
-	engine.commit_player_intent(wa, tr_a)
+	engine.begin_player_travel(wa, tr_a)
 	engine.execute_player_wait(wa) # Day 2 (mid-route)
 	engine.execute_player_wait(wa) # Day 3 (mid-route)
 	engine.execute_player_wait(wa) # Day 4 (arrived)
@@ -327,7 +347,7 @@ func _init() -> void:
 	engine.materialize_player(wb, &"settlement:gray_valley", "Vagrant", 25)
 	engine.execute_player_wait(wb) # Day 1
 	var tr_b := PlayerIntent.create_travel(wb.player.npc_id, &"settlement:new_hope")
-	engine.commit_player_intent(wb, tr_b)
+	engine.begin_player_travel(wb, tr_b)
 	engine.execute_player_wait(wb) # Day 2 (mid-route)
 
 	# Save/Load round trip
