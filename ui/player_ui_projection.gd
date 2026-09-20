@@ -118,6 +118,7 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 		"id": String(s.id),
 		"name": s.name,
 		"population": s.population,
+		"market_cash": s.market_cash,
 		"water": s.inventory.water,
 		"food": s.inventory.food,
 		"scrap": s.inventory.scrap,
@@ -129,6 +130,14 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 		"price_food": s.price_food,
 		"price_scrap": s.price_scrap,
 		"price_fuel": s.price_fuel,
+		"quote_buy_water": SimulationEngine.get_buy_quote(s, &"water"),
+		"quote_sell_water": SimulationEngine.get_sell_quote(s, &"water"),
+		"quote_buy_food": SimulationEngine.get_buy_quote(s, &"food"),
+		"quote_sell_food": SimulationEngine.get_sell_quote(s, &"food"),
+		"quote_buy_scrap": SimulationEngine.get_buy_quote(s, &"scrap"),
+		"quote_sell_scrap": SimulationEngine.get_sell_quote(s, &"scrap"),
+		"quote_buy_fuel": SimulationEngine.get_buy_quote(s, &"fuel"),
+		"quote_sell_fuel": SimulationEngine.get_sell_quote(s, &"fuel"),
 		"is_live": true
 	}
 
@@ -216,6 +225,14 @@ static func _format_event_summary(evt: EventRecord) -> String:
 		"MORTALITY_EVENT":
 			return "%d deaths recorded at %s" % [
 				evt.payload.get("deaths", 0),
+				String(evt.target_id).replace("settlement:", "")
+			]
+		"TRADE_COMPLETED":
+			return "Player %s %d %s for %d caps at %s" % [
+				evt.payload.get("action", "TRADE"),
+				evt.payload.get("quantity", 0),
+				evt.payload.get("commodity", ""),
+				evt.payload.get("total_amount", 0),
 				String(evt.target_id).replace("settlement:", "")
 			]
 		_:

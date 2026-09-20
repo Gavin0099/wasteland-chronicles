@@ -20,6 +20,7 @@ extends Control
 signal ui_refreshed(projection_data: Dictionary)
 signal travel_triggered(destination_id: String, success: bool)
 signal wait_triggered(result: Dictionary)
+signal trade_triggered(action_name: String, commodity: String, quantity: int, result: Dictionary)
 
 var world: WorldState = null
 var engine: SimulationEngine = null
@@ -37,6 +38,8 @@ var lbl_hud_backpack: Label
 var lbl_hud_commodities: Label
 var lbl_settlement_title: Label
 var lbl_settlement_details: Label
+var market_panel: VBoxContainer
+var market_trade_buttons: Dictionary = {}
 var btn_wait: Button
 var btn_travel: Button
 var event_feed_container: VBoxContainer
@@ -119,6 +122,7 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 		return
 
 	var p: Dictionary = proj.get("player", {})
+	var bp: Dictionary = p.get("backpack", {})
 	var current_cont: String = p.get("current_container_id", "")
 	var is_in_transit: bool = p.get("is_in_transit", false)
 	var is_current: bool = (selected_settlement_id == current_cont and not is_in_transit)
@@ -163,25 +167,54 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 		var cs: Dictionary = proj.get("current_settlement", {})
 		lbl_settlement_title.text = "[ %s ] - CURRENT LOCATION (LIVE)" % clean_title
 		lbl_settlement_details.text = (
-			"Population: %d\n" +
+			"Population: %d  |  Market Reserve: $%d Caps\n" +
 			"Warehouse Stock:\n" +
-			"  Water: %d (Price: %.2f)  |  Food: %d (Price: %.2f)\n" +
-			"  Scrap: %d (Price: %.2f)  |  Fuel: %d (Price: %.2f)\n" +
+			"  Water: %d (Buy: $%d / Sell: $%d)  |  Food: %d (Buy: $%d / Sell: $%d)\n" +
+			"  Scrap: %d (Buy: $%d / Sell: $%d)  |  Fuel: %d (Buy: $%d / Sell: $%d)\n" +
 			"Security: %.1f / 100.0\n" +
 			"Deprivation Pressure: Water %.1f | Food %.1f"
 		) % [
-			cs.get("population", 0),
-			cs.get("water", 0), cs.get("price_water", 0.0),
-			cs.get("food", 0), cs.get("price_food", 0.0),
-			cs.get("scrap", 0), cs.get("price_scrap", 0.0),
-			cs.get("fuel", 0), cs.get("price_fuel", 0.0),
+			cs.get("population", 0), cs.get("market_cash", 500),
+			cs.get("water", 0), cs.get("quote_buy_water", 0), cs.get("quote_sell_water", 0),
+			cs.get("food", 0), cs.get("quote_buy_food", 0), cs.get("quote_sell_food", 0),
+			cs.get("scrap", 0), cs.get("quote_buy_scrap", 0), cs.get("quote_sell_scrap", 0),
+			cs.get("fuel", 0), cs.get("quote_buy_fuel", 0), cs.get("quote_sell_fuel", 0),
 			cs.get("security", 0.0),
 			cs.get("water_pressure", 0.0), cs.get("food_pressure", 0.0)
 		]
+
+		if market_panel != null:
+			market_panel.visible = true
+			for res in ["water", "food", "scrap", "fuel"]:
+				var buy_q: int = cs.get("quote_buy_" + res, 1)
+				var sell_q: int = cs.get("quote_sell_" + res, 1)
+				var stock: int = cs.get(res, 0)
+				var player_has: int = bp.get(res, 0)
+				var player_money: int = p.get("money", 0)
+				var bp_load: int = bp.get("load", 0)
+				var bp_cap: int = bp.get("capacity", 20)
+				var market_cash: int = cs.get("market_cash", 0)
+
+				var lbl: Label = market_trade_buttons.get(res + "_label", null)
+				if lbl != null:
+					lbl.text = "%s: %d" % [res.capitalize(), stock]
+
+				var b_buy: Button = market_trade_buttons.get("buy_" + res, null)
+				if b_buy != null:
+					b_buy.text = "BUY ($%d)" % buy_q
+					b_buy.disabled = (stock < 1) or (player_money < buy_q) or (bp_load >= bp_cap)
+
+				var b_sell: Button = market_trade_buttons.get("sell_" + res, null)
+				if b_sell != null:
+					b_sell.text = "SELL ($%d)" % sell_q
+					b_sell.disabled = (player_has < 1) or (market_cash < sell_q)
+
 		if btn_travel != null:
 			btn_travel.visible = false
 			btn_travel.disabled = true
 	else:
+		if market_panel != null:
+			market_panel.visible = false
 		# Remote settlement view (ONLY Route & Distance. NO economic leaks)
 		lbl_settlement_title.text = "[ %s ] - REMOTE DESTINATION" % clean_title
 		var dest_info: Dictionary = {}
@@ -272,6 +305,30 @@ func on_wait_pressed() -> Dictionary:
 		refresh_ui()
 
 	wait_triggered.emit(res)
+	return res
+
+func on_buy_pressed(commodity: String, quantity: int = 1) -> Dictionary:
+	if world == null or engine == null or world.player == null:
+		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+
+	var intent := PlayerIntent.create_buy(world.player.npc_id, StringName(commodity), quantity)
+	var res := engine.commit_player_intent(world, intent)
+	if res.get("success", false):
+		refresh_ui()
+
+	trade_triggered.emit("BUY", commodity, quantity, res)
+	return res
+
+func on_sell_pressed(commodity: String, quantity: int = 1) -> Dictionary:
+	if world == null or engine == null or world.player == null:
+		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+
+	var intent := PlayerIntent.create_sell(world.player.npc_id, StringName(commodity), quantity)
+	var res := engine.commit_player_intent(world, intent)
+	if res.get("success", false):
+		refresh_ui()
+
+	trade_triggered.emit("SELL", commodity, quantity, res)
 	return res
 
 # External tick progression (driven by test harness or unified player wait)
@@ -376,6 +433,45 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_settlement_details.size_flags_vertical = SIZE_EXPAND_FILL
 	lbl_settlement_details.add_theme_color_override("font_color", Color("#D8D3C8"))
 	settlement_vbox.add_child(lbl_settlement_details)
+
+	# Market Panel (Trading Rows)
+	market_panel = VBoxContainer.new()
+	market_panel.add_theme_constant_override("separation", 4)
+	settlement_vbox.add_child(market_panel)
+
+	var market_hdr := Label.new()
+	market_hdr.text = "--- [ LOCAL MARKET ] ---"
+	market_hdr.add_theme_color_override("font_color", Color("#D9822B"))
+	market_panel.add_child(market_hdr)
+
+	for res in ["water", "food", "scrap", "fuel"]:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+
+		var row_lbl := Label.new()
+		row_lbl.text = "%s: 0" % res.capitalize()
+		row_lbl.custom_minimum_size = Vector2(90, 0)
+		row_lbl.add_theme_color_override("font_color", Color("#D8D3C8"))
+		row.add_child(row_lbl)
+		market_trade_buttons[res + "_label"] = row_lbl
+
+		var btn_buy := Button.new()
+		btn_buy.text = "BUY 1"
+		btn_buy.custom_minimum_size = Vector2(90, 28)
+		var comm_for_buy: String = String(res)
+		btn_buy.pressed.connect(func(): on_buy_pressed(comm_for_buy, 1))
+		row.add_child(btn_buy)
+		market_trade_buttons["buy_" + res] = btn_buy
+
+		var btn_sell := Button.new()
+		btn_sell.text = "SELL 1"
+		btn_sell.custom_minimum_size = Vector2(90, 28)
+		var comm_for_sell: String = String(res)
+		btn_sell.pressed.connect(func(): on_sell_pressed(comm_for_sell, 1))
+		row.add_child(btn_sell)
+		market_trade_buttons["sell_" + res] = btn_sell
+
+		market_panel.add_child(row)
 
 	var action_hbox := HBoxContainer.new()
 	action_hbox.add_theme_constant_override("separation", 8)

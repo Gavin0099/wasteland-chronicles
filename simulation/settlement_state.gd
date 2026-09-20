@@ -57,6 +57,9 @@ var price_food: float = 10.0
 var price_scrap: float = 12.0
 var price_fuel: float = 15.0
 
+# S5-B2 本地市場貨幣儲備 (Market Cash / Currency Reserve - Durable State)
+var market_cash: int = 500
+
 func _init(
 	p_id: StringName = &"",
 	p_name: String = "",
@@ -70,13 +73,15 @@ func _init(
 	p_target_scrap: int = 60,
 	p_target_fuel: int = 40,
 	p_base_price_scrap: float = 12.0,
-	p_base_price_fuel: float = 15.0
+	p_base_price_fuel: float = 15.0,
+	p_market_cash: int = 500
 ) -> void:
 	id = p_id
 	name = p_name
 	inventory = p_inventory if p_inventory != null else ResourceState.new()
 	production = p_production if p_production != null else ResourceState.new()
 	consumption = p_consumption if p_consumption != null else ResourceState.new()
+	market_cash = p_market_cash
 	
 	target_water = p_target_water
 	target_food = p_target_food
@@ -208,6 +213,7 @@ func duplicate_state() -> SettlementState:
 	copy.disorder_loss_credits = disorder_loss_credits.duplicate(true)
 	copy.cumulative_disorder_loss = cumulative_disorder_loss.duplicate(true)
 	copy.last_need_outcomes = last_need_outcomes.duplicate(true)
+	copy.market_cash = market_cash
 	return copy
 
 func to_dict() -> Dictionary:
@@ -233,6 +239,7 @@ func to_dict() -> Dictionary:
 		"security": security,
 		"disorder_loss_credits": disorder_loss_credits.duplicate(true),
 		"cumulative_disorder_loss": cumulative_disorder_loss.duplicate(true),
+		"market_cash": market_cash,
 		"target_water": target_water,
 		"target_food": target_food,
 		"target_scrap": target_scrap,
@@ -261,8 +268,10 @@ static func from_dict(data: Dictionary) -> SettlementState:
 		int(data.get("target_scrap", 60)),
 		int(data.get("target_fuel", 40)),
 		float(data.get("base_price_scrap", 12.0)),
-		float(data.get("base_price_fuel", 15.0))
+		float(data.get("base_price_fuel", 15.0)),
+		int(data.get("market_cash", 500))
 	)
+	s.market_cash = int(data.get("market_cash", 500))
 	s.price_water = float(data.get("price_water", s.base_price_water))
 	s.price_food = float(data.get("price_food", s.base_price_food))
 	s.price_scrap = float(data.get("price_scrap", s.base_price_scrap))

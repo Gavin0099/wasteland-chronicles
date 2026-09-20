@@ -1381,6 +1381,18 @@ func materialize_player(
 		"settlement_id": settlement_id
 	}
 
+static func get_buy_quote(settlement: SettlementState, commodity: StringName) -> int:
+	if settlement == null:
+		return 1
+	var price := settlement.get_current_price(String(commodity))
+	return maxi(1, int(ceil(price)))
+
+static func get_sell_quote(settlement: SettlementState, commodity: StringName) -> int:
+	if settlement == null:
+		return 1
+	var price := settlement.get_current_price(String(commodity))
+	return maxi(1, int(floor(price)))
+
 func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	if world.player == null:
 		return "NO_PLAYER: World does not have an active player avatar"
@@ -1389,7 +1401,7 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			intent.player_id, world.player.npc_id
 		]
 	if not PlayerIntent.is_authorized_action(intent.action):
-		return "UNAUTHORIZED_ACTION: %s is outside the S5-A closed action space" % PlayerIntent.action_name(intent.action)
+		return "UNAUTHORIZED_ACTION: %s is outside the S5-B2 closed action space" % PlayerIntent.action_name(intent.action)
 
 	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 	if ls == null or not ls.is_alive():
@@ -1413,6 +1425,56 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			if origin.population <= MIGRATION_MIN_POPULATION:
 				return "PRECONDITION_CHANGED: Origin population (%d) is at or below minimum (%d)" % [
 					origin.population, MIGRATION_MIN_POPULATION
+				]
+			return ""
+		PlayerIntent.Action.BUY:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "INVALID_STATUS: Player must be SETTLED to trade (currently %d)" % ls.status
+			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
+			if settlement == null:
+				return "INVALID_SETTLEMENT: Origin settlement %s does not exist" % ls.population_container_id
+			var comm_str := String(intent.commodity)
+			if not comm_str in COMMODITIES:
+				return "INVALID_COMMODITY: Commodity '%s' is not in %s" % [comm_str, COMMODITIES]
+			if intent.quantity <= 0:
+				return "INVALID_QUANTITY: Quantity must be positive, got %d" % intent.quantity
+			var settlement_stock := settlement.inventory.get_amount(comm_str)
+			if settlement_stock < intent.quantity:
+				return "INSUFFICIENT_STOCK: Settlement %s has %d %s, requested %d" % [
+					settlement.id, settlement_stock, comm_str, intent.quantity
+				]
+			var quote := get_buy_quote(settlement, intent.commodity)
+			var total_cost := quote * intent.quantity
+			if world.player.money < total_cost:
+				return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [
+					world.player.money, total_cost
+				]
+			if not world.player.has_cargo_capacity(intent.quantity):
+				return "INSUFFICIENT_CAPACITY: Player carrying %d/%d, cannot fit %d" % [
+					world.player.get_total_inventory_load(), world.player.capacity_total, intent.quantity
+				]
+			return ""
+		PlayerIntent.Action.SELL:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "INVALID_STATUS: Player must be SETTLED to trade (currently %d)" % ls.status
+			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
+			if settlement == null:
+				return "INVALID_SETTLEMENT: Origin settlement %s does not exist" % ls.population_container_id
+			var comm_str := String(intent.commodity)
+			if not comm_str in COMMODITIES:
+				return "INVALID_COMMODITY: Commodity '%s' is not in %s" % [comm_str, COMMODITIES]
+			if intent.quantity <= 0:
+				return "INVALID_QUANTITY: Quantity must be positive, got %d" % intent.quantity
+			var player_stock := world.player.inventory.get_amount(comm_str)
+			if player_stock < intent.quantity:
+				return "INSUFFICIENT_PLAYER_STOCK: Player has %d %s, requested %d" % [
+					player_stock, comm_str, intent.quantity
+				]
+			var quote := get_sell_quote(settlement, intent.commodity)
+			var total_revenue := quote * intent.quantity
+			if settlement.market_cash < total_revenue:
+				return "INSUFFICIENT_MARKET_CASH: Settlement %s has %d caps, required %d" % [
+					settlement.id, settlement.market_cash, total_revenue
 				]
 			return ""
 	return "UNKNOWN_ACTION"
@@ -1477,11 +1539,107 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 				"route_days": route_days
 			}
 
+		PlayerIntent.Action.BUY:
+			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
+			var comm_str := String(intent.commodity)
+			var quote := get_buy_quote(settlement, intent.commodity)
+			var total_cost := quote * intent.quantity
+
+			settlement.inventory.add_amount(comm_str, -intent.quantity)
+			settlement.market_cash += total_cost
+			world.player.inventory.add_amount(comm_str, intent.quantity)
+			world.player.money -= total_cost
+
+			var trade_evt := EventRecord.new(
+				world.current_day,
+				"TRADE_COMPLETED",
+				intent.player_id,
+				settlement.id,
+				{
+					"action": "BUY",
+					"commodity": comm_str,
+					"quantity": intent.quantity,
+					"unit_price": quote,
+					"total_amount": total_cost,
+					"settlement_cash": settlement.market_cash,
+					"player_money": world.player.money
+				}
+			)
+			if tick_events != null:
+				tick_events.append(trade_evt)
+			world.record_event(trade_evt)
+
+			return {
+				"success": true,
+				"action": "BUY",
+				"commodity": comm_str,
+				"quantity": intent.quantity,
+				"unit_price": quote,
+				"total_amount": total_cost,
+				"settlement_cash": settlement.market_cash,
+				"player_money": world.player.money
+			}
+
+		PlayerIntent.Action.SELL:
+			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
+			var comm_str := String(intent.commodity)
+			var quote := get_sell_quote(settlement, intent.commodity)
+			var total_revenue := quote * intent.quantity
+
+			world.player.inventory.add_amount(comm_str, -intent.quantity)
+			world.player.money += total_revenue
+			settlement.inventory.add_amount(comm_str, intent.quantity)
+			settlement.market_cash -= total_revenue
+
+			var trade_evt := EventRecord.new(
+				world.current_day,
+				"TRADE_COMPLETED",
+				intent.player_id,
+				settlement.id,
+				{
+					"action": "SELL",
+					"commodity": comm_str,
+					"quantity": intent.quantity,
+					"unit_price": quote,
+					"total_amount": total_revenue,
+					"settlement_cash": settlement.market_cash,
+					"player_money": world.player.money
+				}
+			)
+			if tick_events != null:
+				tick_events.append(trade_evt)
+			world.record_event(trade_evt)
+
+			return {
+				"success": true,
+				"action": "SELL",
+				"commodity": comm_str,
+				"quantity": intent.quantity,
+				"unit_price": quote,
+				"total_amount": total_revenue,
+				"settlement_cash": settlement.market_cash,
+				"player_money": world.player.money
+			}
+
 	return {"success": false, "error": "UNREACHABLE"}
 
 func execute_player_wait(world: WorldState) -> Dictionary:
 	if world == null or world.player == null:
 		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
 	var intent := PlayerIntent.create_wait(world.player.npc_id)
+	return commit_player_intent(world, intent)
+
+func execute_player_buy(world: WorldState, commodity: StringName, quantity: int = 1) -> Dictionary:
+	if world == null or world.player == null:
+		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
+	var intent := PlayerIntent.create_buy(world.player.npc_id, commodity, quantity)
+	return commit_player_intent(world, intent)
+
+func execute_player_sell(world: WorldState, commodity: StringName, quantity: int = 1) -> Dictionary:
+	if world == null or world.player == null:
+		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
+	var intent := PlayerIntent.create_sell(world.player.npc_id, commodity, quantity)
 	return commit_player_intent(world, intent)
 

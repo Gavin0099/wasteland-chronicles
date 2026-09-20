@@ -401,7 +401,17 @@ Aptitudes  = 這個人可能比較容易學哪類事情
       - **B5 (Physical Arrival / Axiom 9)**：第 3 次在途等待精確於第 6 天執行完畢抵達新希望（$4 + 3 - 1 = 6 \to$ Day 7），人口守恆 300 == 300，抵達後等待切回聚落供餐。
       - **B6 (UI State & Mid-Route Save/Load)**：UI 按鈕動態切換；在途中存檔重載續跑至 Day 9 與連續運行世界 Canonical SHA-256 位元 100% 一致（`d92431d8841077597ea87496e76fe5a690935473bcab6c679bcd5b4099cdd31b`）。
     - 全專案 27 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
-  - **S5-B2 (Trade)**：玩家在聚落買賣物資，利用供需利差獲利或緩解短缺。
+  - **S5-B2 (Trade)**：**CLOSED ✅**
+    - **核心問題已回答**：玩家能不能使用世界既有的庫存與價格，在聚落間買低賣高，而且每一筆交易都是合法、原子、可保存的世界變化？——**YES**。
+    - **本地市場貨幣儲備 (`market_cash`)**：聚落新增 `market_cash` 貨幣儲備（預設 500 瓶蓋），拒絕無限印鈔；每一筆買賣皆遵循全域貨幣與物資雙重守恆（$\Delta \text{Player Cash} + \Delta \text{Settlement Cash} == 0$ 且 $\Delta \text{Player Stock} + \Delta \text{Settlement Stock} == 0$）。
+    - **整數報價與自然價差 (Integer Quotes & Natural Spread)**：
+      - $\text{BUY quote} = \max(1, \lceil \text{price} \rceil)$
+      - $\text{SELL quote} = \max(1, \lfloor \text{price} \rfloor)$
+      - 自然保證 $\text{SELL quote} \le \text{BUY quote}$，最低單價保底 1 瓶蓋，全額整數結算無小數零錢。
+    - **交易不推進時間 (Trade != World Tick)**：交易僅原子轉移物資與金錢並記錄 `TRADE_COMPLETED` 帳本事件，不推進世界天數（價格不立即跳動，由後續世界 WAIT tick 依供需平衡自然演進重算）。
+    - **Fail-Closed 零突變防護**：非定居狀態（在途中）、未知商品、數量非正數、聚落庫存不足、玩家資金不足、背包超載（20 容量上限）、玩家庫存不足、聚落儲備金不足等 8 種邊界條件強制拒絕，世界快照 SHA-256 嚴格 0 突變。
+    - **UI 隔離與情報防禦**：當前聚落呈現即時行情與買賣按鈕；遠端聚落嚴格隱藏交易介面與物價，0 資訊洩漏。
+    - **驗收成果**：[tests/test_s5_b2_trade.gd](file:///d:/wasteland-chronicles/tests/test_s5_b2_trade.gd) 七大 Gate (T1 ~ T7) 全數 PASS，全專案 28 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
   - **S5-B3 (Scavenge / Intervention)**：玩家在荒原搜刮並首次改變區域供需。
 * **★ FIRST PLAYABLE CHECKPOINT ★**：
   - 停止新增系統，連續試玩 20~30 分鐘，驗證三大核心產品問題：
