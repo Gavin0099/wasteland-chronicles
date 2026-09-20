@@ -126,47 +126,75 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				settlement.food_exposure = maxf(0.0, settlement.food_exposure - DEPRIVATION_RECOVERY_RATE)
 
 		# S3-C 難民遷徙觸發判定 (Refugee Migration Trigger - 遷徙優先於死亡)
+		# Anonymous-First Bridge (G1.5-X): aggregate rules only act on anonymous population.
 		var eff_pressure := maxf(settlement.water_pressure, settlement.food_pressure)
 		if enable_migration and eff_pressure >= MIGRATION_PRESSURE_THRESHOLD and settlement.days_since_last_migration >= MIGRATION_COOLDOWN_DAYS and settlement.population > MIGRATION_MIN_POPULATION:
-			var headcount := maxi(1, int(floor(float(settlement.population) * MIGRATION_POPULATION_RATIO)))
-			if settlement.population - headcount < MIGRATION_MIN_POPULATION:
-				headcount = settlement.population - MIGRATION_MIN_POPULATION
-			if headcount > 0:
+			var requested_headcount := maxi(1, int(floor(float(settlement.population) * MIGRATION_POPULATION_RATIO)))
+			if settlement.population - requested_headcount < MIGRATION_MIN_POPULATION:
+				requested_headcount = settlement.population - MIGRATION_MIN_POPULATION
+			if requested_headcount > 0:
 				var dest_id := select_refugee_destination(world, settlement)
 				if dest_id != &"":
-					settlement.population -= headcount
-					settlement.days_since_last_migration = 0
-					var route_days := get_route_days_between(world, settlement.id, dest_id)
-					var party_id := StringName("refugee:%s:%s:d%d" % [String(settlement.id), String(dest_id), current_day])
-					var party := RefugeePartyState.new(
-						party_id,
-						settlement.id,
-						dest_id,
-						headcount,
-						route_days,
-						route_days,
-						current_day
-					)
-					world.add_refugee_party(party)
+					# Compute anonymous count (population not attributed to a named living NPC)
+					var named_living: int = world.npc_life_state_registry.get_named_living_count_in_settlement(settlement.id)
+					var anonymous_count: int = settlement.population - named_living
+					var actual_headcount: int = mini(requested_headcount, anonymous_count)
 
-					var depart_evt := EventRecord.new(
-						current_day,
-						"REFUGEES_DEPARTED",
-						party_id,
-						dest_id,
-						{
-							"origin": String(settlement.id),
-							"destination": String(dest_id),
-							"headcount": headcount,
-							"route_days": route_days,
-							"origin_population_after": settlement.population,
-							"pressure_trigger": eff_pressure
-						}
-					)
-					tick_events.append(depart_evt)
-					world.record_event(depart_evt)
+					if actual_headcount <= 0:
+						# FAIL CLOSED: cannot select named individuals for aggregate migration
+						var fail_evt := EventRecord.new(
+							current_day,
+							"NAMED_MIGRATION_DECISION_REQUIRED",
+							settlement.id,
+							settlement.id,
+							{
+								"origin": String(settlement.id),
+								"requested_headcount": requested_headcount,
+								"anonymous_count": 0,
+								"named_living_count": named_living,
+								"pressure_trigger": eff_pressure,
+								"cause": "anonymous_population_exhausted"
+							}
+						)
+						tick_events.append(fail_evt)
+						world.record_event(fail_evt)
+					else:
+						# Normal anonymous migration
+						settlement.population -= actual_headcount
+						settlement.days_since_last_migration = 0
+						var route_days := get_route_days_between(world, settlement.id, dest_id)
+						var party_id := StringName("refugee:%s:%s:d%d" % [String(settlement.id), String(dest_id), current_day])
+						var party := RefugeePartyState.new(
+							party_id,
+							settlement.id,
+							dest_id,
+							actual_headcount,
+							route_days,
+							route_days,
+							current_day
+						)
+						world.add_refugee_party(party)
 
-		# S3-D 極限生理死亡判定 (Mortality Trigger - 作用於遷徙後留存人口 Post-migration Population)
+						var depart_evt := EventRecord.new(
+							current_day,
+							"REFUGEES_DEPARTED",
+							party_id,
+							dest_id,
+							{
+								"origin": String(settlement.id),
+								"destination": String(dest_id),
+								"headcount": actual_headcount,
+								"route_days": route_days,
+								"origin_population_after": settlement.population,
+								"pressure_trigger": eff_pressure,
+								"anonymous_only": true
+							}
+						)
+						tick_events.append(depart_evt)
+						world.record_event(depart_evt)
+
+		# S3-D 極限生理死亡判定 (Mortality Trigger - Anonymous-First Bridge)
+		# G1.5-X: Aggregate mortality only acts on anonymous population.
 		if enable_mortality and settlement.population > 0:
 			var daily_water_unmet: int = settlement.last_need_outcomes.get("water", {}).get("unmet", 0)
 			var daily_food_unmet: int = settlement.last_need_outcomes.get("food", {}).get("unmet", 0)
@@ -181,29 +209,57 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				causes.append("food")
 
 			if not causes.is_empty():
-				# 一天最多結算一次 deprivation mortality，使用 post-migration population 為基準
+				# Compute requested deaths and anonymous capacity
 				var post_migration_pop := settlement.population
-				var deaths := mini(post_migration_pop, maxi(1, int(floor(float(post_migration_pop) * MORTALITY_BASE_RATE))))
-				settlement.population -= deaths
-				settlement.cumulative_deaths += deaths
+				var requested_deaths := mini(post_migration_pop, maxi(1, int(floor(float(post_migration_pop) * MORTALITY_BASE_RATE))))
 
-				var mort_evt := EventRecord.new(
-					current_day,
-					"SETTLEMENT_MORTALITY",
-					settlement.id,
-					settlement.id,
-					{
-						"deaths": deaths,
-						"causes": causes,
-						"population_before": post_migration_pop,
-						"population_after": settlement.population,
-						"cumulative_deaths": settlement.cumulative_deaths,
-						"water_exposure": settlement.water_exposure,
-						"food_exposure": settlement.food_exposure
-					}
-				)
-				tick_events.append(mort_evt)
-				world.record_event(mort_evt)
+				var named_living: int = world.npc_life_state_registry.get_named_living_count_in_settlement(settlement.id)
+				var anonymous_count: int = post_migration_pop - named_living
+				var actual_deaths: int = mini(requested_deaths, anonymous_count)
+
+				if actual_deaths > 0:
+					settlement.population -= actual_deaths
+					settlement.cumulative_deaths += actual_deaths
+
+					var mort_evt := EventRecord.new(
+						current_day,
+						"SETTLEMENT_MORTALITY",
+						settlement.id,
+						settlement.id,
+						{
+							"deaths": actual_deaths,
+							"anonymous_deaths": actual_deaths,
+							"causes": causes,
+							"population_before": post_migration_pop,
+							"population_after": settlement.population,
+							"cumulative_deaths": settlement.cumulative_deaths,
+							"water_exposure": settlement.water_exposure,
+							"food_exposure": settlement.food_exposure
+						}
+					)
+					tick_events.append(mort_evt)
+					world.record_event(mort_evt)
+
+				var shortfall := requested_deaths - actual_deaths
+				if shortfall > 0:
+					# FAIL CLOSED: cannot select named individuals for aggregate mortality
+					var fail_evt := EventRecord.new(
+						current_day,
+						"NAMED_SELECTION_REQUIRED",
+						settlement.id,
+						settlement.id,
+						{
+							"settlement_id": String(settlement.id),
+							"requested_deaths": requested_deaths,
+							"actual_anonymous_deaths": actual_deaths,
+							"shortfall": shortfall,
+							"named_living_count": named_living,
+							"causes": causes,
+							"cause": "anonymous_population_exhausted"
+						}
+					)
+					tick_events.append(fail_evt)
+					world.record_event(fail_evt)
 
 	# -------------------------------------------------------------
 	# 階段 2: 各聚落在地生產 (Local Production with Labor Feedback)
@@ -367,12 +423,40 @@ func tick(world: WorldState) -> Array[EventRecord]:
 						world.record_event(load_evt)
 
 	# 難民抵達與入籍 (Refugee Arrival & Settlement Integration)
+	# Named NPCs in transit are processed individually first (complete_named_migration),
+	# then remaining anonymous headcount is added to destination aggregate.
 	for r_id in sorted_refugee_ids:
 		var party: RefugeePartyState = world.refugees[r_id]
 		if party.is_active and not party.is_arrived and party.days_remaining <= 0:
 			var dest: SettlementState = world.get_settlement(party.destination_id)
 			if dest != null:
-				dest.population += party.headcount
+				# 1. Process named NPCs in this party first (individual atomic arrival)
+				var named_in_party := world.npc_life_state_registry.get_all_living_in(
+					NpcLifeState.ContainerType.REFUGEE_PARTY, party.id
+				)
+				var named_arrived: Array[StringName] = []
+				for npc_id in named_in_party:
+					var result := world.npc_life_state_registry.complete_named_migration(world, npc_id)
+					if result["success"]:
+						named_arrived.append(npc_id)
+						var npc_evt := EventRecord.new(
+							current_day,
+							"NAMED_MIGRATION_COMPLETED",
+							npc_id,
+							dest.id,
+							{
+								"npc_id": String(npc_id),
+								"party_id": String(party.id),
+								"destination": String(dest.id)
+							}
+						)
+						tick_events.append(npc_evt)
+						world.record_event(npc_evt)
+
+				# 2. Add remaining anonymous headcount (party.headcount was decremented per named NPC)
+				if party.headcount > 0:
+					dest.population += party.headcount
+
 				party.is_active = false
 				party.is_arrived = true
 
@@ -384,12 +468,15 @@ func tick(world: WorldState) -> Array[EventRecord]:
 					{
 						"origin": String(party.origin_id),
 						"destination": String(dest.id),
-						"headcount": party.headcount,
+						"headcount": party.headcount + named_arrived.size(),
+						"anonymous_headcount": party.headcount,
+						"named_arrived": named_arrived.map(func(x): return String(x)),
 						"dest_population_after": dest.population
 					}
 				)
 				tick_events.append(arrival_evt)
 				world.record_event(arrival_evt)
+
 
 	# -------------------------------------------------------------
 	# 階段 5.5: 聚落治安更新 (Security Update - 根據今日人口/壓力產生明日治安)
@@ -826,7 +913,12 @@ func validate_invariants(world: WorldState) -> String:
 	# S3-C 難民隊伍不變量檢驗
 	for r_id in world.refugees:
 		var r: RefugeePartyState = world.refugees[r_id]
-		if r.headcount <= 0:
+		# S4-B 例外（僅此一種）：named-only refugee party 於全部具名 NPC 完成 arrival 後，
+		# headcount 會被 complete_named_migration() 遞減至 0。此為該 party 的
+		# **合法終態（legal terminal state）**，且必然伴隨 is_arrived == true。
+		# 注意：headcount <= 0 在 is_active 且尚未 is_arrived 的 party 上仍是 corruption，
+		# 必須 fail-closed。請勿將本例外放寬為「所有 headcount=0 的 party 皆合法」。
+		if r.headcount <= 0 and (r.is_active and not r.is_arrived):
 			return "Refugee party %s has non-positive headcount: %d" % [r.id, r.headcount]
 		if not world.settlements.has(r.origin_id):
 			return "Refugee party %s references non-existent origin: %s" % [r.id, r.origin_id]
@@ -853,17 +945,62 @@ func validate_invariants(world: WorldState) -> String:
 			current_living_pop, total_deaths, total_accounted, world.total_initial_population
 		]
 
-	# S4-A 具名 NPC 人口子集不變量 (Named <= Population, Anonymous >= 0, Valid Home Ref)
+	# S4-A Identity invariants (origin_settlement_id reference integrity)
 	if world.npc_registry != null:
-		for s_id in world.settlements:
-			var s: SettlementState = world.settlements[s_id]
-			var named_count: int = world.npc_registry.get_named_count_at(s.id)
-			if named_count > s.population:
-				return "Named NPC subset violation at %s: named count %d > population %d" % [
-					s.id, named_count, s.population
-				]
 		for npc in world.npc_registry.get_all_npcs():
 			if not world.settlements.has(npc.origin_settlement_id):
 				return "NPC %s has invalid origin_settlement_id: %s" % [npc.id, npc.origin_settlement_id]
+
+	# S4-B Life State invariants (B1: Exactly-One Container, B2: Subset Invariant, B3: DEAD has no container)
+	if world.npc_life_state_registry != null:
+		var seen_in_containers: Dictionary = {}  # npc_id -> container_id (for dual membership check)
+
+		for k in world.npc_life_state_registry.life_states:
+			var ls: NpcLifeState = world.npc_life_state_registry.life_states[k]
+
+			# B3: DEAD NPC must have NONE container
+			if ls.status == NpcLifeState.Status.DEAD:
+				if ls.population_container_type != NpcLifeState.ContainerType.NONE or ls.population_container_id != &"":
+					return "S4-B B3: DEAD NPC %s still has a living container: type=%d id=%s" % [
+						ls.npc_id, ls.population_container_type, ls.population_container_id
+					]
+				continue
+
+			# B1: Living NPC must have valid container
+			if ls.status == NpcLifeState.Status.SETTLED:
+				if ls.population_container_type != NpcLifeState.ContainerType.SETTLEMENT:
+					return "S4-B B1: SETTLED NPC %s has wrong container type: %d" % [ls.npc_id, ls.population_container_type]
+				if not world.settlements.has(ls.population_container_id):
+					return "S4-B B1: SETTLED NPC %s references non-existent settlement %s" % [ls.npc_id, ls.population_container_id]
+			elif ls.status == NpcLifeState.Status.IN_TRANSIT:
+				if ls.population_container_type != NpcLifeState.ContainerType.REFUGEE_PARTY:
+					return "S4-B B1: IN_TRANSIT NPC %s has wrong container type: %d" % [ls.npc_id, ls.population_container_type]
+				if not world.refugees.has(ls.population_container_id):
+					return "S4-B B1: IN_TRANSIT NPC %s references non-existent party %s" % [ls.npc_id, ls.population_container_id]
+
+			# Track for dual membership detection
+			var container_key := str(int(ls.population_container_type)) + ":" + String(ls.population_container_id)
+			if seen_in_containers.has(String(ls.npc_id)):
+				return "S4-B B1: NPC %s appears in multiple containers!" % ls.npc_id
+			seen_in_containers[String(ls.npc_id)] = container_key
+
+		# B2: Named-settled count <= settlement population
+		for s_id in world.settlements:
+			var s: SettlementState = world.settlements[s_id]
+			var named_settled := world.npc_life_state_registry.get_named_living_count_in_settlement(s.id)
+			if named_settled > s.population:
+				return "S4-B B2: Named SETTLED count at %s (%d) > aggregate population (%d)" % [
+					s.id, named_settled, s.population
+				]
+
+		# B2': Named-transit count <= refugee party headcount
+		for r_id in world.refugees:
+			var party: RefugeePartyState = world.refugees[r_id]
+			if party.is_active and not party.is_arrived:
+				var named_transit := world.npc_life_state_registry.get_named_living_count_in_party(party.id)
+				if named_transit > party.headcount:
+					return "S4-B B2: Named IN_TRANSIT count in party %s (%d) > headcount (%d)" % [
+						party.id, named_transit, party.headcount
+					]
 
 	return ""

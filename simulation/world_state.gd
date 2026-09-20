@@ -5,6 +5,7 @@ var current_day: int = 0
 var total_initial_population: int = -1
 var next_npc_sequence: int = 1
 var npc_registry: NpcRegistry = NpcRegistry.new()
+var npc_life_state_registry: NpcLifeStateRegistry = NpcLifeStateRegistry.new()
 var settlements: Dictionary = {} # Dictionary[StringName, SettlementState]
 var caravans: Dictionary = {}    # Dictionary[StringName, CaravanState]
 var refugees: Dictionary = {}    # Dictionary[StringName, RefugeePartyState]
@@ -37,6 +38,7 @@ func duplicate_state() -> WorldState:
 	copy.total_initial_population = total_initial_population
 	copy.next_npc_sequence = next_npc_sequence
 	copy.npc_registry = npc_registry.duplicate_registry()
+	copy.npc_life_state_registry = npc_life_state_registry.duplicate_registry()
 	for s_id in settlements:
 		copy.settlements[s_id] = (settlements[s_id] as SettlementState).duplicate_state()
 	for c_id in caravans:
@@ -76,6 +78,7 @@ func to_dict() -> Dictionary:
 		"total_initial_population": total_initial_population,
 		"next_npc_sequence": next_npc_sequence,
 		"npc_registry": npc_registry.to_dict(),
+		"npc_life_state_registry": npc_life_state_registry.to_dict(),
 		"settlements": settlements_dict,
 		"caravans": caravans_dict,
 		"refugees": refugees_dict,
@@ -89,6 +92,8 @@ static func from_dict(data: Dictionary) -> WorldState:
 	w.next_npc_sequence = int(data.get("next_npc_sequence", 1))
 	if data.has("npc_registry"):
 		w.npc_registry = NpcRegistry.from_dict(data["npc_registry"])
+	if data.has("npc_life_state_registry"):
+		w.npc_life_state_registry = NpcLifeStateRegistry.from_dict(data["npc_life_state_registry"])
 	if data.has("settlements"):
 		var s_data: Dictionary = data["settlements"]
 		for s_id in s_data:

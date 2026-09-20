@@ -68,10 +68,25 @@
   - 核心機制：`NpcRegistry`、`NpcIdentity`、最小身份表徵化實體（`id`, `name`, `age_at_materialization`, `origin_settlement_id`）。
   - G1.5-B1 運行防護：具名子集約束驗證（$N_{\text{named}} \le N_{\text{pop}}$）、確定性單調序號持久化、防人口通膨、前置驗證失敗零突變（A1 ~ A7 驗證通過）。
   - 領域驗證器：獨立 Python 權威驗證器 `governance_tools/npc_authority_validator.py` 納入合約。
-* **S4-B — NPC Life State (+ G1.5-B2 Lifecycle Atomicity)**：**CURRENT 🟡**
-  - 核心機制：`location, job, health, needs, relationships`（將 mutable 狀態自 Identity 解耦）。
+* **S4-B — NPC Life State (+ G1.5-B2 Lifecycle Atomicity)**：**CLOSED ✅**
+  - 核心機制：`NpcLifeState`、`NpcLifeStateRegistry`，將 mutable 生命狀態自 Identity 解耦。
+    S4-B 僅收斂至 `status`(SETTLED / IN_TRANSIT / DEAD) 與 `container_id`；
+    `alive` 由 `status != DEAD` 推導而不落欄位，`location` 亦不落欄位——
+    `container_id` 即 authoritative whereabouts。`job` / `health` / `needs` /
+    `relationships` 明確延後至後續 Slice，不在本切片實作。
   - G1.5-B2 運行防護：遷徙與死亡之個體/總額雙重原子提交真實驗收。
-* **S4-C — Background**：前商隊守衛、機械師、農夫、拾荒者（影響社會角色、初始關係、可用行為，不決定數值點數）。
+    - **Atomic Departure / Arrival**：個體 `NpcLifeState` 轉移與 aggregate `population`
+      增減構成單一 observable unit；出發與抵達嚴格兩步拆分，遵守 Axiom 9
+      （`Arrival Day = Departure Day + Route Days − 1`），禁止瞬移。
+    - **Atomic Mortality**：死亡僅允許 `SETTLED → DEAD`；`IN_TRANSIT → DEAD` 於 S4-B 封鎖。
+      死亡銷毀 life state，但 **`NpcIdentity` 永存**。
+    - **Aggregate Cannot Choose Named**：aggregate 遷徙/死亡僅得消耗匿名人口
+      (`anonymous = population − named_settled`)；匿名歸零時強制 **fail-closed**，
+      發出 `NAMED_MIGRATION_DECISION_REQUIRED` / `NAMED_SELECTION_REQUIRED`
+      且 `population` 零突變，待 S4-F 具備自主決策後方可處置具名個體。
+  - **驗收成果**：[tests/test_s4_life_state.gd](file:///d:/wasteland-chronicles/tests/test_s4_life_state.gd)
+    八大 Gate (B1 ~ B8) 全數 PASS，含序列化 round-trip 與雙世界 bitwise replay 一致性。
+* **S4-C — Background**：**NEXT 🟡** 前商隊守衛、機械師、農夫、拾荒者（影響社會角色、初始關係、可用行為，不決定數值點數）。
 * **S4-D — Traits**：謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
 * **S4-E — Aptitude Schema**：戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。
