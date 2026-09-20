@@ -20,6 +20,9 @@ var maintenance_fuel: int = 0
 var water_pressure: float = 0.0
 var food_pressure: float = 0.0
 
+# S3-C 難民遷徙冷卻記錄 (Durable State)
+var days_since_last_migration: int = 999
+
 # 每日需求會計觀測記錄 (Transient Tick Evidence - 非持久化世界狀態)
 var last_need_outcomes: Dictionary = {}
 
@@ -179,6 +182,7 @@ func duplicate_state() -> SettlementState:
 	copy.maintenance_fuel = maintenance_fuel
 	copy.water_pressure = water_pressure
 	copy.food_pressure = food_pressure
+	copy.days_since_last_migration = days_since_last_migration
 	copy.last_need_outcomes = last_need_outcomes.duplicate(true)
 	return copy
 
@@ -196,6 +200,7 @@ func to_dict() -> Dictionary:
 		"maintenance_fuel": maintenance_fuel,
 		"water_pressure": snapped(water_pressure, 0.01),
 		"food_pressure": snapped(food_pressure, 0.01),
+		"days_since_last_migration": days_since_last_migration,
 		"target_water": target_water,
 		"target_food": target_food,
 		"target_scrap": target_scrap,
@@ -237,4 +242,5 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.maintenance_fuel = int(data.get("maintenance_fuel", 0))
 	s.water_pressure = float(data.get("water_pressure", 0.0))
 	s.food_pressure = float(data.get("food_pressure", 0.0))
+	s.days_since_last_migration = int(data.get("days_since_last_migration", 999))
 	return s

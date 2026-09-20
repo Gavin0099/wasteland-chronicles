@@ -18,11 +18,11 @@ S3-B: Basic Needs Pressure (生理匱乏壓力) [CLOSED ✅]
   └─ 問題：當人口實際拿不到足夠的水／食物時，這種短缺能不能累積成持續的人道壓力？
   └─ 成果：會計記帳 requested = fulfilled + unmet；零庫存無偽壓力；物理到貨始恢復；Shadow Non-Interference 通過。
   │
-S3-C: Refugee Migration (難民逃難遷徙) [NEXT 🟡]
+S3-C: Refugee Migration (難民逃難遷徙) [CLOSED ✅]
   └─ 問題：人會不會因為環境變差而離開？
-  └─ 機制：壓力過高引發外移，難民歷經實體旅行抵達鄰近聚落，災難跨聚落轉移。
+  └─ 成果：實體荒原在途旅行 (Axiom 9)、全域人口嚴格守恆、閉環需求漣漪效應、理智目的地理性湧現。
   │
-S3-D: Mortality (極限生理死亡) [PLANNED ⏳]
+S3-D: Mortality (極限生理死亡) [NEXT 🟡]
   └─ 問題：什麼情況下人才真的會死亡？
   └─ 機制：長期嚴重匱乏且無法遷徙時才觸發死亡，非 water == 0 立即抹殺。
   │
@@ -89,3 +89,42 @@ $$\text{pressure} = \max\left(0.0, \text{pressure} - \text{recovery\_rate}\right
 | **B5** | **Physical Recovery** | Day 60 修路當天不降壓力；唯有 Day 62 實體水車入庫、Day 63 喝到水後壓力才退燒 | **PASS** | Day 60 (100.0) $\to$ Day 62 (100.0) $\to$ Day 63 (85.0)。 |
 | **B6** | **Shadow Non-Interference** | 雙軌世界（計算壓力 vs 強制清零壓力）100 天經濟投影完全一致 | **PASS** | 庫存、價格、商隊位置與貨物 **100% Bitwise 一致**。 |
 | **B7** | **Determinism & Regression** | 100 天決定論 SHA-256 回放一致，且全套迴歸測試全數通過 | **PASS** | SHA-256: `e31c779...`；M0～S3-A 測試全部 Exit Code 0。 |
+
+---
+
+## 5. S3-C 專屬技術規格 (Refugee Migration Spec - CLOSED ✅)
+
+### 5.1 核心設計原則
+1. **遷徙觸發與外移冷卻 (State != Rules)**：
+   - 觸發閾值：$\max(\text{water\_pressure}, \text{food\_pressure}) \ge 60.0$。
+   - 外移人數：$H = \max(1, \lfloor \text{population} \times 0.10 \rfloor)$。
+   - 保底留存人口：$\text{MIN\_POPULATION} = 10$（低於 10 人停止外移）。
+   - 外移冷卻：同一聚落每 3 天最多出發一次外移，避免微細碎片化。
+2. **目的地理性客觀評估 (Rational Desirability Scoring)**：
+   - 難民評分公式：
+     $$\text{Score} = (\text{Net Survival Prod} \times 3.0) + (\text{Stock Ratio} \times 10.0) - (\text{Pressure} \times 2.0) - (\text{Route Days} \times 5.0)$$
+   - 綠洲新希望（水源豐沛、淨水+8、無壓力）得分遠高於乾井（乾旱缺水、淨水-3）。灰谷難民自然湧向新希望。
+3. **荒原旅行與時間語意 (Axiom 9 Compliance)**：
+   - 難民隊以 `RefugeePartyState` 實體行進：
+     $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
+   - Day 44 出發、路程 3 天，嚴格於 Day 46 傍晚進城入籍。
+4. **全域人類生命守恆 (Conservation of Human Life Invariant)**：
+   - S3-C 階段無死亡（No Mortality），每一 Tick 嚴格守恆：
+     $$\sum_{s \in \text{settlements}} s.\text{population} + \sum_{r \in \text{active\_refugees}} r.\text{headcount} \equiv \text{World Constant (300)}$$
+5. **閉環需求漣漪效應 (Closed-Loop Demand Ripple)**：
+   - 難民入籍新希望後，新希望人口增長 $\to$ 次日水需求增加 $\to$ 水盈餘縮減，危機以實體人類流動跨聚落轉移。
+
+---
+
+## 6. S3-C 七大 Hard Gates 驗收成果 (`tests/test_s3_migration.gd`)
+
+| Gate # | 驗收項目 | 測試檢驗內容 | 實測結果 | 核心證明 |
+| :---: | :--- | :--- | :---: | :--- |
+| **C1** | **Conservation of Population** | 100 天中每一 Tick `settlements.pop + in_transit.headcount == 300` | **PASS** | 人口總量嚴格守恆，無人憑空消失或增生。 |
+| **C2** | **Trigger Sensitivity & Cooldown** | 壓力未達 60.0 絕此外移；超標當日 (Day 44) 準確出發；冷卻期 (Day 45~46) 嚴格遵守；屆滿 (Day 47) 觸發第二波 | **PASS** | Day 43 人口 100、難民 0；Day 44 出發 10 人；Day 47 出發 9 人。 |
+| **C3** | **Physical In-Transit Semantics** | Day 44 出發、路程 3 天，嚴格於 Day 46 傍晚抵達入籍 (44 + 3 - 1 = 46) | **PASS** | Day 44 剩餘 2 天 $\to$ Day 45 剩餘 1 天 $\to$ Day 46 抵達，新希望人口即刻達 130。 |
+| **C4** | **Closed-Loop Demand Ripple** | 新希望人口增至 130，次日水需求自 6 升至 7 (+16.7%)；灰谷外移後水需求自 5 降至 4 | **PASS** | 需求動態響應人口變動，危機實質轉移至繁榮聚落。 |
+| **C5** | **Rational Destination Selection** | 灰谷難民在綠洲新希望與乾井之間自主評估選擇 | **PASS** | 湧向水源充沛的新希望，避開缺水乾井。 |
+| **C6** | **Invariant & Serialization** | 複製與序列化完全無損且確定 | **PASS** | `duplicate_state()` 與 `to_canonical_json()` 100% 一致。 |
+| **C7** | **Determinism & Regression** | 100 天決定論 SHA-256 回放一致，且全套迴歸測試全數通過 | **PASS** | SHA-256: `e75dacb...`；S0～S3-B 測試全部 Exit Code 0。 |
+

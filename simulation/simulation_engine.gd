@@ -13,11 +13,31 @@ const WATER_PRESSURE_RECOVERY_RATE: float = 15.0
 const FOOD_PRESSURE_GAIN_RATE: float = 25.0
 const FOOD_PRESSURE_RECOVERY_RATE: float = 15.0
 
+# S3-C 難民遷徙規則 (Simulation Rules - State != Rules)
+const MIGRATION_PRESSURE_THRESHOLD: float = 60.0
+const MIGRATION_POPULATION_RATIO: float = 0.10
+const MIGRATION_MIN_POPULATION: int = 10
+const MIGRATION_COOLDOWN_DAYS: int = 3
+const DEFAULT_MIGRATION_ROUTE_DAYS: int = 3
+
+var enable_migration: bool = true
+
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
 	world.current_day += 1
 	var current_day := world.current_day
+
+	# S3-C 全域初始人口記錄 (供守恆不變量驗證)
+	if world.total_initial_population < 0:
+		var initial_pop := 0
+		for s_id in world.settlements:
+			initial_pop += world.settlements[s_id].population
+		for r_id in world.refugees:
+			var r: RefugeePartyState = world.refugees[r_id]
+			if r.is_active and not r.is_arrived:
+				initial_pop += r.headcount
+		world.total_initial_population = initial_pop
 
 	# 取得排序過之聚落與商隊 Key，確保迭代順序 100% 確定
 	var sorted_settlement_ids := world.settlements.keys()
@@ -31,6 +51,9 @@ func tick(world: WorldState) -> Array[EventRecord]:
 	# -------------------------------------------------------------
 	for s_id in sorted_settlement_ids:
 		var settlement: SettlementState = world.settlements[s_id]
+		# S3-C 冷卻計時推進
+		settlement.days_since_last_migration += 1
+
 		# S3-A: 動態由人口規模與人均代謝率計算今日生存消耗
 		settlement.update_consumption_from_metabolism()
 		settlement.last_need_outcomes.clear()
@@ -51,6 +74,47 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				}
 				apply_need_pressure(settlement, res, con, fulfilled, unmet)
 
+		# S3-C 難民遷徙觸發判定 (Refugee Migration Trigger)
+		var eff_pressure := maxf(settlement.water_pressure, settlement.food_pressure)
+		if enable_migration and eff_pressure >= MIGRATION_PRESSURE_THRESHOLD and settlement.days_since_last_migration >= MIGRATION_COOLDOWN_DAYS and settlement.population > MIGRATION_MIN_POPULATION:
+			var headcount := maxi(1, int(floor(float(settlement.population) * MIGRATION_POPULATION_RATIO)))
+			if settlement.population - headcount < MIGRATION_MIN_POPULATION:
+				headcount = settlement.population - MIGRATION_MIN_POPULATION
+			if headcount > 0:
+				var dest_id := select_refugee_destination(world, settlement)
+				if dest_id != &"":
+					settlement.population -= headcount
+					settlement.days_since_last_migration = 0
+					var route_days := get_route_days_between(world, settlement.id, dest_id)
+					var party_id := StringName("refugee:%s:%s:d%d" % [String(settlement.id), String(dest_id), current_day])
+					var party := RefugeePartyState.new(
+						party_id,
+						settlement.id,
+						dest_id,
+						headcount,
+						route_days,
+						route_days,
+						current_day
+					)
+					world.add_refugee_party(party)
+
+					var depart_evt := EventRecord.new(
+						current_day,
+						"REFUGEES_DEPARTED",
+						party_id,
+						dest_id,
+						{
+							"origin": String(settlement.id),
+							"destination": String(dest_id),
+							"headcount": headcount,
+							"route_days": route_days,
+							"origin_population_after": settlement.population,
+							"pressure_trigger": eff_pressure
+						}
+					)
+					tick_events.append(depart_evt)
+					world.record_event(depart_evt)
+
 	# -------------------------------------------------------------
 	# 階段 2: 各聚落在地生產 (Optional Local Production)
 	# -------------------------------------------------------------
@@ -69,12 +133,19 @@ func tick(world: WorldState) -> Array[EventRecord]:
 		recalculate_prices(settlement)
 
 	# -------------------------------------------------------------
-	# 階段 4: 商隊推進航程 (Caravan Advances)
+	# 階段 4: 在途商隊與難民推進航程 (Caravan & Refugee Advances)
 	# -------------------------------------------------------------
 	for c_id in sorted_caravan_ids:
 		var caravan: CaravanState = world.caravans[c_id]
 		if caravan.is_active and not caravan.is_destroyed:
 			caravan.days_remaining -= 1
+
+	var sorted_refugee_ids := world.refugees.keys()
+	sorted_refugee_ids.sort()
+	for r_id in sorted_refugee_ids:
+		var party: RefugeePartyState = world.refugees[r_id]
+		if party.is_active and not party.is_arrived:
+			party.days_remaining -= 1
 
 	# -------------------------------------------------------------
 	# 階段 5: 商隊抵達、卸貨與折返裝貨 (Arrival & Logistics)
@@ -143,6 +214,31 @@ func tick(world: WorldState) -> Array[EventRecord]:
 
 						tick_events.append(load_evt)
 						world.record_event(load_evt)
+
+	# 難民抵達與入籍 (Refugee Arrival & Settlement Integration)
+	for r_id in sorted_refugee_ids:
+		var party: RefugeePartyState = world.refugees[r_id]
+		if party.is_active and not party.is_arrived and party.days_remaining <= 0:
+			var dest: SettlementState = world.get_settlement(party.destination_id)
+			if dest != null:
+				dest.population += party.headcount
+				party.is_active = false
+				party.is_arrived = true
+
+				var arrival_evt := EventRecord.new(
+					current_day,
+					"REFUGEES_ARRIVED",
+					party.id,
+					dest.id,
+					{
+						"origin": String(party.origin_id),
+						"destination": String(dest.id),
+						"headcount": party.headcount,
+						"dest_population_after": dest.population
+					}
+				)
+				tick_events.append(arrival_evt)
+				world.record_event(arrival_evt)
 
 	# -------------------------------------------------------------
 	# 階段 6: 不變量驗證 (Invariant Validation)
@@ -376,6 +472,53 @@ func apply_need_pressure(settlement: SettlementState, resource: StringName, requ
 		else:
 			settlement.food_pressure = maxf(0.0, settlement.food_pressure - FOOD_PRESSURE_RECOVERY_RATE)
 
+# S3-C 難民目的地理性選擇 (Rational Destination Selection)
+func select_refugee_destination(world: WorldState, origin: SettlementState) -> StringName:
+	var candidate_ids: Array[StringName] = []
+	var sorted_s_ids := world.settlements.keys()
+	sorted_s_ids.sort()
+	for s_id in sorted_s_ids:
+		if s_id != origin.id:
+			candidate_ids.append(s_id)
+
+	if candidate_ids.is_empty():
+		return &""
+
+	var best_id: StringName = &""
+	var best_score: float = -999999.0
+
+	for s_id in candidate_ids:
+		var dest: SettlementState = world.settlements[s_id]
+		var dest_pressure := maxf(dest.water_pressure, dest.food_pressure)
+		var net_survival_prod: float = float(
+			(dest.production.water - dest.consumption.water) +
+			(dest.production.food - dest.consumption.food)
+		)
+		var current_survival_stock: float = float(dest.inventory.water + dest.inventory.food)
+		var target_survival_stock: float = float(dest.get_target("water") + dest.get_target("food"))
+		var stock_ratio: float = (current_survival_stock / target_survival_stock) if target_survival_stock > 0 else 1.0
+		var route_d := float(get_route_days_between(world, origin.id, s_id))
+
+		# 吸引力評分 (Desirability Score):
+		# + 淨生存產能權重 (能自給自足並產出水糧者優先)
+		# + 庫存充裕度權重 (現有儲備越滿越有保障)
+		# - 短缺壓力重扣 (-2.0)
+		# - 路線距離懲罰 (-5.0/天)
+		var score: float = (net_survival_prod * 3.0) + (stock_ratio * 10.0) - (dest_pressure * 2.0) - (route_d * 5.0)
+		if best_id == &"" or score > best_score:
+			best_score = score
+			best_id = s_id
+
+	return best_id
+
+# 查詢兩聚落間路線距離 (若無商隊則採用預設路線天數)
+func get_route_days_between(world: WorldState, origin_id: StringName, dest_id: StringName) -> int:
+	for c_id in world.caravans:
+		var c: CaravanState = world.caravans[c_id]
+		if (c.origin_id == origin_id and c.destination_id == dest_id) or (c.origin_id == dest_id and c.destination_id == origin_id):
+			return c.route_days
+	return DEFAULT_MIGRATION_ROUTE_DAYS
+
 # 不變量檢查函式
 func validate_invariants(world: WorldState) -> String:
 	for s_id in world.settlements:
@@ -401,6 +544,8 @@ func validate_invariants(world: WorldState) -> String:
 			return "Settlement %s has invalid water_pressure: %f" % [s.id, s.water_pressure]
 		if s.food_pressure < 0.0 or s.food_pressure > 100.0 or is_nan(s.food_pressure) or is_inf(s.food_pressure):
 			return "Settlement %s has invalid food_pressure: %f" % [s.id, s.food_pressure]
+		if s.days_since_last_migration < 0:
+			return "Settlement %s has negative days_since_last_migration: %d" % [s.id, s.days_since_last_migration]
 		for r in ["water", "food"]:
 			if s.last_need_outcomes.has(r):
 				var o: Dictionary = s.last_need_outcomes[r]
@@ -424,5 +569,31 @@ func validate_invariants(world: WorldState) -> String:
 			return "Caravan %s has negative days remaining: %d" % [c.id, c.days_remaining]
 		if c.is_destroyed and c.get_total_cargo() != 0:
 			return "Destroyed caravan %s retains cargo: %s" % [c.id, c.cargo.to_dict()]
+
+	# S3-C 難民隊伍不變量檢驗
+	for r_id in world.refugees:
+		var r: RefugeePartyState = world.refugees[r_id]
+		if r.headcount <= 0:
+			return "Refugee party %s has non-positive headcount: %d" % [r.id, r.headcount]
+		if not world.settlements.has(r.origin_id):
+			return "Refugee party %s references non-existent origin: %s" % [r.id, r.origin_id]
+		if not world.settlements.has(r.destination_id):
+			return "Refugee party %s references non-existent destination: %s" % [r.id, r.destination_id]
+		if r.is_active and not r.is_arrived and r.days_remaining < 0:
+			return "Refugee party %s has negative days remaining: %d" % [r.id, r.days_remaining]
+
+	# S3-C 全域人類生命總量守恆不變量 (Conservation of Human Life)
+	var current_total_pop := 0
+	for s_id in world.settlements:
+		current_total_pop += world.settlements[s_id].population
+	for r_id in world.refugees:
+		var r: RefugeePartyState = world.refugees[r_id]
+		if r.is_active and not r.is_arrived:
+			current_total_pop += r.headcount
+
+	if world.total_initial_population >= 0 and current_total_pop != world.total_initial_population:
+		return "Global population conservation broken: current %d != initial %d" % [
+			current_total_pop, world.total_initial_population
+		]
 
 	return ""
