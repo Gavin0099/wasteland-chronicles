@@ -1025,6 +1025,18 @@ func validate_invariants(world: WorldState) -> String:
 			var p_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(profile.npc_id)
 			if p_ls == null:
 				return "S4-C C6: Profile %s has no life state" % profile.npc_id
+			# S4-D: traits are closed-enum, duplicate-free, and canonically ordered.
+			var seen_traits := {}
+			var last_trait := -1
+			for t in profile.traits:
+				if not NpcProfile.is_valid_trait(t):
+					return "S4-D D1: NPC %s carries trait value %d outside the closed enum" % [profile.npc_id, t]
+				if seen_traits.has(t):
+					return "S4-D D3: NPC %s holds duplicate trait %s" % [profile.npc_id, NpcProfile.trait_name(t)]
+				if t < last_trait:
+					return "S4-D D3: NPC %s traits are not in canonical order" % profile.npc_id
+				seen_traits[t] = true
+				last_trait = t
 
 	# S4-C.1 Event Ledger invariants (L4: derived count, payload representability)
 	if world.get_event_count() != world.event_log.size():

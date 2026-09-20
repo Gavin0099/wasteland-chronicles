@@ -23,6 +23,25 @@ extends RefCounted
 #   are different statements; only the former exists.
 # ==============================================================================
 
+# S4-D: closed trait enum. These are DESCRIPTIONS of a person, not capabilities.
+# Explicitly NOT implied by any of them:
+#   CAUTIOUS      != flees automatically / lower risk exposure
+#   LOYAL         != relationship bonus / less likely to leave a party
+#   GREEDY        != trade bonus
+#   AGGRESSIVE    != permission to attack / combat modifier
+#   COMPASSIONATE != healing or morale effect
+#   STUBBORN      != resistance to persuasion
+# Whether a trait ever influences behavior is an S4-F question, to be answered
+# against gameplay verbs that do not exist yet — not pre-empted here.
+enum Trait {
+	CAUTIOUS      = 0,
+	LOYAL         = 1,
+	GREEDY        = 2,
+	AGGRESSIVE    = 3,
+	COMPASSIONATE = 4,
+	STUBBORN      = 5,
+}
+
 enum Background {
 	CARAVAN_GUARD = 0,  # 前商隊守衛
 	MECHANIC      = 1,  # 機械師
@@ -33,9 +52,32 @@ enum Background {
 var npc_id: StringName = &""
 var background: Background = Background.FARMER
 
-# Closed enum membership test. Any value outside this set is rejected fail-closed.
+# Set-like metadata: no duplicates, and ALWAYS held in enum order so that the
+# order traits were assigned in can never produce a different world.
+var traits: Array[int] = []
+
+# Closed enum membership tests. Any value outside these sets is rejected fail-closed.
 static func is_valid_background(value: int) -> bool:
 	return value in Background.values()
+
+static func is_valid_trait(value: int) -> bool:
+	return value in Trait.values()
+
+static func trait_name(value: int) -> String:
+	if not is_valid_trait(value):
+		return "INVALID(%d)" % value
+	return String(Trait.keys()[value])
+
+# Canonical trait order is enum order, so [LOYAL, CAUTIOUS] and [CAUTIOUS, LOYAL]
+# serialize identically and cannot become two different worlds.
+static func canonical_traits(values: Array) -> Array[int]:
+	var out: Array[int] = []
+	for v in values:
+		var i := int(v)
+		if not out.has(i):
+			out.append(i)
+	out.sort()
+	return out
 
 # Display-only helper for logs and test output. Carries no authority and is
 # never persisted — it is just the enum key spelled out.
@@ -48,16 +90,22 @@ func duplicate_profile() -> NpcProfile:
 	var copy := NpcProfile.new()
 	copy.npc_id = npc_id
 	copy.background = background
+	copy.traits = traits.duplicate()
 	return copy
+
+func has_trait(value: int) -> bool:
+	return traits.has(value)
 
 func to_dict() -> Dictionary:
 	return {
 		"npc_id": String(npc_id),
 		"background": background,
+		"traits": traits.duplicate(),
 	}
 
 static func from_dict(data: Dictionary) -> NpcProfile:
 	var p := NpcProfile.new()
 	p.npc_id = StringName(data.get("npc_id", ""))
 	p.background = int(data.get("background", Background.FARMER)) as Background
+	p.traits = canonical_traits(data.get("traits", []))
 	return p

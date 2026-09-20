@@ -102,12 +102,89 @@ func assign_background(world: WorldState, npc_id: StringName, background: int) -
 		"background_name": NpcProfile.background_name(background),
 	}
 
-# ── Action Authority (S4-C: EMPTY, unconditionally) ───────────────────────────
+# ── S4-D: Traits (set-like Profile metadata) ──────────────────────────────────
+# Same discipline as Background: explicit assignment only, no random generation,
+# no inference from background, no demographic distribution, immutable once added.
+# A trait says what kind of person someone is; it grants nothing.
 
-# npc-authority.md §6: the S4-C authorized action space is NONE.
-# This returns [] for EVERY background. It is not a stub awaiting content —
-# whether a background confers action eligibility is an S4-F decision to be made
-# against gameplay verbs that do not exist yet.
+func get_traits(npc_id: StringName) -> Array[int]:
+	var profile: NpcProfile = get_profile(npc_id)
+	if profile == null:
+		return []
+	return profile.traits.duplicate()
+
+func get_npcs_with_trait(trait_value: int) -> Array[StringName]:
+	var result: Array[StringName] = []
+	var sorted_keys := profiles.keys()
+	sorted_keys.sort()
+	for k in sorted_keys:
+		var p: NpcProfile = profiles[k]
+		if p.has_trait(trait_value):
+			result.append(p.npc_id)
+	return result
+
+# Add one trait to a living NPC that already has a Profile.
+func assign_trait(world: WorldState, npc_id: StringName, trait_value: int) -> Dictionary:
+	# 1. Closed enum membership
+	if not NpcProfile.is_valid_trait(trait_value):
+		return {
+			"success": false,
+			"error": "INVALID_TRAIT: %d is not a member of the closed Trait enum" % trait_value
+		}
+
+	# 2. Identity must exist
+	if not world.npc_registry.has_npc(npc_id):
+		return {"success": false, "error": "INVALID_NPC: %s not found in identity registry" % npc_id}
+
+	# 3. Traits are Profile metadata: a Profile must already exist
+	var profile: NpcProfile = get_profile(npc_id)
+	if profile == null:
+		return {
+			"success": false,
+			"error": "NO_PROFILE: NPC %s has no profile; traits are profile metadata" % npc_id
+		}
+
+	# 4. Set semantics — a trait is held once or not at all
+	if profile.has_trait(trait_value):
+		return {
+			"success": false,
+			"error": "DUPLICATE_TRAIT: NPC %s already has trait %s" % [
+				npc_id, NpcProfile.trait_name(trait_value)
+			]
+		}
+
+	# 5. Living NPCs only — no post-mortem personality authoring.
+	#    Traits assigned before death are kept: they are part of who that person was.
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(npc_id)
+	if ls == null:
+		return {"success": false, "error": "NO_LIFE_STATE: NPC %s has no life state" % npc_id}
+	if not ls.is_alive():
+		return {
+			"success": false,
+			"error": "DECEASED_NPC: NPC %s is dead; traits cannot be authored post-mortem" % npc_id
+		}
+
+	# 6. Atomic Commit — profile metadata only, held in canonical enum order so
+	#    that assignment order can never produce a different world.
+	var updated := profile.traits.duplicate()
+	updated.append(trait_value)
+	profile.traits = NpcProfile.canonical_traits(updated)
+
+	return {
+		"success": true,
+		"npc_id": npc_id,
+		"trait": trait_value,
+		"trait_name": NpcProfile.trait_name(trait_value),
+		"traits": profile.traits.duplicate(),
+	}
+
+# ── Action Authority (S4-C/S4-D: EMPTY, unconditionally) ──────────────────────
+
+# npc-authority.md §6: the S4-C ~ E authorized action space is NONE.
+# This returns [] for EVERY background AND every combination of traits. It is not
+# a stub awaiting content — whether a background or trait confers action
+# eligibility is an S4-F decision to be made against gameplay verbs that do not
+# exist yet.
 func get_authorized_actions(_npc_id: StringName) -> Array[StringName]:
 	return []
 
@@ -116,7 +193,7 @@ func get_authorized_actions(_npc_id: StringName) -> Array[StringName]:
 func attempt_background_action(_world: WorldState, npc_id: StringName, action: StringName) -> Dictionary:
 	return {
 		"success": false,
-		"error": "UNAUTHORIZED_ACTION: action %s denied for NPC %s — S4-C background action space is EMPTY (NO_STATE_CHANGE)" % [
+		"error": "UNAUTHORIZED_ACTION: action %s denied for NPC %s — S4-C/S4-D background and trait action space is EMPTY (NO_STATE_CHANGE)" % [
 			action, npc_id
 		],
 		"authorized_actions": [],

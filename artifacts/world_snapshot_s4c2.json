@@ -5992,15 +5992,18 @@
 	"npc_profile_registry": {
 		"npc:00000001": {
 			"background": 0,
-			"npc_id": "npc:00000001"
+			"npc_id": "npc:00000001",
+			"traits": []
 		},
 		"npc:00000002": {
 			"background": 1,
-			"npc_id": "npc:00000002"
+			"npc_id": "npc:00000002",
+			"traits": []
 		},
 		"npc:00000003": {
 			"background": 2,
-			"npc_id": "npc:00000003"
+			"npc_id": "npc:00000003",
+			"traits": []
 		}
 	},
 	"npc_registry": {

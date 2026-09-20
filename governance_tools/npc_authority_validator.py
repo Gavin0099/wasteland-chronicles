@@ -58,12 +58,19 @@ class NpcAuthorityValidator(DomainValidator):
 	BACKGROUND_NAMES = ("CARAVAN_GUARD", "MECHANIC", "FARMER", "SCAVENGER")
 	VALID_BACKGROUNDS = frozenset(range(len(BACKGROUND_NAMES)))
 
+	# S4-D closed trait enum, mirroring NpcProfile.Trait. Traits are set-like
+	# metadata: closed membership and no duplicates. They confer nothing.
+	TRAIT_NAMES = (
+		"CAUTIOUS", "LOYAL", "GREEDY", "AGGRESSIVE", "COMPASSIONATE", "STUBBORN",
+	)
+	VALID_TRAITS = frozenset(range(len(TRAIT_NAMES)))
+
 	@property
 	def rule_ids(self) -> list[str]:
 		return [
 			"G1.5-A", "NPC-001", "NPC-002", "NPC-003", "NPC-004", "NPC-007", "NPC-008",
 			"EVENT-001", "EVENT-002", "EVENT-003", "EVENT-004",
-			"NUM-001", "NUM-002", "NUM-003",
+			"NUM-001", "NUM-002", "NUM-003", "TRAIT-001", "TRAIT-002",
 		]
 
 	def validate(self, payload: dict) -> ValidatorResult:
@@ -163,6 +170,36 @@ class NpcAuthorityValidator(DomainValidator):
 					f"NPC-007: Profile '{profile_id}' has no corresponding identity "
 					f"(profiles must be a subset of the identity registry)"
 				)
+
+			# TRAIT-001 / TRAIT-002: closed enum membership, no duplicates.
+			traits = profile_data.get("traits", []) if isinstance(profile_data, dict) else []
+			if not isinstance(traits, list):
+				violations.append(
+					f"TRAIT-002: Profile '{profile_id}' traits must be an array, got "
+					f"{type(traits).__name__}"
+				)
+			else:
+				seen_traits: set = set()
+				for trait_value in traits:
+					if isinstance(trait_value, bool) or not isinstance(trait_value, (int, float)):
+						violations.append(
+							f"TRAIT-001: Profile '{profile_id}' has trait {trait_value!r} "
+							f"which is not a numeric enum member"
+						)
+						continue
+					if float(trait_value) != int(trait_value) or int(trait_value) not in self.VALID_TRAITS:
+						violations.append(
+							f"TRAIT-001: Profile '{profile_id}' has trait {trait_value!r} outside the "
+							f"closed enum {sorted(self.VALID_TRAITS)} "
+							f"({', '.join(self.TRAIT_NAMES)})"
+						)
+						continue
+					if int(trait_value) in seen_traits:
+						violations.append(
+							f"TRAIT-002: Profile '{profile_id}' holds duplicate trait "
+							f"{self.TRAIT_NAMES[int(trait_value)]}"
+						)
+					seen_traits.add(int(trait_value))
 
 			background = profile_data.get("background", None) if isinstance(profile_data, dict) else None
 			if background not in self.VALID_BACKGROUNDS:
@@ -645,6 +682,27 @@ def main() -> int:
 			world(settlement(cumulative_disorder_loss={"scrap": -3}))
 		)
 		assert not res_acct_neg.ok, "Negative accounting value falsely passed!"
+
+		# ── S4-D trait fixtures ──────────────────────────────────────────────
+		def profiled(traits) -> dict:
+			f = dict(valid_fixture)
+			f["npc_profile_registry"] = {
+				"npc:00000001": {"npc_id": "npc:00000001", "background": 0, "traits": traits},
+			}
+			return f
+
+		assert validator.validate(profiled([])).ok, "Empty trait list rejected!"
+		assert validator.validate(profiled([0, 1, 5])).ok, "Legal traits rejected!"
+		# A profile with no traits key at all is still valid (pre-S4-D profiles).
+		assert validator.validate(valid_profile_fixture).ok, "Traitless profile rejected!"
+
+		res_bad_trait = validator.validate(profiled([0, 6]))
+		assert not res_bad_trait.ok, "Out-of-enum trait falsely passed!"
+		assert any("TRAIT-001" in v for v in res_bad_trait.violations), res_bad_trait.violations
+
+		res_dup_trait = validator.validate(profiled([2, 2]))
+		assert not res_dup_trait.ok, "Duplicate trait falsely passed!"
+		assert any("TRAIT-002" in v for v in res_dup_trait.violations), res_dup_trait.violations
 
 		print("PASS: All NpcAuthorityValidator fixtures verified successfully!")
 		return 0

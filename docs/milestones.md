@@ -219,8 +219,27 @@
   - **Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` → RESOLVED ✅**（N1 PASS 且 N4 PASS）。
   - **Future note（S4-C.2 不做）**：`cumulative_disorder_loss` 理論上可由 authoritative event ledger
     的 `LOCAL_DISORDER_LOSS` 事件推導而成為 derived statistic。現在改 authority model 會擴 Slice，不動。
-* **S4-D — Traits**：**NEXT 🟡**（Fast Lane：focused spec / focused tests / 既有 validator / regression，不新增治理章節）謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
-* **S4-E — Aptitude Schema**：戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
+* **S4-D — Traits**：**CLOSED ✅**（Governance Fast Lane）
+  - 核心機制：**沿用既有 `NpcProfile`，不新增 Registry 或 Authority Surface**。
+    `NpcProfile = { npc_id, background, traits[] }`；traits 是 Profile metadata，非 LifeState。
+  - 封閉列舉六項：`CAUTIOUS`, `LOYAL`, `GREEDY`, `AGGRESSIVE`, `COMPASSIONATE`, `STUBBORN`。
+  - **Trait 是描述，不是能力**。明定：`CAUTIOUS ≠ 自動逃跑`、`LOYAL ≠ relationship bonus`、
+    `GREEDY ≠ trade bonus`、`AGGRESSIVE ≠ attack permission`。
+  - **Set-like 語意**：不得重複；**指派順序不構成世界差異**——一律以 enum order 正規化儲存，
+    `[LOYAL, CAUTIOUS]` 與 `[CAUTIOUS, LOYAL]` 產生位元相同的世界。
+  - 指派規則同 Background：僅接受 caller 顯式指定、無隨機生成、
+    **不由 background 推論 trait**、無人口分佈、未知值 fail-closed、
+    僅限存活且已有 Profile 之 NPC；生前已有的 trait 在死後保留（那是這個人的歷史）。
+  - **不設數量上限**：目前無 evidence 支持「每人 2~3 個」這類限制，屬角色平衡問題，不預先鎖。
+  - **本切片明確不含**：action eligibility、decision weight、attribute / skill / relationship /
+    price / combat modifier、隨機生成、trait conflict matrix、正負分數。
+    這些至少要等 S4-F / S5 有真正 gameplay verb 可驗證才談。
+  - **驗收成果**：[tests/test_s4_traits.gd](file:///d:/wasteland-chronicles/tests/test_s4_traits.gd)
+    D1 ~ D6 全數 PASS（D5 反事實：6 個 trait vs 無 trait 跑 30 天，
+    simulation projection SHA 完全相同，而 full-state hash 不同）；
+    既有 Python 驗證器擴充 `TRAIT-001`（封閉列舉）、`TRAIT-002`（無重複）兩項檢查。
+* **S4-E — Aptitude Schema**：**NEXT 🟡**（Fast Lane）
+  戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。
   背景是否提供 action eligibility，由此時已驗證的 gameplay 動詞決定，**不得由 S4-C 預先定義**。
 * **S4-G — NPC Relationships**：**PENDING**（自 S4-C 切出獨立成 Slice）。
