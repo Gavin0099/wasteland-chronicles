@@ -80,6 +80,16 @@ static func _project_player(world: WorldState) -> Dictionary:
 
 	var bp_load := p.get_total_inventory_load()
 
+	var origin_id := ""
+	var destination_id := ""
+	var total_route_days := 0
+	if is_in_transit and ls != null:
+		var p_party: RefugeePartyState = world.get_refugee_party(ls.population_container_id)
+		if p_party != null:
+			origin_id = String(p_party.origin_id)
+			destination_id = String(p_party.destination_id)
+			total_route_days = p_party.route_days
+
 	return {
 		"has_player": true,
 		"npc_id": String(p.npc_id),
@@ -89,6 +99,10 @@ static func _project_player(world: WorldState) -> Dictionary:
 		"is_in_transit": is_in_transit,
 		"location_display": location_display,
 		"current_container_id": String(ls.population_container_id) if ls != null else "",
+		"origin_id": origin_id,
+		"destination_id": destination_id,
+		"days_remaining": days_left,
+		"total_route_days": total_route_days,
 		"backpack": {
 			"water": p.inventory.water if p.inventory != null else 0,
 			"food": p.inventory.food if p.inventory != null else 0,

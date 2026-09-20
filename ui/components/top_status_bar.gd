@@ -83,10 +83,15 @@ func _add_vsep(parent: HBoxContainer) -> void:
 
 func update_status(day: int, identity_name: String, money: int, load_val: int, cap_val: int) -> void:
 	if lbl_day != null:
-		lbl_day.text = "DAY %d" % day
+		lbl_day.text = "第 %d 天 DAY %d" % [day, day]
 	if lbl_identity != null:
-		lbl_identity.text = "身份 %s" % identity_name.to_upper()
+		var zh_id := "流浪者"
+		if identity_name == "Vagrant" or identity_name == "Drifter":
+			zh_id = "流浪者"
+		elif identity_name != "":
+			zh_id = identity_name
+		lbl_identity.text = zh_id
 	if lbl_money != null:
-		lbl_money.text = "金錢 $%d CAPS" % money
+		lbl_money.text = "$%d CAPS" % money
 	if lbl_backpack != null:
-		lbl_backpack.text = "背包 %d / %d" % [load_val, cap_val]
+		lbl_backpack.text = "負重 %d / %d" % [load_val, cap_val]

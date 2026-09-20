@@ -78,19 +78,19 @@ func _init(p_key: String = "water", p_icon: String = "💧", p_display_name: Str
 
 	# Player Qty
 	lbl_player_qty = Label.new()
-	lbl_player_qty.text = "持有: 0"
-	lbl_player_qty.custom_minimum_size = Vector2(60, 0)
+	lbl_player_qty.text = "你有: 0"
+	lbl_player_qty.custom_minimum_size = Vector2(65, 0)
 	lbl_player_qty.add_theme_color_override("font_color", Color("#58A6FF"))
 	hbox.add_child(lbl_player_qty)
 
 	# Action Buttons
 	btn_buy = Button.new()
-	btn_buy.text = "[ 買入 ]"
+	btn_buy.text = "[ 買入 1 ]"
 	btn_buy.pressed.connect(func(): buy_requested.emit(commodity_key))
 	hbox.add_child(btn_buy)
 
 	btn_sell = Button.new()
-	btn_sell.text = "[ 賣出 ]"
+	btn_sell.text = "[ 賣出 1 ]"
 	btn_sell.pressed.connect(func(): sell_requested.emit(commodity_key))
 	hbox.add_child(btn_sell)
 
@@ -102,7 +102,7 @@ func update_row(stock: int, buy_price: float, sell_price: float, player_qty: int
 	if lbl_sell != null:
 		lbl_sell.text = "賣出 $%d" % int(round(sell_price))
 	if lbl_player_qty != null:
-		lbl_player_qty.text = "持: %d" % player_qty
+		lbl_player_qty.text = "你有: %d" % player_qty
 
 	if lbl_trend != null:
 		lbl_trend.text = trend_str

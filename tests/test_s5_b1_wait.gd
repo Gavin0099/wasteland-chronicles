@@ -286,9 +286,9 @@ func _init() -> void:
 	root.add_child(shell)
 	shell.setup(test_world, engine)
 
-	# When settled: button text is [WAIT 1 DAY]
-	if shell.btn_wait.text != "[WAIT 1 DAY]":
-		print("FAIL B6: Expected btn_wait '[WAIT 1 DAY]', got '%s'" % shell.btn_wait.text)
+	# When settled: button text is [ 原地等待 1 天 ] (or [WAIT 1 DAY])
+	if shell.btn_wait.text != "[ 原地等待 1 天 ]" and shell.btn_wait.text != "[WAIT 1 DAY]":
+		print("FAIL B6: Expected btn_wait '[ 原地等待 1 天 ]' or '[WAIT 1 DAY]', got '%s'" % shell.btn_wait.text)
 		quit(1)
 		return
 
@@ -303,9 +303,9 @@ func _init() -> void:
 	shell.select_settlement("settlement:new_hope")
 	shell.on_travel_pressed()
 
-	# When in transit: button text dynamically switches to [CONTINUE — 1 DAY]
-	if shell.btn_wait.text != "[CONTINUE — 1 DAY]":
-		print("FAIL B6: Expected btn_wait '[CONTINUE — 1 DAY]', got '%s'" % shell.btn_wait.text)
+	# When in transit: button text dynamically switches to [ 繼續前進 1 天 ] (or [CONTINUE — 1 DAY])
+	if shell.btn_wait.text != "[ 繼續前進 1 天 ]" and shell.btn_wait.text != "[CONTINUE — 1 DAY]":
+		print("FAIL B6: Expected btn_wait '[ 繼續前進 1 天 ]' or '[CONTINUE — 1 DAY]', got '%s'" % shell.btn_wait.text)
 		quit(1)
 		return
 
