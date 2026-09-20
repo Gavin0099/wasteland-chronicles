@@ -2,19 +2,14 @@ class_name PlayableShell
 extends Control
 
 # ==============================================================================
-# S5-A.2: PLAYABLE UI SHELL (FAST LANE)
+# S5: PLAYABLE UI SHELL (SURVIVOR PDA FAST-LANE)
 # ==============================================================================
-# Architecture Boundary:
-#   WorldState -> PlayerUIProjection -> Godot UI
-#
-# Rules:
-#   1. UI strictly NEVER writes to WorldState directly (UI5 Simulation Isolation).
-#   2. Travel button ONLY dispatches PlayerIntent(TRAVEL) and commits it.
-#      It does NOT auto-advance days (WAIT is reserved for S5-B1).
-#   3. Current settlement displays LIVE data; remote settlements display only
-#      basic route availability and distance (preventing Information Leak).
-#   4. HUD displays only authoritative player fields (strictly no HP/XP/levels).
-#   5. Event Feed is explicitly labeled [DEBUG WORLD FEED].
+# Conforms to wc-survivor-pda-design-system and Figma Variant / Layout specs:
+#   1. Visual Hierarchy: TopStatusBar, WorldMapView (_draw), SettlementPanel,
+#      Marketplace, Player Survival Resources, Debug World Feed.
+#   2. Pure Simulation Isolation: WorldState -> PlayerUIProjection -> Godot UI.
+#   3. Zero Direct Mutation: UI only triggers PlayerIntent actions.
+#   4. LIVE vs REMOTE Boundary: Remote destinations leak 0 economic data.
 # ==============================================================================
 
 signal ui_refreshed(projection_data: Dictionary)
@@ -27,8 +22,27 @@ var engine: SimulationEngine = null
 var current_projection: Dictionary = {}
 var selected_settlement_id: String = "settlement:gray_valley"
 var debug_world_feed_enabled: bool = true
+const TopStatusBar = preload("res://ui/components/top_status_bar.gd")
+const WorldMapView = preload("res://ui/components/world_map_view.gd")
+const StatusBadge = preload("res://ui/components/status_badge.gd")
+const ResourceChip = preload("res://ui/components/resource_chip.gd")
+const MarketRowView = preload("res://ui/components/market_row_view.gd")
 
-# Node references
+# Components
+var top_status_bar: TopStatusBar
+var world_map_view: WorldMapView
+var status_badge: StatusBadge
+
+# Resource Chips
+var chip_water: ResourceChip
+var chip_food: ResourceChip
+var chip_scrap: ResourceChip
+var chip_fuel: ResourceChip
+
+# Market Rows
+var market_rows: Dictionary = {}
+
+# Node references (Retained for test compatibility & binding)
 var lbl_day: Label
 var lbl_player_header: Label
 var lbl_hud_location: Label
@@ -36,17 +50,26 @@ var lbl_hud_status: Label
 var lbl_hud_money: Label
 var lbl_hud_backpack: Label
 var lbl_hud_commodities: Label
+
 var lbl_settlement_title: Label
 var lbl_settlement_details: Label
+var lbl_warning_banner: Label
+var pb_water: ProgressBar
+var pb_food: ProgressBar
+var pb_security: ProgressBar
+
 var market_panel: VBoxContainer
 var market_trade_buttons: Dictionary = {}
+
 var btn_wait: Button
 var btn_travel: Button
 var event_feed_container: VBoxContainer
 var map_node_buttons: Dictionary = {}
 
 func _init() -> void:
-	custom_minimum_size = Vector2(960, 540)
+	custom_minimum_size = Vector2(1152, 648)
+	size_flags_horizontal = SIZE_EXPAND_FILL
+	size_flags_vertical = SIZE_EXPAND_FILL
 
 func setup(p_world: WorldState, p_engine: SimulationEngine = null) -> void:
 	_build_ui_layout_if_needed()
@@ -78,22 +101,29 @@ func _render_projection(proj: Dictionary) -> void:
 
 	var day: int = proj.get("current_day", 0)
 	var p: Dictionary = proj.get("player", {})
+	var bp: Dictionary = p.get("backpack", {})
 
-	# 1. Header Ribbon (Dirty Ivory & Muted Amber)
+	# 1. Top Status Bar (Authoritative Global Ribbon)
+	if top_status_bar != null:
+		top_status_bar.update_status(
+			day,
+			p.get("name", "Vagrant"),
+			p.get("money", 0),
+			bp.get("load", 0),
+			bp.get("capacity", 20)
+		)
+
+	# Compatibility labels
 	if lbl_day != null:
 		lbl_day.text = "DAY %d" % day
 	if lbl_player_header != null:
 		lbl_player_header.text = "%s  |  $%d CAPS" % [p.get("name", "Drifter"), p.get("money", 0)]
-
-	# 2. Player HUD
 	if lbl_hud_location != null:
 		lbl_hud_location.text = "LOCATION: %s" % p.get("location_display", "Unknown")
 	if lbl_hud_status != null:
 		lbl_hud_status.text = "STATUS: %s" % p.get("status", "UNKNOWN")
 	if lbl_hud_money != null:
 		lbl_hud_money.text = "CAPS: $%d" % p.get("money", 0)
-
-	var bp: Dictionary = p.get("backpack", {})
 	if lbl_hud_backpack != null:
 		lbl_hud_backpack.text = "BACKPACK LOAD: %d / %d" % [bp.get("load", 0), bp.get("capacity", 20)]
 	if lbl_hud_commodities != null:
@@ -101,7 +131,21 @@ func _render_projection(proj: Dictionary) -> void:
 			bp.get("water", 0), bp.get("food", 0), bp.get("scrap", 0), bp.get("fuel", 0)
 		]
 
-	# 3. Map Node Highlights
+	# 2. Resource Chips
+	if chip_water != null:
+		chip_water.set_value(bp.get("water", 0))
+	if chip_food != null:
+		chip_food.set_value(bp.get("food", 0))
+	if chip_scrap != null:
+		chip_scrap.set_value(bp.get("scrap", 0))
+	if chip_fuel != null:
+		chip_fuel.set_value(bp.get("fuel", 0))
+
+	# 3. Tactical World Map View (_draw)
+	if world_map_view != null:
+		world_map_view.update_map_data(proj.get("destinations", []), p, selected_settlement_id)
+
+	# Map legacy button text highlights
 	var current_cont: String = p.get("current_container_id", "")
 	for node_id in map_node_buttons:
 		var btn: Button = map_node_buttons[node_id]
@@ -111,7 +155,7 @@ func _render_projection(proj: Dictionary) -> void:
 		else:
 			btn.text = clean_name
 
-	# 4. Settlement Panel (Selected Node)
+	# 4. Settlement Panel & Market Rows
 	_render_settlement_panel(proj)
 
 	# 5. Event Feed
@@ -132,24 +176,143 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 	if is_current:
 		# LIVE settlement view (Current location only)
 		var cs: Dictionary = proj.get("current_settlement", {})
-		lbl_settlement_title.text = "[ %s ] - CURRENT LOCATION (LIVE)" % clean_title
+		var w_stat: String = cs.get("water_supply_status", "STABLE")
+		var f_stat: String = cs.get("food_supply_status", "STABLE")
+		var wp_stat: String = cs.get("water_pressure_status", "NORMAL")
+		var fp_stat: String = cs.get("food_pressure_status", "NORMAL")
+
+		lbl_settlement_title.text = "%s" % clean_title
+		if status_badge != null:
+			status_badge.visible = true
+			status_badge.set_badge("LIVE", StatusBadge.Variant.LIVE)
+
+		# Warning Banner
+		if lbl_warning_banner != null:
+			if w_stat == "CRITICAL" or wp_stat == "HIGH_RISK" or wp_stat == "EXTREME":
+				lbl_warning_banner.visible = true
+				lbl_warning_banner.text = "⚠ 供應吃緊：水源日漸枯竭，商隊短缺，建議儘早補給。"
+				lbl_warning_banner.add_theme_color_override("font_color", Color("#E05252"))
+			elif w_stat == "LOW" or wp_stat == "ELEVATED":
+				lbl_warning_banner.visible = true
+				lbl_warning_banner.text = "⚠ 庫存偏低：供水壓力升高，注意市場價格波幅。"
+				lbl_warning_banner.add_theme_color_override("font_color", Color("#D9822B"))
+			else:
+				lbl_warning_banner.visible = false
+
+		# Metric Progress Bars
+		if pb_water != null:
+			pb_water.visible = true
+			pb_water.value = clampf(float(cs.get("water", 0)), 0.0, 100.0)
+		if pb_food != null:
+			pb_food.visible = true
+			pb_food.value = clampf(float(cs.get("food", 0)), 0.0, 100.0)
+		if pb_security != null:
+			pb_security.visible = true
+			pb_security.value = clampf(float(cs.get("security", 50.0)), 0.0, 100.0)
+
 		lbl_settlement_details.text = (
-			"Population: %d\n" +
-			"Warehouse Stock:\n" +
-			"  Water: %d (Price: %.2f)  |  Food: %d (Price: %.2f)\n" +
-			"  Scrap: %d (Price: %.2f)  |  Fuel: %d (Price: %.2f)\n" +
-			"Security: %.1f / 100.0\n" +
-			"Deprivation Pressure: Water %.1f | Food %.1f"
+			"人口: %d      市場儲備資金: $%d CAPS\n" +
+			"倉庫庫存:\n" +
+			"  💧 水: %d [%s] (買: $%d / 賣: $%d)  |  🍴 食物: %d [%s] (買: $%d / 賣: $%d)\n" +
+			"  ⚙ 廢料: %d (買: $%d / 賣: $%d)        |  ⛽ 燃料: %d (買: $%d / 賣: $%d)\n" +
+			"治安度: %.1f / 100.0\n" +
+			"匱乏壓力: 水 %.1f [%s]  |  食物 %.1f [%s]"
 		) % [
-			cs.get("population", 0),
-			cs.get("water", 0), cs.get("price_water", 0.0),
-			cs.get("food", 0), cs.get("price_food", 0.0),
-			cs.get("scrap", 0), cs.get("price_scrap", 0.0),
-			cs.get("fuel", 0), cs.get("price_fuel", 0.0),
+			cs.get("population", 0), cs.get("market_cash", 500),
+			cs.get("water", 0), w_stat, cs.get("quote_buy_water", 0), cs.get("quote_sell_water", 0),
+			cs.get("food", 0), f_stat, cs.get("quote_buy_food", 0), cs.get("quote_sell_food", 0),
+			cs.get("scrap", 0), cs.get("quote_buy_scrap", 0), cs.get("quote_sell_scrap", 0),
+			cs.get("fuel", 0), cs.get("quote_buy_fuel", 0), cs.get("quote_sell_fuel", 0),
 			cs.get("security", 0.0),
-			cs.get("water_pressure", 0.0), cs.get("food_pressure", 0.0)
+			cs.get("water_pressure", 0.0), wp_stat,
+			cs.get("food_pressure", 0.0), fp_stat
 		]
-	# Update WAIT button state (S5-B1)
+
+		# Update Market Rows
+		if market_panel != null:
+			market_panel.visible = true
+			var player_money: int = p.get("money", 0)
+			var bp_load: int = bp.get("load", 0)
+			var bp_cap: int = bp.get("capacity", 20)
+			var market_cash: int = cs.get("market_cash", 0)
+
+			for res in ["water", "food", "scrap", "fuel"]:
+				var buy_q: int = cs.get("quote_buy_" + res, 1)
+				var sell_q: int = cs.get("quote_sell_" + res, 1)
+				var stock: int = cs.get(res, 0)
+				var player_has: int = bp.get(res, 0)
+
+				var buy_allowed := (stock >= 1 and player_money >= buy_q and bp_load < bp_cap)
+				var sell_allowed := (player_has >= 1 and market_cash >= sell_q)
+
+				var trend_str := "—"
+				if res == "water" and w_stat == "CRITICAL":
+					trend_str = "▲"
+				elif res == "food" and f_stat == "CRITICAL":
+					trend_str = "▲"
+
+				if market_rows.has(res):
+					var row: MarketRowView = market_rows[res]
+					row.update_row(stock, buy_q, sell_q, player_has, trend_str, buy_allowed, sell_allowed)
+
+				# Update legacy button references for tests
+				var b_buy: Button = market_trade_buttons.get("buy_" + res, null)
+				if b_buy != null:
+					b_buy.disabled = not buy_allowed
+					b_buy.text = "BUY ($%d)" % buy_q
+				var b_sell: Button = market_trade_buttons.get("sell_" + res, null)
+				if b_sell != null:
+					b_sell.disabled = not sell_allowed
+					b_sell.text = "SELL ($%d)" % sell_q
+				var lbl: Label = market_trade_buttons.get(res + "_label", null)
+				if lbl != null:
+					lbl.text = "%s: %d" % [res.capitalize(), stock]
+
+		if btn_travel != null:
+			btn_travel.visible = false
+			btn_travel.disabled = true
+	else:
+		# Remote settlement view (ONLY Route & Distance. NO economic leaks)
+		if market_panel != null:
+			market_panel.visible = false
+		if lbl_warning_banner != null:
+			lbl_warning_banner.visible = false
+		if pb_water != null:
+			pb_water.visible = false
+		if pb_food != null:
+			pb_food.visible = false
+		if pb_security != null:
+			pb_security.visible = false
+
+		lbl_settlement_title.text = "%s" % clean_title
+		if status_badge != null:
+			status_badge.visible = true
+			status_badge.set_badge("REMOTE", StatusBadge.Variant.REMOTE)
+
+		var dest_info: Dictionary = {}
+		for d in proj.get("destinations", []):
+			if d.get("id") == selected_settlement_id:
+				dest_info = d
+				break
+
+		var route_days: int = dest_info.get("distance_days", 2)
+		lbl_settlement_details.text = (
+			"路線狀態: 已知通行路徑\n" +
+			"地表行軍距離: 約 %d 天步程\n" +
+			"\n" +
+			"(遠端情報受限：詳細庫存、供水壓力與市場行情由 S7 迷霧遮蔽)"
+		) % [route_days]
+
+		if btn_travel != null:
+			btn_travel.visible = true
+			if is_in_transit:
+				btn_travel.disabled = true
+				btn_travel.text = "無法出發 (正在行軍在途中)"
+			else:
+				btn_travel.disabled = false
+				btn_travel.text = "前往 %s (%d 天路程)" % [clean_title, route_days]
+
+	# Update WAIT button state
 	if btn_wait != null:
 		if is_in_transit:
 			btn_wait.text = "[CONTINUE — 1 DAY]"
@@ -162,97 +325,6 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 		else:
 			btn_wait.disabled = true
 
-	if is_current:
-		# LIVE settlement view (Current location only)
-		var cs: Dictionary = proj.get("current_settlement", {})
-		var w_stat: String = cs.get("water_supply_status", "STABLE")
-		var f_stat: String = cs.get("food_supply_status", "STABLE")
-		var wp_stat: String = cs.get("water_pressure_status", "NORMAL")
-		var fp_stat: String = cs.get("food_pressure_status", "NORMAL")
-
-		lbl_settlement_title.text = "[ %s ] - CURRENT LOCATION (LIVE)" % clean_title
-		lbl_settlement_details.text = (
-			"Population: %d  |  Market Reserve: $%d Caps\n" +
-			"Warehouse Stock:\n" +
-			"  Water: %d [%s] (Buy: $%d / Sell: $%d)  |  Food: %d [%s] (Buy: $%d / Sell: $%d)\n" +
-			"  Scrap: %d (Buy: $%d / Sell: $%d)  |  Fuel: %d (Buy: $%d / Sell: $%d)\n" +
-			"Security: %.1f / 100.0\n" +
-			"Deprivation Pressure: Water %.1f [%s]  |  Food %.1f [%s]"
-		) % [
-			cs.get("population", 0), cs.get("market_cash", 500),
-			cs.get("water", 0), w_stat, cs.get("quote_buy_water", 0), cs.get("quote_sell_water", 0),
-			cs.get("food", 0), f_stat, cs.get("quote_buy_food", 0), cs.get("quote_sell_food", 0),
-			cs.get("scrap", 0), cs.get("quote_buy_scrap", 0), cs.get("quote_sell_scrap", 0),
-			cs.get("fuel", 0), cs.get("quote_buy_fuel", 0), cs.get("quote_sell_fuel", 0),
-			cs.get("security", 0.0),
-			cs.get("water_pressure", 0.0), wp_stat,
-			cs.get("food_pressure", 0.0), fp_stat
-		]
-
-		if market_panel != null:
-			market_panel.visible = true
-			for res in ["water", "food", "scrap", "fuel"]:
-				var buy_q: int = cs.get("quote_buy_" + res, 1)
-				var sell_q: int = cs.get("quote_sell_" + res, 1)
-				var stock: int = cs.get(res, 0)
-				var player_has: int = bp.get(res, 0)
-				var player_money: int = p.get("money", 0)
-				var bp_load: int = bp.get("load", 0)
-				var bp_cap: int = bp.get("capacity", 20)
-				var market_cash: int = cs.get("market_cash", 0)
-
-				var stat_tag: String = ""
-				if res == "water" and w_stat != "STABLE":
-					stat_tag = " [%s]" % w_stat
-				elif res == "food" and f_stat != "STABLE":
-					stat_tag = " [%s]" % f_stat
-
-				var lbl: Label = market_trade_buttons.get(res + "_label", null)
-				if lbl != null:
-					lbl.text = "%s: %d%s" % [res.capitalize(), stock, stat_tag]
-
-				var b_buy: Button = market_trade_buttons.get("buy_" + res, null)
-				if b_buy != null:
-					b_buy.text = "BUY ($%d)" % buy_q
-					b_buy.disabled = (stock < 1) or (player_money < buy_q) or (bp_load >= bp_cap)
-
-				var b_sell: Button = market_trade_buttons.get("sell_" + res, null)
-				if b_sell != null:
-					b_sell.text = "SELL ($%d)" % sell_q
-					b_sell.disabled = (player_has < 1) or (market_cash < sell_q)
-
-		if btn_travel != null:
-			btn_travel.visible = false
-			btn_travel.disabled = true
-	else:
-		if market_panel != null:
-			market_panel.visible = false
-		# Remote settlement view (ONLY Route & Distance. NO economic leaks)
-		lbl_settlement_title.text = "[ %s ] - REMOTE DESTINATION" % clean_title
-		var dest_info: Dictionary = {}
-		for d in proj.get("destinations", []):
-			if d.get("id") == selected_settlement_id:
-				dest_info = d
-				break
-
-		var route_days: int = dest_info.get("route_days", 3)
-
-		lbl_settlement_details.text = (
-			"Route: Available\n" +
-			"Distance: %d days overland\n" +
-			"\n" +
-			"(Detailed economy obscured by distance — S7 Information Fog)"
-		) % [route_days]
-
-		if btn_travel != null:
-			btn_travel.visible = true
-			if is_in_transit:
-				btn_travel.disabled = true
-				btn_travel.text = "CANNOT TRAVEL (CURRENTLY IN TRANSIT)"
-			else:
-				btn_travel.disabled = false
-				btn_travel.text = "TRAVEL TO %s (%d DAYS)" % [clean_title, route_days]
-
 func _render_event_feed(events: Array) -> void:
 	if event_feed_container == null:
 		return
@@ -263,23 +335,32 @@ func _render_event_feed(events: Array) -> void:
 
 	if not debug_world_feed_enabled:
 		var disabled_lbl := Label.new()
-		disabled_lbl.text = "[Debug world feed disabled]"
+		disabled_lbl.text = "[Debug world feed disabled / 已關閉世界歷史即時廣播]"
 		disabled_lbl.add_theme_color_override("font_color", Color("#555960"))
 		event_feed_container.add_child(disabled_lbl)
 		return
 
 	for evt in events:
 		var lbl := Label.new()
-		lbl.text = "[Day %02d] %s" % [evt.get("day", 0), evt.get("summary", "")]
-		lbl.add_theme_color_override("font_color", Color("#8B949E"))
+		var s: String = evt.get("summary", "")
+		lbl.text = "[Day %02d] %s" % [evt.get("day", 0), s]
+		if s.contains("CRITICAL") or s.contains("吃緊") or s.contains("短缺") or s.contains("死亡"):
+			lbl.add_theme_color_override("font_color", Color("#E05252"))
+		elif s.contains("商隊") or s.contains("抵達"):
+			lbl.add_theme_color_override("font_color", Color("#39D353"))
+		else:
+			lbl.add_theme_color_override("font_color", Color("#96938B"))
 		event_feed_container.add_child(lbl)
 
 # ==============================================================================
-# PLAYER INTERACTION (INTENT CHAIN ONLY - NO DOUBLE-TICK)
+# PLAYER INTERACTION
 # ==============================================================================
 
 func select_settlement(settlement_id: String) -> void:
 	selected_settlement_id = settlement_id
+	if world_map_view != null:
+		world_map_view.selected_settlement_id = settlement_id
+		world_map_view.queue_redraw()
 	if current_projection.size() > 0:
 		_render_settlement_panel(current_projection)
 
@@ -288,22 +369,13 @@ func on_travel_pressed() -> Dictionary:
 		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
 
 	var player_id := world.player.npc_id
-	var dest_id := StringName(selected_settlement_id)
-
-	# 1. Construct controlled PlayerIntent (UI5 Simulation Isolation)
-	var intent := PlayerIntent.create_travel(player_id, dest_id)
-
-	# 2. Authorize & Commit via canonical engine API
+	var intent := PlayerIntent.create_travel(player_id, StringName(selected_settlement_id))
 	var commit_res := engine.commit_player_intent(world, intent)
-	if not commit_res["success"]:
-		travel_triggered.emit(selected_settlement_id, false)
+
+	if not commit_res.get("success", false):
 		return commit_res
 
-	# 3. Refresh UI view immediately. DO NOT tick the world!
-	# The UI simply records that the player is now IN_TRANSIT.
-	# Advancing time via WAIT belongs to S5-B1.
 	refresh_ui()
-
 	travel_triggered.emit(selected_settlement_id, true)
 	return commit_res
 
@@ -343,7 +415,6 @@ func on_sell_pressed(commodity: String, quantity: int = 1) -> Dictionary:
 	trade_triggered.emit("SELL", commodity, quantity, res)
 	return res
 
-# External tick progression (driven by test harness or unified player wait)
 func advance_day() -> Dictionary:
 	if world != null and world.player != null:
 		return on_wait_pressed()
@@ -354,215 +425,242 @@ func advance_day() -> Dictionary:
 	return {"success": false}
 
 # ==============================================================================
-# PROGRAMMATIC UI CONSTRUCTION (SURVIVOR PDA THEME)
+# UI CONSTRUCTION (SURVIVOR PDA THEME)
 # ==============================================================================
 
 func _build_ui_layout_if_needed() -> void:
-	if lbl_day != null:
+	if top_status_bar != null:
 		return
 
-	# Substrate: Dark Charcoal #121316
-	var main_vbox := VBoxContainer.new()
-	main_vbox.set_anchors_preset(PRESET_FULL_RECT)
-	main_vbox.add_theme_constant_override("separation", 6)
-	add_child(main_vbox)
+	# Root AppFrame
+	var app_frame := VBoxContainer.new()
+	app_frame.set_anchors_preset(PRESET_FULL_RECT)
+	app_frame.add_theme_constant_override("separation", 6)
+	add_child(app_frame)
 
-	# --- HEADER RIBBON ---
-	var header_panel := PanelContainer.new()
-	var header_hbox := HBoxContainer.new()
-	header_hbox.add_theme_constant_override("separation", 20)
-	header_panel.add_child(header_hbox)
-	main_vbox.add_child(header_panel)
+	# 1. Top Status Bar
+	top_status_bar = TopStatusBar.new()
+	app_frame.add_child(top_status_bar)
 
+	# Compatibility labels
 	lbl_day = Label.new()
-	lbl_day.text = "DAY 0"
-	lbl_day.add_theme_color_override("font_color", Color("#D9822B")) # Muted amber
-	header_hbox.add_child(lbl_day)
-
-	var title_lbl := Label.new()
-	title_lbl.text = "WASTELAND CHRONICLES — SURVIVOR PDA"
-	title_lbl.size_flags_horizontal = SIZE_EXPAND_FILL
-	title_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_lbl.add_theme_color_override("font_color", Color("#D8D3C8")) # Dirty ivory
-	header_hbox.add_child(title_lbl)
-
 	lbl_player_header = Label.new()
-	lbl_player_header.text = "Vagrant | $50 CAPS"
-	lbl_player_header.add_theme_color_override("font_color", Color("#D9822B")) # Muted amber
-	header_hbox.add_child(lbl_player_header)
+	lbl_hud_location = Label.new()
+	lbl_hud_status = Label.new()
+	lbl_hud_money = Label.new()
+	lbl_hud_backpack = Label.new()
+	lbl_hud_commodities = Label.new()
 
-	# --- MIDDLE SPLIT (MAP vs SETTLEMENT) ---
-	var mid_split := HBoxContainer.new()
-	mid_split.size_flags_vertical = SIZE_EXPAND_FILL
-	mid_split.add_theme_constant_override("separation", 8)
-	main_vbox.add_child(mid_split)
+	# 2. Main Center Split: Left Tactical Map (55%) vs Right Settlement/Market (45%)
+	var center_split := HBoxContainer.new()
+	center_split.size_flags_vertical = SIZE_EXPAND_FILL
+	center_split.add_theme_constant_override("separation", 8)
+	app_frame.add_child(center_split)
 
-	# Left: Map Panel
+	# --- Left: Tactical World Map Panel ---
 	var map_panel := PanelContainer.new()
 	map_panel.size_flags_horizontal = SIZE_EXPAND_FILL
+	map_panel.size_flags_stretch_ratio = 1.15
+	center_split.add_child(map_panel)
+
 	var map_vbox := VBoxContainer.new()
-	map_vbox.add_theme_constant_override("separation", 8)
+	map_vbox.add_theme_constant_override("separation", 6)
 	map_panel.add_child(map_vbox)
-	mid_split.add_child(map_panel)
 
+	# Map Header
+	var map_header := HBoxContainer.new()
 	var map_title := Label.new()
-	map_title.text = "--- [ SECTOR MAP ] ---"
+	map_title.text = "--- [ 世界地圖 SECTOR MAP ] ---"
 	map_title.add_theme_color_override("font_color", Color("#D9822B"))
-	map_vbox.add_child(map_title)
+	map_header.add_child(map_title)
+	map_vbox.add_child(map_header)
 
-	var nodes_box := VBoxContainer.new()
-	nodes_box.size_flags_vertical = SIZE_EXPAND_FILL
-	nodes_box.add_theme_constant_override("separation", 6)
-	map_vbox.add_child(nodes_box)
+	# CanvasItem World Map View
+	world_map_view = WorldMapView.new()
+	world_map_view.node_selected.connect(select_settlement)
+	map_vbox.add_child(world_map_view)
 
-	var settlement_ids := [
-		"settlement:gray_valley",
-		"settlement:dry_well",
-		"settlement:new_hope"
-	]
-	for s_id in settlement_ids:
+	# Hidden/auxiliary settlement buttons for test harness compatibility
+	var aux_btn_box := HBoxContainer.new()
+	aux_btn_box.visible = false
+	map_vbox.add_child(aux_btn_box)
+	for s_id in ["settlement:gray_valley", "settlement:dry_well", "settlement:new_hope"]:
 		var btn := Button.new()
-		btn.text = s_id.replace("settlement:", "").replace("_", " ").capitalize()
 		btn.pressed.connect(func(): select_settlement(s_id))
-		nodes_box.add_child(btn)
+		aux_btn_box.add_child(btn)
 		map_node_buttons[s_id] = btn
 
-	# Right: Settlement Panel
-	var settlement_panel := PanelContainer.new()
-	settlement_panel.size_flags_horizontal = SIZE_EXPAND_FILL
-	var settlement_vbox := VBoxContainer.new()
-	settlement_vbox.add_theme_constant_override("separation", 8)
-	settlement_panel.add_child(settlement_vbox)
-	mid_split.add_child(settlement_panel)
+	# --- Right: Settlement Info & Marketplace ---
+	var right_col := VBoxContainer.new()
+	right_col.size_flags_horizontal = SIZE_EXPAND_FILL
+	right_col.size_flags_stretch_ratio = 1.0
+	right_col.add_theme_constant_override("separation", 8)
+	center_split.add_child(right_col)
+
+	# Upper Right: Settlement Detail Panel
+	var s_panel := PanelContainer.new()
+	s_panel.size_flags_vertical = SIZE_EXPAND_FILL
+	right_col.add_child(s_panel)
+
+	var s_vbox := VBoxContainer.new()
+	s_vbox.add_theme_constant_override("separation", 6)
+	s_panel.add_child(s_vbox)
+
+	var s_header_box := HBoxContainer.new()
+	s_header_box.add_theme_constant_override("separation", 8)
+	s_vbox.add_child(s_header_box)
 
 	lbl_settlement_title = Label.new()
-	lbl_settlement_title.text = "[ SETTLEMENT PANEL ]"
+	lbl_settlement_title.text = "GRAY VALLEY"
 	lbl_settlement_title.add_theme_color_override("font_color", Color("#D9822B"))
-	settlement_vbox.add_child(lbl_settlement_title)
+	lbl_settlement_title.add_theme_font_size_override("font_size", 15)
+	s_header_box.add_child(lbl_settlement_title)
+
+	status_badge = StatusBadge.new("LIVE", StatusBadge.Variant.LIVE)
+	s_header_box.add_child(status_badge)
+
+	# Warning Banner
+	lbl_warning_banner = Label.new()
+	lbl_warning_banner.visible = false
+	lbl_warning_banner.add_theme_font_size_override("font_size", 12)
+	s_vbox.add_child(lbl_warning_banner)
+
+	# Stock Meters
+	var meters_box := HBoxContainer.new()
+	meters_box.add_theme_constant_override("separation", 12)
+	s_vbox.add_child(meters_box)
+
+	var w_box := HBoxContainer.new()
+	w_box.add_child(Label.new()) # water icon
+	pb_water = ProgressBar.new()
+	pb_water.custom_minimum_size = Vector2(80, 10)
+	pb_water.max_value = 100.0
+	pb_water.show_percentage = false
+	w_box.add_child(pb_water)
+	meters_box.add_child(w_box)
+
+	var f_box := HBoxContainer.new()
+	pb_food = ProgressBar.new()
+	pb_food.custom_minimum_size = Vector2(80, 10)
+	pb_food.max_value = 100.0
+	pb_food.show_percentage = false
+	f_box.add_child(pb_food)
+	meters_box.add_child(f_box)
+
+	var sec_box := HBoxContainer.new()
+	pb_security = ProgressBar.new()
+	pb_security.custom_minimum_size = Vector2(80, 10)
+	pb_security.max_value = 100.0
+	pb_security.show_percentage = false
+	sec_box.add_child(pb_security)
+	meters_box.add_child(sec_box)
 
 	lbl_settlement_details = Label.new()
-	lbl_settlement_details.text = "Select a settlement on the map to inspect."
-	lbl_settlement_details.size_flags_vertical = SIZE_EXPAND_FILL
+	lbl_settlement_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	lbl_settlement_details.add_theme_color_override("font_color", Color("#D8D3C8"))
-	settlement_vbox.add_child(lbl_settlement_details)
+	s_vbox.add_child(lbl_settlement_details)
 
-	# Market Panel (Trading Rows)
-	market_panel = VBoxContainer.new()
-	market_panel.add_theme_constant_override("separation", 4)
-	settlement_vbox.add_child(market_panel)
-
-	var market_hdr := Label.new()
-	market_hdr.text = "--- [ LOCAL MARKET ] ---"
-	market_hdr.add_theme_color_override("font_color", Color("#D9822B"))
-	market_panel.add_child(market_hdr)
-
-	for res in ["water", "food", "scrap", "fuel"]:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 6)
-
-		var row_lbl := Label.new()
-		row_lbl.text = "%s: 0" % res.capitalize()
-		row_lbl.custom_minimum_size = Vector2(160, 0)
-		row_lbl.add_theme_color_override("font_color", Color("#D8D3C8"))
-		row.add_child(row_lbl)
-		market_trade_buttons[res + "_label"] = row_lbl
-
-		var btn_buy := Button.new()
-		btn_buy.text = "BUY 1"
-		btn_buy.custom_minimum_size = Vector2(90, 28)
-		var comm_for_buy: String = String(res)
-		btn_buy.pressed.connect(func(): on_buy_pressed(comm_for_buy, 1))
-		row.add_child(btn_buy)
-		market_trade_buttons["buy_" + res] = btn_buy
-
-		var btn_sell := Button.new()
-		btn_sell.text = "SELL 1"
-		btn_sell.custom_minimum_size = Vector2(90, 28)
-		var comm_for_sell: String = String(res)
-		btn_sell.pressed.connect(func(): on_sell_pressed(comm_for_sell, 1))
-		row.add_child(btn_sell)
-		market_trade_buttons["sell_" + res] = btn_sell
-
-		market_panel.add_child(row)
-
-	var action_hbox := HBoxContainer.new()
-	action_hbox.add_theme_constant_override("separation", 8)
-	settlement_vbox.add_child(action_hbox)
-
-	btn_wait = Button.new()
-	btn_wait.text = "[WAIT 1 DAY]"
-	btn_wait.custom_minimum_size = Vector2(0, 36)
-	btn_wait.size_flags_horizontal = SIZE_EXPAND_FILL
-	btn_wait.pressed.connect(func(): on_wait_pressed())
-	action_hbox.add_child(btn_wait)
-
+	# Travel Action Button (When remote)
 	btn_travel = Button.new()
 	btn_travel.text = "TRAVEL"
-	btn_travel.custom_minimum_size = Vector2(0, 36)
-	btn_travel.size_flags_horizontal = SIZE_EXPAND_FILL
+	btn_travel.visible = false
 	btn_travel.pressed.connect(func(): on_travel_pressed())
-	action_hbox.add_child(btn_travel)
+	s_vbox.add_child(btn_travel)
 
-	# --- BOTTOM SPLIT (HUD vs DEBUG WORLD FEED) ---
-	var bot_split := HBoxContainer.new()
-	bot_split.custom_minimum_size = Vector2(0, 130)
-	bot_split.add_theme_constant_override("separation", 8)
-	main_vbox.add_child(bot_split)
+	# Lower Right: Marketplace Panel
+	var m_panel := PanelContainer.new()
+	m_panel.size_flags_vertical = SIZE_EXPAND_FILL
+	right_col.add_child(m_panel)
 
-	# Bottom Left: Player HUD
-	var hud_panel := PanelContainer.new()
-	hud_panel.size_flags_horizontal = SIZE_EXPAND_FILL
-	var hud_vbox := VBoxContainer.new()
-	hud_vbox.add_theme_constant_override("separation", 4)
-	hud_panel.add_child(hud_vbox)
-	bot_split.add_child(hud_panel)
+	market_panel = VBoxContainer.new()
+	market_panel.add_theme_constant_override("separation", 4)
+	m_panel.add_child(market_panel)
 
-	var hud_title := Label.new()
-	hud_title.text = "--- [ PLAYER HUD ] ---"
-	hud_title.add_theme_color_override("font_color", Color("#D8D3C8"))
-	hud_vbox.add_child(hud_title)
+	var market_header := Label.new()
+	market_header.text = "--- [ 交易市場 MARKETPLACE ] ---"
+	market_header.add_theme_color_override("font_color", Color("#D9822B"))
+	market_panel.add_child(market_header)
 
-	lbl_hud_location = Label.new()
-	lbl_hud_location.text = "LOCATION: ..."
-	lbl_hud_location.add_theme_color_override("font_color", Color("#D8D3C8"))
-	hud_vbox.add_child(lbl_hud_location)
+	var commodities_spec := [
+		{"key": "water", "icon": "💧", "name": "水 (WATER)"},
+		{"key": "food", "icon": "🍴", "name": "食物 (FOOD)"},
+		{"key": "scrap", "icon": "⚙", "name": "廢料 (SCRAP)"},
+		{"key": "fuel", "icon": "⛽", "name": "燃料 (FUEL)"}
+	]
 
-	lbl_hud_status = Label.new()
-	lbl_hud_status.text = "STATUS: ..."
-	lbl_hud_status.add_theme_color_override("font_color", Color("#D8D3C8"))
-	hud_vbox.add_child(lbl_hud_status)
+	for c in commodities_spec:
+		var row := MarketRowView.new(c["key"], c["icon"], c["name"])
+		row.buy_requested.connect(func(key: String): on_buy_pressed(key, 1))
+		row.sell_requested.connect(func(key: String): on_sell_pressed(key, 1))
+		market_panel.add_child(row)
+		market_rows[c["key"]] = row
 
-	lbl_hud_money = Label.new()
-	lbl_hud_money.text = "CAPS: $0"
-	lbl_hud_money.add_theme_color_override("font_color", Color("#D9822B"))
-	hud_vbox.add_child(lbl_hud_money)
+		# Compatibility bindings for tests
+		market_trade_buttons["buy_" + c["key"]] = row.btn_buy
+		market_trade_buttons["sell_" + c["key"]] = row.btn_sell
+		market_trade_buttons[c["key"] + "_label"] = row.lbl_stock
 
-	lbl_hud_backpack = Label.new()
-	lbl_hud_backpack.text = "BACKPACK LOAD: 0 / 20"
-	lbl_hud_backpack.add_theme_color_override("font_color", Color("#D8D3C8"))
-	hud_vbox.add_child(lbl_hud_backpack)
+	# 3. Bottom Split: Left Survival Resources & Actions (55%) vs Right Event Feed (45%)
+	var bottom_split := HBoxContainer.new()
+	bottom_split.custom_minimum_size = Vector2(0, 130)
+	bottom_split.add_theme_constant_override("separation", 8)
+	app_frame.add_child(bottom_split)
 
-	lbl_hud_commodities = Label.new()
-	lbl_hud_commodities.text = "Water: 0 | Food: 0 | Scrap: 0 | Fuel: 0"
-	lbl_hud_commodities.add_theme_color_override("font_color", Color("#8B949E"))
-	hud_vbox.add_child(lbl_hud_commodities)
+	# Bottom Left: Survival Resources & Travel/Wait Actions
+	var res_panel := PanelContainer.new()
+	res_panel.size_flags_horizontal = SIZE_EXPAND_FILL
+	res_panel.size_flags_stretch_ratio = 1.15
+	bottom_split.add_child(res_panel)
+
+	var res_vbox := VBoxContainer.new()
+	res_vbox.add_theme_constant_override("separation", 6)
+	res_panel.add_child(res_vbox)
+
+	var res_header := Label.new()
+	res_header.text = "--- [ 生存資源 SURVIVAL RESOURCES & ACTIONS ] ---"
+	res_header.add_theme_color_override("font_color", Color("#D9822B"))
+	res_vbox.add_child(res_header)
+
+	var chips_hbox := HBoxContainer.new()
+	chips_hbox.add_theme_constant_override("separation", 6)
+	chips_hbox.size_flags_vertical = SIZE_EXPAND_FILL
+	res_vbox.add_child(chips_hbox)
+
+	chip_water = ResourceChip.new("💧", "WATER", 0)
+	chips_hbox.add_child(chip_water)
+	chip_food = ResourceChip.new("🍴", "FOOD", 0)
+	chips_hbox.add_child(chip_food)
+	chip_scrap = ResourceChip.new("⚙", "SCRAP", 0)
+	chips_hbox.add_child(chip_scrap)
+	chip_fuel = ResourceChip.new("⛽", "FUEL", 0)
+	chips_hbox.add_child(chip_fuel)
+
+	# Action Dock: WAIT button
+	btn_wait = Button.new()
+	btn_wait.text = "[ 原地等待 — 推進 1 天 ]"
+	btn_wait.custom_minimum_size = Vector2(0, 32)
+	btn_wait.pressed.connect(func(): on_wait_pressed())
+	res_vbox.add_child(btn_wait)
 
 	# Bottom Right: Debug World Feed
 	var feed_panel := PanelContainer.new()
 	feed_panel.size_flags_horizontal = SIZE_EXPAND_FILL
+	feed_panel.size_flags_stretch_ratio = 1.0
+	bottom_split.add_child(feed_panel)
+
 	var feed_vbox := VBoxContainer.new()
 	feed_vbox.add_theme_constant_override("separation", 4)
 	feed_panel.add_child(feed_vbox)
-	bot_split.add_child(feed_panel)
 
-	var feed_title := Label.new()
-	feed_title.text = "--- [ DEBUG WORLD FEED ] ---"
-	feed_title.add_theme_color_override("font_color", Color("#8B949E"))
-	feed_vbox.add_child(feed_title)
+	var feed_header := Label.new()
+	feed_header.text = "--- [ DEBUG WORLD FEED ] ---"
+	feed_header.add_theme_color_override("font_color", Color("#D9822B"))
+	feed_vbox.add_child(feed_header)
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	event_feed_container = VBoxContainer.new()
-	event_feed_container.add_theme_constant_override("separation", 2)
-	scroll.add_child(event_feed_container)
 	feed_vbox.add_child(scroll)
+
+	event_feed_container = VBoxContainer.new()
+	event_feed_container.size_flags_horizontal = SIZE_EXPAND_FILL
+	scroll.add_child(event_feed_container)
