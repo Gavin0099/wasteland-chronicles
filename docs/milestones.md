@@ -412,13 +412,28 @@ Aptitudes  = 這個人可能比較容易學哪類事情
     - **Fail-Closed 零突變防護**：非定居狀態（在途中）、未知商品、數量非正數、聚落庫存不足、玩家資金不足、背包超載（20 容量上限）、玩家庫存不足、聚落儲備金不足等 8 種邊界條件強制拒絕，世界快照 SHA-256 嚴格 0 突變。
     - **UI 隔離與情報防禦**：當前聚落呈現即時行情與買賣按鈕；遠端聚落嚴格隱藏交易介面與物價，0 資訊洩漏。
     - **驗收成果**：[tests/test_s5_b2_trade.gd](file:///d:/wasteland-chronicles/tests/test_s5_b2_trade.gd) 七大 Gate (T1 ~ T7) 全數 PASS，全專案 28 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
-  - **S5-B3 (Scavenge / Intervention)**：玩家在荒原搜刮並首次改變區域供需。
-* **★ FIRST PLAYABLE CHECKPOINT ★**：
-  - 停止新增系統，連續試玩 20~30 分鐘，驗證三大核心產品問題：
-    1. **我看得懂世界目前出了什麼問題嗎？**
-    2. **我會自己產生「我想去做某件事」的念頭嗎？**
-    3. **我做完之後，能看出世界真的因我改變嗎？**
-  - 三題皆為 YES，方才進入後續深度擴展。
+  - **S5-B3 (Player Intervention Scenario)**：**CLOSED ✅**
+    - **核心設計問題已回答**：玩家能不能看見一場危機，自己判斷介入方式，並在數天後清楚看到「有我」和「沒我」的世界走向不同？——**YES**。
+    - **三世界反事實實測成果 (Three Worlds Counterfactual - Day 16)**：
+      - **World A (No Intervention)**：灰谷缺水危機爆發，玩家不介入。人口暴跌至 47、累積死亡 22 人、治安重挫至 26.5。
+      - **World B (Full Intervention)**：玩家自新希望購買 12 水（`BUY`），物理旅行 3 天（`TRAVEL`），在灰谷注入實體物資（`SELL`），推進時間（`WAIT`）。人口保存至 58（多保全 11 人）、累積死亡降至 16（減少 6 死）、治安維持 48.0。
+      - **World C (Partial Intervention)**：玩家僅帶入 4 水。人口 47、死亡 22、治安 30.4。短中期（Day 6 水壓 80.0 介於 A 100.0 與 B 15.0 之間）與長期治安（30.4 介於 26.5 與 48.0 之間）嚴格單調遞增，證明**無魔術任務旗標，影響程度嚴格取決於實際運載物資量**。
+    - **驗收成果**：[tests/test_s5_b3_intervention.gd](file:///d:/wasteland-chronicles/tests/test_s5_b3_intervention.gd) 六大 Gate (I1 ~ I6) 全數 PASS：
+      - **I1 (Crisis Readability)**：UI 投影與面板清楚呈現 `[CRITICAL]`、`[HIGH_RISK]` 標籤，遠端聚落 0 洩漏，無虛假任務。
+      - **I2 (Legal Intervention)**：閉環動詞（`BUY` / `TRAVEL` / `WAIT` / `SELL`），非法意圖強制 Fail-Closed。
+      - **I3 (Physical Conservation)**：20 單位背包容量與貨幣真實約束，物資與瓶蓋在買賣中雙重守恆。
+      - **I4 (Causal Effect)**：賣入的 10 水直接進入灰谷倉庫，下一日被居民生理代謝精確消耗 5 水，0 水匱乏暴露。
+      - **I5 (Counterfactual Divergence)**：Day 6 水壓、Day 10 死亡延遲、Day 16 累積人口/死亡/治安三維度全數呈現嚴格客觀因果分歧。
+      - **I6 (Persistence & Save/Load Determinism)**：在途中攜帶 12 水貨物存檔重載，Day 16 世界快照 Canonical SHA-256 與連續世界 100% 位元一致（`317a22b3...`）。
+    - 全專案 29 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
+* **★ FIRST PLAYABLE CHECKPOINT ★**：**READY FOR PLAYTEST 🎮**
+  - 完成 S5-B3 後立即停止新增系統，直接透過 Survivor PDA 介面連續實機試玩 20~30 分鐘，驗證四大核心產品體驗問題：
+    1. **我有沒有自己看出哪個聚落有問題？**（Crisis Discovery）
+    2. **我有沒有自己想到「我可以把物資帶過去」？**（Self-Motivated Agency）
+    3. **過程中的 Travel / Wait / Trade 是否節奏合理？**（Loop Friction）
+    4. **我介入後看到後果時，有沒有產生「世界真的因我改變」的感覺？**（Causal Impact）
+* **S5-B4 — Scavenge (Optional after playtest)**：
+  - 僅在 First Playable 試玩後證明「除了聚落間買賣套利，確實缺乏野外獲取物資方式」時，方才實作最小確定性廢墟搜刮（固定 Salvage Pool，無隨機掉寶、無稀有裝備、無戰鬥、無 Respawn）。
 * **S5-C ~ S5-K — Depth Expansion (Playtest 通過後)**：
   - Attributes, Skills, Character Creation, Companions, Perks, Relationships...
 

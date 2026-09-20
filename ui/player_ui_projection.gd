@@ -138,8 +138,33 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 		"quote_sell_scrap": SimulationEngine.get_sell_quote(s, &"scrap"),
 		"quote_buy_fuel": SimulationEngine.get_buy_quote(s, &"fuel"),
 		"quote_sell_fuel": SimulationEngine.get_sell_quote(s, &"fuel"),
+		"water_supply_status": _get_stock_status(s.inventory.water, s.target_water),
+		"food_supply_status": _get_stock_status(s.inventory.food, s.target_food),
+		"scrap_supply_status": _get_stock_status(s.inventory.scrap, s.target_scrap),
+		"fuel_supply_status": _get_stock_status(s.inventory.fuel, s.target_fuel),
+		"water_pressure_status": _get_pressure_status(s.water_pressure),
+		"food_pressure_status": _get_pressure_status(s.food_pressure),
 		"is_live": true
 	}
+
+static func _get_stock_status(current_stock: int, target_stock: int) -> String:
+	if target_stock <= 0:
+		return "STABLE"
+	var ratio := float(current_stock) / float(target_stock)
+	if ratio <= 0.25:
+		return "CRITICAL"
+	elif ratio <= 0.60:
+		return "LOW"
+	return "STABLE"
+
+static func _get_pressure_status(pressure: float) -> String:
+	if pressure >= 90.0:
+		return "EXTREME"
+	elif pressure >= 60.0:
+		return "HIGH_RISK"
+	elif pressure >= 30.0:
+		return "ELEVATED"
+	return "NORMAL"
 
 static func _project_destinations(world: WorldState) -> Array[Dictionary]:
 	var list: Array[Dictionary] = []

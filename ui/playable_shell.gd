@@ -165,22 +165,28 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 	if is_current:
 		# LIVE settlement view (Current location only)
 		var cs: Dictionary = proj.get("current_settlement", {})
+		var w_stat: String = cs.get("water_supply_status", "STABLE")
+		var f_stat: String = cs.get("food_supply_status", "STABLE")
+		var wp_stat: String = cs.get("water_pressure_status", "NORMAL")
+		var fp_stat: String = cs.get("food_pressure_status", "NORMAL")
+
 		lbl_settlement_title.text = "[ %s ] - CURRENT LOCATION (LIVE)" % clean_title
 		lbl_settlement_details.text = (
 			"Population: %d  |  Market Reserve: $%d Caps\n" +
 			"Warehouse Stock:\n" +
-			"  Water: %d (Buy: $%d / Sell: $%d)  |  Food: %d (Buy: $%d / Sell: $%d)\n" +
+			"  Water: %d [%s] (Buy: $%d / Sell: $%d)  |  Food: %d [%s] (Buy: $%d / Sell: $%d)\n" +
 			"  Scrap: %d (Buy: $%d / Sell: $%d)  |  Fuel: %d (Buy: $%d / Sell: $%d)\n" +
 			"Security: %.1f / 100.0\n" +
-			"Deprivation Pressure: Water %.1f | Food %.1f"
+			"Deprivation Pressure: Water %.1f [%s]  |  Food %.1f [%s]"
 		) % [
 			cs.get("population", 0), cs.get("market_cash", 500),
-			cs.get("water", 0), cs.get("quote_buy_water", 0), cs.get("quote_sell_water", 0),
-			cs.get("food", 0), cs.get("quote_buy_food", 0), cs.get("quote_sell_food", 0),
+			cs.get("water", 0), w_stat, cs.get("quote_buy_water", 0), cs.get("quote_sell_water", 0),
+			cs.get("food", 0), f_stat, cs.get("quote_buy_food", 0), cs.get("quote_sell_food", 0),
 			cs.get("scrap", 0), cs.get("quote_buy_scrap", 0), cs.get("quote_sell_scrap", 0),
 			cs.get("fuel", 0), cs.get("quote_buy_fuel", 0), cs.get("quote_sell_fuel", 0),
 			cs.get("security", 0.0),
-			cs.get("water_pressure", 0.0), cs.get("food_pressure", 0.0)
+			cs.get("water_pressure", 0.0), wp_stat,
+			cs.get("food_pressure", 0.0), fp_stat
 		]
 
 		if market_panel != null:
@@ -195,9 +201,15 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 				var bp_cap: int = bp.get("capacity", 20)
 				var market_cash: int = cs.get("market_cash", 0)
 
+				var stat_tag: String = ""
+				if res == "water" and w_stat != "STABLE":
+					stat_tag = " [%s]" % w_stat
+				elif res == "food" and f_stat != "STABLE":
+					stat_tag = " [%s]" % f_stat
+
 				var lbl: Label = market_trade_buttons.get(res + "_label", null)
 				if lbl != null:
-					lbl.text = "%s: %d" % [res.capitalize(), stock]
+					lbl.text = "%s: %d%s" % [res.capitalize(), stock, stat_tag]
 
 				var b_buy: Button = market_trade_buttons.get("buy_" + res, null)
 				if b_buy != null:
@@ -450,7 +462,7 @@ func _build_ui_layout_if_needed() -> void:
 
 		var row_lbl := Label.new()
 		row_lbl.text = "%s: 0" % res.capitalize()
-		row_lbl.custom_minimum_size = Vector2(90, 0)
+		row_lbl.custom_minimum_size = Vector2(160, 0)
 		row_lbl.add_theme_color_override("font_color", Color("#D8D3C8"))
 		row.add_child(row_lbl)
 		market_trade_buttons[res + "_label"] = row_lbl
