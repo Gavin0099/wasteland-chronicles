@@ -136,7 +136,10 @@
     帳本不動點、亂序保序、三層巢狀 payload 保真、`9 vs 7` 與 `count-without-ledger`
     與 malformed record 三種 fail-closed 拒絕、以及 save/load 後帳本 SHA 不變。
     Python 權威驗證器新增 `EVENT-001` ~ `EVENT-004` 四條規則（完全獨立重算，不呼叫 GDScript 邏輯）。
-* **Finding（S4-C.1 過程中新發現，尚未處理）**：`NON_LEDGER_STATE_NOT_ROUNDTRIPPED`
+* **Finding**：`NON_LEDGER_STATE_NOT_ROUNDTRIPPED` — **Status: ACCEPTED_FOR_WORK**
+  - **Owner disposition**：S4-C.2 — Snapshot Numeric Canonicality（先於 S4-D Traits 處理）
+  - **Scope**：schema-aware restoration + authoritative numeric canonicality + save/load continuation equivalence
+  - **Not included**：traits / aptitude / relationships / NPC decisions / save migration compatibility / gameplay expansion
   - **Origin**：Pre-existing `SettlementState` serialization behavior（非 S4-C.1 引入）
   - **Discovered by**：S4-C.1 L1 全快照不動點驗證
   - **問題**：`production_credits` / `disorder_loss_credits` / `cumulative_disorder_loss` /
@@ -145,8 +148,42 @@
     （`0.00000000000000488498130835069` → `0.00000000000000488`）。
     因此**整份快照尚非不動點**，但**事件帳本本身已是**。
   - **Disposition**：屬 settlement-state 序列化缺陷，非 event-ledger 缺陷。
-    S4-C.1 只主張它實際證明的帳本範圍，其餘升為本 finding，不靜默吸收。待獨立 slice 處理。
-* **S4-D — Traits**：謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
+    S4-C.1 只主張它實際證明的帳本範圍，其餘升為本 finding，不靜默吸收。
+* **S4-C.2 — Snapshot Numeric Canonicality**：**CURRENT 🟡**
+  - **本切片只回答一題**：整個 authoritative `WorldState` 經過 Save → Load 後，
+    能不能重新得到同一個 canonical state——型別、數值與後續 simulation 語意皆然。
+  - **不追求「JSON 數字原始字串完全一樣」**。那是工具行為。真正要鎖的是：
+    `Domain type → serialized representation → loaded domain type` 必須一致
+    （`42` 不得變成 `42.0`）。
+  - **嚴禁啟發式修數字**：不做 `recursive_fix_all_numbers()`，不得看到 `3.0` 就猜它是 int。
+    還原必須由 **domain schema 決定**，猜測等同以臆測覆寫 domain 真相。
+  - **嚴禁 save 時偷偷 round**：若 authoritative float 需要量化，必須發生在**狀態提交點**
+    （`calculate → canonicalize → commit authoritative state → save`），
+    使 runtime world 與 persisted world 只有一套真相。Save 只是忠實記錄。
+    此與 S4-C.1 於 `record_event()` 正規化 payload 為同一條紀律。
+  - **N0 先於一切**：precision policy **不得在證據存在之前選定**。
+  - **驗收 Gate（N0 ~ N6）**：
+    - **N0 Numeric Classification**：對每個 affected field 取得證據——declared domain type、
+      是否影響下一 tick（AUTHORITATIVE SIMULATION STATE vs OBSERVATIONAL / ACCOUNTING ONLY）、
+      值如何產生（加法 / 乘法 / 除法 / carry accumulation）、是否存在合法小數、
+      JSON round-trip 實際變化、該變化會否使 Day N+1 分叉。
+      已知受影響欄位至少：`production_credits`、`disorder_loss_credits`、
+      `cumulative_disorder_loss`、`last_need_outcomes`。
+    - **N1 Full Snapshot Fixed Point**：非空真實世界 snapshot `save→load→save` canonical hash 一致。
+    - **N2 Schema-aware Type Restoration**：int / float / 容器元素型別按 schema 正確恢復。
+    - **N3 Authoritative Float Canonicality**：真正參與 simulation 的 float 具明確 canonical policy。
+    - **N4 Interrupted vs Uninterrupted Continuation**：**本切片核心 Gate**。
+      World A 不中斷跑 Day 0 → 100；World B 跑至 Day 50 後 save / load 再續跑至 Day 100。
+      兩者之 settlement / caravan / refugee / NPC identity / life state / profile /
+      event ledger / numeric credits / final canonical hash **全部必須相同**。
+      **N4 FAIL 則本切片不算完成**，即使 N1 的 hash 看起來漂亮。
+    - **N5 Negative / Malformed Snapshot**：不合法 numeric representation **fail closed，不猜型別**。
+      schema 宣告 `requested: int` 卻收到 `3.7` → `INVALID_DOMAIN_NUMERIC_TYPE`，
+      嚴禁 `int(3.7) → 3` 後裝沒事。`3.0` 是否可 canonicalize 為 int `3`，
+      須於 N0 明確拍板，不得由 implementation 自行猜測。`NaN` / `Inf` / `-Inf` 若 domain 不允許，一律拒絕。
+    - **N6 Independent Verification / Regression**：Godot suites + Python validator +
+      governance drift + 全回歸 PASS。
+* **S4-D — Traits**：**WAIT**（阻擋於 S4-C.2 之後）謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
 * **S4-E — Aptitude Schema**：戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。
   背景是否提供 action eligibility，由此時已驗證的 gameplay 動詞決定，**不得由 S4-C 預先定義**。

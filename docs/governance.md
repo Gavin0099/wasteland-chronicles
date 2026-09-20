@@ -90,6 +90,18 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 * **序列化不動點要求**：帳本必須滿足 save → load → save 恆等。若持久化格式會改寫數值形態，
   則必須在**提交當下**正規化，使記憶體形態與持久化形態一致；否則每次存讀都在重寫歷史。
 
+### 11.2 持久化邊界透明性公理 (Persistence Boundary Transparency Axiom)
+* **Save / Load 必須是 simulation 的透明邊界。**中斷後續跑的世界，與從未中斷的世界，
+  在同一天必須得到完全相同的 authoritative state——存讀不得造成時間分叉。
+* **型別權威來自 schema，不來自序列化後的值。**還原時嚴禁由序列化值反推 domain type
+  （看到 `3.0` 就猜它是 int）。以臆測覆寫 domain 真相，比原本的序列化缺陷更危險。
+* **正規化發生在狀態提交點，不發生在存檔時。**
+  $$\text{calculate} \longrightarrow \text{canonicalize} \longrightarrow \text{commit authoritative state} \longrightarrow \text{save}$$
+  若於存檔時才修飾數值，runtime world 與 persisted world 將成為兩套真相。
+  Save 的職責只是**忠實記錄**權威狀態。
+* **不合法之數值表徵 Fail-Closed**：違反 domain 宣告之數值（型別不符、`NaN`、`Inf`）
+  一律拒絕載入，嚴禁靜默轉型後照常運行。
+
 ### 12. 決定論身份永久不可變公理 (Immutable Deterministic Identity Axiom)
 * NPC ID 必須依據世界狀態中單調遞增之計數器（`next_npc_sequence`）確定性鑄造（如 `npc:00000001`）。嚴禁隨機數或時間戳。
 * 序號納入快照，且**永久不可復用**（NPC 死亡亦作廢不重發）。
@@ -131,7 +143,8 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 | **S4-B** | **G1.5-B2**| **生命週期原子防護：真實個體遷移/死亡雙重計數原子一致性驗證、Aggregate 不得挑選具名個體（Fail-Closed）** | **CLOSED ✅** |
 | **S4-C** | **G1.5-B3**| **背景傳記惰性防護：封閉列舉、寫入後不可變、僅限存活個體、零行為授權、模擬惰性 bitwise 反事實** | **CLOSED ✅** |
 | **S4-C.1**| **G1.5-B4**| **歷史事實權威：committed event ledger 完整持久化、derived count、非空 round-trip 決定論** | **CLOSED ✅** |
-| **S4-D** | **G1.5-B3**| **特質（Traits）：純決定論客觀效果** | 🟡 NEXT |
+| **S4-C.2**| **G1.5-B5**| **持久化邊界透明性：schema-aware 型別還原、authoritative float canonicality、存讀不造成世界分叉** | 🟡 CURRENT |
+| **S4-D** | **G1.5-B3**| **特質（Traits）：純決定論客觀效果** | WAIT |
 | **S4-F** | **G2-lite** | NPC 自主行為授權、閉環決策審計證據、動態行為邊界鎖 | 規劃中 |
 | **S5** | **G2** | 玩家與隊伍行為授權、存檔重播驗證、可驗證的世界歷程 | 規劃中 |
 | **S6** | **G2+** | 死亡繼承傳承、世界記憶跨代傳承不變量 | 規劃中 |
