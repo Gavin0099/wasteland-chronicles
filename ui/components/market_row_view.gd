@@ -26,24 +26,24 @@ func _init(p_key: String = "water", p_icon: String = "💧", p_display_name: Str
 	size_flags_horizontal = SIZE_EXPAND_FILL
 
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#181A1F")
-	style.border_color = Color("#22252B")
+	style.bg_color = Color("#171A21")
+	style.border_color = Color("#2D3545")
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(2)
-	style.content_margin_left = 8
-	style.content_margin_top = 4
-	style.content_margin_right = 8
-	style.content_margin_bottom = 4
+	style.content_margin_left = 10
+	style.content_margin_top = 5
+	style.content_margin_right = 10
+	style.content_margin_bottom = 5
 	add_theme_stylebox_override("panel", style)
 
 	var hbox := HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 10)
+	hbox.add_theme_constant_override("separation", 12)
 	add_child(hbox)
 
 	# Name + Icon
 	lbl_name = Label.new()
 	lbl_name.text = "%s %s" % [p_icon, p_display_name]
-	lbl_name.custom_minimum_size = Vector2(90, 0)
+	lbl_name.custom_minimum_size = Vector2(105, 0)
 	lbl_name.add_theme_color_override("font_color", Color("#D8D3C8"))
 	hbox.add_child(lbl_name)
 
@@ -51,20 +51,20 @@ func _init(p_key: String = "water", p_icon: String = "💧", p_display_name: Str
 	lbl_stock = Label.new()
 	lbl_stock.text = "庫存: 0"
 	lbl_stock.custom_minimum_size = Vector2(65, 0)
-	lbl_stock.add_theme_color_override("font_color", Color("#96938B"))
+	lbl_stock.add_theme_color_override("font_color", Color("#8B949E"))
 	hbox.add_child(lbl_stock)
 
-	# Buy Price
+	# Buy Price + Trend
 	lbl_buy = Label.new()
 	lbl_buy.text = "買入 $0"
-	lbl_buy.custom_minimum_size = Vector2(60, 0)
+	lbl_buy.custom_minimum_size = Vector2(65, 0)
 	lbl_buy.add_theme_color_override("font_color", Color("#D9822B"))
 	hbox.add_child(lbl_buy)
 
 	# Sell Price
 	lbl_sell = Label.new()
 	lbl_sell.text = "賣出 $0"
-	lbl_sell.custom_minimum_size = Vector2(60, 0)
+	lbl_sell.custom_minimum_size = Vector2(65, 0)
 	lbl_sell.add_theme_color_override("font_color", Color("#D8D3C8"))
 	hbox.add_child(lbl_sell)
 
@@ -73,25 +73,24 @@ func _init(p_key: String = "water", p_icon: String = "💧", p_display_name: Str
 	lbl_trend.text = "—"
 	lbl_trend.custom_minimum_size = Vector2(25, 0)
 	lbl_trend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl_trend.add_theme_color_override("font_color", Color("#96938B"))
+	lbl_trend.add_theme_color_override("font_color", Color("#8B949E"))
 	hbox.add_child(lbl_trend)
 
 	# Player Qty
 	lbl_player_qty = Label.new()
-	lbl_player_qty.text = "持: 0"
-	lbl_player_qty.custom_minimum_size = Vector2(50, 0)
-	lbl_player_qty.add_theme_color_override("font_color", Color("#96938B"))
+	lbl_player_qty.text = "持有: 0"
+	lbl_player_qty.custom_minimum_size = Vector2(60, 0)
+	lbl_player_qty.add_theme_color_override("font_color", Color("#58A6FF"))
 	hbox.add_child(lbl_player_qty)
 
-	# Buy Button
+	# Action Buttons
 	btn_buy = Button.new()
-	btn_buy.text = "[買入 1]"
+	btn_buy.text = "[ 買入 ]"
 	btn_buy.pressed.connect(func(): buy_requested.emit(commodity_key))
 	hbox.add_child(btn_buy)
 
-	# Sell Button
 	btn_sell = Button.new()
-	btn_sell.text = "[賣出 1]"
+	btn_sell.text = "[ 賣出 ]"
 	btn_sell.pressed.connect(func(): sell_requested.emit(commodity_key))
 	hbox.add_child(btn_sell)
 

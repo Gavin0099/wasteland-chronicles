@@ -14,11 +14,11 @@ extends Control
 
 signal node_selected(settlement_id: String)
 
-# Node normalized positions (relative to panel bounds)
+# Node normalized positions (aligned with wasteland sector illustration)
 const NODE_POSITIONS := {
-	"settlement:gray_valley": Vector2(0.26, 0.42),
-	"settlement:dry_well": Vector2(0.62, 0.36),
-	"settlement:new_hope": Vector2(0.76, 0.75)
+	"settlement:gray_valley": Vector2(0.28, 0.28),
+	"settlement:dry_well": Vector2(0.68, 0.36),
+	"settlement:new_hope": Vector2(0.86, 0.69)
 }
 
 const ROUTES := [
@@ -42,6 +42,8 @@ const ROUTES := [
 	}
 ]
 
+var map_texture: Texture2D = null
+
 var destinations: Array = []
 var player_info: Dictionary = {}
 var selected_settlement_id: String = "settlement:gray_valley"
@@ -52,6 +54,15 @@ func _init() -> void:
 	custom_minimum_size = Vector2(360, 320)
 	size_flags_horizontal = SIZE_EXPAND_FILL
 	size_flags_vertical = SIZE_EXPAND_FILL
+	_load_map_texture()
+
+func _load_map_texture() -> void:
+	var path := "res://ui/assets/wasteland_map_bg.jpg"
+	var global_path := ProjectSettings.globalize_path(path)
+	if FileAccess.file_exists(global_path):
+		var img := Image.load_from_file(global_path)
+		if img != null:
+			map_texture = ImageTexture.create_from_image(img)
 
 func update_map_data(p_destinations: Array, p_player: Dictionary, p_selected_id: String) -> void:
 	destinations = p_destinations
@@ -93,27 +104,20 @@ func _draw() -> void:
 	if w < 10 or h < 10:
 		return
 
-	# 1. Base Substrate & Grid (#121316 base, #181A1F grid)
-	draw_rect(Rect2(0, 0, w, h), Color("#121316"))
-
-	var grid_step := 32.0
-	var grid_color := Color("#191B20")
-	var x := 0.0
-	while x < w:
-		draw_line(Vector2(x, 0), Vector2(x, h), grid_color, 1.0)
-		x += grid_step
-	var y := 0.0
-	while y < h:
-		draw_line(Vector2(0, y), Vector2(w, y), grid_color, 1.0)
-		y += grid_step
+	# 1. Base Wasteland Map Artwork
+	if map_texture != null:
+		draw_texture_rect(map_texture, Rect2(0, 0, w, h), false)
+		# Subtle vignette overlay
+		draw_rect(Rect2(0, 0, w, h), Color(0.05, 0.06, 0.08, 0.15))
+	else:
+		draw_rect(Rect2(0, 0, w, h), Color("#121316"))
 
 	# Tactical Outer Frame & Compass Rose (Top Left)
 	draw_rect(Rect2(0, 0, w, h), Color("#2A2D35"), false, 1.0)
-	_draw_compass(Vector2(40, 40))
 
 	# Tactical Subtitle
 	var default_font := ThemeDB.fallback_font
-	draw_string(default_font, Vector2(16, h - 14), "SECTOR TACTICAL MAP — S5 EXPLORATION", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("#686A70"))
+	draw_string(default_font, Vector2(16, h - 14), "廢土地圖 SECTOR TACTICAL MAP — S5 EXPLORATION", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("#D8D3C8"))
 
 	# 2. Draw Routes (Roads)
 	for r_variant in ROUTES:
@@ -128,9 +132,9 @@ func _draw() -> void:
 				is_route_active = true
 
 		# Road casing
-		draw_line(p1, p2, Color("#15171C"), 5.0)
+		draw_line(p1, p2, Color(0.08, 0.09, 0.11, 0.8), 5.0)
 		# Road core line
-		var line_color := Color("#D9822B") if is_route_active else Color("#3A3F4B")
+		var line_color := Color("#D9822B") if is_route_active else Color(0.85, 0.82, 0.75, 0.65)
 		draw_line(p1, p2, line_color, 2.0)
 
 		# Route label at midpoint
@@ -138,9 +142,9 @@ func _draw() -> void:
 		var label_text: String = route["label"]
 		var label_size := default_font.get_string_size(label_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
 		var badge_rect := Rect2(mid.x - (label_size.x * 0.5) - 4, mid.y - 14, label_size.x + 8, 16)
-		draw_rect(badge_rect, Color("#181A1F"))
-		draw_rect(badge_rect, Color("#2A2D35"), false, 1.0)
-		draw_string(default_font, Vector2(mid.x - (label_size.x * 0.5), mid.y - 2), label_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#96938B"))
+		draw_rect(badge_rect, Color(0.08, 0.09, 0.11, 0.85))
+		draw_rect(badge_rect, Color("#454A55"), false, 1.0)
+		draw_string(default_font, Vector2(mid.x - (label_size.x * 0.5), mid.y - 2), label_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#D8D3C8"))
 
 	# 3. Draw Settlement Nodes
 	var cur_cont_id: String = player_info.get("current_container_id", "")
@@ -155,7 +159,7 @@ func _draw() -> void:
 
 		# Outer highlight ring if selected or hovered
 		if is_selected:
-			draw_arc(node_pos, 18.0, 0, TAU, 32, Color("#D9822B"), 2.0)
+			draw_arc(node_pos, 18.0, 0, TAU, 32, Color("#D9822B"), 2.5)
 		elif is_hovered:
 			draw_arc(node_pos, 16.0, 0, TAU, 24, Color("#454A55"), 1.5)
 
@@ -166,14 +170,17 @@ func _draw() -> void:
 		draw_arc(node_pos, 11.0, 0, TAU, 24, base_border, 2.0)
 		draw_circle(node_pos, 4.0, base_border)
 
-		# Node Name & Status Tag
+		# Node Name Pill with dark translucent backing for 100% crisp legibility over painted art
 		var clean_name: String = node_id.replace("settlement:", "").replace("_", " ").capitalize()
 		var name_str := clean_name
 		if is_here:
 			name_str += " [LIVE]"
-		var name_color := Color("#39D353") if is_here else (Color("#D9822B") if is_selected else Color("#D8D3C8"))
-		var n_size := default_font.get_string_size(name_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 12)
-		draw_string(default_font, Vector2(node_pos.x - (n_size.x * 0.5), node_pos.y + 24), name_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 12, name_color)
+		var name_color := Color("#39D353") if is_here else (Color("#D9822B") if is_selected else Color("#F0ECE1"))
+		var n_size := default_font.get_string_size(name_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 11)
+		var pill_rect := Rect2(node_pos.x - (n_size.x * 0.5) - 6, node_pos.y + 14, n_size.x + 12, 18)
+		draw_rect(pill_rect, Color(0.08, 0.09, 0.11, 0.85))
+		draw_rect(pill_rect, base_border, false, 1.0)
+		draw_string(default_font, Vector2(node_pos.x - (n_size.x * 0.5), node_pos.y + 27), name_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 11, name_color)
 
 	# 4. Draw Player Marker (Settled vs In-Transit)
 	if is_in_transit:
@@ -197,9 +204,12 @@ func _draw_settled_marker(font: Font, node_id: String) -> void:
 	draw_colored_polygon(pts, Color("#58A6FF"))
 	draw_polyline(pts, Color("#D8D3C8"), 1.0)
 
-	var label_str := "YOU (HERE)"
+	var label_str := "你 YOU"
 	var l_size := font.get_string_size(label_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
-	draw_string(font, Vector2(marker_pos.x - (l_size.x * 0.5), marker_pos.y - 8), label_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#58A6FF"))
+	var badge_rect := Rect2(marker_pos.x - (l_size.x * 0.5) - 5, marker_pos.y - 22, l_size.x + 10, 16)
+	draw_rect(badge_rect, Color(0.08, 0.12, 0.18, 0.9))
+	draw_rect(badge_rect, Color("#58A6FF"), false, 1.0)
+	draw_string(font, Vector2(marker_pos.x - (l_size.x * 0.5), marker_pos.y - 10), label_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#58A6FF"))
 
 func _draw_in_transit_marker(font: Font) -> void:
 	var route_key: String = player_info.get("current_container_id", "")

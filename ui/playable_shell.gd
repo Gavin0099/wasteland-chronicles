@@ -54,6 +54,7 @@ var lbl_hud_commodities: Label
 var lbl_settlement_title: Label
 var lbl_settlement_details: Label
 var lbl_warning_banner: Label
+var settlement_banner_rect: TextureRect
 var pb_water: ProgressBar
 var pb_food: ProgressBar
 var pb_security: ProgressBar
@@ -467,13 +468,8 @@ func _build_ui_layout_if_needed() -> void:
 	map_vbox.add_theme_constant_override("separation", 6)
 	map_panel.add_child(map_vbox)
 
-	# Map Header
-	var map_header := HBoxContainer.new()
-	var map_title := Label.new()
-	map_title.text = "--- [ 世界地圖 SECTOR MAP ] ---"
-	map_title.add_theme_color_override("font_color", Color("#D9822B"))
-	map_header.add_child(map_title)
-	map_vbox.add_child(map_header)
+	# Distressed Slate-Blue Window Header
+	map_vbox.add_child(_create_window_header("世界地圖 SECTOR MAP", "🗺"))
 
 	# CanvasItem World Map View
 	world_map_view = WorldMapView.new()
@@ -505,6 +501,20 @@ func _build_ui_layout_if_needed() -> void:
 	var s_vbox := VBoxContainer.new()
 	s_vbox.add_theme_constant_override("separation", 6)
 	s_panel.add_child(s_vbox)
+
+	# Window Header
+	s_vbox.add_child(_create_window_header("定居點情報 SETTLEMENT INTEL", "🏠"))
+
+	# Settlement Environment Artwork Banner
+	settlement_banner_rect = TextureRect.new()
+	settlement_banner_rect.custom_minimum_size = Vector2(0, 115)
+	settlement_banner_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	var banner_global := ProjectSettings.globalize_path("res://ui/assets/gray_valley_banner.jpg")
+	if FileAccess.file_exists(banner_global):
+		var img := Image.load_from_file(banner_global)
+		if img != null:
+			settlement_banner_rect.texture = ImageTexture.create_from_image(img)
+	s_vbox.add_child(settlement_banner_rect)
 
 	var s_header_box := HBoxContainer.new()
 	s_header_box.add_theme_constant_override("separation", 8)
@@ -576,10 +586,7 @@ func _build_ui_layout_if_needed() -> void:
 	market_panel.add_theme_constant_override("separation", 4)
 	m_panel.add_child(market_panel)
 
-	var market_header := Label.new()
-	market_header.text = "--- [ 交易市場 MARKETPLACE ] ---"
-	market_header.add_theme_color_override("font_color", Color("#D9822B"))
-	market_panel.add_child(market_header)
+	market_panel.add_child(_create_window_header("交易市場 MARKETPLACE", "🛒"))
 
 	var commodities_spec := [
 		{"key": "water", "icon": "💧", "name": "水 (WATER)"},
@@ -616,10 +623,7 @@ func _build_ui_layout_if_needed() -> void:
 	res_vbox.add_theme_constant_override("separation", 6)
 	res_panel.add_child(res_vbox)
 
-	var res_header := Label.new()
-	res_header.text = "--- [ 生存資源 SURVIVAL RESOURCES & ACTIONS ] ---"
-	res_header.add_theme_color_override("font_color", Color("#D9822B"))
-	res_vbox.add_child(res_header)
+	res_vbox.add_child(_create_window_header("生存物資與行動 SURVIVAL DOCK", "🎒"))
 
 	var chips_hbox := HBoxContainer.new()
 	chips_hbox.add_theme_constant_override("separation", 6)
@@ -637,7 +641,7 @@ func _build_ui_layout_if_needed() -> void:
 
 	# Action Dock: WAIT button
 	btn_wait = Button.new()
-	btn_wait.text = "[ 原地等待 — 推進 1 天 ]"
+	btn_wait.text = "[WAIT 1 DAY]"
 	btn_wait.custom_minimum_size = Vector2(0, 32)
 	btn_wait.pressed.connect(func(): on_wait_pressed())
 	res_vbox.add_child(btn_wait)
@@ -652,10 +656,7 @@ func _build_ui_layout_if_needed() -> void:
 	feed_vbox.add_theme_constant_override("separation", 4)
 	feed_panel.add_child(feed_vbox)
 
-	var feed_header := Label.new()
-	feed_header.text = "--- [ DEBUG WORLD FEED ] ---"
-	feed_header.add_theme_color_override("font_color", Color("#D9822B"))
-	feed_vbox.add_child(feed_header)
+	feed_vbox.add_child(_create_window_header("廢土電台廣播與日誌 WASTELAND RADIO & FIELD LOG", "📻"))
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = SIZE_EXPAND_FILL
@@ -664,3 +665,36 @@ func _build_ui_layout_if_needed() -> void:
 	event_feed_container = VBoxContainer.new()
 	event_feed_container.size_flags_horizontal = SIZE_EXPAND_FILL
 	scroll.add_child(event_feed_container)
+
+func _create_window_header(title_text: String, icon_str: String = "") -> PanelContainer:
+	var header_panel := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#1D2533") # Distressed industrial slate-blue
+	style.border_color = Color("#344158")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(2)
+	style.content_margin_left = 8
+	style.content_margin_top = 4
+	style.content_margin_right = 8
+	style.content_margin_bottom = 4
+	header_panel.add_theme_stylebox_override("panel", style)
+
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 6)
+	header_panel.add_child(hbox)
+
+	var lbl := Label.new()
+	lbl.text = ("%s %s" % [icon_str, title_text]).strip_edges()
+	lbl.add_theme_color_override("font_color", Color("#D8D3C8"))
+	lbl.add_theme_font_size_override("font_size", 12)
+	lbl.size_flags_horizontal = SIZE_EXPAND_FILL
+	hbox.add_child(lbl)
+
+	# Retro decorative window controls [_] [□] [X]
+	var controls_lbl := Label.new()
+	controls_lbl.text = "— □ ✕"
+	controls_lbl.add_theme_color_override("font_color", Color("#6C7A9C"))
+	controls_lbl.add_theme_font_size_override("font_size", 11)
+	hbox.add_child(controls_lbl)
+
+	return header_panel
