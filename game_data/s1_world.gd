@@ -16,6 +16,7 @@ static func create_s1_world() -> WorldState:
 		100, 80, 8.0, 10.0,
 		60, 40, 16.0, 20.0
 	)
+	new_hope.set_population_and_rates(120, 0.05, 1.0 / 30.0, 4, 2)
 	world.add_settlement(new_hope)
 
 	# 2. 灰谷 (工業廢料中心 - 產廢料，缺水/糧/燃料)
@@ -29,6 +30,7 @@ static func create_s1_world() -> WorldState:
 		80, 80, 15.0, 12.0,
 		100, 40, 8.0, 20.0
 	)
+	gray_valley.set_population_and_rates(100, 0.05, 0.04, 4, 2)
 	world.add_settlement(gray_valley)
 
 	# 3. 乾井 (燃料精煉中心 - 產燃料，缺水/糧/廢料)
@@ -42,6 +44,7 @@ static func create_s1_world() -> WorldState:
 		60, 60, 15.0, 15.0,
 		50, 100, 14.0, 10.0
 	)
+	dry_well.set_population_and_rates(80, 0.05, 0.05, 2, 3)
 	world.add_settlement(dry_well)
 
 	# 4. 三角互補商隊網絡

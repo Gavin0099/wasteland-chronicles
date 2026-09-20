@@ -21,10 +21,12 @@ func tick(world: WorldState) -> Array[EventRecord]:
 	sorted_caravan_ids.sort()
 
 	# -------------------------------------------------------------
-	# 階段 1: 各聚落消耗資源 (Consumption)
+	# 階段 1: 聚落生存消耗 (Settlement Survival Consumption)
 	# -------------------------------------------------------------
 	for s_id in sorted_settlement_ids:
 		var settlement: SettlementState = world.settlements[s_id]
+		# S3-A: 動態由人口規模與人均代謝率計算今日生存消耗
+		settlement.update_consumption_from_metabolism()
 		for res in COMMODITIES:
 			var cur := settlement.inventory.get_amount(res)
 			var con := settlement.consumption.get_amount(res)
@@ -344,6 +346,14 @@ func validate_invariants(world: WorldState) -> String:
 			var price := s.get_current_price(res)
 			if price <= 0.0 or is_nan(price) or is_inf(price):
 				return "Settlement %s has invalid %s price: %f" % [s.id, res, price]
+
+		# S3-A 人口與代謝率不變量檢驗
+		if s.population < 0:
+			return "Settlement %s has negative population: %d" % [s.id, s.population]
+		if is_nan(s.metabolism_water_rate) or is_inf(s.metabolism_water_rate) or s.metabolism_water_rate < 0.0:
+			return "Settlement %s has invalid metabolism_water_rate: %f" % [s.id, s.metabolism_water_rate]
+		if is_nan(s.metabolism_food_rate) or is_inf(s.metabolism_food_rate) or s.metabolism_food_rate < 0.0:
+			return "Settlement %s has invalid metabolism_food_rate: %f" % [s.id, s.metabolism_food_rate]
 
 	for c_id in world.caravans:
 		var c: CaravanState = world.caravans[c_id]

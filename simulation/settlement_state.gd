@@ -9,6 +9,13 @@ var inventory: ResourceState
 var production: ResourceState
 var consumption: ResourceState
 
+# S3-A 人口與生理代謝率 (Population & Biological Metabolism)
+var population: int = 0
+var metabolism_water_rate: float = 0.05
+var metabolism_food_rate: float = 0.04
+var maintenance_scrap: int = 0
+var maintenance_fuel: int = 0
+
 # 目標安全庫存與基準價格
 var target_water: int = 100
 var target_food: int = 100
@@ -105,6 +112,39 @@ func get_deficit(res_name: String) -> int:
 	var tgt := get_target(res_name)
 	return maxi(0, tgt - cur)
 
+# S3-A 人口生理代謝需求動態推導 (無聚落身份特判)
+func get_biological_demand(resource: StringName) -> int:
+	if resource == &"water":
+		return int(round(float(population) * metabolism_water_rate))
+	elif resource == &"food":
+		return int(round(float(population) * metabolism_food_rate))
+	return 0
+
+func update_consumption_from_metabolism() -> void:
+	if consumption == null:
+		consumption = ResourceState.new()
+	if population > 0:
+		consumption.water = get_biological_demand(&"water")
+		consumption.food = get_biological_demand(&"food")
+	if maintenance_scrap > 0:
+		consumption.scrap = maintenance_scrap
+	if maintenance_fuel > 0:
+		consumption.fuel = maintenance_fuel
+
+func set_population_and_rates(
+	p_pop: int,
+	p_water_rate: float,
+	p_food_rate: float,
+	p_maint_scrap: int = 0,
+	p_maint_fuel: int = 0
+) -> void:
+	population = p_pop
+	metabolism_water_rate = p_water_rate
+	metabolism_food_rate = p_food_rate
+	maintenance_scrap = p_maint_scrap
+	maintenance_fuel = p_maint_fuel
+	update_consumption_from_metabolism()
+
 func duplicate_state() -> SettlementState:
 	var copy := SettlementState.new(
 		id,
@@ -125,6 +165,11 @@ func duplicate_state() -> SettlementState:
 	copy.price_food = price_food
 	copy.price_scrap = price_scrap
 	copy.price_fuel = price_fuel
+	copy.population = population
+	copy.metabolism_water_rate = metabolism_water_rate
+	copy.metabolism_food_rate = metabolism_food_rate
+	copy.maintenance_scrap = maintenance_scrap
+	copy.maintenance_fuel = maintenance_fuel
 	return copy
 
 func to_dict() -> Dictionary:
@@ -134,6 +179,11 @@ func to_dict() -> Dictionary:
 		"inventory": inventory.to_dict(),
 		"production": production.to_dict(),
 		"consumption": consumption.to_dict(),
+		"population": population,
+		"metabolism_water_rate": snapped(metabolism_water_rate, 0.0001),
+		"metabolism_food_rate": snapped(metabolism_food_rate, 0.0001),
+		"maintenance_scrap": maintenance_scrap,
+		"maintenance_fuel": maintenance_fuel,
 		"target_water": target_water,
 		"target_food": target_food,
 		"target_scrap": target_scrap,
@@ -168,4 +218,9 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.price_food = float(data.get("price_food", s.base_price_food))
 	s.price_scrap = float(data.get("price_scrap", s.base_price_scrap))
 	s.price_fuel = float(data.get("price_fuel", s.base_price_fuel))
+	s.population = int(data.get("population", 0))
+	s.metabolism_water_rate = float(data.get("metabolism_water_rate", 0.05))
+	s.metabolism_food_rate = float(data.get("metabolism_food_rate", 0.04))
+	s.maintenance_scrap = int(data.get("maintenance_scrap", 0))
+	s.maintenance_fuel = int(data.get("maintenance_fuel", 0))
 	return s
