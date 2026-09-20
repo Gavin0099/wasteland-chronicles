@@ -23,6 +23,11 @@ var food_pressure: float = 0.0
 # S3-C 難民遷徙冷卻記錄 (Durable State)
 var days_since_last_migration: int = 999
 
+# S3-D 生理匱乏暴露累積與累積死亡 (Deprivation Exposure & Mortality - Durable State)
+var water_exposure: float = 0.0
+var food_exposure: float = 0.0
+var cumulative_deaths: int = 0
+
 # 每日需求會計觀測記錄 (Transient Tick Evidence - 非持久化世界狀態)
 var last_need_outcomes: Dictionary = {}
 
@@ -183,6 +188,9 @@ func duplicate_state() -> SettlementState:
 	copy.water_pressure = water_pressure
 	copy.food_pressure = food_pressure
 	copy.days_since_last_migration = days_since_last_migration
+	copy.water_exposure = water_exposure
+	copy.food_exposure = food_exposure
+	copy.cumulative_deaths = cumulative_deaths
 	copy.last_need_outcomes = last_need_outcomes.duplicate(true)
 	return copy
 
@@ -201,6 +209,9 @@ func to_dict() -> Dictionary:
 		"water_pressure": snapped(water_pressure, 0.01),
 		"food_pressure": snapped(food_pressure, 0.01),
 		"days_since_last_migration": days_since_last_migration,
+		"water_exposure": snapped(water_exposure, 0.01),
+		"food_exposure": snapped(food_exposure, 0.01),
+		"cumulative_deaths": cumulative_deaths,
 		"target_water": target_water,
 		"target_food": target_food,
 		"target_scrap": target_scrap,
@@ -243,4 +254,7 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.water_pressure = float(data.get("water_pressure", 0.0))
 	s.food_pressure = float(data.get("food_pressure", 0.0))
 	s.days_since_last_migration = int(data.get("days_since_last_migration", 999))
+	s.water_exposure = float(data.get("water_exposure", 0.0))
+	s.food_exposure = float(data.get("food_exposure", 0.0))
+	s.cumulative_deaths = int(data.get("cumulative_deaths", 0))
 	return s

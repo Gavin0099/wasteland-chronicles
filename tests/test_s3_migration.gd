@@ -6,6 +6,7 @@ func _init() -> void:
 	print("================================================================================")
 
 	var engine := SimulationEngine.new()
+	engine.enable_mortality = false # S3-C 嚴格守護非目標邊界：No Mortality (S3-D)
 
 	# --------------------------------------------------------------------------
 	# GATE C1: Conservation of Population (全域人口在每一 Tick 嚴格守恆)
@@ -211,9 +212,11 @@ func _init() -> void:
 	# --------------------------------------------------------------------------
 	# GATE C7: Determinism Replay & Full Regression Pass
 	# --------------------------------------------------------------------------
-	print("\n--- [GATE C7] Determinism Replay & Regression Pass ---")
+	print("\n--- [GATE C7] Determinism Replay & Full Regression Pass ---")
 	var engine_a := SimulationEngine.new()
 	var engine_b := SimulationEngine.new()
+	engine_a.enable_mortality = false
+	engine_b.enable_mortality = false
 	var run_a := S1WorldData.create_s1_world()
 	var run_b := S1WorldData.create_s1_world()
 

@@ -22,6 +22,14 @@ const DEFAULT_MIGRATION_ROUTE_DAYS: int = 3
 
 var enable_migration: bool = true
 
+# S3-D 生理匱乏暴露與極限死亡規則 (Simulation Rules - State != Rules)
+const WATER_EXPOSURE_GRACE_DAYS: float = 6.0
+const FOOD_EXPOSURE_GRACE_DAYS: float = 18.0
+const DEPRIVATION_RECOVERY_RATE: float = 1.0
+const MORTALITY_BASE_RATE: float = 0.05
+
+var enable_mortality: bool = true
+
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
@@ -74,7 +82,22 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				}
 				apply_need_pressure(settlement, res, con, fulfilled, unmet)
 
-		# S3-C 難民遷徙觸發判定 (Refugee Migration Trigger)
+		# S3-D 生理匱乏暴露時長累積與恢復 (Deprivation Exposure)
+		if settlement.last_need_outcomes.has("water"):
+			var w_out: Dictionary = settlement.last_need_outcomes["water"]
+			if w_out["unmet"] > 0 and w_out["requested"] > 0:
+				settlement.water_exposure += float(w_out["unmet"]) / float(w_out["requested"])
+			else:
+				settlement.water_exposure = maxf(0.0, settlement.water_exposure - DEPRIVATION_RECOVERY_RATE)
+
+		if settlement.last_need_outcomes.has("food"):
+			var f_out: Dictionary = settlement.last_need_outcomes["food"]
+			if f_out["unmet"] > 0 and f_out["requested"] > 0:
+				settlement.food_exposure += float(f_out["unmet"]) / float(f_out["requested"])
+			else:
+				settlement.food_exposure = maxf(0.0, settlement.food_exposure - DEPRIVATION_RECOVERY_RATE)
+
+		# S3-C 難民遷徙觸發判定 (Refugee Migration Trigger - 遷徙優先於死亡)
 		var eff_pressure := maxf(settlement.water_pressure, settlement.food_pressure)
 		if enable_migration and eff_pressure >= MIGRATION_PRESSURE_THRESHOLD and settlement.days_since_last_migration >= MIGRATION_COOLDOWN_DAYS and settlement.population > MIGRATION_MIN_POPULATION:
 			var headcount := maxi(1, int(floor(float(settlement.population) * MIGRATION_POPULATION_RATIO)))
@@ -114,6 +137,45 @@ func tick(world: WorldState) -> Array[EventRecord]:
 					)
 					tick_events.append(depart_evt)
 					world.record_event(depart_evt)
+
+		# S3-D 極限生理死亡判定 (Mortality Trigger - 作用於遷徙後留存人口 Post-migration Population)
+		if enable_mortality and settlement.population > 0:
+			var daily_water_unmet: int = settlement.last_need_outcomes.get("water", {}).get("unmet", 0)
+			var daily_food_unmet: int = settlement.last_need_outcomes.get("food", {}).get("unmet", 0)
+
+			var water_fatal := daily_water_unmet > 0 and settlement.water_exposure > WATER_EXPOSURE_GRACE_DAYS
+			var food_fatal := daily_food_unmet > 0 and settlement.food_exposure > FOOD_EXPOSURE_GRACE_DAYS
+
+			var causes: Array[String] = []
+			if water_fatal:
+				causes.append("water")
+			if food_fatal:
+				causes.append("food")
+
+			if not causes.is_empty():
+				# 一天最多結算一次 deprivation mortality，使用 post-migration population 為基準
+				var post_migration_pop := settlement.population
+				var deaths := mini(post_migration_pop, maxi(1, int(floor(float(post_migration_pop) * MORTALITY_BASE_RATE))))
+				settlement.population -= deaths
+				settlement.cumulative_deaths += deaths
+
+				var mort_evt := EventRecord.new(
+					current_day,
+					"SETTLEMENT_MORTALITY",
+					settlement.id,
+					settlement.id,
+					{
+						"deaths": deaths,
+						"causes": causes,
+						"population_before": post_migration_pop,
+						"population_after": settlement.population,
+						"cumulative_deaths": settlement.cumulative_deaths,
+						"water_exposure": settlement.water_exposure,
+						"food_exposure": settlement.food_exposure
+					}
+				)
+				tick_events.append(mort_evt)
+				world.record_event(mort_evt)
 
 	# -------------------------------------------------------------
 	# 階段 2: 各聚落在地生產 (Optional Local Production)
@@ -546,6 +608,15 @@ func validate_invariants(world: WorldState) -> String:
 			return "Settlement %s has invalid food_pressure: %f" % [s.id, s.food_pressure]
 		if s.days_since_last_migration < 0:
 			return "Settlement %s has negative days_since_last_migration: %d" % [s.id, s.days_since_last_migration]
+
+		# S3-D 匱乏暴露時長與累積死亡不變量檢驗
+		if s.water_exposure < 0.0 or is_nan(s.water_exposure) or is_inf(s.water_exposure):
+			return "Settlement %s has invalid water_exposure: %f" % [s.id, s.water_exposure]
+		if s.food_exposure < 0.0 or is_nan(s.food_exposure) or is_inf(s.food_exposure):
+			return "Settlement %s has invalid food_exposure: %f" % [s.id, s.food_exposure]
+		if s.cumulative_deaths < 0:
+			return "Settlement %s has negative cumulative_deaths: %d" % [s.id, s.cumulative_deaths]
+
 		for r in ["water", "food"]:
 			if s.last_need_outcomes.has(r):
 				var o: Dictionary = s.last_need_outcomes[r]
@@ -582,18 +653,22 @@ func validate_invariants(world: WorldState) -> String:
 		if r.is_active and not r.is_arrived and r.days_remaining < 0:
 			return "Refugee party %s has negative days remaining: %d" % [r.id, r.days_remaining]
 
-	# S3-C 全域人類生命總量守恆不變量 (Conservation of Human Life)
-	var current_total_pop := 0
+	# S3-D 全域人類生命總量守恆不變量 (Living + In-Transit + Cumulative Deaths == Initial)
+	var current_living_pop := 0
+	var total_deaths := 0
 	for s_id in world.settlements:
-		current_total_pop += world.settlements[s_id].population
+		var s: SettlementState = world.settlements[s_id]
+		current_living_pop += s.population
+		total_deaths += s.cumulative_deaths
 	for r_id in world.refugees:
 		var r: RefugeePartyState = world.refugees[r_id]
 		if r.is_active and not r.is_arrived:
-			current_total_pop += r.headcount
+			current_living_pop += r.headcount
 
-	if world.total_initial_population >= 0 and current_total_pop != world.total_initial_population:
-		return "Global population conservation broken: current %d != initial %d" % [
-			current_total_pop, world.total_initial_population
+	var total_accounted := current_living_pop + total_deaths
+	if world.total_initial_population >= 0 and total_accounted != world.total_initial_population:
+		return "Global population conservation broken: living (%d) + deaths (%d) = %d != initial (%d)" % [
+			current_living_pop, total_deaths, total_accounted, world.total_initial_population
 		]
 
 	return ""

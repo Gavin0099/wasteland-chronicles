@@ -22,11 +22,11 @@ S3-C: Refugee Migration (難民逃難遷徙) [CLOSED ✅]
   └─ 問題：人會不會因為環境變差而離開？
   └─ 成果：實體荒原在途旅行 (Axiom 9)、全域人口嚴格守恆、閉環需求漣漪效應、理智目的地理性湧現。
   │
-S3-D: Mortality (極限生理死亡) [NEXT 🟡]
+S3-D: Mortality (極限生理死亡) [CLOSED ✅]
   └─ 問題：什麼情況下人才真的會死亡？
-  └─ 機制：長期嚴重匱乏且無法遷徙時才觸發死亡，非 water == 0 立即抹殺。
+  └─ 成果：匱乏暴露等效日 (Exposure)、逃難優先於死亡、遷徙下限非永生特權、全域人類生命守恆、恢復即刻阻斷。
   │
-S3-E: Labor (勞動力反饋) [PLANNED ⏳]
+S3-E: Labor (勞動力反饋) [NEXT 🟡]
   └─ 問題：人口下降會不會反過來影響生產？
   └─ 機制：population 決定聚落可用勞動力，勞力下降連帶重挫工業廢料/燃料產出。
   │
@@ -127,4 +127,46 @@ $$\text{pressure} = \max\left(0.0, \text{pressure} - \text{recovery\_rate}\right
 | **C5** | **Rational Destination Selection** | 灰谷難民在綠洲新希望與乾井之間自主評估選擇 | **PASS** | 湧向水源充沛的新希望，避開缺水乾井。 |
 | **C6** | **Invariant & Serialization** | 複製與序列化完全無損且確定 | **PASS** | `duplicate_state()` 與 `to_canonical_json()` 100% 一致。 |
 | **C7** | **Determinism & Regression** | 100 天決定論 SHA-256 回放一致，且全套迴歸測試全數通過 | **PASS** | SHA-256: `e75dacb...`；S0～S3-B 測試全部 Exit Code 0。 |
+
+---
+
+## 7. S3-D 專屬技術規格 (Mortality Spec - CLOSED ✅)
+
+### 7.1 核心設計原則
+1. **匱乏暴露等效日 (Equivalent Full-Deprivation Days)**：
+   - 拒絕 `water_pressure == 100` 即刻死人之飽和盲區。
+   - 每日依未滿足比例累加暴露量：$\text{exposure} += \frac{\text{unmet}}{\text{requested}}$。
+   - 當物資供應滿足（`unmet == 0`）時，暴露時長按每日 1.0 等效日退燒衰減。
+2. **致命資格雙重門檻 (Double Threshold for Mortality Eligibility)**：
+   - 生理死亡必須同時滿足：
+     $$\text{daily\_unmet} > 0 \quad \text{AND} \quad \text{exposure} > \text{GRACE\_DAYS}$$
+   - 斷水寬限期：`WATER_EXPOSURE_GRACE_DAYS = 6.0`。
+   - 斷糧寬限期：`FOOD_EXPOSURE_GRACE_DAYS = 18.0`。
+   - 當天 `unmet == 0` 時，致命資格立即解除，即使歷史暴露量仍高於寬限期，亦嚴禁死人。
+3. **每日單一結算與多重死因 (Single Settlement with Causes)**：
+   - 若水糧同時致命，當日僅結算一次死亡事件，並在事件載荷標註 `causes: ["water", "food"]`。
+4. **逃難優先與基數確定性 (Migration First on Post-Migration Population)**：
+   - 離散 Phase 1 順序：會計記帳 $\to$ 壓力累積 $\to$ 暴露累積 $\to$ 難民外移 $\to$ 極限生理死亡。
+   - 死亡人數以**外移後留存人口 (Post-Migration Population)** 為計算基準：
+     $$\text{deaths} = \min\left(\text{pop}, \max\left(1, \lfloor \text{pop} \times \text{MORTALITY\_BASE\_RATE} \rfloor\right)\right)$$
+   - `MORTALITY_BASE_RATE = 0.05` 明確標記為原型調校參數（Prototype Tuning Parameter）。
+5. **遷徙下限非永生特權 (Migration Floor $\neq$ Immortality Floor)**：
+   - 聚落人口降至 $\le 10$ 時遷徙停止，但極限乾旱持續時，死亡機制允許人口進一步降至 0。
+6. **全域人類生命守恆公理 (Global Conservation of Human Life)**：
+   $$\sum_{s} s.\text{population} + \sum_{r} r.\text{headcount} + \sum_{s} s.\text{cumulative\_deaths} \equiv \text{TOTAL\_INITIAL\_POPULATION (300)}$$
+
+---
+
+## 8. S3-D 七大 Hard Gates 驗收成果 (`tests/test_s3_mortality.gd`)
+
+| Gate # | 驗收項目 | 測試檢驗內容 | 實測結果 | 核心證明 |
+| :---: | :--- | :--- | :---: | :--- |
+| **D1** | **No Instant Death** | Day 42 首次水短缺（unmet > 0）當日，死亡人數嚴格為 0 | **PASS** | Exposure = 0.60, Cumulative Deaths = 0。 |
+| **D2** | **Duration Matters** | 暴露量 $\le 6.0$ 寬限期內，死亡人數嚴格為 0 | **PASS** | Day 47 累積暴露 5.6，死亡人數保持為 0。 |
+| **D3** | **Migration First** | Day 44 首波難民 10 人外移時，死亡人數為 0 | **PASS** | 能逃者先逃，逃難嚴格先於死亡。 |
+| **D4** | **Floor Separation** | 灰谷人口跌破遷徙下限（10 人）後，死亡持續發生 | **PASS** | Day 100 灰谷留存 9 人，累積死亡 44 人。 |
+| **D5** | **Conservation Invariant** | 100 天世界中每一 Tick，`living + transit + deaths == 300` | **PASS** | 300 人無一人憑空消失或增生。 |
+| **D6** | **Immediate Recovery Stop** | Day 62 到貨、Day 63 喝到水後，死亡立即凍結 | **PASS** | Day 63 死亡人數 31，Day 100 仍為 31（到貨後零新死亡）。 |
+| **D7** | **Determinism & Regression** | 100 天決定論 SHA-256 回放一致，且全套迴歸測試全數通過 | **PASS** | SHA-256: `60d7103...`；M0～S3-D 測試全部 Exit Code 0。 |
+
 
