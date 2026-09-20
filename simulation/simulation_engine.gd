@@ -1025,6 +1025,8 @@ func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -
 		return "PRECONDITION_CHANGED: origin settlement no longer exists"
 	if origin.population <= 0:
 		return "PRECONDITION_CHANGED: origin settlement has no population left"
+	if origin.population <= MIGRATION_MIN_POPULATION:
+		return "PRECONDITION_CHANGED: origin population at or below migration floor (%d)" % MIGRATION_MIN_POPULATION
 	if world.get_settlement(intent.destination_id) == null:
 		return "PRECONDITION_CHANGED: destination no longer exists"
 	return ""

@@ -16,8 +16,8 @@
 | **S1 — Living Economy** | 聚落為什麼需要彼此？ | 4 資源、聚落分工 (Specialization)、供需推導、自然貿易網 | **CLOSED ✅** |
 | **S2 — Fragility & Recovery**| 世界被破壞後會怎樣？ | 物流中斷、短缺、暴漲、恢復延遲與路徑依賴（三世界驗證） | **CLOSED ✅** |
 | **S3 — Human Ecology** | 人口會如何受世界影響？ | 人口代謝、短缺壓力、難民遷徙、生理死亡、勞動生產力反饋 | **CLOSED ✅** |
-| **S4 — Individual NPC Ecology**| 世界裡的人是不是「個體」？ | NPC 身份、生活狀態、背景、特質、潛能、自主決策 (無數值點數) | **CURRENT 🟡** |
-| **S5 — Player & Party** | 玩家怎麼成為世界裡的一個人？ | 玩家化身、動詞、屬性發現、技能、創角點數、同伴、專長、Perk | **PLANNED ⏳** |
+| **S4 — Individual NPC Ecology**| 世界裡的人是不是「個體」？ | NPC 身份、生活狀態、背景、特質、潛能、自主決策 (無數值點數) | **CLOSED ✅** |
+| **S5 — Player & Party** | 玩家怎麼成為世界裡的一個人？ | 玩家化身、Playable UI Shell、動詞驗證、經濟干預、世界反饋 | **CURRENT 🟡** |
 | **S6 — Roguelite Legacy** | 角色死亡後，世界還能延續嗎？ | 永久死亡、隊員繼承、裝備與名聲遺留、世界記憶、歷史存續 | **PLANNED ⏳** |
 | **S7 — Information Fog + UX**| 玩家如何認識世界？ | 真相/觀察/傳播/謠言/情報霧、ViewModel 隔離、Survivor PDA | **PLANNED ⏳** |
 | **S8 — Vertical Slice** | 這整套東西真的好玩嗎？ | 6 聚落、3 勢力、50~100 NPC、完整循環試玩 30~60 分鐘 | **PLANNED ⏳** |
@@ -310,41 +310,73 @@ Aptitudes  = 這個人可能比較容易學哪類事情
       F1 ~ F8 全數 PASS。實例：Mara 於 Day 13 依
       `RULE_SEVERE_LOCAL_DEPRIVATION` 自行決定離開灰谷前往新希望，
       經既有難民隊伍物理路徑上路，生命守恆 300 == 300。
-  * **S4-F2 — Autonomous Migration**：PENDING（decision → 物理出發 → 在途 → 物理抵達全程驗收）。
-  * **S4-F3 — Multi-NPC Determinism**：PENDING（規模化評估順序、容量與總量會計）。
-* **Finding**：`STRINGNAME_SORT_IS_NOT_LEXICOGRAPHIC` — **CONFIRMED 📌，S4-F1 已於決策階段規避**
-  - **Discovered by**：S4-F1 Gate F6（canonical evaluation order 檢查）
-  - **問題**：Godot 的 `StringName` 以**內部指標**比較，故
-    `[&"zeta", &"alpha", &"mid"].sort()` 得到 `[mid, alpha, zeta]`。
-    排序結果取決於記憶體配置順序，而非識別字內容。
-  - **S4-F1 處置**：決策階段改以 `String` 排序後再轉回 `StringName`，並於程式碼註明原因。
-  - **尚未處理的範圍**：引擎既有多處 `world.settlements.keys(); sort()` /
-    `world.caravans.keys(); sort()` 亦以 StringName 排序。實測目前三個聚落
-    *碰巧* 得到字典序，且同一 process 內順序穩定，因此既有測試與 artifact hash 未受影響；
-    但這是**巧合而非保證**，與 Axiom 5「任何環境下位元一致」的主張存在落差。
-  - **Disposition**：不在 S4-F1 擴大重構。記錄為 finding，待 Owner 裁定是否另開
-    hardening slice（影響面為全域迭代順序，屬 Persistence/Determinism 類，非 gameplay）。
-  背景是否提供 action eligibility，由此時已驗證的 gameplay 動詞決定，**不得由 S4-C 預先定義**。
-* **S4-G — NPC Relationships**：**PENDING**（自 S4-C 切出獨立成 Slice）。
-  關係圖是獨立的權威面：方向性、對稱性、死亡後是否保留、跨聚落與跨容器關係，
-  皆需各自的不變量與 fail-closed 規則，不應混入 Background metadata。
+  * **S4-F2 — Autonomous Migration**：**CLOSED ✅**
+    - **核心問題**：NPC 在自主決定遷徙後，能否完整走完「決策 → 物理出發 → 在途旅行 → 物理抵達入籍」的全生命週期？
+    - **六大驗收 Gate（F2-1 ~ F2-6）**：
+      - **F2-1 (Decision Chain)**：灰谷危機惡化，Mara 觀察到短缺壓力 $\ge 60.0$，自主產生 `MIGRATE` 意圖，授權通過，審計軌跡記錄 `COMMITTED`。
+      - **F2-2 (Atomic Departure)**：出發日 Gray Valley 人口 $-1$，Mara 進入 `RefugeePartyState`，生活狀態轉為 `IN_TRANSIT`，`days_remaining = route_days - 1`，途中不瞬移。
+      - **F2-3 (Axiom 9 Physical Arrival)**：嚴格遵守 $\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$（Day $13 + 3 - 1 = 15$），第 15 天抵達新希望，New Hope 人口 $+1$，Mara 轉為 `SETTLED`，帳本記錄 `NAMED_MIGRATION_COMPLETED`。
+      - **F2-4 (Mid-Route Persistence Equivalence / 核心驗收)**：半路存檔（Mara 在途時 SAVE → LOAD），載入後繼續旅行，**抵達日（Day 15）與不中斷運行的 World A 完全一致**，且 Day 25 全世界 Canonical JSON SHA-256 **位元完全一致**（`a8a48676...` == `a8a48676...`）。
+      - **F2-5 (Post-Arrival Continuity)**：抵達新希望後，Mara 成為安定居民，後續決策週期穩定選擇 `STAY`（`RULE_STAY_DEFAULT`），不無休止漂流；永久身份 `origin_settlement_id` 維持灰谷，所在容器維持新希望。
+      - **F2-6 (Global Invariants)**：全週期全域生命總量維持嚴格守恆（$300 == 300$），引擎不變量 100% 通過。
+    - **驗收成果**：[tests/test_s4_f2_migration.gd](file:///d:/wasteland-chronicles/tests/test_s4_f2_migration.gd) F2-1 ~ F2-6 全數 PASS，全專案 23 組測試套件 100% PASS。
+  * **S4-F3 — Multi-NPC Batch Determinism**：**CLOSED ✅**
+    - **核心問題**：多個具名 NPC 同一天看到同一份世界快照、各自做決策時，結果是否不受 Dictionary 插入順序、評估順序或前一人的 mutation 影響？
+    - **六大驗收 Gate（F3-1 ~ F3-6）**：
+      - **F3-1 (Shared Snapshot)**：同 phase 內所有 NPC 評估皆基於不可變快照，無觀察交錯修改。
+      - **F3-2 (Canonical Evaluation Order)**：嚴格依 `String(npc_id)` 字典序評估與提交，帳本事件嚴格保序。
+      - **F3-3 (Insertion Independence)**：正序、倒序、洗牌三種 Registry 插入順序運行 25 天後，世界快照 SHA-256 位元完全一致（`d2fa296e...`），決策審計軌跡亦位元完全一致（`3fbb3a67...`）。
+      - **F3-4 (Multi-Intent Revalidation / Case B: Contention)**：在接近人口底線（pop=12, floor=10）的世界中，3 名 NPC 同日決定 MIGRATE：`01` 提交成功（pop 12→11）並寫入帳本、`02` 提交成功（pop 11→10）並寫入帳本、`03` 重新驗證失敗（`PRECONDITION_CHANGED: origin population at or below migration floor (10)`）被 REJECTED；**被拒絕的 `03` 在世界事件帳本中嚴格產生 0 筆事件**（未提交意圖僅留存於審計軌跡，絕不寫入歷史事實）；5 次重播勝者與敗者 100% 相同。
+      - **F3-5 (Population & Transit Conservation / Case A: All Succeed)**：5 名 NPC 同日出發，組成 5 人難民隊伍，依 Axiom 9 航行 3 天後全數抵達新希望，世界生命守恆 300 == 300。
+      - **F3-6 (Replay / Save-Load Equivalence)**：連續運行 30 天 vs 第 14 天在途存檔重載，最終世界 Canonical SHA（`bcfd3261...`）與決策軌跡 SHA（`fcc35692...`）完全位元一致。
+    - **驗收成果**：[tests/test_s4_f3_batch_determinism.gd](file:///d:/wasteland-chronicles/tests/test_s4_f3_batch_determinism.gd) 全數 PASS，全專案 24 組測試套件 100% PASS。
+  * **S4 — Individual NPC Ecology 總結**：**CLOSED ✅ (Tag: `v0.0.1-s4`)**
+    - **核心問題已回答**：「世界裡的人是不是獨立存在？」——**YES**。
+    - NPC 具備完整四層架構：Identity（我是誰）、Life State（我在哪/生死）、Profile（過去背景/特質/天賦）、Decision（唯讀觀察/STAY與MIGRATE意圖/授權/物理行動/在途存檔不動點）。
+    - 實例已證明：灰谷危機 → Mara 自主察覺 → 決定離開 → 物理旅行 3 天（Axiom 9）→ 抵達新希望入籍 → 穩定生活。
+  * **S4-G — NPC Relationships**：**DEFERRED ⏸**（邊際效益低於讓玩家進入世界，先行延後）。
+  * **Trait Personality Effects**：**DEFERRED ⏸**（不硬加 personality weighting，先證明基本動作空間）。
+* **Finding**：`STRINGNAME_SORT_IS_NOT_LEXICOGRAPHIC` — **Status: RECORDED_DEBT 📌（Finding != Task，F3 驗證無分叉）**
+  - **處置裁定**：Gate F3-3 實測證明在多實體洗牌插入順序下，世界未發生跨 run 分叉。繼續保留為 technical debt finding，不形成 blocker。
 
 ---
 
-## S5 — Player & Party (玩家與隊伍)
+## S5 — Player & Party (玩家與隊伍：FIRST PLAYABLE 推進 🟡)
 
-從玩家動詞反推 RPG 系統，嚴禁憑空畫技能樹：
-* **S5-A — Player Avatar**：`identity, inventory, location, needs, money, reputation`（玩家是世界裡的普通人，無技能樹）。
-* **S5-B — Player Verbs**：驗證核心玩法動詞（Travel, Trade, Scavenge, Talk, Fight, Repair, Escort）。
-* **S5-C — Core Attribute Discovery**：由玩法動詞反推核心屬性（如 Body, Awareness, Mind, Presence 等，無 gameplay consequence 的屬性不存在）。
-* **S5-D — Skill System**：由 Verbs 衍生技能（Rifle, Melee, Survival, Trade, Mechanics, Medicine, Speech），採「使用型成長（Use-based Growth）」。
-* **S5-E — Character Creation & Point Allocation**：正式開放玩家點數分配（屬性點、背景、特質、天賦、起始技能）。
-* **S5-F — Companion Recruitment**：隊伍系統（玩家 + 0~3 名同伴），招募、離隊、槽位、生理需求與裝備。
-* **S5-G — Party Ecology**：隊伍規模的代價（戰力與負重增加 vs. 水糧消耗暴增與更高荒原成本）。
-* **S5-H — Companion Relationships**：隊員好感度、信任度、派系立場衝突（決定論響應，如屠殺平民扣好感）。
-* **S5-I — Party Roles**：隊伍功能分工（Scout, Medic, Mechanic, Negotiator, Gunner）。
-* **S5-J — Proficiencies**：專業專長（柴油引擎大修、野戰手術、水質淨化、黑犬幫暗號等特殊知識）。
-* **S5-K — Special Abilities / Perks**：解鎖全新機制或玩法規則的高級專長（能開新玩法者才作為 Perk）。
+核心轉折：從「世界模擬得夠不夠完整？」轉為「**我終於可以進去玩了嗎？**」。
+採用 G2-Lite 治理原則：**Human Input ≠ World State Mutation**，玩家無作弊 API，與 NPC 共享同一條物理與授權鏈（Human Input $\to$ Player Intent $\to$ Authorization $\to$ Simulation Commit）。
+
+* **S5-A — Player Avatar**：**CURRENT 🟡**
+  - 核心問題：玩家能不能成為這個世界中的一個普通人，而不是上帝視角？
+  - 資料模型：`Identity`, `Life State`, `Profile`, `Inventory`, `Money`, `Needs`。
+  - 統一架構：
+    ```text
+    NPC decision ─────┐
+                      ↓
+                    Intent
+                      ↓
+    Player input ─────┘
+                      ↓
+                Authorization
+                      ↓
+                 World State
+    ```
+* **S5-A.2 — Playable UI Shell**：
+  - 核心問題：玩家如何看得到世界與操作化身？
+  - 介面範疇：World Map、Settlement HUD、Intel/Events 面板、Basic Navigation。
+  - 結合 Wasteland Chronicles UI Skill 打造首個 World Map 錨點。
+* **S5-B — Player Verbs (核心動詞循環)**：
+  - **S5-B1 (Travel + Wait)**：玩家物理在地圖移動與等待時間流逝（遵守 Axiom 9，無瞬移）。
+  - **S5-B2 (Trade)**：玩家在聚落買賣物資，利用供需利差獲利或緩解短缺。
+  - **S5-B3 (Scavenge / Intervention)**：玩家在荒原搜刮並首次改變區域供需。
+* **★ FIRST PLAYABLE CHECKPOINT ★**：
+  - 停止新增系統，連續試玩 20~30 分鐘，驗證三大核心產品問題：
+    1. **我看得懂世界目前出了什麼問題嗎？**
+    2. **我會自己產生「我想去做某件事」的念頭嗎？**
+    3. **我做完之後，能看出世界真的因我改變嗎？**
+  - 三題皆為 YES，方才進入後續深度擴展。
+* **S5-C ~ S5-K — Depth Expansion (Playtest 通過後)**：
+  - Attributes, Skills, Character Creation, Companions, Perks, Relationships...
 
 ---
 
