@@ -7,6 +7,12 @@ const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
 
+# S3-B 生理短缺壓力規則 (Simulation Rules - State != Rules)
+const WATER_PRESSURE_GAIN_RATE: float = 25.0
+const WATER_PRESSURE_RECOVERY_RATE: float = 15.0
+const FOOD_PRESSURE_GAIN_RATE: float = 25.0
+const FOOD_PRESSURE_RECOVERY_RATE: float = 15.0
+
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
@@ -21,16 +27,29 @@ func tick(world: WorldState) -> Array[EventRecord]:
 	sorted_caravan_ids.sort()
 
 	# -------------------------------------------------------------
-	# 階段 1: 聚落生存消耗 (Settlement Survival Consumption)
+	# 階段 1: 聚落生存消耗與會計記帳 (Consumption & Demand Accounting)
 	# -------------------------------------------------------------
 	for s_id in sorted_settlement_ids:
 		var settlement: SettlementState = world.settlements[s_id]
 		# S3-A: 動態由人口規模與人均代謝率計算今日生存消耗
 		settlement.update_consumption_from_metabolism()
+		settlement.last_need_outcomes.clear()
+
 		for res in COMMODITIES:
 			var cur := settlement.inventory.get_amount(res)
 			var con := settlement.consumption.get_amount(res)
-			settlement.inventory.set_amount(res, maxi(0, cur - con))
+			var fulfilled := mini(cur, con)
+			var unmet := con - fulfilled
+			settlement.inventory.set_amount(res, cur - fulfilled)
+			if res == &"water" or res == &"food":
+				settlement.last_need_outcomes[String(res)] = {
+					"stock_before": cur,
+					"requested": con,
+					"fulfilled": fulfilled,
+					"unmet": unmet,
+					"stock_after": cur - fulfilled
+				}
+				apply_need_pressure(settlement, res, con, fulfilled, unmet)
 
 	# -------------------------------------------------------------
 	# 階段 2: 各聚落在地生產 (Optional Local Production)
@@ -335,6 +354,28 @@ func restore_caravan(
 	world.record_event(restore_evt)
 	return restore_evt
 
+# S3-B 生理短缺壓力規則應用 (State != Rules)
+func apply_need_pressure(settlement: SettlementState, resource: StringName, requested: int, fulfilled: int, unmet: int) -> void:
+	if settlement.population <= 0:
+		if resource == &"water":
+			settlement.water_pressure = 0.0
+		elif resource == &"food":
+			settlement.food_pressure = 0.0
+		return
+
+	if resource == &"water":
+		if requested > 0 and unmet > 0:
+			var unmet_ratio := float(unmet) / float(requested)
+			settlement.water_pressure = minf(100.0, settlement.water_pressure + unmet_ratio * WATER_PRESSURE_GAIN_RATE)
+		else:
+			settlement.water_pressure = maxf(0.0, settlement.water_pressure - WATER_PRESSURE_RECOVERY_RATE)
+	elif resource == &"food":
+		if requested > 0 and unmet > 0:
+			var unmet_ratio := float(unmet) / float(requested)
+			settlement.food_pressure = minf(100.0, settlement.food_pressure + unmet_ratio * FOOD_PRESSURE_GAIN_RATE)
+		else:
+			settlement.food_pressure = maxf(0.0, settlement.food_pressure - FOOD_PRESSURE_RECOVERY_RATE)
+
 # 不變量檢查函式
 func validate_invariants(world: WorldState) -> String:
 	for s_id in world.settlements:
@@ -354,6 +395,19 @@ func validate_invariants(world: WorldState) -> String:
 			return "Settlement %s has invalid metabolism_water_rate: %f" % [s.id, s.metabolism_water_rate]
 		if is_nan(s.metabolism_food_rate) or is_inf(s.metabolism_food_rate) or s.metabolism_food_rate < 0.0:
 			return "Settlement %s has invalid metabolism_food_rate: %f" % [s.id, s.metabolism_food_rate]
+
+		# S3-B 短缺壓力與需求會計不變量檢驗
+		if s.water_pressure < 0.0 or s.water_pressure > 100.0 or is_nan(s.water_pressure) or is_inf(s.water_pressure):
+			return "Settlement %s has invalid water_pressure: %f" % [s.id, s.water_pressure]
+		if s.food_pressure < 0.0 or s.food_pressure > 100.0 or is_nan(s.food_pressure) or is_inf(s.food_pressure):
+			return "Settlement %s has invalid food_pressure: %f" % [s.id, s.food_pressure]
+		for r in ["water", "food"]:
+			if s.last_need_outcomes.has(r):
+				var o: Dictionary = s.last_need_outcomes[r]
+				if o["requested"] != o["fulfilled"] + o["unmet"]:
+					return "Settlement %s %s accounting broken: %d != %d + %d" % [
+						s.id, r, o["requested"], o["fulfilled"], o["unmet"]
+					]
 
 	for c_id in world.caravans:
 		var c: CaravanState = world.caravans[c_id]

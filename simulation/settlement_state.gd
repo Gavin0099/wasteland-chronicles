@@ -16,6 +16,13 @@ var metabolism_food_rate: float = 0.04
 var maintenance_scrap: int = 0
 var maintenance_fuel: int = 0
 
+# S3-B 生理短缺壓力 (Basic Needs Pressure - Durable State)
+var water_pressure: float = 0.0
+var food_pressure: float = 0.0
+
+# 每日需求會計觀測記錄 (Transient Tick Evidence - 非持久化世界狀態)
+var last_need_outcomes: Dictionary = {}
+
 # 目標安全庫存與基準價格
 var target_water: int = 100
 var target_food: int = 100
@@ -170,6 +177,9 @@ func duplicate_state() -> SettlementState:
 	copy.metabolism_food_rate = metabolism_food_rate
 	copy.maintenance_scrap = maintenance_scrap
 	copy.maintenance_fuel = maintenance_fuel
+	copy.water_pressure = water_pressure
+	copy.food_pressure = food_pressure
+	copy.last_need_outcomes = last_need_outcomes.duplicate(true)
 	return copy
 
 func to_dict() -> Dictionary:
@@ -184,6 +194,8 @@ func to_dict() -> Dictionary:
 		"metabolism_food_rate": snapped(metabolism_food_rate, 0.0001),
 		"maintenance_scrap": maintenance_scrap,
 		"maintenance_fuel": maintenance_fuel,
+		"water_pressure": snapped(water_pressure, 0.01),
+		"food_pressure": snapped(food_pressure, 0.01),
 		"target_water": target_water,
 		"target_food": target_food,
 		"target_scrap": target_scrap,
@@ -223,4 +235,6 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.metabolism_food_rate = float(data.get("metabolism_food_rate", 0.04))
 	s.maintenance_scrap = int(data.get("maintenance_scrap", 0))
 	s.maintenance_fuel = int(data.get("maintenance_fuel", 0))
+	s.water_pressure = float(data.get("water_pressure", 0.0))
+	s.food_pressure = float(data.get("food_pressure", 0.0))
 	return s
