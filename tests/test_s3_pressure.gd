@@ -190,8 +190,11 @@ func _init() -> void:
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE B6] Shadow Non-Interference Verification ---")
 	# 運行雙軌世界：World 1 正常計算壓力；World 2 在 Phase 1 結束後強制清零壓力
-	# 檢驗無論 pressure 為何值，在 S3-B 純生理觀測模式下 (migration 關閉)，100 天內所有經濟投影完全 bitwise identical!
+	# 檢驗無論 pressure 為何值，在 S3-B 純生理觀測模式下，100 天內所有經濟投影完全 bitwise identical!
 	engine.enable_migration = false
+	engine.enable_mortality = false
+	engine.enable_labor = false
+	engine.enable_security = false
 	var world_p1 := S1WorldData.create_s1_world()
 	var world_p2 := S1WorldData.create_s1_world()
 

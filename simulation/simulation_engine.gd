@@ -40,6 +40,19 @@ const LABOR_SENSITIVITY: Dictionary = {
 
 var enable_labor: bool = true
 
+# S3-F 社會秩序與商路掠奪規則 (Social Order & Route Predation Rules - State != Rules)
+const CIVIC_CAPACITY_DRAG_RATE: float = 3.0
+const DESPERATION_DRAG_RATE: float = 5.0
+const SECURITY_RECOVERY_RATE: float = 2.0
+const DISORDER_LOSS_THRESHOLD: float = 40.0
+const DISORDER_LOSS_RATE: float = 0.05
+const ROUTE_RISK_THRESHOLD: float = 40.0
+const TRANSIT_PREDATION_RATE: float = 0.10
+
+var enable_security: bool = true
+var enable_disorder_loss: bool = true
+var enable_transit_predation: bool = true
+
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
@@ -63,6 +76,11 @@ func tick(world: WorldState) -> Array[EventRecord]:
 
 	var sorted_caravan_ids := world.caravans.keys()
 	sorted_caravan_ids.sort()
+
+	# S3-F 日初治安快照 (Start-of-Day Security Snapshot 確保因果傳導延遲性)
+	var start_of_day_security: Dictionary = {}
+	for s_id in sorted_settlement_ids:
+		start_of_day_security[s_id] = world.settlements[s_id].security
 
 	# -------------------------------------------------------------
 	# 階段 1: 聚落生存消耗與會計記帳 (Consumption & Demand Accounting)
@@ -217,6 +235,16 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				settlement.inventory.set_amount(res, cur + prod)
 
 	# -------------------------------------------------------------
+	# 階段 2.5: 在地秩序損耗 (Local Disorder Loss - 使用日初治安快照)
+	# -------------------------------------------------------------
+	if enable_security and enable_disorder_loss:
+		for s_id in sorted_settlement_ids:
+			var settlement: SettlementState = world.settlements[s_id]
+			var sec: float = start_of_day_security.get(s_id, 100.0)
+			if sec < DISORDER_LOSS_THRESHOLD:
+				apply_settlement_disorder_loss(settlement, sec, current_day, tick_events, world)
+
+	# -------------------------------------------------------------
 	# 階段 3: 重新計算市場報價 (Price Recalculation)
 	# -------------------------------------------------------------
 	for s_id in sorted_settlement_ids:
@@ -246,6 +274,38 @@ func tick(world: WorldState) -> Array[EventRecord]:
 		if caravan.is_active and not caravan.is_destroyed and caravan.days_remaining <= 0:
 			var dest: SettlementState = world.get_settlement(caravan.destination_id)
 			if dest != null:
+				# S3-F 商路危險度與在途物流掠奪判定 (Route Risk & Transit Predation - 每 leg 一次結算)
+				var orig_sec: float = start_of_day_security.get(caravan.origin_id, 100.0)
+				var dest_sec: float = start_of_day_security.get(caravan.destination_id, 100.0)
+				var route_risk: float = ((100.0 - orig_sec) + (100.0 - dest_sec)) / 2.0
+
+				if enable_security and enable_transit_predation and route_risk >= ROUTE_RISK_THRESHOLD:
+					var lost_cargo: Dictionary = {}
+					for res in COMMODITIES:
+						var cargo_amt := caravan.cargo.get_amount(res)
+						if cargo_amt > 0:
+							var toll: int = maxi(1, int(floor(float(cargo_amt) * TRANSIT_PREDATION_RATE)))
+							toll = mini(toll, cargo_amt)
+							caravan.cargo.add_amount(res, -toll)
+							lost_cargo[res] = toll
+					if lost_cargo.size() > 0:
+						var predation_evt := EventRecord.new(
+							current_day,
+							"TRANSIT_PREDATION",
+							caravan.id,
+							dest.id,
+							{
+								"route_risk": route_risk,
+								"origin": String(caravan.origin_id),
+								"destination": String(caravan.destination_id),
+								"lost": lost_cargo,
+								"cause_class": "low_security",
+								"cargo_after": caravan.cargo.to_dict()
+							}
+						)
+						tick_events.append(predation_evt)
+						world.record_event(predation_evt)
+
 				# 1. 卸貨轉移入庫
 				var unloaded_payload: Dictionary = {}
 				for res in COMMODITIES:
@@ -330,6 +390,15 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				)
 				tick_events.append(arrival_evt)
 				world.record_event(arrival_evt)
+
+	# -------------------------------------------------------------
+	# 階段 5.5: 聚落治安更新 (Security Update - 根據今日人口/壓力產生明日治安)
+	# -------------------------------------------------------------
+	if enable_security:
+		for s_id in sorted_settlement_ids:
+			var settlement: SettlementState = world.settlements[s_id]
+			if settlement.reference_population > 0:
+				update_settlement_security(settlement)
 
 	# -------------------------------------------------------------
 	# 階段 6: 不變量驗證 (Invariant Validation)
@@ -610,6 +679,70 @@ func get_route_days_between(world: WorldState, origin_id: StringName, dest_id: S
 			return c.route_days
 	return DEFAULT_MIGRATION_ROUTE_DAYS
 
+# S3-F 聚落治安度動態更新 (Security Dynamics - Civic Capacity & Needs Desperation)
+func update_settlement_security(settlement: SettlementState) -> void:
+	if settlement.reference_population <= 0:
+		return
+
+	var civic_capacity_ratio: float = clampf(float(settlement.population) / float(settlement.reference_population), 0.0, 1.0)
+	var civic_capacity_drag: float = (1.0 - civic_capacity_ratio) * CIVIC_CAPACITY_DRAG_RATE
+	var max_pressure: float = maxf(settlement.water_pressure, settlement.food_pressure)
+	var desperation_drag: float = (max_pressure / 100.0) * DESPERATION_DRAG_RATE
+
+	var total_drag: float = civic_capacity_drag + desperation_drag
+	if total_drag > 0.0:
+		settlement.security = maxf(0.0, settlement.security - total_drag)
+	elif civic_capacity_ratio >= 0.8 and max_pressure == 0.0:
+		settlement.security = minf(100.0, settlement.security + SECURITY_RECOVERY_RATE)
+
+# S3-F 在地秩序損耗判定 (Local Disorder Loss - 確定性小數累加器)
+func apply_settlement_disorder_loss(
+	settlement: SettlementState,
+	snapshot_security: float,
+	current_day: int,
+	tick_events: Array[EventRecord],
+	world: WorldState
+) -> void:
+	var lost: Dictionary = {}
+	for res in [&"scrap", &"fuel"]:
+		var res_str := String(res)
+		var stock: int = settlement.inventory.get_amount(res_str)
+		if stock > 0:
+			var current_credit: float = settlement.disorder_loss_credits.get(res_str, 0.0)
+			current_credit += float(stock) * DISORDER_LOSS_RATE
+			var to_remove: int = int(floor(current_credit + 1e-9))
+			current_credit = maxf(0.0, current_credit - float(to_remove))
+			settlement.disorder_loss_credits[res_str] = current_credit
+
+			if to_remove > 0:
+				to_remove = mini(to_remove, stock)
+				settlement.inventory.add_amount(res_str, -to_remove)
+				settlement.cumulative_disorder_loss[res_str] = settlement.cumulative_disorder_loss.get(res_str, 0) + to_remove
+				lost[res_str] = to_remove
+
+	if lost.size() > 0:
+		var loss_evt := EventRecord.new(
+			current_day,
+			"DISORDER_LOSS",
+			settlement.id,
+			settlement.id,
+			{
+				"security": snapshot_security,
+				"lost": lost,
+				"inventory_after": settlement.inventory.to_dict()
+			}
+		)
+		tick_events.append(loss_evt)
+		world.record_event(loss_evt)
+
+# S3-F 兩聚落間商路危險度推導 (Route Risk Derivation)
+func calculate_route_risk(world: WorldState, origin_id: StringName, dest_id: StringName) -> float:
+	var orig: SettlementState = world.get_settlement(origin_id)
+	var dest: SettlementState = world.get_settlement(dest_id)
+	var orig_sec: float = orig.security if orig != null else 100.0
+	var dest_sec: float = dest.security if dest != null else 100.0
+	return ((100.0 - orig_sec) + (100.0 - dest_sec)) / 2.0
+
 # 不變量檢查函式
 func validate_invariants(world: WorldState) -> String:
 	for s_id in world.settlements:
@@ -661,6 +794,18 @@ func validate_invariants(world: WorldState) -> String:
 			var credit: float = s.production_credits.get(res, 0.0)
 			if credit < 0.0 or is_nan(credit) or is_inf(credit) or credit >= 1.0 + 1e-5:
 				return "Settlement %s has invalid production_credit for %s: %f" % [s.id, res, credit]
+
+		# S3-F 治安度與在地秩序損耗不變量檢驗
+		if s.security < 0.0 or s.security > 100.0 or is_nan(s.security) or is_inf(s.security):
+			return "Settlement %s has invalid security: %f" % [s.id, s.security]
+		for res in COMMODITIES:
+			var credit: float = s.disorder_loss_credits.get(res, 0.0)
+			if credit < 0.0 or is_nan(credit) or is_inf(credit) or credit >= 1.0 + 1e-5:
+				return "Settlement %s has invalid disorder_loss_credit for %s: %f" % [s.id, res, credit]
+		for res in s.cumulative_disorder_loss:
+			var loss_amt: int = s.cumulative_disorder_loss[res]
+			if loss_amt < 0:
+				return "Settlement %s has negative cumulative_disorder_loss for %s: %d" % [s.id, res, loss_amt]
 
 	for c_id in world.caravans:
 		var c: CaravanState = world.caravans[c_id]

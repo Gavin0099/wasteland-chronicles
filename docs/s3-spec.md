@@ -223,5 +223,52 @@ $$\text{pressure} = \max\left(0.0, \text{pressure} - \text{recovery\_rate}\right
 | **E6** | **Regional Ripple** | 比較 World B 勞動力開關：人口崩落反噬區域供應鏈 | **PASS** | Day 100 灰谷廢料庫存：無勞動力 557 vs 有勞動力 98（暴跌 -459 廢料），新希望廢料斷供降至 1。 |
 | **E7** | **Full Regression Pass** | 全不變量檢驗通過，且 M0~S3-E 全 11 個測試套件全綠 | **PASS** | Invariants 嚴格維持，全套 11 測試套件 Exit Code 0。 |
 
+---
+
+## 10. Slice 3-F: Social Order & Route Predation (治安動態、在地損耗與商路掠奪)
+
+### 10.1 核心問題
+> **「當聚落人口崩落、水糧長期匱乏時，社會秩序是否會自然瓦解？衰退聚落與其周邊商路是否會自發湧現危險，進一步反噬物流與庫存？」**
+
+### 10.2 關鍵架構決策與實作規範 (Level G1 Governance)
+
+1. **治安劣化雙重動態 (Civic Capacity & Needs Desperation)**：
+   - **公共秩序維繫力赤字（Civic Capacity Drag）**：
+     $$\text{civic\_capacity\_ratio} = \text{clamp}\left(\frac{\text{population}}{\text{reference\_population}}, 0.0, 1.0\right)$$
+     $$\text{civic\_capacity\_drag} = (1.0 - \text{civic\_capacity\_ratio}) \times 3.0$$
+   - **生存短缺絕望感（Desperation Drag）**：
+     $$\text{desperation\_drag} = \left(\frac{\max(\text{water\_pressure}, \text{food\_pressure})}{100.0}\right) \times 5.0$$
+   - **自然恢復語意**：僅當 $\text{civic\_capacity\_ratio} \ge 0.8$ 且生存壓力為 0 時，治安以每日 +2.0 回升。
+   - **核心洞見**：**物質恢復 $\neq$ 秩序恢復（Material Recovery $\neq$ Social Recovery）**。人口跌至 9 人的廢棄聚落，即使供水恢復，因缺乏足夠人口組織看守，治安仍維持崩潰狀態。
+
+2. **因果時序與延遲性 (Phase Ordering Causal Latency)**：
+   - Tick 開始時取得 `start_of_day_security` 快照，用於判定今日之在地秩序損耗與商路掠奪。
+   - 今日的人口變動與需求短缺，於 Phase 5.5 結算產生明日生效之治安度。
+   - 杜絕「早上死人、下午倉庫立刻遭竊、同日商隊在途立刻被搶」的超距瞬時傳導。
+
+3. **在地秩序損耗 (Local Disorder Loss - Deterministic Fractional Accumulator)**：
+   - 當 $\text{security} < 40.0$ 時，內部失序導致貴重物資（scrap、fuel）流失。
+   - 採用 `disorder_loss_credits` 小數累加器，按 5% 嚴格確定性扣減，徹底消除整數盲區。
+   - 發布事件：`EventRecord("DISORDER_LOSS")`。
+
+4. **商路危險度推導與在途物流掠奪 (Route Risk & Transit Predation)**：
+   - **純衍生危險度 (Stateless Derived Risk)**：
+     $$\text{route\_risk} = \frac{(100.0 - \text{security}_{\text{origin}}) + (100.0 - \text{security}_{\text{dest}})}{2.0}$$
+   - **每趟航程結算一次 (Once Per Leg)**：於抵達目的地進城前結算掠奪（損失 10% 貨物），避免隨航程天數累乘放大。
+   - **中立實體守護**：無 NPC Bandit/Raider，僅記錄客觀現象 `EventRecord("TRANSIT_PREDATION", cause_class: "low_security")`。
+
+### 10.3 驗收標準 (Hard Gates F1 ~ F7)
+
+| Gate # | 項目 | 檢驗標準 | 結果 | 關鍵證據 |
+| :---: | :--- | :--- | :---: | :--- |
+| **F1** | **Baseline Stability** | 常態 30 天三聚落治安維持 100.0，無損耗無掠奪 | **PASS** | 30 天內治安 100.0，disorder loss = 0，transit predations = 0。 |
+| **F2** | **Causal Degradation** | 灰谷遭遇乾旱與人口流失後，治安單調遞減破 40 | **PASS** | Day 30 100.0 $\to$ Day 41 100.0 $\to$ Day 50 87.9 $\to$ Day 60 27.5。 |
+| **F3** | **Recovery Semantics** | 受控充足人口聚落平滑恢復；灰谷（9 人）物質恢復 $\neq$ 秩序恢復 | **PASS** | 受控聚落治安 60 $\to$ 70（+2.0/日）；灰谷供水恢復後治安維持 0.0。 |
+| **F4** | **Local Disorder Loss** | 僅 Security < 40 觸發確定性 5% 損耗，健康聚落嚴格為 0 | **PASS** | 灰谷累積損耗 172 廢料、69 燃料；新希望與乾井損耗為 0。 |
+| **F5** | **Derived Route Risk** | 商路危險度純函數推導，安全商路為 0，灰谷商路精確推導 | **PASS** | 新希望-乾井風險 0.0；灰谷-乾井風險 40.0。 |
+| **F6** | **Transit Predation** | 每 leg 嚴格一次結算，安全商路 0 損失，危險商路依率扣減 | **PASS** | 新希望-乾井商隊 0 劫掠；灰谷-乾井商隊遭 14 次在途掠奪。 |
+| **F7** | **Determinism & Invariants** | 雙軌回放 SHA-256 吻合，全 12 個測試套件全綠 | **PASS** | 全套 12 測試套件 Exit Code 0，SHA-256 位元級重播。 |
+
+
 
 

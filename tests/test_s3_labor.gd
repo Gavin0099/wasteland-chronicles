@@ -6,6 +6,7 @@ func _init() -> void:
 	print("================================================================================")
 
 	var engine := SimulationEngine.new()
+	engine.enable_security = false # S3-E 守護非目標邊界：No Security (S3-F)
 
 	# --------------------------------------------------------------------------
 	# GATE E1: Baseline Equivalence (When Pop == RefPop, 100% Bitwise Match)
@@ -16,6 +17,7 @@ func _init() -> void:
 
 	var engine_nolabor := SimulationEngine.new()
 	engine_nolabor.enable_labor = false
+	engine_nolabor.enable_security = false
 
 	# 執行 30 天未受衝擊之常態世界
 	for day in range(1, 31):

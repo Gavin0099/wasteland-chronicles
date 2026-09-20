@@ -32,6 +32,11 @@ var water_exposure: float = 0.0
 var food_exposure: float = 0.0
 var cumulative_deaths: int = 0
 
+# S3-F 聚落治安度與在地秩序損耗統計 (Security & Local Disorder Loss - Durable State)
+var security: float = 100.0
+var disorder_loss_credits: Dictionary = {}
+var cumulative_disorder_loss: Dictionary = {}
+
 # 每日需求會計觀測記錄 (Transient Tick Evidence - 非持久化世界狀態)
 var last_need_outcomes: Dictionary = {}
 
@@ -199,6 +204,9 @@ func duplicate_state() -> SettlementState:
 	copy.water_exposure = water_exposure
 	copy.food_exposure = food_exposure
 	copy.cumulative_deaths = cumulative_deaths
+	copy.security = security
+	copy.disorder_loss_credits = disorder_loss_credits.duplicate(true)
+	copy.cumulative_disorder_loss = cumulative_disorder_loss.duplicate(true)
 	copy.last_need_outcomes = last_need_outcomes.duplicate(true)
 	return copy
 
@@ -222,6 +230,9 @@ func to_dict() -> Dictionary:
 		"water_exposure": snapped(water_exposure, 0.01),
 		"food_exposure": snapped(food_exposure, 0.01),
 		"cumulative_deaths": cumulative_deaths,
+		"security": snapped(security, 0.01),
+		"disorder_loss_credits": disorder_loss_credits.duplicate(true),
+		"cumulative_disorder_loss": cumulative_disorder_loss.duplicate(true),
 		"target_water": target_water,
 		"target_food": target_food,
 		"target_scrap": target_scrap,
@@ -272,4 +283,10 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.water_exposure = float(data.get("water_exposure", 0.0))
 	s.food_exposure = float(data.get("food_exposure", 0.0))
 	s.cumulative_deaths = int(data.get("cumulative_deaths", 0))
+	s.security = float(data.get("security", 100.0))
+	var raw_disorder_credits: Dictionary = data.get("disorder_loss_credits", {})
+	s.disorder_loss_credits = {}
+	for k in raw_disorder_credits:
+		s.disorder_loss_credits[k] = float(raw_disorder_credits[k])
+	s.cumulative_disorder_loss = data.get("cumulative_disorder_loss", {}).duplicate(true)
 	return s

@@ -6,6 +6,11 @@ func _init() -> void:
 	print("================================================================================")
 
 	var engine := SimulationEngine.new()
+	# S2-E 守護切片邊界：純物流與物理恢復，不包含 S3 人口生態系統
+	engine.enable_migration = false
+	engine.enable_mortality = false
+	engine.enable_labor = false
+	engine.enable_security = false
 
 	# --------------------------------------------------------------------------
 	# 1. 執行 World A (Baseline 基準世界 - 120 天)
