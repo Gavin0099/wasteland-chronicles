@@ -498,6 +498,11 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				update_settlement_security(settlement)
 
 	# -------------------------------------------------------------
+	# 階段 5.4: 玩家化身生理需求處理 (S5-A Player Personal Needs)
+	# -------------------------------------------------------------
+	process_player_daily_needs(world, current_day, tick_events)
+
+	# -------------------------------------------------------------
 	# 階段 5.5: 正規數值提交 (S4-C.2 Canonical Numeric Commit)
 	# -------------------------------------------------------------
 	# The day's physics are finished; commit the authoritative state in the form
@@ -1252,4 +1257,224 @@ func validate_invariants(world: WorldState) -> String:
 		if rec_err != "":
 			return "S4-C.1 L3: events[%d] (%s) is not persistable: %s" % [i, rec.type, rec_err]
 
+	# S5-A Player Avatar invariants
+	if world.player != null:
+		var p: PlayerState = world.player
+		if not world.npc_registry.has_npc(p.npc_id):
+			return "S5-A: Player npc_id %s not in npc_registry" % p.npc_id
+		if not world.npc_life_state_registry.has_life_state(p.npc_id):
+			return "S5-A: Player npc_id %s has no life state" % p.npc_id
+		if p.money < 0:
+			return "S5-A: Player has negative money: %d" % p.money
+		if p.capacity_total <= 0:
+			return "S5-A: Player has non-positive capacity: %d" % p.capacity_total
+		if p.inventory != null:
+			if p.get_total_inventory_load() > p.capacity_total:
+				return "S5-A: Player inventory exceeds capacity (%d > %d)" % [
+					p.get_total_inventory_load(), p.capacity_total
+				]
+			for res in COMMODITIES:
+				if p.inventory.get_amount(res) < 0:
+					return "S5-A: Player has negative %s: %d" % [res, p.inventory.get_amount(res)]
+		if p.water_pressure < 0.0 or p.water_pressure > 100.0 or is_nan(p.water_pressure) or is_inf(p.water_pressure):
+			return "S5-A: Player has invalid water_pressure: %f" % p.water_pressure
+		if p.food_pressure < 0.0 or p.food_pressure > 100.0 or is_nan(p.food_pressure) or is_inf(p.food_pressure):
+			return "S5-A: Player has invalid food_pressure: %f" % p.food_pressure
+
 	return ""
+
+# ==============================================================================
+# S5-A: PLAYER AVATAR ARCHITECTURE & LIFECYCLE
+# ==============================================================================
+
+func process_player_daily_needs(world: WorldState, current_day: int, tick_events: Array[EventRecord]) -> void:
+	if world.player == null:
+		return
+
+	var p: PlayerState = world.player
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(p.npc_id)
+	if ls == null or not ls.is_alive():
+		return
+
+	# If IN_TRANSIT, consumption must come from personal backpack
+	if ls.status == NpcLifeState.Status.IN_TRANSIT:
+		var cur_water := p.inventory.get_amount(&"water")
+		if cur_water >= 1:
+			p.inventory.set_amount(&"water", cur_water - 1)
+			p.water_pressure = maxf(0.0, p.water_pressure - 15.0)
+			p.days_deprived_water = 0
+		else:
+			p.water_pressure = minf(100.0, p.water_pressure + 10.0)
+			p.days_deprived_water += 1
+
+		var cur_food := p.inventory.get_amount(&"food")
+		if cur_food >= 1:
+			p.inventory.set_amount(&"food", cur_food - 1)
+			p.food_pressure = maxf(0.0, p.food_pressure - 15.0)
+			p.days_deprived_food = 0
+		else:
+			p.food_pressure = minf(100.0, p.food_pressure + 10.0)
+			p.days_deprived_food += 1
+
+	elif ls.status == NpcLifeState.Status.SETTLED:
+		var s: SettlementState = world.get_settlement(ls.population_container_id)
+		if s != null:
+			p.water_pressure = s.water_pressure
+			p.food_pressure = s.food_pressure
+
+func materialize_player(
+	world: WorldState,
+	settlement_id: StringName,
+	name: String = "Drifter",
+	age: int = 25,
+	background: int = NpcProfile.Background.SCAVENGER
+) -> Dictionary:
+	if world.player != null:
+		return {"success": false, "error": "PLAYER_ALREADY_EXISTS: World already has an active player avatar"}
+
+	var settlement: SettlementState = world.get_settlement(settlement_id)
+	if settlement == null:
+		return {"success": false, "error": "INVALID_SETTLEMENT: Settlement %s not found" % settlement_id}
+
+	# Claim an anonymous population slot in the settlement
+	var id_res := world.npc_registry.materialize_identity(world, settlement_id, name, age)
+	if not id_res["success"]:
+		return id_res
+
+	var nid: StringName = id_res["npc"].id
+
+	# Register settled life state
+	var ls_res := world.npc_life_state_registry.register_life_state(world, nid, settlement_id)
+	if not ls_res["success"]:
+		return ls_res
+
+	# Assign background biography
+	var prof_res := world.npc_profile_registry.assign_background(world, nid, background)
+	if not prof_res["success"]:
+		return prof_res
+
+	# Create player avatar state
+	var p := PlayerState.new(nid, 20, 50)
+	p.inventory.set_amount(&"water", 5)
+	p.inventory.set_amount(&"food", 5)
+	world.player = p
+
+	var evt := EventRecord.new(
+		world.current_day,
+		"PLAYER_MATERIALIZED",
+		nid,
+		settlement_id,
+		{
+			"name": name,
+			"age": age,
+			"background": background,
+			"capacity": p.capacity_total,
+			"money": p.money
+		}
+	)
+	world.record_event(evt)
+
+	return {
+		"success": true,
+		"player": p,
+		"npc_id": nid,
+		"settlement_id": settlement_id
+	}
+
+func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
+	if world.player == null:
+		return "NO_PLAYER: World does not have an active player avatar"
+	if intent.player_id != world.player.npc_id:
+		return "INVALID_PLAYER_ID: Intent player_id %s does not match world player %s" % [
+			intent.player_id, world.player.npc_id
+		]
+	if not PlayerIntent.is_authorized_action(intent.action):
+		return "UNAUTHORIZED_ACTION: %s is outside the S5-A closed action space" % PlayerIntent.action_name(intent.action)
+
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+	if ls == null or not ls.is_alive():
+		return "DECEASED_OR_NO_LIFE_STATE: Player is not alive or has no life state"
+
+	match intent.action:
+		PlayerIntent.Action.WAIT:
+			return ""
+		PlayerIntent.Action.TRAVEL:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "INVALID_STATUS: Player must be SETTLED to begin travel (currently %d)" % ls.status
+			if intent.destination_id == &"":
+				return "INVALID_INTENT: TRAVEL requires a non-empty destination_id"
+			if intent.destination_id == ls.population_container_id:
+				return "INVALID_DESTINATION: Cannot travel to current settlement %s" % intent.destination_id
+			if not world.settlements.has(intent.destination_id):
+				return "INVALID_DESTINATION: Destination settlement %s does not exist" % intent.destination_id
+			var origin: SettlementState = world.get_settlement(ls.population_container_id)
+			if origin == null:
+				return "INVALID_ORIGIN: Origin settlement %s does not exist" % ls.population_container_id
+			if origin.population <= MIGRATION_MIN_POPULATION:
+				return "PRECONDITION_CHANGED: Origin population (%d) is at or below minimum (%d)" % [
+					origin.population, MIGRATION_MIN_POPULATION
+				]
+			return ""
+	return "UNKNOWN_ACTION"
+
+func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
+	var auth_err := authorize_player_intent(world, intent)
+	if auth_err != "":
+		return {"success": false, "error": auth_err}
+
+	match intent.action:
+		PlayerIntent.Action.WAIT:
+			var wait_evt := EventRecord.new(
+				world.current_day,
+				"PLAYER_WAIT",
+				intent.player_id,
+				world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id,
+				{}
+			)
+			if tick_events != null:
+				tick_events.append(wait_evt)
+			world.record_event(wait_evt)
+			return {"success": true, "action": "WAIT"}
+
+		PlayerIntent.Action.TRAVEL:
+			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+			var origin_id: StringName = ls.population_container_id
+			var dest_id: StringName = intent.destination_id
+			var route_days := get_route_days_between(world, origin_id, dest_id)
+			var party_id := StringName("refugee:player_d%d_%s_to_%s" % [
+				world.current_day,
+				String(origin_id).replace("settlement:", ""),
+				String(dest_id).replace("settlement:", "")
+			])
+
+			var result: Dictionary = world.npc_life_state_registry.begin_named_migration(
+				world, intent.player_id, dest_id, party_id, route_days, world.current_day
+			)
+			if not result["success"]:
+				return result
+
+			var travel_evt := EventRecord.new(
+				world.current_day,
+				"PLAYER_TRAVEL_STARTED",
+				intent.player_id,
+				dest_id,
+				{
+					"origin": String(origin_id),
+					"destination": String(dest_id),
+					"party_id": String(party_id),
+					"route_days": route_days
+				}
+			)
+			if tick_events != null:
+				tick_events.append(travel_evt)
+			world.record_event(travel_evt)
+
+			return {
+				"success": true,
+				"action": "TRAVEL",
+				"party_id": party_id,
+				"route_days": route_days
+			}
+
+	return {"success": false, "error": "UNREACHABLE"}
+

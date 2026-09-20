@@ -12,6 +12,9 @@ var caravans: Dictionary = {}    # Dictionary[StringName, CaravanState]
 var refugees: Dictionary = {}    # Dictionary[StringName, RefugeePartyState]
 var event_log: Array[EventRecord] = []
 
+# S5-A Player Avatar State
+var player: PlayerState = null
+
 # S4-F1 Decision Audit Trail. Separate from event_log ON PURPOSE: the ledger
 # holds committed facts only, while REJECTED intents live here and nowhere else.
 var decision_audit_trail: Array[NpcDecisionEvidence] = []
@@ -69,6 +72,9 @@ func canonicalize_numeric_state() -> void:
 		s.price_fuel = NumericCanon.canonical_float(s.price_fuel)
 		s.production_credits = NumericCanon.canonical_float_dict(s.production_credits)
 		s.disorder_loss_credits = NumericCanon.canonical_float_dict(s.disorder_loss_credits)
+	if player != null:
+		player.water_pressure = NumericCanon.canonical_float(player.water_pressure)
+		player.food_pressure = NumericCanon.canonical_float(player.food_pressure)
 
 # event_count is DERIVED, never stored. There is exactly one authority for how
 # many things have happened: the ledger itself.
@@ -99,6 +105,8 @@ func duplicate_state() -> WorldState:
 		copy.event_log.append((evt as EventRecord).duplicate_record())
 	for ev in decision_audit_trail:
 		copy.decision_audit_trail.append((ev as NpcDecisionEvidence).duplicate_evidence())
+	if player != null:
+		copy.player = player.duplicate_state()
 	return copy
 
 func to_dict() -> Dictionary:
@@ -133,7 +141,7 @@ func to_dict() -> Dictionary:
 	for ev in decision_audit_trail:
 		decisions_arr.append((ev as NpcDecisionEvidence).to_dict())
 
-	return {
+	var result := {
 		"current_day": current_day,
 		"total_initial_population": total_initial_population,
 		"next_npc_sequence": next_npc_sequence,
@@ -150,6 +158,9 @@ func to_dict() -> Dictionary:
 		"events": events_arr,
 		"decision_audit_trail": decisions_arr
 	}
+	if player != null:
+		result["player"] = player.to_dict()
+	return result
 
 # ==============================================================================
 # S4-C.1: FAIL-CLOSED LOADING
@@ -257,6 +268,8 @@ static func from_dict_unchecked(data: Dictionary) -> WorldState:
 		var r_data: Dictionary = data["refugees"]
 		for r_id in r_data:
 			w.refugees[StringName(r_id)] = RefugeePartyState.from_dict(r_data[r_id])
+	if data.has("player") and data["player"] != null and typeof(data["player"]) == TYPE_DICTIONARY:
+		w.player = PlayerState.from_dict(data["player"])
 	return w
 
 func to_canonical_json() -> String:

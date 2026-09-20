@@ -346,10 +346,11 @@ Aptitudes  = 這個人可能比較容易學哪類事情
 核心轉折：從「世界模擬得夠不夠完整？」轉為「**我終於可以進去玩了嗎？**」。
 採用 G2-Lite 治理原則：**Human Input ≠ World State Mutation**，玩家無作弊 API，與 NPC 共享同一條物理與授權鏈（Human Input $\to$ Player Intent $\to$ Authorization $\to$ Simulation Commit）。
 
-* **S5-A — Player Avatar**：**CURRENT 🟡**
-  - 核心問題：玩家能不能成為這個世界中的一個普通人，而不是上帝視角？
-  - 資料模型：`Identity`, `Life State`, `Profile`, `Inventory`, `Money`, `Needs`。
-  - 統一架構：
+* **S5-A — Player Avatar**：**CLOSED ✅**
+  - **核心問題已回答**：玩家能不能成為這個世界中的一個普通人，而不是上帝視角？——**YES**。
+  - **資料模型**：`PlayerState` 包含 `npc_id`（連結底層權威 `NpcIdentity` / `NpcLifeState`）、`inventory: ResourceState`（個人物理背包，預設容量 20）、`money: int`（貨幣預設 50）、`water_pressure / food_pressure`（個人生理需求指標）。
+  - **無特權／無作弊 API (G2-Lite)**：玩家輸入強制投影為 `PlayerIntent`，經 `authorize_player_intent()` 嚴格校驗合法性後，方透過既有原子交易鏈 `commit_player_intent()` 執行，完全拒絕直接竄改 `WorldState`。
+  - **統一架構**：
     ```text
     NPC decision ─────┐
                       ↓
@@ -361,6 +362,14 @@ Aptitudes  = 這個人可能比較容易學哪類事情
                       ↓
                  World State
     ```
+  - **驗收成果**：[tests/test_s5_a_player.gd](file:///d:/wasteland-chronicles/tests/test_s5_a_player.gd) 六大 Gate (P1 ~ P6) 全數 PASS：
+    - **P1 (Materialization & Conservation)**：玩家具名化（Vagrant, 27歲）僅認領灰谷 1 個無名人口名額，世界生命總量守恆 300 == 300；拒絕重複具現化。
+    - **P2 (Unified Authorization)**：非法目的地、越界與非封閉意圖強制 Fail-Closed 拒絕，被拒絕意圖對世界 Hash 產生 0 改變。
+    - **P3 (Physical Movement / Axiom 9)**：玩家旅行完全複用既有難民物理移動交易鏈，Day 0 出發、Day 1 在途、Day 2 抵達新希望（$0 + 3 - 1 = 2$），嚴禁瞬移；入籍新希望人口 $+1$。
+    - **P4 (Personal Backpack & Load Limits)**：在途每日消耗背包 1 水 1 糧（10 $\to$ 6 負重），抵達後切換為聚落供餐；嚴格執行容量上限（20 單位），超載觸發不變量驗證中斷。
+    - **P5 (Save/Load Round-Trip Fixed Point)**：世界含玩家化身經序列化/反序列化後為嚴格數學不動點，Canonical JSON SHA-256 位元完全一致（`b23f4d47843cac3de0118d351e50cb39b4458a2fd32e0de265d6ce3317672b6c`）。
+    - **P6 (Coexistence with NPC Ecosystem)**：玩家與多名自主 NPC 同場並行模擬 10 天，世界全域不變量 0 違規，生命總量守恆 300 == 300。
+  - 全專案 25 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
 * **S5-A.2 — Playable UI Shell**：
   - 核心問題：玩家如何看得到世界與操作化身？
   - 介面範疇：World Map、Settlement HUD、Intel/Events 面板、Basic Navigation。
