@@ -1017,4 +1017,15 @@ func validate_invariants(world: WorldState) -> String:
 			if p_ls == null:
 				return "S4-C C6: Profile %s has no life state" % profile.npc_id
 
+	# S4-C.1 Event Ledger invariants (L4: derived count, payload representability)
+	if world.get_event_count() != world.event_log.size():
+		return "S4-C.1 L4: derived event_count (%d) disagrees with ledger size (%d)" % [
+			world.get_event_count(), world.event_log.size()
+		]
+	for i in range(world.event_log.size()):
+		var rec: EventRecord = world.event_log[i]
+		var rec_err := rec.validate()
+		if rec_err != "":
+			return "S4-C.1 L3: events[%d] (%s) is not persistable: %s" % [i, rec.type, rec_err]
+
 	return ""

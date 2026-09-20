@@ -59,7 +59,10 @@ class NpcAuthorityValidator(DomainValidator):
 
 	@property
 	def rule_ids(self) -> list[str]:
-		return ["G1.5-A", "NPC-001", "NPC-002", "NPC-003", "NPC-004", "NPC-007", "NPC-008"]
+		return [
+			"G1.5-A", "NPC-001", "NPC-002", "NPC-003", "NPC-004", "NPC-007", "NPC-008",
+			"EVENT-001", "EVENT-002", "EVENT-003", "EVENT-004",
+		]
 
 	def validate(self, payload: dict) -> ValidatorResult:
 		violations: list[str] = []
@@ -173,9 +176,18 @@ class NpcAuthorityValidator(DomainValidator):
 				f"({len(npc_registry)})"
 			)
 
+		# 5. S4-C.1 Event Ledger checks. These re-derive everything independently
+		#    from the raw snapshot; nothing here consults the GDScript loader's
+		#    conclusions, so agreement between the two is real corroboration.
+		violations.extend(self._validate_event_ledger(payload))
+
+		event_summary = "no ledger"
+		if isinstance(payload.get("events"), list):
+			event_summary = f"{len(payload['events'])} events"
+
 		evidence = (
 			f"Validated {len(npc_registry)} NPCs across {len(settlements)} settlements, "
-			f"{len(npc_profile_registry)} backgrounds. "
+			f"{len(npc_profile_registry)} backgrounds, {event_summary}. "
 			f"Violations: {len(violations)}, Warnings: {len(warnings)}"
 		)
 
@@ -188,10 +200,132 @@ class NpcAuthorityValidator(DomainValidator):
 			metadata={
 				"npc_count": len(npc_registry),
 				"profile_count": len(npc_profile_registry),
+				"event_count": len(payload["events"]) if isinstance(payload.get("events"), list) else None,
 				"max_sequence": max_seq_found,
 				"next_sequence": next_npc_sequence,
 			},
 		)
+
+
+	# ── S4-C.1: Event Ledger ──────────────────────────────────────────────────
+	# The committed events ledger is the SINGLE AUTHORITY for historical world
+	# facts. event_count is derived metadata and is CHECKED here, never trusted:
+	# a snapshot that merely asserts "20 things happened" without carrying them
+	# is a snapshot whose history has been lost.
+	REQUIRED_EVENT_FIELDS = ("day", "type", "actor_id", "target_id", "payload")
+
+	def _validate_event_ledger(self, payload: dict) -> list[str]:
+		violations: list[str] = []
+
+		events = payload.get("events", None)
+		declared_count = payload.get("event_count", None)
+
+		if events is None:
+			# A snapshot with a count but no ledger is the dangerous case: read
+			# naively it asserts that nothing has ever happened.
+			if declared_count is not None:
+				violations.append(
+					f"EVENT-001: snapshot declares event_count={declared_count} but carries no "
+					f"'events' array; historical facts cannot be reconstructed from a count"
+				)
+			return violations
+
+		if not isinstance(events, list):
+			violations.append(f"EVENT-002: 'events' must be an array, got {type(events).__name__}")
+			return violations
+
+		# EVENT-001: derived count agreement. Independently recomputed here.
+		if declared_count is not None:
+			if not isinstance(declared_count, int) or isinstance(declared_count, bool):
+				violations.append(
+					f"EVENT-001: event_count must be an integer, got {declared_count!r}"
+				)
+			elif declared_count != len(events):
+				violations.append(
+					f"EVENT-001: event_count ({declared_count}) does not match the serialized "
+					f"ledger length ({len(events)})"
+				)
+
+		for index, record in enumerate(events):
+			# EVENT-002: required fields present and well-typed.
+			if not isinstance(record, dict):
+				violations.append(f"EVENT-002: events[{index}] is not an object")
+				continue
+
+			for field in self.REQUIRED_EVENT_FIELDS:
+				if field not in record:
+					violations.append(f"EVENT-002: events[{index}] is missing required field '{field}'")
+
+			if "day" in record and (not isinstance(record["day"], int) or isinstance(record["day"], bool)):
+				violations.append(f"EVENT-002: events[{index}].day must be an integer")
+			if "type" in record:
+				if not isinstance(record["type"], str):
+					violations.append(f"EVENT-002: events[{index}].type must be a string")
+				elif record["type"] == "":
+					violations.append(f"EVENT-002: events[{index}].type is empty")
+
+			# EVENT-004: payload structurally valid and JSON-representable.
+			if "payload" in record:
+				if not isinstance(record["payload"], dict):
+					violations.append(f"EVENT-004: events[{index}].payload must be an object")
+				else:
+					violations.extend(
+						self._validate_payload_value(
+							record["payload"], f"events[{index}].payload"
+						)
+					)
+
+		# EVENT-003: ordering must survive serialization verbatim. The ledger is
+		# COMMIT order and is explicitly NOT sorted (not by day, not by type), so
+		# this cannot assert any particular order. What it CAN assert, from the
+		# snapshot alone, is that the ledger is carried in an order-preserving
+		# container and that a JSON round-trip performed here — independently of
+		# the GDScript loader — reproduces the identical sequence.
+		sequence_before = [
+			(r.get("day"), r.get("type"), r.get("actor_id"), r.get("target_id"))
+			for r in events
+			if isinstance(r, dict)
+		]
+		try:
+			reparsed = json.loads(json.dumps(events))
+		except (TypeError, ValueError) as exc:
+			violations.append(f"EVENT-003: ledger is not JSON round-trippable: {exc}")
+			return violations
+
+		sequence_after = [
+			(r.get("day"), r.get("type"), r.get("actor_id"), r.get("target_id"))
+			for r in reparsed
+			if isinstance(r, dict)
+		]
+		if sequence_before != sequence_after:
+			violations.append(
+				"EVENT-003: event ordering is not preserved by a serialization round-trip"
+			)
+
+		return violations
+
+	def _validate_payload_value(self, value, path: str) -> list[str]:
+		"""Recursively check a payload value against the JSON value model."""
+		violations: list[str] = []
+		if value is None or isinstance(value, (bool, int, float, str)):
+			if isinstance(value, int) and not isinstance(value, bool) and abs(value) > 2**53:
+				violations.append(
+					f"EVENT-004: {path} is an integer beyond the exact JSON range ({value})"
+				)
+			return violations
+		if isinstance(value, dict):
+			for key, item in value.items():
+				if not isinstance(key, str):
+					violations.append(f"EVENT-004: {path} has a non-string key {key!r}")
+					continue
+				violations.extend(self._validate_payload_value(item, f"{path}.{key}"))
+			return violations
+		if isinstance(value, list):
+			for i, item in enumerate(value):
+				violations.extend(self._validate_payload_value(item, f"{path}[{i}]"))
+			return violations
+		violations.append(f"EVENT-004: {path} has unsupported type {type(value).__name__}")
+		return violations
 
 
 def main() -> int:
@@ -272,6 +406,73 @@ def main() -> int:
 		}
 		res_orphan = validator.validate(orphan_profile_fixture)
 		assert not res_orphan.ok, "Orphan profile falsely passed!"
+
+		# ── S4-C.1 Event Ledger fixtures ─────────────────────────────────────
+		def ev(day: int, typ: str = "FIXTURE_EVENT") -> dict:
+			return {
+				"day": day,
+				"type": typ,
+				"actor_id": "settlement:gray_valley",
+				"target_id": "settlement:new_hope",
+				"payload": {"causes": ["water"], "loss": {"scrap": 4.0}, "risk": 50.0},
+			}
+
+		# Legal: 7 events, event_count 7
+		legal_ledger = dict(valid_fixture)
+		legal_ledger["events"] = [ev(i) for i in range(7)]
+		legal_ledger["event_count"] = 7
+		res_ledger_ok = validator.validate(legal_ledger)
+		assert res_ledger_ok.ok, f"Legal 7/7 ledger failed: {res_ledger_ok.violations}"
+
+		# The recorded negative fixture: event_count = 9 with only 7 events.
+		lying_ledger = dict(valid_fixture)
+		lying_ledger["events"] = [ev(i) for i in range(7)]
+		lying_ledger["event_count"] = 9
+		res_lying = validator.validate(lying_ledger)
+		assert not res_lying.ok, "event_count=9 with 7 events falsely passed!"
+		assert any("EVENT-001" in v for v in res_lying.violations), res_lying.violations
+
+		# A count with no ledger at all must not read as "nothing ever happened".
+		countless_ledger = dict(valid_fixture)
+		countless_ledger["event_count"] = 20
+		res_countless = validator.validate(countless_ledger)
+		assert not res_countless.ok, "event_count=20 with no events falsely passed!"
+		assert any("EVENT-001" in v for v in res_countless.violations), res_countless.violations
+
+		# An empty ledger is legal: "nothing has happened yet" is itself a fact.
+		empty_ledger = dict(valid_fixture)
+		empty_ledger["events"] = []
+		empty_ledger["event_count"] = 0
+		res_empty = validator.validate(empty_ledger)
+		assert res_empty.ok, f"Empty ledger rejected: {res_empty.violations}"
+
+		# A record missing a required field must be refused.
+		broken_ledger = dict(valid_fixture)
+		broken_record = ev(3)
+		del broken_record["payload"]
+		broken_ledger["events"] = [ev(1), ev(2), broken_record]
+		broken_ledger["event_count"] = 3
+		res_broken = validator.validate(broken_ledger)
+		assert not res_broken.ok, "Record missing 'payload' falsely passed!"
+		assert any("EVENT-002" in v for v in res_broken.violations), res_broken.violations
+
+		# An empty event type is not a committed fact.
+		untyped_ledger = dict(valid_fixture)
+		untyped_ledger["events"] = [ev(1, "")]
+		untyped_ledger["event_count"] = 1
+		res_untyped = validator.validate(untyped_ledger)
+		assert not res_untyped.ok, "Empty event type falsely passed!"
+
+		# A payload integer beyond the exact JSON range would be silently
+		# corrupted by any reader, so it is refused.
+		huge_ledger = dict(valid_fixture)
+		huge_record = ev(1)
+		huge_record["payload"] = {"count": 2**60}
+		huge_ledger["events"] = [huge_record]
+		huge_ledger["event_count"] = 1
+		res_huge = validator.validate(huge_ledger)
+		assert not res_huge.ok, "Out-of-range payload integer falsely passed!"
+		assert any("EVENT-004" in v for v in res_huge.violations), res_huge.violations
 
 		print("PASS: All NpcAuthorityValidator fixtures verified successfully!")
 		return 0

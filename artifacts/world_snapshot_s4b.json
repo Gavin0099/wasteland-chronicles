@@ -54,6 +54,7 @@
 	},
 	"current_day": 0,
 	"event_count": 0,
+	"events": [],
 	"next_npc_sequence": 3,
 	"npc_life_state_registry": {
 		"npc:00000001": {

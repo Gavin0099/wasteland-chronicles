@@ -369,32 +369,26 @@ func _init() -> void:
 		return
 	print("  Dual world SHA-256 bitwise identical: %s" % hash_a)
 
-	# NOTE (pre-existing snapshot limitation, NOT introduced by S4-C):
-	# WorldState.to_dict() persists the event ledger as "event_count" only — the
-	# EventRecord array itself is never serialized, so from_dict() always restores
-	# a world with an empty ledger. S4-B's B8 round-trip passed only because its
-	# replay world happened to emit zero events. The comparison below therefore
-	# asserts round-trip fidelity over everything the snapshot actually claims to
-	# persist, and excludes the count of the one field it provably cannot restore.
-	# Restoring the ledger changes every stored artifact hash and belongs to its
-	# own slice, not to S4-C.
+	# S4-C.1 closed the EVENT_LEDGER_NOT_ROUNDTRIPPED finding this gate recorded,
+	# so the round-trip is now asserted over the FULL canonical state, ledger included.
 	var restored := WorldState.from_dict(replay_a.to_dict())
-	var dict_original := replay_a.to_dict()
-	var dict_restored := restored.to_dict()
-	dict_original.erase("event_count")
-	dict_restored.erase("event_count")
-	var hash_orig_persistable := JSON.stringify(dict_original, "	", true).sha256_text()
-	var hash_restored_persistable := JSON.stringify(dict_restored, "	", true).sha256_text()
-	if hash_orig_persistable != hash_restored_persistable:
+	if restored == null:
+		print("FAIL C7: snapshot was refused by the loader!")
+		quit(1)
+		return
+	if restored.to_canonical_json().sha256_text() != hash_a:
 		print("FAIL C7: serialization round-trip hash mismatch!")
 		quit(1)
 		return
-	if replay_a.event_log.size() > 0 and restored.event_log.size() != 0:
-		print("FAIL C7: unexpected ledger restoration — update this gate's assumption")
+	if restored.get_event_count() != replay_a.get_event_count():
+		print("FAIL C7: ledger not restored: %d != %d" % [
+			restored.get_event_count(), replay_a.get_event_count()
+		])
 		quit(1)
 		return
-	print("  Persistable-state round-trip SHA-256 matches: %s" % hash_orig_persistable)
-	print("  (event ledger excluded: to_dict() stores only event_count — pre-existing gap)")
+	print("  Full-state round-trip SHA-256 matches (ledger of %d events included): %s" % [
+		restored.get_event_count(), hash_a
+	])
 	if restored.npc_profile_registry.get_profile_count() != 4:
 		print("FAIL C7: restored world lost profiles!")
 		quit(1)

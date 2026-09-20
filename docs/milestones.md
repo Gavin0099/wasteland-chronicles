@@ -103,7 +103,7 @@
   - **驗收成果**：[tests/test_s4_profile.gd](file:///d:/wasteland-chronicles/tests/test_s4_profile.gd)
     七大 Gate (C1 ~ C7) 全數 PASS；Python 權威驗證器新增 `NPC-007`（profile ⊆ identity）、
     `NPC-008`（封閉 background 列舉）兩條規則。
-* **S4-C.1 — Event Ledger Persistence Hardening**：**NEXT 🟡**
+* **S4-C.1 — Event Ledger Persistence Hardening**：**CLOSED ✅**
   - **Finding**：`EVENT_LEDGER_NOT_ROUNDTRIPPED`
   - **Origin**：Pre-existing `WorldState` serialization behavior（非 S4-C 引入）
   - **Discovered by**：S4-C C7 persistence validation
@@ -123,6 +123,29 @@
     無真實存檔相容義務。**不為保護 prototype artifact 的 hash 而保留已知 persistence defect**；
     修 schema → 重產 canonical artifacts → 重建 baseline evidence → 記錄 intentional schema change。
     舊有歷史證據由既有 commit 與 `v0.0.1-s3` tag 保存。
+  - **落地結果**：`to_dict()` 輸出完整有序 `events` 陣列；`from_dict()` 由 `events` 重建帳本。
+    `event_count` 降為 derived（`WorldState.get_event_count()` 即 `event_log.size()`，不存欄位），
+    序列化中保留僅作 checksum-like metadata，載入時**只拿來對帳、永不據以推斷歷史**。
+  - **Payload 值模型**：帳本以 JSON 持久化，而 `JSON.parse_string` 會把所有數字放寬為 float，
+    未經正規化的帳本因此**不是序列化不動點**——save → load → save 會產生與第一次不同的檔案。
+    對稽核帳本而言不可接受，故 payload 於 **commit 當下** 正規化為 JSON 值模型
+    （`WorldState.record_event()` 為唯一入口），使記憶體形態與持久化形態一致，round-trip 成為恆等。
+    超出 2^53 的整數**不做有損轉換**，改由不變量與 validator 舉報。
+  - **驗收成果**：[tests/test_s4_c1_event_ledger.gd](file:///d:/wasteland-chronicles/tests/test_s4_c1_event_ledger.gd)
+    六大 Gate (L1 ~ L6) 全數 PASS，含 357 事件之非空帳本 byte-identical round-trip、
+    帳本不動點、亂序保序、三層巢狀 payload 保真、`9 vs 7` 與 `count-without-ledger`
+    與 malformed record 三種 fail-closed 拒絕、以及 save/load 後帳本 SHA 不變。
+    Python 權威驗證器新增 `EVENT-001` ~ `EVENT-004` 四條規則（完全獨立重算，不呼叫 GDScript 邏輯）。
+* **Finding（S4-C.1 過程中新發現，尚未處理）**：`NON_LEDGER_STATE_NOT_ROUNDTRIPPED`
+  - **Origin**：Pre-existing `SettlementState` serialization behavior（非 S4-C.1 引入）
+  - **Discovered by**：S4-C.1 L1 全快照不動點驗證
+  - **問題**：`production_credits` / `disorder_loss_credits` / `cumulative_disorder_loss` /
+    `last_need_outcomes` 以原始 `Dictionary` 存放，其 int 值於重載後放寬為 float；
+    另有極小浮點數經 JSON round-trip 後精度流失
+    （`0.00000000000000488498130835069` → `0.00000000000000488`）。
+    因此**整份快照尚非不動點**，但**事件帳本本身已是**。
+  - **Disposition**：屬 settlement-state 序列化缺陷，非 event-ledger 缺陷。
+    S4-C.1 只主張它實際證明的帳本範圍，其餘升為本 finding，不靜默吸收。待獨立 slice 處理。
 * **S4-D — Traits**：謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
 * **S4-E — Aptitude Schema**：戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。

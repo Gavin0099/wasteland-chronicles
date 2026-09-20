@@ -75,6 +75,21 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 * **生命守恆全域不變量**：
   $$\sum_{S} S.\text{population} + \sum \text{refugees\_in\_transit} + \text{cumulative\_deaths} == \text{Initial Total Headcount}$$
 
+### 11.1 歷史事實權威公理 (Committed Event Ledger Authority Axiom)
+* **Committed Event Ledger is the sole authority for persisted historical facts.**
+  已提交之事件帳本是持久化歷史事實的唯一權威。世界「發生過什麼」只能由帳本本身回答。
+* **Derived metadata must never reconstruct missing authoritative history.**
+  衍生 metadata 絕不得用以重建缺失的權威歷史。`event_count` 是由帳本推導的便利輸出，
+  載入時只可用於對帳（`event_count == len(events)`），**永不得據以推斷世界發生過幾件事**。
+* **權威方向嚴格單向**：
+  $$\text{Committed Events} \longrightarrow \text{Serialized Ledger} \longrightarrow \text{Loaded Events}$$
+  嚴禁反向：`event_count → inferred historical state`。
+* **Fail-Closed 整份拒絕**：帳本不可信之快照**整份拒絕載入**，不截斷至 count、不補齊至 count、
+  不退回空帳本。一個安靜載入成「從未發生任何事」的世界，比一個拒絕載入的世界更危險——
+  前者會說謊，後者只是停下來。
+* **序列化不動點要求**：帳本必須滿足 save → load → save 恆等。若持久化格式會改寫數值形態，
+  則必須在**提交當下**正規化，使記憶體形態與持久化形態一致；否則每次存讀都在重寫歷史。
+
 ### 12. 決定論身份永久不可變公理 (Immutable Deterministic Identity Axiom)
 * NPC ID 必須依據世界狀態中單調遞增之計數器（`next_npc_sequence`）確定性鑄造（如 `npc:00000001`）。嚴禁隨機數或時間戳。
 * 序號納入快照，且**永久不可復用**（NPC 死亡亦作廢不重發）。
@@ -115,8 +130,8 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 | **S4-A** | **G1.5-B1**| **NPC 身份運行防護：具名子集約束、確定性序列持久化、防人口通膨** | **CLOSED ✅** |
 | **S4-B** | **G1.5-B2**| **生命週期原子防護：真實個體遷移/死亡雙重計數原子一致性驗證、Aggregate 不得挑選具名個體（Fail-Closed）** | **CLOSED ✅** |
 | **S4-C** | **G1.5-B3**| **背景傳記惰性防護：封閉列舉、寫入後不可變、僅限存活個體、零行為授權、模擬惰性 bitwise 反事實** | **CLOSED ✅** |
-| **S4-C.1**| **G1.5-B4**| **歷史事實權威：committed event ledger 完整持久化、derived count、非空 round-trip 決定論** | 🟡 NEXT |
-| **S4-D** | **G1.5-B3**| **特質（Traits）：純決定論客觀效果** | 規劃中 |
+| **S4-C.1**| **G1.5-B4**| **歷史事實權威：committed event ledger 完整持久化、derived count、非空 round-trip 決定論** | **CLOSED ✅** |
+| **S4-D** | **G1.5-B3**| **特質（Traits）：純決定論客觀效果** | 🟡 NEXT |
 | **S4-F** | **G2-lite** | NPC 自主行為授權、閉環決策審計證據、動態行為邊界鎖 | 規劃中 |
 | **S5** | **G2** | 玩家與隊伍行為授權、存檔重播驗證、可驗證的世界歷程 | 規劃中 |
 | **S6** | **G2+** | 死亡繼承傳承、世界記憶跨代傳承不變量 | 規劃中 |

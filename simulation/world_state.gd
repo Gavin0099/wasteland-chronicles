@@ -30,8 +30,18 @@ func add_caravan(caravan: CaravanState) -> void:
 func add_refugee_party(party: RefugeePartyState) -> void:
 	refugees[party.id] = party
 
+# The single chokepoint through which a fact enters the historical ledger.
+# The payload is canonicalized to the persisted value model HERE, at commit
+# time, so that the in-memory ledger and the serialized ledger are the same
+# thing — making save -> load -> save a fixed point (S4-C.1).
 func record_event(event: EventRecord) -> void:
+	event.canonicalize()
 	event_log.append(event)
+
+# event_count is DERIVED, never stored. There is exactly one authority for how
+# many things have happened: the ledger itself.
+func get_event_count() -> int:
+	return event_log.size()
 
 func duplicate_state() -> WorldState:
 	var copy := WorldState.new()
@@ -71,6 +81,9 @@ func to_dict() -> Dictionary:
 	for r_key in sorted_r_keys:
 		refugees_dict[String(r_key)] = (refugees[r_key] as RefugeePartyState).to_dict()
 
+	# Ledger order is COMMIT order and is never re-sorted. Canonical key
+	# ordering (sorting dictionary keys for stable hashing) applies to the
+	# containers above; it must never be applied to this sequence.
 	var events_arr := []
 	for evt in event_log:
 		events_arr.append((evt as EventRecord).to_dict())
@@ -85,10 +98,79 @@ func to_dict() -> Dictionary:
 		"settlements": settlements_dict,
 		"caravans": caravans_dict,
 		"refugees": refugees_dict,
-		"event_count": events_arr.size()
+		# "events" is the authority. "event_count" is derived metadata kept for
+		# human/diagnostic convenience only — loaders must never trust it as
+		# state, they must only check it agrees with the ledger.
+		"event_count": events_arr.size(),
+		"events": events_arr
 	}
 
+# ==============================================================================
+# S4-C.1: FAIL-CLOSED LOADING
+# ==============================================================================
+# Returns {"success": bool, "world": WorldState|null, "error": String}.
+#
+# AUTHORITATIVE DIRECTION:
+#   Committed Events -> Serialized Ledger -> Loaded Events
+# NEVER:
+#   event_count -> inferred historical state
+#
+# A snapshot whose ledger cannot be trusted is REFUSED WHOLE. There is no
+# partial world acceptance: no truncating the ledger to the count, no padding
+# the ledger up to the count, no falling back to an empty ledger. A world that
+# quietly loads as "nothing ever happened" is more dangerous than a world that
+# refuses to load at all, because the first one lies and the second one stops.
+static func from_dict_checked(data: Dictionary) -> Dictionary:
+	# The events key is MANDATORY. A pre-S4-C.1 snapshot carrying
+	# "event_count": 20 with no ledger would otherwise silently reconstruct a
+	# world in which nothing has ever happened.
+	if not data.has("events"):
+		return {
+			"success": false,
+			"world": null,
+			"error": "LEDGER_MISSING: snapshot has no 'events' array (a pre-S4-C.1 snapshot cannot be trusted as history)"
+		}
+	if typeof(data["events"]) != TYPE_ARRAY:
+		return {"success": false, "world": null, "error": "LEDGER_MALFORMED: 'events' is not an array"}
+
+	var events_data: Array = data["events"]
+
+	# event_count is metadata. It is CHECKED against the ledger, never trusted.
+	if data.has("event_count"):
+		var declared := int(data["event_count"])
+		if declared != events_data.size():
+			return {
+				"success": false,
+				"world": null,
+				"error": "LEDGER_COUNT_MISMATCH: declared event_count %d != serialized events %d" % [
+					declared, events_data.size()
+				]
+			}
+
+	for i in range(events_data.size()):
+		var err := EventRecord.validate_dict(events_data[i], i)
+		if err != "":
+			return {"success": false, "world": null, "error": "LEDGER_MALFORMED: %s" % err}
+
+	var w := from_dict_unchecked(data)
+
+	# Rebuild the ledger from the events themselves, in serialized order.
+	for i in range(events_data.size()):
+		w.event_log.append(EventRecord.from_dict(events_data[i]))
+
+	return {"success": true, "world": w, "error": ""}
+
+# Thin wrapper: returns the world, or null when the snapshot is refused.
 static func from_dict(data: Dictionary) -> WorldState:
+	var result := from_dict_checked(data)
+	if not result["success"]:
+		push_error("WorldState.from_dict refused snapshot: %s" % result["error"])
+		return null
+	return result["world"]
+
+# Everything EXCEPT the ledger. Never call this directly to load a snapshot —
+# it performs no ledger validation and yields a world with no history.
+static func from_dict_unchecked(data: Dictionary) -> WorldState:
 	var w := WorldState.new()
 	w.current_day = int(data.get("current_day", 0))
 	w.total_initial_population = int(data.get("total_initial_population", -1))
