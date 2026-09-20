@@ -238,8 +238,34 @@
     D1 ~ D6 全數 PASS（D5 反事實：6 個 trait vs 無 trait 跑 30 天，
     simulation projection SHA 完全相同，而 full-state hash 不同）；
     既有 Python 驗證器擴充 `TRAIT-001`（封閉列舉）、`TRAIT-002`（無重複）兩項檢查。
-* **S4-E — Aptitude Schema**：**NEXT 🟡**（Fast Lane）
-  戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
+* **S4-E — Aptitude Schema**：**CLOSED ✅**（Governance Fast Lane）
+  - 核心機制：續用既有 `NpcProfile`，不新增 Registry。
+    `NpcProfile = { npc_id, background, traits[], aptitudes[] }`。
+  - 封閉領域標籤五項：`COMBAT`, `SURVIVAL`, `TRADE`, `TECHNICAL`, `SOCIAL`。
+  - **刻意不用數值**。不做 `Combat = 8`、不做 `HIGH / MEDIUM / LOW`、不做 `★★★`、
+    不做 `TECHNICAL → XP ×1.5`。理由：目前**根本沒有 Skill Growth**，
+    因此沒有證據能判斷天賦究竟該是倍率、成長曲線、上限還是別的東西。
+    若現在寫下「Technical 3」，下一步必然變成「3 星加多少 XP？」——S4-E 就會偷跑進 S5-D。
+    等 S5-D 建立真實技能（Mechanics / Medicine / Rifle / Trade…）後，
+    再由當時已驗證的成長模型決定 `TECHNICAL` 如何影響 `Mechanics`，而非反過來。
+  - 指派規則沿用 Traits：顯式指定、無隨機、**不由 background 或 trait 推論**、
+    未知值與重複 fail-closed、僅限存活且已有 Profile 之 NPC、生前既有者死後保留、無數量上限。
+  - **驗收成果**：[tests/test_s4_aptitude.gd](file:///d:/wasteland-chronicles/tests/test_s4_aptitude.gd)
+    E1 ~ E6 全數 PASS（E5 反事實 projection SHA 相同、full-state hash 不同；
+    E4 另掃 `xp_multiplier` / `learning_rate` / `skill_bonus` / `skill_cap` /
+    `growth_rate` / `attribute_bonus` / `rating` / `stars` 字樣，schema 與序列化皆不得出現）；
+    既有 Python 驗證器擴充 `APT-001`（封閉領域）、`APT-002`（無重複）。
+
+**S4 Profile 三層語意（S4-C ~ E 完成後）**：
+```text
+Background = 這個人以前做過什麼
+Traits     = 這個人是什麼樣的人
+Aptitudes  = 這個人可能比較容易學哪類事情
+```
+三者目前一律 `NO ACTION / NO STATS / NO SKILLS / NO XP / NO SIMULATION EFFECT`。
+進入 S4-F 時**僅 Traits 可能參與 Decision Engine**；Aptitude 傾向繼續保持 inert，
+待 S5-D Skills 才啟用。嚴禁因為進了 S4-F 就順手讓
+`SURVIVAL aptitude → 更容易選 MIGRATE`——那沒有語意基礎。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。
   背景是否提供 action eligibility，由此時已驗證的 gameplay 動詞決定，**不得由 S4-C 預先定義**。
 * **S4-G — NPC Relationships**：**PENDING**（自 S4-C 切出獨立成 Slice）。

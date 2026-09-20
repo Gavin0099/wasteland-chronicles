@@ -42,6 +42,25 @@ enum Trait {
 	STUBBORN      = 5,
 }
 
+# S4-E: closed aptitude DOMAINS. Deliberately tag-only — no ratings, no stars,
+# no HIGH/MEDIUM/LOW, no multipliers. "Mara has a TECHNICAL aptitude" currently
+# means only that the world records a learning leaning; it carries no gameplay
+# consequence whatsoever.
+#
+# WHY NOT A 1-5 RATING: there is no Skill Growth system yet, so there is no
+# evidence about what an aptitude even IS — a multiplier, a growth curve, a cap,
+# or something else. Writing "Technical 3" now would immediately raise "how much
+# XP does 3 give?" and drag S4-E into S5-D. When S5-D defines real skills
+# (Mechanics, Medicine, Rifle, Trade...), the growth model decides how TECHNICAL
+# relates to Mechanics — not the other way round.
+enum Aptitude {
+	COMBAT    = 0,
+	SURVIVAL  = 1,
+	TRADE     = 2,
+	TECHNICAL = 3,
+	SOCIAL    = 4,
+}
+
 enum Background {
 	CARAVAN_GUARD = 0,  # 前商隊守衛
 	MECHANIC      = 1,  # 機械師
@@ -56,6 +75,9 @@ var background: Background = Background.FARMER
 # order traits were assigned in can never produce a different world.
 var traits: Array[int] = []
 
+# Set-like metadata, same discipline as traits.
+var aptitudes: Array[int] = []
+
 # Closed enum membership tests. Any value outside these sets is rejected fail-closed.
 static func is_valid_background(value: int) -> bool:
 	return value in Background.values()
@@ -63,13 +85,22 @@ static func is_valid_background(value: int) -> bool:
 static func is_valid_trait(value: int) -> bool:
 	return value in Trait.values()
 
+static func is_valid_aptitude(value: int) -> bool:
+	return value in Aptitude.values()
+
+static func aptitude_name(value: int) -> String:
+	if not is_valid_aptitude(value):
+		return "INVALID(%d)" % value
+	return String(Aptitude.keys()[value])
+
 static func trait_name(value: int) -> String:
 	if not is_valid_trait(value):
 		return "INVALID(%d)" % value
 	return String(Trait.keys()[value])
 
-# Canonical trait order is enum order, so [LOYAL, CAUTIOUS] and [CAUTIOUS, LOYAL]
-# serialize identically and cannot become two different worlds.
+# Canonical set order is enum order, so [LOYAL, CAUTIOUS] and [CAUTIOUS, LOYAL]
+# serialize identically and cannot become two different worlds. Used for both
+# traits and aptitudes.
 static func canonical_traits(values: Array) -> Array[int]:
 	var out: Array[int] = []
 	for v in values:
@@ -91,16 +122,21 @@ func duplicate_profile() -> NpcProfile:
 	copy.npc_id = npc_id
 	copy.background = background
 	copy.traits = traits.duplicate()
+	copy.aptitudes = aptitudes.duplicate()
 	return copy
 
 func has_trait(value: int) -> bool:
 	return traits.has(value)
+
+func has_aptitude(value: int) -> bool:
+	return aptitudes.has(value)
 
 func to_dict() -> Dictionary:
 	return {
 		"npc_id": String(npc_id),
 		"background": background,
 		"traits": traits.duplicate(),
+		"aptitudes": aptitudes.duplicate(),
 	}
 
 static func from_dict(data: Dictionary) -> NpcProfile:
@@ -108,4 +144,5 @@ static func from_dict(data: Dictionary) -> NpcProfile:
 	p.npc_id = StringName(data.get("npc_id", ""))
 	p.background = int(data.get("background", Background.FARMER)) as Background
 	p.traits = canonical_traits(data.get("traits", []))
+	p.aptitudes = canonical_traits(data.get("aptitudes", []))
 	return p

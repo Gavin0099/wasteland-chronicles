@@ -65,12 +65,17 @@ class NpcAuthorityValidator(DomainValidator):
 	)
 	VALID_TRAITS = frozenset(range(len(TRAIT_NAMES)))
 
+	# S4-E closed aptitude domains, mirroring NpcProfile.Aptitude. Tag-only by
+	# design: no ratings, no multipliers, no growth curves.
+	APTITUDE_NAMES = ("COMBAT", "SURVIVAL", "TRADE", "TECHNICAL", "SOCIAL")
+	VALID_APTITUDES = frozenset(range(len(APTITUDE_NAMES)))
+
 	@property
 	def rule_ids(self) -> list[str]:
 		return [
 			"G1.5-A", "NPC-001", "NPC-002", "NPC-003", "NPC-004", "NPC-007", "NPC-008",
 			"EVENT-001", "EVENT-002", "EVENT-003", "EVENT-004",
-			"NUM-001", "NUM-002", "NUM-003", "TRAIT-001", "TRAIT-002",
+			"NUM-001", "NUM-002", "NUM-003", "TRAIT-001", "TRAIT-002", "APT-001", "APT-002",
 		]
 
 	def validate(self, payload: dict) -> ValidatorResult:
@@ -200,6 +205,36 @@ class NpcAuthorityValidator(DomainValidator):
 							f"{self.TRAIT_NAMES[int(trait_value)]}"
 						)
 					seen_traits.add(int(trait_value))
+
+			# APT-001 / APT-002: closed domain membership, no duplicates.
+			aptitudes = profile_data.get("aptitudes", []) if isinstance(profile_data, dict) else []
+			if not isinstance(aptitudes, list):
+				violations.append(
+					f"APT-002: Profile '{profile_id}' aptitudes must be an array, got "
+					f"{type(aptitudes).__name__}"
+				)
+			else:
+				seen_aptitudes: set = set()
+				for apt in aptitudes:
+					if isinstance(apt, bool) or not isinstance(apt, (int, float)):
+						violations.append(
+							f"APT-001: Profile '{profile_id}' has aptitude {apt!r} which is not a "
+							f"numeric domain member"
+						)
+						continue
+					if float(apt) != int(apt) or int(apt) not in self.VALID_APTITUDES:
+						violations.append(
+							f"APT-001: Profile '{profile_id}' has aptitude {apt!r} outside the closed "
+							f"domain set {sorted(self.VALID_APTITUDES)} "
+							f"({', '.join(self.APTITUDE_NAMES)})"
+						)
+						continue
+					if int(apt) in seen_aptitudes:
+						violations.append(
+							f"APT-002: Profile '{profile_id}' holds duplicate aptitude "
+							f"{self.APTITUDE_NAMES[int(apt)]}"
+						)
+					seen_aptitudes.add(int(apt))
 
 			background = profile_data.get("background", None) if isinstance(profile_data, dict) else None
 			if background not in self.VALID_BACKGROUNDS:
@@ -703,6 +738,28 @@ def main() -> int:
 		res_dup_trait = validator.validate(profiled([2, 2]))
 		assert not res_dup_trait.ok, "Duplicate trait falsely passed!"
 		assert any("TRAIT-002" in v for v in res_dup_trait.violations), res_dup_trait.violations
+
+		# ── S4-E aptitude fixtures ───────────────────────────────────────────
+		def with_aptitudes(aptitudes) -> dict:
+			f = dict(valid_fixture)
+			f["npc_profile_registry"] = {
+				"npc:00000001": {
+					"npc_id": "npc:00000001", "background": 0,
+					"traits": [0], "aptitudes": aptitudes,
+				},
+			}
+			return f
+
+		assert validator.validate(with_aptitudes([])).ok, "Empty aptitude list rejected!"
+		assert validator.validate(with_aptitudes([0, 1, 4])).ok, "Legal aptitudes rejected!"
+
+		res_bad_apt = validator.validate(with_aptitudes([1, 5]))
+		assert not res_bad_apt.ok, "Out-of-domain aptitude falsely passed!"
+		assert any("APT-001" in v for v in res_bad_apt.violations), res_bad_apt.violations
+
+		res_dup_apt = validator.validate(with_aptitudes([3, 3]))
+		assert not res_dup_apt.ok, "Duplicate aptitude falsely passed!"
+		assert any("APT-002" in v for v in res_dup_apt.violations), res_dup_apt.violations
 
 		print("PASS: All NpcAuthorityValidator fixtures verified successfully!")
 		return 0

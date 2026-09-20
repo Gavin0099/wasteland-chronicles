@@ -178,10 +178,76 @@ func assign_trait(world: WorldState, npc_id: StringName, trait_value: int) -> Di
 		"traits": profile.traits.duplicate(),
 	}
 
-# ── Action Authority (S4-C/S4-D: EMPTY, unconditionally) ──────────────────────
+# ── S4-E: Aptitudes (set-like Profile metadata) ───────────────────────────────
+# Same discipline as traits. An aptitude names a domain someone may find easier
+# to learn in. It is NOT a rating, multiplier, growth curve or cap, and it has no
+# gameplay consequence at all until S5-D defines real skills.
+
+func get_aptitudes(npc_id: StringName) -> Array[int]:
+	var profile: NpcProfile = get_profile(npc_id)
+	if profile == null:
+		return []
+	return profile.aptitudes.duplicate()
+
+func get_npcs_with_aptitude(aptitude_value: int) -> Array[StringName]:
+	var result: Array[StringName] = []
+	var sorted_keys := profiles.keys()
+	sorted_keys.sort()
+	for k in sorted_keys:
+		var p: NpcProfile = profiles[k]
+		if p.has_aptitude(aptitude_value):
+			result.append(p.npc_id)
+	return result
+
+func assign_aptitude(world: WorldState, npc_id: StringName, aptitude_value: int) -> Dictionary:
+	if not NpcProfile.is_valid_aptitude(aptitude_value):
+		return {
+			"success": false,
+			"error": "INVALID_APTITUDE: %d is not a member of the closed Aptitude enum" % aptitude_value
+		}
+	if not world.npc_registry.has_npc(npc_id):
+		return {"success": false, "error": "INVALID_NPC: %s not found in identity registry" % npc_id}
+
+	var profile: NpcProfile = get_profile(npc_id)
+	if profile == null:
+		return {
+			"success": false,
+			"error": "NO_PROFILE: NPC %s has no profile; aptitudes are profile metadata" % npc_id
+		}
+	if profile.has_aptitude(aptitude_value):
+		return {
+			"success": false,
+			"error": "DUPLICATE_APTITUDE: NPC %s already has aptitude %s" % [
+				npc_id, NpcProfile.aptitude_name(aptitude_value)
+			]
+		}
+
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(npc_id)
+	if ls == null:
+		return {"success": false, "error": "NO_LIFE_STATE: NPC %s has no life state" % npc_id}
+	if not ls.is_alive():
+		return {
+			"success": false,
+			"error": "DECEASED_NPC: NPC %s is dead; aptitudes cannot be authored post-mortem" % npc_id
+		}
+
+	var updated := profile.aptitudes.duplicate()
+	updated.append(aptitude_value)
+	profile.aptitudes = NpcProfile.canonical_traits(updated)
+
+	return {
+		"success": true,
+		"npc_id": npc_id,
+		"aptitude": aptitude_value,
+		"aptitude_name": NpcProfile.aptitude_name(aptitude_value),
+		"aptitudes": profile.aptitudes.duplicate(),
+	}
+
+# ── Action Authority (S4-C/D/E: EMPTY, unconditionally) ───────────────────────
 
 # npc-authority.md §6: the S4-C ~ E authorized action space is NONE.
-# This returns [] for EVERY background AND every combination of traits. It is not
+# This returns [] for EVERY background AND every combination of traits and
+# aptitudes. It is not
 # a stub awaiting content — whether a background or trait confers action
 # eligibility is an S4-F decision to be made against gameplay verbs that do not
 # exist yet.

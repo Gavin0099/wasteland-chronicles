@@ -157,7 +157,7 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 | **S4-C** | **G1.5-B3**| **背景傳記惰性防護：封閉列舉、寫入後不可變、僅限存活個體、零行為授權、模擬惰性 bitwise 反事實** | **CLOSED ✅** |
 | **S4-C.1**| **G1.5-B4**| **歷史事實權威：committed event ledger 完整持久化、derived count、非空 round-trip 決定論** | **CLOSED ✅** |
 | **S4-C.2**| **G1.5-B5**| **持久化邊界透明性：schema-aware 型別還原、authoritative float canonicality、存讀不造成世界分叉** | **CLOSED ✅** |
-| **S4-D / S4-E** | *Fast Lane* | **metadata-only 切片，無新 authority boundary：focused spec / focused tests / 既有 validator / regression** | 🟡 NEXT |
+| **S4-D / S4-E** | *Fast Lane* | **metadata-only 切片，無新 authority boundary：focused spec / focused tests / 既有 validator / regression** | **CLOSED ✅** |
 | **S4-F** | **G2-lite** | NPC 自主行為授權、閉環決策審計證據、動態行為邊界鎖 | 規劃中 |
 | **S5** | **G2** | 玩家與隊伍行為授權、存檔重播驗證、可驗證的世界歷程 | 規劃中 |
 | **S6** | **G2+** | 死亡繼承傳承、世界記憶跨代傳承不變量 | 規劃中 |

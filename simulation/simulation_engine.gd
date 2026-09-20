@@ -1037,6 +1037,18 @@ func validate_invariants(world: WorldState) -> String:
 					return "S4-D D3: NPC %s traits are not in canonical order" % profile.npc_id
 				seen_traits[t] = true
 				last_trait = t
+			# S4-E: aptitudes follow the same set-like discipline.
+			var seen_apts := {}
+			var last_apt := -1
+			for a in profile.aptitudes:
+				if not NpcProfile.is_valid_aptitude(a):
+					return "S4-E E1: NPC %s carries aptitude value %d outside the closed enum" % [profile.npc_id, a]
+				if seen_apts.has(a):
+					return "S4-E E3: NPC %s holds duplicate aptitude %s" % [profile.npc_id, NpcProfile.aptitude_name(a)]
+				if a < last_apt:
+					return "S4-E E3: NPC %s aptitudes are not in canonical order" % profile.npc_id
+				seen_apts[a] = true
+				last_apt = a
 
 	# S4-C.1 Event Ledger invariants (L4: derived count, payload representability)
 	if world.get_event_count() != world.event_log.size():

@@ -1069,21 +1069,25 @@
 	},
 	"npc_profile_registry": {
 		"npc:00000001": {
+			"aptitudes": [],
 			"background": 0,
 			"npc_id": "npc:00000001",
 			"traits": []
 		},
 		"npc:00000002": {
+			"aptitudes": [],
 			"background": 1,
 			"npc_id": "npc:00000002",
 			"traits": []
 		},
 		"npc:00000003": {
+			"aptitudes": [],
 			"background": 2,
 			"npc_id": "npc:00000003",
 			"traits": []
 		},
 		"npc:00000004": {
+			"aptitudes": [],
 			"background": 3,
 			"npc_id": "npc:00000004",
 			"traits": []
