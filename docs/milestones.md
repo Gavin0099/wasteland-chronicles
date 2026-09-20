@@ -47,6 +47,19 @@
 
 ---
 
+## G1.5 — NPC Authority Hardening (已完成 ✅)
+
+為防止進入個體 NPC 生態時產生幻覺、人口不一致與權限洩漏，正式建立 G1.5 治理硬化層：
+* **Rule 1 (Population Authority)**：具名 NPC 為聚落人口之子集合，嚴格守恆（$N_{\text{named}} \le N_{\text{pop}}$），非疊加人口。
+* **Rule 2 (Immutable Identity)**：NPC ID 永久固定，與位置、職業、派系、隊伍狀態徹底解耦。
+* **Rule 3 (Atomic Commit)**：遷徙與死亡跨實體、總量與審計日誌三層原子性提交。
+* **Rule 4 (Closed Action Space)**：自主行為受顯式授權清單約束，未授權行為強制 Fail-Closed。
+* **Rule 5 (Structured Evidence)**：結構化決策證據取代無邊界 CoT，具備 100% 重現性。
+* **Rule 6 (Unidirectional Authority)**：模擬引擎掌管唯一客觀狀態，LLM/敘事層僅為下游觀察者，0 狀態修改權限。
+* **驗收成果**：[docs/npc-authority.md](file:///d:/wasteland-chronicles/docs/npc-authority.md) 規格發布，[tests/test_npc_population_accounting.gd](file:///d:/wasteland-chronicles/tests/test_npc_population_accounting.gd) 七大 Gate 全數 PASS。
+
+---
+
 ## S4 — Individual NPC Ecology (當前推進切片 🟡)
 
 將聚落的人口數字拆解為世界中的可識別個體：
