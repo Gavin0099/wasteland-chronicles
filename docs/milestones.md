@@ -64,11 +64,12 @@
 ## S4 — Individual NPC Ecology (當前推進切片 🟡)
 
 將聚落的人口數字拆解為世界中的可識別個體：
-* **S4-A — NPC Identity (+ G1.5-B1 Runtime Enforcement)**：
-  - 核心機制：`NPCRegistry`、`NpcIdentity`、最小身份表徵化實體。
-  - G1.5-B1 運行防護：具名子集約束驗證、確定性序列持久化、防人口通膨（GB1~GB5）。
-* **S4-B — NPC Life State (+ G1.5-B2 Lifecycle Atomicity)**：
-  - 核心機制：`location, job, health, needs, relationships`。
+* **S4-A — NPC Identity (+ G1.5-B1 Runtime Enforcement)**：**CLOSED ✅**
+  - 核心機制：`NpcRegistry`、`NpcIdentity`、最小身份表徵化實體（`id`, `name`, `age_at_materialization`, `origin_settlement_id`）。
+  - G1.5-B1 運行防護：具名子集約束驗證（$N_{\text{named}} \le N_{\text{pop}}$）、確定性單調序號持久化、防人口通膨、前置驗證失敗零突變（A1 ~ A7 驗證通過）。
+  - 領域驗證器：獨立 Python 權威驗證器 `governance_tools/npc_authority_validator.py` 納入合約。
+* **S4-B — NPC Life State (+ G1.5-B2 Lifecycle Atomicity)**：**CURRENT 🟡**
+  - 核心機制：`location, job, health, needs, relationships`（將 mutable 狀態自 Identity 解耦）。
   - G1.5-B2 運行防護：遷徙與死亡之個體/總額雙重原子提交真實驗收。
 * **S4-C — Background**：前商隊守衛、機械師、農夫、拾荒者（影響社會角色、初始關係、可用行為，不決定數值點數）。
 * **S4-D — Traits**：謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。

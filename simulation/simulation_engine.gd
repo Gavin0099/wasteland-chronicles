@@ -853,4 +853,17 @@ func validate_invariants(world: WorldState) -> String:
 			current_living_pop, total_deaths, total_accounted, world.total_initial_population
 		]
 
+	# S4-A 具名 NPC 人口子集不變量 (Named <= Population, Anonymous >= 0, Valid Home Ref)
+	if world.npc_registry != null:
+		for s_id in world.settlements:
+			var s: SettlementState = world.settlements[s_id]
+			var named_count: int = world.npc_registry.get_named_count_at(s.id)
+			if named_count > s.population:
+				return "Named NPC subset violation at %s: named count %d > population %d" % [
+					s.id, named_count, s.population
+				]
+		for npc in world.npc_registry.get_all_npcs():
+			if not world.settlements.has(npc.origin_settlement_id):
+				return "NPC %s has invalid origin_settlement_id: %s" % [npc.id, npc.origin_settlement_id]
+
 	return ""
