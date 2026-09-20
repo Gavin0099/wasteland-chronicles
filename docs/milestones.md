@@ -387,7 +387,20 @@ Aptitudes  = 這個人可能比較容易學哪類事情
     - **UI6 (Playable Smoke Test)**：完整生命週期（開局 $\to$ 選地點 $\to$ Travel $\to$ 在途 $\to$ 外部 tick $\to$ 抵達 $\to$ Feed 切換）0 error 0 crash。
   - 全專案 26 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
 * **S5-B — Player Verbs (核心動詞循環)**：
-  - **S5-B1 (Travel + Wait)**：玩家物理在地圖移動與等待時間流逝（遵守 Axiom 9，無瞬移）。
+  - **S5-B1 (Travel + Wait)**：**CLOSED ✅**
+    - **核心問題已回答**：玩家能不能主動讓世界過一天，而且自己、NPC、經濟、商隊、旅行進度都真的一起過一天？——**YES**。
+    - **WAIT 雙態語意**：
+      - **定居狀態 (Settled)**：按鈕顯示 `[WAIT 1 DAY]`，世界全域推進 1 tick，玩家留在原地；**個人背包水糧絕不額外扣除**（嚴禁雙重代謝，聚落宏觀消耗已計入玩家）。
+      - **在途狀態 (In Transit)**：按鈕動態切換為 `[CONTINUE — 1 DAY]`，底層同為 `PlayerIntent.WAIT`，物理航程推進 1 日（`days_remaining - 1`）並扣除個人背包 1 水 1 糧。
+    - **嚴防雙重 Tick**：權威完全由 `SimulationEngine.commit_player_intent(WAIT)` 鎖定，成功提交後由引擎推進精確 1 個完整 world tick，UI 僅做投影刷新，嚴禁重複推進。
+    - **驗收成果**：[tests/test_s5_b1_wait.gd](file:///d:/wasteland-chronicles/tests/test_s5_b1_wait.gd) 六大 Gate (B1 ~ B6) 全數 PASS：
+      - **B1 (WAIT Authorization)**：WAIT 為第一級正式意圖，對非法 ID 或死亡狀態強制 Fail-Closed。
+      - **B2 (Exactly One Tick)**：每次 WAIT 精確推進 1 個 tick（Day 0 $\to$ 1），灰谷水庫存消耗（80 $\to$ 75）、事件入帳、`PLAYER_WAIT` 登錄證明世界實質演進。
+      - **B3 (Settled Wait / No Double-Metabolism)**：定居灰谷連續等待 3 天，個人背包 5 水 5 糧完全保留（負重 10 / 20 恆定）。
+      - **B4 (Transit Wait)**：在途等待逐日推進航程並消耗個人背包水糧（5/5 $\to$ 4/4 $\to$ 3/3）。
+      - **B5 (Physical Arrival / Axiom 9)**：第 3 次在途等待精確於第 6 天執行完畢抵達新希望（$4 + 3 - 1 = 6 \to$ Day 7），人口守恆 300 == 300，抵達後等待切回聚落供餐。
+      - **B6 (UI State & Mid-Route Save/Load)**：UI 按鈕動態切換；在途中存檔重載續跑至 Day 9 與連續運行世界 Canonical SHA-256 位元 100% 一致（`d92431d8841077597ea87496e76fe5a690935473bcab6c679bcd5b4099cdd31b`）。
+    - 全專案 27 組測試套件 100% PASS，Governance Drift Checker 18/18 PASS。
   - **S5-B2 (Trade)**：玩家在聚落買賣物資，利用供需利差獲利或緩解短缺。
   - **S5-B3 (Scavenge / Intervention)**：玩家在荒原搜刮並首次改變區域供需。
 * **★ FIRST PLAYABLE CHECKPOINT ★**：

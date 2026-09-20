@@ -19,6 +19,7 @@ extends Control
 
 signal ui_refreshed(projection_data: Dictionary)
 signal travel_triggered(destination_id: String, success: bool)
+signal wait_triggered(result: Dictionary)
 
 var world: WorldState = null
 var engine: SimulationEngine = null
@@ -36,6 +37,7 @@ var lbl_hud_backpack: Label
 var lbl_hud_commodities: Label
 var lbl_settlement_title: Label
 var lbl_settlement_details: Label
+var btn_wait: Button
 var btn_travel: Button
 var event_feed_container: VBoxContainer
 var map_node_buttons: Dictionary = {}
@@ -143,6 +145,39 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 			cs.get("security", 0.0),
 			cs.get("water_pressure", 0.0), cs.get("food_pressure", 0.0)
 		]
+	# Update WAIT button state (S5-B1)
+	if btn_wait != null:
+		if is_in_transit:
+			btn_wait.text = "[CONTINUE — 1 DAY]"
+			btn_wait.disabled = false
+			btn_wait.visible = true
+		elif p.get("status") == "SETTLED":
+			btn_wait.text = "[WAIT 1 DAY]"
+			btn_wait.disabled = false
+			btn_wait.visible = true
+		else:
+			btn_wait.disabled = true
+
+	if is_current:
+		# LIVE settlement view (Current location only)
+		var cs: Dictionary = proj.get("current_settlement", {})
+		lbl_settlement_title.text = "[ %s ] - CURRENT LOCATION (LIVE)" % clean_title
+		lbl_settlement_details.text = (
+			"Population: %d\n" +
+			"Warehouse Stock:\n" +
+			"  Water: %d (Price: %.2f)  |  Food: %d (Price: %.2f)\n" +
+			"  Scrap: %d (Price: %.2f)  |  Fuel: %d (Price: %.2f)\n" +
+			"Security: %.1f / 100.0\n" +
+			"Deprivation Pressure: Water %.1f | Food %.1f"
+		) % [
+			cs.get("population", 0),
+			cs.get("water", 0), cs.get("price_water", 0.0),
+			cs.get("food", 0), cs.get("price_food", 0.0),
+			cs.get("scrap", 0), cs.get("price_scrap", 0.0),
+			cs.get("fuel", 0), cs.get("price_fuel", 0.0),
+			cs.get("security", 0.0),
+			cs.get("water_pressure", 0.0), cs.get("food_pressure", 0.0)
+		]
 		if btn_travel != null:
 			btn_travel.visible = false
 			btn_travel.disabled = true
@@ -195,7 +230,7 @@ func _render_event_feed(events: Array) -> void:
 		event_feed_container.add_child(lbl)
 
 # ==============================================================================
-# PLAYER INTERACTION (INTENT CHAIN ONLY - NO AUTO-TICK)
+# PLAYER INTERACTION (INTENT CHAIN ONLY - NO DOUBLE-TICK)
 # ==============================================================================
 
 func select_settlement(settlement_id: String) -> void:
@@ -227,11 +262,27 @@ func on_travel_pressed() -> Dictionary:
 	travel_triggered.emit(selected_settlement_id, true)
 	return commit_res
 
-# External tick progression (driven by test harness or future S5-B1 turn runner)
-func advance_day() -> void:
-	if world != null and engine != null:
+func on_wait_pressed() -> Dictionary:
+	if world == null or engine == null or world.player == null:
+		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+
+	var intent := PlayerIntent.create_wait(world.player.npc_id)
+	var res := engine.commit_player_intent(world, intent)
+	if res.get("success", false):
+		refresh_ui()
+
+	wait_triggered.emit(res)
+	return res
+
+# External tick progression (driven by test harness or unified player wait)
+func advance_day() -> Dictionary:
+	if world != null and world.player != null:
+		return on_wait_pressed()
+	elif world != null and engine != null:
 		engine.tick(world)
 		refresh_ui()
+		return {"success": true}
+	return {"success": false}
 
 # ==============================================================================
 # PROGRAMMATIC UI CONSTRUCTION (SURVIVOR PDA THEME)
@@ -326,11 +377,23 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_settlement_details.add_theme_color_override("font_color", Color("#D8D3C8"))
 	settlement_vbox.add_child(lbl_settlement_details)
 
+	var action_hbox := HBoxContainer.new()
+	action_hbox.add_theme_constant_override("separation", 8)
+	settlement_vbox.add_child(action_hbox)
+
+	btn_wait = Button.new()
+	btn_wait.text = "[WAIT 1 DAY]"
+	btn_wait.custom_minimum_size = Vector2(0, 36)
+	btn_wait.size_flags_horizontal = SIZE_EXPAND_FILL
+	btn_wait.pressed.connect(func(): on_wait_pressed())
+	action_hbox.add_child(btn_wait)
+
 	btn_travel = Button.new()
 	btn_travel.text = "TRAVEL"
 	btn_travel.custom_minimum_size = Vector2(0, 36)
+	btn_travel.size_flags_horizontal = SIZE_EXPAND_FILL
 	btn_travel.pressed.connect(func(): on_travel_pressed())
-	settlement_vbox.add_child(btn_travel)
+	action_hbox.add_child(btn_travel)
 
 	# --- BOTTOM SPLIT (HUD vs DEBUG WORLD FEED) ---
 	var bot_split := HBoxContainer.new()

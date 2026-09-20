@@ -1434,7 +1434,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			if tick_events != null:
 				tick_events.append(wait_evt)
 			world.record_event(wait_evt)
-			return {"success": true, "action": "WAIT"}
+			tick(world)
+			return {"success": true, "action": "WAIT", "current_day": world.current_day}
 
 		PlayerIntent.Action.TRAVEL:
 			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
@@ -1477,4 +1478,10 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			}
 
 	return {"success": false, "error": "UNREACHABLE"}
+
+func execute_player_wait(world: WorldState) -> Dictionary:
+	if world == null or world.player == null:
+		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
+	var intent := PlayerIntent.create_wait(world.player.npc_id)
+	return commit_player_intent(world, intent)
 
