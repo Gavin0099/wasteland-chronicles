@@ -87,7 +87,8 @@ func _init() -> void:
 		PlayerIntent.Action.SELL,
 		# S5-B4 added answering a roadside encounter. It is a closed, enumerated
 		# verb like the rest, not an escape hatch.
-		PlayerIntent.Action.RESOLVE_ENCOUNTER
+		PlayerIntent.Action.RESOLVE_ENCOUNTER,
+		PlayerIntent.Action.CONTINUE_JOURNEY
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:

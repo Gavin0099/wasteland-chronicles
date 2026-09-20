@@ -1,0 +1,68 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+    WASTELAND CHRONICLES - S4-F1 AUTONOMOUS DECISION AUTHORITY (G2-lite)
+================================================================================
+
+--- [GATE F1] Closed Action Space ---
+  Action space is exactly [STAY, MIGRATE]; values 2,3,7,99,-1 all refused
+  Authorization refuses an out-of-space action: UNAUTHORIZED_ACTION
+  Authorization refuses a selected-but-ineligible action
+PASS GATE F1: Closed Action Space verified.
+
+--- [GATE F2] Observation Boundary ---
+  No decision-engine function signature accepts WorldState or any registry
+  Observation exposes exactly: ["npc_id", "day", "current_settlement_id", "water_pressure", "food_pressure", "security", "candidate_destinations"]
+  (no world.settlements, no event ledger, no other NPC states, no future)
+PASS GATE F2: Observation Boundary verified.
+
+--- [GATE F3] Deterministic Decision ---
+  200 evaluations of one observation produced one identical intent
+  water=82 food=10 security=18 -> MIGRATE (rule RULE_SEVERE_LOCAL_DEPRIVATION)
+  calm settlement        -> STAY    (RULE_STAY_DEFAULT)
+  water pressure 82      -> MIGRATE (RULE_SEVERE_LOCAL_DEPRIVATION)
+  food pressure 77       -> MIGRATE (RULE_SEVERE_LOCAL_DEPRIVATION)
+  security 12            -> MIGRATE (RULE_LOCAL_SECURITY_COLLAPSE)
+  nowhere to go          -> STAY    (RULE_NO_VIABLE_DESTINATION)
+  A desperate NPC with nowhere to go STAYS, and the reason is recorded distinctly
+PASS GATE F3: Deterministic Decision verified.
+
+--- [GATE F4] No Direct Mutation ---
+  50 observe+decide+authorize cycles: world hash unchanged
+  Decision layer holds no mutation path; committing belongs to the engine
+PASS GATE F4: No Direct Mutation verified.
+
+--- [GATE F5] Atomic Action Commit ---
+  Day 13: Mara decided to leave Gray Valley for settlement:new_hope
+  She is IN_TRANSIT inside party refugee:named_d13_gray_valley_to_new_hope (headcount 1)
+  Life conservation intact: 300 == 300
+  Committed event NAMED_NPC_MIGRATION_STARTED recorded with its rule
+  Engine invariants PASS after the autonomous departure
+PASS GATE F5: Atomic Action Commit verified.
+
+--- [GATE F6] Batch Determinism ---
+  Two identical 3-NPC, 40-day runs produced identical worlds
+  At least 3 NPCs decided on the same day (batch semantics exercised)
+  NPCs in one settlement on one day all observed an identical snapshot
+  (no interleaving: nobody saw a world an earlier decision had altered)
+  Decisions are recorded in canonical npc_id order on every day
+PASS GATE F6: Batch Determinism verified.
+
+--- [GATE F7] Structured Evidence ---
+  114 evidence records: 3 COMMITTED, 111 NO_OP, 0 REJECTED
+  Every COMMITTED record resolves to that NPC's own ledger event
+  No REJECTED or NO_OP record references a world event
+  No chain-of-thought text anywhere in the trail
+  Rejected intents left no trace in the committed event ledger
+PASS GATE F7: Structured Evidence verified.
+
+--- [GATE F8] Replay / Independent Verification ---
+  Round-trip SHA identical; 114 decision records preserved
+  Interrupted and uninterrupted runs made the SAME decisions to Day 60
+  Decision trail SHA: 9f51c43f835dda5a8249f75bbbd4a2f64186daaa76be89925cac1fa2dcb55291
+  Exported artifacts/world_snapshot_s4f1.json for independent validation.
+PASS GATE F8: Replay / Independent Verification verified.
+
+================================================================================
+ALL S4-F1 AUTONOMOUS DECISION GATES (F1 ~ F8) PASSED CLEANLY!
+================================================================================

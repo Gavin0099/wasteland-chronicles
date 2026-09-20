@@ -1,0 +1,45 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S4-A NPC IDENTITY RUNTIME TEST SUITE
+================================================================================
+
+--- [GATE A1] Materialization Is Non-Demographic ---
+  Before materialization: Pop = 100, Named = 0, Anonymous = 100
+  After 3 materializations: Pop = 100, Named = 3, Anonymous = 97
+  World total population strictly preserved: 300 == 300
+PASS GATE A1: Materialization Is Non-Demographic verified.
+
+--- [GATE A2] Subset Invariant ---
+  Settlement settlement:new_hope: Named (1) <= Population (120)
+  Settlement settlement:gray_valley: Named (3) <= Population (100)
+  Settlement settlement:dry_well: Named (1) <= Population (80)
+PASS GATE A2: Subset Invariant strictly verified.
+
+--- [GATE A3] Anonymous Accounting ---
+  Gray Valley: 3 Named + 97 Anonymous == 100 Total (Anonymous >= 0 holds)
+PASS GATE A3: Anonymous Accounting strictly verified.
+
+--- [GATE A4] Deterministic Monotonic ID Minting ---
+  Monotonic IDs: npc:00000001 through npc:00000005 verified.
+  Dual world SHA-256 bitwise identical: 677fdc70d52741ca202db71c1389b8d529720db9a950f434aa85a4e522f8665a
+PASS GATE A4: Deterministic Monotonic ID Minting verified.
+
+--- [GATE A5] Fail-Closed Negative Tests ---
+  Expected overflow rejection caught: CAPACITY_OVERFLOW: Settlement settlement:dry_well has 2 named NPCs out of 2 total population
+  Expected invalid reference rejection caught: INVALID_SETTLEMENT_REFERENCE: Settlement settlement:moon_base does not exist
+  Expected duplicate ID rejection caught: DUPLICATE_ID: NPC ID npc:00000003 already exists in registry
+PASS GATE A5: Fail-Closed Negative Tests strictly verified.
+
+--- [GATE A6] Serialization & Duplication Consistency ---
+  Original, Deserialized, and Duplicated worlds have 100% bitwise matching SHA-256: 677fdc70d52741ca202db71c1389b8d529720db9a950f434aa85a4e522f8665a
+PASS GATE A6: Serialization & Duplication Consistency verified.
+
+--- [GATE A7] Engine Invariant Integration & Bitwise Replay ---
+  Exported artifacts/world_snapshot.json for independent audit.
+  Engine invariants validated across 10 ticks with 5 named NPCs active in world.
+PASS GATE A7: Engine Invariant Integration & Bitwise Replay verified.
+
+================================================================================
+ALL S4-A RUNTIME ACCEPTANCE GATES (A1 ~ A7) PASSED CLEANLY!
+================================================================================

@@ -304,11 +304,12 @@ func _init() -> void:
 	# player ends up settled again rather than stranded mid-route.
 	shell.select_settlement("settlement:new_hope")
 	var ui_travel_res := shell.on_travel_pressed()
-	# S5-B4: the road may interrupt. Answer it, then arrival must follow.
+	# Encounters pause twice: choose, then confirm the result before resuming.
 	var b6_encounters := 0
 	while test_world.active_encounter != null and b6_encounters < 8:
 		var b6_opts := TravelEncounter.options(test_world.active_encounter.encounter_type)
 		shell.on_encounter_option_pressed(String(b6_opts[b6_opts.size() - 1]["id"]))
+		shell.on_encounter_continue_pressed(test_world.pending_encounter_result)
 		b6_encounters += 1
 	var b6_ls: NpcLifeState = test_world.npc_life_state_registry.get_life_state(test_world.player.npc_id)
 	if b6_ls.status != NpcLifeState.Status.SETTLED:

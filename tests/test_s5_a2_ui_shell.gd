@@ -149,12 +149,13 @@ func _init() -> void:
 		return
 
 	# Since S5-B4 the road can stop you. Answer whatever it asks, then the
-	# journey must finish on its own - that is the behaviour under test.
+	# player confirms its result, then the journey resumes.
 	var encounters_answered := 0
 	while world.active_encounter != null and encounters_answered < 8:
 		var opts := TravelEncounter.options(world.active_encounter.encounter_type)
 		var cheapest := String(opts[opts.size() - 1]["id"])
 		shell.on_encounter_option_pressed(cheapest)
+		shell.on_encounter_continue_pressed(world.pending_encounter_result)
 		encounters_answered += 1
 
 	if world.current_day <= day_before:

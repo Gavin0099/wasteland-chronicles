@@ -21,6 +21,9 @@ var decision_audit_trail: Array[NpcDecisionEvidence] = []
 
 # S5-B4: the encounter currently halting the player's journey, or null.
 var active_encounter: TravelEncounterState = null
+# A receipt points to the committed ledger, never a second copy of the rewards.
+# -1 also preserves compatibility with saves made before result confirmation.
+var pending_encounter_result: int = -1
 
 func get_settlement(id: StringName) -> SettlementState:
 	return settlements.get(id, null)
@@ -110,6 +113,8 @@ func duplicate_state() -> WorldState:
 		copy.decision_audit_trail.append((ev as NpcDecisionEvidence).duplicate_evidence())
 	if player != null:
 		copy.player = player.duplicate_state()
+	copy.active_encounter = active_encounter.duplicate_state() if active_encounter != null else null
+	copy.pending_encounter_result = pending_encounter_result
 	return copy
 
 func to_dict() -> Dictionary:
@@ -160,7 +165,8 @@ func to_dict() -> Dictionary:
 		"event_count": events_arr.size(),
 		"events": events_arr,
 		"decision_audit_trail": decisions_arr,
-		"active_encounter": active_encounter.to_dict() if active_encounter != null else {}
+		"active_encounter": active_encounter.to_dict() if active_encounter != null else {},
+		"pending_encounter_result": pending_encounter_result,
 	}
 	if player != null:
 		result["player"] = player.to_dict()
@@ -245,6 +251,14 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 				return {"success": false, "world": null, "error": "ENCOUNTER_MALFORMED: unknown encounter type '%s'" % enc.encounter_type}
 			w.active_encounter = enc
 
+	var receipt: Variant = data.get("pending_encounter_result", -1)
+	if typeof(receipt) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(receipt)) or float(receipt) != floor(float(receipt)) or float(receipt) < -1 or float(receipt) >= w.event_log.size():
+		return {"success": false, "world": null, "error": "ENCOUNTER_RESULT_MALFORMED: invalid ledger reference"}
+	w.pending_encounter_result = int(receipt)
+	if w.pending_encounter_result >= 0:
+		var evt := w.event_log[w.pending_encounter_result]
+		if w.active_encounter != null or w.player == null or evt.actor_id != w.player.npc_id or evt.type != "TRAVEL_ENCOUNTER_RESOLVED" or not TravelEncounter.valid_resolution(evt.payload):
+			return {"success": false, "world": null, "error": "ENCOUNTER_RESULT_MALFORMED: invalid receipt"}
 	return {"success": true, "world": w, "error": ""}
 
 # Thin wrapper: returns the world, or null when the snapshot is refused.

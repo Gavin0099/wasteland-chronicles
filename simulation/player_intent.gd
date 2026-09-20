@@ -14,6 +14,7 @@ extends RefCounted
 #   BUY    = 2 (Purchase commodity from current settlement)
 #   SELL   = 3 (Sell commodity to current settlement)
 #   RESOLVE_ENCOUNTER = 4 (S5-B4: choose an option on a roadside encounter)
+#   CONTINUE_JOURNEY = 5 (confirm a committed result, then resume travel)
 # ==============================================================================
 
 enum Action {
@@ -22,9 +23,10 @@ enum Action {
 	BUY               = 2,
 	SELL              = 3,
 	RESOLVE_ENCOUNTER = 4,
+	CONTINUE_JOURNEY = 5,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -55,6 +57,7 @@ static func action_name(value: int) -> String:
 		Action.BUY: return "BUY"
 		Action.SELL: return "SELL"
 		Action.RESOLVE_ENCOUNTER: return "RESOLVE_ENCOUNTER"
+		Action.CONTINUE_JOURNEY: return "CONTINUE_JOURNEY"
 		_: return "INVALID(%d)" % value
 
 static func is_authorized_action(value: int) -> bool:
@@ -98,3 +101,6 @@ static func create_resolve_encounter(p_player_id: StringName, p_option_id: Strin
 	return PlayerIntent.new(
 		Action.RESOLVE_ENCOUNTER, p_player_id, &"", {"option_id": String(p_option_id)}
 	)
+
+static func create_continue_journey(p_player_id: StringName, result_index: int) -> PlayerIntent:
+	return PlayerIntent.new(Action.CONTINUE_JOURNEY, p_player_id, &"", {"result_index": result_index})

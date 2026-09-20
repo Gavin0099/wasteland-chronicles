@@ -1668,6 +1668,8 @@ func _spend_extra_travel_day(world: WorldState, player_id: StringName) -> void:
 
 # What an encounter option costs, checked before anything is committed.
 func authorize_encounter_option(world: WorldState, option_id: StringName) -> String:
+	if world.pending_encounter_result >= 0:
+		return "ENCOUNTER_RESULT_PENDING: confirm the previous result first"
 	var enc := world.active_encounter
 	if enc == null:
 		return "NO_ACTIVE_ENCOUNTER: there is nothing on the road to answer"
@@ -1690,7 +1692,7 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 				return "INSUFFICIENT_FOOD: you have nothing to share"
 	return ""
 
-# Apply the chosen option atomically, record it, then let the journey resume.
+# Apply the choice and its time cost atomically, then wait for receipt confirmation.
 func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictionary:
 	var auth := authorize_encounter_option(world, option_id)
 	if auth != "":
@@ -1702,13 +1704,18 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var gained: Dictionary = {}
 	var spent: Dictionary = {}
 	var extra_day := false
+	var offered: Dictionary = {}
+	var inventory_before := {}
+	var day_before := world.current_day
+	for commodity in COMMODITIES:
+		inventory_before[commodity] = p.inventory.get_amount(commodity)
 
 	match option_id:
 		&"SEARCH":
 			# What is under this particular truck. Capped by what you can carry;
 			# the ledger records what was really taken, not what was on offer.
-			gained = _give_player_goods(p, TravelEncounter.wreck_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
+			offered = TravelEncounter.wreck_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 			extra_day = true
 		&"CLEAR":
 			p.inventory.add_amount("scrap", -1)
@@ -1719,65 +1726,61 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"GIVE_WATER":
 			p.inventory.add_amount("water", -1)
 			spent["water"] = 1
-			gained = _give_player_goods(p, TravelEncounter.traveller_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
+			offered = TravelEncounter.traveller_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 		&"DETOUR":
 			extra_day = true
 		&"SHARE_FOOD":
 			p.inventory.add_amount("food", -1)
 			spent["food"] = 1
-			gained = _give_player_goods(p, TravelEncounter.refugee_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
+			offered = TravelEncounter.refugee_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 		&"LEAVE":
 			pass
 
-	var evt := EventRecord.new(
-		world.current_day,
-		"TRAVEL_ENCOUNTER_RESOLVED",
-		p.npc_id,
-		enc.destination_id,
-		{
-			"encounter_type": String(encounter_type),
-			"option": String(option_id),
-			"gained": gained,
-			"spent": spent,
-			"cost_extra_day": extra_day,
-		}
-	)
-	world.record_event(evt)
+	gained = _give_player_goods(p, offered)
+	var left_behind := {}
+	for commodity in offered:
+		var amount := int(offered[commodity]) - int(gained.get(commodity, 0))
+		if amount > 0:
+			left_behind[commodity] = amount
 
-	# Clear the encounter BEFORE any further time passes, otherwise the extra
-	# day would immediately halt on the encounter it just resolved.
 	world.active_encounter = null
-
 	if extra_day:
 		_spend_extra_travel_day(world, p.npc_id)
 
-	# Resume the journey unless the road has already killed us.
-	var days_travelled := 0
-	var arrived := false
-	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(p.npc_id)
-	if ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.IN_TRANSIT:
-		var party: RefugeePartyState = world.get_refugee_party(ls.population_container_id)
-		var remaining := party.days_remaining if party != null else 0
-		var resume := advance_player_travel(world, p.npc_id, remaining)
-		days_travelled = resume["days_travelled"]
-		arrived = resume["arrived"]
-	else:
-		arrived = ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.SETTLED
-
-	return {
-		"success": true,
-		"action": "RESOLVE_ENCOUNTER",
-		"encounter_type": String(encounter_type),
-		"option": String(option_id),
-		"gained": gained,
-		"spent": spent,
-		"cost_extra_day": extra_day,
-		"days_travelled": days_travelled,
-		"arrived": arrived,
-		"current_day": world.current_day,
+	# Measure actual consumption, including the extra day's metabolism. No
+	# subsequent travel has happened yet, and missing rations are not fake losses.
+	for commodity in COMMODITIES:
+		var consumed := int(inventory_before[commodity]) + int(gained.get(commodity, 0)) - p.inventory.get_amount(commodity)
+		if consumed > 0:
+			spent[commodity] = consumed
+	var receipt := {
+		"encounter_type": String(encounter_type), "option": String(option_id),
+		"gained": gained, "spent": spent, "left_behind": left_behind,
+		"cost_extra_day": extra_day, "elapsed_days": world.current_day - day_before,
+		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
+	world.record_event(EventRecord.new(world.current_day, "TRAVEL_ENCOUNTER_RESOLVED", p.npc_id, enc.destination_id, receipt))
+	world.pending_encounter_result = world.event_log.size() - 1
+	var result := receipt.duplicate(true)
+	result.merge({"success": true, "action": "RESOLVE_ENCOUNTER", "days_travelled": 0,
+		"arrived": false, "current_day": world.current_day})
+	return result
+
+# Confirmation consumes the receipt exactly once, then resumes existing travel.
+func _continue_after_encounter(world: WorldState) -> Dictionary:
+	world.pending_encounter_result = -1
+	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	var result := {"days_travelled": 0, "arrived": false}
+	if ls != null and ls.is_alive():
+		if ls.status == NpcLifeState.Status.IN_TRANSIT:
+			var party := world.get_refugee_party(ls.population_container_id)
+			result = advance_player_travel(world, world.player.npc_id, party.days_remaining)
+		else:
+			result["arrived"] = ls.status == NpcLifeState.Status.SETTLED
+	result.merge({"success": true, "action": "CONTINUE_JOURNEY", "current_day": world.current_day})
+	return result
 
 # Hand goods to the player, limited by what the backpack can hold. Returns what
 # was actually received.
@@ -1801,6 +1804,15 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		]
 	if not PlayerIntent.is_authorized_action(intent.action):
 		return "UNAUTHORIZED_ACTION: %s is outside the S5-B2 closed action space" % PlayerIntent.action_name(intent.action)
+
+	# A dead player may dismiss a fatal receipt, but cannot resume travelling.
+	if intent.action == PlayerIntent.Action.CONTINUE_JOURNEY:
+		var receipt: Variant = intent.payload.get("result_index", -1)
+		if typeof(receipt) not in [TYPE_INT, TYPE_FLOAT] or receipt != world.pending_encounter_result or world.pending_encounter_result < 0:
+			return "NO_MATCHING_ENCOUNTER_RESULT: receipt is absent or already confirmed"
+		return ""
+	if world.pending_encounter_result >= 0:
+		return "ENCOUNTER_RESULT_PENDING: confirm the result before acting"
 
 	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 	if ls == null or not ls.is_alive():
@@ -1940,7 +1952,7 @@ func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: A
 func advance_player_travel(world: WorldState, player_id: StringName, route_days: int) -> Dictionary:
 	var days_travelled := 0
 	var max_days := route_days + TRAVEL_SAFETY_MARGIN_DAYS
-	while days_travelled < max_days:
+	while days_travelled < max_days and not is_player_travel_interrupted(world, player_id):
 		tick(world)
 		days_travelled += 1
 		var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(player_id)
@@ -1958,7 +1970,7 @@ func advance_player_travel(world: WorldState, player_id: StringName, route_days:
 
 # A journey halts while an encounter is waiting for an answer.
 func is_player_travel_interrupted(world: WorldState, _player_id: StringName) -> bool:
-	return world.active_encounter != null
+	return world.active_encounter != null or world.pending_encounter_result >= 0
 
 func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
 	var auth_err := authorize_player_intent(world, intent)
@@ -1966,6 +1978,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.CONTINUE_JOURNEY:
+			return _continue_after_encounter(world)
 		PlayerIntent.Action.RESOLVE_ENCOUNTER:
 			return commit_encounter_choice(world, StringName(String(intent.payload.get("option_id", ""))))
 

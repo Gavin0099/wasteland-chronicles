@@ -1,0 +1,60 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+        WASTELAND CHRONICLES - S4-C NPC PROFILE / BACKGROUND TEST SUITE
+================================================================================
+
+--- [GATE C1] Closed Background Enum ---
+  Rejected out-of-enum values [-1, 4, 99, 12345]
+  Zero mutation on rejection: world hash unchanged
+  Unknown NPC rejected: INVALID_NPC: npc:99999999 not found in identity registry
+  Mara -> CARAVAN_GUARD
+  Joel -> MECHANIC
+  Tess -> FARMER
+  Bram -> SCAVENGER
+PASS GATE C1: Closed Background Enum verified.
+
+--- [GATE C2] Background Immutability ---
+  Reassignment rejected: IMMUTABLE_BACKGROUND: NPC npc:00000001 already has background CARAVAN_GUARD; background is biography and can never be reassigned
+  Same-value reassignment also rejected (write-once, not idempotent)
+  Mara still CARAVAN_GUARD; world hash unchanged
+PASS GATE C2: Background Immutability verified.
+
+--- [GATE C3] Living NPC Only ---
+  NPC without life state rejected: NO_LIFE_STATE: NPC npc:00000005 has no life state; background requires a living NPC
+  Post-mortem authoring rejected: DECEASED_NPC: NPC npc:00000006 is dead; backgrounds cannot be authored post-mortem
+  Pre-mortem background survives death (Sten: dead, still MECHANIC)
+PASS GATE C3: Living NPC Only verified.
+
+--- [GATE C4] Zero Action Authority ---
+  get_authorized_actions() == [] for all 4 backgrounds
+  MECHANIC denied REPAIR; CARAVAN_GUARD denied ESCORT; all 6 attempts refused
+  NO_STATE_CHANGE confirmed: world hash unchanged across all attempts
+PASS GATE C4: Zero Action Authority verified.
+
+--- [GATE C5] Simulation Inertness (30-day counterfactual) ---
+  30 ticks, 4 backgrounds vs none -> identical projection SHA-256:
+    8a5cb916962ada7c1211e932892e3af88c4f5ec2ff169a96bd08d0bb2570d74a
+  Full-state hashes DO differ (profiles are actually present and persisted)
+  => Background affects the record of the world, not the behavior of the world.
+PASS GATE C5: Simulation Inertness verified.
+
+--- [GATE C6] Authority Preservation ---
+  Gray Valley population: 100 -> 100 (identity) -> 100 (profile) - untouched
+  Profiles are a subset of Identities: 1 profiles, 1 identities
+  Life conservation after 20 ticks with profiles: 300 == 300
+PASS GATE C6: Authority Preservation verified.
+
+--- [GATE C7] Round-Trip / Replay / Invariants ---
+  Dual world SHA-256 bitwise identical: cdfe03fdc12694ad81a199468e3b837d6f52af402b4e5a5a4e868387837d3d09
+  Full-state round-trip SHA-256 matches (ledger of 48 events included): cdfe03fdc12694ad81a199468e3b837d6f52af402b4e5a5a4e868387837d3d09
+  All 4 backgrounds restored exactly through the round-trip
+  No social_role / eligible_actions / occupation / skill keys in serialization
+  Engine invariants PASS with profiles present.
+  Negative test: corrupt background detected -> S4-C C1: NPC npc:00000001 carries background value 42 outside the closed enum
+  Exported artifacts/world_snapshot_s4c.json for independent profile audit.
+PASS GATE C7: Round-Trip / Replay / Invariants verified.
+
+================================================================================
+ALL S4-C RUNTIME ACCEPTANCE GATES (C1 ~ C7) PASSED CLEANLY!
+================================================================================

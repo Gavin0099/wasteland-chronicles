@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+      WASTELAND CHRONICLES - S5-B4 TRAVEL ENCOUNTERS TEST SUITE
+================================================================================
+
+--- [GATE E1] Auto-Travel Interrupt ---
+  Selection is deterministic; over 120 road-days: 67 empty, 53 encounters
+  Journey halted on day 1 at: 崩塌的道路
+  TRAVEL_ENCOUNTER committed to the ledger
+PASS GATE E1: Auto-Travel Interrupt verified.
+
+--- [GATE E2] Choice Authority ---
+  WAIT refused while an encounter is pending: ENCOUNTER_PENDING
+  Invented option refused: INVALID_OPTION
+  Toll refused with 3 caps in hand, and the world was not touched
+PASS GATE E2: Choice Authority verified.
+
+--- [GATE E3] Time Cost ---
+  Searching cost a real day: day 28 -> 29, and the day drank water and ate food
+  Loot is never free: the wreck cost 1 water and 1 food to reach
+  Detour is lost time, not free travel: 1 days to cover 2 remaining
+PASS GATE E3: Time Cost verified.
+
+--- [GATE E4] Resource Conservation ---
+  Wreck loot: { "scrap": 1, "fuel": 1 }, matching the committed record exactly
+  Toll paid: 10 caps, matching the committed record
+  Gave 1 water (9 -> 8); he had something to give
+  10 distinct wreck outcomes across 120 wrecks, 24 of them picked clean
+  Same wreck always yields the same thing: a gamble, not a dice roll
+  Option text states the cost and withholds the payoff
+  Engine invariants intact after looting, paying and giving
+PASS GATE E4: Resource Conservation verified.
+
+--- [GATE E5] Resume Travel ---
+  Answered 1 encounter(s), confirmed results, then the journey carried on to New Hope
+  Arrived on day 4 after explicit result confirmation
+PASS GATE E5: Resume Travel verified.
+
+--- [GATE E6] Save / Load ---
+  Paused on 崩塌的道路; snapshot restored identically
+  Same answer on both sides -> identical worlds, SHA b4bb031ce0192f7f80a78e7dbe6f42863c80fbecb68c40f6680a5f6ff485924d
+PASS GATE E6: Save / Load verified.
+
+================================================================================
+ALL S5-B4 TRAVEL ENCOUNTER GATES (E1 ~ E6) PASSED CLEANLY!
+================================================================================

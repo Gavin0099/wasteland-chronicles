@@ -68,6 +68,7 @@ var lbl_encounter_title: Label
 var lbl_encounter_body: Label
 var lbl_encounter_supplies: Label
 var encounter_options_box: VBoxContainer
+var encounter_art: Control
 var lbl_settlement_title: Label
 var lbl_settlement_subtitle: Label
 var lbl_settlement_condition: Label
@@ -198,7 +199,7 @@ func _render_projection(proj: Dictionary) -> void:
 
 	# 5. Event Feed
 	_render_event_feed(proj.get("events", []))
-	_render_encounter(proj.get("active_encounter", {}))
+	_render_encounter(proj.get("active_encounter", {}), proj.get("encounter_result", {}))
 
 func _render_settlement_panel(proj: Dictionary) -> void:
 	if lbl_settlement_title == null or lbl_settlement_details == null:
@@ -898,6 +899,7 @@ func _build_ui_layout_if_needed() -> void:
 	art_lbl.add_theme_font_size_override("font_size", 11)
 	art_placeholder.add_child(art_lbl)
 	encounter_vbox.add_child(art_placeholder)
+	encounter_art = art_placeholder
 
 	lbl_encounter_title = Label.new()
 	lbl_encounter_title.add_theme_color_override("font_color", Color("#D9822B"))
@@ -1031,23 +1033,32 @@ func _build_ui_layout_if_needed() -> void:
 # ==============================================================================
 # S5-B4: TRAVEL ENCOUNTER
 # ==============================================================================
-func _render_encounter(enc: Dictionary) -> void:
+func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 	if encounter_panel == null:
 		return
 
-	var active: bool = not enc.is_empty()
+	var resolved := not result.is_empty()
+	var active: bool = not enc.is_empty() or resolved
 	encounter_panel.visible = active
+	encounter_art.visible = not resolved
 	if s_panel != null and active:
 		s_panel.visible = false
 	if market_panel != null and market_panel.get_parent() != null:
 		market_panel.get_parent().visible = not active
 	if btn_wait != null:
 		btn_wait.visible = not active
+	if active:
+		itinerary_card.visible = false
+		inspection_subcard.visible = false
+		btn_travel.visible = false
 
 	for child in encounter_options_box.get_children():
 		encounter_options_box.remove_child(child)
 		child.queue_free()
 	if not active:
+		return
+	if resolved:
+		_render_encounter_result(result)
 		return
 
 	lbl_encounter_route.text = String(enc.get("route_label", ""))
@@ -1071,6 +1082,60 @@ func _render_encounter(enc: Dictionary) -> void:
 		var option_id := String(option.get("id", ""))
 		btn.pressed.connect(func(): on_encounter_option_pressed(option_id))
 		encounter_options_box.add_child(btn)
+
+func _resource_lines(amounts: Dictionary, prefix: String) -> String:
+	var names := {"water": "💧 水", "food": "🍴 食物", "scrap": "⚙ 廢料", "fuel": "⛽ 燃料", "caps": "💰 瓶蓋"}
+	var lines: PackedStringArray = []
+	for key in names:
+		if int(amounts.get(key, 0)) > 0:
+			lines.append("%s %s%d" % [names[key], prefix, int(amounts[key])])
+	return "\n".join(lines)
+
+func _render_encounter_result(result: Dictionary) -> void:
+	lbl_encounter_route.text = String(result.route_label)
+	lbl_encounter_title.text = "%s · 結算結果" % String(result.title)
+	var descriptions := {
+		"SEARCH": "你花了一天搜尋貨車殘骸。", "LEAVE": "你決定離開。",
+		"CLEAR": "你用廢料墊出了通道。", "DETOUR": "你花了一天繞過障礙。",
+		"PAY": "你付了過路費。", "GIVE_WATER": "你交給旅人一份水。",
+		"SHARE_FOOD": "你分給逃難的人群一份食物。",
+	}
+	var gains := _resource_lines(result.gained, "+")
+	var losses := _resource_lines(result.spent, "−")
+	var left := _resource_lines(result.left_behind, "")
+	if gains.is_empty():
+		gains = "沒有獲得物資。"
+		if result.option == "SEARCH" and left.is_empty():
+			gains = "你翻遍了車廂，沒有找到值得帶走的東西。"
+	lbl_encounter_body.text = "%s\n\n獲得\n%s\n\n消耗\n%s\n\n時間\n+%d 天" % [
+		descriptions.get(result.option, "選擇已結算。"), gains,
+		losses if not losses.is_empty() else "無", int(result.elapsed_days)]
+	if not left.is_empty():
+		lbl_encounter_body.text += "\n\n背包空間不足，未帶走\n%s" % left
+	if result.is_dead:
+		lbl_encounter_body.text += "\n\n你已在這段時間死亡，旅程結束。"
+	var bp: Dictionary = current_projection.player.backpack
+	lbl_encounter_supplies.text = "目前補給：💧 水 %d　🍴 食物 %d" % [int(bp.water), int(bp.food)]
+	var btn := Button.new()
+	btn.text = "繼續上路" if result.can_continue else "確認結果"
+	btn.custom_minimum_size = Vector2(0, 36)
+	var receipt := int(result.result_index)
+	btn.pressed.connect(func():
+		btn.disabled = true
+		on_encounter_continue_pressed(receipt))
+	encounter_options_box.add_child(btn)
+	_focus_result_button.call_deferred(btn)
+
+func _focus_result_button(btn: Button) -> void:
+	if is_instance_valid(btn) and btn.is_inside_tree() and btn.is_visible_in_tree():
+		btn.grab_focus()
+
+func on_encounter_continue_pressed(receipt: int) -> Dictionary:
+	if world == null or engine == null or world.player == null:
+		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+	var res := engine.commit_player_intent(world, PlayerIntent.create_continue_journey(world.player.npc_id, receipt))
+	refresh_ui()
+	return res
 
 # The button dispatches an intent. It never applies the encounter itself.
 func on_encounter_option_pressed(option_id: String) -> Dictionary:

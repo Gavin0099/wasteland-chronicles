@@ -203,6 +203,29 @@ static func has_option(encounter_type: StringName, option_id: StringName) -> boo
 static func is_valid_type(encounter_type: StringName) -> bool:
 	return encounter_type in [WRECK, ROCKSLIDE, ROADBLOCK, DEHYDRATED_TRAVELLER, REFUGEE_COLUMN]
 
+# Pending receipts loaded from disk must contain concrete, displayable facts.
+static func valid_resolution(data: Dictionary) -> bool:
+	if typeof(data.get("encounter_type")) != TYPE_STRING or typeof(data.get("option")) != TYPE_STRING:
+		return false
+	if not has_option(StringName(data.encounter_type), StringName(data.option)):
+		return false
+	for field in ["origin", "destination"]:
+		if typeof(data.get(field)) != TYPE_STRING:
+			return false
+	var elapsed: Variant = data.get("elapsed_days")
+	if typeof(elapsed) not in [TYPE_INT, TYPE_FLOAT] or (float(elapsed) != 0.0 and float(elapsed) != 1.0):
+		return false
+	for field in ["gained", "spent", "left_behind"]:
+		if typeof(data.get(field)) != TYPE_DICTIONARY:
+			return false
+		for resource in data[field]:
+			if resource not in ["water", "food", "scrap", "fuel", "caps"]:
+				return false
+			var amount: Variant = data[field][resource]
+			if typeof(amount) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(amount)) or float(amount) <= 0 or float(amount) != floor(float(amount)):
+				return false
+	return true
+
 # ── What you actually find ───────────────────────────────────────────────────
 # Still no RNG: the yield is a pure function of WHICH wreck this is, so a replay
 # finds exactly the same thing under exactly the same truck. But two different

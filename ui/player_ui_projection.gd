@@ -26,8 +26,22 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"events": _project_recent_events(world, 8) if debug_feed_enabled else [],
 		"debug_feed_enabled": debug_feed_enabled,
 		"active_encounter": _project_encounter(world),
+		"encounter_result": _project_encounter_result(world),
 	}
 	return proj
+
+static func _project_encounter_result(world: WorldState) -> Dictionary:
+	if world.pending_encounter_result < 0:
+		return {}
+	var evt := world.event_log[world.pending_encounter_result]
+	var result := evt.payload.duplicate(true)
+	result["result_index"] = world.pending_encounter_result
+	result["title"] = TravelEncounter.title(StringName(result.encounter_type))
+	result["route_label"] = "%s → %s" % [_settlement_name(result.origin), _settlement_name(result.destination)]
+	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	result["can_continue"] = ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.IN_TRANSIT
+	result["is_dead"] = ls != null and not ls.is_alive()
+	return result
 
 # S5-B4: what the road is currently asking. Options carry an `enabled` flag so
 # the UI can grey out a choice the player cannot afford, using the SAME check
