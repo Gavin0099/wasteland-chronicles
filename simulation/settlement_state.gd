@@ -16,6 +16,10 @@ var metabolism_food_rate: float = 0.04
 var maintenance_scrap: int = 0
 var maintenance_fuel: int = 0
 
+# S3-E 基準額定勞動人口與小數產出累加器 (Labor Capacity Baseline & Deterministic Credit Accumulator)
+var reference_population: int = 0
+var production_credits: Dictionary = {}
+
 # S3-B 生理短缺壓力 (Basic Needs Pressure - Durable State)
 var water_pressure: float = 0.0
 var food_pressure: float = 0.0
@@ -151,13 +155,15 @@ func set_population_and_rates(
 	p_water_rate: float,
 	p_food_rate: float,
 	p_maint_scrap: int = 0,
-	p_maint_fuel: int = 0
+	p_maint_fuel: int = 0,
+	p_ref_pop: int = -1
 ) -> void:
 	population = p_pop
 	metabolism_water_rate = p_water_rate
 	metabolism_food_rate = p_food_rate
 	maintenance_scrap = p_maint_scrap
 	maintenance_fuel = p_maint_fuel
+	reference_population = p_ref_pop if p_ref_pop >= 0 else p_pop
 	update_consumption_from_metabolism()
 
 func duplicate_state() -> SettlementState:
@@ -185,6 +191,8 @@ func duplicate_state() -> SettlementState:
 	copy.metabolism_food_rate = metabolism_food_rate
 	copy.maintenance_scrap = maintenance_scrap
 	copy.maintenance_fuel = maintenance_fuel
+	copy.reference_population = reference_population
+	copy.production_credits = production_credits.duplicate(true)
 	copy.water_pressure = water_pressure
 	copy.food_pressure = food_pressure
 	copy.days_since_last_migration = days_since_last_migration
@@ -206,6 +214,8 @@ func to_dict() -> Dictionary:
 		"metabolism_food_rate": snapped(metabolism_food_rate, 0.0001),
 		"maintenance_scrap": maintenance_scrap,
 		"maintenance_fuel": maintenance_fuel,
+		"reference_population": reference_population,
+		"production_credits": production_credits.duplicate(true),
 		"water_pressure": snapped(water_pressure, 0.01),
 		"food_pressure": snapped(food_pressure, 0.01),
 		"days_since_last_migration": days_since_last_migration,
@@ -251,6 +261,11 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.metabolism_food_rate = float(data.get("metabolism_food_rate", 0.04))
 	s.maintenance_scrap = int(data.get("maintenance_scrap", 0))
 	s.maintenance_fuel = int(data.get("maintenance_fuel", 0))
+	s.reference_population = int(data.get("reference_population", s.population))
+	var raw_credits: Dictionary = data.get("production_credits", {})
+	s.production_credits = {}
+	for k in raw_credits:
+		s.production_credits[k] = float(raw_credits[k])
 	s.water_pressure = float(data.get("water_pressure", 0.0))
 	s.food_pressure = float(data.get("food_pressure", 0.0))
 	s.days_since_last_migration = int(data.get("days_since_last_migration", 999))

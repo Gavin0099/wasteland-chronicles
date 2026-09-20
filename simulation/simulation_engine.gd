@@ -30,6 +30,16 @@ const MORTALITY_BASE_RATE: float = 0.05
 
 var enable_mortality: bool = true
 
+# S3-E 勞動力敏感度與反饋規則 (Labor Sensitivity & Feedback Rules - State != Rules)
+const LABOR_SENSITIVITY: Dictionary = {
+	"water": 0.0,
+	"food": 0.0,
+	"scrap": 1.0,
+	"fuel": 1.0
+}
+
+var enable_labor: bool = true
+
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
@@ -178,14 +188,33 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				world.record_event(mort_evt)
 
 	# -------------------------------------------------------------
-	# 階段 2: 各聚落在地生產 (Optional Local Production)
+	# 階段 2: 各聚落在地生產 (Local Production with Labor Feedback)
 	# -------------------------------------------------------------
 	for s_id in sorted_settlement_ids:
 		var settlement: SettlementState = world.settlements[s_id]
-		for res in COMMODITIES:
-			var cur := settlement.inventory.get_amount(res)
-			var prod := settlement.production.get_amount(res)
-			settlement.inventory.set_amount(res, cur + prod)
+		if enable_labor and settlement.reference_population > 0:
+			var labor_factor: float = clampf(float(settlement.population) / float(settlement.reference_population), 0.0, 1.0)
+			for res in COMMODITIES:
+				var base_prod: int = settlement.production.get_amount(res)
+				if base_prod <= 0:
+					continue
+				var sens: float = LABOR_SENSITIVITY.get(res, 0.0)
+				var effective_factor: float = 1.0 - sens * (1.0 - labor_factor)
+				var daily_prod: float = float(base_prod) * effective_factor
+
+				var current_credit: float = settlement.production_credits.get(res, 0.0)
+				current_credit += daily_prod
+				var to_add: int = int(floor(current_credit + 1e-9))
+				current_credit = maxf(0.0, current_credit - float(to_add))
+				settlement.production_credits[res] = current_credit
+
+				if to_add > 0:
+					settlement.inventory.add_amount(res, to_add)
+		else:
+			for res in COMMODITIES:
+				var cur := settlement.inventory.get_amount(res)
+				var prod := settlement.production.get_amount(res)
+				settlement.inventory.set_amount(res, cur + prod)
 
 	# -------------------------------------------------------------
 	# 階段 3: 重新計算市場報價 (Price Recalculation)
@@ -624,6 +653,14 @@ func validate_invariants(world: WorldState) -> String:
 					return "Settlement %s %s accounting broken: %d != %d + %d" % [
 						s.id, r, o["requested"], o["fulfilled"], o["unmet"]
 					]
+
+		# S3-E 基準人口與生產累加器不變量檢驗
+		if s.reference_population < 0:
+			return "Settlement %s has negative reference_population: %d" % [s.id, s.reference_population]
+		for res in COMMODITIES:
+			var credit: float = s.production_credits.get(res, 0.0)
+			if credit < 0.0 or is_nan(credit) or is_inf(credit) or credit >= 1.0 + 1e-5:
+				return "Settlement %s has invalid production_credit for %s: %f" % [s.id, res, credit]
 
 	for c_id in world.caravans:
 		var c: CaravanState = world.caravans[c_id]

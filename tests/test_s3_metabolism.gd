@@ -56,6 +56,7 @@ func _init() -> void:
 	for s_id in world_legacy.settlements:
 		var s: SettlementState = world_legacy.settlements[s_id]
 		s.population = 0 # 不使用人口計算，維持硬編碼消費 (NH 6/4, GV 5/4, DW 4/4)
+		s.reference_population = 0
 
 	# 建立人口推導世界 (Population: calibrated)
 	var world_pop := S1WorldData.create_s1_world()

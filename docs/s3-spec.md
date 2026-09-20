@@ -169,4 +169,59 @@ $$\text{pressure} = \max\left(0.0, \text{pressure} - \text{recovery\_rate}\right
 | **D6** | **Immediate Recovery Stop** | Day 62 到貨、Day 63 喝到水後，死亡立即凍結 | **PASS** | Day 63 死亡人數 31，Day 100 仍為 31（到貨後零新死亡）。 |
 | **D7** | **Determinism & Regression** | 100 天決定論 SHA-256 回放一致，且全套迴歸測試全數通過 | **PASS** | SHA-256: `60d7103...`；M0～S3-D 測試全部 Exit Code 0。 |
 
+---
+
+## 9. Slice 3-E: Labor (勞動力反饋)
+
+### 9.1 核心問題
+> **「聚落人口下降後，原本依靠人力維持的產業是否會失去產能，並進一步反噬區域供應鏈？」**
+
+### 9.2 關鍵架構決策 (Key Architectural Decisions)
+
+1. **不對稱產能上限封頂 (Capacity Ceiling, Not Infinite Growth)**：
+   - 模擬「工廠缺人所以產能下降」，而非「難民湧入工廠機台就自動變多」。
+   - 勞動力因子公式：
+     $$\text{labor\_factor} = \text{clamp}\left(\frac{\text{current\_population}}{\text{reference\_population}}, 0.0, 1.0\right)$$
+   - 當新希望接收難民人口增至 167 人（$> 120$）時，$\text{labor\_factor}$ 嚴格封頂於 1.0，絕不無端產生超額水糧而將難民負擔自我抵銷。
+   - 當人口降至 0 時，$\text{labor\_factor} = 0.0$。
+
+2. **按商品類別劃分勞動敏感度 (Labor Sensitivity by Commodity)**：
+   - 絕不以聚落 ID 特判，嚴格依商品物理屬性劃分：
+     * **工業品（高度依賴人力開採/精煉）**：
+       - `scrap`: `sensitivity = 1.0`（灰谷廢料開採）
+       - `fuel`: `sensitivity = 1.0`（乾井油田精煉）
+     * **生存品（受自然湧水量與既有農地面積約束）**：
+       - `water`: `sensitivity = 0.0`（綠洲地下水自然湧出）
+       - `food`: `sensitivity = 0.0`（農田面積與技術暫未建模，先不因難民暴增產糧）
+   - 有效產出公式：
+     $$\text{effective\_factor} = 1.0 - \text{sensitivity} \times (1.0 - \text{labor\_factor})$$
+     $$\text{effective\_production} = \text{base\_production} \times \text{effective\_factor}$$
+
+3. **確定性小數產能累加器 (Deterministic Fractional Credit Accumulator)**：
+   - 灰谷人口降至 9 人時，$\text{labor\_factor} = 0.09$，基礎產能 11 單位，每日產出為 $11 \times 0.09 = 0.99$。
+   - 若使用整數截斷（`floor(0.99) = 0`），產能將永遠為 0，產生嚴重的離散取整失真。
+   - 透過 `SettlementState.production_credits: Dictionary`：
+     $$\text{credit} += \text{effective\_production}$$
+     $$\text{to\_add} = \lfloor \text{credit} + 10^{-9} \rfloor$$
+     $$\text{credit} = \max(0.0, \text{credit} - \text{to\_add})$$
+     $$\text{inventory} += \text{to\_add}$$
+   - 100 天精確累積 99 單位廢料，長期比例嚴格吻合且 100% 決定論位元級可重播。
+
+4. **固定基準人口 (Fixed Reference Population)**：
+   - `reference_population` 為聚落設定不變量（Configuration Invariant），記錄設施的額定全額勞動需求（灰谷 100、新希望 120、乾井 80）。
+   - 人口下降或傷亡絕不動態下調 reference population。
+
+### 9.3 驗收標準 (Hard Gates E1 ~ E7)
+
+| Gate # | 項目 | 檢驗標準 | 結果 | 關鍵證據 |
+| :---: | :--- | :--- | :---: | :--- |
+| **E1** | **Baseline Equivalence** | 當 $\text{pop} == \text{ref\_pop}$ 時，全品項產出與無勞動力版本 100% 位元級相容 | **PASS** | 30 天常態運轉下，三聚落全品項庫存 100% 一致。 |
+| **E2** | **Population Sensitivity** | 人口減半時，廢料產出精確減半 | **PASS** | 灰谷人口 50 時，10 天產出 55 廢料（基準為 110）。 |
+| **E3** | **Capacity Ceiling** | 人口暴增至 200 時，產能嚴格維持基準上限，不得增加 | **PASS** | 新希望人口 200 時，10 天水糧產能嚴格為 140/90，無超額產出。 |
+| **E4** | **Zero Population Collapse** | 人口降為 0 時，敏感商品產能歸 0 | **PASS** | 人口為 0 之廢棄聚落 10 天廢料產出嚴格為 0。 |
+| **E5** | **Fractional Accumulator** | 小數產能長期精確累計且雙軌重跑決定論一致 | **PASS** | 殘存 9 人（0.99/日）100 天精確產出 99 廢料，重跑 SHA-256 吻合。 |
+| **E6** | **Regional Ripple** | 比較 World B 勞動力開關：人口崩落反噬區域供應鏈 | **PASS** | Day 100 灰谷廢料庫存：無勞動力 557 vs 有勞動力 98（暴跌 -459 廢料），新希望廢料斷供降至 1。 |
+| **E7** | **Full Regression Pass** | 全不變量檢驗通過，且 M0~S3-E 全 11 個測試套件全綠 | **PASS** | Invariants 嚴格維持，全套 11 測試套件 Exit Code 0。 |
+
+
 
