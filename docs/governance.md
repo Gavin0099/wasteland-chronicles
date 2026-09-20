@@ -130,6 +130,19 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
   $$\text{World State} \longrightarrow \text{NPC Decision Engine} \longrightarrow \text{Authorized Action} \longrightarrow \text{Simulation Commit} \longrightarrow \text{Narrative Layer}$$
 * 敘事文本僅作為已提交模擬結果之下游投射；NPC 的心願與台詞不能反向倒推修改世界數值或實體位置。
 
+### 17. 風險比例治理公理 (Risk-Proportionate Governance Axiom)
+* **治理強度隨「新增的 Authority Boundary」升級，而非隨每個 Slice 升級。**
+  未新增 authority surface 的 metadata-only 切片（如 S4-D Traits、S4-E Aptitude）走 **Fast Lane**：
+  focused spec、focused tests、沿用既有 validator 與回歸，**不新增治理章節、不新增 authority 文件、
+  不新增 validator 類型**。
+* **完整治理保留給真正會改寫 authoritative world state 的切片**：持久化邊界、自主變更、
+  玩家行為、真相邊界（S4-F、S5-B、S6、S7）。
+* **內外圈節奏**：開發中跑 focused tests；重要修改後跑受影響子系統；
+  **full regression + governance drift + independent validator 只在 Slice closure 執行**。
+* **Finding ≠ Task**：發現異常不自動等於開新 Slice。只有當該 finding 會使後續切片
+  必須重做（如 persistence authority）才立項；其餘記錄後排入 backlog。
+  否則治理會漂亮，但遊戲永遠做不完。
+
 ---
 
 ## 治理框架分級路線圖 (AI Governance Cadence)
@@ -143,8 +156,8 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 | **S4-B** | **G1.5-B2**| **生命週期原子防護：真實個體遷移/死亡雙重計數原子一致性驗證、Aggregate 不得挑選具名個體（Fail-Closed）** | **CLOSED ✅** |
 | **S4-C** | **G1.5-B3**| **背景傳記惰性防護：封閉列舉、寫入後不可變、僅限存活個體、零行為授權、模擬惰性 bitwise 反事實** | **CLOSED ✅** |
 | **S4-C.1**| **G1.5-B4**| **歷史事實權威：committed event ledger 完整持久化、derived count、非空 round-trip 決定論** | **CLOSED ✅** |
-| **S4-C.2**| **G1.5-B5**| **持久化邊界透明性：schema-aware 型別還原、authoritative float canonicality、存讀不造成世界分叉** | 🟡 CURRENT |
-| **S4-D** | **G1.5-B3**| **特質（Traits）：純決定論客觀效果** | WAIT |
+| **S4-C.2**| **G1.5-B5**| **持久化邊界透明性：schema-aware 型別還原、authoritative float canonicality、存讀不造成世界分叉** | **CLOSED ✅** |
+| **S4-D / S4-E** | *Fast Lane* | **metadata-only 切片，無新 authority boundary：focused spec / focused tests / 既有 validator / regression** | 🟡 NEXT |
 | **S4-F** | **G2-lite** | NPC 自主行為授權、閉環決策審計證據、動態行為邊界鎖 | 規劃中 |
 | **S5** | **G2** | 玩家與隊伍行為授權、存檔重播驗證、可驗證的世界歷程 | 規劃中 |
 | **S6** | **G2+** | 死亡繼承傳承、世界記憶跨代傳承不變量 | 規劃中 |

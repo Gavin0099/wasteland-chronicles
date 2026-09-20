@@ -18,9 +18,9 @@
 - [x] S4-B : NPC Life State (+ G1.5-B2 Lifecycle Atomicity) — CLOSED
 - [x] S4-C : Background / Profile Metadata — CLOSED
 - [x] S4-C.1 : Event Ledger Persistence (+ G1.5-B4 Historical Fact Authority) — CLOSED
-- [ ] **S4-C.2 : Snapshot Numeric Canonicality — CURRENT**
-- [ ] S4-D : Traits — WAIT (blocked behind S4-C.2)
-- [ ] S4-E : Aptitude Schema (No XP)
+- [x] S4-C.2 : Snapshot Numeric Canonicality (+ G1.5-B5 Persistence Boundary Transparency) — CLOSED
+- [ ] **S4-D : Traits — CURRENT (Fast Lane)**
+- [ ] S4-E : Aptitude Schema (No XP) — Fast Lane
 - [ ] S4-F : NPC Autonomous Decisions (+ G2-lite Governance)
 - [ ] S4-G : NPC Relationships (split out of S4-C)
 
@@ -38,6 +38,8 @@
 - 2026-09-20: **AI Governance Framework Imported** as submodule at `additional/ai-governance-framework`.
 - 2026-09-20: **S4-A / S4-B / S4-C CLOSED ✅** (identity materialization, lifecycle atomicity, immutable background profile with zero action authority).
 - 2026-09-20: **S4-C.1 Event Ledger Persistence CLOSED ✅** — committed events are the sole authority for historical world facts; `event_count` demoted to derived metadata.
+- 2026-09-20: **S4-C.2 Snapshot Numeric Canonicality CLOSED ✅** — save-time `snapped()` removed; authoritative floats canonicalized at the end-of-day commit boundary via the persistence codec. Save/Load is now a transparent boundary (N4: interrupted and uninterrupted Day 100 worlds are identical in state, ledger and projection). Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` → **RESOLVED**. Canonical artifacts intentionally regenerated.
+- 2026-09-20: **Governance cadence set to Risk-Based (Owner)** — governance strength scales with new authority boundaries, not with every slice. Fast Lane (focused spec/tests, existing validators, regression; no new governance doctrine) for S4-D Traits and S4-E Aptitude. Full governance resumes at S4-F Autonomous Decisions. Inner loop runs focused tests; full regression + drift + independent validator run at slice closure only.
 - 2026-09-20: **Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` ACCEPTED_FOR_WORK** — Owner disposition: dedicated slice **S4-C.2 Snapshot Numeric Canonicality**, activated before S4-D Traits. Traits are explicitly on WAIT until persistence continuity is proven.
 
 ## Known Risks
@@ -45,5 +47,5 @@
 - **NPC Population Inflation**: Identity materialization must remain strictly representational, not demographic.
 - **Identity Duplication / Floating Entities**: Enforce Single Population Membership invariant (exactly one container per alive NPC).
 - **Narrative Authority Leaks**: Prevent downstream LLM dialogue from mutating world state.
-- **Save/Load Time Divergence**: Non-ledger world state is not yet a serialization fixed point (domain ints widen to float, tiny floats lose precision). Until S4-C.2 closes, an interrupted run cannot be assumed to continue identically to an uninterrupted one.
+- **PERSISTENCE_CODEC_DEFINES_NUMERIC_CANONICALITY** (recorded risk, not a blocker): since S4-C.2, authoritative float semantics are defined by Godot 4.7.2's JSON stringify/parse. If a future engine upgrade changes that formatting, the world's numeric trajectory can change with it. Mitigation: `NumericCanon.PROBE_CORPUS` (17 vectors) is asserted by Gate N6 — **run it FIRST on any engine upgrade**. A mismatch is not a routine dependency bump; it is a persistence/simulation compatibility change.
 - **Heuristic Numeric Repair**: Guessing a domain type from a serialized value (treating `3.0` as int) would overwrite domain truth with a guess. Restoration must be schema-driven, never inferred.

@@ -38,6 +38,34 @@ func record_event(event: EventRecord) -> void:
 	event.canonicalize()
 	event_log.append(event)
 
+# ==============================================================================
+# S4-C.2: CANONICAL NUMERIC COMMIT (end-of-day state commit boundary)
+# ==============================================================================
+# Called once per tick, after the day's physics and before invariant validation,
+# so that every committed day is already persistence-canonical and the next day
+# starts from a canonical value. Save then merely records; it never repairs.
+# See NumericCanon for why the codec — not a digit count — defines canonical.
+func canonicalize_numeric_state() -> void:
+	for s_id in settlements:
+		var s: SettlementState = settlements[s_id]
+		s.metabolism_water_rate = NumericCanon.canonical_float(s.metabolism_water_rate)
+		s.metabolism_food_rate = NumericCanon.canonical_float(s.metabolism_food_rate)
+		s.water_pressure = NumericCanon.canonical_float(s.water_pressure)
+		s.food_pressure = NumericCanon.canonical_float(s.food_pressure)
+		s.water_exposure = NumericCanon.canonical_float(s.water_exposure)
+		s.food_exposure = NumericCanon.canonical_float(s.food_exposure)
+		s.security = NumericCanon.canonical_float(s.security)
+		s.base_price_water = NumericCanon.canonical_float(s.base_price_water)
+		s.base_price_food = NumericCanon.canonical_float(s.base_price_food)
+		s.base_price_scrap = NumericCanon.canonical_float(s.base_price_scrap)
+		s.base_price_fuel = NumericCanon.canonical_float(s.base_price_fuel)
+		s.price_water = NumericCanon.canonical_float(s.price_water)
+		s.price_food = NumericCanon.canonical_float(s.price_food)
+		s.price_scrap = NumericCanon.canonical_float(s.price_scrap)
+		s.price_fuel = NumericCanon.canonical_float(s.price_fuel)
+		s.production_credits = NumericCanon.canonical_float_dict(s.production_credits)
+		s.disorder_loss_credits = NumericCanon.canonical_float_dict(s.disorder_loss_credits)
+
 # event_count is DERIVED, never stored. There is exactly one authority for how
 # many things have happened: the ledger itself.
 func get_event_count() -> int:
@@ -134,6 +162,12 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		return {"success": false, "world": null, "error": "LEDGER_MALFORMED: 'events' is not an array"}
 
 	var events_data: Array = data["events"]
+
+	# S4-C.2: validate every declared numeric field against the SCHEMA before
+	# constructing anything. An invalid snapshot yields no partial world.
+	var numeric_error := NumericCanon.validate_world_numerics(data)
+	if numeric_error != "":
+		return {"success": false, "world": null, "error": numeric_error}
 
 	# event_count is metadata. It is CHECKED against the ledger, never trusted.
 	if data.has("event_count"):

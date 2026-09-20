@@ -1,0 +1,140 @@
+================================================================================
+   S4-C.2 / N0 — NUMERIC AUTHORITY CLASSIFICATION (EVIDENCE, NOT DECISIONS)
+================================================================================
+
+## STEP 1 — Baseline: is save/load already a divergence event?
+  Day 50 live   canonical SHA: b43e10e84a55421368ef184942a668fb2c70eeef9778c1f382122793d168d7c9
+  Day 50 loaded canonical SHA: 5ad9d3eac34b30be176bbd9aff0a1e8034af71468150a50d6eb1ed293a7aba00
+  Snapshot fixed point at Day 50: NO
+  Continuation Day 50 -> 100: FIRST DIVERGENCE at Day 51
+
+## STEP 2 — Per-field runtime values and JSON round-trip behavior
+
+### production_credits
+  [settlement:new_hope]
+    water    live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+    food     live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+    scrap    live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+  [settlement:gray_valley]
+    food     live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+    scrap    live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+  [settlement:dry_well]
+    water    live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+    food     live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+    scrap    live=0.375 (float) | json=0.375 (float) | loaded=0.375 (float)
+    fuel     live=0.0 (float) | json=0.0 (float) | loaded=0.0 (float)
+
+### disorder_loss_credits
+  [settlement:new_hope]
+    live   : (empty)
+  [settlement:gray_valley]
+    live   : (empty)
+  [settlement:dry_well]
+    scrap    live=0.8 (float) | json=0.8 (float) | loaded=0.8 (float)
+    fuel     live=0.45 (float) | json=0.45 (float) | loaded=0.45 (float)
+
+### cumulative_disorder_loss
+  [settlement:new_hope]
+    live   : (empty)
+  [settlement:gray_valley]
+    live   : (empty)
+  [settlement:dry_well]
+    scrap    live=31 (int) | json=31.0 (float) | loaded=31.0 (float)   <-- TYPE CHANGED
+    fuel     live=49 (int) | json=49.0 (float) | loaded=49.0 (float)   <-- TYPE CHANGED
+
+### last_need_outcomes
+  [settlement:new_hope]
+    water    live={"fulfilled":8,"requested":8,"stock_after":138,"stock_before":146,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
+    food     live={"fulfilled":5,"requested":5,"stock_after":96,"stock_before":101,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
+  [settlement:gray_valley]
+    water    live={"fulfilled":5,"requested":5,"stock_after":37,"stock_before":42,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
+    food     live={"fulfilled":4,"requested":4,"stock_after":60,"stock_before":64,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
+  [settlement:dry_well]
+    water    live={"fulfilled":0,"requested":1,"stock_after":0,"stock_before":0,"unmet":1} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
+    food     live={"fulfilled":1,"requested":1,"stock_after":2,"stock_before":3,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
+    NOTE: field is NOT PRESENT in the serialized snapshot at all.
+
+## STEP 3 — Authority probe (perturb the field, then run 30 more days)
+  Method: take an identical Day 60 world, perturb ONLY this field, continue
+  to Day 90, and compare canonical hashes. A change in the future means the
+  field is read by later simulation; no change means it is inert downstream.
+  production_credits         perturbed -> Day 90 DIVERGED   (authoritative simulation state)
+  disorder_loss_credits      perturbed -> Day 90 DIVERGED   (authoritative simulation state)
+  cumulative_disorder_loss   perturbed -> Day 90 DIVERGED   (authoritative simulation state)
+  last_need_outcomes         perturbed -> Day 90 IDENTICAL  (not read by later ticks / inert)
+
+## STEP 4 — Causation probe (apply ONLY this field's round-trip delta)
+  Method: at Day 60, copy the round-tripped value of a single field back into
+  an otherwise-live world, run to Day 90, and compare with the untouched world.
+  production_credits         delta applied=yes -> Day 90 IDENTICAL  (round-trip delta is harmless)
+  disorder_loss_credits      delta applied=yes -> Day 90 IDENTICAL  (round-trip delta is harmless)
+  cumulative_disorder_loss   delta applied=yes -> Day 90 DIVERGED   (round-trip delta changes the future)
+  last_need_outcomes         delta applied=yes -> Day 90 IDENTICAL  (round-trip delta is harmless)
+
+## STEP 5 — Residual whole-snapshot differences (all fields, not just the four)
+  line 6217:
+    A: "fuel": 64,
+    B: "fuel": 64.0,
+  line 6218:
+    A: "scrap": 99
+    B: "scrap": 99.0
+  TOTAL differing lines: 2 (of 6375)
+  Differing keys by frequency:
+    "fuel"                         x1
+    "scrap"                        x1
+
+## STEP 6 — Is the divergence representational, or a real trajectory split?
+  Method: compare Day 100 worlds semantically — numbers compared BY VALUE,
+  ignoring int/float representation. Textual difference with semantic equality
+  means the world behaved identically and only its spelling changed.
+  Day 100 canonical TEXT identical:      NO
+  Day 100 SEMANTIC (by-value) identical: NO
+  First semantic mismatch at: world.events[118].payload.food_exposure (5.66666666666667 vs 5.67)
+  Day 100 event ledger identical:        NO
+    A = 5a99051a0eb215075a0cc9e116fc507ed1ed1e5e676eecfafe02bbe55273312f
+    B = bf9ec5bf82985913a2a727b0fa028e92d8fac7d4505aa6d09715f71cc0626150
+
+## STEP 6b — Does a loaded world break typed reads in validate_invariants?
+  invariants on live world  : PASS
+  invariants on loaded world: PASS
+
+## STEP 7 — Does a full-precision double survive Godot JSON exactly?
+    0.33333333333333331      -> 0.333333333333333          -> 0.33333333333333298      LOSSY
+    0.66666666666666663      -> 0.666666666666667          -> 0.66666666666666696      LOSSY
+    5.666666666666667        -> 5.66666666666667           -> 5.6666666666666696       LOSSY
+    0.30000000000000004      -> 0.3                        -> 0.29999999999999999      LOSSY
+    0.00000000000000488      -> 0.00000000000000488498130835069 -> 0.00000000000000488      LOSSY
+    0.62999999999999989      -> 0.63                       -> 0.63                     LOSSY
+    14.285714285714286       -> 14.2857142857143           -> 14.285714285714301       LOSSY
+    0.0000000000000001       -> 0.0000000000000001         -> 0.0000000000000001       EXACT
+  7 of 8 full-precision probes did NOT survive exactly.
+  Control — values already quantized to 0.01 by to_dict():
+    0.33000000000000002      -> 0.33                       EXACT
+    5.6699999999999999       -> 5.67                       EXACT
+    99.990000000000009       -> 99.99                      LOSSY
+  1 of 3 quantized probes did NOT survive exactly.
+  Candidate policy — canonical(x) := JSON.parse_string(JSON.stringify(x)):
+    0.33333333333333331        -> canonical 0.33333333333333298        FIXED-POINT
+    0.66666666666666663        -> canonical 0.66666666666666696        FIXED-POINT
+    5.666666666666667          -> canonical 5.6666666666666696         FIXED-POINT
+    0.30000000000000004        -> canonical 0.29999999999999999        FIXED-POINT
+    0.00000000000000488        -> canonical 0.00000000000000488        FIXED-POINT
+    0.62999999999999989        -> canonical 0.63                       FIXED-POINT
+    14.285714285714286         -> canonical 14.285714285714301         FIXED-POINT
+    0.0000000000000001         -> canonical 0.0000000000000001         FIXED-POINT
+  0 of 8 canonicalized probes were NOT idempotent.
+
+## STEP 7b — Fields currently quantized inside to_dict() (save-time rounding)
+  SettlementState.to_dict() applies snapped() to:
+    metabolism_water_rate, metabolism_food_rate      (0.0001)
+    water_pressure, food_pressure                    (0.01)
+    water_exposure, food_exposure                    (0.01)
+    security                                         (0.01)
+    price_water, price_food, price_scrap, price_fuel (0.01)
+  These are authoritative simulation state: the runtime world keeps the
+  unrounded value while the snapshot keeps the rounded one, so a loaded
+  world starts from a DIFFERENT number than the world that was saved.
+
+================================================================================
+N0 EVIDENCE COLLECTION COMPLETE — no policy chosen, no field modified.
+================================================================================

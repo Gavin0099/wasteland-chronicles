@@ -8,6 +8,7 @@ subset bounds, deterministic ID minting, and valid settlement references.
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -62,6 +63,7 @@ class NpcAuthorityValidator(DomainValidator):
 		return [
 			"G1.5-A", "NPC-001", "NPC-002", "NPC-003", "NPC-004", "NPC-007", "NPC-008",
 			"EVENT-001", "EVENT-002", "EVENT-003", "EVENT-004",
+			"NUM-001", "NUM-002", "NUM-003",
 		]
 
 	def validate(self, payload: dict) -> ValidatorResult:
@@ -180,6 +182,11 @@ class NpcAuthorityValidator(DomainValidator):
 		#    from the raw snapshot; nothing here consults the GDScript loader's
 		#    conclusions, so agreement between the two is real corroboration.
 		violations.extend(self._validate_event_ledger(payload))
+
+		# 6. S4-C.2 numeric domain checks. Re-derived independently here: this
+		#    validator does not consult the GDScript restore implementation, so
+		#    agreement between the two is real corroboration rather than an echo.
+		violations.extend(self._validate_numeric_domains(payload))
 
 		event_summary = "no ledger"
 		if isinstance(payload.get("events"), list):
@@ -328,6 +335,117 @@ class NpcAuthorityValidator(DomainValidator):
 		return violations
 
 
+	# ── S4-C.2: numeric domain canonicality ───────────────────────────────────
+	# Declared domain types, mirrored from the GDScript schema but re-stated here
+	# deliberately. A number is judged against its DECLARED type, never against
+	# what its serialized form happens to look like.
+	SETTLEMENT_INT_FIELDS = {
+		"population": 0, "maintenance_scrap": 0, "maintenance_fuel": 0,
+		"reference_population": 0, "days_since_last_migration": 0,
+		"cumulative_deaths": 0, "target_water": 0, "target_food": 0,
+		"target_scrap": 0, "target_fuel": 0,
+	}
+	SETTLEMENT_FLOAT_FIELDS = (
+		"metabolism_water_rate", "metabolism_food_rate",
+		"water_pressure", "food_pressure", "water_exposure", "food_exposure",
+		"security", "base_price_water", "base_price_food",
+		"base_price_scrap", "base_price_fuel",
+		"price_water", "price_food", "price_scrap", "price_fuel",
+	)
+	MAX_SAFE_INT = 2**53 - 1
+
+	def _is_domain_int(self, value) -> bool:
+		"""finite AND mathematically integral AND within the safe integer range."""
+		if isinstance(value, bool):
+			return False
+		if isinstance(value, int):
+			return abs(value) <= self.MAX_SAFE_INT
+		if isinstance(value, float):
+			if math.isnan(value) or math.isinf(value):
+				return False
+			if value != math.floor(value):
+				return False
+			return abs(value) <= self.MAX_SAFE_INT
+		return False
+
+	def _validate_numeric_domains(self, payload: dict) -> list[str]:
+		violations: list[str] = []
+		settlements = payload.get("settlements", {})
+		if not isinstance(settlements, dict):
+			return violations
+
+		for s_id, s in settlements.items():
+			if not isinstance(s, dict):
+				continue
+
+			# NUM-001: int-domain fields must be restorable as integers in range.
+			for field, minimum in self.SETTLEMENT_INT_FIELDS.items():
+				if field not in s:
+					continue
+				value = s[field]
+				if not self._is_domain_int(value):
+					violations.append(
+						f"NUM-001: settlements.{s_id}.{field} = {value!r} is declared int but is "
+						f"not a finite integral value within the safe integer range"
+					)
+				elif int(value) < minimum:
+					violations.append(
+						f"NUM-001: settlements.{s_id}.{field} = {int(value)} is below its domain minimum {minimum}"
+					)
+
+			# NUM-002: float-domain fields must be finite.
+			for field in self.SETTLEMENT_FLOAT_FIELDS:
+				if field not in s:
+					continue
+				value = s[field]
+				if isinstance(value, bool) or not isinstance(value, (int, float)):
+					violations.append(
+						f"NUM-002: settlements.{s_id}.{field} = {value!r} is declared float but is "
+						f"{type(value).__name__}"
+					)
+				elif math.isnan(value) or math.isinf(value):
+					violations.append(
+						f"NUM-002: settlements.{s_id}.{field} is NaN or infinite and cannot be persisted"
+					)
+
+			# NUM-003: cumulative_disorder_loss is ACCOUNTING STATE,
+			#          Dictionary[StringName, int], non-negative.
+			cumulative = s.get("cumulative_disorder_loss", {})
+			if not isinstance(cumulative, dict):
+				violations.append(
+					f"NUM-003: settlements.{s_id}.cumulative_disorder_loss must be an object"
+				)
+			else:
+				for key, value in cumulative.items():
+					if not self._is_domain_int(value):
+						violations.append(
+							f"NUM-003: settlements.{s_id}.cumulative_disorder_loss.{key} = {value!r} "
+							f"is declared int but is not a finite integral value"
+						)
+					elif int(value) < 0:
+						violations.append(
+							f"NUM-003: settlements.{s_id}.cumulative_disorder_loss.{key} is negative"
+						)
+
+			# production_credits / disorder_loss_credits are authoritative floats.
+			for credit_field in ("production_credits", "disorder_loss_credits"):
+				credits = s.get(credit_field, {})
+				if not isinstance(credits, dict):
+					violations.append(f"NUM-002: settlements.{s_id}.{credit_field} must be an object")
+					continue
+				for key, value in credits.items():
+					if isinstance(value, bool) or not isinstance(value, (int, float)):
+						violations.append(
+							f"NUM-002: settlements.{s_id}.{credit_field}.{key} = {value!r} is declared float"
+						)
+					elif math.isnan(value) or math.isinf(value):
+						violations.append(
+							f"NUM-002: settlements.{s_id}.{credit_field}.{key} is NaN or infinite"
+						)
+
+		return violations
+
+
 def main() -> int:
 	import argparse
 
@@ -473,6 +591,60 @@ def main() -> int:
 		res_huge = validator.validate(huge_ledger)
 		assert not res_huge.ok, "Out-of-range payload integer falsely passed!"
 		assert any("EVENT-004" in v for v in res_huge.violations), res_huge.violations
+
+		# ── S4-C.2 numeric domain fixtures ───────────────────────────────────
+		def settlement(**overrides) -> dict:
+			base = {
+				"population": 50, "cumulative_deaths": 2, "security": 87.5,
+				"water_pressure": 12.25, "cumulative_disorder_loss": {"scrap": 31},
+				"production_credits": {"scrap": 0.375},
+			}
+			base.update(overrides)
+			return base
+
+		def world(s: dict) -> dict:
+			return {
+				"next_npc_sequence": 1,
+				"settlements": {"settlement:gray_valley": s},
+				"npc_registry": {},
+			}
+
+		assert validator.validate(world(settlement())).ok, "Clean numeric fixture failed!"
+
+		# Integral float is a legal canonical representation of an int domain.
+		assert validator.validate(world(settlement(population=50.0))).ok, 			"Integral float population falsely rejected!"
+		assert validator.validate(
+			world(settlement(cumulative_disorder_loss={"scrap": 31.0}))
+		).ok, "Integral float accounting value falsely rejected!"
+
+		# Fractional value in an int domain must never be silently truncated.
+		res_frac = validator.validate(world(settlement(population=3.7)))
+		assert not res_frac.ok, "Fractional population falsely passed!"
+		assert any("NUM-001" in v for v in res_frac.violations), res_frac.violations
+
+		res_neg = validator.validate(world(settlement(population=-5)))
+		assert not res_neg.ok, "Negative population falsely passed!"
+
+		res_nan = validator.validate(world(settlement(security=float("nan"))))
+		assert not res_nan.ok, "NaN security falsely passed!"
+		assert any("NUM-002" in v for v in res_nan.violations), res_nan.violations
+
+		res_inf = validator.validate(world(settlement(water_pressure=float("inf"))))
+		assert not res_inf.ok, "Infinite pressure falsely passed!"
+
+		res_huge = validator.validate(world(settlement(population=2**60)))
+		assert not res_huge.ok, "Population beyond safe integer range falsely passed!"
+
+		res_acct = validator.validate(
+			world(settlement(cumulative_disorder_loss={"scrap": 2.5}))
+		)
+		assert not res_acct.ok, "Fractional accounting value falsely passed!"
+		assert any("NUM-003" in v for v in res_acct.violations), res_acct.violations
+
+		res_acct_neg = validator.validate(
+			world(settlement(cumulative_disorder_loss={"scrap": -3}))
+		)
+		assert not res_acct_neg.ok, "Negative accounting value falsely passed!"
 
 		print("PASS: All NpcAuthorityValidator fixtures verified successfully!")
 		return 0

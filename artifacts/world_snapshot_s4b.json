@@ -225,7 +225,7 @@
 			},
 			"maintenance_fuel": 2,
 			"maintenance_scrap": 4,
-			"metabolism_food_rate": 0.0333,
+			"metabolism_food_rate": 0.0333333333333333,
 			"metabolism_water_rate": 0.05,
 			"name": "新希望 (New Hope)",
 			"population": 120,

@@ -488,6 +488,15 @@ func tick(world: WorldState) -> Array[EventRecord]:
 				update_settlement_security(settlement)
 
 	# -------------------------------------------------------------
+	# 階段 5.5: 正規數值提交 (S4-C.2 Canonical Numeric Commit)
+	# -------------------------------------------------------------
+	# The day's physics are finished; commit the authoritative state in the form
+	# persistence can faithfully carry. This runs ONCE per day, at the end-of-day
+	# commit boundary — not after every individual arithmetic step — so the
+	# committed world IS the persistable world, and save never has to repair it.
+	world.canonicalize_numeric_state()
+
+	# -------------------------------------------------------------
 	# 階段 6: 不變量驗證 (Invariant Validation)
 	# -------------------------------------------------------------
 	var invariant_err := validate_invariants(world)

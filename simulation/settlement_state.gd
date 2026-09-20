@@ -218,19 +218,19 @@ func to_dict() -> Dictionary:
 		"production": production.to_dict(),
 		"consumption": consumption.to_dict(),
 		"population": population,
-		"metabolism_water_rate": snapped(metabolism_water_rate, 0.0001),
-		"metabolism_food_rate": snapped(metabolism_food_rate, 0.0001),
+		"metabolism_water_rate": metabolism_water_rate,
+		"metabolism_food_rate": metabolism_food_rate,
 		"maintenance_scrap": maintenance_scrap,
 		"maintenance_fuel": maintenance_fuel,
 		"reference_population": reference_population,
 		"production_credits": production_credits.duplicate(true),
-		"water_pressure": snapped(water_pressure, 0.01),
-		"food_pressure": snapped(food_pressure, 0.01),
+		"water_pressure": water_pressure,
+		"food_pressure": food_pressure,
 		"days_since_last_migration": days_since_last_migration,
-		"water_exposure": snapped(water_exposure, 0.01),
-		"food_exposure": snapped(food_exposure, 0.01),
+		"water_exposure": water_exposure,
+		"food_exposure": food_exposure,
 		"cumulative_deaths": cumulative_deaths,
-		"security": snapped(security, 0.01),
+		"security": security,
 		"disorder_loss_credits": disorder_loss_credits.duplicate(true),
 		"cumulative_disorder_loss": cumulative_disorder_loss.duplicate(true),
 		"target_water": target_water,
@@ -241,10 +241,10 @@ func to_dict() -> Dictionary:
 		"base_price_food": base_price_food,
 		"base_price_scrap": base_price_scrap,
 		"base_price_fuel": base_price_fuel,
-		"price_water": snapped(price_water, 0.01),
-		"price_food": snapped(price_food, 0.01),
-		"price_scrap": snapped(price_scrap, 0.01),
-		"price_fuel": snapped(price_fuel, 0.01)
+		"price_water": price_water,
+		"price_food": price_food,
+		"price_scrap": price_scrap,
+		"price_fuel": price_fuel
 	}
 
 static func from_dict(data: Dictionary) -> SettlementState:
@@ -273,10 +273,8 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.maintenance_scrap = int(data.get("maintenance_scrap", 0))
 	s.maintenance_fuel = int(data.get("maintenance_fuel", 0))
 	s.reference_population = int(data.get("reference_population", s.population))
-	var raw_credits: Dictionary = data.get("production_credits", {})
-	s.production_credits = {}
-	for k in raw_credits:
-		s.production_credits[k] = float(raw_credits[k])
+	# AUTHORITATIVE STATE (carry accumulation read by later ticks): Dictionary[*, float]
+	s.production_credits = NumericCanon.canonical_float_dict(data.get("production_credits", {}))
 	s.water_pressure = float(data.get("water_pressure", 0.0))
 	s.food_pressure = float(data.get("food_pressure", 0.0))
 	s.days_since_last_migration = int(data.get("days_since_last_migration", 999))
@@ -284,9 +282,12 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	s.food_exposure = float(data.get("food_exposure", 0.0))
 	s.cumulative_deaths = int(data.get("cumulative_deaths", 0))
 	s.security = float(data.get("security", 100.0))
-	var raw_disorder_credits: Dictionary = data.get("disorder_loss_credits", {})
-	s.disorder_loss_credits = {}
-	for k in raw_disorder_credits:
-		s.disorder_loss_credits[k] = float(raw_disorder_credits[k])
-	s.cumulative_disorder_loss = data.get("cumulative_disorder_loss", {}).duplicate(true)
+	s.disorder_loss_credits = NumericCanon.canonical_float_dict(data.get("disorder_loss_credits", {}))
+	# ACCOUNTING STATE (no simulation-control authority): Dictionary[StringName, int].
+	# Restored by DECLARED SCHEMA, not by what the serialized value looks like.
+	var raw_cumulative: Dictionary = data.get("cumulative_disorder_loss", {})
+	s.cumulative_disorder_loss = {}
+	for k in raw_cumulative:
+		var r := NumericCanon.restore_int(raw_cumulative[k], "cumulative_disorder_loss.%s" % String(k), 0)
+		s.cumulative_disorder_loss[k] = r["value"] if r["ok"] else 0
 	return s

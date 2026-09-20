@@ -67,6 +67,10 @@ static func canonicalize_value(value: Variant) -> Variant:
 			if absi(value) > MAX_EXACT_JSON_INT:
 				return value
 			return float(value)
+		TYPE_FLOAT:
+			# S4-C.2: a payload float is a recorded observation of world state, so
+			# it is stored in the same canonical form the world itself commits.
+			return NumericCanon.canonical_float(value)
 		TYPE_STRING_NAME:
 			return String(value)
 		TYPE_DICTIONARY:

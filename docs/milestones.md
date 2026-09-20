@@ -149,7 +149,7 @@
     因此**整份快照尚非不動點**，但**事件帳本本身已是**。
   - **Disposition**：屬 settlement-state 序列化缺陷，非 event-ledger 缺陷。
     S4-C.1 只主張它實際證明的帳本範圍，其餘升為本 finding，不靜默吸收。
-* **S4-C.2 — Snapshot Numeric Canonicality**：**CURRENT 🟡**
+* **S4-C.2 — Snapshot Numeric Canonicality**：**CLOSED ✅**
   - **本切片只回答一題**：整個 authoritative `WorldState` 經過 Save → Load 後，
     能不能重新得到同一個 canonical state——型別、數值與後續 simulation 語意皆然。
   - **不追求「JSON 數字原始字串完全一樣」**。那是工具行為。真正要鎖的是：
@@ -183,7 +183,43 @@
       須於 N0 明確拍板，不得由 implementation 自行猜測。`NaN` / `Inf` / `-Inf` 若 domain 不允許，一律拒絕。
     - **N6 Independent Verification / Regression**：Godot suites + Python validator +
       governance drift + 全回歸 PASS。
-* **S4-D — Traits**：**WAIT**（阻擋於 S4-C.2 之後）謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
+  - **N0 證據結論（推翻了原本的假設）**：四個 dictionary 欄位只是**症狀**，不是病因。
+    實測顯示 `production_credits` / `disorder_loss_credits` 早已正確以 float 還原；
+    `last_need_outcomes` 根本不序列化且每 tick 清空（perturbation 證明對後續完全惰性）；
+    `cumulative_disorder_loss` 的 int→float 純屬表徵差異。
+    **真正的軌跡分叉來自 `to_dict()` 對 authoritative float 套用 `snapped()`**——
+    runtime 持有 `5.666…`、快照持有 `5.67`，載入後世界從不同的數字繼續，
+    Day 51 即分叉。這正是「save 時偷偷 round」的反模式，且為既有行為。
+  - **Owner 拍板（N0 後）**：
+    - **Q1 → (b)** 不把 `snapped()` 的 0.01 / 0.0001 反向解讀為遊戲設計規則。
+      沒有證據支持「water pressure 只能有 2 位小數」。移除 save-time rounding。
+      *數值怎麼顯示是 UI 的事；怎麼存活過 Save/Load 是 persistence 的事；在遊戲裡代表什麼才是 domain rule。*
+    - **Q2 → YES** 接受 integral float → int，但必須
+      `finite AND mathematically integral AND |v| <= 2^53-1 AND within domain range`；
+      `3.7` 一律 `INVALID_DOMAIN_NUMERIC_TYPE` fail-closed，嚴禁靜默截斷。
+    - **Q3 → YES** `cumulative_disorder_loss` = `Dictionary[StringName, int]`、ACCOUNTING STATE、
+      無 simulation-control authority，schema-aware 還原為 int，不套 float policy。
+  - **N3 判定：REQUIRED ✅，但 policy 不是位數**。實測 Godot `JSON.stringify` 只寫 15 位有效數字，
+    8 個全精度 double 有 7 個無法無損 round-trip；**連已量化的值也不穩定**
+    （`snapped(99.994, 0.01)` = `99.990000000000009` → 寫成 `99.99` → 讀回 `99.989999999999995`）。
+    因此採 **persistence-codec canonicality**：
+    `canonical_float(x) := JSON.parse_string(JSON.stringify(x))`，
+    17/17 probe 滿足 `canonical(canonical(x)) == canonical(x)`。
+    **正規化位置：end-of-day state commit boundary**（每日一次，physics 之後、invariant 之前），
+    使每一個已提交的日界世界本身就是 persistence-canonical，save 只是忠實記錄。
+  - **N4（closure blocker）實測**：World A 不中斷跑至 Day 100，World B 於 Day 50 存檔重載後續跑，
+    full canonical state SHA、event ledger SHA、simulation projection SHA **三者全部相同**，
+    且 Day 51（載入後第一天）即已相同。
+  - **驗收成果**：[tests/test_s4_c2_numeric.gd](file:///d:/wasteland-chronicles/tests/test_s4_c2_numeric.gd)
+    N1 ~ N6 全數 PASS；證據 harness [tests/n0_numeric_evidence.gd](file:///d:/wasteland-chronicles/tests/n0_numeric_evidence.gd)
+    與 `artifacts/s4c2_n0_evidence.txt` 保留 N0 原始測量；
+    Python 驗證器新增 `NUM-001` ~ `NUM-003`（獨立重算，不共用 GDScript 還原邏輯）。
+  - **刻意的 baseline 變更**：移除 save-time rounding 會改變模擬軌跡，所有 canonical artifact
+    已重新產生。不為保護舊 hash 而保留已知 persistence defect；舊歷史由既有 commit 與 `v0.0.1-s3` tag 保存。
+  - **Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` → RESOLVED ✅**（N1 PASS 且 N4 PASS）。
+  - **Future note（S4-C.2 不做）**：`cumulative_disorder_loss` 理論上可由 authoritative event ledger
+    的 `LOCAL_DISORDER_LOSS` 事件推導而成為 derived statistic。現在改 authority model 會擴 Slice，不動。
+* **S4-D — Traits**：**NEXT 🟡**（Fast Lane：focused spec / focused tests / 既有 validator / regression，不新增治理章節）謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
 * **S4-E — Aptitude Schema**：戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。
   背景是否提供 action eligibility，由此時已驗證的 gameplay 動詞決定，**不得由 S4-C 預先定義**。
