@@ -434,10 +434,10 @@ Aptitudes  = 這個人可能比較容易學哪類事情
     4. **我介入後看到後果時，有沒有產生「世界真的因我改變」的感覺？**（Causal Impact）
 * **S5-B4 — Scavenge (Optional after playtest)**：
   - 僅在 First Playable 試玩後證明「除了聚落間買賣套利，確實缺乏野外獲取物資方式」時，方才實作最小確定性廢墟搜刮（固定 Salvage Pool，無隨機掉寶、無稀有裝備、無戰鬥、無 Respawn）。
-* **S5-C0 ~ S5-C7 — Character Progression Foundation（2026-09-20 Owner 調整，尚未實作）**：
+* **S5-C0 ~ S5-C7 — Character Progression Foundation（2026-09-20：C0/C1 CLOSED，C2+ 尚未實作）**：
   - 創角 → 能力權威 → Trait/Skill 遭遇選項 → 使用型技能成長 → Level/Perks → C4.5 Acquired Traits → 裝備 → 工作 → Capstone。
   - 核心驗收是「以前做不到，成長後做得到」，不同角色能用不同方法處理同一世界。
-  - 詳見 [角色成長規劃](character-progression-foundation.md)。此排序取代原先近期擴城與泛稱 S5-D Skills 的未來排程；歷史完成紀錄保留，C0/C1 [權威契約](s5-c0-c1-contract.md)已完成並凍結；後續 [headless 實作](c0-c1-headless-implementation.md)已有本機驗證，創角 UI 尚未開始，不據此標整體 CLOSED。XP 與後續效果仍待各切片定義。
+  - 詳見 [角色成長規劃](character-progression-foundation.md)。此排序取代原先近期擴城與泛稱 S5-D Skills 的未來排程；歷史完成紀錄保留，C0/C1 [權威契約](s5-c0-c1-contract.md)已完成並凍結；[headless 實作](c0-c1-headless-implementation.md)已獨立提交 `6b9c741`；[創角 UI 與能力呈現](c0-d-character-creation-ui.md)通過 36 suites、六項 UI gates、世界 SHA 重播與畫面驗證，C0/C1 整體 CLOSED。XP 與後續效果仍待各切片定義。
   - Encounter Result UX 獨立修復，不計為新玩法；稀疏路網擴城與擴充事件庫延後。Companions、Relationships、Combat 另行規劃。
 
 ---

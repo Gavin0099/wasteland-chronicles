@@ -643,7 +643,13 @@ func _build_ui_layout_if_needed() -> void:
 
 	# 1. Top Status Bar
 	top_status_bar = TopStatusBar.new()
-	app_frame.add_child(top_status_bar)
+	var header := HBoxContainer.new()
+	app_frame.add_child(header)
+	header.add_child(top_status_bar)
+	var character_button := Button.new()
+	character_button.text = "角色 / 能力"
+	character_button.pressed.connect(_show_character)
+	header.add_child(character_button)
 
 	# Compatibility labels
 	lbl_day = Label.new()
@@ -1178,3 +1184,36 @@ func _create_window_header(title_text: String, icon_str: String = "") -> PanelCo
 	hbox.add_child(controls_lbl)
 
 	return header_panel
+
+func _show_character() -> void:
+	if world == null or world.player == null:
+		return
+	var presentation = preload("res://ui/character_presentation.gd")
+	var dialog := AcceptDialog.new()
+	dialog.title = "角色 / 能力"
+	dialog.ok_button_text = "返回旅程"
+	var frame := StyleBoxFlat.new()
+	frame.bg_color = Color("1B1D22")
+	frame.border_color = Color("454A55")
+	frame.set_border_width_all(1)
+	frame.expand_margin_top = 32
+	frame.content_margin_top = 12
+	frame.content_margin_left = 12
+	frame.content_margin_right = 12
+	frame.content_margin_bottom = 12
+	dialog.add_theme_stylebox_override("embedded_border", frame)
+	dialog.add_theme_stylebox_override("panel", frame)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(500, 460)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var text := Label.new()
+	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text.size_flags_horizontal = SIZE_EXPAND_FILL
+	text.text = presentation.summary_text(presentation.project(world)) + "\n\n人物特質目前尚未影響遭遇選項。"
+	text.add_theme_constant_override("line_spacing", 2)
+	scroll.add_child(text)
+	dialog.add_child(scroll)
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered()

@@ -1,5 +1,7 @@
 # C0/C1 — Headless Implementation Record
 
+> 本文件保留 headless 交付當時的範圍。Headless commit：`6b9c741`；後續 UI 完成狀態見 [C0-D 交付紀錄](c0-d-character-creation-ui.md)。
+
 權威契約：`s5-c0-c1-contract.md` 已由 Owner 宣告 COMPLETE / FROZEN FOR IMPLEMENTATION。角色系統方向不再重議；本文件記錄後續實作，與契約狀態分開。
 
 ## 交付範圍

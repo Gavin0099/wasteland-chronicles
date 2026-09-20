@@ -31,8 +31,8 @@
 - [x] S5-C0/C1 Contract — COMPLETE / FROZEN FOR IMPLEMENTATION (not feature closure)
 - [x] C0-P0 Background Package Mapping — four existing packages approved by Owner
 - [x] C1-P0 Strict Rank Codec — raw integer tokens proven; existing float codec unchanged
-- [ ] **S5-C0 : Character Creation — HEADLESS IMPLEMENTED / TESTED_LOCAL; creation UI not started; not CLOSED**
-- [ ] S5-C1 : Capability Foundation — HEADLESS IMPLEMENTED / TESTED_LOCAL; uncommitted; not overall CLOSED
+- [x] **S5-C0 : Character Creation — CLOSED; authoritative creation form → character summary → explicit entry**
+- [x] S5-C1 : Capability Foundation — CLOSED; headless authority + read-only player capability presentation
 - [ ] S5-C2 : Trait & Skill Encounters — different characters unlock different approaches
 - [ ] S5-C3 : Skill Growth — relevant use and work develop the corresponding skill
 - [ ] S5-C4 : Level & Perks — experience milestones and sparse, consequential specialization choices
@@ -56,7 +56,9 @@
 
 ## Decision Log
 
-- 2026-09-20: **Owner froze C0/C1 contract** as SPEC / AUTHORITY CONTRACT COMPLETE, distinct from feature completion. Owner explicitly approved all four C0-P0 packages. C1-P0 uses structural raw-token verification at the rank path plus unchanged native JSON for world floats. Headless sequence C1-A/B → C0-A/B/C implemented locally, tested before UI; evidence and boundaries in `docs/c0-c1-headless-implementation.md`. No C2/XP/Perk/equipment/combat/Legacy authority added; this work is not committed or pushed.
+- 2026-09-20: **C0-D UI + C1 presentation verified** — normal New Game uses `CharacterCreationIntent` exclusively; no UI call to `materialize_player`. Four live 2/1/1 previews, 0–2 Core Traits, authority-owned rejection, separate post-commit summary, and read-only capability dialog. 36 suites exit 0, UI dual-track SHA replay and population invariants pass; screenshots at 1280×720 and 1152×648. `docs/c0-d-character-creation-ui.md` records gates and existing shutdown diagnostics. C0/C1 CLOSED; C2+ not started. UI is delivered in a separate local commit from headless; no push.
+
+- 2026-09-20: **Owner froze C0/C1 contract** as SPEC / AUTHORITY CONTRACT COMPLETE, distinct from feature completion. Owner explicitly approved all four C0-P0 packages. C1-P0 uses structural raw-token verification at the rank path plus unchanged native JSON for world floats. Headless sequence C1-A/B → C0-A/B/C implemented locally, tested before UI; evidence and boundaries in `docs/c0-c1-headless-implementation.md`. No C2/XP/Perk/equipment/combat/Legacy authority added; headless committed locally as `6b9c741`, not pushed.
 
 - 2026-09-20: **Encounter UX delivery** — local commit `e18b88e` on `codex/encounter-result-feedback`, no push/merge. 33 Godot suites exit 0; recorded UI shutdown leak diagnostics remain. Progression documents were excluded from the commit.
 - 2026-09-20: **C0/C1 authoritative contract defined, implementation not started** — `docs/s5-c0-c1-contract.md`: Background package 2/1/1, no free points; 0–2 distinct Core Traits with no forbidden pairs; atomic materialization from existing anonymous population; legacy ranks zero and selected Core empty, existing S4 metadata preserved; ten int 0–5 Skills, skill-only AND eligibility and strict persistence. Integer JSON token preservation and background catalogue mapping are explicit implementation prerequisites. C2/XP/Level/Perk/Equipment/Combat are excluded from this task.
