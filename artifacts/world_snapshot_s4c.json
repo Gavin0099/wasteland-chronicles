@@ -5,10 +5,10 @@
 			"cargo": {
 				"food": 0,
 				"fuel": 0,
-				"scrap": 15,
+				"scrap": 9,
 				"water": 0
 			},
-			"days_remaining": 3,
+			"days_remaining": 2,
 			"destination_id": "settlement:dry_well",
 			"id": "caravan:c_gray_dry",
 			"is_active": true,
@@ -20,12 +20,12 @@
 		"caravan:c_hope_dry": {
 			"capacity_total": 40,
 			"cargo": {
-				"food": 15,
+				"food": 16,
 				"fuel": 0,
-				"scrap": 0,
-				"water": 18
+				"scrap": 7,
+				"water": 17
 			},
-			"days_remaining": 3,
+			"days_remaining": 2,
 			"destination_id": "settlement:dry_well",
 			"id": "caravan:c_hope_dry",
 			"is_active": true,
@@ -38,11 +38,11 @@
 			"capacity_total": 40,
 			"cargo": {
 				"food": 10,
-				"fuel": 0,
+				"fuel": 6,
 				"scrap": 0,
-				"water": 25
+				"water": 24
 			},
-			"days_remaining": 3,
+			"days_remaining": 2,
 			"destination_id": "settlement:gray_valley",
 			"id": "caravan:c_hope_gray",
 			"is_active": true,
@@ -52,11 +52,53 @@
 			"route_days": 3
 		}
 	},
-	"current_day": 0,
-	"event_count": 0,
-	"next_npc_sequence": 6,
-	"npc_life_state_registry": {},
-	"npc_profile_registry": {},
+	"current_day": 25,
+	"event_count": 48,
+	"next_npc_sequence": 5,
+	"npc_life_state_registry": {
+		"npc:00000001": {
+			"npc_id": "npc:00000001",
+			"population_container_id": "settlement:gray_valley",
+			"population_container_type": 0,
+			"status": 0
+		},
+		"npc:00000002": {
+			"npc_id": "npc:00000002",
+			"population_container_id": "settlement:gray_valley",
+			"population_container_type": 0,
+			"status": 0
+		},
+		"npc:00000003": {
+			"npc_id": "npc:00000003",
+			"population_container_id": "settlement:gray_valley",
+			"population_container_type": 0,
+			"status": 0
+		},
+		"npc:00000004": {
+			"npc_id": "npc:00000004",
+			"population_container_id": "settlement:gray_valley",
+			"population_container_type": 0,
+			"status": 0
+		}
+	},
+	"npc_profile_registry": {
+		"npc:00000001": {
+			"background": 0,
+			"npc_id": "npc:00000001"
+		},
+		"npc:00000002": {
+			"background": 1,
+			"npc_id": "npc:00000002"
+		},
+		"npc:00000003": {
+			"background": 2,
+			"npc_id": "npc:00000003"
+		},
+		"npc:00000004": {
+			"background": 3,
+			"npc_id": "npc:00000004"
+		}
+	},
 	"npc_registry": {
 		"npc:00000001": {
 			"age_at_materialization": 28,
@@ -65,28 +107,22 @@
 			"origin_settlement_id": "settlement:gray_valley"
 		},
 		"npc:00000002": {
-			"age_at_materialization": 35,
+			"age_at_materialization": 28,
 			"id": "npc:00000002",
-			"name": "Eli",
+			"name": "Joel",
 			"origin_settlement_id": "settlement:gray_valley"
 		},
 		"npc:00000003": {
-			"age_at_materialization": 42,
+			"age_at_materialization": 28,
 			"id": "npc:00000003",
-			"name": "Jon",
+			"name": "Tess",
 			"origin_settlement_id": "settlement:gray_valley"
 		},
 		"npc:00000004": {
-			"age_at_materialization": 24,
+			"age_at_materialization": 28,
 			"id": "npc:00000004",
-			"name": "Sarah",
-			"origin_settlement_id": "settlement:new_hope"
-		},
-		"npc:00000005": {
-			"age_at_materialization": 50,
-			"id": "npc:00000005",
-			"name": "Kael",
-			"origin_settlement_id": "settlement:dry_well"
+			"name": "Bram",
+			"origin_settlement_id": "settlement:gray_valley"
 		}
 	},
 	"refugees": {},
@@ -104,16 +140,16 @@
 			},
 			"cumulative_deaths": 0,
 			"cumulative_disorder_loss": {},
-			"days_since_last_migration": 999,
+			"days_since_last_migration": 1024,
 			"disorder_loss_credits": {},
 			"food_exposure": 0.0,
 			"food_pressure": 0.0,
 			"id": "settlement:dry_well",
 			"inventory": {
-				"food": 60,
-				"fuel": 100,
-				"scrap": 50,
-				"water": 60
+				"food": 53,
+				"fuel": 111,
+				"scrap": 46,
+				"water": 52
 			},
 			"maintenance_fuel": 3,
 			"maintenance_scrap": 2,
@@ -121,17 +157,22 @@
 			"metabolism_water_rate": 0.05,
 			"name": "乾井 (Dry Well)",
 			"population": 80,
-			"price_food": 15.0,
-			"price_fuel": 10.0,
-			"price_scrap": 14.0,
-			"price_water": 15.0,
+			"price_food": 17.63,
+			"price_fuel": 8.35,
+			"price_scrap": 15.68,
+			"price_water": 18.0,
 			"production": {
 				"food": 1,
 				"fuel": 8,
 				"scrap": 1,
 				"water": 1
 			},
-			"production_credits": {},
+			"production_credits": {
+				"food": 0.0,
+				"fuel": 0.0,
+				"scrap": 0.0,
+				"water": 0.0
+			},
 			"reference_population": 80,
 			"security": 100.0,
 			"target_food": 60,
@@ -154,16 +195,16 @@
 			},
 			"cumulative_deaths": 0,
 			"cumulative_disorder_loss": {},
-			"days_since_last_migration": 999,
+			"days_since_last_migration": 1024,
 			"disorder_loss_credits": {},
 			"food_exposure": 0.0,
 			"food_pressure": 0.0,
 			"id": "settlement:gray_valley",
 			"inventory": {
-				"food": 80,
-				"fuel": 40,
-				"scrap": 100,
-				"water": 80
+				"food": 72,
+				"fuel": 44,
+				"scrap": 158,
+				"water": 58
 			},
 			"maintenance_fuel": 2,
 			"maintenance_scrap": 4,
@@ -171,17 +212,20 @@
 			"metabolism_water_rate": 0.05,
 			"name": "灰谷 (Gray Valley)",
 			"population": 100,
-			"price_food": 12.0,
-			"price_fuel": 20.0,
-			"price_scrap": 8.0,
-			"price_water": 15.0,
+			"price_food": 13.8,
+			"price_fuel": 17.0,
+			"price_scrap": 1.6,
+			"price_water": 21.19,
 			"production": {
 				"food": 2,
 				"fuel": 0,
 				"scrap": 11,
 				"water": 0
 			},
-			"production_credits": {},
+			"production_credits": {
+				"food": 0.0,
+				"scrap": 0.0
+			},
 			"reference_population": 100,
 			"security": 100.0,
 			"target_food": 80,
@@ -204,16 +248,16 @@
 			},
 			"cumulative_deaths": 0,
 			"cumulative_disorder_loss": {},
-			"days_since_last_migration": 999,
+			"days_since_last_migration": 1024,
 			"disorder_loss_credits": {},
 			"food_exposure": 0.0,
 			"food_pressure": 0.0,
 			"id": "settlement:new_hope",
 			"inventory": {
-				"food": 80,
-				"fuel": 40,
-				"scrap": 60,
-				"water": 100
+				"food": 94,
+				"fuel": 44,
+				"scrap": 80,
+				"water": 132
 			},
 			"maintenance_fuel": 2,
 			"maintenance_scrap": 4,
@@ -221,17 +265,21 @@
 			"metabolism_water_rate": 0.05,
 			"name": "新希望 (New Hope)",
 			"population": 120,
-			"price_food": 10.0,
-			"price_fuel": 20.0,
-			"price_scrap": 16.0,
-			"price_water": 8.0,
+			"price_food": 7.38,
+			"price_fuel": 17.0,
+			"price_scrap": 8.0,
+			"price_water": 4.16,
 			"production": {
 				"food": 9,
 				"fuel": 0,
 				"scrap": 1,
 				"water": 14
 			},
-			"production_credits": {},
+			"production_credits": {
+				"food": 0.0,
+				"scrap": 0.0,
+				"water": 0.0
+			},
 			"reference_population": 120,
 			"security": 100.0,
 			"target_food": 80,
@@ -242,5 +290,5 @@
 			"water_pressure": 0.0
 		}
 	},
-	"total_initial_population": -1
+	"total_initial_population": 300
 }

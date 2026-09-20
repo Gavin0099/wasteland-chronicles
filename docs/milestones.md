@@ -15,8 +15,8 @@
 | **S0 — Mechanical Baseline** | 世界能穩定跑嗎？ | 3 聚落、2 資源、1 商隊、決定論與不變量基線 | **CLOSED ✅** |
 | **S1 — Living Economy** | 聚落為什麼需要彼此？ | 4 資源、聚落分工 (Specialization)、供需推導、自然貿易網 | **CLOSED ✅** |
 | **S2 — Fragility & Recovery**| 世界被破壞後會怎樣？ | 物流中斷、短缺、暴漲、恢復延遲與路徑依賴（三世界驗證） | **CLOSED ✅** |
-| **S3 — Human Ecology** | 人口會如何受世界影響？ | 人口代謝、短缺壓力、難民遷徙、生理死亡、勞動生產力反饋 | **CURRENT 🟡** |
-| **S4 — Individual NPC Ecology**| 世界裡的人是不是「個體」？ | NPC 身份、生活狀態、背景、特質、潛能、自主決策 (無數值點數) | **PLANNED ⏳** |
+| **S3 — Human Ecology** | 人口會如何受世界影響？ | 人口代謝、短缺壓力、難民遷徙、生理死亡、勞動生產力反饋 | **CLOSED ✅** |
+| **S4 — Individual NPC Ecology**| 世界裡的人是不是「個體」？ | NPC 身份、生活狀態、背景、特質、潛能、自主決策 (無數值點數) | **CURRENT 🟡** |
 | **S5 — Player & Party** | 玩家怎麼成為世界裡的一個人？ | 玩家化身、動詞、屬性發現、技能、創角點數、同伴、專長、Perk | **PLANNED ⏳** |
 | **S6 — Roguelite Legacy** | 角色死亡後，世界還能延續嗎？ | 永久死亡、隊員繼承、裝備與名聲遺留、世界記憶、歷史存續 | **PLANNED ⏳** |
 | **S7 — Information Fog + UX**| 玩家如何認識世界？ | 真相/觀察/傳播/謠言/情報霧、ViewModel 隔離、Survivor PDA | **PLANNED ⏳** |
@@ -86,10 +86,50 @@
       且 `population` 零突變，待 S4-F 具備自主決策後方可處置具名個體。
   - **驗收成果**：[tests/test_s4_life_state.gd](file:///d:/wasteland-chronicles/tests/test_s4_life_state.gd)
     八大 Gate (B1 ~ B8) 全數 PASS，含序列化 round-trip 與雙世界 bitwise replay 一致性。
-* **S4-C — Background**：**NEXT 🟡** 前商隊守衛、機械師、農夫、拾荒者（影響社會角色、初始關係、可用行為，不決定數值點數）。
+* **S4-C — Background / Profile Metadata**：**CLOSED ✅**
+  - 核心機制：`NpcProfile`、`NpcProfileRegistry`，構成 NPC 三層分解的第三層：
+    `NpcIdentity`（這個人是誰）／ `NpcLifeState`（這個人在哪、活著嗎）／ `NpcProfile`（這個人的背景）。
+  - 封閉列舉，恰好四個：`CARAVAN_GUARD`, `MECHANIC`, `FARMER`, `SCAVENGER`。
+    **無 `UNASSIGNED` 成員**——「沒有 profile」與「background 是 UNASSIGNED」是兩回事，只有前者存在。
+  - 指派規則（全部 fail-closed，拒絕時零突變）：profile 為**可選**、background **一經指派永久不可變**
+    （同值重複指派亦拒絕）、**僅限存活 NPC**（死者不得事後補寫傳記，但生前已有的背景在死後永存）、
+    **僅接受 caller 顯式指定**（不建立任何 demographics generator）、未知值拒絕。
+  - **Background 是傳記，不是能力**。本切片明確**不含**：衍生 social role、eligible-action tags、
+    occupation、relationships、技能、數值、任何模擬效果。
+    `get_authorized_actions()` 對所有背景一律回傳 `[]`（`npc-authority.md` §6：S4-C 行為空間 = NONE）。
+  - **決定性驗收（C5 Simulation Inertness）**：同一世界，一邊有 Background、一邊完全沒有，
+    跑 30 天後 Simulation Projection **必須 bitwise identical**——證明 background 只改變世界的
+    *紀錄*，不改變世界的 *行為*。
+  - **驗收成果**：[tests/test_s4_profile.gd](file:///d:/wasteland-chronicles/tests/test_s4_profile.gd)
+    七大 Gate (C1 ~ C7) 全數 PASS；Python 權威驗證器新增 `NPC-007`（profile ⊆ identity）、
+    `NPC-008`（封閉 background 列舉）兩條規則。
+* **S4-C.1 — Event Ledger Persistence Hardening**：**NEXT 🟡**
+  - **Finding**：`EVENT_LEDGER_NOT_ROUNDTRIPPED`
+  - **Origin**：Pre-existing `WorldState` serialization behavior（非 S4-C 引入）
+  - **Discovered by**：S4-C C7 persistence validation
+  - **Disposition**：獨立 hardening slice，不併入 S4-C，亦不在 C7 中順手修復
+  - **問題**：`to_dict()` 僅輸出 `event_count`，從不序列化 `EventRecord` 陣列，
+    故 `from_dict()` 永遠還原出空帳本。世界目前只有 **Current State Authority ✅**，
+    而 **Historical Fact Authority ❌**——與「Event Ledger 記錄 committed world fact」
+    之治理定義直接衝突。至 S4-F 自主決策上線後，最關鍵的 audit evidence 會在 load 後消失。
+  - **架構修正方向**：`events` 為唯一權威，`event_count` 降為 **derived value**
+    （`event_count := events.size()`），不得形成第二真相；validator 必須驗證
+    `serialized event_count == len(events)` 而非信任它。此與 `alive ← status 推導`、
+    `social_role 不重複存` 為同一套設計哲學。
+  - **驗收 Gate（L1 ~ L6）**：非空 round-trip、順序保存、nested payload 保存、
+    derived count、決定論 snapshot SHA、全回歸。含負向 fixture：
+    `event_count = 9 / events = [7 events]` 必須 **VALIDATOR FAIL**，不得靜默接受。
+  - **Schema 變更為刻意行為**：本專案仍處 pre-player / pre-savegame / pre-alpha，
+    無真實存檔相容義務。**不為保護 prototype artifact 的 hash 而保留已知 persistence defect**；
+    修 schema → 重產 canonical artifacts → 重建 baseline evidence → 記錄 intentional schema change。
+    舊有歷史證據由既有 commit 與 `v0.0.1-s3` tag 保存。
 * **S4-D — Traits**：謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
 * **S4-E — Aptitude Schema**：戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。
+  背景是否提供 action eligibility，由此時已驗證的 gameplay 動詞決定，**不得由 S4-C 預先定義**。
+* **S4-G — NPC Relationships**：**PENDING**（自 S4-C 切出獨立成 Slice）。
+  關係圖是獨立的權威面：方向性、對稱性、死亡後是否保留、跨聚落與跨容器關係，
+  皆需各自的不變量與 fail-closed 規則，不應混入 Background metadata。
 
 ---
 

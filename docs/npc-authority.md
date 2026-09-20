@@ -26,7 +26,7 @@ $$\sum_{S} S.\text{population} + \sum \text{in\_transit} + \text{deaths} == 300$
 | **NPC 身份 ID (`npc_id`)** | `NPC Registry` | 透過單調遞增序列鑄造，終身永久不可變 |
 | **NPC 當前位置 (`location`)** | `Lifecycle Transaction` | 必須且僅能屬於唯一人口容器（Settlement / Transit / Party） |
 | **NPC 存活狀態 (`alive`)** | `Lifecycle Transaction` | 生理真理；死亡後永久不可逆，移至墓地計入累積死亡 |
-| **NPC 背景與特質** | `NPC Identity / Profile` | S4-A ~ D 實作，影響行為權限與社交，不決定戰鬥點數 |
+| **NPC 背景與特質** | `NPC Profile` | S4-C ~ D 實作，獨立 registry，不污染已鎖定之 `NpcIdentity`；為純傳記 metadata，於 S4-C 完全無行為授權與模擬效果，是否影響行為權限由 S4-F 裁定 |
 | **NPC 自主決策** | `Decision Engine` | S4-F 引入，依據當前狀態從授權行為集中選取 |
 | **行為授權 (Authorization)**| `Simulation Rules` | 當前 Slice 顯式許可之封閉行為集，未授權強制拒絕 |
 | **已發生世界事實** | `Event Ledger` | 僅記錄**已成功提交**之事件，不記失敗之意圖 |
@@ -117,7 +117,7 @@ $$\text{Identity} \ne \text{Location} \ne \text{Occupation} \ne \text{Faction} \
 | :--- | :--- |
 | **S4-A** | `NONE`（僅純靜態身份資料建立，無自主行為） |
 | **S4-B** | `NONE`（僅被動生命代謝與被動槽位就業，無主動決策） |
-| **S4-C ~ E** | `NONE`（身份背景與特質定義） |
+| **S4-C ~ E** | `NONE`（身份背景與特質定義；`get_authorized_actions()` 對所有背景一律回傳 `[]`，且嚴禁預先宣告 eligibility tags） |
 | **S4-F** | `["STAY", "MIGRATE", "JOIN_CARAVAN", "LEAVE_JOB", "CHANGE_JOB"]` |
 | **S5** | 開放玩家互動動詞 (`TALK`, `TRADE`, `RECRUIT`, `DISMISS`) |
 

@@ -45,6 +45,9 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 * **公理**：`No Attributes, Skills, XP, Point Allocation, Proficiencies, or Perks before their designated slice.`
 * **強制鎖定次序**：
   * **S4-A ~ E**：NPC 身份、狀態、背景（Background）、特質（Trait）、潛能架構（Aptitude Schema）。**嚴禁在此時加入 XP、技能點數或戰鬥數值**。
+    * **背景惰性推論（S4-C 落地）**：背景是傳記而非能力。嚴禁由背景推導現在式社會角色（`social_role`）或
+      預先宣告 action eligibility tags（如 `MECHANIC → REPAIR`）——前者會與後續 occupation / party_role
+      系統形成第二個權威，後者等同在 gameplay 動詞誕生前搶先定義 S4-F 的能力語意。
   * **S5-A**：玩家化身（Avatar: Identity, Inventory, Location, Needs, Money, Reputation）。**無技能樹**。
   * **S5-B**：玩家動詞（Verbs: Travel, Trade, Scavenge, Talk, Fight, Repair, Escort）。
   * **S5-C**：核心屬性發現（Core Attributes: 從玩法動詞反推）。
@@ -111,7 +114,9 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 | **S4 前置**| **G1.5-A**| **NPC 權威契約：權威矩陣、單一容器歸屬、決定論 ID 鑄造、驗證後提交模式** | **CLOSED ✅** |
 | **S4-A** | **G1.5-B1**| **NPC 身份運行防護：具名子集約束、確定性序列持久化、防人口通膨** | **CLOSED ✅** |
 | **S4-B** | **G1.5-B2**| **生命週期原子防護：真實個體遷移/死亡雙重計數原子一致性驗證、Aggregate 不得挑選具名個體（Fail-Closed）** | **CLOSED ✅** |
-| **S4-C** | **G1.5-B2**| **社會角色（Background）：影響行為權限與初始關係，不決定數值點數** | 🟡 NEXT |
+| **S4-C** | **G1.5-B3**| **背景傳記惰性防護：封閉列舉、寫入後不可變、僅限存活個體、零行為授權、模擬惰性 bitwise 反事實** | **CLOSED ✅** |
+| **S4-C.1**| **G1.5-B4**| **歷史事實權威：committed event ledger 完整持久化、derived count、非空 round-trip 決定論** | 🟡 NEXT |
+| **S4-D** | **G1.5-B3**| **特質（Traits）：純決定論客觀效果** | 規劃中 |
 | **S4-F** | **G2-lite** | NPC 自主行為授權、閉環決策審計證據、動態行為邊界鎖 | 規劃中 |
 | **S5** | **G2** | 玩家與隊伍行為授權、存檔重播驗證、可驗證的世界歷程 | 規劃中 |
 | **S6** | **G2+** | 死亡繼承傳承、世界記憶跨代傳承不變量 | 規劃中 |

@@ -6,6 +6,7 @@ var total_initial_population: int = -1
 var next_npc_sequence: int = 1
 var npc_registry: NpcRegistry = NpcRegistry.new()
 var npc_life_state_registry: NpcLifeStateRegistry = NpcLifeStateRegistry.new()
+var npc_profile_registry: NpcProfileRegistry = NpcProfileRegistry.new()
 var settlements: Dictionary = {} # Dictionary[StringName, SettlementState]
 var caravans: Dictionary = {}    # Dictionary[StringName, CaravanState]
 var refugees: Dictionary = {}    # Dictionary[StringName, RefugeePartyState]
@@ -39,6 +40,7 @@ func duplicate_state() -> WorldState:
 	copy.next_npc_sequence = next_npc_sequence
 	copy.npc_registry = npc_registry.duplicate_registry()
 	copy.npc_life_state_registry = npc_life_state_registry.duplicate_registry()
+	copy.npc_profile_registry = npc_profile_registry.duplicate_registry()
 	for s_id in settlements:
 		copy.settlements[s_id] = (settlements[s_id] as SettlementState).duplicate_state()
 	for c_id in caravans:
@@ -79,6 +81,7 @@ func to_dict() -> Dictionary:
 		"next_npc_sequence": next_npc_sequence,
 		"npc_registry": npc_registry.to_dict(),
 		"npc_life_state_registry": npc_life_state_registry.to_dict(),
+		"npc_profile_registry": npc_profile_registry.to_dict(),
 		"settlements": settlements_dict,
 		"caravans": caravans_dict,
 		"refugees": refugees_dict,
@@ -94,6 +97,8 @@ static func from_dict(data: Dictionary) -> WorldState:
 		w.npc_registry = NpcRegistry.from_dict(data["npc_registry"])
 	if data.has("npc_life_state_registry"):
 		w.npc_life_state_registry = NpcLifeStateRegistry.from_dict(data["npc_life_state_registry"])
+	if data.has("npc_profile_registry"):
+		w.npc_profile_registry = NpcProfileRegistry.from_dict(data["npc_profile_registry"])
 	if data.has("settlements"):
 		var s_data: Dictionary = data["settlements"]
 		for s_id in s_data:
@@ -110,3 +115,26 @@ static func from_dict(data: Dictionary) -> WorldState:
 
 func to_canonical_json() -> String:
 	return JSON.stringify(to_dict(), "\t", true)
+
+# ==============================================================================
+# S4-C: SIMULATION PROJECTION
+# ==============================================================================
+# The full canonical JSON necessarily differs between a world with backgrounds
+# and one without — the profile registry is part of it. The Simulation
+# Projection is everything the aggregate simulation actually runs on:
+# identical to to_dict() MINUS npc_profile_registry.
+#
+# Identity and life states stay INSIDE the projection on purpose. Backgrounds
+# must not perturb who exists or where they are either, so keeping those layers
+# under the hash makes the inertness claim stronger, not weaker.
+#
+# Gate C5 asserts: same world, one with profiles and one without, run the same
+# number of days → byte-identical projection hash.
+# ==============================================================================
+func to_simulation_projection_dict() -> Dictionary:
+	var projection := to_dict()
+	projection.erase("npc_profile_registry")
+	return projection
+
+func to_simulation_projection_json() -> String:
+	return JSON.stringify(to_simulation_projection_dict(), "	", true)

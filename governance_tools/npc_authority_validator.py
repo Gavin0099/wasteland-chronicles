@@ -51,9 +51,15 @@ except ImportError:
 class NpcAuthorityValidator(DomainValidator):
 	NPC_ID_REGEX = re.compile(r"^npc:\d{8}$")
 
+	# S4-C closed Background enum, mirroring NpcProfile.Background.
+	# Deliberately has no UNASSIGNED member: "has no profile" and
+	# "background is UNASSIGNED" are different statements; only the former exists.
+	BACKGROUND_NAMES = ("CARAVAN_GUARD", "MECHANIC", "FARMER", "SCAVENGER")
+	VALID_BACKGROUNDS = frozenset(range(len(BACKGROUND_NAMES)))
+
 	@property
 	def rule_ids(self) -> list[str]:
-		return ["G1.5-A", "NPC-001", "NPC-002", "NPC-003", "NPC-004"]
+		return ["G1.5-A", "NPC-001", "NPC-002", "NPC-003", "NPC-004", "NPC-007", "NPC-008"]
 
 	def validate(self, payload: dict) -> ValidatorResult:
 		violations: list[str] = []
@@ -61,6 +67,7 @@ class NpcAuthorityValidator(DomainValidator):
 
 		settlements: dict = payload.get("settlements", {})
 		npc_registry: dict = payload.get("npc_registry", {})
+		npc_profile_registry: dict = payload.get("npc_profile_registry", {})
 		next_npc_sequence: int = payload.get("next_npc_sequence", 1)
 
 		if not settlements and not npc_registry:
@@ -135,8 +142,40 @@ class NpcAuthorityValidator(DomainValidator):
 					f"NPC-006: Settlement '{s_id}' anonymous population is negative ({anon})"
 				)
 
+		# 4. S4-C profile checks: closed Background enum, profiles are a subset of
+		#    identities. Profiles are OPTIONAL — an NPC without one is fully valid,
+		#    so absence is never a violation. Backgrounds carry no capability and
+		#    are therefore never consulted for any authority decision here.
+		for profile_id, profile_data in npc_profile_registry.items():
+			record_id = profile_data.get("npc_id", "") if isinstance(profile_data, dict) else ""
+			if record_id != profile_id:
+				violations.append(
+					f"NPC-007: Profile key '{profile_id}' does not match record npc_id '{record_id}'"
+				)
+
+			if profile_id not in npc_registry:
+				violations.append(
+					f"NPC-007: Profile '{profile_id}' has no corresponding identity "
+					f"(profiles must be a subset of the identity registry)"
+				)
+
+			background = profile_data.get("background", None) if isinstance(profile_data, dict) else None
+			if background not in self.VALID_BACKGROUNDS:
+				violations.append(
+					f"NPC-008: Profile '{profile_id}' has background {background!r} outside the "
+					f"closed enum {sorted(self.VALID_BACKGROUNDS)} "
+					f"({', '.join(self.BACKGROUND_NAMES)})"
+				)
+
+		if len(npc_profile_registry) > len(npc_registry):
+			violations.append(
+				f"NPC-007: Profile count ({len(npc_profile_registry)}) exceeds identity count "
+				f"({len(npc_registry)})"
+			)
+
 		evidence = (
-			f"Validated {len(npc_registry)} NPCs across {len(settlements)} settlements. "
+			f"Validated {len(npc_registry)} NPCs across {len(settlements)} settlements, "
+			f"{len(npc_profile_registry)} backgrounds. "
 			f"Violations: {len(violations)}, Warnings: {len(warnings)}"
 		)
 
@@ -148,6 +187,7 @@ class NpcAuthorityValidator(DomainValidator):
 			evidence_summary=evidence,
 			metadata={
 				"npc_count": len(npc_registry),
+				"profile_count": len(npc_profile_registry),
 				"max_sequence": max_seq_found,
 				"next_sequence": next_npc_sequence,
 			},
@@ -204,6 +244,34 @@ def main() -> int:
 		}
 		res_ref = validator.validate(invalid_ref_fixture)
 		assert not res_ref.ok, "Invalid reference fixture falsely passed!"
+
+		# S4-C: a profile-free world stays valid (profiles are optional)
+		res_no_profiles = validator.validate(valid_fixture)
+		assert res_no_profiles.ok, "World without profiles must remain valid!"
+
+		# S4-C: legal backgrounds on a subset of identities
+		valid_profile_fixture = dict(valid_fixture)
+		valid_profile_fixture["npc_profile_registry"] = {
+			"npc:00000001": {"npc_id": "npc:00000001", "background": 0},
+		}
+		res_profile_ok = validator.validate(valid_profile_fixture)
+		assert res_profile_ok.ok, f"Valid profile fixture failed: {res_profile_ok.violations}"
+
+		# S4-C: background outside the closed enum (NPC-008)
+		bad_background_fixture = dict(valid_fixture)
+		bad_background_fixture["npc_profile_registry"] = {
+			"npc:00000001": {"npc_id": "npc:00000001", "background": 7},
+		}
+		res_bad_bg = validator.validate(bad_background_fixture)
+		assert not res_bad_bg.ok, "Out-of-enum background falsely passed!"
+
+		# S4-C: profile without a matching identity (NPC-007)
+		orphan_profile_fixture = dict(valid_fixture)
+		orphan_profile_fixture["npc_profile_registry"] = {
+			"npc:00009999": {"npc_id": "npc:00009999", "background": 1},
+		}
+		res_orphan = validator.validate(orphan_profile_fixture)
+		assert not res_orphan.ok, "Orphan profile falsely passed!"
 
 		print("PASS: All NpcAuthorityValidator fixtures verified successfully!")
 		return 0

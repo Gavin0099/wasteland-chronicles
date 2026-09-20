@@ -1003,4 +1003,18 @@ func validate_invariants(world: WorldState) -> String:
 						party.id, named_transit, party.headcount
 					]
 
+	# S4-C Profile invariants (C1: closed enum, C6: profiles ⊆ identities, living only)
+	if world.npc_profile_registry != null:
+		for k in world.npc_profile_registry.profiles:
+			var profile: NpcProfile = world.npc_profile_registry.profiles[k]
+			if not NpcProfile.is_valid_background(profile.background):
+				return "S4-C C1: NPC %s carries background value %d outside the closed enum" % [
+					profile.npc_id, profile.background
+				]
+			if not world.npc_registry.has_npc(profile.npc_id):
+				return "S4-C C6: Profile %s has no corresponding identity (profiles must be a subset of identities)" % profile.npc_id
+			var p_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(profile.npc_id)
+			if p_ls == null:
+				return "S4-C C6: Profile %s has no life state" % profile.npc_id
+
 	return ""
