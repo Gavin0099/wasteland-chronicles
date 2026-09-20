@@ -225,11 +225,45 @@ func _init() -> void:
 			print("FAIL E4: giving water did not cost a water!")
 			quit(1)
 			return
-		if w7.player.inventory.scrap <= scrap_b:
-			print("FAIL E4: the traveller gave nothing back!")
+		print("  Gave 1 water (%d -> %d); he had %s to give" % [
+			water_b, w7.player.inventory.water,
+			"nothing" if w7.player.inventory.scrap == scrap_b else "something"])
+
+	# The payoff must NOT be a constant. If every wreck paid the same, hiding the
+	# number would just be hiding arithmetic, and searching would stop being a
+	# gamble after the first truck.
+	var outcomes := {}
+	var empty_handed := 0
+	for day in range(1, 41):
+		for idx in range(1, 4):
+			var y := TravelEncounter.wreck_yield(day, &"settlement:gray_valley", &"settlement:new_hope", idx)
+			outcomes[JSON.stringify(y)] = true
+			if y.is_empty():
+				empty_handed += 1
+	if outcomes.size() < 4:
+		print("FAIL E4: only %d distinct wreck outcomes - the payoff is effectively fixed!" % outcomes.size())
+		quit(1)
+		return
+	if empty_handed == 0:
+		print("FAIL E4: searching a wreck ALWAYS pays - there is no gamble!")
+		quit(1)
+		return
+	if TravelEncounter.wreck_yield(7, &"settlement:gray_valley", &"settlement:dry_well", 2) 			!= TravelEncounter.wreck_yield(7, &"settlement:gray_valley", &"settlement:dry_well", 2):
+		print("FAIL E4: the same wreck yielded different things - replay is broken!")
+		quit(1)
+		return
+	print("  %d distinct wreck outcomes across 120 wrecks, %d of them picked clean" % [
+		outcomes.size(), empty_handed])
+	print("  Same wreck always yields the same thing: a gamble, not a dice roll")
+
+	# And the option text must never state the payoff.
+	for o in TravelEncounter.options(TravelEncounter.WRECK):
+		var detail := String(o["detail"])
+		if detail.contains("+"):
+			print("FAIL E4: the wreck option text reveals the payoff: %s" % detail)
 			quit(1)
 			return
-		print("  Gave 1 water (%d -> %d), received scrap in return" % [water_b, w7.player.inventory.water])
+	print("  Option text states the cost and withholds the payoff")
 
 	if engine.validate_invariants(w5) != "":
 		print("FAIL E4: invariants broken after encounters: %s" % engine.validate_invariants(w5))

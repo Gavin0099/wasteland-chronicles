@@ -1593,9 +1593,10 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 
 	match option_id:
 		&"SEARCH":
-			# Loot is capped by what you can actually carry. The ledger records
-			# what was really taken, not what was theoretically on offer.
-			gained = _give_player_goods(p, {"scrap": 3, "fuel": 1})
+			# What is under this particular truck. Capped by what you can carry;
+			# the ledger records what was really taken, not what was on offer.
+			gained = _give_player_goods(p, TravelEncounter.wreck_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
 			extra_day = true
 		&"CLEAR":
 			p.inventory.add_amount("scrap", -1)
@@ -1606,7 +1607,8 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"GIVE_WATER":
 			p.inventory.add_amount("water", -1)
 			spent["water"] = 1
-			gained = _give_player_goods(p, {"scrap": 2})
+			gained = _give_player_goods(p, TravelEncounter.traveller_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
 		&"DETOUR":
 			extra_day = true
 		&"LEAVE":

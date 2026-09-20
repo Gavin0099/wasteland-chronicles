@@ -75,14 +75,21 @@ static func body(encounter_type: StringName) -> String:
 			return "一個人靠坐在路邊的水泥墩上，嘴唇乾裂，幾乎沒有反應。\n他身邊的背包看起來還有點東西。"
 	return ""
 
-# Each option: id, label, and a one-line statement of what it costs and gives.
-# The cost line is written from the catalogue so the UI can never describe a
-# different bargain from the one the engine will actually commit.
+# WHAT THE PLAYER IS TOLD, and deliberately what they are NOT told.
+#
+# The COST is always stated: you must be able to work out whether you can
+# afford a day, and "three days of road, two days of water" is only a real
+# decision if the price is visible.
+#
+# The PAYOFF is never stated. Printing "得到 廢料 +3、燃料 +1" turned searching a
+# wreck into arithmetic instead of a gamble - and worse, every wreck paid out
+# exactly the same, so after the first one there was nothing left to find out.
+# You can see that the truck is worth a look. You cannot see what is under it.
 static func options(encounter_type: StringName) -> Array:
 	match encounter_type:
 		WRECK:
 			return [
-				{"id": &"SEARCH", "label": "搜尋殘骸", "detail": "耗時 1 天（水 −1、食物 −1）　得到 廢料 +3、燃料 +1"},
+				{"id": &"SEARCH", "label": "搜尋殘骸", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明"},
 				{"id": &"LEAVE", "label": "繼續趕路", "detail": "什麼也沒發生"},
 			]
 		ROCKSLIDE:
@@ -97,7 +104,7 @@ static func options(encounter_type: StringName) -> Array:
 			]
 		DEHYDRATED_TRAVELLER:
 			return [
-				{"id": &"GIVE_WATER", "label": "給他一份水", "detail": "水 −1　他把身上的 廢料 +2 塞給你"},
+				{"id": &"GIVE_WATER", "label": "給他一份水", "detail": "水 −1　他也許身上有點什麼"},
 				{"id": &"LEAVE", "label": "離開", "detail": "什麼也沒發生"},
 			]
 	return []
@@ -110,3 +117,37 @@ static func has_option(encounter_type: StringName, option_id: StringName) -> boo
 
 static func is_valid_type(encounter_type: StringName) -> bool:
 	return encounter_type in [WRECK, ROCKSLIDE, ROADBLOCK, DEHYDRATED_TRAVELLER]
+
+# ── What you actually find ───────────────────────────────────────────────────
+# Still no RNG: the yield is a pure function of WHICH wreck this is, so a replay
+# finds exactly the same thing under exactly the same truck. But two different
+# wrecks are two different trucks, and one of them may be picked clean.
+#
+# The empty result matters most. If searching always paid, the only question
+# would be whether you can afford the day. Sometimes you spend the day, drink
+# the water, and find nothing - which is what makes the gamble a gamble.
+static func wreck_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int) -> Dictionary:
+	var h := stable_hash("wreck|%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+	var roll := h % 10
+	if roll <= 1:
+		return {}                                  # picked clean
+	if roll <= 4:
+		return {"scrap": 1 + (h / 10) % 2}         # scraps of metal
+	if roll <= 7:
+		return {"scrap": 2 + (h / 10) % 3, "fuel": 1}
+	if roll == 8:
+		return {"scrap": 1, "fuel": 2}             # a half-full jerrycan
+	return {"scrap": 4 + (h / 10) % 3, "fuel": 2}  # a genuinely good find
+
+# The traveller gives what little he has. He is grateful, not rich, and one
+# in five has nothing left to give at all.
+static func traveller_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int) -> Dictionary:
+	var h := stable_hash("traveller|%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+	var roll := h % 10
+	if roll <= 1:
+		return {}
+	if roll <= 6:
+		return {"scrap": 1 + h % 2}
+	if roll <= 8:
+		return {"scrap": 2, "fuel": 1}
+	return {"scrap": 3}
