@@ -1504,6 +1504,113 @@ static func get_sell_quote(settlement: SettlementState, commodity: StringName) -
 	return maxi(1, int(floor(price)))
 
 # ==============================================================================
+# S5-B4.1: WHAT IS ACTUALLY HAPPENING ON THIS ROAD
+# ==============================================================================
+# The road is not a backdrop. These are the facts the world can offer about the
+# stretch the player is walking, and they decide what can be met out there.
+func gather_road_facts(world: WorldState, party: RefugeePartyState) -> Dictionary:
+	var origin: SettlementState = world.get_settlement(party.origin_id)
+	var destination: SettlementState = world.get_settlement(party.destination_id)
+
+	var min_security := 100.0
+	if origin != null:
+		min_security = minf(min_security, origin.security)
+	if destination != null:
+		min_security = minf(min_security, destination.security)
+
+	return {
+		"min_security": min_security,
+		"destination_water_pressure": destination.water_pressure if destination != null else 0.0,
+		"origin_water_pressure": origin.water_pressure if origin != null else 0.0,
+		"thirsty_place_name": _thirsty_end_of_road(world, origin, destination),
+		"refugee_column": _find_refugee_column(world, party),
+		"fresh_wreck": _find_fresh_wreck(world, party),
+	}
+
+# Whichever end of this road is in real water trouble, if either is.
+func _thirsty_end_of_road(world: WorldState, origin: SettlementState, destination: SettlementState) -> String:
+	var worst: SettlementState = null
+	if origin != null and origin.water_pressure >= 50.0:
+		worst = origin
+	if destination != null and destination.water_pressure >= 50.0:
+		if worst == null or destination.water_pressure > worst.water_pressure:
+			worst = destination
+	if worst == null:
+		return ""
+	return _settlement_display_name(world, worst.id)
+
+# A column of people actually walking this road right now. Not a spawned prop:
+# this is a party the simulation created because a settlement failed them.
+func _find_refugee_column(world: WorldState, player_party: RefugeePartyState) -> Dictionary:
+	var sorted_ids: Array[String] = []
+	for k in world.refugees:
+		sorted_ids.append(String(k))
+	sorted_ids.sort()
+	for r_id_str in sorted_ids:
+		var r: RefugeePartyState = world.refugees[StringName(r_id_str)]
+		if r.id == player_party.id or not r.is_active or r.is_arrived or r.headcount <= 0:
+			continue
+		var same_road: bool = (r.origin_id == player_party.origin_id and r.destination_id == player_party.destination_id) \
+			or (r.origin_id == player_party.destination_id and r.destination_id == player_party.origin_id)
+		if same_road:
+			return {
+				"party_id": String(r.id),
+				"headcount": r.headcount,
+				"origin": String(r.origin_id),
+				"destination": String(r.destination_id),
+			}
+	return {}
+
+# A caravan this road really lost in the last few days. If the world recorded a
+# predation or a destruction here, the player can walk past the evidence.
+const FRESH_WRECK_WINDOW_DAYS: int = 12
+
+func _find_fresh_wreck(world: WorldState, party: RefugeePartyState) -> Dictionary:
+	var cutoff := world.current_day - FRESH_WRECK_WINDOW_DAYS
+	var start := maxi(0, world.event_log.size() - 200)
+	for i in range(world.event_log.size() - 1, start - 1, -1):
+		var evt: EventRecord = world.event_log[i]
+		if evt.day < cutoff:
+			break
+		if evt.type != "TRANSIT_PREDATION" and evt.type != "CARAVAN_DESTROYED":
+			continue
+		var o := String(evt.payload.get("origin", ""))
+		var d := String(evt.payload.get("destination", ""))
+		var same_road: bool = (o == String(party.origin_id) and d == String(party.destination_id)) \
+			or (o == String(party.destination_id) and d == String(party.origin_id))
+		if same_road:
+			return {"day": evt.day, "type": evt.type}
+	return {}
+
+# Only the facts this particular encounter needs, so the stored context stays
+# small and readable in a snapshot.
+func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: StringName) -> Dictionary:
+	match encounter_type:
+		TravelEncounter.REFUGEE_COLUMN:
+			var column: Dictionary = facts.get("refugee_column", {})
+			return {
+				"headcount": column.get("headcount", 0),
+				"origin_name": _settlement_display_name(world, StringName(String(column.get("origin", "")))),
+				"destination_name": _settlement_display_name(world, StringName(String(column.get("destination", "")))),
+			}
+		TravelEncounter.WRECK:
+			return {"fresh_wreck": facts.get("fresh_wreck", {})}
+		TravelEncounter.ROADBLOCK:
+			return {"min_security": facts.get("min_security", 100.0)}
+		TravelEncounter.DEHYDRATED_TRAVELLER:
+			# Someone dying of thirst on this road most likely walked out of
+			# whichever end of it has run dry. Name that place only when it is
+			# genuinely in trouble, so the detail is never invented.
+			return {"from_name": String(facts.get("thirsty_place_name", ""))}
+	return {}
+
+func _settlement_display_name(world: WorldState, settlement_id: StringName) -> String:
+	var s: SettlementState = world.get_settlement(settlement_id)
+	if s != null and s.name != "":
+		return s.name
+	return String(settlement_id).replace("settlement:", "")
+
+# ==============================================================================
 # S5-B4: TRAVEL ENCOUNTERS
 # ==============================================================================
 # The travel-day index is DERIVED from the party rather than stored, so a saved
@@ -1522,14 +1629,16 @@ func _check_travel_encounter(world: WorldState, ls: NpcLifeState) -> void:
 		return
 
 	var index := _travel_day_index(party)
+	var facts := gather_road_facts(world, party)
 	var encounter_type := TravelEncounter.select(
-		party.origin_id, party.destination_id, party.departure_day, index
+		facts, party.origin_id, party.destination_id, party.departure_day, index
 	)
 	if encounter_type == &"":
 		return
 
 	world.active_encounter = TravelEncounterState.create(
-		encounter_type, world.current_day, party.origin_id, party.destination_id, index
+		encounter_type, world.current_day, party.origin_id, party.destination_id, index,
+		_encounter_context(world, facts, encounter_type)
 	)
 
 	var evt := EventRecord.new(
@@ -1576,6 +1685,9 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		&"GIVE_WATER":
 			if p.inventory.get_amount("water") < 1:
 				return "INSUFFICIENT_WATER: you have none to give"
+		&"SHARE_FOOD":
+			if p.inventory.get_amount("food") < 1:
+				return "INSUFFICIENT_FOOD: you have nothing to share"
 	return ""
 
 # Apply the chosen option atomically, record it, then let the journey resume.
@@ -1611,6 +1723,11 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
 		&"DETOUR":
 			extra_day = true
+		&"SHARE_FOOD":
+			p.inventory.add_amount("food", -1)
+			spent["food"] = 1
+			gained = _give_player_goods(p, TravelEncounter.refugee_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
 		&"LEAVE":
 			pass
 

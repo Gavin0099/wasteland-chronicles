@@ -24,10 +24,12 @@ func _init() -> void:
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE E1] Auto-Travel Interrupt ---")
 
-	# Selection must be a pure function: same road, same day, same answer.
+	# Selection must be a pure function: same world facts, same road, same day,
+	# same answer.
+	var calm := {"min_security": 100.0, "destination_water_pressure": 0.0}
 	for i in range(50):
-		if TravelEncounter.select(&"settlement:gray_valley", &"settlement:new_hope", 3, 2) \
-				!= TravelEncounter.select(&"settlement:gray_valley", &"settlement:new_hope", 3, 2):
+		if TravelEncounter.select(calm, &"settlement:gray_valley", &"settlement:new_hope", 3, 2) \
+				!= TravelEncounter.select(calm, &"settlement:gray_valley", &"settlement:new_hope", 3, 2):
 			print("FAIL E1: encounter selection is not deterministic!")
 			quit(1)
 			return
@@ -35,7 +37,7 @@ func _init() -> void:
 	var encounters := 0
 	for day in range(40):
 		for idx in range(1, 4):
-			if TravelEncounter.select(&"settlement:gray_valley", &"settlement:dry_well", day, idx) == &"":
+			if TravelEncounter.select(calm, &"settlement:gray_valley", &"settlement:dry_well", day, idx) == &"":
 				empty_stretches += 1
 			else:
 				encounters += 1
@@ -220,9 +222,23 @@ func _init() -> void:
 	if w7.active_encounter != null and w7.active_encounter.encounter_type == TravelEncounter.DEHYDRATED_TRAVELLER:
 		var water_b: int = w7.player.inventory.water
 		var scrap_b: int = w7.player.inventory.scrap
-		engine.commit_player_intent(w7, PlayerIntent.create_resolve_encounter(w7.player.npc_id, &"GIVE_WATER"))
-		if w7.player.inventory.water != water_b - 1:
-			print("FAIL E4: giving water did not cost a water!")
+		var give_res := engine.commit_player_intent(w7,
+			PlayerIntent.create_resolve_encounter(w7.player.npc_id, &"GIVE_WATER"))
+		if not give_res.get("success", false):
+			print("FAIL E4: giving water was refused: %s" % give_res.get("error", ""))
+			quit(1)
+			return
+		# The raw inventory delta is NOT 1: resolving resumes the journey, and
+		# the following travel days drink too. What must balance is the recorded
+		# spend against the gift itself.
+		var given: Dictionary = give_res.get("spent", {})
+		if int(given.get("water", 0)) != 1:
+			print("FAIL E4: the gift was not recorded as 1 water: %s" % given)
+			quit(1)
+			return
+		if w7.player.inventory.water > water_b - 1:
+			print("FAIL E4: giving water cost nothing (%d -> %d)!" % [
+				water_b, w7.player.inventory.water])
 			quit(1)
 			return
 		print("  Gave 1 water (%d -> %d); he had %s to give" % [
@@ -374,6 +390,9 @@ func travel_until_encounter(engine: SimulationEngine, w: WorldState, first_dest:
 	while hops < 12:
 		var ls: NpcLifeState = w.npc_life_state_registry.get_life_state(w.player.npc_id)
 		if ls == null or not ls.is_alive():
+			# Dead searchers cannot answer anything; clear the pending encounter
+			# so the caller's type check does not act on a stale one.
+			w.active_encounter = null
 			return
 		if w.active_encounter != null:
 			if w.active_encounter.encounter_type == wanted:

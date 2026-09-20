@@ -25,7 +25,10 @@
 - [x] S5-B3 : Travel Auto-Advance (journey runs itself) — CLOSED
 - [x] S5-B5 : Player Survival (water/food pressure, exposure, death) — CLOSED
 - [x] S5-B4 : Travel Encounters (4 deterministic roadside events, Scavenge folded in) — CLOSED
-- [ ] **★ FP1 : FIRST PLAYABLE — play 20-30 minutes and record findings — CURRENT**
+- [x] S5-B4.1 : World-Reactive Encounters — CLOSED
+- [ ] **S5-C0 : World Expansion 3 -> 5 settlements (sparse road network with chokepoints) — CURRENT**
+- [ ] S5-B4.2 : Encounter Variety 4 -> 8-10 state-aware templates
+- [ ] ★ FP2 : still finding new decisions after 20 minutes
 - [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
 - [ ] S4-F3 : Multi-NPC Determinism at scale
 - [ ] S4-G : NPC Relationships (split out of S4-C)
@@ -45,6 +48,9 @@
 - 2026-09-20: **S4-A / S4-B / S4-C CLOSED ✅** (identity materialization, lifecycle atomicity, immutable background profile with zero action authority).
 - 2026-09-20: **S4-C.1 Event Ledger Persistence CLOSED ✅** — committed events are the sole authority for historical world facts; `event_count` demoted to derived metadata.
 - 2026-09-20: **S4-C.2 Snapshot Numeric Canonicality CLOSED ✅** — save-time `snapped()` removed; authoritative floats canonicalized at the end-of-day commit boundary via the persistence codec. Save/Load is now a transparent boundary (N4: interrupted and uninterrupted Day 100 worlds are identical in state, ledger and projection). Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` → **RESOLVED**. Canonical artifacts intentionally regenerated.
+- 2026-09-20: **Play-test finding (Owner)** — content exhausted in ~5 minutes. Measured: 3 settlements, 6 directed routes, 4 encounter types, ~1.5 encounters per trip, a fixed trade triangle. Root cause is not "too few events": nothing accumulates, and the road ignored what the world was doing.
+- 2026-09-20: **Owner ordering ruling** — world-reactive encounters BEFORE expanding the map. Expanding first would scale 5 minutes of the same thing into 15. Also rejected the "7 settlements -> 30+ routes" framing: near-full connectivity destroys geography. A wasteland wants chokepoints, detours, hubs and dangerous corridors — 6 settlements should have ~7-9 physical roads, not 30.
+- 2026-09-20: **S5-B4.1 World-Reactive Encounters CLOSED** — encounter candidates and weights now come from world state. Barricades grow where security collapsed (10 -> 54 over 180 road-days as security fell 100 -> 15), dying travellers appear on roads out of towns that ran dry (10 -> 30), fresh wreckage appears where the world really lost a caravan (29 -> 70), and a refugee column is an actual party in world.refugees rather than a spawned prop. An empty road drops 100 -> 60 in a world in crisis. Still no RNG: selection is a pure function of facts plus route and day, so replay stays exact.
 - 2026-09-20: **S5-B4 Travel Encounters CLOSED** — the road can now stop you. Four encounters (wreck, rockslide, roadblock, dehydrated traveller), chosen as a pure function of route + departure day + travel-day index, with no RNG. Scavenge is folded into the wreck rather than built as its own system. Choices go through a RESOLVE_ENCOUNTER intent; a day spent is a real tick that drinks water and eats food, and a detour is padded so it costs time without shortening the road.
 - 2026-09-20: **Owner ruling (S5-B5 follow-up)** — a settled player MAY fall back on their own backpack when the town's need goes unmet. The private ration protects only the player: it adds nothing to settlement stock, relieves nobody else's pressure and changes no aggregate. Drinking your own water and giving it to a town stay different acts.
 - 2026-09-20: **Note** — transit deaths are attributed to the ORIGIN settlement's cumulative_deaths for population accounting. Read that as "the cohort they left", not as "they died in Gray Valley".

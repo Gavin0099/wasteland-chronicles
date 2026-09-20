@@ -52,7 +52,7 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 	return {
 		"encounter_type": String(enc.encounter_type),
 		"title": TravelEncounter.title(enc.encounter_type),
-		"body": TravelEncounter.body(enc.encounter_type),
+		"body": TravelEncounter.body(enc.encounter_type, enc.context),
 		"day": enc.day,
 		"route_label": "%s → %s" % [
 			_settlement_name(String(enc.origin_id)), _settlement_name(String(enc.destination_id))

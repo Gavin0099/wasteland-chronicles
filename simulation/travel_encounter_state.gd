@@ -16,12 +16,18 @@ var origin_id: StringName = &""
 var destination_id: StringName = &""
 var travel_day_index: int = 0
 
+# The world facts that were true when this encounter fired. Frozen here so the
+# prose and the payoff cannot change if the world moves on while the player is
+# still deciding.
+var context: Dictionary = {}
+
 static func create(
 	p_type: StringName,
 	p_day: int,
 	p_origin: StringName,
 	p_destination: StringName,
-	p_index: int
+	p_index: int,
+	p_context: Dictionary = {}
 ) -> TravelEncounterState:
 	var e := TravelEncounterState.new()
 	e.encounter_type = p_type
@@ -29,10 +35,11 @@ static func create(
 	e.origin_id = p_origin
 	e.destination_id = p_destination
 	e.travel_day_index = p_index
+	e.context = EventRecord.canonicalize_payload(p_context.duplicate(true))
 	return e
 
 func duplicate_state() -> TravelEncounterState:
-	return TravelEncounterState.create(encounter_type, day, origin_id, destination_id, travel_day_index)
+	return TravelEncounterState.create(encounter_type, day, origin_id, destination_id, travel_day_index, context)
 
 func to_dict() -> Dictionary:
 	return {
@@ -41,6 +48,7 @@ func to_dict() -> Dictionary:
 		"origin_id": String(origin_id),
 		"destination_id": String(destination_id),
 		"travel_day_index": travel_day_index,
+		"context": context.duplicate(true),
 	}
 
 static func from_dict(data: Dictionary) -> TravelEncounterState:
@@ -49,5 +57,6 @@ static func from_dict(data: Dictionary) -> TravelEncounterState:
 		int(data.get("day", 0)),
 		StringName(data.get("origin_id", "")),
 		StringName(data.get("destination_id", "")),
-		int(data.get("travel_day_index", 0))
+		int(data.get("travel_day_index", 0)),
+		data.get("context", {})
 	)
