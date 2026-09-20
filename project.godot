@@ -1,0 +1,10 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; but it can be created manually for simple setups.
+
+config_version=5
+
+[application]
+
+config/name="Wasteland Chronicles"
+config/features=PackedStringArray("4.7", "Forward Plus")
