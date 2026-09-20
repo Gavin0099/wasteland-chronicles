@@ -900,6 +900,11 @@ func run_npc_decision_phase(world: WorldState, current_day: int, tick_events: Ar
 	sorted_npc_ids.sort()
 	for npc_id_str in sorted_npc_ids:
 		var npc_id := StringName(npc_id_str)
+		# The player is a named NPC in every other respect, but nobody decides for
+		# the player. Without this the decision engine would quietly evacuate them
+		# from a failing town - removing the very choice the game is about.
+		if world.player != null and npc_id == world.player.npc_id:
+			continue
 		var ls: NpcLifeState = world.npc_life_state_registry.life_states[npc_id]
 		# Only a settled, living individual has anything to decide in S4-F1.
 		if ls.is_alive() and ls.status == NpcLifeState.Status.SETTLED:
@@ -1290,6 +1295,31 @@ func validate_invariants(world: WorldState) -> String:
 # S5-A: PLAYER AVATAR ARCHITECTURE & LIFECYCLE
 # ==============================================================================
 
+# ==============================================================================
+# S5-B5: PLAYER SURVIVAL
+# ==============================================================================
+# Water and food are only real resources if going without them costs something.
+# This reuses the model the world already runs on settlements, so a person and a
+# town suffer by the same rules:
+#
+#   need outcome -> pressure -> equivalent deprivation exposure -> grace -> death
+#
+# The two situations differ in WHERE the need is met from, and that difference
+# is the whole reason double metabolism has to be avoided:
+#
+#   IN TRANSIT: nobody is feeding you. Requested 1 water + 1 food per day, met
+#               from your own backpack. This is what makes "three days of road,
+#               two days of water" an actual decision before departure.
+#
+#   SETTLED:    you are already counted inside settlement.population, and the
+#               settlement consumed on your behalf during Phase 1. Taking from
+#               the backpack as well would charge you twice. Instead the player
+#               shares the town's fortune: if Gray Valley met 40% of its water
+#               need today, the player went 60% unmet too. You do not get to be
+#               personally fine in a town that is dying of thirst, and you do
+#               not get to drink your backpack dry while the town is fine.
+#
+# Deliberately NOT here: HP, stamina, injury, disease, combat, succession.
 func process_player_daily_needs(world: WorldState, current_day: int, tick_events: Array[EventRecord]) -> void:
 	if world.player == null:
 		return
@@ -1299,31 +1329,94 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 	if ls == null or not ls.is_alive():
 		return
 
-	# If IN_TRANSIT, consumption must come from personal backpack
-	if ls.status == NpcLifeState.Status.IN_TRANSIT:
-		var cur_water := p.inventory.get_amount(&"water")
-		if cur_water >= 1:
-			p.inventory.set_amount(&"water", cur_water - 1)
-			p.water_pressure = maxf(0.0, p.water_pressure - 15.0)
-			p.days_deprived_water = 0
-		else:
-			p.water_pressure = minf(100.0, p.water_pressure + 10.0)
-			p.days_deprived_water += 1
+	var water_unmet_ratio := 0.0
+	var food_unmet_ratio := 0.0
 
-		var cur_food := p.inventory.get_amount(&"food")
-		if cur_food >= 1:
-			p.inventory.set_amount(&"food", cur_food - 1)
-			p.food_pressure = maxf(0.0, p.food_pressure - 15.0)
-			p.days_deprived_food = 0
+	if ls.status == NpcLifeState.Status.IN_TRANSIT:
+		# Requested one of each per day, met from the backpack.
+		var cur_water := p.inventory.get_amount("water")
+		if cur_water >= 1:
+			p.inventory.set_amount("water", cur_water - 1)
 		else:
-			p.food_pressure = minf(100.0, p.food_pressure + 10.0)
-			p.days_deprived_food += 1
+			water_unmet_ratio = 1.0
+
+		var cur_food := p.inventory.get_amount("food")
+		if cur_food >= 1:
+			p.inventory.set_amount("food", cur_food - 1)
+		else:
+			food_unmet_ratio = 1.0
 
 	elif ls.status == NpcLifeState.Status.SETTLED:
+		# Share the settlement's fortune; consume nothing personally.
 		var s: SettlementState = world.get_settlement(ls.population_container_id)
-		if s != null:
-			p.water_pressure = s.water_pressure
-			p.food_pressure = s.food_pressure
+		if s == null:
+			return
+		water_unmet_ratio = _settlement_unmet_ratio(s, "water")
+		food_unmet_ratio = _settlement_unmet_ratio(s, "food")
+
+	_apply_player_need_outcome(p, water_unmet_ratio, food_unmet_ratio)
+	_check_player_mortality(world, p, ls, current_day, tick_events)
+
+# How much of what this settlement asked for today went unmet, 0.0 .. 1.0.
+func _settlement_unmet_ratio(s: SettlementState, resource: String) -> float:
+	if not s.last_need_outcomes.has(resource):
+		return 0.0
+	var outcome: Dictionary = s.last_need_outcomes[resource]
+	var requested: int = int(outcome.get("requested", 0))
+	var unmet: int = int(outcome.get("unmet", 0))
+	if requested <= 0 or unmet <= 0:
+		return 0.0
+	return clampf(float(unmet) / float(requested), 0.0, 1.0)
+
+# Same pressure and exposure arithmetic the settlements use.
+func _apply_player_need_outcome(p: PlayerState, water_unmet_ratio: float, food_unmet_ratio: float) -> void:
+	if water_unmet_ratio > 0.0:
+		p.water_pressure = minf(100.0, p.water_pressure + water_unmet_ratio * WATER_PRESSURE_GAIN_RATE)
+		p.water_exposure += water_unmet_ratio
+	else:
+		p.water_pressure = maxf(0.0, p.water_pressure - WATER_PRESSURE_RECOVERY_RATE)
+		p.water_exposure = maxf(0.0, p.water_exposure - DEPRIVATION_RECOVERY_RATE)
+
+	if food_unmet_ratio > 0.0:
+		p.food_pressure = minf(100.0, p.food_pressure + food_unmet_ratio * FOOD_PRESSURE_GAIN_RATE)
+		p.food_exposure += food_unmet_ratio
+	else:
+		p.food_pressure = maxf(0.0, p.food_pressure - FOOD_PRESSURE_RECOVERY_RATE)
+		p.food_exposure = maxf(0.0, p.food_exposure - DEPRIVATION_RECOVERY_RATE)
+
+# A hard day does not kill anyone. Sustained deprivation past the grace period
+# does, and thirst kills far sooner than hunger.
+func _check_player_mortality(world: WorldState, p: PlayerState, ls: NpcLifeState, current_day: int, tick_events: Array[EventRecord]) -> void:
+	var cause := ""
+	if p.water_exposure > WATER_EXPOSURE_GRACE_DAYS:
+		cause = "dehydration"
+	elif p.food_exposure > FOOD_EXPOSURE_GRACE_DAYS:
+		cause = "starvation"
+	if cause == "":
+		return
+
+	var died_in_transit: bool = ls.status == NpcLifeState.Status.IN_TRANSIT
+	var last_place := ls.population_container_id
+	var death_res: Dictionary = world.npc_life_state_registry.commit_named_death(world, p.npc_id)
+	if not death_res.get("success", false):
+		return
+
+	var death_evt := EventRecord.new(
+		current_day,
+		"PLAYER_DIED",
+		p.npc_id,
+		StringName(String(death_res.get("settlement_id", last_place))),
+		{
+			"cause": cause,
+			"days_survived": current_day,
+			"in_transit": died_in_transit,
+			"water_exposure": p.water_exposure,
+			"food_exposure": p.food_exposure,
+		}
+	)
+	if tick_events != null:
+		tick_events.append(death_evt)
+	world.record_event(death_evt)
 
 func materialize_player(
 	world: WorldState,

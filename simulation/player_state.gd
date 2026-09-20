@@ -15,8 +15,14 @@ extends RefCounted
 #   money: int - Scrip / bottle caps / wasteland currency (default 50)
 #   water_pressure: float - Personal physiological water deprivation pressure
 #   food_pressure: float - Personal physiological food deprivation pressure
-#   days_deprived_water: int - Consecutive days with zero water consumption
-#   days_deprived_food: int - Consecutive days with zero food consumption
+#   water_exposure: float - Accumulated water deprivation, in equivalent days
+#   food_exposure: float - Accumulated food deprivation, in equivalent days
+#
+# S5-B5 replaced the old days_deprived_* counters with exposure, to match the
+# settlement model the world already uses. A day on half rations and a day with
+# nothing at all are not the same suffering, and an integer "days with zero
+# water" counter cannot tell them apart: exposure accumulates unmet/requested,
+# so partial deprivation accumulates partially.
 # ==============================================================================
 
 var npc_id: StringName = &""
@@ -25,8 +31,8 @@ var capacity_total: int = 20
 var money: int = 50
 var water_pressure: float = 0.0
 var food_pressure: float = 0.0
-var days_deprived_water: int = 0
-var days_deprived_food: int = 0
+var water_exposure: float = 0.0
+var food_exposure: float = 0.0
 
 func _init(
 	p_npc_id: StringName = &"",
@@ -52,8 +58,8 @@ func duplicate_state() -> PlayerState:
 		copy.inventory = inventory.duplicate_state()
 	copy.water_pressure = water_pressure
 	copy.food_pressure = food_pressure
-	copy.days_deprived_water = days_deprived_water
-	copy.days_deprived_food = days_deprived_food
+	copy.water_exposure = water_exposure
+	copy.food_exposure = food_exposure
 	return copy
 
 func to_dict() -> Dictionary:
@@ -64,8 +70,8 @@ func to_dict() -> Dictionary:
 		"inventory": inventory.to_dict() if inventory != null else {},
 		"water_pressure": NumericCanon.canonical_float(water_pressure),
 		"food_pressure": NumericCanon.canonical_float(food_pressure),
-		"days_deprived_water": days_deprived_water,
-		"days_deprived_food": days_deprived_food,
+		"water_exposure": NumericCanon.canonical_float(water_exposure),
+		"food_exposure": NumericCanon.canonical_float(food_exposure),
 	}
 
 static func from_dict(data: Dictionary) -> PlayerState:
@@ -81,6 +87,6 @@ static func from_dict(data: Dictionary) -> PlayerState:
 
 	p.water_pressure = float(data.get("water_pressure", 0.0))
 	p.food_pressure = float(data.get("food_pressure", 0.0))
-	p.days_deprived_water = int(data.get("days_deprived_water", 0))
-	p.days_deprived_food = int(data.get("days_deprived_food", 0))
+	p.water_exposure = float(data.get("water_exposure", 0.0))
+	p.food_exposure = float(data.get("food_exposure", 0.0))
 	return p

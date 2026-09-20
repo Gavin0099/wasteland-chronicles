@@ -253,6 +253,13 @@ func _init() -> void:
 				print("FAIL I5: Day 3 sell failed: wb=%s, wc=%s" % [s_b, s_c])
 				quit(1)
 				return
+			# Deliver the water and move on. Since S5-B5 a settled player shares
+			# the town's fortune, so camping in a settlement that cannot find
+			# water is fatal - and a player dying in Gray Valley would confound
+			# this counterfactual with a population change of its own. The gate
+			# measures what the DONATION did, not what the donor's corpse did.
+			engine.begin_player_travel(wb, PlayerIntent.create_travel(wb.player.npc_id, &"settlement:new_hope"))
+			engine.begin_player_travel(wc, PlayerIntent.create_travel(wc.player.npc_id, &"settlement:new_hope"))
 		if d == 6:
 			day_6_press_a = wa.get_settlement(&"settlement:gray_valley").water_pressure
 			day_6_press_b = wb.get_settlement(&"settlement:gray_valley").water_pressure
@@ -351,6 +358,8 @@ func _init() -> void:
 	engine.execute_player_wait(wb_restored) # Day 2
 	engine.execute_player_wait(wb_restored) # Day 3
 	engine.execute_player_sell(wb_restored, &"water", 12)
+	# Mirror World B exactly: deliver the water, then leave (see I5).
+	engine.begin_player_travel(wb_restored, PlayerIntent.create_travel(wb_restored.player.npc_id, &"settlement:new_hope"))
 	for d in range(3, 16):
 		engine.execute_player_wait(wb_restored)
 

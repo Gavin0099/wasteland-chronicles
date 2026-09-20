@@ -162,13 +162,21 @@ func complete_named_migration(world: WorldState, npc_id: StringName) -> Dictiona
 	}
 
 # Atomic Mortality: SETTLED → DEAD
-# IN_TRANSIT → DEAD is forbidden in S4-B (sane transit, no death mid-route).
+#
+# S4-B originally forbade IN_TRANSIT → DEAD ("sane transit, no death mid-route"),
+# which was correct while the wasteland road was an abstraction. S5-B5 makes the
+# road a place a person can actually die: running out of water three days from
+# anywhere is the whole point of carrying water. Dying mid-route is therefore
+# now a legal transition, handled by commit_named_death_in_transit() so that the
+# accounting stays explicit rather than being folded into the settled path.
 func commit_named_death(world: WorldState, npc_id: StringName) -> Dictionary:
 	var ls: NpcLifeState = get_life_state(npc_id)
 	if ls == null:
 		return {"success": false, "error": "INVALID_NPC: No life state for %s" % npc_id}
+	if ls.status == NpcLifeState.Status.IN_TRANSIT:
+		return commit_named_death_in_transit(world, npc_id)
 	if ls.status != NpcLifeState.Status.SETTLED:
-		return {"success": false, "error": "INVALID_STATUS: S4-B only allows SETTLED→DEAD (got %d)" % ls.status}
+		return {"success": false, "error": "INVALID_STATUS: cannot die from status %d" % ls.status}
 
 	var settlement_id := ls.population_container_id
 	var settlement: SettlementState = world.get_settlement(settlement_id)
@@ -190,6 +198,50 @@ func commit_named_death(world: WorldState, npc_id: StringName) -> Dictionary:
 		"npc_id": npc_id,
 		"settlement_id": settlement_id,
 		"event_type": "NAMED_NPC_DIED"
+	}
+
+# Atomic Mortality on the road: IN_TRANSIT → DEAD.
+#
+# Life conservation counts a traveller inside their party headcount, so the
+# headcount is what must drop. The death is recorded against the settlement they
+# set out FROM: that is the community that actually lost a person. Attributing
+# it to the destination would credit a death to a town they never reached.
+func commit_named_death_in_transit(world: WorldState, npc_id: StringName) -> Dictionary:
+	var ls: NpcLifeState = get_life_state(npc_id)
+	if ls == null:
+		return {"success": false, "error": "INVALID_NPC: No life state for %s" % npc_id}
+	if ls.status != NpcLifeState.Status.IN_TRANSIT:
+		return {"success": false, "error": "INVALID_STATUS: NPC %s is not in transit (got %d)" % [npc_id, ls.status]}
+
+	var party_id := ls.population_container_id
+	var party: RefugeePartyState = world.get_refugee_party(party_id)
+	if party == null:
+		return {"success": false, "error": "INVALID_PARTY: Party %s not found" % party_id}
+	if party.headcount <= 0:
+		return {"success": false, "error": "EMPTY_PARTY: Party %s has no headcount" % party_id}
+
+	var origin: SettlementState = world.get_settlement(party.origin_id)
+	if origin == null:
+		return {"success": false, "error": "INVALID_SETTLEMENT: Origin %s not found" % party.origin_id}
+
+	# Atomic Commit: individual first, then aggregate
+	ls.status = NpcLifeState.Status.DEAD
+	ls.population_container_type = NpcLifeState.ContainerType.NONE
+	ls.population_container_id = &""
+
+	party.headcount -= 1
+	origin.cumulative_deaths += 1
+
+	# A party whose last traveller died never arrives anywhere.
+	if party.headcount <= 0:
+		party.is_active = false
+
+	return {
+		"success": true,
+		"npc_id": npc_id,
+		"party_id": party_id,
+		"settlement_id": party.origin_id,
+		"event_type": "NAMED_NPC_DIED_IN_TRANSIT"
 	}
 
 # ── Serialization ──────────────────────────────────────────────────────────────

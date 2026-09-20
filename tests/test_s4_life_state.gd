@@ -349,17 +349,43 @@ func _init() -> void:
 		return
 	print("  Double death correctly rejected: %s" % double_death["error"])
 
-	# Block: IN_TRANSIT → DEAD is forbidden in S4-B
+	# IN_TRANSIT → DEAD: S4-B forbade this ("sane transit, no death mid-route"),
+	# which held while the road was an abstraction. S5-B5 made the wasteland able
+	# to kill: running out of water three days from anywhere is the reason to
+	# carry water at all. The Owner superseded the rule, so this gate now asserts
+	# the accounting that makes a death on the road legal, rather than asserting
+	# it cannot happen. Rewritten, not deleted, so the change of intent is visible.
 	var res_eli2 := world.npc_registry.materialize_identity(world, &"settlement:gray_valley", "Eli2", 30)
 	var eli2_id: StringName = res_eli2["npc"].id
 	world.npc_life_state_registry.register_life_state(world, eli2_id, &"settlement:gray_valley")
 	world.npc_life_state_registry.begin_named_migration(world, eli2_id, &"settlement:new_hope", &"refugee:eli2_party", 3, 60)
+	var eli2_party: RefugeePartyState = world.get_refugee_party(&"refugee:eli2_party")
+	var eli2_headcount_before: int = eli2_party.headcount
+	var eli2_origin_deaths_before: int = world.get_settlement(&"settlement:gray_valley").cumulative_deaths
+
 	var transit_death := world.npc_life_state_registry.commit_named_death(world, eli2_id)
-	if transit_death["success"]:
-		print("FAIL B6: IN_TRANSIT → DEAD must be forbidden in S4-B!")
+	if not transit_death["success"]:
+		print("FAIL B6: a traveller must be able to die on the road: %s" % transit_death["error"])
 		quit(1)
 		return
-	print("  IN_TRANSIT → DEAD correctly blocked: %s" % transit_death["error"])
+
+	var eli2_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(eli2_id)
+	if eli2_ls.is_alive() or eli2_ls.population_container_type != NpcLifeState.ContainerType.NONE:
+		print("FAIL B6: a dead traveller is still in a population container!")
+		quit(1)
+		return
+	if eli2_party.headcount != eli2_headcount_before - 1:
+		print("FAIL B6: party headcount not decremented: %d -> %d" % [
+			eli2_headcount_before, eli2_party.headcount])
+		quit(1)
+		return
+	if world.get_settlement(&"settlement:gray_valley").cumulative_deaths != eli2_origin_deaths_before + 1:
+		print("FAIL B6: the death was not recorded against the settlement they left!")
+		quit(1)
+		return
+	print("  IN_TRANSIT → DEAD now permitted: party headcount %d → %d, origin deaths +1" % [
+		eli2_headcount_before, eli2_party.headcount])
+	print("  (a person who dies on the road is counted where they set out from)")
 
 	var inv_b6 := engine.validate_invariants(world)
 	if inv_b6 != "":
