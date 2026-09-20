@@ -1,202 +1,157 @@
-# NPC Authority Specification (Level G1.5 Governance)
+# NPC Authority Specification (Level G1.5-A Contract)
 
-本規格書定義 `wasteland-chronicles` 自 **S4 (Individual NPC Ecology)** 起，關於具名個體 NPC 之身份權威、人口隸屬關係、生命週期轉移與決策邊界的最高技術規範。
+本規格書定義 `wasteland-chronicles` 自 **S4 (Individual NPC Ecology)** 起，關於具名個體 NPC 之身份權威、人口隸屬關係、生命週期轉移與決策邊界的契約公理與權威矩陣。
+
+本文件為 **G1.5-A (Authority Contract)** 階段之規範，鎖定資料真理權限，供後續 S4-A / S4-B 實作遵循，並於 S4-A 引入 **G1.5-B (Runtime Enforcement)**。
 
 ---
 
 ## 1. 核心治理背景與目標
 
-在 S0 至 S3 階段，世界由純粹的宏觀數值驅動（如灰谷人口 100 人、新希望 120 人）。在 S3-D 中，我們確立了人口嚴格守恆公式：
+在 S0 至 S3 階段，世界由純粹的宏觀數值驅動（灰谷 100 人、新希望 120 人、乾井 80 人），生命總量維持嚴格守恆：
 $$\sum_{S} S.\text{population} + \sum \text{in\_transit} + \text{deaths} == 300$$
 
-進入 S4 後，聚落中將首次浮現具名個體（Named Individuals）。若缺乏嚴格權威規範，AI Agent 極易引入以下系統性破壞：
-1. **人口重疊膨脹**：將具名 NPC 當成額外生成的人數（$50 \text{ 人口} + 10 \text{ NPC} = 60$）。
-2. **身份漂移與分裂**：同一個人在遷移、換工作或入隊後重新生成 ID，甚至同時在兩地行動。
-3. **半原子化狀態懸空**：聚落人數扣除但 NPC 個體仍逗留在原地，或 NPC 死亡但聚落人數未同步扣減。
-4. **規則外行為發明**：NPC 自主執行未經物理規則授權的動作（如「建造淨水廠」）。
-5. **敘事權威倒置**：LLM 憑藉對話或劇情需求直接修改世界狀態與 NPC 位置。
-
-**G1.5 NPC Authority 規範旨在在 S4-A 動工前將上述漏洞全面鎖死。**
+進入 S4 後，聚落中將首次浮現具名個體（Named Individuals）。為杜絕 AI Agent 產生幻覺、人口不一致或狀態分裂，確立本權威規格。
 
 ---
 
-## 2. 人口權威與子集模型 (Population Authority & Subset Invariant)
+## 2. 權威矩陣 (Authority Matrix)
 
-### 2.1 權威總人數 (Authoritative Headcount)
-* **聚落的 `population` 欄位永遠是該聚落總人數的唯一權威真理（Ground Truth）。**
-* **具名 NPC 是聚落總人口中的「已具名識別子集（Identified Subset）」**，並非附加人口。
-* 任何未被具名註冊的人口，均屬於聚落中的「背景群體（Anonymous Cohort）」。
+當世界狀態發生變更時，依據下表裁定資料的唯一權威真理來源（Single Source of Truth）：
 
-### 2.2 子集不變量 (Subset Invariant)
-在任意時間點 $t$ 與任意聚落 $S$：
-$$\text{named\_npcs\_alive}(S) \le S.\text{population}$$
-
-* 當灰谷人口為 50 人，且具名註冊了 10 名 NPC 時，代表該 10 人生活在該 50 人之中，其餘 40 人為背景居民。
-* 聚落總人數絕非 $50 + 10 = 60$。
-
-### 2.3 全域生命守恆不變量 (Universal Conservation Invariant)
-無論有多少比例的人口轉化為具名 NPC，S3-D 確立的全域生命守恆公式必須在每日日末維持嚴格成立：
-$$\sum_{S \in \text{Settlements}} S.\text{population} + \sum_{R \in \text{Refugees}} R.\text{count} + \text{cumulative\_deaths} == \text{Initial World Population}$$
+| 資料類別 | 唯一權威主體 (Authority) | 說明與邊界 |
+| :--- | :--- | :--- |
+| **世界總人口** | `Aggregate Simulation` | 全域守恆不變量，任何個體化操作絕不改變世界總額 |
+| **聚落人口 (`population`)** | `SettlementState` | 聚落總人數之權威真理，具名 NPC 為其子集 |
+| **NPC 身份 ID (`npc_id`)** | `NPC Registry` | 透過單調遞增序列鑄造，終身永久不可變 |
+| **NPC 當前位置 (`location`)** | `Lifecycle Transaction` | 必須且僅能屬於唯一人口容器（Settlement / Transit / Party） |
+| **NPC 存活狀態 (`alive`)** | `Lifecycle Transaction` | 生理真理；死亡後永久不可逆，移至墓地計入累積死亡 |
+| **NPC 背景與特質** | `NPC Identity / Profile` | S4-A ~ D 實作，影響行為權限與社交，不決定戰鬥點數 |
+| **NPC 自主決策** | `Decision Engine` | S4-F 引入，依據當前狀態從授權行為集中選取 |
+| **行為授權 (Authorization)**| `Simulation Rules` | 當前 Slice 顯式許可之封閉行為集，未授權強制拒絕 |
+| **已發生世界事實** | `Event Ledger` | 僅記錄**已成功提交**之事件，不記失敗之意圖 |
+| **敘事文本與對話** | `Narrative Layer` | 純下游觀察者，**對世界狀態具備 0 修改權限** |
+| **世界狀態修改權** | **Simulation Engine Only** | 唯一擁有狀態修改（Mutation）權限之主體 |
 
 ---
 
-## 3. 身份永久不可變公理 (Immutable Identity Authority)
+## 3. 人口權威與單一人口容器公理 (Population Membership)
 
-### 3.1 ID 鑄造與格式
-* NPC ID 在首次生成或由背景人口具名化時鑄造，格式為唯一識別字串（如 `npc:0000127` 或 `npc:gray_valley_mara`）。
-* **永久不可變性**：NPC ID 一旦鑄造，在該世界實例中**終身永久固定，嚴禁重新生成或改寫**。
+### 3.1 實體化為「具名表徵」，非「人口增加」 (Materialization Is Representational, Not Demographic)
+* 具名個體 NPC 不是憑空創造的新人類。
+* 將無名人口具名化（Identity Materialization）本質為：**自既有人口總額中識別出具名子集**。
+* **數學公理**：
+  $$\text{Population}_{\text{before}} == \text{Population}_{\text{after}}$$
+  $$\text{Anonymous}_{\text{after}} = \text{Population} - \text{Named}_{\text{after}}$$
+  *例：灰谷 50 人，將 1 人具名為 Mara $\implies$ 灰谷仍為 50 人（1 具名 + 49 無名），世界總人數絕不變成 51。*
 
-### 3.2 身份解耦公理
-個體身份嚴格獨立於其附屬屬性：
+### 3.2 單一人口容器不變量 (Single Population Membership Invariant)
+在任意模擬 Tick，**每一個存活的具名 NPC 必須且僅能屬於恰好一個人口容器（Authoritative Population Container）**：
+$$\text{Container}(NPC) \in \{\text{SETTLEMENT}(S), \text{TRANSIT}(R), \text{PARTY}(P)\}$$
+
+* **禁止雙重歸屬**：NPC 不得同時為灰谷居民又處於難民在途狀態。
+* **禁止懸空遊離**：存活 NPC 不得不屬於任何容器而在世界中漂浮。
+* **死亡歸宿**：當 `alive == false`，NPC 退出所有生活人口容器，其存在全額轉入世界與聚落之 `cumulative_deaths` 墓地審計紀錄中。
+
+### 3.3 子集約束與全域守恆
+在任意聚落 $S$：
+$$\text{named\_npcs\_alive\_at}(S) \le S.\text{population}$$
+
+全域日末結算公理：
+$$\sum_{S} S.\text{population} + \sum_{R} R.\text{headcount} + \sum \text{party\_members} + \text{cumulative\_deaths} == \text{Initial World Population}$$
+
+---
+
+## 4. 決定論 ID 鑄造協定 (Deterministic ID Minting Protocol)
+
+為確保世界在任何平台、任何時間重播均能維持 100% 位元級一致（Bitwise Replay Determinism）：
+1. **嚴禁隨機數與時間戳**：禁止使用 `UUID.random()`、`Time.get_unix_time_from_system()`。
+2. **單調遞增計數器**：在 `WorldState` 中維護 `next_npc_sequence: int`（初始為 1）。
+3. **格式規範**：
+   $$\text{npc\_id} = \text{"npc:"} + \text{pad\_zeros}(\text{next\_npc\_sequence}, 8)$$
+   *例：`npc:00000001`, `npc:00000002`。*
+4. **永久不復用**：即使該 NPC 死亡或刪除，該序號永久作廢，計數器僅單調遞增。
+5. **納入快照**：`next_npc_sequence` 必須參與狀態序列化（`to_dict()` / `from_dict()`）與 SHA-256 雜湊。
+
+### 4.1 身份解耦公理
 $$\text{Identity} \ne \text{Location} \ne \text{Occupation} \ne \text{Faction} \ne \text{Party Membership}$$
-
-* **遷徙**：從灰谷搬到新希望，`location` 改變，`npc_id` 不變。
-* **就業**：從「拾荒者」轉職為「商隊守衛」，`occupation` 改變，`npc_id` 不變。
-* **派系**：從「中立居民」加入「黑犬幫」，`faction` 改變，`npc_id` 不變。
-* **隊伍**：被玩家招募入隊或離隊，`party_id` 改變，`npc_id` 不變。
+搬遷、轉職、加入派系或被玩家招募，其 `npc_id` 終身固定不變。
 
 ---
 
-## 4. 原子化生命週期變更 (Atomic Lifecycle Transitions)
+## 5. 生命週期轉移：驗證後提交模式 (Validate-Before-Commit)
 
-為杜絕狀態漂移與懸空指標，NPC 的任何生命週期重大變更必須跨越三層進行**單一原子化提交（Single Atomic Commit）**：
-1. **個體實體層（NPC Entity State）**
-2. **聚落總量層（Settlement Aggregate Count）**
-3. **事件日誌層（Structured Event Ledger）**
+本架構不採用複雜的多階段交易與回滾機制（Rollback Machinery），而採用嚴謹的**前置條件驗證後原子提交（Validate-Before-Commit）**：
 
-### 4.1 遷徙原子轉移 (Atomic Migration)
-當具名 NPC 隨難民潮或自主遷徙從聚落 $A$ 移往聚落 $B$：
 ```text
-Begin Atomic Transaction:
-  1. Origin Settlement (A):
-     - population = population - 1
-     - remove NPC from A's local roster
-  2. NPC Entity:
-     - transit_state = IN_TRANSIT (or location = B if instant teleport test)
-  3. In-Transit Refugee Entity (if physical travel):
-     - attached_npc_ids.append(npc_id)
-     - refugee_count = refugee_count (conserved)
-  4. Destination Settlement (B) (upon arrival):
-     - population = population + 1
-     - add NPC to B's local roster
-     - NPC.location = B
-  5. Event Ledger:
-     - commit event: { "event": "NPC_MIGRATION", "npc_id": id, "from": A, "to": B }
-End Transaction
+    Intent to Mutate
+           ↓
+[ 1. Check Preconditions ]
+   - NPC alive?
+   - NPC in expected container?
+   - Container capacity / population > 0?
+   - Destination valid?
+   - Action authorized by slice?
+           ↓
+   (Any check fails?) ──YES──> [ Reject & Abort ]
+           ↓ NO                 - Mutate NOTHING
+[ 2. Commit All Mutations ]     - State Hash Unchanged
+   - Update individual state
+   - Update aggregate container counts
+           ↓
+[ 3. Emit Event to Ledger ]
+   - Append to World Event Log (Fact Committed)
 ```
-若其中任何一步失敗，整體回滾；嚴禁出現「總人口移轉了但 NPC 遺留在原聚落」的非同步現象。
 
-### 4.2 死亡原子結算 (Atomic Mortality)
-當具名 NPC 因匱乏、衰老或事件死亡：
-```text
-Begin Atomic Transaction:
-  1. NPC Entity:
-     - alive = false
-     - cause_of_death = cause
-     - death_day = current_day
-  2. Settlement (Location):
-     - population = population - 1
-     - remove from alive roster; record to graveyard registry
-  3. World State:
-     - cumulative_deaths = cumulative_deaths + 1
-  4. Event Ledger:
-     - commit event: { "event": "NPC_DEATH", "npc_id": id, "cause": cause }
-End Transaction
-```
-**死者絕不復活**，且聚落總額與全域死亡數必須同步結算。
+### 5.1 事件帳本公理 (Event Ledger Truth)
+* **世界事件帳本（World Event Ledger）僅記錄已成功提交之世界事實。**
+* 失敗的嘗試或被拒絕的意圖，僅記入決策審計軌跡（Decision Audit Trail），絕不寫入世界事件帳本。
 
 ---
 
-## 5. 封閉行為空間 (Closed Action Space Boundary)
+## 6. 行為空間分期授權 (Slice-Scoped Action Space)
 
-自主決策 NPC 不是自由創作的智慧體，其行為受嚴格的狀態機與世界規則約束。
+自主行為空間隨 Slice 演進逐步解鎖，未授權行為強制 **Fail-Closed**：
 
-### 5.1 行為空間授權清單
-在指定 Slice 開放前，未授權的行為強制屬於**非法行為（Unauthorized Action）**：
+| Slice | 開放之行為集合 (Authorized Action Space) |
+| :--- | :--- |
+| **S4-A** | `NONE`（僅純靜態身份資料建立，無自主行為） |
+| **S4-B** | `NONE`（僅被動生命代謝與被動槽位就業，無主動決策） |
+| **S4-C ~ E** | `NONE`（身份背景與特質定義） |
+| **S4-F** | `["STAY", "MIGRATE", "JOIN_CARAVAN", "LEAVE_JOB", "CHANGE_JOB"]` |
+| **S5** | 開放玩家互動動詞 (`TALK`, `TRADE`, `RECRUIT`, `DISMISS`) |
 
-| 行為代號 | 所屬授權切片 | 說明與邊界 |
-| :--- | :---: | :--- |
-| `STAY` | S4-B | 留存原地，進行日常生存代謝 |
-| `WORK` | S4-B | 在當前聚落就業槽位提供勞動力 |
-| `LEAVE_JOB` | S4-B | 脫離當前就業槽位，轉為無業/待業狀態 |
-| `JOIN_CARAVAN` | S4-F | 加入出發商隊擔任護衛/搬運工，進入物理旅行狀態 |
-| `MIGRATE` | S4-F | 隨難民潮或個人依據壓力轉移聚落 |
-| `JOIN_FACTION` | S4-F | 變更派系隸屬 |
-| `TRADE_PERSONAL` | S4-F | 以個人庫存進行微量交易 |
-| `BUILD_*` | **FORBIDDEN ❌** | 世界模擬尚無動態建造規則，嚴禁 NPC 自主造工廠/水井 |
-| `ATTACK_*` | **FORBIDDEN ❌** | S5 戰鬥系統前，嚴禁 NPC 發動未經定義的戰術攻擊 |
-
-### 5.2 拒絕原則 (Fail-Closed Enforcement)
-若決策引擎或 AI 生成之指令不在當前已授權清單中，系統必須直接拋出 `ERR_UNAUTHORIZED_ACTION` 並拒絕執行，保留原狀態（Fallback to `STAY`）。
+**嚴禁行為**：任何未經規則定義之行為（如 `BUILD_FACILITY`, `MAGIC_HEAL`, `ATTACK`）在所有階段一律非法。
 
 ---
 
-## 6. 結構化決策證據規範 (Structured Decision Evidence)
+## 7. 結構化決策證據規範 (Decision Evidence Schema)
 
-為確保 100% 可重現性與可解釋性，NPC 決策日誌**禁止記錄非結構化、無邊界的 Chain-of-Thought 自然語言**，而必須以統一 Schema 記錄客觀因果證據。
-
-### 6.1 決策證據 Schema (Evidence Record)
+於 S4-F 正式啟用，記錄於個體審計軌跡中（非自然語言 CoT）：
 ```json
 {
-  "timestamp": {
-    "day": 45,
-    "phase": "PHASE_1_NEEDS"
-  },
-  "npc_id": "npc:gray_valley_mara",
+  "day": 45,
+  "phase": "PHASE_1_NEEDS",
+  "npc_id": "npc:00000001",
   "observed_state": {
-    "home_settlement": "settlement:gray_valley",
-    "home_water_pressure": 82.5,
-    "home_security": 24.0,
-    "candidate_destinations": [
-      { "id": "settlement:new_hope", "water_pressure": 0.0, "security": 100.0 }
-    ]
+    "container": "settlement:gray_valley",
+    "water_pressure": 82.5,
+    "security": 24.0
   },
   "eligible_actions": ["STAY", "MIGRATE"],
   "selected_action": "MIGRATE",
   "rule_invoked": "RULE_REFUGEE_DESPERATION_MIGRATION",
-  "resulting_mutation": {
-    "type": "NPC_MIGRATION_INITIATED",
-    "origin": "settlement:gray_valley",
-    "destination": "settlement:new_hope"
-  }
+  "result": "COMMITTED",
+  "mutation_event_ids": ["evt:1042"]
 }
 ```
-透過此結構，架構師與測試腳本能以純粹數學比對驗證決策因果，避免任何「猜測 AI 意圖」的模糊性。
 
 ---
 
-## 7. 世界狀態權威單向管線 (One-Way State Authority Pipeline)
+## 8. 單向下游敘事管線 (Strict Downstream Narrative Pipeline)
 
-### 7.1 系統架構流向
-```text
-+-------------------------+
-|      World State        |  <-- 物理客觀真相 (SimulationEngine)
-+-------------------------+
-             |
-             v
-+-------------------------+
-|   NPC Decision Engine   |  <-- 依據不變量與授權行為空間篩選
-+-------------------------+
-             |
-             v
-+-------------------------+
-|    Structured Action    |  <-- 產出標準化 Action Data
-+-------------------------+
-             |
-             v
-+-------------------------+
-|    Simulation Commit    |  <-- 原子性修改 WorldState 並寫入 Ledger
-+-------------------------+
-             |
-             v
-+-------------------------+
-|     Narrative Layer     |  <-- LLM / 文本生成層 (純下游觀察者，0 權威)
-+-------------------------+
-```
+系統架構維持嚴格的單向因果流向：
+$$\text{World State} \longrightarrow \text{Decision Engine} \longrightarrow \text{Simulation Commit} \longrightarrow \text{Event Ledger} \longrightarrow \text{Narrative Layer}$$
 
-### 7.2 LLM 權限隔離界線 (Zero State Authority)
-* **LLM 可以做**：讀取已 Commit 的 `NPC_MIGRATION` 事件與 Evidence，生成生動的對話（如：「這鬼地方一滴水也沒有，我必須逃去新希望！」）。
-* **LLM 絕對不能做**：
-  - 在對話中宣告「我決定離開」後直接修改 `npc.location`。
-  - 自行創造不在 WorldState 中的物品贈送給 NPC 或玩家。
-  - 繞過 SimulationEngine 決定一個 NPC 的生死或派系歸屬。
+* **LLM 邊界鎖**：LLM 僅能讀取已發生之事件與狀態，將其轉化為對話與小說式報導。
+* **零權限公理**：LLM 絕無修改世界狀態、瞬移 NPC、改寫死亡或增減資源之權限。

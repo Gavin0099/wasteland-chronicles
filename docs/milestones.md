@@ -47,25 +47,30 @@
 
 ---
 
-## G1.5 — NPC Authority Hardening (已完成 ✅)
+## G1.5-A — NPC Authority Contract (已完成 ✅)
 
-為防止進入個體 NPC 生態時產生幻覺、人口不一致與權限洩漏，正式建立 G1.5 治理硬化層：
-* **Rule 1 (Population Authority)**：具名 NPC 為聚落人口之子集合，嚴格守恆（$N_{\text{named}} \le N_{\text{pop}}$），非疊加人口。
-* **Rule 2 (Immutable Identity)**：NPC ID 永久固定，與位置、職業、派系、隊伍狀態徹底解耦。
-* **Rule 3 (Atomic Commit)**：遷徙與死亡跨實體、總量與審計日誌三層原子性提交。
-* **Rule 4 (Closed Action Space)**：自主行為受顯式授權清單約束，未授權行為強制 Fail-Closed。
-* **Rule 5 (Structured Evidence)**：結構化決策證據取代無邊界 CoT，具備 100% 重現性。
-* **Rule 6 (Unidirectional Authority)**：模擬引擎掌管唯一客觀狀態，LLM/敘事層僅為下游觀察者，0 狀態修改權限。
-* **驗收成果**：[docs/npc-authority.md](file:///d:/wasteland-chronicles/docs/npc-authority.md) 規格發布，[tests/test_npc_population_accounting.gd](file:///d:/wasteland-chronicles/tests/test_npc_population_accounting.gd) 七大 Gate 全數 PASS。
+為防止進入個體 NPC 生態時產生幻覺、人口不一致與權限洩漏，正式建立 G1.5-A 治理契約層：
+* **Rule 1 (Population Authority & Materialization)**：具名化是表徵識別，非人口增長；具名 NPC 為聚落人口之子集合（$N_{\text{named}} \le N_{\text{pop}}$）。
+* **Rule 2 (Deterministic Identity Minting)**：NPC ID 依單調遞增序號確定性鑄造（`npc:00000001`），終身不變且永不復用，與位置/職業/派系徹底解耦。
+* **Rule 3 (Single Population Membership)**：活體 NPC 必須且僅能屬於唯一人口容器（Settlement / Transit / Party），死者歸屬墓地。
+* **Rule 4 (Validate-Before-Commit)**：前置驗證失敗則零修改中止（不需回滾機制）；通過則實體與總量原子提交。
+* **Rule 5 (Slice-Scoped Action Space)**：自主行為按 Slice 顯式解鎖，未授權行為強制 Fail-Closed。
+* **Rule 6 (Committed Event Ledger)**：世界事件帳本僅記已提交事實；未提交意圖僅進審計軌跡。
+* **Rule 7 (Authority Matrix & Unidirectional Narrative)**：確立資料所有權矩陣，LLM 僅為下游觀察者，0 世界狀態修改權限。
+* **驗收成果**：[docs/npc-authority.md](file:///d:/wasteland-chronicles/docs/npc-authority.md) 規格發布，[tests/test_npc_population_accounting.gd](file:///d:/wasteland-chronicles/tests/test_npc_population_accounting.gd) 七大契約 Gate (GA1 ~ GA7) 全數 PASS。
 
 ---
 
 ## S4 — Individual NPC Ecology (當前推進切片 🟡)
 
 將聚落的人口數字拆解為世界中的可識別個體：
-* **S4-A — NPC Identity**：`id, name, age, home, background, faction, occupation, alive`（先不做能力值）。
-* **S4-B — NPC Life State**：`location, job, health, needs, relationships`（證明玩家看不見時 NPC 依然活著）。
-* **S4-C — Background**：前商隊守衛、機械師、農夫、掠奪者、軍醫、拾荒者（影響社會角色、初始關係、可用行為，不決定數值點數）。
+* **S4-A — NPC Identity (+ G1.5-B1 Runtime Enforcement)**：
+  - 核心機制：`NPCRegistry`、`NpcIdentity`、最小身份表徵化實體。
+  - G1.5-B1 運行防護：具名子集約束驗證、確定性序列持久化、防人口通膨（GB1~GB5）。
+* **S4-B — NPC Life State (+ G1.5-B2 Lifecycle Atomicity)**：
+  - 核心機制：`location, job, health, needs, relationships`。
+  - G1.5-B2 運行防護：遷徙與死亡之個體/總額雙重原子提交真實驗收。
+* **S4-C — Background**：前商隊守衛、機械師、農夫、拾荒者（影響社會角色、初始關係、可用行為，不決定數值點數）。
 * **S4-D — Traits**：謹慎、貪婪、忠誠、好鬥、酗酒等（純決定論客觀效果）。
 * **S4-E — Aptitude Schema**：戰鬥、求生、交易、技術、社交潛能（先定義天賦易學性，**不做 XP**）。
 * **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。

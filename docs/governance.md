@@ -59,37 +59,39 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 
 ## G1.5 NPC 權威治理公理 (Level G1.5 Axioms)
 
-自 S4 起，世界首次引入具名個體 NPC。為杜絕 AI Agent 在模擬中產生幻覺、人口不一致、實體分裂或敘事權限洩漏，正式確立以下六大治理公理（Axioms 11 ~ 16）：
+自 S4 起，世界首次引入具名個體 NPC。為杜絕 AI Agent 在模擬中產生幻覺、人口不一致、實體分裂或敘事權限洩漏，G1.5 劃分為兩階段落地：
+- **G1.5-A (Authority Contract)**：S4 前鎖死資料真理邊界、契約規範與 Schema 驗收。
+- **G1.5-B (Runtime Enforcement)**：自 S4-A/B 隨 NPC 運行實體誕生而實行代碼級強制約束。
 
-### 11. 人口權威與子集公理 (Population Authority & Subset Invariant)
+### 11. 人口權威與單一容器公理 (Population Authority & Single Membership Invariant)
 * **聚落人口 (`Settlement.population`) 是總人數的唯一權威真理。**
-* 具名個體 NPC (`Named NPC Registry`) 是該聚落人口之「已具名識別子集（Identified Subset）」，絕非外加人口。
+* **具名化是表徵識別，非人口增長 (Materialization Is Representational, Not Demographic)**：將人口具名化絕不增加世界總人口（$50 \text{ 人口} \to 1 \text{ 具名} + 49 \text{ 背景} = 50 \text{ 總額}$）。
+* **單一人口容器不變量 (Single Population Membership)**：每個存活的具名 NPC 在任一 Tick **必須且僅能屬於恰好一個人口容器**（Settlement / Transit / Party），嚴禁同時存在於兩處，亦嚴禁成為無歸屬之遊離個體。
 * **約束公式**：
   $$\text{named\_npcs\_alive\_at}(S) \le S.\text{population}$$
 * **生命守恆全域不變量**：
   $$\sum_{S} S.\text{population} + \sum \text{refugees\_in\_transit} + \text{cumulative\_deaths} == \text{Initial Total Headcount}$$
-  絕不因個體化追蹤而膨脹或憑空增減總人口。
 
-### 12. 身份永久不可變公理 (Immutable Identity Axiom)
-* NPC ID（例如 `npc:0000127`）一旦鑄造即終身永久固定，嚴禁重新生成。
+### 12. 決定論身份永久不可變公理 (Immutable Deterministic Identity Axiom)
+* NPC ID 必須依據世界狀態中單調遞增之計數器（`next_npc_sequence`）確定性鑄造（如 `npc:00000001`）。嚴禁隨機數或時間戳。
+* 序號納入快照，且**永久不可復用**（NPC 死亡亦作廢不重發）。
 * **身份與狀態嚴格解耦**：
   $$\text{Identity} \ne \text{Location} \ne \text{Occupation} \ne \text{Faction} \ne \text{Party Membership}$$
 * 無論 NPC 搬遷聚落、變更職業、轉移陣營或加入玩家隊伍，其實體 ID 永不變更。
 
-### 13. 原子化生命週期變更公理 (Atomic Lifecycle Commit Axiom)
-* NPC 實體之狀態轉移（遷徙、傷亡、招募）必須跨以下三層原子性同時提交（Single Atomic Commit）：
-  1. NPC 個體狀態（`location`, `alive` 等）
-  2. 聚落總額度計數（`population`, `cumulative_deaths`）
-  3. 結構化事件審計日誌（Structured Event Ledger）
-* 嚴禁殘留懸空狀態（Dangling State）：不允許聚落人口已扣除但 NPC 仍留在原地的半提交狀態。
+### 13. 驗證後原子提交公理 (Validate-Before-Commit Lifecycle Axiom)
+* 避免複雜回滾機制，採用單線程確定性之「驗證後提交」模式：
+  1. **前置驗證 (Precondition Validation)**：檢查存活、所在容器合法性、目標容器容量與行為授權。若任何條件不符，強制中斷，**完全不修改任何狀態（State Hash 不變）**。
+  2. **原子提交 (Atomic Commit)**：驗證通過後，個體狀態與容器計數同時更新。
+  3. **事實寫入 (Event Emission)**：僅將**已成功提交之世界事實**寫入 Event Ledger。被拒絕之意圖不記入世界歷史。
 
-### 14. 封閉行為空間公理 (Closed Action Space Axiom)
-* 自主決策 NPC 只能從當前 Slice 所顯式授權的合法行為集合中選取動作（例如 S4-F 之 `STAY`, `MIGRATE`, `WORK`, `JOIN_CARAVAN`, `LEAVE_JOB`）。
-* **嚴禁行為發明**：NPC 不得執行世界規則尚未定義的行為（例如在未定義建造水廠前自主宣告「興建淨水廠」）。未授權行為強制 Fail-Closed 拒絕。
+### 14. 分期封閉行為空間公理 (Slice-Scoped Closed Action Space)
+* 自主決策 NPC 只能從當前 Slice 所顯式授權的合法行為集合中選取動作（S4-A/B 無自主行為；S4-F 開放 `STAY`, `MIGRATE`, `JOIN_CARAVAN`, `LEAVE_JOB` 等）。
+* **嚴禁行為發明**：未授權行為強制 Fail-Closed 拒絕。
 
 ### 15. 結構化決策證據公理 (Structured Decision Evidence Axiom)
 * NPC 自主決策不得記錄無邊界之 Chain-of-Thought，必須以精確的結構化 Evidence 模式留存審計軌跡：
-  $$\text{Evidence} = \langle \text{Timestamp}, \text{NPC\_ID}, \text{Observed\_State}, \text{Eligible\_Actions}, \text{Selected\_Action}, \text{Rule\_Invoked}, \text{Resulting\_Mutation} \rangle$$
+  $$\text{Evidence} = \langle \text{Day}, \text{Phase}, \text{NPC\_ID}, \text{Observed\_State}, \text{Eligible\_Actions}, \text{Selected\_Action}, \text{Rule\_Invoked}, \text{Result} \rangle$$
 * 確保所有個體行為具備 100% 事後反查與決定論重播檢驗能力。
 
 ### 16. 世界狀態權威單向管線公理 (Zero World-State Authority for Narrative/LLM)
@@ -106,7 +108,9 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 | :--- | :---: | :--- | :---: |
 | **S0–S1** | **G0** | 基礎決定論與位元級可重複性 | ✅ |
 | **S2–S3** | **G1** | 經濟衝擊反事實驗證、8 階段唯一時間語意、無土匪純客觀湧現 | ✅ |
-| **S4-A～E** | **G1.5** | **NPC 權威防護：人口子集約束、不可變身份、原子化提交、單向敘事管線** | **ACTIVE 🟡** |
+| **S4 前置**| **G1.5-A**| **NPC 權威契約：權威矩陣、單一容器歸屬、決定論 ID 鑄造、驗證後提交模式** | **CLOSED ✅** |
+| **S4-A** | **G1.5-B1**| **NPC 身份運行防護：具名子集約束、確定性序列持久化、防人口通膨** | 🟡 NEXT |
+| **S4-B** | **G1.5-B2**| **生命週期原子防護：真實個體遷移/死亡雙重計數原子一致性驗證** | 規劃中 |
 | **S4-F** | **G2-lite** | NPC 自主行為授權、閉環決策審計證據、動態行為邊界鎖 | 規劃中 |
 | **S5** | **G2** | 玩家與隊伍行為授權、存檔重播驗證、可驗證的世界歷程 | 規劃中 |
 | **S6** | **G2+** | 死亡繼承傳承、世界記憶跨代傳承不變量 | 規劃中 |
