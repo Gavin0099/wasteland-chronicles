@@ -266,7 +266,64 @@ Aptitudes  = 這個人可能比較容易學哪類事情
 進入 S4-F 時**僅 Traits 可能參與 Decision Engine**；Aptitude 傾向繼續保持 inert，
 待 S5-D Skills 才啟用。嚴禁因為進了 S4-F 就順手讓
 `SURVIVAL aptitude → 更容易選 MIGRATE`——那沒有語意基礎。
-* **S4-F — NPC Autonomous Decisions**：工作、移動、加入商隊、逃離聚落、轉職（自主湧現日常）。
+* **S4-F — NPC Autonomous Decisions**（G2-lite 治理 checkpoint）
+  * **S4-F1 — Decision Authority**：**CLOSED ✅**
+    - **封閉 action space 僅兩項**：`STAY`, `MIGRATE`。
+      `WORK` / `JOIN_CARAVAN` / `LEAVE_JOB` / `JOIN_FACTION` / `TRADE` / `REPAIR` /
+      `ATTACK` / `HELP` 一律不納入——目前真正具備完整 physics 與 atomic transition
+      支援的 NPC 行為只有「留下」與「遷徙」，其餘會逼迫 occupation / faction /
+      combat / relationship authority 提前誕生。
+    - **權威鏈（固定單向）**：
+      `World State → Observation Projection → Eligibility Filter → Decision Engine →
+      Structured Intent → Authorization → 既有 Atomic Lifecycle Commit →
+      Committed Event → Decision Evidence`
+    - **Observation Boundary**：`NpcDecisionObservation` 為窄化唯讀值投影，
+      只含 `npc_id / day / current_settlement_id / water_pressure / food_pressure /
+      security / candidate_destinations`。Decision Engine **從不持有 WorldState**，
+      因此結構上無法讀取 settlements、事件帳本、其他 NPC 狀態或未來資訊——
+      「零修改權限」是結構保證而非口頭約束。此邊界同時是 S7 Information Fog 的正確起點。
+    - **Zero Mutation Authority**：`NpcDecisionEngine` 所有函式輸入為 Observation、
+      輸出為值；提交由既有 S4-B `begin_named_migration()` 原子交易負責，
+      決策層自身沒有任何 mutation path。
+    - **Batch Semantics**：日初取一份不可變 observation snapshot，
+      依 **lexicographic npc_id order** 全員決策 → 收集 intents → canonical commit order
+      → **逐一重新驗證前置條件** → commit 或 reject。
+      嚴禁「Mara 決定並立即改世界 → Eli 看到已被改過的世界」。
+    - **Rejected intent 只進 Decision Audit Trail，絕不寫入事件帳本**
+      （Axiom 11.1 / §5.1）。被拒絕的意圖永遠不得被讀成「Mara migrated」。
+    - **Structured Decision Evidence**：`world.decision_audit_trail` 記錄
+      `day / phase / npc_id / observed_state / eligible_actions / selected_action /
+      rule_invoked / result / committed_event_index`，**不存 Chain-of-Thought**。
+      `committed_event_index` 採帳本位置引用——S4-C.1 刻意不給 EventRecord id，
+      故以 append-only 帳本的位置作為 derived reference，不形成第二身份。
+    - **第一版不讓 Traits / Aptitude / Background 影響決策**。所有 NPC 在相同
+      observation 下遵循相同規則，先證明 decision architecture 本身成立；
+      若出問題就知道是架構而非 personality weighting。
+      `CAUTIOUS` 是否值得在相同行情下產生不同選擇，是 S4-F2 才問的問題——
+      而且可能根本不值得做。**Trait 不會因為存在就必須有作用。**
+    - **不重新發明目的地演算法**：沿用 S3-C `select_refugee_destination()`，
+      避免「匿名人口認為 New Hope 最安全，Mara 卻用另一套算法跑去 Dry Well」。
+    - **本輪嚴禁**：LLM decisions、randomness、goal planner、Utility AI、
+      Behavior Tree、GOAP、relationships、occupation、faction、combat、trading。
+      兩個 action 加幾條決定論規則不需要框架。
+    - **驗收成果**：[tests/test_s4_f1_decisions.gd](file:///d:/wasteland-chronicles/tests/test_s4_f1_decisions.gd)
+      F1 ~ F8 全數 PASS。實例：Mara 於 Day 13 依
+      `RULE_SEVERE_LOCAL_DEPRIVATION` 自行決定離開灰谷前往新希望，
+      經既有難民隊伍物理路徑上路，生命守恆 300 == 300。
+  * **S4-F2 — Autonomous Migration**：PENDING（decision → 物理出發 → 在途 → 物理抵達全程驗收）。
+  * **S4-F3 — Multi-NPC Determinism**：PENDING（規模化評估順序、容量與總量會計）。
+* **Finding**：`STRINGNAME_SORT_IS_NOT_LEXICOGRAPHIC` — **CONFIRMED 📌，S4-F1 已於決策階段規避**
+  - **Discovered by**：S4-F1 Gate F6（canonical evaluation order 檢查）
+  - **問題**：Godot 的 `StringName` 以**內部指標**比較，故
+    `[&"zeta", &"alpha", &"mid"].sort()` 得到 `[mid, alpha, zeta]`。
+    排序結果取決於記憶體配置順序，而非識別字內容。
+  - **S4-F1 處置**：決策階段改以 `String` 排序後再轉回 `StringName`，並於程式碼註明原因。
+  - **尚未處理的範圍**：引擎既有多處 `world.settlements.keys(); sort()` /
+    `world.caravans.keys(); sort()` 亦以 StringName 排序。實測目前三個聚落
+    *碰巧* 得到字典序，且同一 process 內順序穩定，因此既有測試與 artifact hash 未受影響；
+    但這是**巧合而非保證**，與 Axiom 5「任何環境下位元一致」的主張存在落差。
+  - **Disposition**：不在 S4-F1 擴大重構。記錄為 finding，待 Owner 裁定是否另開
+    hardening slice（影響面為全域迭代順序，屬 Persistence/Determinism 類，非 gameplay）。
   背景是否提供 action eligibility，由此時已驗證的 gameplay 動詞決定，**不得由 S4-C 預先定義**。
 * **S4-G — NPC Relationships**：**PENDING**（自 S4-C 切出獨立成 Slice）。
   關係圖是獨立的權威面：方向性、對稱性、死亡後是否保留、跨聚落與跨容器關係，

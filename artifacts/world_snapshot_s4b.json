@@ -53,6 +53,7 @@
 		}
 	},
 	"current_day": 0,
+	"decision_audit_trail": [],
 	"event_count": 0,
 	"events": [],
 	"next_npc_sequence": 3,

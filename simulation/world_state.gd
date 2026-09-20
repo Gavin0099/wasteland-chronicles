@@ -12,6 +12,10 @@ var caravans: Dictionary = {}    # Dictionary[StringName, CaravanState]
 var refugees: Dictionary = {}    # Dictionary[StringName, RefugeePartyState]
 var event_log: Array[EventRecord] = []
 
+# S4-F1 Decision Audit Trail. Separate from event_log ON PURPOSE: the ledger
+# holds committed facts only, while REJECTED intents live here and nowhere else.
+var decision_audit_trail: Array[NpcDecisionEvidence] = []
+
 func get_settlement(id: StringName) -> SettlementState:
 	return settlements.get(id, null)
 
@@ -71,6 +75,12 @@ func canonicalize_numeric_state() -> void:
 func get_event_count() -> int:
 	return event_log.size()
 
+func record_decision(evidence: NpcDecisionEvidence) -> void:
+	decision_audit_trail.append(evidence)
+
+func get_decision_count() -> int:
+	return decision_audit_trail.size()
+
 func duplicate_state() -> WorldState:
 	var copy := WorldState.new()
 	copy.current_day = current_day
@@ -87,6 +97,8 @@ func duplicate_state() -> WorldState:
 		copy.refugees[r_id] = (refugees[r_id] as RefugeePartyState).duplicate_state()
 	for evt in event_log:
 		copy.event_log.append((evt as EventRecord).duplicate_record())
+	for ev in decision_audit_trail:
+		copy.decision_audit_trail.append((ev as NpcDecisionEvidence).duplicate_evidence())
 	return copy
 
 func to_dict() -> Dictionary:
@@ -116,6 +128,11 @@ func to_dict() -> Dictionary:
 	for evt in event_log:
 		events_arr.append((evt as EventRecord).to_dict())
 
+	# Decision order is evaluation order and is never re-sorted.
+	var decisions_arr := []
+	for ev in decision_audit_trail:
+		decisions_arr.append((ev as NpcDecisionEvidence).to_dict())
+
 	return {
 		"current_day": current_day,
 		"total_initial_population": total_initial_population,
@@ -130,7 +147,8 @@ func to_dict() -> Dictionary:
 		# human/diagnostic convenience only — loaders must never trust it as
 		# state, they must only check it agrees with the ledger.
 		"event_count": events_arr.size(),
-		"events": events_arr
+		"events": events_arr,
+		"decision_audit_trail": decisions_arr
 	}
 
 # ==============================================================================
@@ -191,6 +209,18 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 	# Rebuild the ledger from the events themselves, in serialized order.
 	for i in range(events_data.size()):
 		w.event_log.append(EventRecord.from_dict(events_data[i]))
+
+	# S4-F1 decision audit trail, same fail-closed discipline as the ledger.
+	if data.has("decision_audit_trail"):
+		if typeof(data["decision_audit_trail"]) != TYPE_ARRAY:
+			return {"success": false, "world": null, "error": "AUDIT_TRAIL_MALFORMED: decision_audit_trail is not an array"}
+		var decisions_data: Array = data["decision_audit_trail"]
+		for i in range(decisions_data.size()):
+			var d_err := NpcDecisionEvidence.validate_dict(decisions_data[i], i)
+			if d_err != "":
+				return {"success": false, "world": null, "error": "AUDIT_TRAIL_MALFORMED: %s" % d_err}
+		for i in range(decisions_data.size()):
+			w.decision_audit_trail.append(NpcDecisionEvidence.from_dict(decisions_data[i]))
 
 	return {"success": true, "world": w, "error": ""}
 

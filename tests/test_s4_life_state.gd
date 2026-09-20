@@ -377,6 +377,11 @@ func _init() -> void:
 	b7_engine.enable_migration = true
 	b7_engine.enable_mortality = true
 	b7_engine.enable_security = false
+	# B7 asserts the AGGREGATE bridge: the macro system must not select named
+	# individuals. It never claimed named NPCs can never move. Since S4-F1 they
+	# can move by deciding to, so the autonomous decision phase is switched off
+	# here to isolate the aggregate behaviour this gate is actually about.
+	b7_engine.enable_npc_decisions = false
 
 	var b7_world := S1WorldData.create_s1_world()
 	b7_world.current_day = 0

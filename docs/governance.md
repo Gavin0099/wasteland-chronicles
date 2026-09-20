@@ -158,7 +158,8 @@ $$\text{Arrival Day} = \text{Departure Day} + \text{Route Days} - 1$$
 | **S4-C.1**| **G1.5-B4**| **歷史事實權威：committed event ledger 完整持久化、derived count、非空 round-trip 決定論** | **CLOSED ✅** |
 | **S4-C.2**| **G1.5-B5**| **持久化邊界透明性：schema-aware 型別還原、authoritative float canonicality、存讀不造成世界分叉** | **CLOSED ✅** |
 | **S4-D / S4-E** | *Fast Lane* | **metadata-only 切片，無新 authority boundary：focused spec / focused tests / 既有 validator / regression** | **CLOSED ✅** |
-| **S4-F** | **G2-lite** | NPC 自主行為授權、閉環決策審計證據、動態行為邊界鎖 | 規劃中 |
+| **S4-F1** | **G2-lite** | **自主決策授權：封閉 action space、觀察邊界、零修改權限、批次決定論、結構化決策證據** | **CLOSED ✅** |
+| **S4-F2/F3** | **G2-lite** | NPC 自主遷徙全程驗收、規模化評估決定論 | 🟡 NEXT |
 | **S5** | **G2** | 玩家與隊伍行為授權、存檔重播驗證、可驗證的世界歷程 | 規劃中 |
 | **S6** | **G2+** | 死亡繼承傳承、世界記憶跨代傳承不變量 | 規劃中 |
 | **S7** | **G2.5** | 資訊迷霧 Fail-Closed 知識邊界防禦（防真相洩漏） | 規劃中 |

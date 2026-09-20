@@ -53,6 +53,7 @@
 		}
 	},
 	"current_day": 120,
+	"decision_audit_trail": [],
 	"event_count": 357,
 	"events": [
 		{

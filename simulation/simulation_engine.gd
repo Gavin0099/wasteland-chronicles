@@ -39,6 +39,7 @@ const LABOR_SENSITIVITY: Dictionary = {
 }
 
 var enable_labor: bool = true
+var enable_npc_decisions: bool = true
 
 # S3-F 社會秩序與商路掠奪規則 (Social Order & Route Predation Rules - State != Rules)
 const CIVIC_CAPACITY_DRAG_RATE: float = 3.0
@@ -260,6 +261,15 @@ func tick(world: WorldState) -> Array[EventRecord]:
 					)
 					tick_events.append(fail_evt)
 					world.record_event(fail_evt)
+
+	# -------------------------------------------------------------
+	# 階段 1.5: 具名 NPC 自主決策 (S4-F1 Autonomous Decision Authority)
+	# -------------------------------------------------------------
+	# Runs AFTER the aggregate per-settlement pass, as its own phase, so the
+	# anonymous cohort (S3 rules) and named individuals (S4 decision engine)
+	# never interleave. The macro system still must not choose for Mara.
+	if enable_npc_decisions:
+		run_npc_decision_phase(world, current_day, tick_events)
 
 	# -------------------------------------------------------------
 	# 階段 2: 各聚落在地生產 (Local Production with Labor Feedback)
@@ -840,6 +850,185 @@ func calculate_route_risk(world: WorldState, origin_id: StringName, dest_id: Str
 	return ((100.0 - orig_sec) + (100.0 - dest_sec)) / 2.0
 
 # 不變量檢查函式
+# ==============================================================================
+# S4-F1: AUTONOMOUS DECISION PHASE
+# ==============================================================================
+# BATCH SEMANTICS, deliberately:
+#
+#   start-of-phase observation snapshot
+#     -> every NPC decides from that SAME world, in canonical npc_id order
+#     -> intents collected
+#     -> canonical commit order
+#     -> revalidate preconditions
+#     -> commit or reject
+#
+# NOT this:
+#   Mara decides and immediately changes the world, then Eli observes a world
+#   Mara already altered, then Jon observes a third world.
+#
+# Sequential decisions would make the outcome depend on iteration order, which
+# is exactly the kind of thing that quietly breaks replay. If we ever want
+# sequential semantics, that will be a deliberate design decision with its own
+# evidence, not an accident of Dictionary ordering.
+#
+# Intents are NOT committed blindly. Between deciding and committing the world
+# may have moved (an earlier commit in this same batch can empty a settlement),
+# so every intent is revalidated at commit time. A refused intent leaves
+# evidence and nothing else, never a world event saying it happened.
+func run_npc_decision_phase(world: WorldState, current_day: int, tick_events: Array[EventRecord]) -> void:
+	if world.npc_life_state_registry == null:
+		return
+
+	# 1. OBSERVE - one immutable snapshot for the whole batch.
+	# Canonical order is LEXICOGRAPHIC npc_id order, obtained by sorting Strings.
+	# Sorting StringName values directly is NOT safe here: StringName compares by
+	# internal pointer, so `[&"zeta", &"alpha", &"mid"].sort()` yields
+	# [mid, alpha, zeta]. That ordering depends on allocation, not on the id, and
+	# would make evaluation order an accident. Gate F6 exists because of this.
+	var decider_ids: Array[StringName] = []
+	var sorted_npc_ids: Array[String] = []
+	for k in world.npc_life_state_registry.life_states:
+		sorted_npc_ids.append(String(k))
+	sorted_npc_ids.sort()
+	for npc_id_str in sorted_npc_ids:
+		var npc_id := StringName(npc_id_str)
+		var ls: NpcLifeState = world.npc_life_state_registry.life_states[npc_id]
+		# Only a settled, living individual has anything to decide in S4-F1.
+		if ls.is_alive() and ls.status == NpcLifeState.Status.SETTLED:
+			decider_ids.append(npc_id)
+	if decider_ids.is_empty():
+		return
+
+	var observations: Array[NpcDecisionObservation] = []
+	for npc_id in decider_ids:
+		var obs := build_npc_observation(world, npc_id, current_day)
+		if obs != null:
+			observations.append(obs)
+
+	# 2. DECIDE - pure functions of the observations. No world access.
+	var intents: Array[NpcDecisionIntent] = []
+	for obs in observations:
+		intents.append(NpcDecisionEngine.decide(obs))
+
+	# 3. AUTHORIZE, REVALIDATE, COMMIT - in canonical order.
+	for intent in intents:
+		var auth_error := NpcDecisionEngine.authorize(intent)
+		if auth_error != "":
+			world.record_decision(NpcDecisionEvidence.create(
+				current_day, "PHASE_1_5_NPC_DECISION", intent,
+				NpcDecisionEvidence.Result.REJECTED, auth_error, -1
+			))
+			continue
+
+		if intent.action == NpcDecisionEngine.Action.STAY:
+			world.record_decision(NpcDecisionEvidence.create(
+				current_day, "PHASE_1_5_NPC_DECISION", intent,
+				NpcDecisionEvidence.Result.NO_OP, "", -1
+			))
+			continue
+
+		# MIGRATE: revalidate against the world as it is NOW, not as observed.
+		var revalidation := revalidate_migration_intent(world, intent)
+		if revalidation != "":
+			world.record_decision(NpcDecisionEvidence.create(
+				current_day, "PHASE_1_5_NPC_DECISION", intent,
+				NpcDecisionEvidence.Result.REJECTED, revalidation, -1
+			))
+			continue
+
+		# Commit through the EXISTING S4-B atomic lifecycle transaction. The
+		# decision layer owns no mutation path of its own.
+		var route_days := get_route_days_between(world, intent.observation.current_settlement_id, intent.destination_id)
+		var party_id := StringName("refugee:named_d%d_%s_to_%s" % [
+			current_day,
+			String(intent.observation.current_settlement_id).replace("settlement:", ""),
+			String(intent.destination_id).replace("settlement:", "")
+		])
+		var result: Dictionary = world.npc_life_state_registry.begin_named_migration(
+			world, intent.npc_id, intent.destination_id, party_id, route_days, current_day
+		)
+		if not result["success"]:
+			world.record_decision(NpcDecisionEvidence.create(
+				current_day, "PHASE_1_5_NPC_DECISION", intent,
+				NpcDecisionEvidence.Result.REJECTED, String(result.get("error", "")), -1
+			))
+			continue
+
+		var evt := EventRecord.new(
+			current_day,
+			"NAMED_NPC_MIGRATION_STARTED",
+			intent.npc_id,
+			intent.destination_id,
+			{
+				"origin": String(intent.observation.current_settlement_id),
+				"destination": String(intent.destination_id),
+				"party_id": String(party_id),
+				"route_days": route_days,
+				"rule_invoked": String(intent.rule_invoked),
+				"water_pressure": intent.observation.water_pressure,
+				"food_pressure": intent.observation.food_pressure,
+				"security": intent.observation.security,
+			}
+		)
+		tick_events.append(evt)
+		world.record_event(evt)
+		world.record_decision(NpcDecisionEvidence.create(
+			current_day, "PHASE_1_5_NPC_DECISION", intent,
+			NpcDecisionEvidence.Result.COMMITTED, "", world.event_log.size() - 1
+		))
+
+# Build the narrow read-only projection this NPC is allowed to see.
+func build_npc_observation(world: WorldState, npc_id: StringName, current_day: int) -> NpcDecisionObservation:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(npc_id)
+	if ls == null:
+		return null
+	var here: SettlementState = world.get_settlement(ls.population_container_id)
+	if here == null:
+		return null
+
+	# Destination candidates come from the world OWN evaluation (S3-C), not a
+	# private algorithm for named individuals. Otherwise the anonymous cohort
+	# could believe New Hope is safest while Mara walks to Dry Well, with no
+	# stated reason for the disagreement.
+	var candidates: Array = []
+	var best := select_refugee_destination(world, here)
+	if best != &"":
+		var dest: SettlementState = world.get_settlement(best)
+		if dest != null:
+			candidates.append({
+				"settlement_id": String(best),
+				"route_days": get_route_days_between(world, here.id, best),
+				"water_pressure": NumericCanon.canonical_float(dest.water_pressure),
+				"food_pressure": NumericCanon.canonical_float(dest.food_pressure),
+				"security": NumericCanon.canonical_float(dest.security),
+			})
+
+	return NpcDecisionObservation.create(
+		npc_id, current_day, here.id,
+		here.water_pressure, here.food_pressure, here.security,
+		candidates
+	)
+
+# Preconditions re-checked at commit time. Returns "" when the intent may proceed.
+func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -> String:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.npc_id)
+	if ls == null:
+		return "PRECONDITION_CHANGED: no life state"
+	if not ls.is_alive():
+		return "PRECONDITION_CHANGED: NPC is no longer alive"
+	if ls.status != NpcLifeState.Status.SETTLED:
+		return "PRECONDITION_CHANGED: NPC is no longer settled"
+	if ls.population_container_id != intent.observation.current_settlement_id:
+		return "PRECONDITION_CHANGED: NPC is no longer in the observed settlement"
+	var origin: SettlementState = world.get_settlement(ls.population_container_id)
+	if origin == null:
+		return "PRECONDITION_CHANGED: origin settlement no longer exists"
+	if origin.population <= 0:
+		return "PRECONDITION_CHANGED: origin settlement has no population left"
+	if world.get_settlement(intent.destination_id) == null:
+		return "PRECONDITION_CHANGED: destination no longer exists"
+	return ""
+
 func validate_invariants(world: WorldState) -> String:
 	for s_id in world.settlements:
 		var s: SettlementState = world.settlements[s_id]

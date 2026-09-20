@@ -401,8 +401,11 @@ func _init() -> void:
 			return
 	print("  All 4 backgrounds restored exactly through the round-trip")
 
-	# Scope discipline: no derived role or capability field leaked into serialization.
-	var serialized := replay_a.to_canonical_json()
+	# Scope discipline: no derived role or capability field leaked into the
+	# PROFILE data. Scoped to the profile registry rather than the whole world:
+	# since S4-F1 the decision audit trail legitimately records eligible_actions,
+	# and that belongs to the decision layer, not to a background.
+	var serialized := JSON.stringify(replay_a.npc_profile_registry.to_dict(), "	", true)
 	for forbidden in ["social_role", "eligible_actions", "authorized_actions", "occupation", "skill", "relationship"]:
 		if serialized.findn(forbidden) != -1:
 			print("FAIL C7: forbidden key '%s' leaked into serialized profile data!" % forbidden)
