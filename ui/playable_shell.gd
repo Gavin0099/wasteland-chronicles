@@ -62,6 +62,8 @@ var lbl_hud_commodities: Label
 # Settlement Panel Nodes
 var s_panel: PanelContainer
 var lbl_settlement_title: Label
+var lbl_settlement_subtitle: Label
+var lbl_settlement_condition: Label
 var lbl_settlement_details: Label
 var lbl_warning_banner: Label
 var settlement_banner_rect: TextureRect
@@ -328,24 +330,34 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 			if pb_security != null:
 				pb_security.value = clampf(float(cs.get("security", 50.0)), 0.0, 100.0)
 
-			var zh_w_stat := "穩定 [STABLE]" if w_stat == "STABLE" else ("吃緊 [CRITICAL]" if w_stat == "CRITICAL" else "偏低 [LOW]")
-			var zh_f_stat := "穩定 [STABLE]" if f_stat == "STABLE" else ("吃緊 [CRITICAL]" if f_stat == "CRITICAL" else "偏低 [LOW]")
-			var w_press_tag := " [HIGH_RISK]" if cs.get("water_pressure_status") == "HIGH_RISK" else ""
-			var f_press_tag := " [HIGH_RISK]" if cs.get("food_pressure_status") == "HIGH_RISK" else ""
+			var zh_w_stat := _supply_word(w_stat)
+			var zh_f_stat := _supply_word(f_stat)
+
+			# The card answers "where is this, and how are things?" first.
+			if lbl_settlement_subtitle != null:
+				lbl_settlement_subtitle.visible = true
+				lbl_settlement_subtitle.text = _settlement_flavour(selected_settlement_id)
+			if lbl_settlement_condition != null:
+				lbl_settlement_condition.visible = true
+				lbl_settlement_condition.text = (
+					"人口 %d\n供水 %s\n糧食 %s\n治安 %s"
+				) % [
+					int(cs.get("population", 0)),
+					zh_w_stat,
+					zh_f_stat,
+					_security_word(float(cs.get("security", 100.0)))
+				]
+			var w_press_tag := "（高風險）" if cs.get("water_pressure_status") == "HIGH_RISK" else ""
+			var f_press_tag := "（高風險）" if cs.get("food_pressure_status") == "HIGH_RISK" else ""
 
 			lbl_settlement_details.text = (
-				"人口：%d 人      市場儲備金：$%d CAPS\n" +
-				"───────────────────────────────────────\n" +
-				"資源儲備狀況：\n" +
-				"  💧 水：%d (%s)        🍴 食物：%d (%s)\n" +
-				"  ⚙ 廢料：%d                ⛽ 燃料：%d\n" +
-				"───────────────────────────────────────\n" +
-				"聚落治安：%.1f / 100.0\n" +
-				"生存壓力：水 %.1f%s  |  食物 %.1f%s"
+				"倉儲　水 %d ／ 食物 %d ／ 廢料 %d ／ 燃料 %d\n" +
+				"市場儲備金 %d 瓶蓋　·　治安 %.0f\n" +
+				"生存壓力　水 %.0f%s　食物 %.0f%s"
 			) % [
-				cs.get("population", 0), cs.get("market_cash", 500),
-				cs.get("water", 0), zh_w_stat, cs.get("food", 0), zh_f_stat,
+				cs.get("water", 0), cs.get("food", 0),
 				cs.get("scrap", 0), cs.get("fuel", 0),
+				cs.get("market_cash", 500),
 				cs.get("security", 0.0),
 				cs.get("water_pressure", 0.0), w_press_tag,
 				cs.get("food_pressure", 0.0), f_press_tag
@@ -419,6 +431,12 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					break
 
 			var route_days: int = dest_info.get("distance_days", 2)
+			if lbl_settlement_subtitle != null:
+				lbl_settlement_subtitle.visible = true
+				lbl_settlement_subtitle.text = _settlement_flavour(selected_settlement_id)
+			if lbl_settlement_condition != null:
+				lbl_settlement_condition.visible = false
+
 			lbl_settlement_details.text = (
 				"路線狀態：已知通行路徑\n" +
 				"地表行軍距離：約 %d 天步程\n" +
@@ -446,42 +464,80 @@ func _render_event_feed(events: Array) -> void:
 
 	if not debug_world_feed_enabled:
 		var disabled_lbl := Label.new()
-		disabled_lbl.text = "[Debug world feed disabled / 電台廣播已關閉]"
+		disabled_lbl.text = "電台靜默中……"
 		disabled_lbl.add_theme_color_override("font_color", Color("#555960"))
 		event_feed_container.add_child(disabled_lbl)
 		return
 
 	for evt in events:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+
+		var category: String = evt.get("category", "world")
+		var icon_lbl := Label.new()
+		icon_lbl.text = _feed_icon(category)
+		icon_lbl.add_theme_font_size_override("font_size", 11)
+		icon_lbl.custom_minimum_size = Vector2(16, 0)
+		row.add_child(icon_lbl)
+
 		var lbl := Label.new()
-		var raw_s: String = evt.get("summary", "")
-		var day_val: int = evt.get("day", 0)
-		var formatted := _format_event_text(raw_s, day_val)
+		lbl.text = "第 %02d 天　%s" % [int(evt.get("day", 0)), String(evt.get("text", ""))]
+		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		lbl.size_flags_horizontal = SIZE_EXPAND_FILL
+		lbl.add_theme_font_size_override("font_size", 11)
+		lbl.add_theme_color_override("font_color", _feed_color(category))
+		row.add_child(lbl)
 
-		lbl.text = formatted
-		if raw_s.contains("CRITICAL") or raw_s.contains("吃緊") or raw_s.contains("shortage") or raw_s.contains("死亡"):
-			lbl.add_theme_color_override("font_color", Color("#E05252"))
-		elif raw_s.contains("商隊") or raw_s.contains("arrived"):
-			lbl.add_theme_color_override("font_color", Color("#39D353"))
-		else:
-			lbl.add_theme_color_override("font_color", Color("#96938B"))
-		event_feed_container.add_child(lbl)
+		event_feed_container.add_child(row)
 
-func _format_event_text(s: String, day: int) -> String:
-	if s.contains("materialized at"):
-		return "第 %02d 天  一名流浪者在灰谷登記，開始了廢土旅程。" % day
-	if s.contains("departed") and s.contains("refugee"):
-		return "第 %02d 天  一支難民隊伍離開聚落，踏上遷徙之路。" % day
-	if s.contains("departed") and s.contains("caravan"):
-		return "第 %02d 天  一支荒土商隊整裝出發，前往鄰近城鎮。" % day
-	if s.contains("arrived") and s.contains("caravan"):
-		return "第 %02d 天  荒土商隊平安抵達定居點，補給物資注入倉庫。" % day
-	if s.contains("CRITICAL") or s.contains("吃緊") or s.contains("shortage"):
-		return "第 %02d 天  【警報】水源供應急遽惡化，生存壓力攀升！" % day
-	if s.contains("died") or s.contains("死亡"):
-		return "第 %02d 天  【悲劇】嚴重的物資匱乏導致了人員死亡。" % day
-	if s.contains("Mara"):
-		return "第 %02d 天  %s" % [day, s]
-	return "第 %02d 天  %s" % [day, s]
+# Small icon per event category, so the feed can be skimmed at a glance.
+func _feed_icon(category: String) -> String:
+	match category:
+		"caravan": return "🚚"
+		"danger": return "⚠"
+		"person": return "👤"
+		"people": return "👣"
+		"player": return "🧭"
+		"trade": return "💰"
+	return "•"
+
+func _feed_color(category: String) -> Color:
+	match category:
+		"danger": return Color("#E05252")
+		"caravan": return Color("#39D353")
+		"person": return Color("#D9822B")
+		"player": return Color("#58A6FF")
+		"trade": return Color("#C9A227")
+	return Color("#96938B")
+
+
+# ==============================================================================
+# PLACE VOCABULARY
+# ==============================================================================
+# Plain words the player already understands. Internal status codes such as
+# STABLE / HIGH_RISK stay inside the simulation where they belong.
+func _supply_word(status: String) -> String:
+	match status:
+		"STABLE": return "穩定"
+		"LOW": return "偏低"
+		"CRITICAL": return "吃緊"
+	return "未知"
+
+func _security_word(security: float) -> String:
+	if security >= 80.0:
+		return "良好"
+	if security >= 55.0:
+		return "尚可"
+	if security >= 30.0:
+		return "不安"
+	return "動盪"
+
+func _settlement_flavour(settlement_id: String) -> String:
+	match settlement_id:
+		"settlement:gray_valley": return "工業聚落 · 西部荒谷"
+		"settlement:dry_well": return "水井小鎮 · 南方乾原"
+		"settlement:new_hope": return "農業聚落 · 東部綠帶"
+	return "荒土聚落"
 
 func _get_settlement_name(settlement_id: String) -> String:
 	match settlement_id:
@@ -736,10 +792,24 @@ func _build_ui_layout_if_needed() -> void:
 	s_header_box.add_child(status_badge)
 
 	# Warning Banner
+	# Subtitle: what kind of place this is, before any number appears.
+	lbl_settlement_subtitle = Label.new()
+	lbl_settlement_subtitle.text = "工業聚落 · 西部荒谷"
+	lbl_settlement_subtitle.add_theme_color_override("font_color", Color("#96938B"))
+	lbl_settlement_subtitle.add_theme_font_size_override("font_size", 11)
+	s_vbox.add_child(lbl_settlement_subtitle)
+
 	lbl_warning_banner = Label.new()
 	lbl_warning_banner.visible = false
 	lbl_warning_banner.add_theme_font_size_override("font_size", 12)
 	s_vbox.add_child(lbl_warning_banner)
+
+	# Plain-language condition lines answer "how is it here?" before the meters
+	# answer "exactly how much is in the warehouse?".
+	lbl_settlement_condition = Label.new()
+	lbl_settlement_condition.add_theme_color_override("font_color", Color("#D8D3C8"))
+	lbl_settlement_condition.add_theme_font_size_override("font_size", 12)
+	s_vbox.add_child(lbl_settlement_condition)
 
 	# Stock Meters
 	meters_container = HBoxContainer.new()
@@ -794,10 +864,10 @@ func _build_ui_layout_if_needed() -> void:
 	market_panel.add_child(_create_window_header("交易市場 MARKETPLACE", "🛒"))
 
 	var commodities_spec := [
-		{"key": "water", "icon": "💧", "name": "水 WATER"},
-		{"key": "food", "icon": "🍴", "name": "食物 FOOD"},
-		{"key": "scrap", "icon": "⚙", "name": "廢料 SCRAP"},
-		{"key": "fuel", "icon": "⛽", "name": "燃料 FUEL"}
+		{"key": "water", "icon": "💧", "name": "水"},
+		{"key": "food", "icon": "🍴", "name": "食物"},
+		{"key": "scrap", "icon": "⚙", "name": "廢料"},
+		{"key": "fuel", "icon": "⛽", "name": "燃料"}
 	]
 
 	for c in commodities_spec:
@@ -834,13 +904,13 @@ func _build_ui_layout_if_needed() -> void:
 	chips_hbox.size_flags_vertical = SIZE_EXPAND_FILL
 	res_vbox.add_child(chips_hbox)
 
-	chip_water = ResourceChip.new("💧", "水 WATER", 0)
+	chip_water = ResourceChip.new("💧", "水", 0)
 	chips_hbox.add_child(chip_water)
-	chip_food = ResourceChip.new("🍴", "食物 FOOD", 0)
+	chip_food = ResourceChip.new("🍴", "食物", 0)
 	chips_hbox.add_child(chip_food)
-	chip_scrap = ResourceChip.new("⚙", "廢料 SCRAP", 0)
+	chip_scrap = ResourceChip.new("⚙", "廢料", 0)
 	chips_hbox.add_child(chip_scrap)
-	chip_fuel = ResourceChip.new("⛽", "燃料 FUEL", 0)
+	chip_fuel = ResourceChip.new("⛽", "燃料", 0)
 	chips_hbox.add_child(chip_fuel)
 
 	# Backpack Capacity Meter Row
@@ -879,7 +949,7 @@ func _build_ui_layout_if_needed() -> void:
 	feed_vbox.add_theme_constant_override("separation", 4)
 	feed_panel.add_child(feed_vbox)
 
-	feed_vbox.add_child(_create_window_header("荒土電台 / 行動紀錄 [DEBUG]", "📻"))
+	feed_vbox.add_child(_create_window_header("荒土電台 WASTELAND RADIO", "📻"))
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = SIZE_EXPAND_FILL

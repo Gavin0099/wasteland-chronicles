@@ -246,24 +246,49 @@ func _draw_in_transit_player(font: Font, origin_id: String, destination_id: Stri
 
 	var total_days: float = float(player_info.get("total_route_days", 3))
 	var days_rem: float = float(player_info.get("days_remaining", 1))
-	var current_step := int(round(total_days - days_rem + 1.0))
 	var progress := clampf(1.0 - (days_rem / maxf(total_days, 1.0)), 0.18, 0.82)
 
 	var marker_pos := p_from.lerp(p_to, progress)
 
-	# Cyan Vehicle Wedge Marker
+	# The marker itself should say where you are going, so the map does not need
+	# a second panel to explain the journey. Travelled road is drawn solid,
+	# remaining road dim, and the wedge points at the destination.
+	var heading := (p_to - p_from).normalized()
+	if heading == Vector2.ZERO:
+		heading = Vector2.RIGHT
+	var side := Vector2(-heading.y, heading.x)
+
+	draw_line(p_from, marker_pos, Color("#58A6FF"), 2.5)
+	draw_line(marker_pos, p_to, Color(0.35, 0.40, 0.52, 0.55), 1.5)
+
+	# Arrowhead oriented along the direction of travel.
 	var pts := PackedVector2Array([
-		marker_pos + Vector2(0, -7),
-		marker_pos + Vector2(7, 5),
-		marker_pos + Vector2(-7, 5)
+		marker_pos + heading * 9.0,
+		marker_pos - heading * 5.0 + side * 6.0,
+		marker_pos - heading * 5.0 - side * 6.0
 	])
 	draw_colored_polygon(pts, Color("#58A6FF"))
 	draw_polyline(pts, Color("#F0ECE1"), 1.5)
 
-	# Neat Player Progress Badge
-	var label_str := "你 (第 %d/%d 天)" % [current_step, int(total_days)]
-	var l_size := font.get_string_size(label_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
-	var badge_rect := Rect2(marker_pos.x - (l_size.x * 0.5) - 6, marker_pos.y - 25, l_size.x + 12, 17)
+	# Two short lines: who this is, and how much road is left.
+	var days_left := maxi(int(round(days_rem)), 0)
+	var where_to := _short_name(destination_id)
+	var line_a := "你"
+	var line_b := ("前往%s · 剩餘 %d 天" % [where_to, days_left]) if days_left > 0 else ("前往%s · 今日抵達" % where_to)
+	var size_a := font.get_string_size(line_a, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+	var size_b := font.get_string_size(line_b, HORIZONTAL_ALIGNMENT_CENTER, -1, 9)
+	var box_w: float = maxf(size_a.x, size_b.x) + 14.0
+	var badge_rect := Rect2(marker_pos.x - (box_w * 0.5), marker_pos.y - 42.0, box_w, 30.0)
 	draw_rect(badge_rect, Color(0.06, 0.10, 0.16, 0.95))
 	draw_rect(badge_rect, Color("#58A6FF"), false, 1.0)
-	draw_string(font, Vector2(marker_pos.x - (l_size.x * 0.5), marker_pos.y - 12), label_str, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#58A6FF"))
+	draw_string(font, Vector2(marker_pos.x - (size_a.x * 0.5), marker_pos.y - 31.0),
+		line_a, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#F0ECE1"))
+	draw_string(font, Vector2(marker_pos.x - (size_b.x * 0.5), marker_pos.y - 19.0),
+		line_b, HORIZONTAL_ALIGNMENT_CENTER, -1, 9, Color("#58A6FF"))
+
+func _short_name(settlement_id: String) -> String:
+	match settlement_id:
+		"settlement:gray_valley": return "灰谷"
+		"settlement:dry_well": return "乾井"
+		"settlement:new_hope": return "新希望"
+	return settlement_id.replace("settlement:", "").replace("_", " ").capitalize()

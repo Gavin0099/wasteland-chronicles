@@ -225,54 +225,98 @@ static func _project_recent_events(world: WorldState, max_count: int) -> Array[D
 
 	for i in range(total_events - 1, start_idx - 1, -1):
 		var evt: EventRecord = world.event_log[i]
+		var narrated := _narrate_event(evt)
+		if narrated.is_empty():
+			continue
 		result.append({
 			"day": evt.day,
-			"type": evt.type,
-			"summary": _format_event_summary(evt)
+			"text": narrated["text"],
+			"category": narrated["category"],
 		})
 	return result
 
-static func _format_event_summary(evt: EventRecord) -> String:
+# ==============================================================================
+# EVENT FEED NARRATION
+# ==============================================================================
+# The feed is the radio, not a log viewer. Every line is finished prose in the
+# player's language, and NO internal identifier (settlement:gray_valley,
+# CARAVAN_LOADED, npc:00000001) may ever reach the screen. Unknown event types
+# are dropped rather than printed raw, because a leaked type name breaks the
+# fiction harder than a missing line does.
+#
+# This stays a deterministic formatter: same event, same sentence, every time.
+# No LLM involved.
+static func _settlement_name(raw_id: String) -> String:
+	match raw_id:
+		"settlement:gray_valley": return "灰谷"
+		"settlement:dry_well": return "乾井"
+		"settlement:new_hope": return "新希望"
+	if raw_id.begins_with("settlement:"):
+		return raw_id.replace("settlement:", "").replace("_", " ").capitalize()
+	return raw_id
+
+# Returns {"text": String, "category": String} or an empty dict to omit.
+static func _narrate_event(evt: EventRecord) -> Dictionary:
+	var here := _settlement_name(String(evt.target_id))
+	var actor_place := _settlement_name(String(evt.actor_id))
+	var payload: Dictionary = evt.payload
+
 	match evt.type:
 		"PLAYER_MATERIALIZED":
-			return "Player '%s' materialized at %s" % [
-				evt.payload.get("name", "Drifter"),
-				String(evt.target_id).replace("settlement:", "")
-			]
+			return {"text": "你在%s落腳，廢土旅程就此開始。" % here, "category": "player"}
 		"PLAYER_TRAVEL_STARTED":
-			return "Player departed towards %s (ETA %d days)" % [
-				String(evt.target_id).replace("settlement:", ""),
-				evt.payload.get("route_days", 3)
-			]
-		"CARAVAN_ARRIVED":
-			return "Caravan arrived at %s" % String(evt.target_id).replace("settlement:", "")
-		"CARAVAN_LOADED":
-			return "Caravan departed %s for %s" % [
-				String(evt.target_id).replace("settlement:", ""),
-				evt.payload.get("destination", "").replace("settlement:", "")
-			]
-		"REFUGEE_ARRIVED":
-			return "%d refugees arrived at %s" % [
-				evt.payload.get("headcount", 1),
-				String(evt.target_id).replace("settlement:", "")
-			]
-		"REFUGEE_DEPARTED":
-			return "%d refugees fled towards %s" % [
-				evt.payload.get("headcount", 1),
-				String(evt.target_id).replace("settlement:", "")
-			]
-		"MORTALITY_EVENT":
-			return "%d deaths recorded at %s" % [
-				evt.payload.get("deaths", 0),
-				String(evt.target_id).replace("settlement:", "")
-			]
+			return {"text": "你動身前往%s，路程約 %d 天。" % [here, int(payload.get("route_days", 3))], "category": "player"}
+		"PLAYER_WAIT":
+			return {"text": "你在%s歇了一天。" % here, "category": "player"}
 		"TRADE_COMPLETED":
-			return "Player %s %d %s for %d caps at %s" % [
-				evt.payload.get("action", "TRADE"),
-				evt.payload.get("quantity", 0),
-				evt.payload.get("commodity", ""),
-				evt.payload.get("total_amount", 0),
-				String(evt.target_id).replace("settlement:", "")
-			]
-		_:
-			return "%s at %s" % [evt.type, String(evt.target_id).replace("settlement:", "")]
+			var goods := _commodity_name(String(payload.get("commodity", "")))
+			var qty := int(payload.get("quantity", 0))
+			var caps := int(payload.get("total_amount", 0))
+			if String(payload.get("action", "")).to_upper() == "BUY":
+				return {"text": "你在%s買下 %d 份%s，付了 %d 瓶蓋。" % [here, qty, goods, caps], "category": "trade"}
+			return {"text": "你在%s賣出 %d 份%s，進帳 %d 瓶蓋。" % [here, qty, goods, caps], "category": "trade"}
+
+		"CARAVAN_LOADED":
+			var dest := _settlement_name(String(payload.get("destination", "")))
+			return {"text": "一支商隊在%s裝載完畢，啟程前往%s。" % [here, dest], "category": "caravan"}
+		"CARAVAN_ARRIVED":
+			return {"text": "商隊抵達%s，物資卸入倉庫。" % here, "category": "caravan"}
+		"CARAVAN_DESTROYED":
+			return {"text": "前往%s的商隊在路上失聯了。" % here, "category": "danger"}
+		"CARAVAN_RESTORED":
+			return {"text": "往返%s的商路重新通行。" % here, "category": "caravan"}
+		"TRANSIT_PREDATION":
+			return {"text": "通往%s的路上遭到劫掠，部分貨物不見了。" % here, "category": "danger"}
+
+		"REFUGEES_DEPARTED":
+			var from_place := _settlement_name(String(payload.get("origin", "")))
+			return {"text": "%d 人受不了%s的日子，收拾行囊離開。" % [int(payload.get("headcount", 1)), from_place], "category": "people"}
+		"REFUGEES_ARRIVED":
+			return {"text": "%d 名難民抵達%s，暫時有了落腳處。" % [int(payload.get("headcount", 1)), here], "category": "people"}
+		"SETTLEMENT_MORTALITY":
+			return {"text": "%s傳來死訊，%d 人沒能撐過來。" % [here, int(payload.get("deaths", 0))], "category": "danger"}
+		"DISORDER_LOSS":
+			return {"text": "%s治安敗壞，倉庫裡的東西正在流失。" % here, "category": "danger"}
+
+		"NAMED_NPC_MIGRATION_STARTED":
+			return {"text": "%s決定離開%s，動身前往%s。" % [
+				_person_name(payload), actor_place, here], "category": "person"}
+		"NAMED_MIGRATION_COMPLETED":
+			return {"text": "%s平安抵達%s。" % [_person_name(payload), here], "category": "person"}
+		"NAMED_NPC_DIED":
+			return {"text": "%s死在了%s。" % [_person_name(payload), here], "category": "danger"}
+
+	# Unknown type: stay silent rather than leak an internal name.
+	return {}
+
+static func _person_name(payload: Dictionary) -> String:
+	var n := String(payload.get("name", ""))
+	return n if n != "" else "一名居民"
+
+static func _commodity_name(key: String) -> String:
+	match key:
+		"water": return "水"
+		"food": return "食物"
+		"scrap": return "廢料"
+		"fuel": return "燃料"
+	return key
