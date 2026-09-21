@@ -1,8 +1,15 @@
 # S5-C2 Trait & Skill Encounters — 實作紀錄（本機，未驗證）
 
-> 狀態：**IMPLEMENTED LOCALLY 🟡 / PLAYER EXPERIENCE NOT YET VERIFIED**（Owner 定調）。
-> 本輪刻意不補 36 套測試，先確認「玩起來是不是真的不一樣」。本文件不宣稱任何 gate
-> 通過，也不宣稱 C2 CLOSED。已執行的檢查只有最後一節列出的兩項。
+> 狀態（Owner 把 closure 切成兩半）：
+>
+> ```
+> C2-A Authority / Safety   → VERIFIED ✅（A1~A8 全綠，37 套測試 exit 0）
+> C2-B Player Experience    → NOT VERIFIED 🟡（等四 Background + Trait A/B 手玩）
+> S5-C2                     → 仍然 NOT CLOSED，兩半都過才算
+> ```
+>
+> 這樣切的理由：測試全綠**不代表**角色差異好玩。C2-A 證明的是邊界安全，C2-B 才是
+> 這一刀真正要驗的東西，而它只有人玩得出來。
 
 ## 這一刀要解決什麼
 
@@ -138,18 +145,96 @@ hash-derived deterministic outcome，但從玩家角度仍然是不可預知的�
   沒有戰鬥、傷勢、派系、聲望；`TAKE_PACK` 不會在人口帳上殺死任何人。
 - 沒有 XP、Level、Perk、裝備。使用技能不會讓技能成長，那是 C3。
 
-## 已做的檢查（不是驗收）
+## C2-A Authority / Safety —— 已驗證
 
-1. `godot --headless --check-only --script <file>`，五個改動檔全部零錯誤：
-   `simulation/travel_encounter.gd`、`simulation/capability_profile.gd`、
-   `simulation/simulation_engine.gd`、`ui/player_ui_projection.gd`、
-   `ui/playable_shell.gd`。
-2. 一支臨時 headless 探針以四個 Background 的能力表列舉 unlocked / locked / hidden，
-   輸出即上表分布；確認沒有死內容、沒有 clause 驗證錯誤、每個 Background 的 locked
-   清單都非空（也就是每個角色都看得到「以後可以練起來」的東西）。探針已刪除。
+`tests/test_s5_c2_authorization.gd`，八個 gate 全綠。這一套刻意只鎖**不會因為手玩結論
+而改變**的規則：不管之後 `HYDRATE` / `STRIP_PARTS` 要不要改、要不要加 Speech 選項、
+哪些 hidden 要改成 disabled，下面這條都不動——
 
-**尚未做**：既有 36 套測試未重跑、沒有新測試、沒有重播 SHA、沒有存檔往返驗證，
-**也還沒有實際進遊戲點過這些按鈕**。在這些完成之前，C2 不得標記為 CLOSED。
+```
+UI 顯示選項  ≠  玩家有權執行
+```
+
+| Gate | 鎖住什麼 |
+| --- | --- |
+| A1 | 沒解鎖的做法一律拒絕——**隱藏的和反白的走同一條拒絕路徑**，隱藏不是防護 |
+| A2 | 投影之後才被換掉的 capability、被竄改的存檔、完全沒有 profile → 全部 fail closed；同時確認沒有 profile 時普通選項仍可用，不會把玩家鎖死在無法回答的路上 |
+| A3 | 一次遭遇一次結算一張收據，收據只能被消費一次；重複 resolve、錯的收據索引、已消費的收據全部拒絕且不寫第二筆帳 |
+| A4 | 不屬於這個遭遇的選項（含 C2 新選項與憑空捏造的 ID）以 `INVALID_OPTION` 拒絕，**在 capability 檢查之前** |
+| A5 | 八個被條件擋下的做法 → 世界 SHA-256 逐字節不變 |
+| A6 | 條件過了但資源不夠（瓶蓋 3 殺價、沒水補水）→ 以 `INSUFFICIENT_*` 拒絕，SHA-256 不變 |
+| A7 | 4 Background × 5 遭遇 = 20 組存讀往返：hash 相同、投影的選項清單（含 locked 旗標）相同、**每個選項的授權判定字串也相同** |
+| A8 | 同世界同遭遇不同 build → 合法選項集合不同、結算結果不同；同一個 build 跑兩次 → 世界完全相同（零 RNG）。replay SHA-256 `48efa70f…685d8d` |
+
+**回歸**：`tests/*.gd` 共 37 套（既有 36 + 新的 C2-A）全部 exit 0，沒有 SCRIPT ERROR。
+另外五個改動檔 `--check-only` 零錯誤。
+
+## C2-B Player Experience —— 尚未驗證
+
+**還沒有人實際進遊戲點過這些按鈕。** 客觀欄位已經用 `tools/c2_build_comparison.gd`
+先填好（見下一節），但以下三題只有手玩能回答，在那之前 C2 不得標記為 CLOSED。
+
+## 實玩前的客觀觀測（`tools/c2_build_comparison.gd`）
+
+無法手玩時能先做完的，是這張表的**客觀欄位**：同一個世界、同一條路、同一天、同一個
+遭遇，四個 Background 各自看到什麼、按下去實際發生什麼。工具讀的是目錄、投影與引擎
+本身，不是另一套抄寫的規則；它**回答不了**第三欄（看到灰選項會不會想練），那是手感。
+
+### 風險 1：FARMER 過度豐富 —— 成立，但真正的問題不是農夫
+
+單一遭遇裡沒有人「什麼都有」：任何 build 在任何一個遭遇最多就是 3 個可選項。差異是
+**攤在五個遭遇上**的——農夫在 5 個遭遇中有 4 個多出一條路，守衛只有 1 個，而且那一個
+（`HYDRATE`）農夫與搜刮者也有。
+
+也就是說：**守衛目前沒有任何一條別人沒有的路。**
+
+原因量得出來，是內容缺口不是數值問題——十個技能裡有五個在世界上**沒有舞台**：
+
+```
+BARTER       使用 2 次        MEDICINE     — 沒有舞台
+SURVIVAL     使用 2 次        SPEECH       — 沒有舞台
+MECHANICS    使用 1 次        FIREARMS     — 沒有舞台
+SCAVENGING   使用 1 次        MELEE        — 沒有舞台
+STEALTH      使用 1 次        ELECTRONICS  — 沒有舞台
+```
+
+守衛的三項是 FIREARMS 2 / MELEE 1 / SURVIVAL 1，其中兩項落在「沒有舞台」那一欄。
+這不該用硬塞守衛選項來補，而是 encounter library 目前偏食 SURVIVAL/BARTER 的診斷結果。
+
+### 風險 2：灰按鈕會不會變成 UI 垃圾 —— 目前量到的上限是 2
+
+```
+單一遭遇內最多灰選項：2（ROADBLOCK，守衛與機械師）
+五個遭遇合計：守衛 4、機械師 4、搜刮者 3、農夫 2
+```
+
+擔心的「一次出現 4～5 個灰按鈕」沒有發生。剩下的問題（是誘惑還是雜訊）只能靠玩。
+
+### 風險 3：質變還是只剩效率差 —— 兩個做法確實只是效率差
+
+實際跑過引擎的結果：
+
+| 做法 | 對照 | 性質 |
+| --- | --- | --- |
+| `SLIP_PAST` 水1食1、天+1 | `PAY` 瓶蓋 10 | **質變**：用時間付錢 |
+| `SCOUT_PATH` 零成本 | `CLEAR` 廢料1 ／ `DETOUR` 天+1 | **質變**：別人要付的它不用付 |
+| `QUICK_PICK` 天+0 | `SEARCH` 天+1 | **質變**：買的是那一天 |
+| `FORCE_THROUGH` 固定掉 1 件 | `CLEAR` 需要廢料 | **質變**：身上沒廢料時仍然有路 |
+| `TAKE_PACK` 零成本拿 scrap 2 | `GIVE_WATER` 水1 換 scrap 1 | 質變（道德），但**沒有代價** |
+| `HAGGLE` 瓶蓋 4 | `PAY` 瓶蓋 10 | **只是比較便宜** |
+| `HYDRATE` 水1→scrap 2 | `GIVE_WATER` 水1→scrap 1 | **同樣代價、比較好的產出**＝最接近 `+loot` |
+| `STRIP_PARTS` 天+1→scrap3+fuel1 | `SEARCH` 天+1→scrap4 | 同樣代價、不同產出分布；**偏效率差** |
+
+`HYDRATE` 與 `STRIP_PARTS` 是目前最弱的兩個——它們沒有改變「你能怎麼做」，只改變
+「你拿到多少」。這正是 Owner 指出的失敗模式，先記著，實玩時特別看這兩個。
+
+### Trait debt：`GREEDY` 現在是純 bonus
+
+`TAKE_PACK` 零代價拿到 scrap 2，等於 `HYDRATE` 的產出卻不用付那份水，也優於
+`GIVE_WATER`。目前沒有任何 consequence 或 tradeoff——旅人不是 population 成員，所以
+世界帳上不會發生任何事。**這是已記錄的 debt**：Trait 若只帶來好處，就會退化成 bonus，
+而不是「你是哪種人」。需要世界有能力承載後果（S6 或 relationship/reputation authority）
+才能真正修。
 
 ## 實玩要回答的三件事
 
@@ -162,6 +247,10 @@ hash-derived deterministic outcome，但從玩家角度仍然是不可預知的�
 
 ## 之後要接的
 
+- **技能舞台缺口表**：哪些能力世界根本沒有舞台、哪些現在就能掛，見
+  [`docs/c2-skill-stage-gap.md`](c2-skill-stage-gap.md)。結論：SPEECH 是唯一一個
+  不需要新 subsystem、現在就能掛的（ROADBLOCK），FIREARMS / MELEE / MEDICINE /
+  ELECTRONICS 都必須等新的世界事實或新的子系統。**不為了讓表好看而填。**
 - **FIREARMS 的回歸點**：C5 Equipment 有真正的 firearm item 之後，或是 encounter
   context 真的帶有可觀察的武器事實之後。守衛的單薄是這個缺口的直接後果。
 - **C3 技能成長**：這些做法是「相關使用」最自然的證據來源。receipt 目前**沒有**記錄
