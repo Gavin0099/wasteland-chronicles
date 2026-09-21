@@ -85,6 +85,18 @@ func get_skill_rank(skill_id: Variant) -> Dictionary:
 func meets_skill_requirement(skill_id: Variant, rank: Variant) -> Dictionary:
 	return meets_requirements({"all": [{"kind": "skill", "skill_id": skill_id, "min_rank": rank}]})
 
+func has_trait(trait_id: Variant) -> Dictionary:
+	var error := validate(_data)
+	if error != "":
+		return {"success": false, "error": error}
+	if typeof(trait_id) != TYPE_STRING or trait_id not in CORE_TRAITS:
+		return {"success": false, "error": "UNKNOWN_CORE_TRAIT"}
+	return {"success": true, "has": trait_id in _data.selected_creation_traits, "error": ""}
+
+# S5-C2 extends the clause vocabulary from skill-only to skill + Core Trait.
+# The skill clause keeps its C1 shape and meaning exactly; trait clauses are a
+# separate kind, so an existing caller cannot change behaviour by accident.
+# A trait is a yes/no fact about who the character is, never a rank.
 func meets_requirements(requirements: Variant) -> Dictionary:
 	var error := validate(_data)
 	if error != "":
@@ -93,10 +105,22 @@ func meets_requirements(requirements: Variant) -> Dictionary:
 		return {"success": false, "met": false, "error": "INVALID_REQUIREMENT_SET"}
 	var met := true
 	for clause in requirements.all:
-		if typeof(clause) != TYPE_DICTIONARY or clause.size() != 3 or clause.get("kind") != "skill" or typeof(clause.get("skill_id")) != TYPE_STRING or clause.skill_id not in SKILLS or typeof(clause.get("min_rank")) != TYPE_INT:
+		if typeof(clause) != TYPE_DICTIONARY:
 			return {"success": false, "met": false, "error": "INVALID_SKILL_REQUIREMENT"}
-		if clause.min_rank < 0 or clause.min_rank > 5:
-			return {"success": false, "met": false, "error": "INVALID_SKILL_THRESHOLD"}
-		if _data.skill_ranks[clause.skill_id] < clause.min_rank:
-			met = false # Continue validation, even if already ineligible.
+		match clause.get("kind"):
+			"skill":
+				if clause.size() != 3 or typeof(clause.get("skill_id")) != TYPE_STRING or clause.skill_id not in SKILLS or typeof(clause.get("min_rank")) != TYPE_INT:
+					return {"success": false, "met": false, "error": "INVALID_SKILL_REQUIREMENT"}
+				if clause.min_rank < 0 or clause.min_rank > 5:
+					return {"success": false, "met": false, "error": "INVALID_SKILL_THRESHOLD"}
+				if _data.skill_ranks[clause.skill_id] < clause.min_rank:
+					met = false # Continue validation, even if already ineligible.
+			"trait_present", "trait_absent":
+				if clause.size() != 2 or typeof(clause.get("trait_id")) != TYPE_STRING or clause.trait_id not in CORE_TRAITS:
+					return {"success": false, "met": false, "error": "INVALID_TRAIT_REQUIREMENT"}
+				var present: bool = clause.trait_id in _data.selected_creation_traits
+				if present != (clause.kind == "trait_present"):
+					met = false
+			_:
+				return {"success": false, "met": false, "error": "INVALID_SKILL_REQUIREMENT"}
 	return {"success": true, "met": met, "error": ""}

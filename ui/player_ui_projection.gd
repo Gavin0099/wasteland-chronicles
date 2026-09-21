@@ -52,13 +52,27 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 		return {}
 
 	var options: Array = []
+	var engine := SimulationEngine.new()
 	for o in TravelEncounter.options(enc.encounter_type):
 		var option_id: StringName = o["id"]
-		var reason := SimulationEngine.new().authorize_encounter_option(world, option_id)
+		var reason := engine.authorize_encounter_option(world, option_id)
+		# S5-C2: an approach this character cannot take is either hidden or shown
+		# locked, depending on WHY. A knowledge gate is hidden, because the
+		# character has no idea the option exists. A capability gate is shown
+		# and disabled with its requirement, because seeing the locked door is
+		# the only way the player ever learns which skill is worth raising -
+		# and coming back later to find it open is the point of the whole
+		# progression. Running out of caps is a third thing entirely: a
+		# temporary shortage, disabled as it always was.
+		var gated: bool = reason.begins_with("CAPABILITY_")
+		if gated and TravelEncounter.option_gate(enc.encounter_type, option_id) != TravelEncounter.GATE_CAPABILITY:
+			continue
 		options.append({
 			"id": String(option_id),
 			"label": o["label"],
 			"detail": o["detail"],
+			"requirement_label": String(o.get("requirement_label", "")),
+			"locked": gated,
 			"enabled": reason == "",
 			"blocked_reason": reason,
 		})

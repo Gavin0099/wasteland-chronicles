@@ -1080,7 +1080,22 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 
 	for option in enc.get("options", []):
 		var btn := Button.new()
-		btn.text = "%s　—　%s" % [String(option.get("label", "")), String(option.get("detail", ""))]
+		# S5-C2: an approach only this character has is marked with the thing
+		# that unlocked it, so "I can do this because I am a mechanic" is
+		# readable on the road rather than inferred afterwards.
+		var requirement := String(option.get("requirement_label", ""))
+		if bool(option.get("locked", false)):
+			# Shown so the player can see what they would need. This is the
+			# "以前做不到，後來做得到" moment waiting to happen.
+			btn.text = "%s　—　需要：%s" % [String(option.get("label", "")), requirement]
+		elif requirement != "":
+			btn.text = "〔%s〕%s　—　%s" % [
+				requirement, String(option.get("label", "")), String(option.get("detail", ""))
+			]
+			btn.add_theme_color_override("font_color", Color("#C9A227"))
+			btn.add_theme_color_override("font_hover_color", Color("#E5BC4A"))
+		else:
+			btn.text = "%s　—　%s" % [String(option.get("label", "")), String(option.get("detail", ""))]
 		btn.custom_minimum_size = Vector2(0, 30)
 		btn.disabled = not bool(option.get("enabled", true))
 		if btn.disabled:
@@ -1105,6 +1120,15 @@ func _render_encounter_result(result: Dictionary) -> void:
 		"CLEAR": "你用廢料墊出了通道。", "DETOUR": "你花了一天繞過障礙。",
 		"PAY": "你付了過路費。", "GIVE_WATER": "你交給旅人一份水。",
 		"SHARE_FOOD": "你分給逃難的人群一份食物。",
+		"STRIP_PARTS": "你花了一天，把引擎和傳動上還能用的部件拆了下來。",
+		"QUICK_PICK": "你掃了一眼車廂，把值得帶走的拿了就走，沒有耽誤行程。",
+		"SCOUT_PATH": "你從坡面的走向看出一條路，繞過了崩塌處。",
+		"FORCE_THROUGH": "你直接從土石上翻了過去。",
+		"HAGGLE": "你把過路費談了下來。",
+		"SLIP_PAST": "你等到天黑，從關卡旁邊摸了過去。",
+		"HYDRATE": "你讓他慢慢喝下水，確認他能自己站起來。",
+		"TAKE_PACK": "你拿走了他的背包。他還坐在那裡。",
+		"TRADE_COLUMN": "你用瓶蓋跟他們換了些東西。",
 	}
 	var gains := _resource_lines(result.gained, "+")
 	var losses := _resource_lines(result.spent, "−")

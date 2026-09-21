@@ -1739,6 +1739,24 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		return "INVALID_OPTION: %s is not an option for %s" % [option_id, enc.encounter_type]
 
 	var p: PlayerState = world.player
+
+	# S5-C2: an approach the character cannot take is refused HERE, at the
+	# commit boundary, not merely hidden by the UI. The projection filters the
+	# same catalogue with the same evaluator, so the two agree; but a replayed
+	# intent, an old save or a UI that has drifted still cannot buy an approach
+	# this character does not have.
+	var requirements := TravelEncounter.option_requirements(enc.encounter_type, option_id)
+	if not requirements.is_empty():
+		if p.capability == null:
+			return "CAPABILITY_UNAVAILABLE: %s requires a capability profile" % option_id
+		var check: Dictionary = p.capability.meets_requirements(requirements)
+		if not check.success:
+			return "CAPABILITY_CHECK_FAILED: %s" % check.error
+		if not check.met:
+			return "CAPABILITY_NOT_MET: %s requires %s" % [
+				option_id, TravelEncounter.option_requirement_label(enc.encounter_type, option_id)
+			]
+
 	match option_id:
 		&"CLEAR":
 			if p.inventory.get_amount("scrap") < 1:
@@ -1746,12 +1764,21 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		&"PAY":
 			if p.money < ROADBLOCK_TOLL_CAPS:
 				return "INSUFFICIENT_FUNDS: the toll is %d caps" % ROADBLOCK_TOLL_CAPS
+		&"HAGGLE":
+			if p.money < TravelEncounter.HAGGLED_TOLL_CAPS:
+				return "INSUFFICIENT_FUNDS: even the haggled toll is %d caps" % TravelEncounter.HAGGLED_TOLL_CAPS
 		&"GIVE_WATER":
+			if p.inventory.get_amount("water") < 1:
+				return "INSUFFICIENT_WATER: you have none to give"
+		&"HYDRATE":
 			if p.inventory.get_amount("water") < 1:
 				return "INSUFFICIENT_WATER: you have none to give"
 		&"SHARE_FOOD":
 			if p.inventory.get_amount("food") < 1:
 				return "INSUFFICIENT_FOOD: you have nothing to share"
+		&"TRADE_COLUMN":
+			if p.money < TravelEncounter.COLUMN_TRADE_CAPS:
+				return "INSUFFICIENT_FUNDS: they want %d caps" % TravelEncounter.COLUMN_TRADE_CAPS
 	return ""
 
 # Apply the choice and its time cost atomically, then wait for receipt confirmation.
@@ -1800,6 +1827,47 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"LEAVE":
 			pass
 
+		# ── S5-C2 capability approaches ──────────────────────────────────────
+		# Each one is the same road answered by a different person. They move
+		# existing resources and existing days only; none of them creates a
+		# world fact the simulation could not already state.
+		&"STRIP_PARTS":
+			offered = TravelEncounter.strip_parts_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			extra_day = true
+		&"QUICK_PICK":
+			# The capability bought is the DAY, not the loot: no tick happens.
+			offered = TravelEncounter.quick_pick_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+		&"SCOUT_PATH":
+			pass
+		&"FORCE_THROUGH":
+			# Stated before the choice and taken from what is actually in the
+			# pack, so the receipt can never claim you dropped something you
+			# never carried. Carrying nothing costs nothing.
+			for commodity in TravelEncounter.FORCE_THROUGH_LOSS_PRIORITY:
+				if p.inventory.get_amount(commodity) >= 1:
+					_take_from_player(p, {commodity: 1})
+					break
+		&"HAGGLE":
+			p.money -= TravelEncounter.HAGGLED_TOLL_CAPS
+			spent["caps"] = TravelEncounter.HAGGLED_TOLL_CAPS
+		&"SLIP_PAST":
+			extra_day = true
+		&"HYDRATE":
+			p.inventory.add_amount("water", -1)
+			spent["water"] = 1
+			offered = TravelEncounter.hydrate_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+		&"TAKE_PACK":
+			offered = TravelEncounter.take_pack_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+		&"TRADE_COLUMN":
+			p.money -= TravelEncounter.COLUMN_TRADE_CAPS
+			spent["caps"] = TravelEncounter.COLUMN_TRADE_CAPS
+			offered = TravelEncounter.column_trade_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+
 	gained = _give_player_goods(p, offered)
 	var left_behind := {}
 	for commodity in offered:
@@ -1843,6 +1911,18 @@ func _continue_after_encounter(world: WorldState) -> Dictionary:
 			result["arrived"] = ls.status == NpcLifeState.Status.SETTLED
 	result.merge({"success": true, "action": "CONTINUE_JOURNEY", "current_day": world.current_day})
 	return result
+
+# Take goods off the player, limited by what is actually in the pack. Returns
+# what was really taken; the end-of-commit inventory comparison then reports it
+# as spent, so there is only one place that decides what a loss looks like.
+func _take_from_player(p: PlayerState, goods: Dictionary) -> Dictionary:
+	var taken: Dictionary = {}
+	for key in goods:
+		var actual: int = clampi(int(goods[key]), 0, p.inventory.get_amount(String(key)))
+		if actual > 0:
+			p.inventory.add_amount(String(key), -actual)
+			taken[key] = actual
+	return taken
 
 # Hand goods to the player, limited by what the backpack can hold. Returns what
 # was actually received.
