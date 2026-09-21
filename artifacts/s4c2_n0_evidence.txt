@@ -3,10 +3,10 @@
 ================================================================================
 
 ## STEP 1 — Baseline: is save/load already a divergence event?
-  Day 50 live   canonical SHA: b43e10e84a55421368ef184942a668fb2c70eeef9778c1f382122793d168d7c9
-  Day 50 loaded canonical SHA: 5ad9d3eac34b30be176bbd9aff0a1e8034af71468150a50d6eb1ed293a7aba00
-  Snapshot fixed point at Day 50: NO
-  Continuation Day 50 -> 100: FIRST DIVERGENCE at Day 51
+  Day 50 live   canonical SHA: e96e4b7424e152e3e12d0ca57e912c7ecda1735e1caf7688f784ff20ad7157e0
+  Day 50 loaded canonical SHA: e96e4b7424e152e3e12d0ca57e912c7ecda1735e1caf7688f784ff20ad7157e0
+  Snapshot fixed point at Day 50: YES
+  Continuation Day 50 -> 100: NO DIVERGENCE detected
 
 ## STEP 2 — Per-field runtime values and JSON round-trip behavior
 
@@ -39,13 +39,13 @@
   [settlement:gray_valley]
     live   : (empty)
   [settlement:dry_well]
-    scrap    live=31 (int) | json=31.0 (float) | loaded=31.0 (float)   <-- TYPE CHANGED
-    fuel     live=49 (int) | json=49.0 (float) | loaded=49.0 (float)   <-- TYPE CHANGED
+    scrap    live=31 (int) | json=31.0 (float) | loaded=31 (int)
+    fuel     live=49 (int) | json=49.0 (float) | loaded=49 (int)
 
 ### last_need_outcomes
   [settlement:new_hope]
     water    live={"fulfilled":8,"requested":8,"stock_after":138,"stock_before":146,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
-    food     live={"fulfilled":5,"requested":5,"stock_after":96,"stock_before":101,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
+    food     live={"fulfilled":5,"requested":5,"stock_after":99,"stock_before":104,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
   [settlement:gray_valley]
     water    live={"fulfilled":5,"requested":5,"stock_after":37,"stock_before":42,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
     food     live={"fulfilled":4,"requested":4,"stock_after":60,"stock_before":64,"unmet":0} (Dictionary) | json=- (nil) | loaded=- (nil)   <-- TYPE CHANGED
@@ -66,33 +66,24 @@
 ## STEP 4 — Causation probe (apply ONLY this field's round-trip delta)
   Method: at Day 60, copy the round-tripped value of a single field back into
   an otherwise-live world, run to Day 90, and compare with the untouched world.
-  production_credits         delta applied=yes -> Day 90 IDENTICAL  (round-trip delta is harmless)
-  disorder_loss_credits      delta applied=yes -> Day 90 IDENTICAL  (round-trip delta is harmless)
-  cumulative_disorder_loss   delta applied=yes -> Day 90 DIVERGED   (round-trip delta changes the future)
+  production_credits         delta applied=no-op (identical values) -> Day 90 IDENTICAL  (round-trip delta is harmless)
+  disorder_loss_credits      delta applied=no-op (identical values) -> Day 90 IDENTICAL  (round-trip delta is harmless)
+  cumulative_disorder_loss   delta applied=no-op (identical values) -> Day 90 IDENTICAL  (round-trip delta is harmless)
   last_need_outcomes         delta applied=yes -> Day 90 IDENTICAL  (round-trip delta is harmless)
 
 ## STEP 5 — Residual whole-snapshot differences (all fields, not just the four)
-  line 6217:
-    A: "fuel": 64,
-    B: "fuel": 64.0,
-  line 6218:
-    A: "scrap": 99
-    B: "scrap": 99.0
-  TOTAL differing lines: 2 (of 6375)
-  Differing keys by frequency:
-    "fuel"                         x1
-    "scrap"                        x1
+  TOTAL differing lines: 0 (of 15322)
 
 ## STEP 6 — Is the divergence representational, or a real trajectory split?
   Method: compare Day 100 worlds semantically — numbers compared BY VALUE,
   ignoring int/float representation. Textual difference with semantic equality
   means the world behaved identically and only its spelling changed.
-  Day 100 canonical TEXT identical:      NO
-  Day 100 SEMANTIC (by-value) identical: NO
-  First semantic mismatch at: world.events[118].payload.food_exposure (5.66666666666667 vs 5.67)
-  Day 100 event ledger identical:        NO
-    A = 5a99051a0eb215075a0cc9e116fc507ed1ed1e5e676eecfafe02bbe55273312f
-    B = bf9ec5bf82985913a2a727b0fa028e92d8fac7d4505aa6d09715f71cc0626150
+  Day 100 canonical TEXT identical:      YES
+  Day 100 SEMANTIC (by-value) identical: YES
+  => The simulation trajectory is IDENTICAL. The difference is representational only.
+  Day 100 event ledger identical:        YES
+    A = ea6507da6dfffc4485324d4e4468d8039bebcdffeda400c4fd665a529ac656f9
+    B = ea6507da6dfffc4485324d4e4468d8039bebcdffeda400c4fd665a529ac656f9
 
 ## STEP 6b — Does a loaded world break typed reads in validate_invariants?
   invariants on live world  : PASS
