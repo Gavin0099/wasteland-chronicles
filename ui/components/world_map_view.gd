@@ -57,7 +57,7 @@ var hovered_settlement_id: String = ""
 
 func _init() -> void:
 	mouse_filter = MOUSE_FILTER_STOP
-	custom_minimum_size = Vector2(360, 320)
+	custom_minimum_size = Vector2(360, 260)
 	size_flags_horizontal = SIZE_EXPAND_FILL
 	size_flags_vertical = SIZE_EXPAND_FILL
 	_load_map_texture()

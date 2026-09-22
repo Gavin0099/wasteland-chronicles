@@ -106,6 +106,11 @@ var item_market_trade_buttons: Dictionary = {}
 var field_button: Button
 var btn_wait: Button
 var btn_travel: Button
+var death_banner: PanelContainer
+var lbl_death_title: Label
+var lbl_death_body: Label
+var lbl_action_error: Label
+var lbl_supply_warning: Label
 var event_feed_container: VBoxContainer
 var map_node_buttons: Dictionary = {}
 
@@ -212,6 +217,88 @@ func _render_projection(proj: Dictionary) -> void:
 	# 5. Event Feed
 	_render_event_feed(proj.get("events", []))
 	_render_encounter(proj.get("active_encounter", {}), proj.get("encounter_result", {}))
+	_render_supply_warning(p)
+	_render_death(proj.get("death", {}))
+
+# How close the player is to dying of it, in whole days, using the same grace
+# the engine kills by. Returns -1 when this need is not currently a problem.
+func _days_until_fatal(exposure: float, grace: float) -> int:
+	if exposure <= 0.0:
+		return -1
+	return int(ceil(grace - exposure)) + 1
+
+func _render_supply_warning(p: Dictionary) -> void:
+	if lbl_supply_warning == null:
+		return
+	var bp: Dictionary = p.get("backpack", {})
+	var water := int(bp.get("water", 0))
+	var food := int(bp.get("food", 0))
+	var lines: PackedStringArray = []
+	var critical := false
+
+	var w_left := _days_until_fatal(float(p.get("water_exposure", 0.0)), SimulationEngine.WATER_EXPOSURE_GRACE_DAYS)
+	var f_left := _days_until_fatal(float(p.get("food_exposure", 0.0)), SimulationEngine.FOOD_EXPOSURE_GRACE_DAYS)
+	if w_left >= 0:
+		critical = true
+		lines.append("⚠ 你已經在缺水了。再撐約 %d 天就會脫水而死。" % w_left)
+	if f_left >= 0:
+		critical = true
+		lines.append("⚠ 你已經在挨餓了。再撐約 %d 天就會餓死。" % f_left)
+
+	if not critical:
+		if water <= 2 or food <= 2:
+			lines.append("補給偏低：💧 %d　🍴 %d。路上每天各消耗 1。" % [water, food])
+
+	# Setting out with less water than the road is long is the decision this
+	# warning exists for. Stated before departure, never after.
+	if not p.get("is_in_transit", false) and btn_travel != null and btn_travel.visible and not btn_travel.disabled:
+		var route_days := 0
+		for d in current_projection.get("destinations", []):
+			if String(d.get("id", "")) == selected_settlement_id:
+				route_days = int(d.get("distance_days", 0))
+				break
+		if route_days > 0 and (water < route_days or food < route_days):
+			critical = true
+			lines.append("⚠ 前往%s要 %d 天，你只帶了 💧 %d、🍴 %d。" % [
+				_get_settlement_name(selected_settlement_id), route_days, water, food])
+
+	lbl_supply_warning.visible = lines.size() > 0
+	lbl_supply_warning.text = "
+".join(lines)
+	lbl_supply_warning.add_theme_color_override(
+		"font_color", Color("#E0555B") if critical else Color("#C9A227"))
+
+func _render_death(death: Dictionary) -> void:
+	if death_banner == null:
+		return
+	var dead := not death.is_empty()
+	death_banner.visible = dead
+	if not dead:
+		return
+
+	var causes := {"dehydration": "脫水", "starvation": "飢餓"}
+	var cause := String(causes.get(String(death.get("cause", "")), "荒原"))
+	var place := String(death.get("place", ""))
+	# The receipt names the settlement the death was COUNTED against, which is
+	# not the same as where the player was heading. Saying "on the road" is the
+	# only thing the receipt actually supports.
+	var where := "死在路上" if bool(death.get("in_transit", false)) else ("在%s" % place if place != "" else "")
+	lbl_death_title.text = "旅程結束 — %s死於%s" % [
+		current_projection.get("player", {}).get("name", "旅人"), cause]
+	lbl_death_body.text = "%s，第 %d 天。你走了 %d 天。
+這個角色不能再行動了；要繼續就得重新建立一個人。" % [
+		where, int(death.get("day", 0)), int(death.get("days_survived", 0))]
+	if bool(death.get("in_transit", false)) and place != "":
+		lbl_death_body.text += "
+（這次死亡計入%s）" % place
+
+	# Nothing on the map is actionable any more. Leaving the controls lit is
+	# what made death read as a freeze.
+	for b in [btn_wait, btn_travel, field_button]:
+		if b != null:
+			b.disabled = true
+	if lbl_supply_warning != null:
+		lbl_supply_warning.visible = false
 
 func _render_settlement_panel(proj: Dictionary) -> void:
 	if lbl_settlement_title == null or lbl_settlement_details == null:
@@ -613,29 +700,54 @@ func select_settlement(settlement_id: String) -> void:
 	if current_projection.size() > 0:
 		_render_settlement_panel(current_projection)
 
+# Every refusal the engine issues has to reach the player. The authority still
+# decides; this only stops the screen from pretending nothing was asked.
+func _report_action_result(res: Dictionary) -> Dictionary:
+	if lbl_action_error == null:
+		return res
+	if res.get("success", false):
+		lbl_action_error.visible = false
+		lbl_action_error.text = ""
+		return res
+	lbl_action_error.visible = true
+	lbl_action_error.text = _action_error_text(String(res.get("error", "")))
+	return res
+
+func _action_error_text(raw: String) -> String:
+	var code := raw.split(":")[0]
+	match code:
+		"DECEASED_OR_NO_LIFE_STATE": return "這個角色已經死了，無法再行動。"
+		"ENCOUNTER_PENDING": return "路上的事還沒處理完。"
+		"ENCOUNTER_RESULT_PENDING": return "先確認上一個結算結果。"
+		"ALREADY_AT_DESTINATION": return "你已經在這裡了。"
+		"INVALID_DESTINATION": return "沒有通往那裡的已知路線。"
+	return "動作無法執行：%s" % raw
+
 func on_travel_pressed() -> Dictionary:
 	if world == null or engine == null or world.player == null:
-		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+		return _report_action_result({"success": false, "error": "NO_WORLD_OR_PLAYER"})
 
 	var player_id := world.player.npc_id
 	var intent := PlayerIntent.create_travel(player_id, StringName(selected_settlement_id))
 	var commit_res := engine.commit_player_intent(world, intent)
 
 	if not commit_res.get("success", false):
-		return commit_res
+		refresh_ui()
+		return _report_action_result(commit_res)
 
+	_report_action_result(commit_res)
 	refresh_ui()
 	travel_triggered.emit(selected_settlement_id, true)
 	return commit_res
 
 func on_wait_pressed() -> Dictionary:
 	if world == null or engine == null or world.player == null:
-		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+		return _report_action_result({"success": false, "error": "NO_WORLD_OR_PLAYER"})
 
 	var intent := PlayerIntent.create_wait(world.player.npc_id)
 	var res := engine.commit_player_intent(world, intent)
-	if res.get("success", false):
-		refresh_ui()
+	_report_action_result(res)
+	refresh_ui()
 
 	wait_triggered.emit(res)
 	return res
@@ -721,6 +833,38 @@ func _build_ui_layout_if_needed() -> void:
 	field_button.pressed.connect(_show_field)
 	header.add_child(field_button)
 
+	# The run is over. The engine refuses every intent from a dead player, so
+	# the screen has to say so; before this existed the buttons stayed lit and
+	# the game simply stopped responding.
+	death_banner = PanelContainer.new()
+	death_banner.visible = false
+	var death_style := StyleBoxFlat.new()
+	death_style.bg_color = Color("#2A1416")
+	death_style.border_color = Color("#8B2F33")
+	death_style.set_border_width_all(1)
+	death_style.set_corner_radius_all(2)
+	death_style.content_margin_left = 12
+	death_style.content_margin_right = 12
+	death_style.content_margin_top = 8
+	death_style.content_margin_bottom = 8
+	death_banner.add_theme_stylebox_override("panel", death_style)
+	app_frame.add_child(death_banner)
+
+	var death_vbox := VBoxContainer.new()
+	death_vbox.add_theme_constant_override("separation", 4)
+	death_banner.add_child(death_vbox)
+
+	lbl_death_title = Label.new()
+	lbl_death_title.text = "旅程結束"
+	lbl_death_title.add_theme_color_override("font_color", Color("#E0555B"))
+	lbl_death_title.add_theme_font_size_override("font_size", 18)
+	death_vbox.add_child(lbl_death_title)
+
+	lbl_death_body = Label.new()
+	lbl_death_body.add_theme_color_override("font_color", Color("#D8D3C8"))
+	lbl_death_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	death_vbox.add_child(lbl_death_body)
+
 	# Compatibility labels
 	lbl_day = Label.new()
 	lbl_player_header = Label.new()
@@ -764,11 +908,24 @@ func _build_ui_layout_if_needed() -> void:
 		map_node_buttons[s_id] = btn
 
 	# --- Right: Settlement Info / Transit Itinerary Column ---
+	# The right column stacks a settlement card, an encounter card and a market,
+	# and their combined MINIMUM height was larger than the window: a Godot
+	# VBoxContainer will not shrink a child below its minimum, so the whole
+	# bottom row (supplies, radio, the WAIT button) was pushed off the screen
+	# and the market itself was clipped. Scrolling the column keeps every panel
+	# reachable at any window size instead of silently losing the ones below.
+	var right_scroll := ScrollContainer.new()
+	right_scroll.size_flags_horizontal = SIZE_EXPAND_FILL
+	right_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	right_scroll.size_flags_stretch_ratio = 1.0
+	right_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	center_split.add_child(right_scroll)
+
 	var right_col := VBoxContainer.new()
 	right_col.size_flags_horizontal = SIZE_EXPAND_FILL
-	right_col.size_flags_stretch_ratio = 1.0
+	right_col.size_flags_vertical = SIZE_EXPAND_FILL
 	right_col.add_theme_constant_override("separation", 8)
-	center_split.add_child(right_col)
+	right_scroll.add_child(right_col)
 
 	# ==========================================================================
 	# DEDICATED TRANSIT ITINERARY CARD (Active during travel)
@@ -854,7 +1011,7 @@ func _build_ui_layout_if_needed() -> void:
 
 	# Settlement Banner
 	settlement_banner_rect = TextureRect.new()
-	settlement_banner_rect.custom_minimum_size = Vector2(0, 115)
+	settlement_banner_rect.custom_minimum_size = Vector2(0, 88)
 	settlement_banner_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	var banner_global := ProjectSettings.globalize_path("res://ui/assets/gray_valley_banner.jpg")
 	if FileAccess.file_exists(banner_global):
@@ -1040,7 +1197,7 @@ func _build_ui_layout_if_needed() -> void:
 	market_panel.add_child(item_market_toggle)
 
 	item_market_scroll = ScrollContainer.new()
-	item_market_scroll.custom_minimum_size = Vector2(0, 220)
+	item_market_scroll.custom_minimum_size = Vector2(0, 150)
 	item_market_scroll.size_flags_vertical = SIZE_EXPAND_FILL
 	item_market_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	item_market_scroll.visible = false
@@ -1107,6 +1264,24 @@ func _build_ui_layout_if_needed() -> void:
 	pb_backpack.value = 10.0
 	pb_backpack.show_percentage = false
 	bp_row.add_child(pb_backpack)
+
+	# Running out of water used to be invisible until it killed you. The warning
+	# is stated in days, not in a pressure number, because days are what the
+	# player is actually budgeting against the road ahead.
+	lbl_supply_warning = Label.new()
+	lbl_supply_warning.visible = false
+	lbl_supply_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl_supply_warning.add_theme_font_size_override("font_size", 11)
+	res_vbox.add_child(lbl_supply_warning)
+
+	# A refused intent is a fact the player is entitled to. Silently dropping it
+	# is what made a dead character look like a frozen UI.
+	lbl_action_error = Label.new()
+	lbl_action_error.visible = false
+	lbl_action_error.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl_action_error.add_theme_color_override("font_color", Color("#E0555B"))
+	lbl_action_error.add_theme_font_size_override("font_size", 11)
+	res_vbox.add_child(lbl_action_error)
 
 	# Action Dock: WAIT button
 	btn_wait = Button.new()
@@ -1281,6 +1456,7 @@ func on_encounter_continue_pressed(receipt: int) -> Dictionary:
 	if world == null or engine == null or world.player == null:
 		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
 	var res := engine.commit_player_intent(world, PlayerIntent.create_continue_journey(world.player.npc_id, receipt))
+	_report_action_result(res)
 	refresh_ui()
 	return res
 
@@ -1290,6 +1466,7 @@ func on_encounter_option_pressed(option_id: String) -> Dictionary:
 		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
 	var intent := PlayerIntent.create_resolve_encounter(world.player.npc_id, StringName(option_id))
 	var res := engine.commit_player_intent(world, intent)
+	_report_action_result(res)
 	refresh_ui()
 	return res
 

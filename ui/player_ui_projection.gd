@@ -30,8 +30,37 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"debug_feed_enabled": debug_feed_enabled,
 		"active_encounter": _project_encounter(world),
 		"encounter_result": _project_encounter_result(world),
+		"death": _project_death(world),
 	}
 	return proj
+
+# The end of a run is a world fact, not a side effect of a panel. The engine
+# already refuses every intent from a dead player; until this existed the UI had
+# no way to say so, so the buttons stayed lit and the game looked frozen.
+#
+# Read from the PLAYER_DIED receipt rather than recomputed, so the screen can
+# never disagree with the event log about how the run ended.
+static func _project_death(world: WorldState) -> Dictionary:
+	if world.player == null:
+		return {}
+	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if ls == null or ls.is_alive():
+		return {}
+	for i in range(world.event_log.size() - 1, -1, -1):
+		var evt: EventRecord = world.event_log[i]
+		if evt.type != "PLAYER_DIED" or evt.actor_id != world.player.npc_id:
+			continue
+		return {
+			"cause": String(evt.payload.get("cause", "")),
+			"day": evt.day,
+			"days_survived": int(evt.payload.get("days_survived", evt.day)),
+			"in_transit": bool(evt.payload.get("in_transit", false)),
+			"place": _settlement_name(String(evt.target_id)),
+		}
+	# Dead with no receipt should be impossible, but the screen must still stop
+	# the player rather than silently accept input.
+	return {"cause": "", "day": world.current_day, "days_survived": world.current_day,
+		"in_transit": false, "place": ""}
 
 static func _project_encounter_result(world: WorldState) -> Dictionary:
 	if world.pending_encounter_result < 0:
@@ -95,6 +124,7 @@ static func _project_player(world: WorldState) -> Dictionary:
 	if world.player == null:
 		return {
 			"has_player": false,
+			"is_alive": true,
 			"npc_id": "",
 			"name": "Unknown",
 			"money": 0,
@@ -183,7 +213,10 @@ static func _project_player(world: WorldState) -> Dictionary:
 		"items": item_entries,
 		"equipment": equipment_data,
 		"water_pressure": p.water_pressure,
-		"food_pressure": p.food_pressure
+		"food_pressure": p.food_pressure,
+		"is_alive": ls == null or ls.is_alive(),
+		"water_exposure": p.water_exposure,
+		"food_exposure": p.food_exposure
 	}
 
 static func _project_current_settlement(world: WorldState) -> Dictionary:
@@ -347,6 +380,8 @@ static func _settlement_name(raw_id: String) -> String:
 		"settlement:new_hope": return "新希望"
 	if raw_id.begins_with("settlement:"):
 		return raw_id.replace("settlement:", "").replace("_", " ").capitalize()
+	if raw_id.begins_with("refugee:"):
+		return "路上"
 	return raw_id
 
 # Returns {"text": String, "category": String} or an empty dict to omit.
@@ -361,6 +396,8 @@ static func _narrate_event(evt: EventRecord) -> Dictionary:
 		"PLAYER_TRAVEL_STARTED":
 			return {"text": "你動身前往%s，路程約 %d 天。" % [here, int(payload.get("route_days", 3))], "category": "player"}
 		"PLAYER_WAIT":
+			if not String(evt.target_id).begins_with("settlement:"):
+				return {"text": "你在路上又走了一天。", "category": "player"}
 			return {"text": "你在%s歇了一天。" % here, "category": "player"}
 		"TRADE_COMPLETED":
 			var goods := _commodity_name(String(payload.get("commodity", "")))
