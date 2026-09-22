@@ -16,6 +16,9 @@ func run() -> void:
 	for amount in [0, 20]:
 		world.player.inventory.water = amount
 		world.player.inventory.food = 0
+		if amount == 20:
+			world.player.pickup_item("rusted_knife")
+			world.player.equip_item("rusted_knife", "main_hand")
 		var before := world.to_canonical_json().sha256_text()
 		var sheet := Sheet.new()
 		root.add_child(sheet)
@@ -26,6 +29,9 @@ func run() -> void:
 		for skill in sheet.skill_rows:
 			check(sheet.skill_rows[skill].rank == {"MECHANICS": 2, "ELECTRONICS": 1, "SCAVENGING": 1}.get(skill, 0), "owner-approved skill rank in row")
 		check(sheet.skill_rows.size() == 10 and sheet.trait_label.text.contains("好奇"), "complete skills and selected Core Traits")
+		if amount == 20:
+			check(sheet.item_labels.has("rusted_knife") and sheet.item_labels.rusted_knife.text.contains("生鏽小刀"), "owned item is visible with its name")
+			check(sheet.equipment_labels.main_hand.text.contains("生鏽小刀"), "equipped item is visible in its slot")
 		sheet.confirmed.emit()
 		await process_frame
 		check(world.to_canonical_json().sha256_text() == before, "opening/closing sheet never spends a day or mutates world")

@@ -2,6 +2,8 @@ extends TextureRect
 
 # Shared presentation-only art. Item names and quantities stay in adjacent labels.
 const ITEM_IDS := ["water", "food", "scrap", "fuel", "caps", "crowbar"]
+const ItemRegistry = preload("res://simulation/item_registry.gd")
+const ItemArt = preload("res://game_data/item_art_references.gd")
 static var texture_cache: Dictionary = {}
 var item_id: String = ""
 
@@ -9,11 +11,19 @@ static func make(id: String, edge: int = 32) -> TextureRect:
 	return load("res://ui/components/item_icon.gd").new(id, edge)
 
 static func texture_for(id: String) -> Texture2D:
-	if not id in ITEM_IDS:
-		return null
 	if texture_cache.has(id):
 		return texture_cache[id]
-	var path := "res://ui/assets/items/%s.png" % id
+	var path := ""
+	if id in ITEM_IDS:
+		path = "res://ui/assets/items/%s.png" % id
+	else:
+		var resolved := ItemRegistry.resolve(id)
+		if not resolved.success:
+			return null
+		var art := ItemArt.resolve(resolved.definition.asset_id)
+		if not art.success:
+			return null
+		path = art.path
 	var loaded: Texture2D = null
 	if ResourceLoader.exists(path):
 		loaded = load(path) as Texture2D

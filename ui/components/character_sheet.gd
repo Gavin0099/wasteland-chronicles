@@ -4,8 +4,11 @@ const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Presentation = preload("res://ui/character_presentation.gd")
 const SkillRow = preload("res://ui/components/skill_rank_row.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
+const ItemRegistry = preload("res://simulation/item_registry.gd")
 var skill_rows: Dictionary = {}
 var resource_values: Dictionary = {}
+var item_labels: Dictionary = {}
+var equipment_labels: Dictionary = {}
 var capacity_label: Label
 var identity_label: Label
 var trait_label: Label
@@ -80,6 +83,38 @@ func setup(character: Dictionary, player: Dictionary) -> void:
 		row.add_child(count)
 		resource_values[id] = count
 	label_in(left, "查看人物與補給不消耗時間。", "PdaMuted")
+	left.add_child(HSeparator.new())
+	label_in(left, "物品", "PdaSection")
+	var item_rows := VBoxContainer.new()
+	item_rows.add_theme_constant_override("separation", Tokens.GAP)
+	left.add_child(item_rows)
+	var owned_items: Array = player.get("items", [])
+	if owned_items.is_empty():
+		label_in(item_rows, "目前沒有額外物品。", "PdaMuted")
+	else:
+		for entry in owned_items:
+			var item_id := String(entry.get("item_id", ""))
+			var resolved := ItemRegistry.resolve(item_id)
+			if not resolved.success:
+				continue
+			var item_row_node := item_row(item_rows, item_id)
+			var item_label := label_in(item_row_node, "%s　×%d　%d g" % [resolved.definition.display_name_zh, int(entry.get("quantity", 0)), int(resolved.definition.base_weight) * int(entry.get("quantity", 0))])
+			item_labels[item_id] = item_label
+	label_in(left, "裝備", "PdaSection")
+	var equipped_rows := VBoxContainer.new()
+	equipped_rows.add_theme_constant_override("separation", Tokens.GAP)
+	left.add_child(equipped_rows)
+	var slot_names := {"main_hand": "主手", "body": "身體", "back": "背包"}
+	var equipped_by_slot := {}
+	for entry in player.get("equipment", {}).get("slots", []):
+		equipped_by_slot[String(entry.get("slot", ""))] = String(entry.get("item_id", ""))
+	for slot in ["main_hand", "body", "back"]:
+		var equipped_id: String = String(equipped_by_slot.get(slot, ""))
+		var equipped_row := HBoxContainer.new()
+		equipped_row.add_theme_constant_override("separation", Tokens.GAP)
+		equipped_rows.add_child(equipped_row)
+		var equipment_label := label_in(equipped_row, "%s　%s" % [slot_names[slot], _item_display_name(equipped_id)])
+		equipment_labels[slot] = equipment_label
 	var right := panel_in(columns)
 	label_in(right, "能力", "PdaSection")
 	label_in(right, "0 外行 → 5 大師", "PdaMuted")
@@ -90,3 +125,9 @@ func setup(character: Dictionary, player: Dictionary) -> void:
 		skill_rows[id] = row
 	confirmed.connect(queue_free)
 	canceled.connect(queue_free)
+
+func _item_display_name(item_id: String) -> String:
+	if item_id == "":
+		return "空"
+	var resolved := ItemRegistry.resolve(item_id)
+	return String(resolved.definition.display_name_zh) if resolved.success else "未知物品"

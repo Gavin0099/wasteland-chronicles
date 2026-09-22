@@ -149,6 +149,12 @@ static func _project_player(world: WorldState) -> Dictionary:
 			origin_id = String(p_party.origin_id)
 			destination_id = String(p_party.destination_id)
 			total_route_days = p_party.route_days
+	var item_entries: Array = []
+	if p.item_inventory != null:
+		item_entries = p.item_inventory.to_dict().get("items", [])
+	var equipment_data: Dictionary = {"slots": []}
+	if p.equipment != null:
+		equipment_data = p.equipment.to_dict()
 
 	return {
 		"has_player": true,
@@ -171,6 +177,8 @@ static func _project_player(world: WorldState) -> Dictionary:
 			"load": bp_load,
 			"capacity": p.capacity_total
 		},
+		"items": item_entries,
+		"equipment": equipment_data,
 		"water_pressure": p.water_pressure,
 		"food_pressure": p.food_pressure
 	}
