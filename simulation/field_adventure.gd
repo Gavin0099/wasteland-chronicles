@@ -1,5 +1,7 @@
 extends RefCounted
 
+const ItemRegistry = preload("res://simulation/item_registry.gd")
+
 const HOME := "settlement:gray_valley"
 const MAX_HP := 12
 const ENEMY_HP := 8
@@ -152,7 +154,18 @@ static func attack_damage(world) -> int:
 	var base = 3 if world.player.field_kit.equipped else 2
 	var rank = world.player.capability.get_skill_rank("MELEE")
 	var bonus = 2 if world.field_state.battle.get("prepared", false) else 0
-	return base + int(rank.rank) + bonus
+	return base + _equipped_main_hand_bonus(world) + int(rank.rank) + bonus
+
+static func _equipped_main_hand_bonus(world) -> int:
+	if world == null or world.player == null or world.player.equipment == null:
+		return 0
+	var item_id: String = world.player.equipment.equipped_item("main_hand")
+	match item_id:
+		"rusted_knife": return 1
+		"hunting_knife": return 2
+		"rebar_club": return 2
+		"scrap_machete": return 3
+		_: return 0
 
 static func enemy_damage(turn: int) -> int:
 	return 4 if turn % 3 == 0 else 2

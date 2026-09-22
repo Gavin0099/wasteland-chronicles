@@ -3,6 +3,7 @@ extends Control
 signal closed
 signal world_changed
 const Field = preload("res://simulation/field_adventure.gd")
+const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Stage = preload("res://ui/components/battle_stage.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
@@ -154,6 +155,12 @@ func refresh() -> void:
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
 	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var weapon := "撬棍" if kit.equipped else "徒手"
+	if world.player.equipment != null:
+		var main_hand: String = world.player.equipment.equipped_item("main_hand")
+		if not main_hand.is_empty():
+			var resolved := ItemRegistry.resolve(main_hand)
+			if resolved.success:
+				weapon = String(resolved.definition.display_name_zh)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
 	status_label.text = "你　生命 %d / 12\n野犬　生命 %d / 8\n\n武器　%s\n負重　%d / %d" % [kit.hp, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.capacity_total]
 	if not alive:
