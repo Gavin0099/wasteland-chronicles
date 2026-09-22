@@ -2,6 +2,9 @@ class_name SimulationEngine
 extends RefCounted
 
 const COMMODITIES: Array[String] = ["water", "food", "scrap", "fuel"]
+const ItemRegistry = preload("res://simulation/item_registry.gd")
+const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
+const ItemMarketState = preload("res://simulation/item_market_state.gd")
 
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
@@ -1568,6 +1571,109 @@ static func get_sell_quote(settlement: SettlementState, commodity: StringName) -
 	var price := settlement.get_current_price(String(commodity))
 	return maxi(1, int(floor(price)))
 
+static func get_item_buy_quote(settlement: SettlementState, item_id: StringName) -> int:
+	if settlement == null:
+		return 0
+	return ItemMarketState.buy_quote(item_id, settlement.id)
+
+static func get_item_sell_quote(settlement: SettlementState, item_id: StringName) -> int:
+	if settlement == null:
+		return 0
+	return ItemMarketState.sell_quote(item_id, settlement.id)
+
+func _item_market_view(settlement: SettlementState) -> RefCounted:
+	if settlement.item_market != null:
+		return settlement.item_market
+	return ItemMarketState.seeded_for(settlement.id)
+
+func _authorize_item_trade(world: WorldState, settlement: SettlementState, intent: PlayerIntent, buying: bool) -> String:
+	if intent.commodity != &"":
+		return "INVALID_ITEM_TRADE: item trade cannot also carry an aggregate commodity"
+	if intent.quantity <= 0:
+		return "INVALID_QUANTITY: Quantity must be positive, got %d" % intent.quantity
+	var resolved := ItemRegistry.resolve(String(intent.item_id))
+	if not resolved.success:
+		return "UNKNOWN_ITEM_ID: Item '%s' is not registered" % intent.item_id
+	var profile := ItemMarketCatalogue.profile_for(intent.item_id, settlement.id)
+	if not profile.success:
+		return "INVALID_ITEM_MARKET: %s" % profile.error
+	var market := _item_market_view(settlement)
+	if buying:
+		if not profile.is_routinely_supplied:
+			return "ITEM_NOT_SOLD_HERE: %s has no routine supply in %s" % [intent.item_id, settlement.id]
+		if market.quantity(intent.item_id) < intent.quantity:
+			return "INSUFFICIENT_ITEM_STOCK: %s has %d, requested %d" % [intent.item_id, market.quantity(intent.item_id), intent.quantity]
+		var quote := get_item_buy_quote(settlement, intent.item_id)
+		var total_cost := quote * intent.quantity
+		if world.player.money < total_cost:
+			return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [world.player.money, total_cost]
+		var candidate: RefCounted = world.player.item_inventory.duplicate_state()
+		var pickup: Dictionary = candidate.pickup_item(String(intent.item_id), intent.quantity)
+		if not pickup.success:
+			return String(pickup.error)
+		return ""
+	if profile.demand == "none":
+		return "ITEM_NOT_BOUGHT_HERE: %s has no demand in %s" % [intent.item_id, settlement.id]
+	if not world.player.item_inventory.contains(String(intent.item_id), intent.quantity):
+		return "INSUFFICIENT_PLAYER_ITEM: Player does not hold %d of %s" % [intent.quantity, intent.item_id]
+	var sell_quote := get_item_sell_quote(settlement, intent.item_id)
+	var total_revenue := sell_quote * intent.quantity
+	if settlement.market_cash < total_revenue:
+		return "INSUFFICIENT_MARKET_CASH: Settlement %s has %d caps, required %d" % [settlement.id, settlement.market_cash, total_revenue]
+	return ""
+
+func _commit_item_trade(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord]) -> Dictionary:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+	var settlement: SettlementState = world.get_settlement(ls.population_container_id)
+	var buying := intent.action == PlayerIntent.Action.BUY
+	var market: RefCounted = settlement.item_market.duplicate_state() if settlement.item_market != null else ItemMarketState.seeded_for(settlement.id)
+	var player_items: RefCounted = world.player.item_inventory.duplicate_state()
+	var quote := get_item_buy_quote(settlement, intent.item_id) if buying else get_item_sell_quote(settlement, intent.item_id)
+	var total := quote * intent.quantity
+	if buying:
+		market.remove(String(intent.item_id), intent.quantity)
+		player_items.pickup_item(String(intent.item_id), intent.quantity)
+		settlement.market_cash += total
+		world.player.money -= total
+	else:
+		player_items.drop_item(String(intent.item_id), intent.quantity)
+		market.add(String(intent.item_id), intent.quantity)
+		settlement.market_cash -= total
+		world.player.money += total
+	settlement.item_market = market
+	world.player.item_inventory = player_items
+	var action_name := "BUY" if buying else "SELL"
+	var evt := EventRecord.new(
+		world.current_day,
+		"ITEM_TRADE_COMPLETED",
+		intent.player_id,
+		settlement.id,
+		{
+			"action": action_name,
+			"item_id": String(intent.item_id),
+			"quantity": intent.quantity,
+			"unit_price": quote,
+			"total_amount": total,
+			"market_stock": market.quantity(intent.item_id),
+			"settlement_cash": settlement.market_cash,
+			"player_money": world.player.money
+		}
+	)
+	if tick_events != null:
+		tick_events.append(evt)
+	world.record_event(evt)
+	return {
+		"success": true,
+		"action": action_name,
+		"item_id": String(intent.item_id),
+		"quantity": intent.quantity,
+		"unit_price": quote,
+		"total_amount": total,
+		"market_stock": market.quantity(intent.item_id),
+		"settlement_cash": settlement.market_cash,
+		"player_money": world.player.money
+	}
+
 # ==============================================================================
 # S5-B4.1: WHAT IS ACTUALLY HAPPENING ON THIS ROAD
 # ==============================================================================
@@ -2032,6 +2138,8 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			if settlement == null:
 				return "INVALID_SETTLEMENT: Origin settlement %s does not exist" % ls.population_container_id
+			if intent.item_id != &"":
+				return _authorize_item_trade(world, settlement, intent, true)
 			var comm_str := String(intent.commodity)
 			if not comm_str in COMMODITIES:
 				return "INVALID_COMMODITY: Commodity '%s' is not in %s" % [comm_str, COMMODITIES]
@@ -2059,6 +2167,8 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			if settlement == null:
 				return "INVALID_SETTLEMENT: Origin settlement %s does not exist" % ls.population_container_id
+			if intent.item_id != &"":
+				return _authorize_item_trade(world, settlement, intent, false)
 			var comm_str := String(intent.commodity)
 			if not comm_str in COMMODITIES:
 				return "INVALID_COMMODITY: Commodity '%s' is not in %s" % [comm_str, COMMODITIES]
@@ -2195,6 +2305,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			return begin_res
 
 		PlayerIntent.Action.BUY:
+			if intent.item_id != &"":
+				return _commit_item_trade(world, intent, tick_events)
 			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			var comm_str := String(intent.commodity)
@@ -2237,6 +2349,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			}
 
 		PlayerIntent.Action.SELL:
+			if intent.item_id != &"":
+				return _commit_item_trade(world, intent, tick_events)
 			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			var comm_str := String(intent.commodity)
@@ -2297,4 +2411,14 @@ func execute_player_sell(world: WorldState, commodity: StringName, quantity: int
 		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
 	var intent := PlayerIntent.create_sell(world.player.npc_id, commodity, quantity)
 	return commit_player_intent(world, intent)
+
+func execute_player_buy_item(world: WorldState, item_id: StringName, quantity: int = 1) -> Dictionary:
+	if world == null or world.player == null:
+		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
+	return commit_player_intent(world, PlayerIntent.create_buy_item(world.player.npc_id, item_id, quantity))
+
+func execute_player_sell_item(world: WorldState, item_id: StringName, quantity: int = 1) -> Dictionary:
+	if world == null or world.player == null:
+		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
+	return commit_player_intent(world, PlayerIntent.create_sell_item(world.player.npc_id, item_id, quantity))
 

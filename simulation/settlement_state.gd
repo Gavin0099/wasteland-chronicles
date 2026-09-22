@@ -1,6 +1,8 @@
 class_name SettlementState
 extends RefCounted
 
+const ItemMarket = preload("res://simulation/item_market_state.gd")
+
 var id: StringName = &""
 var name: String = ""
 
@@ -59,6 +61,7 @@ var price_fuel: float = 15.0
 
 # S5-B2 本地市場貨幣儲備 (Market Cash / Currency Reserve - Durable State)
 var market_cash: int = 500
+var item_market: RefCounted = null
 
 func _init(
 	p_id: StringName = &"",
@@ -214,10 +217,11 @@ func duplicate_state() -> SettlementState:
 	copy.cumulative_disorder_loss = cumulative_disorder_loss.duplicate(true)
 	copy.last_need_outcomes = last_need_outcomes.duplicate(true)
 	copy.market_cash = market_cash
+	copy.item_market = item_market.duplicate_state() if item_market != null else null
 	return copy
 
 func to_dict() -> Dictionary:
-	return {
+	var result := {
 		"id": String(id),
 		"name": name,
 		"inventory": inventory.to_dict(),
@@ -253,6 +257,9 @@ func to_dict() -> Dictionary:
 		"price_scrap": price_scrap,
 		"price_fuel": price_fuel
 	}
+	if item_market != null and not item_market.is_empty():
+		result["item_market"] = item_market.to_dict()
+	return result
 
 static func from_dict(data: Dictionary) -> SettlementState:
 	var s := SettlementState.new(
@@ -299,4 +306,6 @@ static func from_dict(data: Dictionary) -> SettlementState:
 	for k in raw_cumulative:
 		var r := NumericCanon.restore_int(raw_cumulative[k], "cumulative_disorder_loss.%s" % String(k), 0)
 		s.cumulative_disorder_loss[k] = r["value"] if r["ok"] else 0
+	if data.has("item_market"):
+		s.item_market = ItemMarket.from_dict(data.item_market)
 	return s

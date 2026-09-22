@@ -13,7 +13,7 @@ const SETTLEMENTS: Array[String] = ["new_hope", "gray_valley", "dry_well"]
 const SUPPLY_LEVELS: Array[String] = ["none", "low", "medium", "high"]
 
 static func settlement_key(value: Variant) -> String:
-	if typeof(value) != TYPE_STRING:
+	if typeof(value) not in [TYPE_STRING, TYPE_STRING_NAME]:
 		return ""
 	var key := String(value)
 	if key.begins_with("settlement:"):
@@ -24,7 +24,8 @@ static func profile_for(item_id: Variant, settlement_id: Variant) -> Dictionary:
 	var settlement := settlement_key(settlement_id)
 	if settlement.is_empty():
 		return _failure("UNKNOWN_SETTLEMENT")
-	var resolved := Registry.resolve(item_id)
+	var normalized_item: String = String(item_id) if typeof(item_id) in [TYPE_STRING, TYPE_STRING_NAME] else ""
+	var resolved := Registry.resolve(normalized_item)
 	if not resolved.success:
 		return _failure("UNKNOWN_ITEM_ID")
 	var definition: Dictionary = resolved.definition

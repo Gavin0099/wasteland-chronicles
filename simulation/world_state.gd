@@ -8,6 +8,7 @@ const Capability = preload("res://simulation/capability_profile.gd")
 const RankCodec = preload("res://simulation/rank_json_codec.gd")
 const ItemInventory = preload("res://simulation/item_inventory_state.gd")
 const Equipment = preload("res://simulation/equipment_state.gd")
+const ItemMarket = preload("res://simulation/item_market_state.gd")
 
 var current_day: int = 0
 var total_initial_population: int = -1
@@ -214,6 +215,17 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		}
 	if typeof(data["events"]) != TYPE_ARRAY:
 		return {"success": false, "world": null, "error": "LEDGER_MALFORMED: 'events' is not an array"}
+	if data.has("settlements"):
+		if typeof(data.settlements) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "INVALID_SETTLEMENTS"}
+		for settlement_id in data.settlements:
+			var raw_settlement: Variant = data.settlements[settlement_id]
+			if typeof(raw_settlement) != TYPE_DICTIONARY:
+				return {"success": false, "world": null, "error": "INVALID_SETTLEMENT_STATE"}
+			if raw_settlement.has("item_market"):
+				var item_market_error := ItemMarket.validate_serialized(raw_settlement.item_market)
+				if item_market_error != "":
+					return {"success": false, "world": null, "error": item_market_error}
 
 	var events_data: Array = data["events"]
 

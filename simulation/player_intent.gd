@@ -33,6 +33,7 @@ var action: int = Action.WAIT
 var player_id: StringName = &""
 var destination_id: StringName = &""
 var commodity: StringName = &""
+var item_id: StringName = &""
 var quantity: int = 0
 var payload: Dictionary = {}
 
@@ -42,13 +43,15 @@ func _init(
 	p_destination_id: StringName = &"",
 	p_payload: Dictionary = {},
 	p_commodity: StringName = &"",
-	p_quantity: int = 0
+	p_quantity: int = 0,
+	p_item_id: StringName = &""
 ) -> void:
 	action = p_action
 	player_id = p_player_id
 	destination_id = p_destination_id
 	payload = p_payload
 	commodity = p_commodity
+	item_id = p_item_id
 	quantity = p_quantity
 
 static func action_name(value: int) -> String:
@@ -77,8 +80,14 @@ static func create_buy(p_player_id: StringName, p_commodity: StringName, p_quant
 static func create_sell(p_player_id: StringName, p_commodity: StringName, p_quantity: int) -> PlayerIntent:
 	return PlayerIntent.new(Action.SELL, p_player_id, &"", {}, p_commodity, p_quantity)
 
+static func create_buy_item(p_player_id: StringName, p_item_id: StringName, p_quantity: int) -> PlayerIntent:
+	return PlayerIntent.new(Action.BUY, p_player_id, &"", {}, &"", p_quantity, p_item_id)
+
+static func create_sell_item(p_player_id: StringName, p_item_id: StringName, p_quantity: int) -> PlayerIntent:
+	return PlayerIntent.new(Action.SELL, p_player_id, &"", {}, &"", p_quantity, p_item_id)
+
 func to_dict() -> Dictionary:
-	return {
+	var result := {
 		"action": action,
 		"player_id": String(player_id),
 		"destination_id": String(destination_id),
@@ -86,6 +95,9 @@ func to_dict() -> Dictionary:
 		"quantity": quantity,
 		"payload": payload.duplicate(true),
 	}
+	if item_id != &"":
+		result["item_id"] = String(item_id)
+	return result
 
 static func from_dict(data: Dictionary) -> PlayerIntent:
 	return PlayerIntent.new(
@@ -94,7 +106,8 @@ static func from_dict(data: Dictionary) -> PlayerIntent:
 		StringName(data.get("destination_id", "")),
 		data.get("payload", {}),
 		StringName(data.get("commodity", "")),
-		int(data.get("quantity", 0))
+		int(data.get("quantity", 0)),
+		StringName(data.get("item_id", ""))
 	)
 
 # S5-B4: the chosen option travels as an intent like everything else. A UI
