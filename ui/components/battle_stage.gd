@@ -1,9 +1,10 @@
 extends Control
 
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
+const ItemIcon = preload("res://ui/components/item_icon.gd")
 var hero: TextureRect
 var enemy: TextureRect
-var weapon: Line2D
+var weapon: Sprite2D
 var floating: Label
 var hero_origin := Vector2.ZERO
 var enemy_origin := Vector2.ZERO
@@ -35,10 +36,11 @@ func _init() -> void:
 	hero.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	hero.size = Vector2(116, 174)
 	add_child(hero)
-	weapon = Line2D.new()
-	weapon.points = PackedVector2Array([Vector2(81, 77), Vector2(106, 40), Vector2(104, 33), Vector2(99, 34)])
-	weapon.width = 3
-	weapon.default_color = Tokens.SECONDARY
+	weapon = Sprite2D.new()
+	weapon.texture = ItemIcon.texture_for("crowbar")
+	if weapon.texture != null:
+		weapon.scale = Vector2.ONE * (62.0 / weapon.texture.get_width())
+	weapon.position = Vector2(97, 53)
 	hero.add_child(weapon)
 	enemy = TextureRect.new()
 	enemy.texture = texture("res://ui/assets/combat/feral-dog.png")

@@ -3,6 +3,7 @@ extends AcceptDialog
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Presentation = preload("res://ui/character_presentation.gd")
 const SkillRow = preload("res://ui/components/skill_rank_row.gd")
+const ItemIcon = preload("res://ui/components/item_icon.gd")
 var skill_rows: Dictionary = {}
 var resource_values: Dictionary = {}
 var capacity_label: Label
@@ -28,6 +29,14 @@ func panel_in(parent: Node) -> VBoxContainer:
 	panel.add_child(column)
 	return column
 
+func item_row(parent: Node, id: String) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", Tokens.GAP)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.add_child(row)
+	row.add_child(ItemIcon.new(id, 32))
+	return row
+
 func setup(character: Dictionary, player: Dictionary) -> void:
 	title = "人物與補給"
 	theme_type_variation = "PdaDialog"
@@ -52,19 +61,24 @@ func setup(character: Dictionary, player: Dictionary) -> void:
 	label_in(left, "部分特質會提供不同的遭遇處理方式。", "PdaMuted")
 	left.add_child(HSeparator.new())
 	label_in(left, "隨身補給", "PdaSection")
-	label_in(left, "瓶蓋　%d" % player.money)
-	label_in(left, "撬棍　" + ("已裝備" if character.field_kit.equipped else ("持有 · 負重 2" if character.field_kit.crowbar else "未持有")))
 	var bp: Dictionary = player.backpack
+	capacity_label = label_in(left, "背包容量　%d / %d" % [bp.load, bp.capacity])
+	var supplies := GridContainer.new()
+	supplies.columns = 2
+	supplies.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	supplies.add_theme_constant_override("h_separation", Tokens.PAD)
+	supplies.add_theme_constant_override("v_separation", Tokens.GAP)
+	left.add_child(supplies)
+	label_in(item_row(supplies, "caps"), "瓶蓋　%d" % player.money)
+	label_in(item_row(supplies, "crowbar"), "撬棍　" + ("已裝備" if character.field_kit.equipped else ("持有 · 負重 2" if character.field_kit.crowbar else "未持有")))
 	for id in ["water", "food", "scrap", "fuel"]:
-		var row := HBoxContainer.new()
-		left.add_child(row)
+		var row := item_row(supplies, id)
 		var names := {"water": "水", "food": "食物", "scrap": "廢料", "fuel": "燃料"}
 		label_in(row, names[id])
 		var count := Label.new()
 		count.text = str(bp[id])
 		row.add_child(count)
 		resource_values[id] = count
-	capacity_label = label_in(left, "背包容量　%d / %d" % [bp.load, bp.capacity])
 	label_in(left, "查看人物與補給不消耗時間。", "PdaMuted")
 	var right := panel_in(columns)
 	label_in(right, "能力", "PdaSection")

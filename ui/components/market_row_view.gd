@@ -1,6 +1,9 @@
 class_name MarketRowView
 extends PanelContainer
 
+const Tokens = preload("res://ui/theme/pda_tokens.gd")
+const ItemIcon = preload("res://ui/components/item_icon.gd")
+
 # ==============================================================================
 # SURVIVOR PDA MARKET ROW VIEW
 # ==============================================================================
@@ -21,13 +24,13 @@ var lbl_player_qty: Label
 var btn_buy: Button
 var btn_sell: Button
 
-func _init(p_key: String = "water", p_icon: String = "💧", p_display_name: String = "WATER") -> void:
+func _init(p_key: String = "water", p_display_name: String = "WATER") -> void:
 	commodity_key = p_key
 	size_flags_horizontal = SIZE_EXPAND_FILL
 
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#171A21")
-	style.border_color = Color("#2D3545")
+	style.bg_color = Tokens.PANEL
+	style.border_color = Tokens.BORDER
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(2)
 	style.content_margin_left = 10
@@ -41,11 +44,15 @@ func _init(p_key: String = "water", p_icon: String = "💧", p_display_name: Str
 	add_child(hbox)
 
 	# Name + Icon
+	var identity := HBoxContainer.new()
+	identity.custom_minimum_size = Vector2(105, 0)
+	identity.add_theme_constant_override("separation", Tokens.GAP)
+	hbox.add_child(identity)
+	identity.add_child(ItemIcon.new(p_key, 32))
 	lbl_name = Label.new()
-	lbl_name.text = "%s %s" % [p_icon, p_display_name]
-	lbl_name.custom_minimum_size = Vector2(105, 0)
-	lbl_name.add_theme_color_override("font_color", Color("#D8D3C8"))
-	hbox.add_child(lbl_name)
+	lbl_name.text = p_display_name
+	lbl_name.add_theme_color_override("font_color", Tokens.TEXT)
+	identity.add_child(lbl_name)
 
 	# Stock
 	lbl_stock = Label.new()

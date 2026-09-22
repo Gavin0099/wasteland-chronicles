@@ -1,0 +1,132 @@
+{
+  "generator": "built-in image_gen",
+  "original_outputs_preserved": true,
+  "assets": [
+    {
+      "id": "water",
+      "file": "water.png",
+      "source_output": "exec-ad9367b0-8167-4d60-b026-2fc86b677e52.png",
+      "sha256": "6d489dcbaafb19404e103c5cf062dcb10c80b91b123132f7ad7ede3f570001cd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        17,
+        1236,
+        1254
+      ]
+    },
+    {
+      "id": "food",
+      "file": "food.png",
+      "source_output": "exec-879a43d0-e994-48d7-bd5d-431383466da0.png",
+      "sha256": "97168198e1eb24ee312d196d56d02d314379cd0748f4ed9bc62554eb459467c0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        42,
+        17,
+        1228,
+        1182
+      ]
+    },
+    {
+      "id": "scrap",
+      "file": "scrap.png",
+      "source_output": "exec-0912c866-4331-4ef5-812f-73abef0de502.png",
+      "sha256": "b71014fb838bc56bfbd190e325d8dceb83c98fa7f223d9dc4171d000e32f8c22",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        19,
+        1238,
+        1254
+      ]
+    },
+    {
+      "id": "fuel",
+      "file": "fuel.png",
+      "source_output": "exec-dc063bec-b316-4026-8563-fdc028677e26.png",
+      "sha256": "40618bd93d19fd67bff4086fad7a6adf6b32df61630e66e1d896b167fc557f73",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        24,
+        1240,
+        1254
+      ]
+    },
+    {
+      "id": "caps",
+      "file": "caps.png",
+      "source_output": "exec-742f0595-420c-4ad4-a871-1805d88a2881.png",
+      "sha256": "502980a375373bab97fff063d675b7a2c3c618d5863e212860fb5d1dc388a5a5",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        19,
+        1223,
+        1254
+      ]
+    },
+    {
+      "id": "crowbar",
+      "file": "crowbar.png",
+      "source_output": "exec-be0e6fe4-39ae-4d4b-85b0-25762a3caa55.png",
+      "sha256": "a946f26ee52724e9fdeaf116fce43e4dd3eb01a3acd14682ea3cb55354fcf204",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        28,
+        38,
+        1232,
+        1209
+      ]
+    }
+  ]
+}

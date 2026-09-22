@@ -23,7 +23,10 @@ Resolve paths from the repository root, three levels above this skill directory.
 - `ui/theme/theme_builder.gd` → `ui/theme/survivor_pda_theme.tres`: generated project
   theme. Change the builder, regenerate, then inspect its diff. Never fix only the output.
 - `ui/components/`: reuse existing components. Character and supplies use
-  `character_sheet.gd`; skill ranks use `skill_rank_row.gd`.
+  `character_sheet.gd`; skill ranks use `skill_rank_row.gd`. Common item artwork uses
+  `item_icon.gd` with water / food / scrap / fuel / caps / crowbar IDs. Reuse the
+  transparent originals in `ui/assets/items/`; keep names and quantities next to
+  32 px icons, and consult that folder's `ASSETS.md` and `prompts.json` for variants.
 - Simulation / projection data decide values, available actions and consequences.
   A visual mockup is never evidence that the corresponding mechanic exists.
 - `references/resources.md`: verified external references and how to apply them.

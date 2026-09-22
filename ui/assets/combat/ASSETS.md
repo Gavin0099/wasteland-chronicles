@@ -14,8 +14,9 @@ These are illustrative bitmap assets; they do not encode combat state or UI text
 Briefs above summarize the intended visual direction, not a promise of exact
 regeneration. The checked-in PNGs are the original tool outputs, without image
 post-processing. Runtime placement, scaling and equipment are handled in
-`ui/components/battle_stage.gd`. The crowbar is a separate runtime line drawing
-whose visibility follows equipped state; it is not painted into the character.
+`ui/components/battle_stage.gd`. The crowbar uses the separate generated
+`ui/assets/items/crowbar.png`, scaled and positioned at the character's hand at
+runtime. Its visibility follows equipped state; it is not painted into the character.
 
 Motion uses Godot Tweens: brief lunge, hit flash, return, defense feedback and
 retreat. Preserve a reduced-motion option and never put damage, loot or death in

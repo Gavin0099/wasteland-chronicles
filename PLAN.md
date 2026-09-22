@@ -57,6 +57,8 @@
 
 ## Decision Log
 
+- 2026-09-22: **Common item art first** — owner requested the most frequently used assets now. Generated water, food, scrap, fuel, caps and crowbar as six original transparent PNGs, reused through one UI component in personal supplies, market and supply chips. Field loot retains labeled actual quantities; the equipped battle crowbar now uses the same art. Presentation only: no item catalogue, prices, damage or simulation changes.
+
 - 2026-09-22: **First combat and equipment example implemented** — owner chose attack/defend/flee and confirmed **俠客遊・前途道標** as the visual reference. One Gray Valley shed and animal enemy, original arena/fighter images, post-commit Tween motion with reduced-motion mode. Crowbar costs 3 scrap, weighs 2, changes melee damage and opens a one-time cache. Existing named-death and day authorities retained; field schema version 1 is separate from strict C1 ranks. 40 suites pass with save/load and normal/reduced-motion replay; no claim of C2-B fun validation, full C5, XP, party or grid combat.
 
 - 2026-09-22: **Owner authorized consistent UI, then item and combat work** — canonical skill is `wc-survivor-pda-design-system`, old v1 skill is a compatibility pointer. Shared Godot tokens/theme variations now drive character and supplies presentation; obsolete Trait copy and raw blocked tooltips corrected. 38 suites exit 0; screenshots at 1280×720 and 1152×648. No C2-B experience claim. Owner explicitly chose small turn-based combat (attack/defend/flee with both sides' state) for the next scoped gameplay implementation; not event-only resolution.

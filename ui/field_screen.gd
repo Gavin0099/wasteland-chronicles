@@ -5,11 +5,15 @@ signal world_changed
 const Field = preload("res://simulation/field_adventure.gd")
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Stage = preload("res://ui/components/battle_stage.gd")
+const ItemIcon = preload("res://ui/components/item_icon.gd")
 var world: WorldState
 var engine: SimulationEngine
 var stage: Control
 var status_label: Label
 var log_label: Label
+var receipt_items: VBoxContainer
+var gain_values: Dictionary = {}
+var left_values: Dictionary = {}
 var error_label: Label
 var actions_box: GridContainer
 var close_button: Button
@@ -72,6 +76,9 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	scroll.add_child(info)
 	status_label = label_in(info, "", "PdaSection")
 	log_label = label_in(info, "")
+	receipt_items = VBoxContainer.new()
+	receipt_items.add_theme_constant_override("separation", Tokens.GAP)
+	info.add_child(receipt_items)
 	label_in(root, "攻擊、防禦與逃跑逐回合結算；休養才會經過一天。", "PdaMuted")
 	actions_box = GridContainer.new()
 	actions_box.columns = 3
@@ -131,6 +138,12 @@ func goods_text(goods: Dictionary) -> String:
 	return "、".join(parts) if not parts.is_empty() else "無"
 
 func refresh() -> void:
+	for child in receipt_items.get_children():
+		receipt_items.remove_child(child)
+		child.queue_free()
+	gain_values.clear()
+	left_values.clear()
+	receipt_items.hide()
 	for child in actions_box.get_children():
 		actions_box.remove_child(child)
 		child.queue_free()
@@ -148,7 +161,11 @@ func refresh() -> void:
 	if state.receipt >= 0:
 		var receipt: Dictionary = world.event_log[state.receipt].payload
 		var outcome: String = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}[receipt.outcome]
-		log_label.text = "%s\n\n獲得：%s\n留下：%s\n經過時間：0 天\n\n生命剩餘：%d / 12" % [outcome, goods_text(receipt.gained), goods_text(receipt.left_behind), kit.hp]
+		log_label.text = "%s\n\n經過時間：0 天\n生命剩餘：%d / 12" % [outcome, kit.hp]
+		receipt_items.show()
+		show_receipt_goods("獲得", receipt.gained, "+", gain_values)
+		if not receipt.left_behind.is_empty():
+			show_receipt_goods("容量不足，未帶走", receipt.left_behind, "", left_values)
 		add_action("CONFIRM", "確認結果")
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
@@ -168,6 +185,19 @@ func refresh() -> void:
 		add_action("UNEQUIP" if kit.equipped else "EQUIP", "卸下撬棍" if kit.equipped else "裝備撬棍")
 		add_action("OPEN", "使用撬棍 · 打開補給棚")
 		add_action("REST", "休養 1 天 · 生命 +4")
+
+func show_receipt_goods(title: String, goods: Dictionary, prefix: String, values: Dictionary) -> void:
+	label_in(receipt_items, title, "PdaSection")
+	if goods.is_empty():
+		label_in(receipt_items, "無")
+	for id in ["water", "food"]:
+		if int(goods.get(id, 0)) <= 0:
+			continue
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", Tokens.GAP)
+		receipt_items.add_child(row)
+		row.add_child(ItemIcon.make(id))
+		values[id] = label_in(row, "%s %s%d" % [{"water": "水", "food": "食物"}[id], prefix, goods[id]])
 
 func perform(payload: Dictionary) -> void:
 	if busy:

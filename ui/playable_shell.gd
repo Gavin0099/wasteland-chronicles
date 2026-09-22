@@ -948,14 +948,14 @@ func _build_ui_layout_if_needed() -> void:
 	market_panel.add_child(_create_window_header("交易市場 MARKETPLACE", "🛒"))
 
 	var commodities_spec := [
-		{"key": "water", "icon": "💧", "name": "水"},
-		{"key": "food", "icon": "🍴", "name": "食物"},
-		{"key": "scrap", "icon": "⚙", "name": "廢料"},
-		{"key": "fuel", "icon": "⛽", "name": "燃料"}
+		{"key": "water", "name": "水"},
+		{"key": "food", "name": "食物"},
+		{"key": "scrap", "name": "廢料"},
+		{"key": "fuel", "name": "燃料"}
 	]
 
 	for c in commodities_spec:
-		var row := MarketRowView.new(c["key"], c["icon"], c["name"])
+		var row := MarketRowView.new(c["key"], c["name"])
 		row.buy_requested.connect(func(key: String): on_buy_pressed(key, 1))
 		row.sell_requested.connect(func(key: String): on_sell_pressed(key, 1))
 		market_panel.add_child(row)
@@ -988,13 +988,13 @@ func _build_ui_layout_if_needed() -> void:
 	chips_hbox.size_flags_vertical = SIZE_EXPAND_FILL
 	res_vbox.add_child(chips_hbox)
 
-	chip_water = ResourceChip.new("💧", "水", 0)
+	chip_water = ResourceChip.new("water", "水", 0)
 	chips_hbox.add_child(chip_water)
-	chip_food = ResourceChip.new("🍴", "食物", 0)
+	chip_food = ResourceChip.new("food", "食物", 0)
 	chips_hbox.add_child(chip_food)
-	chip_scrap = ResourceChip.new("⚙", "廢料", 0)
+	chip_scrap = ResourceChip.new("scrap", "廢料", 0)
 	chips_hbox.add_child(chip_scrap)
-	chip_fuel = ResourceChip.new("⛽", "燃料", 0)
+	chip_fuel = ResourceChip.new("fuel", "燃料", 0)
 	chips_hbox.add_child(chip_fuel)
 
 	# Backpack Capacity Meter Row

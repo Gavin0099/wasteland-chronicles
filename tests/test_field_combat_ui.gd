@@ -48,11 +48,21 @@ func run() -> void:
 	check(main.world.field_state.receipt >= 0 and ui.buttons.has("CONFIRM") and not ui.stage.enemy.visible, "victory receipt and enemy removal")
 	await ui.perform(ui.payload_for("CONFIRM"))
 	await ui.perform({"command": "OPEN"})
-	check(ui.log_label.text.contains("水 4") and ui.log_label.text.contains("食物 2"), "actual cache receipt visible")
+	check(ui.gain_values.water.text == "水 +4" and ui.gain_values.food.text == "食物 +2", "actual cache receipt names and quantities visible alongside icons")
 	await ui.perform(ui.payload_for("CONFIRM"))
 	check(ui.buttons.OPEN.disabled, "one-time loot button disabled")
 	ui.close()
 	check(ui.is_queued_for_deletion(), "can close after confirming result")
+	# The icon receipt must distinguish forfeited supplies from actual gains.
+	await second.perform(second.payload_for("DEFEND"))
+	await second.perform(second.payload_for("ATTACK"))
+	await second.perform(second.payload_for("CONFIRM"))
+	twin.player.inventory.water = 18
+	twin.player.inventory.food = 0
+	await second.perform({"command": "OPEN"})
+	check(second.gain_values.is_empty(), "full pack must not show gained item rows")
+	check(second.left_values.water.text == "水 4" and second.left_values.food.text == "食物 2", "full-pack receipt shows actual uncollected supplies without plus sign")
+	check(main.engine.validate_invariants(twin) == "", "full-pack receipt preserves invariants")
 	second.queue_free()
 	main.queue_free()
 	await process_frame
