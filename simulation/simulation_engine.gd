@@ -1933,6 +1933,16 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		&"TRADE_COLUMN":
 			if p.money < TravelEncounter.COLUMN_TRADE_CAPS:
 				return "INSUFFICIENT_FUNDS: they want %d caps" % TravelEncounter.COLUMN_TRADE_CAPS
+		&"FIGHT":
+			if not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
+				return "FIELD_BATTLE_CONFLICT: field battle or receipt is already pending"
+			if p.field_kit == null or p.field_kit.get("hp", 0) <= 0:
+				return "PLAYER_UNABLE_TO_FIGHT: player has no health"
+		&"BRIBE":
+			if p.money < TravelEncounter.BANDIT_BRIBE_CAPS:
+				return "INSUFFICIENT_FUNDS: the bandits demand %d caps" % TravelEncounter.BANDIT_BRIBE_CAPS
+		&"FLEE_ROAD":
+			pass
 	return ""
 
 # Apply the choice and its time cost atomically, then wait for receipt confirmation.
@@ -1944,6 +1954,38 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var enc := world.active_encounter
 	var p: PlayerState = world.player
 	var encounter_type := enc.encounter_type
+
+	if option_id == &"FIGHT":
+		var origin_str: String = String(enc.origin_id)
+		var dest_str: String = String(enc.destination_id)
+		var travel_idx: int = enc.travel_day_index
+		world.active_encounter = null
+		world.pending_encounter_result = -1
+		var battle_info: Dictionary = WorldState.Field.begin_road_battle(world, {
+			"encounter_type": "BANDIT_AMBUSH",
+			"origin": origin_str,
+			"destination": dest_str,
+			"travel_day_index": travel_idx,
+		})
+		world.record_event(EventRecord.new(
+			world.current_day,
+			"ROAD_COMBAT_BEGAN",
+			p.npc_id,
+			StringName(dest_str),
+			{
+				"encounter_type": "BANDIT_AMBUSH",
+				"battle_id": battle_info.id,
+				"origin": origin_str,
+			"destination": dest_str,
+			"travel_day_index": travel_idx,
+			}
+		))
+		return {
+			"success": true,
+			"action": "START_ROAD_COMBAT",
+			"battle_id": battle_info.id,
+			"current_day": world.current_day,
+		}
 	var gained: Dictionary = {}
 	var spent: Dictionary = {}
 	var extra_day := false
@@ -2038,6 +2080,11 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			spent["caps"] = TravelEncounter.COLUMN_TRADE_CAPS
 			offered = TravelEncounter.column_trade_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+		&"BRIBE":
+			p.money -= TravelEncounter.BANDIT_BRIBE_CAPS
+			spent["caps"] = TravelEncounter.BANDIT_BRIBE_CAPS
+		&"FLEE_ROAD":
+			extra_day = true
 
 	gained = _give_player_goods(p, offered)
 	for item_id in offered_items:
@@ -2306,7 +2353,7 @@ func advance_player_travel(world: WorldState, player_id: StringName, route_days:
 
 # A journey halts while an encounter is waiting for an answer.
 func is_player_travel_interrupted(world: WorldState, _player_id: StringName) -> bool:
-	return world.active_encounter != null or world.pending_encounter_result >= 0
+	return world.active_encounter != null or world.pending_encounter_result >= 0 or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0
 
 func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
 	var auth_err := authorize_player_intent(world, intent)

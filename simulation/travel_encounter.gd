@@ -40,7 +40,10 @@ const ROCKSLIDE := &"ROCKSLIDE"
 const ROADBLOCK := &"ROADBLOCK"
 const DEHYDRATED_TRAVELLER := &"DEHYDRATED_TRAVELLER"
 const REFUGEE_COLUMN := &"REFUGEE_COLUMN"
+const BANDIT_AMBUSH := &"BANDIT_AMBUSH"
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+
+const BANDIT_BRIBE_CAPS := 15
 
 # Base weights for an ordinary, quiet stretch of road. EMPTY is deliberately
 # the heaviest: an encounter has to stay an interruption, not a commute.
@@ -98,6 +101,13 @@ static func candidates(facts: Dictionary) -> Array:
 	if not (facts.get("refugee_column", {}) as Dictionary).is_empty():
 		out.append({"type": REFUGEE_COLUMN, "weight": 8})
 
+	# Bandits ambush where security is compromised. Clamped and scaled to match existing weights.
+	var ambush_weight: int = int(maxf(0.0, 75.0 - min_security) / 10.0)
+	if facts.get("bandit_ambush", false):
+		ambush_weight += 5
+	if ambush_weight > 0:
+		out.append({"type": BANDIT_AMBUSH, "weight": ambush_weight})
+
 	return out
 
 # Which encounter, if any, happens on this day of this journey.
@@ -130,12 +140,15 @@ static func title(encounter_type: StringName) -> String:
 		ROADBLOCK: return "路上的關卡"
 		DEHYDRATED_TRAVELLER: return "脫水的旅人"
 		REFUGEE_COLUMN: return "逃難的人群"
+		BANDIT_AMBUSH: return "劫匪伏擊"
 	return "路上的事"
 
 # The same road reads differently depending on what the world is doing, so the
 # prose takes the context that was observed when the encounter fired.
 static func body(encounter_type: StringName, context: Dictionary = {}) -> String:
 	match encounter_type:
+		BANDIT_AMBUSH:
+			return "一夥持械的荒原劫匪從路旁的掩體後竄出，將你團團圍住。\n為首的劫匪揮舞著生鏽的砍刀，大聲喝令你交出所有財物。"
 		WRECK:
 			var wreck: Dictionary = context.get("fresh_wreck", {})
 			if not wreck.is_empty():
@@ -221,6 +234,12 @@ static func options(encounter_type: StringName) -> Array:
 					"requires": _skill("BARTER", 1), "requirement_label": "交易 略懂", "gate": GATE_CAPABILITY},
 				{"id": &"LEAVE", "label": "讓路讓他們過去", "detail": "什麼也沒發生"},
 			]
+		BANDIT_AMBUSH:
+			return [
+				{"id": &"FIGHT", "label": "正面迎戰", "detail": "進入戰鬥，擊退劫匪"},
+				{"id": &"BRIBE", "label": "破財消災", "detail": "瓶蓋 −%d　交出財物以保平安" % BANDIT_BRIBE_CAPS},
+				{"id": &"FLEE_ROAD", "label": "尋隙逃跑", "detail": "耗時 1 天（水 −1、食物 −1）　狼狽脫身"},
+			]
 	return []
 
 # ── Who can take which approach (S5-C2) ──────────────────────────────────────
@@ -288,7 +307,7 @@ static func has_option(encounter_type: StringName, option_id: StringName) -> boo
 	return false
 
 static func is_valid_type(encounter_type: StringName) -> bool:
-	return encounter_type in [WRECK, ROCKSLIDE, ROADBLOCK, DEHYDRATED_TRAVELLER, REFUGEE_COLUMN]
+	return encounter_type in [WRECK, ROCKSLIDE, ROADBLOCK, DEHYDRATED_TRAVELLER, REFUGEE_COLUMN, BANDIT_AMBUSH]
 
 # Pending receipts loaded from disk must contain concrete, displayable facts.
 static func valid_resolution(data: Dictionary) -> bool:

@@ -10,6 +10,7 @@ const ItemIcon = preload("res://ui/components/item_icon.gd")
 var world: WorldState
 var engine: SimulationEngine
 var stage: Control
+var heading_label: Label
 var status_label: Label
 var log_label: Label
 var receipt_items: VBoxContainer
@@ -48,7 +49,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	margin.add_child(root)
 	var heading := HBoxContainer.new()
 	root.add_child(heading)
-	label_in(heading, "灰谷近郊 / 舊補給棚", "PdaTitle")
+	heading_label = label_in(heading, "灰谷近郊 / 舊補給棚", "PdaTitle")
 	reduce_motion = CheckBox.new()
 	reduce_motion.text = "減少動態"
 	reduce_motion.toggled.connect(func(value: bool): stage.reduced_motion = value)
@@ -151,6 +152,15 @@ func refresh() -> void:
 	buttons.clear()
 	var state := world.field_state
 	var kit := world.player.field_kit
+	var is_road: bool = false
+	if not state.battle.is_empty():
+		is_road = String(state.battle.get("source", "field")) == "road"
+	elif state.receipt >= 0 and state.receipt < world.event_log.size():
+		is_road = String(world.event_log[state.receipt].payload.get("source", "field")) == "road"
+
+	if heading_label != null:
+		heading_label.text = "荒原道路 / 劫匪伏擊" if is_road else "灰谷近郊 / 舊補給棚"
+	close_button.text = "返回旅途" if is_road else "返回地圖"
 	close_button.disabled = not state.battle.is_empty() or state.receipt >= 0
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
 	stage.refresh(kit.equipped, state.enemy_hp > 0)
@@ -162,23 +172,40 @@ func refresh() -> void:
 			if resolved.success:
 				weapon = String(resolved.definition.display_name_zh)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
-	status_label.text = "你　生命 %d / 12\n野犬　生命 %d / 8\n\n武器　%s\n負重　%d / %d" % [kit.hp, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.capacity_total]
+	var enemy_name := "荒原劫匪" if is_road else "野犬"
+	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n\n武器　%s\n負重　%d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.capacity_total]
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:
 		var receipt: Dictionary = world.event_log[state.receipt].payload
-		var outcome: String = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}[receipt.outcome]
+		var outcome: String = ""
+		if is_road:
+			match String(receipt.outcome):
+				"VICTORY": outcome = "戰鬥勝利！伏擊的劫匪已被擊退。\n你在現場收集了遺留的物資。\n\n你仍可以繼續行動。"
+				"DEFEAT": outcome = "遭到劫匪伏擊！你身受重傷（生命剩餘 1）。\n劫匪搶走了你的物資後揚長而去。\n\n你仍可以繼續行動。"
+				"ESCAPED": outcome = "你擺脫了劫匪的包夾，成功逃離了戰場。\n\n你仍可以繼續行動。"
+				_: outcome = "戰鬥已結束。"
+		else:
+			outcome = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}.get(receipt.outcome, "")
 		log_label.text = "%s\n\n經過時間：0 天\n生命剩餘：%d / 12" % [outcome, kit.hp]
 		receipt_items.show()
-		show_receipt_goods("獲得", receipt.gained, "+", gain_values)
+		if not receipt.gained.is_empty():
+			show_receipt_goods("獲得物資", receipt.gained, "+", gain_values)
+		if receipt.has("caps_gained") and int(receipt.caps_gained) > 0:
+			show_receipt_goods("獲得", {"caps": int(receipt.caps_gained)}, "+", gain_values)
+		if receipt.has("lost") and not receipt.lost.is_empty():
+			show_receipt_goods("失去物資", receipt.lost, "−", left_values)
 		if not receipt.left_behind.is_empty():
 			show_receipt_goods("容量不足，未帶走", receipt.left_behind, "", left_values)
-		add_action("CONFIRM", "確認結果")
+		add_action("CONFIRM", "確認結果並返回" if is_road else "確認結果")
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
 		status_label.text += "\n\n第 %d 回合 · 你的行動" % turn
 		var damage := Field.enemy_damage(turn)
-		log_label.text = "野犬準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["猛撲" if damage == 4 else "撕咬", damage]
+		if is_road:
+			log_label.text = "荒原劫匪準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["狠毒猛擊" if damage == 4 else "揮砍", damage]
+		else:
+			log_label.text = "野犬準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["猛撲" if damage == 4 else "撕咬", damage]
 		for event in world.event_log:
 			if event.type == "FIELD_TURN" and int(event.payload.battle_id) == int(state.battle.id) and event.payload.turn >= turn - 3:
 				log_label.text += "\n\n第 %d 回合：造成 %d / 承受 %d" % [event.payload.turn, event.payload.dealt, event.payload.taken]
@@ -186,25 +213,29 @@ func refresh() -> void:
 		add_action("DEFEND", "防禦 · 減傷 3，準備反擊")
 		add_action("FLEE", "逃跑 · 承受 1 傷害")
 	else:
-		log_label.text = "野犬守著灰谷外圍的舊補給棚。\n\n棚門需要撬棍才能打開；裡面只有一批補給：水 4、食物 2。\n\n撬棍：3 廢料組裝，負重 2。可開鎖住的棚門，也能裝備作近戰武器。\n\n休養：經過 1 天，恢復 4 生命；仍受世界供應與缺水缺糧影響。"
-		add_action("START", "接近補給棚 · 開始戰鬥")
-		add_action("CRAFT", "組裝撬棍 · 廢料 −3")
-		add_action("UNEQUIP" if kit.equipped else "EQUIP", "卸下撬棍" if kit.equipped else "裝備撬棍")
-		add_action("OPEN", "使用撬棍 · 打開補給棚")
-		add_action("REST", "休養 1 天 · 生命 +4")
+		if is_road:
+			log_label.text = "戰鬥已結束，可點擊「返回旅途」。"
+		else:
+			log_label.text = "野犬守著灰谷外圍的舊補給棚。\n\n棚門需要撬棍才能打開；裡面只有一批補給：水 4、食物 2。\n\n撬棍：3 廢料組裝，負重 2。可開鎖住的棚門，也能裝備作近戰武器。\n\n休養：經過 1 天，恢復 4 生命；仍受世界供應與缺水缺糧影響。"
+			add_action("START", "接近補給棚 · 開始戰鬥")
+			add_action("CRAFT", "組裝撬棍 · 廢料 −3")
+			add_action("UNEQUIP" if kit.equipped else "EQUIP", "卸下撬棍" if kit.equipped else "裝備撬棍")
+			add_action("OPEN", "使用撬棍 · 打開補給棚")
+			add_action("REST", "休養 1 天 · 生命 +4")
 
 func show_receipt_goods(title: String, goods: Dictionary, prefix: String, values: Dictionary) -> void:
 	label_in(receipt_items, title, "PdaSection")
 	if goods.is_empty():
 		label_in(receipt_items, "無")
-	for id in ["water", "food"]:
+	for id in ["water", "food", "scrap", "caps"]:
 		if int(goods.get(id, 0)) <= 0:
 			continue
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", Tokens.GAP)
 		receipt_items.add_child(row)
 		row.add_child(ItemIcon.make(id))
-		values[id] = label_in(row, "%s %s%d" % [{"water": "水", "food": "食物"}[id], prefix, goods[id]])
+		var zh_name: String = String({"water": "水", "food": "食物", "scrap": "廢料", "caps": "瓶蓋"}.get(id, id))
+		values[id] = label_in(row, "%s %s%d" % [zh_name, prefix, goods[id]])
 
 func perform(payload: Dictionary) -> void:
 	if busy:

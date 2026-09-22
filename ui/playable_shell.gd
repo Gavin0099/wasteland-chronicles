@@ -1415,6 +1415,8 @@ func _render_encounter_result(result: Dictionary) -> void:
 		"HYDRATE": "你讓他慢慢喝下水，確認他能自己站起來。",
 		"TAKE_PACK": "你拿走了他的背包。他還坐在那裡。",
 		"TRADE_COLUMN": "你用瓶蓋跟他們換了些東西。",
+		"BRIBE": "你交出瓶蓋破財消災，劫匪收下後放你通行。",
+		"FLEE_ROAD": "你找準時機轉身逃跑，繞了一大圈才甩開劫匪。",
 	}
 	var gains := _resource_lines(result.gained, "+")
 	var item_gains := _item_lines(result.get("items_gained", {}), "+")
@@ -1468,6 +1470,8 @@ func on_encounter_option_pressed(option_id: String) -> Dictionary:
 	var res := engine.commit_player_intent(world, intent)
 	_report_action_result(res)
 	refresh_ui()
+	if not world.field_state.battle.is_empty():
+		_show_field()
 	return res
 
 func _create_window_header(title_text: String, icon_str: String = "") -> PanelContainer:
@@ -1534,7 +1538,10 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 	return "目前無法採取這個做法，請查看需求與消耗。"
 
 func _show_field() -> void:
-	if world == null or world.player == null or get_node_or_null("FieldScreen") != null or field_button.disabled:
+	if world == null or world.player == null or get_node_or_null("FieldScreen") != null:
+		return
+	var battle_or_receipt: bool = not world.field_state.battle.is_empty() or world.field_state.receipt >= 0
+	if not battle_or_receipt and (field_button == null or field_button.disabled):
 		return
 	var screen = preload("res://ui/field_screen.gd").new()
 	screen.name = "FieldScreen"
