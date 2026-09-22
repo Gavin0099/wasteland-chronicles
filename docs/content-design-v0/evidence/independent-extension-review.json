@@ -1,0 +1,424 @@
+{
+  "status": "PASS",
+  "scope": "DESIGN_ONLY extension validation and rendering; no runtime gates",
+  "positive": {
+    "status": "PASS",
+    "packs": [
+      "independent_review"
+    ],
+    "pack_versions": {
+      "independent_review": 1
+    },
+    "counts": {
+      "items": 186,
+      "encounters": 481,
+      "quests": 121,
+      "npc_hooks": 151
+    },
+    "combined_sha256": "0246c65e2bd0e5db97d3f50849d8ad196591b5d3ec60d5321ea7e223e88568d1",
+    "runtime_changed": false
+  },
+  "negative_probe_count": 51,
+  "negative_probes": [
+    {
+      "probe": "unknown_schema",
+      "status": "FAIL",
+      "errors": [
+        "independent_review: unsupported schema"
+      ]
+    },
+    {
+      "probe": "boolean_schema",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].schema_version: expected int"
+      ]
+    },
+    {
+      "probe": "boolean_pack_version",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].pack_version: expected int"
+      ]
+    },
+    {
+      "probe": "pack_id_array",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].pack_id: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "dependency_null",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].requires_packs: expected array"
+      ]
+    },
+    {
+      "probe": "null_record",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0]: expected object"
+      ]
+    },
+    {
+      "probe": "null_art_path",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0].art_file: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "unknown_package_field",
+      "status": "FAIL",
+      "errors": [
+        "packs[0]: exact object fields"
+      ]
+    },
+    {
+      "probe": "baseline_id_replacement",
+      "status": "FAIL",
+      "errors": [
+        "independent_review: namespaced id content_rope"
+      ]
+    },
+    {
+      "probe": "wrong_namespace_kind",
+      "status": "FAIL",
+      "errors": [
+        "independent_review: namespaced id pack_independent_review__person__wrong"
+      ]
+    },
+    {
+      "probe": "runtime_id_escalation",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__item__marked_rope: cannot install runtime id"
+      ]
+    },
+    {
+      "probe": "duplicate_item",
+      "status": "FAIL",
+      "errors": [
+        "independent_review: duplicate record pack_independent_review__item__marked_rope"
+      ]
+    },
+    {
+      "probe": "unknown_item",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__encounter__rope_return: unknown item"
+      ]
+    },
+    {
+      "probe": "unknown_event",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__person__rope_owner: event links"
+      ]
+    },
+    {
+      "probe": "unknown_person",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__quest__return_marked_rope: issuer"
+      ]
+    },
+    {
+      "probe": "item_as_issuer",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__quest__return_marked_rope: issuer"
+      ]
+    },
+    {
+      "probe": "person_as_item",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__encounter__rope_return: unknown item"
+      ]
+    },
+    {
+      "probe": "event_as_relationship",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__person__rope_owner: relationship target"
+      ]
+    },
+    {
+      "probe": "new_skill",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__encounter__rope_return: skill"
+      ]
+    },
+    {
+      "probe": "bool_skill_rank",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].choices[0].required_skill.rank: expected int"
+      ]
+    },
+    {
+      "probe": "damage_field",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0]: exact object fields"
+      ]
+    },
+    {
+      "probe": "asset_directory_escape",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__item__marked_rope: art path must be repo-relative ui/assets/items/... with forward slashes",
+        "pack_independent_review__item__marked_rope: art escaped item asset directory"
+      ]
+    },
+    {
+      "probe": "absolute_asset_path",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__item__marked_rope: art path must be repo-relative ui/assets/items/... with forward slashes"
+      ]
+    },
+    {
+      "probe": "category_as_reward",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__encounter__rope_return: category illustration treated as physical item"
+      ]
+    },
+    {
+      "probe": "category_as_salvage",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__item__marked_rope: category illustration in physical relation"
+      ]
+    },
+    {
+      "probe": "category_as_repair_input",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__item__marked_rope: category illustration in physical relation"
+      ]
+    },
+    {
+      "probe": "integer_choice_prose",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].choices[0].cost_zh: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "integer_availability",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].npc_hooks[0].availability.condition_zh: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "object_actions",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0].actions: expected array"
+      ]
+    },
+    {
+      "probe": "object_required_items",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].choices[0].required_items: expected array"
+      ]
+    },
+    {
+      "probe": "object_dependencies",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0].dependencies: expected array"
+      ]
+    },
+    {
+      "probe": "unknown_group",
+      "status": "FAIL",
+      "errors": [
+        "pack_independent_review__person__rope_owner: group"
+      ]
+    },
+    {
+      "probe": "blank_context",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].context_zh: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "integer_market_reason",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0].markets.new_hope.reason_zh: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "integer_hook_use",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0].hooks[0].use_zh: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "object_relationship_text",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].npc_hooks[0].relationships[0].tension_zh: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "integer_world_effect",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].quests[0].world_effect_proposals[0].change_zh: expected nonempty string"
+      ]
+    },
+    {
+      "probe": "null_trigger",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].trigger: expected object"
+      ]
+    },
+    {
+      "probe": "unexpected_trigger_field",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].trigger: exact object fields"
+      ]
+    },
+    {
+      "probe": "array_skill",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].choices[0].required_skill: expected object"
+      ]
+    },
+    {
+      "probe": "object_rewards",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].encounters[0].choices[0].rewards: expected array"
+      ]
+    },
+    {
+      "probe": "string_repair_inputs",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].items[0].repair.inputs: expected array"
+      ]
+    },
+    {
+      "probe": "object_item_refs",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].npc_hooks[0].item_refs: expected array"
+      ]
+    },
+    {
+      "probe": "missing_deadline_key",
+      "status": "FAIL",
+      "errors": [
+        "packs[0].quests[0].deadline: exact object fields"
+      ]
+    },
+    {
+      "probe": "absent_dependency",
+      "status": "FAIL",
+      "errors": [
+        "independent_review: dependency absent/self"
+      ]
+    },
+    {
+      "probe": "undeclared_cross_pack",
+      "status": "FAIL",
+      "errors": [
+        "independent_followup: undeclared cross-pack reference pack_independent_review__item__marked_rope"
+      ]
+    },
+    {
+      "probe": "dependency_cycle",
+      "status": "FAIL",
+      "errors": [
+        "dependency cycle: independent_followup -> independent_review -> independent_followup"
+      ]
+    },
+    {
+      "probe": "duplicate_json_key",
+      "status": "FAIL"
+    },
+    {
+      "probe": "top_package_array",
+      "status": "FAIL",
+      "errors": [
+        "packs[0]: expected object"
+      ]
+    },
+    {
+      "probe": "top_package_null",
+      "status": "FAIL",
+      "errors": [
+        "packs[0]: expected object"
+      ]
+    },
+    {
+      "probe": "packages_not_array",
+      "status": "FAIL",
+      "errors": [
+        "packs: expected array"
+      ]
+    }
+  ],
+  "package_order_invariant": true,
+  "caller_data_unchanged": true,
+  "cross_town_regional_interest_allowed": true,
+  "baseline_and_runtime_bytes_unchanged": true,
+  "protected_file_count": 536,
+  "changed_protected_files": [],
+  "preview_counts": {
+    "events": 481,
+    "hooks": 151,
+    "items": 186,
+    "quests": 121
+  },
+  "preview_repeat_identical": true,
+  "preview_then_baseline_no_output_leak": true,
+  "preview_local_links_resolve": 1672,
+  "all_four_new_records_rendered": true,
+  "fixture_sha256": "8f6b2cfa8e17929e91ad2eebbe0cf1a2bb217b269ea11054302bb94655f6f7e6",
+  "preview_file_sha256": {
+    "catalogue\\encounters-anomaly.md": "4992d9324f00d6bfcb0d44ad09f0502329f11c5aeb83a689bf165433f89e2880",
+    "catalogue\\encounters-caravan.md": "e2beef27abaa686e8ca6f0caead3e7fc32d78092195190d327da8486eb2b94f2",
+    "catalogue\\encounters-npc.md": "5929111e86e808ee964cc4b9a4560bd7a8158fcb859cda066571141b79a11442",
+    "catalogue\\encounters-ruins.md": "df062ee7814ff50b1abd16fcfdcd66b4c4a66dfbc2356644d8275621fe2960c7",
+    "catalogue\\encounters-settlement.md": "385280f3bdfc7f778589ba53fed86e3319d4c1a21724356bbf0babb8723aa219",
+    "catalogue\\encounters-wilderness.md": "7e470c15d48317cb7939a3b8eb9177ed8447979a325e085bb5faa7009da08363",
+    "catalogue\\items.md": "4dc342a597adadc574906cfb840da470b567dd760369ed5117d4a5e1d2f8b7ec",
+    "catalogue\\npc-dry_well.md": "d6474b5e94a3a37900f4bbc7e1ac704baa778fe7b954897b6d86467cacf04f8b",
+    "catalogue\\npc-gray_valley.md": "c1ce5cd2dff8caea145fb6b73d7d675fba85383f0f3a3a85183455690b21f060",
+    "catalogue\\npc-new_hope.md": "9c12e685411aad96aaeae2bbd02be3cf4ac7974a50878f99e9e1c85365bd211b",
+    "catalogue\\quests-dry_well.md": "7c990f3e6259e89a998a5e5f567b7801031ba4cb486313cf984048ff148158b7",
+    "catalogue\\quests-gray_valley.md": "fd39f3abeef381d1569686e628531f4e1e91ec4d83297fa45d0ead7ae4f21dbe",
+    "catalogue\\quests-new_hope.md": "a671ff2ae88eb7c975e838448a7ac678906b1827aef79ca51dc8ff24c33637a0",
+    "derived\\ECONOMY_MATRIX.md": "4652cffa416947f180d2404eaa5a78d453cae49fb876b9d619510289b499720e",
+    "derived\\item-usage.json": "3c00783d05a6124418c27575a048340de05d3cdb4a01bd4cdcb2ae5522aba683",
+    "derived\\loot-sources.json": "21e55283dece8b67cfc1ab453d2912cdb703dab5ae5e3a666bd8ede8db5a2b99",
+    "derived\\material-relations.json": "2791b21cabd727b21f4f3ee3a285945d8a4b2690cddddab64a7abfbcf0a1dfcc",
+    "derived\\MATRIX_REPORT.md": "664e52ef4bed7f9bf6c7977925aa8b0a9b44037b6dbbb5e805735aa3c6dbf382",
+    "derived\\settlement-economy.json": "bdaedddd491300ca61f09e3929a4df1533464947f27d0033b9298b3d683ce74a",
+    "derived\\validation-receipt.json": "8f6886c6586922db7404e0f039e94d155dc60f8f694de2a192a0cbf83fd4c3ad",
+    "derived\\world-links.json": "6602670c39f994aa894679581f8e03b9d12f7e37a2ac8f0975c636a297352ebf"
+  },
+  "reviewed_tool_sha256": {
+    "check_extensions.py": "d5bca02e185a89242a9ad61c656c3ae0e1172b5be5d4b53626e241892c16ba7b",
+    "validate.py": "495e8c0f56fe2b52959cd1420c3af0b82729faddf861f9ba673e0c1ec5202048",
+    "build_reference.py": "dca656837610177c5c857ce80239a45424f6641a0b7f42938476e81b9fc41e37"
+  }
+}

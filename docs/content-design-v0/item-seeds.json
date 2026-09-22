@@ -1,0 +1,2039 @@
+[
+  {
+    "content_id": "content_rusted_knife",
+    "name_zh": "生鏽小刀",
+    "art_file": "ui/assets/items/candidates/rusty_knife.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "rusted_knife",
+    "baseline_weight_g": 250
+  },
+  {
+    "content_id": "content_hunting_knife",
+    "name_zh": "獵刀",
+    "art_file": "ui/assets/items/candidates/hunting_knife.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "hunting_knife",
+    "baseline_weight_g": 400
+  },
+  {
+    "content_id": "content_entrenching_shovel",
+    "name_zh": "工兵鏟",
+    "art_file": "ui/assets/items/library/weapons/entrenching_shovel.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_crowbar",
+    "name_zh": "撬棍",
+    "art_file": "ui/assets/items/crowbar.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_rebar_club",
+    "name_zh": "鋼筋棍",
+    "art_file": "ui/assets/items/candidates/rebar_club.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "rebar_club",
+    "baseline_weight_g": 1800
+  },
+  {
+    "content_id": "content_fire_axe",
+    "name_zh": "消防斧",
+    "art_file": "ui/assets/items/library/weapons/fire_axe.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_wood_axe",
+    "name_zh": "伐木斧",
+    "art_file": "ui/assets/items/library/weapons/wood_axe.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_scrap_machete",
+    "name_zh": "廢鐵砍刀",
+    "art_file": "ui/assets/items/candidates/scrap_machete.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "scrap_machete",
+    "baseline_weight_g": 1200
+  },
+  {
+    "content_id": "content_car_panel_cleaver",
+    "name_zh": "車板刀",
+    "art_file": "ui/assets/items/library/weapons/car_panel_cleaver.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_desert_sabre",
+    "name_zh": "沙地彎刀",
+    "art_file": "ui/assets/items/library/weapons/desert_sabre.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_spear",
+    "name_zh": "長矛",
+    "art_file": "ui/assets/items/library/weapons/spear.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_caravan_polearm",
+    "name_zh": "商隊槍",
+    "art_file": "ui/assets/items/library/weapons/caravan_polearm.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_hunting_fork",
+    "name_zh": "捕獸叉",
+    "art_file": "ui/assets/items/library/weapons/hunting_fork.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_stun_baton",
+    "name_zh": "電擊棒",
+    "art_file": "ui/assets/items/library/weapons/stun_baton.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_power_hammer",
+    "name_zh": "動力錘",
+    "art_file": "ui/assets/items/library/weapons/power_hammer.png",
+    "art_sections": [
+      1
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_revolver",
+    "name_zh": "老式左輪",
+    "art_file": "ui/assets/items/library/weapons/old_revolver.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_civilian_pistol",
+    "name_zh": "民用手槍",
+    "art_file": "ui/assets/items/library/weapons/civilian_pistol.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_police_pistol",
+    "name_zh": "警用手槍",
+    "art_file": "ui/assets/items/library/weapons/police_pistol.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_improvised_pistol",
+    "name_zh": "土製手槍",
+    "art_file": "ui/assets/items/library/weapons/improvised_pistol.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_snub_revolver",
+    "name_zh": "短管左輪",
+    "art_file": "ui/assets/items/library/weapons/snub_revolver.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_heavy_revolver",
+    "name_zh": "大口徑左輪",
+    "art_file": "ui/assets/items/library/weapons/heavy_revolver.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_machine_pistol",
+    "name_zh": "衝鋒手槍",
+    "art_file": "ui/assets/items/library/weapons/machine_pistol.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_smg",
+    "name_zh": "舊世衝鋒槍",
+    "art_file": "ui/assets/items/library/weapons/old_smg.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_caravan_smg",
+    "name_zh": "商隊護衛槍",
+    "art_file": "ui/assets/items/library/weapons/caravan_smg.png",
+    "art_sections": [
+      2
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_single_shot_rifle",
+    "name_zh": "單發獵槍",
+    "art_file": "ui/assets/items/library/weapons/single_shot_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_bolt_action_rifle",
+    "name_zh": "栓動步槍",
+    "art_file": "ui/assets/items/library/weapons/bolt_action_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_caravan_rifle",
+    "name_zh": "商隊步槍",
+    "art_file": "ui/assets/items/library/weapons/caravan_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_semi_auto_rifle",
+    "name_zh": "半自動步槍",
+    "art_file": "ui/assets/items/library/weapons/semi_auto_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_assault_rifle",
+    "name_zh": "軍用突擊步槍",
+    "art_file": "ui/assets/items/library/weapons/assault_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_scrap_rifle",
+    "name_zh": "廢土拼裝步槍",
+    "art_file": "ui/assets/items/library/weapons/scrap_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_sandstorm_rifle",
+    "name_zh": "沙暴步槍",
+    "art_file": "ui/assets/items/library/weapons/sandstorm_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_sniper_rifle",
+    "name_zh": "狙擊步槍",
+    "art_file": "ui/assets/items/library/weapons/sniper_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_hunter_rifle",
+    "name_zh": "老獵人的槍",
+    "art_file": "ui/assets/items/library/weapons/old_hunter_rifle.png",
+    "art_sections": [
+      3
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_single_shot_shotgun",
+    "name_zh": "單管散彈槍",
+    "art_file": "ui/assets/items/library/weapons/single_shot_shotgun.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_double_barrel_shotgun",
+    "name_zh": "雙管散彈槍",
+    "art_file": "ui/assets/items/library/weapons/double_barrel_shotgun.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_pump_shotgun",
+    "name_zh": "泵動散彈槍",
+    "art_file": "ui/assets/items/library/weapons/pump_shotgun.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_industrial_nailgun",
+    "name_zh": "工業釘槍",
+    "art_file": "ui/assets/items/library/weapons/industrial_nailgun.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_flare_pistol",
+    "name_zh": "信號槍",
+    "art_file": "ui/assets/items/library/weapons/flare_pistol.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_grenade_launcher",
+    "name_zh": "榴彈發射器",
+    "art_file": "ui/assets/items/library/weapons/grenade_launcher.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_light_machine_gun",
+    "name_zh": "輕機槍",
+    "art_file": "ui/assets/items/library/weapons/light_machine_gun.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_flamethrower",
+    "name_zh": "火焰噴射器",
+    "art_file": "ui/assets/items/library/weapons/flamethrower.png",
+    "art_sections": [
+      4
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_work_clothes",
+    "name_zh": "舊工作服",
+    "art_file": "ui/assets/items/candidates/work_clothes.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "work_clothes",
+    "baseline_weight_g": 1200
+  },
+  {
+    "content_id": "content_farm_clothes",
+    "name_zh": "農務服",
+    "art_file": "ui/assets/items/library/clothing/farm_clothes.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_desert_robe",
+    "name_zh": "沙地長袍",
+    "art_file": "ui/assets/items/candidates/desert_robe.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "desert_robe",
+    "baseline_weight_g": 900
+  },
+  {
+    "content_id": "content_caravan_coat",
+    "name_zh": "商隊外套",
+    "art_file": "ui/assets/items/candidates/caravan_coat.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "caravan_coat",
+    "baseline_weight_g": 1500
+  },
+  {
+    "content_id": "content_worker_leather_jacket",
+    "name_zh": "工人皮衣",
+    "art_file": "ui/assets/items/library/clothing/worker_leather_jacket.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_motorcycle_jacket",
+    "name_zh": "摩托夾克",
+    "art_file": "ui/assets/items/library/clothing/motorcycle_jacket.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_stab_vest",
+    "name_zh": "防刺背心",
+    "art_file": "ui/assets/items/library/clothing/stab_vest.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_police_ballistic_vest",
+    "name_zh": "警用防彈衣",
+    "art_file": "ui/assets/items/library/clothing/police_ballistic_vest.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_scrap_iron_armor",
+    "name_zh": "拼裝鐵甲",
+    "art_file": "ui/assets/items/library/clothing/scrap_iron_armor.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_car_panel_cuirass",
+    "name_zh": "車板胸甲",
+    "art_file": "ui/assets/items/library/clothing/car_panel_cuirass.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_world_military_armor",
+    "name_zh": "舊世軍甲",
+    "art_file": "ui/assets/items/library/clothing/old_world_military_armor.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_hazmat_suit",
+    "name_zh": "防化服",
+    "art_file": "ui/assets/items/library/clothing/hazmat_suit.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_heat_insulation_suit",
+    "name_zh": "隔熱服",
+    "art_file": "ui/assets/items/library/clothing/heat_insulation_suit.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_firefighter_suit",
+    "name_zh": "防火服",
+    "art_file": "ui/assets/items/library/clothing/firefighter_suit.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_wilderness_cloak",
+    "name_zh": "荒野斗篷",
+    "art_file": "ui/assets/items/library/clothing/wilderness_cloak.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_dust_mask",
+    "name_zh": "沙塵面罩",
+    "art_file": "ui/assets/items/library/clothing/dust_mask.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_gas_mask",
+    "name_zh": "防毒面具",
+    "art_file": "ui/assets/items/library/clothing/gas_mask.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_engineering_goggles",
+    "name_zh": "工程護目鏡",
+    "art_file": "ui/assets/items/library/clothing/engineering_goggles.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_night_vision_goggles",
+    "name_zh": "夜視鏡",
+    "art_file": "ui/assets/items/library/clothing/night_vision_goggles.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_tactical_helmet",
+    "name_zh": "舊世戰術頭盔",
+    "art_file": "ui/assets/items/library/clothing/tactical_helmet.png",
+    "art_sections": [
+      5
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_cloth_sack",
+    "name_zh": "布袋",
+    "art_file": "ui/assets/items/library/clothing/cloth_sack.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_travel_backpack",
+    "name_zh": "舊旅行包",
+    "art_file": "ui/assets/items/candidates/travel_backpack.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "travel_backpack",
+    "baseline_weight_g": 1100
+  },
+  {
+    "content_id": "content_hiking_backpack",
+    "name_zh": "登山背包",
+    "art_file": "ui/assets/items/library/clothing/hiking_backpack.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_military_backpack",
+    "name_zh": "軍用背包",
+    "art_file": "ui/assets/items/library/clothing/military_backpack.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_tool_belt",
+    "name_zh": "工具腰帶",
+    "art_file": "ui/assets/items/library/clothing/tool_belt.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_ammo_bandolier",
+    "name_zh": "彈藥帶",
+    "art_file": "ui/assets/items/library/clothing/ammo_bandolier.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_medical_satchel",
+    "name_zh": "醫療袋",
+    "art_file": "ui/assets/items/library/clothing/medical_satchel.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_waterskin",
+    "name_zh": "水袋",
+    "art_file": "ui/assets/items/library/clothing/waterskin.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_waterproof_bag",
+    "name_zh": "防水袋",
+    "art_file": "ui/assets/items/library/clothing/waterproof_bag.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_sealed_cargo_crate",
+    "name_zh": "密封貨箱",
+    "art_file": "ui/assets/items/library/clothing/sealed_cargo_crate.png",
+    "art_sections": [
+      6
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_clean_water",
+    "name_zh": "淨水",
+    "art_file": "ui/assets/items/library/supplies/clean_water.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_dirty_water",
+    "name_zh": "污水",
+    "art_file": "ui/assets/items/library/supplies/dirty_water.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_water",
+    "name_zh": "水壺",
+    "art_file": "ui/assets/items/water.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_purification_tablets",
+    "name_zh": "淨水錠",
+    "art_file": "ui/assets/items/library/supplies/purification_tablets.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_water_filter",
+    "name_zh": "濾水器",
+    "art_file": "ui/assets/items/library/supplies/water_filter.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_food",
+    "name_zh": "乾糧",
+    "art_file": "ui/assets/items/food.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_jerky",
+    "name_zh": "肉乾",
+    "art_file": "ui/assets/items/library/supplies/jerky.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_canned_food",
+    "name_zh": "罐頭",
+    "art_file": "ui/assets/items/library/supplies/canned_food.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_wild_greens",
+    "name_zh": "野菜",
+    "art_file": "ui/assets/items/library/supplies/wild_greens.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_raw_meat",
+    "name_zh": "生肉",
+    "art_file": "ui/assets/items/library/supplies/raw_meat.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_salt",
+    "name_zh": "鹽",
+    "art_file": "ui/assets/items/library/supplies/salt.png",
+    "art_sections": [
+      7,
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_matches",
+    "name_zh": "火柴",
+    "art_file": "ui/assets/items/library/supplies/matches.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_lighter",
+    "name_zh": "打火機",
+    "art_file": "ui/assets/items/library/supplies/lighter.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_fuel_can",
+    "name_zh": "燃料罐",
+    "art_file": "ui/assets/items/library/supplies/fuel_can.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_sleeping_bag",
+    "name_zh": "睡袋",
+    "art_file": "ui/assets/items/library/supplies/sleeping_bag.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_tent",
+    "name_zh": "帳篷",
+    "art_file": "ui/assets/items/library/supplies/tent.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_rope",
+    "name_zh": "繩索",
+    "art_file": "ui/assets/items/candidates/rope.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "rope",
+    "baseline_weight_g": 2500
+  },
+  {
+    "content_id": "content_flashlight",
+    "name_zh": "手電筒",
+    "art_file": "ui/assets/items/candidates/flashlight.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "flashlight",
+    "baseline_weight_g": 400
+  },
+  {
+    "content_id": "content_battery",
+    "name_zh": "電池",
+    "art_file": "ui/assets/items/library/supplies/battery.png",
+    "art_sections": [
+      7,
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_oil_lamp",
+    "name_zh": "油燈",
+    "art_file": "ui/assets/items/library/supplies/oil_lamp.png",
+    "art_sections": [
+      7
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_bandage",
+    "name_zh": "繃帶",
+    "art_file": "ui/assets/items/library/supplies/bandage.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_disinfectant",
+    "name_zh": "消毒水",
+    "art_file": "ui/assets/items/library/supplies/disinfectant.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_painkillers",
+    "name_zh": "止痛藥",
+    "art_file": "ui/assets/items/library/supplies/painkillers.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_antibiotics",
+    "name_zh": "抗生素",
+    "art_file": "ui/assets/items/library/supplies/antibiotics.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_first_aid_kit",
+    "name_zh": "急救包",
+    "art_file": "ui/assets/items/candidates/medkit.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "first_aid_kit",
+    "baseline_weight_g": 800
+  },
+  {
+    "content_id": "content_surgical_kit",
+    "name_zh": "手術包",
+    "art_file": "ui/assets/items/library/supplies/surgical_kit.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_adrenaline",
+    "name_zh": "腎上腺素",
+    "art_file": "ui/assets/items/library/supplies/adrenaline.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_anti_radiation_medicine",
+    "name_zh": "抗輻射藥",
+    "art_file": "ui/assets/items/library/supplies/anti_radiation_medicine.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_antidote",
+    "name_zh": "解毒劑",
+    "art_file": "ui/assets/items/library/supplies/antidote.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_burn_ointment",
+    "name_zh": "燒傷藥膏",
+    "art_file": "ui/assets/items/library/supplies/burn_ointment.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_world_medical_case",
+    "name_zh": "舊世醫療箱",
+    "art_file": "ui/assets/items/library/supplies/old_world_medical_case.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_unlabelled_medicine",
+    "name_zh": "未標示藥劑",
+    "art_file": "ui/assets/items/library/supplies/unlabelled_medicine.png",
+    "art_sections": [
+      8
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_wrench",
+    "name_zh": "扳手",
+    "art_file": "ui/assets/items/candidates/wrench.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": "wrench",
+    "baseline_weight_g": 700
+  },
+  {
+    "content_id": "content_screwdriver",
+    "name_zh": "螺絲起子",
+    "art_file": "ui/assets/items/library/supplies/screwdriver.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_pliers",
+    "name_zh": "鉗子",
+    "art_file": "ui/assets/items/library/supplies/pliers.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_toolbox",
+    "name_zh": "工具箱",
+    "art_file": "ui/assets/items/library/supplies/toolbox.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_welding_tools",
+    "name_zh": "焊接工具",
+    "art_file": "ui/assets/items/library/supplies/welding_tools.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_multimeter",
+    "name_zh": "萬用電表",
+    "art_file": "ui/assets/items/library/supplies/multimeter.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_hand_crank_generator",
+    "name_zh": "手搖發電機",
+    "art_file": "ui/assets/items/library/supplies/hand_crank_generator.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_jack",
+    "name_zh": "千斤頂",
+    "art_file": "ui/assets/items/library/supplies/jack.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_metal_detector",
+    "name_zh": "金屬探測器",
+    "art_file": "ui/assets/items/library/supplies/metal_detector.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_binoculars",
+    "name_zh": "望遠鏡",
+    "art_file": "ui/assets/items/library/supplies/binoculars.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_compass",
+    "name_zh": "指南針",
+    "art_file": "ui/assets/items/library/supplies/compass.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_world_map",
+    "name_zh": "舊世地圖",
+    "art_file": "ui/assets/items/library/supplies/old_world_map.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_radio",
+    "name_zh": "無線電",
+    "art_file": "ui/assets/items/library/supplies/radio.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_signal_receiver",
+    "name_zh": "訊號接收器",
+    "art_file": "ui/assets/items/library/supplies/signal_receiver.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_lockpick_set",
+    "name_zh": "開鎖工具",
+    "art_file": "ui/assets/items/library/supplies/lockpick_set.png",
+    "art_sections": [
+      9
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_scrap_iron",
+    "name_zh": "廢鐵",
+    "art_file": "ui/assets/items/library/supplies/scrap_iron.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_steel_stock",
+    "name_zh": "鋼材",
+    "art_file": "ui/assets/items/library/supplies/steel_stock.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_aluminum_stock",
+    "name_zh": "鋁材",
+    "art_file": "ui/assets/items/library/supplies/aluminum_stock.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_copper_wire",
+    "name_zh": "銅線",
+    "art_file": "ui/assets/items/library/supplies/copper_wire.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_circuit_board",
+    "name_zh": "電路板",
+    "art_file": "ui/assets/items/library/supplies/circuit_board.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_gear",
+    "name_zh": "齒輪",
+    "art_file": "ui/assets/items/library/supplies/gear.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_bearing",
+    "name_zh": "軸承",
+    "art_file": "ui/assets/items/library/supplies/bearing.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_spring",
+    "name_zh": "彈簧",
+    "art_file": "ui/assets/items/library/supplies/spring.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_rubber",
+    "name_zh": "橡膠",
+    "art_file": "ui/assets/items/library/supplies/rubber.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_plastic",
+    "name_zh": "塑膠",
+    "art_file": "ui/assets/items/library/supplies/plastic.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_cloth",
+    "name_zh": "布料",
+    "art_file": "ui/assets/items/library/supplies/cloth.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_leather",
+    "name_zh": "皮革",
+    "art_file": "ui/assets/items/library/supplies/leather.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_glass",
+    "name_zh": "玻璃",
+    "art_file": "ui/assets/items/library/supplies/glass.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_chemicals",
+    "name_zh": "化學品",
+    "art_file": "ui/assets/items/library/supplies/chemicals.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_battery_cell",
+    "name_zh": "電池芯",
+    "art_file": "ui/assets/items/library/supplies/battery_cell.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_precision_parts",
+    "name_zh": "精密零件",
+    "art_file": "ui/assets/items/library/supplies/precision_parts.png",
+    "art_sections": [
+      10
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_cigarettes",
+    "name_zh": "香菸",
+    "art_file": "ui/assets/items/library/supplies/cigarettes.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_liquor",
+    "name_zh": "酒",
+    "art_file": "ui/assets/items/library/supplies/liquor.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_coffee",
+    "name_zh": "咖啡",
+    "art_file": "ui/assets/items/library/supplies/coffee.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_tea",
+    "name_zh": "茶葉",
+    "art_file": "ui/assets/items/library/supplies/tea.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_sugar",
+    "name_zh": "糖",
+    "art_file": "ui/assets/items/library/supplies/sugar.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_spices",
+    "name_zh": "香料",
+    "art_file": "ui/assets/items/library/supplies/spices.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_world_canned_food",
+    "name_zh": "舊世罐頭",
+    "art_file": "ui/assets/items/library/supplies/old_world_canned_food.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_ammunition",
+    "name_zh": "彈藥",
+    "art_file": "ui/assets/items/library/supplies/ammunition.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "category_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_medicines",
+    "name_zh": "藥物",
+    "art_file": "ui/assets/items/library/supplies/medicines.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "category_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_mechanical_parts",
+    "name_zh": "機械零件",
+    "art_file": "ui/assets/items/library/supplies/mechanical_parts.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "category_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_seeds",
+    "name_zh": "種子",
+    "art_file": "ui/assets/items/library/supplies/seeds.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_fuel",
+    "name_zh": "燃料",
+    "art_file": "ui/assets/items/fuel.png",
+    "art_sections": [
+      11
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_world_watch",
+    "name_zh": "舊世界手錶",
+    "art_file": "ui/assets/items/library/relics/old_world_watch.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_camera",
+    "name_zh": "相機",
+    "art_file": "ui/assets/items/library/relics/camera.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_music_player",
+    "name_zh": "音樂播放器",
+    "art_file": "ui/assets/items/library/relics/music_player.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_vinyl_record",
+    "name_zh": "黑膠唱片",
+    "art_file": "ui/assets/items/library/relics/vinyl_record.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_photograph",
+    "name_zh": "老照片",
+    "art_file": "ui/assets/items/library/relics/old_photograph.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_identity_document",
+    "name_zh": "身分證件",
+    "art_file": "ui/assets/items/library/relics/identity_document.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_military_dog_tags",
+    "name_zh": "軍人識別牌",
+    "art_file": "ui/assets/items/library/relics/military_dog_tags.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_company_keycard",
+    "name_zh": "公司門禁卡",
+    "art_file": "ui/assets/items/library/relics/company_keycard.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_hospital_id_card",
+    "name_zh": "醫院識別卡",
+    "art_file": "ui/assets/items/library/relics/hospital_id_card.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_data_disk",
+    "name_zh": "資料磁碟",
+    "art_file": "ui/assets/items/library/relics/data_disk.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_paper_journal",
+    "name_zh": "紙本日記",
+    "art_file": "ui/assets/items/library/relics/paper_journal.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_repair_manual",
+    "name_zh": "維修手冊",
+    "art_file": "ui/assets/items/library/relics/repair_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_medical_manual",
+    "name_zh": "醫療手冊",
+    "art_file": "ui/assets/items/library/relics/medical_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_military_manual",
+    "name_zh": "軍用手冊",
+    "art_file": "ui/assets/items/library/relics/military_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_planting_manual",
+    "name_zh": "種植手冊",
+    "art_file": "ui/assets/items/library/relics/planting_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_geological_survey_map",
+    "name_zh": "地質調查圖",
+    "art_file": "ui/assets/items/library/relics/geological_survey_map.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_neural_reflex_module",
+    "name_zh": "神經反射模組",
+    "art_file": "ui/assets/items/library/relics/neural_reflex_module.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_old_world_tactical_chip",
+    "name_zh": "舊世戰術晶片",
+    "art_file": "ui/assets/items/library/relics/old_world_tactical_chip.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_muscle_stimulator",
+    "name_zh": "肌纖維刺激器",
+    "art_file": "ui/assets/items/library/relics/muscle_stimulator.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_memory_core",
+    "name_zh": "記憶核心",
+    "art_file": "ui/assets/items/library/relics/memory_core.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_military_medical_chip",
+    "name_zh": "軍醫資料晶片",
+    "art_file": "ui/assets/items/library/relics/military_medical_chip.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_precision_engineering_manual",
+    "name_zh": "精密工程手冊",
+    "art_file": "ui/assets/items/library/relics/precision_engineering_manual.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_unknown_implant",
+    "name_zh": "未知植入物",
+    "art_file": "ui/assets/items/library/relics/unknown_implant.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_black_box_memory",
+    "name_zh": "黑盒記憶體",
+    "art_file": "ui/assets/items/library/relics/black_box_memory.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_uncold_ice",
+    "name_zh": "不冷的冰",
+    "art_file": "ui/assets/items/library/relics/uncold_ice.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_black_water_drop",
+    "name_zh": "黑色水滴",
+    "art_file": "ui/assets/items/library/relics/black_water_drop.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_hollow_stone",
+    "name_zh": "空心石",
+    "art_file": "ui/assets/items/library/relics/hollow_stone.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_humming_stone",
+    "name_zh": "鳴石",
+    "art_file": "ui/assets/items/library/relics/humming_stone.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_static_bone",
+    "name_zh": "靜電骨",
+    "art_file": "ui/assets/items/library/relics/static_bone.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_reverse_magnetic_shard",
+    "name_zh": "逆磁片",
+    "art_file": "ui/assets/items/library/relics/reverse_magnetic_shard.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_shadowless_glass",
+    "name_zh": "無影玻璃",
+    "art_file": "ui/assets/items/library/relics/shadowless_glass.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_gray_seed",
+    "name_zh": "灰種",
+    "art_file": "ui/assets/items/library/relics/gray_seed.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_heat_core",
+    "name_zh": "熱核",
+    "art_file": "ui/assets/items/library/relics/heat_core.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_silence_box",
+    "name_zh": "沉默盒",
+    "art_file": "ui/assets/items/library/relics/silence_box.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_last_round",
+    "name_zh": "最後一發",
+    "art_file": "ui/assets/items/library/relics/last_round.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_homecoming",
+    "name_zh": "回家",
+    "art_file": "ui/assets/items/library/relics/homecoming.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_number_sixty_three",
+    "name_zh": "六十三號",
+    "art_file": "ui/assets/items/library/relics/number_sixty_three.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_well_guardian",
+    "name_zh": "守井人",
+    "art_file": "ui/assets/items/library/relics/well_guardian.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  },
+  {
+    "content_id": "content_unsent_letter",
+    "name_zh": "沒有寄出的信",
+    "art_file": "ui/assets/items/library/relics/unsent_letter.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "baseline_weight_g": null
+  }
+]

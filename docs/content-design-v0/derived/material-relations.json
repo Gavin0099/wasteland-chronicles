@@ -1,0 +1,2606 @@
+[
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_aluminum_stock",
+    "target": "content_heat_insulation_suit"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_aluminum_stock",
+    "target": "content_hiking_backpack"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_ammo_bandolier",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_assault_rifle",
+    "target": "content_aluminum_stock"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_assault_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "先確認介面與電壓；換件不會恢復已失去的錄音。",
+    "source": "content_battery_cell",
+    "target": "content_music_player"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "鉸鏈與鏟面要分別鑑定；裂開鏟面可能不值得修。",
+    "source": "content_bearing",
+    "target": "content_entrenching_shovel"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只在零件規格匹配時維護傳動與線路；輸出測試不可省。",
+    "source": "content_bearing",
+    "target": "content_hand_crank_generator"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只有設備齊全工坊能檢修；相容驅動及電源尚未定義。",
+    "source": "content_bearing",
+    "target": "content_power_hammer"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "磨損軸承分解後只保留可回收金屬，不獲得一批新軸承。",
+    "source": "content_bearing",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "鏡片降級為一般材料用途，不保留光學精度承諾。",
+    "source": "content_binoculars",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "鏡片降級為一般材料用途，不保留光學精度承諾。",
+    "source": "content_binoculars",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_bolt_action_rifle",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_bolt_action_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "僅分離可確認的玻璃與彈簧；拆解會破壞完整機身用途。",
+    "source": "content_camera",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "僅分離可確認的玻璃與彈簧；拆解會破壞完整機身用途。",
+    "source": "content_camera",
+    "target": "content_spring"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "回收笨重金屬而放棄成品價值。",
+    "source": "content_car_panel_cleaver",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_car_panel_cuirass",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_car_panel_cuirass",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_caravan_coat",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_caravan_coat",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆除武器後回收金屬與綁束。",
+    "source": "content_caravan_polearm",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆除武器後回收金屬與綁束。",
+    "source": "content_caravan_polearm",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_caravan_rifle",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_caravan_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_caravan_smg",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_caravan_smg",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "回收局部導線與外殼，破壞電路布局，不能返還完整板件。",
+    "source": "content_circuit_board",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "對應型號才可更換線圈或控制板，修後要以已知物校驗。",
+    "source": "content_circuit_board",
+    "target": "content_metal_detector"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "先確認介面與電壓；換件不會恢復已失去的錄音。",
+    "source": "content_circuit_board",
+    "target": "content_music_player"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_circuit_board",
+    "target": "content_night_vision_goggles"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "回收局部導線與外殼，破壞電路布局，不能返還完整板件。",
+    "source": "content_circuit_board",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "匹配型號後修接點與線路，通訊測試需另一端配合。",
+    "source": "content_circuit_board",
+    "target": "content_radio"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需匹配測量部件並重新校驗，不把任意控制板視為替代。",
+    "source": "content_circuit_board",
+    "target": "content_signal_receiver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需相容電子零件與絕緣檢查，通電不代表安全可用。",
+    "source": "content_circuit_board",
+    "target": "content_stun_baton"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_civilian_pistol",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_civilian_pistol",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_caravan_coat"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "只提議布料到布袋的製作關係；針線、接縫強度、工時、耗損與產量尚未定義，不是把布料免費轉成容量。",
+    "source": "content_cloth",
+    "target": "content_cloth_sack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_cloth_sack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只有工坊能評估校直是否安全；纏布不恢復結構。",
+    "source": "content_cloth",
+    "target": "content_crowbar"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "長袍的透氣、遮蔽與耗料另需設計；本關係不授予耐熱、抗污染或風暴通行效果。",
+    "source": "content_cloth",
+    "target": "content_desert_robe"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_desert_robe"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "專門配鞘與刃口保養可能需返回產地。",
+    "source": "content_cloth",
+    "target": "content_desert_sabre"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "僅是沙塵遮蔽物候選；材料清潔度與貼合檢驗未定，不能用它抵抗毒氣、污染或保證安全。",
+    "source": "content_cloth",
+    "target": "content_dust_mask"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_dust_mask"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_farm_clothes"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_firefighter_suit"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_heat_insulation_suit"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_hiking_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_medical_satchel"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_military_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_motorcycle_jacket"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "燈體關係不包含燃料；需專業製作、密封與燃料相容性檢驗，不提供現實操作步驟或永久照明。",
+    "source": "content_cloth",
+    "target": "content_oil_lamp"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "玻璃罩、合適燈芯與支架可分別維護；不附帶燃料。",
+    "source": "content_cloth",
+    "target": "content_oil_lamp"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能修復箱體封套與內襯；不恢復過期或不明內容物。",
+    "source": "content_cloth",
+    "target": "content_old_world_medical_case"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_old_world_military_armor"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_police_ballistic_vest"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能換握布；嚴重彎折與裂縫應報廢。",
+    "source": "content_cloth",
+    "target": "content_rebar_club"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "編繩需要適合纖維與檢驗，普通碎布不能直接成為攀登救援繩；材料分級、承重與製法未定前不可執行。",
+    "source": "content_cloth",
+    "target": "content_rope"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "僅修護繩端標記；承載纖維損壞不能靠包布恢復，應縮短用途或判廢。",
+    "source": "content_cloth",
+    "target": "content_rope"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案：技工評估缺口後才能換修，材料不代表可自行修復。",
+    "source": "content_cloth",
+    "target": "content_rusted_knife"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_cloth",
+    "target": "content_sandstorm_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只對可修刃口與握部生效，裂穿刀身應退役。",
+    "source": "content_cloth",
+    "target": "content_scrap_machete"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "修補外布及縫線，濕透填料仍要處理；不增加保暖等級。",
+    "source": "content_cloth",
+    "target": "content_sleeping_bag"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_stab_vest"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_tactical_helmet"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只修補篷布與合規支架，材料尺寸及天候限制仍需核對。",
+    "source": "content_cloth",
+    "target": "content_tent"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_tool_belt"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "修收納盒與分隔；補齊遺失工具需另交實物，不能用原料自動生成整套。",
+    "source": "content_cloth",
+    "target": "content_toolbox"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "背包製作需要版型、肩帶與接縫檢驗；空包重量不是容量，不能繞過現有背包權威。",
+    "source": "content_cloth",
+    "target": "content_travel_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_travel_backpack"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "這裡只記外殼／支撐材關係，缺正式濾材、處理能力與污染檢驗；不得由此配方直接產生可飲水或無限濾水器。",
+    "source": "content_cloth",
+    "target": "content_water_filter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能維護泵體密封與外套；布料不是淨水濾芯，不恢復未知濾材能力。",
+    "source": "content_cloth",
+    "target": "content_water_filter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_wilderness_cloak"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "裁製工作服需尺寸、縫製設備與工時；不含護甲值，也不把汙染衣物拆回乾淨醫用布。",
+    "source": "content_cloth",
+    "target": "content_work_clothes"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_work_clothes"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_cloth",
+    "target": "content_worker_leather_jacket"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_cloth_sack",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "罩片與外殼可分離，磁針不自動生成另一只指南針。",
+    "source": "content_compass",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "罩片與外殼可分離，磁針不自動生成另一只指南針。",
+    "source": "content_compass",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "依故障更換合規燈罩、線路或接點；沒有相容燈泡時不能保證修復。",
+    "source": "content_copper_wire",
+    "target": "content_flashlight"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只在零件規格匹配時維護傳動與線路；輸出測試不可省。",
+    "source": "content_copper_wire",
+    "target": "content_hand_crank_generator"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "對應型號才可更換線圈或控制板，修後要以已知物校驗。",
+    "source": "content_copper_wire",
+    "target": "content_metal_detector"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "替換匹配探棒或部件後仍需校驗，不能把通電當作精度保證。",
+    "source": "content_copper_wire",
+    "target": "content_multimeter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能修復外部連接與可校驗機械件；醫療輸出校準需要專業規則，不能保證治療用途。",
+    "source": "content_copper_wire",
+    "target": "content_muscle_stimulator"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "先確認介面與電壓；換件不會恢復已失去的錄音。",
+    "source": "content_copper_wire",
+    "target": "content_music_player"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_copper_wire",
+    "target": "content_night_vision_goggles"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只有設備齊全工坊能檢修；相容驅動及電源尚未定義。",
+    "source": "content_copper_wire",
+    "target": "content_power_hammer"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "匹配型號後修接點與線路，通訊測試需另一端配合。",
+    "source": "content_copper_wire",
+    "target": "content_radio"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需匹配測量部件並重新校驗，不把任意控制板視為替代。",
+    "source": "content_copper_wire",
+    "target": "content_signal_receiver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需相容電子零件與絕緣檢查，通電不代表安全可用。",
+    "source": "content_copper_wire",
+    "target": "content_stun_baton"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "由專業者檢查供能、接點與工具結構；焊材能源另外消耗。",
+    "source": "content_copper_wire",
+    "target": "content_welding_tools"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "報廢後視為一般金屬，不產生另一支撬棍。",
+    "source": "content_crowbar",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_desert_robe",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "回收會失去匠印與工藝證據，須事先提示。",
+    "source": "content_desert_sabre",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "回收會失去匠印與工藝證據，須事先提示。",
+    "source": "content_desert_sabre",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_double_barrel_shotgun",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_double_barrel_shotgun",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_dust_mask",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_engineering_goggles",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_engineering_goggles",
+    "target": "content_rubber"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆卸報廢工具回收金屬，取消其挖掘用途。",
+    "source": "content_entrenching_shovel",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_farm_clothes",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只回收斧頭金屬，木柄不憑空轉為清單中不存在的木材物品。",
+    "source": "content_fire_axe",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_firefighter_suit",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_flamethrower",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_flare_pistol",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_flare_pistol",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只提議回收仍完好的小件，拆解後不再保留完整光源。",
+    "source": "content_flashlight",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只提議回收仍完好的小件，拆解後不再保留完整光源。",
+    "source": "content_flashlight",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只提議回收仍完好的小件，拆解後不再保留完整光源。",
+    "source": "content_flashlight",
+    "target": "content_spring"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "需先由合格作業者處理殘留物；金屬回收會破壞罐體。",
+    "source": "content_fuel_can",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_gas_mask",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_gas_mask",
+    "target": "content_rubber"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只在零件規格匹配時維護傳動與線路；輸出測試不可省。",
+    "source": "content_gear",
+    "target": "content_hand_crank_generator"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "受力件需專業檢查與匹配更換，無法驗證承載時保持不可用。",
+    "source": "content_gear",
+    "target": "content_jack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只有設備齊全工坊能檢修；相容驅動及電源尚未定義。",
+    "source": "content_gear",
+    "target": "content_power_hammer"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "失準齒輪只能降級作金屬，齒形精度不能從回收描述中恢復。",
+    "source": "content_gear",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能由適當工具校正或更換機械件，不能用普通玻璃宣稱恢復精密鏡片品質。",
+    "source": "content_glass",
+    "target": "content_camera"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只更換匹配罩片和機構，完成後仍要核對可靠方向。",
+    "source": "content_glass",
+    "target": "content_compass"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_glass",
+    "target": "content_engineering_goggles"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "依故障更換合規燈罩、線路或接點；沒有相容燈泡時不能保證修復。",
+    "source": "content_glass",
+    "target": "content_flashlight"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_glass",
+    "target": "content_gas_mask"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_glass",
+    "target": "content_night_vision_goggles"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "燈體關係不包含燃料；需專業製作、密封與燃料相容性檢驗，不提供現實操作步驟或永久照明。",
+    "source": "content_glass",
+    "target": "content_oil_lamp"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "玻璃罩、合適燈芯與支架可分別維護；不附帶燃料。",
+    "source": "content_glass",
+    "target": "content_oil_lamp"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "更換損壞機件或錶面，須有能辨識機芯的工匠；刻字與走時紀錄不能靠換件生成。",
+    "source": "content_glass",
+    "target": "content_old_world_watch"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_glass",
+    "target": "content_sniper_rifle"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_grenade_launcher",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只可能留下部分完好件；沒有重製整機的可逆等量關係。",
+    "source": "content_hand_crank_generator",
+    "target": "content_bearing"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只可能留下部分完好件；沒有重製整機的可逆等量關係。",
+    "source": "content_hand_crank_generator",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只可能留下部分完好件；沒有重製整機的可逆等量關係。",
+    "source": "content_hand_crank_generator",
+    "target": "content_gear"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_hazmat_suit",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_heat_insulation_suit",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_heavy_revolver",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_hiking_backpack",
+    "target": "content_aluminum_stock"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_hiking_backpack",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解不可逆地失去完整遺物；回收只作符號關係，不設套利產量。",
+    "source": "content_homecoming",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解不可逆地失去完整遺物；回收只作符號關係，不設套利產量。",
+    "source": "content_homecoming",
+    "target": "content_spring"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "失去器具功能後回收叉頭。",
+    "source": "content_hunting_fork",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "只提議布料到布袋的製作關係；針線、接縫強度、工時、耗損與產量尚未定義，不是把布料免費轉成容量。",
+    "source": "content_hunting_knife",
+    "target": "content_cloth_sack"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "長袍的透氣、遮蔽與耗料另需設計；本關係不授予耐熱、抗污染或風暴通行效果。",
+    "source": "content_hunting_knife",
+    "target": "content_desert_robe"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆毁後只保留可用金屬與鞘皮，品質與產率另定。",
+    "source": "content_hunting_knife",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆毁後只保留可用金屬與鞘皮，品質與產率另定。",
+    "source": "content_hunting_knife",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "裁製工作服需尺寸、縫製設備與工時；不含護甲值，也不把汙染衣物拆回乾淨醫用布。",
+    "source": "content_hunting_knife",
+    "target": "content_work_clothes"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_improvised_pistol",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_industrial_nailgun",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_industrial_nailgun",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "報廢後只作金屬來源，不把受力件自動認證為別的承載工具。",
+    "source": "content_jack",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會永久失去完整武器與遺物用途，須有明確毀損確認；不會產出另一把最後一發。",
+    "source": "content_last_round",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會永久失去完整武器與遺物用途，須有明確毀損確認；不會產出另一把最後一發。",
+    "source": "content_last_round",
+    "target": "content_spring"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_ammo_bandolier"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_bolt_action_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "重刀變形只能交工坊評估，握皮可另換。",
+    "source": "content_leather",
+    "target": "content_car_panel_cleaver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_car_panel_cuirass"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_caravan_coat"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "先檢查接頭與鉤部，長桿更換另需材料來源。",
+    "source": "content_leather",
+    "target": "content_caravan_polearm"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_caravan_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_caravan_smg"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "專門配鞘與刃口保養可能需返回產地。",
+    "source": "content_leather",
+    "target": "content_desert_sabre"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_double_barrel_shotgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "金屬刃與握部修繕分開；木柄來源另待 crafting 定義。",
+    "source": "content_leather",
+    "target": "content_fire_axe"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_hiking_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "齒端與桿部需熟手檢查，不能任意校直後宣稱安全。",
+    "source": "content_leather",
+    "target": "content_hunting_fork"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "皮鞘與刃身分別維修；不因一次磨刃恢復所有損壞。",
+    "source": "content_leather",
+    "target": "content_hunting_knife"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "工匠可重整護套與特定形狀工具；折斷細件不保證可接回。",
+    "source": "content_leather",
+    "target": "content_lockpick_set"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_medical_satchel"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_military_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_motorcycle_jacket"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_old_hunter_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_old_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_old_world_military_armor"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_scrap_iron_armor"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_scrap_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_single_shot_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_leather",
+    "target": "content_snub_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "矛頭與綁束可評估修繕，木桿材料另待定義。",
+    "source": "content_leather",
+    "target": "content_spear"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_tactical_helmet"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "腰帶需要扣具加工與皮革縫合；尺寸、工具固定方式尚未定，不能自動增加負重或行動速度。",
+    "source": "content_leather",
+    "target": "content_tool_belt"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_tool_belt"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "背包製作需要版型、肩帶與接縫檢驗；空包重量不是容量，不能繞過現有背包權威。",
+    "source": "content_leather",
+    "target": "content_travel_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_travel_backpack"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "容器需清潔、接縫與飲水接觸材料檢驗；成品為空容器，不從皮革生成淨水。",
+    "source": "content_leather",
+    "target": "content_waterskin"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_waterskin"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "刃口由工坊處理，缺失木柄仍缺正式材料設計。",
+    "source": "content_leather",
+    "target": "content_wood_axe"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "裁製工作服需尺寸、縫製設備與工時；不含護甲值，也不把汙染衣物拆回乾淨醫用布。",
+    "source": "content_leather",
+    "target": "content_work_clothes"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_leather",
+    "target": "content_worker_leather_jacket"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_light_machine_gun",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_light_machine_gun",
+    "target": "content_steel_stock"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "安全清空後可能留下少量可用機構；不等於足以重製完整打火機。",
+    "source": "content_lighter",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "安全清空後可能留下少量可用機構；不等於足以重製完整打火機。",
+    "source": "content_lighter",
+    "target": "content_spring"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "細件報廢時只回收殘料，不將剪裁護套當完整新皮料。",
+    "source": "content_lockpick_set",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "細件報廢時只回收殘料，不將剪裁護套當完整新皮料。",
+    "source": "content_lockpick_set",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_machine_pistol",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_machine_pistol",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_medical_satchel",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆取部分線圈線材與外殼，偵測功能消失。",
+    "source": "content_metal_detector",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆取部分線圈線材與外殼，偵測功能消失。",
+    "source": "content_metal_detector",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_military_backpack",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_military_backpack",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "熔解會永久失去牌號與交還用途；材料產量待拆解契約，不當高收益來源。",
+    "source": "content_military_dog_tags",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_motorcycle_jacket",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "小線材與外殼可降級利用，儀表精度與整機身份消失。",
+    "source": "content_multimeter",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "小線材與外殼可降級利用，儀表精度與整機身份消失。",
+    "source": "content_multimeter",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解後不再是完整刺激器；不提供可直接再次組裝的完整替代裝置。",
+    "source": "content_muscle_stimulator",
+    "target": "content_circuit_board"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解後不再是完整刺激器；不提供可直接再次組裝的完整替代裝置。",
+    "source": "content_muscle_stimulator",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "媒體與電路分開處理；拆解前必須告知可能喪失播放能力。",
+    "source": "content_music_player",
+    "target": "content_circuit_board"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "媒體與電路分開處理；拆解前必須告知可能喪失播放能力。",
+    "source": "content_music_player",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "媒體與電路分開處理；拆解前必須告知可能喪失播放能力。",
+    "source": "content_music_player",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_night_vision_goggles",
+    "target": "content_circuit_board"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_night_vision_goggles",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "熔解會失去編號與特殊鉗口，不能從廢鐵重新產出唯一原物。",
+    "source": "content_number_sixty_three",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "清除殘留油料後才能回收未破罩片與金屬，舊燈芯不作潔淨布料。",
+    "source": "content_oil_lamp",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "清除殘留油料後才能回收未破罩片與金屬，舊燈芯不作潔淨布料。",
+    "source": "content_oil_lamp",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_old_hunter_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_old_revolver",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_old_revolver",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_old_smg",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_old_smg",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只處理已清點的空箱外殼；箱內用品不從拆箱文字自動生成。",
+    "source": "content_old_world_medical_case",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只處理已清點的空箱外殼；箱內用品不從拆箱文字自動生成。",
+    "source": "content_old_world_medical_case",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_old_world_military_armor",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_old_world_military_armor",
+    "target": "content_steel_stock"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整時計與尋主證物，只保留經確認可用的零件，無固定回收比率。",
+    "source": "content_old_world_watch",
+    "target": "content_precision_parts"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整時計與尋主證物，只保留經確認可用的零件，無固定回收比率。",
+    "source": "content_old_world_watch",
+    "target": "content_spring"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_plastic",
+    "target": "content_hazmat_suit"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需匹配材料重整握柄或更換尖端，不把磨平工具直接宣稱已恢復。",
+    "source": "content_plastic",
+    "target": "content_screwdriver"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "這裡只記外殼／支撐材關係，缺正式濾材、處理能力與污染檢驗；不得由此配方直接產生可飲水或無限濾水器。",
+    "source": "content_plastic",
+    "target": "content_water_filter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_plastic",
+    "target": "content_waterproof_bag"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "燈體關係不包含燃料；需專業製作、密封與燃料相容性檢驗，不提供現實操作步驟或永久照明。",
+    "source": "content_pliers",
+    "target": "content_oil_lamp"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "僅回收仍完好的回位件與金屬，拆後不能再使用整把鉗子。",
+    "source": "content_pliers",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "僅回收仍完好的回位件與金屬，拆後不能再使用整把鉗子。",
+    "source": "content_pliers",
+    "target": "content_spring"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "腰帶需要扣具加工與皮革縫合；尺寸、工具固定方式尚未定，不能自動增加負重或行動速度。",
+    "source": "content_pliers",
+    "target": "content_tool_belt"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "背包製作需要版型、肩帶與接縫檢驗；空包重量不是容量，不能繞過現有背包權威。",
+    "source": "content_pliers",
+    "target": "content_travel_backpack"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_police_ballistic_vest",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_police_pistol",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_police_pistol",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會永久放棄整機用途，產率另定。",
+    "source": "content_power_hammer",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會永久放棄整機用途，產率另定。",
+    "source": "content_power_hammer",
+    "target": "content_steel_stock"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_assault_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只維護目罩與調焦機構；一般玻璃不能補成合格光學鏡片。",
+    "source": "content_precision_parts",
+    "target": "content_binoculars"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_bolt_action_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能由適當工具校正或更換機械件，不能用普通玻璃宣稱恢復精密鏡片品質。",
+    "source": "content_precision_parts",
+    "target": "content_camera"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_caravan_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_caravan_smg"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_civilian_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只更換匹配罩片和機構，完成後仍要核對可靠方向。",
+    "source": "content_precision_parts",
+    "target": "content_compass"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_flamethrower"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_grenade_launcher"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_heavy_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "由適配工匠修理機械，保留木托補片的來源特徵。",
+    "source": "content_precision_parts",
+    "target": "content_homecoming"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_industrial_nailgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "僅檢修可識別的機械件並保留刻字；修理不增加傳說屬性。",
+    "source": "content_precision_parts",
+    "target": "content_last_round"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_light_machine_gun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_machine_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_precision_parts",
+    "target": "content_military_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "替換匹配探棒或部件後仍需校驗，不能把通電當作精度保證。",
+    "source": "content_precision_parts",
+    "target": "content_multimeter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能修復外部連接與可校驗機械件；醫療輸出校準需要專業規則，不能保證治療用途。",
+    "source": "content_precision_parts",
+    "target": "content_muscle_stimulator"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_old_smg"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_precision_parts",
+    "target": "content_old_world_military_armor"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "更換損壞機件或錶面，須有能辨識機芯的工匠；刻字與走時紀錄不能靠換件生成。",
+    "source": "content_precision_parts",
+    "target": "content_old_world_watch"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_precision_parts",
+    "target": "content_police_ballistic_vest"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_police_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只有設備齊全工坊能檢修；相容驅動及電源尚未定義。",
+    "source": "content_precision_parts",
+    "target": "content_power_hammer"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_pump_shotgun"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆散報廢套件可能回收少量金屬，成套匹配與標記價值消失。",
+    "source": "content_precision_parts",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_semi_auto_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需匹配測量部件並重新校驗，不把任意控制板視為替代。",
+    "source": "content_precision_parts",
+    "target": "content_signal_receiver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_precision_parts",
+    "target": "content_sniper_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_precision_parts",
+    "target": "content_stab_vest"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只允許專門維護者處理匹配器械部件；清潔與醫療可用性需獨立核驗。",
+    "source": "content_precision_parts",
+    "target": "content_surgical_kit"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "由專業者檢查供能、接點與工具結構；焊材能源另外消耗。",
+    "source": "content_precision_parts",
+    "target": "content_welding_tools"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "僅檢修機械，保留槍帶與保管標記；是否射擊與文物保存承諾另定。",
+    "source": "content_precision_parts",
+    "target": "content_well_guardian"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_pump_shotgun",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_pump_shotgun",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只有匹配且完好的板件可保留作待測物，不能視為已修好的另一台機器。",
+    "source": "content_radio",
+    "target": "content_circuit_board"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只有匹配且完好的板件可保留作待測物，不能視為已修好的另一台機器。",
+    "source": "content_radio",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "這是食物保存的抽象關係，尚需專業處理、安全與損耗規則；不提供真實食物製作流程，也不保證野外加工可食。",
+    "source": "content_raw_meat",
+    "target": "content_jerky"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "失去器具身分後回收廢鋼，不能同時保留鋼筋棍。",
+    "source": "content_rebar_club",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只修補篷布與合規支架，材料尺寸及天候限制仍需核對。",
+    "source": "content_rope",
+    "target": "content_tent"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只維護目罩與調焦機構；一般玻璃不能補成合格光學鏡片。",
+    "source": "content_rubber",
+    "target": "content_binoculars"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "僅是沙塵遮蔽物候選；材料清潔度與貼合檢驗未定，不能用它抵抗毒氣、污染或保證安全。",
+    "source": "content_rubber",
+    "target": "content_dust_mask"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_rubber",
+    "target": "content_engineering_goggles"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_rubber",
+    "target": "content_firefighter_suit"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_rubber",
+    "target": "content_flamethrower"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "確認空罐已符合安全作業條件後，由工匠處理密封與罐體；不能保證所有罐可救。",
+    "source": "content_rubber",
+    "target": "content_fuel_can"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_rubber",
+    "target": "content_gas_mask"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_rubber",
+    "target": "content_hazmat_suit"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_rubber",
+    "target": "content_industrial_nailgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能修復箱體封套與內襯；不恢復過期或不明內容物。",
+    "source": "content_rubber",
+    "target": "content_old_world_medical_case"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_rubber",
+    "target": "content_sandstorm_rifle"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "需要工坊、電力及密封檢驗；普通焊接不保證危險品容器合格。工具是持有條件，耗材與產量尚未定。",
+    "source": "content_rubber",
+    "target": "content_sealed_cargo_crate"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_rubber",
+    "target": "content_sealed_cargo_crate"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需相容電子零件與絕緣檢查，通電不代表安全可用。",
+    "source": "content_rubber",
+    "target": "content_stun_baton"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "僅提議更換已確認可接觸飲水的密封件；壺體破壞另行判廢。",
+    "source": "content_rubber",
+    "target": "content_water"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能維護泵體密封與外套；布料不是淨水濾芯，不恢復未知濾材能力。",
+    "source": "content_rubber",
+    "target": "content_water_filter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_rubber",
+    "target": "content_waterproof_bag"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "容器需清潔、接縫與飲水接觸材料檢驗；成品為空容器，不從皮革生成淨水。",
+    "source": "content_rubber",
+    "target": "content_waterskin"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_rubber",
+    "target": "content_waterskin"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "由專業者檢查供能、接點與工具結構；焊材能源另外消耗。",
+    "source": "content_rubber",
+    "target": "content_welding_tools"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只回收失去刀具用途的金屬，不回收另一把完整小刀。",
+    "source": "content_rusted_knife",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "這是食物保存的抽象關係，尚需專業處理、安全與損耗規則；不提供真實食物製作流程，也不保證野外加工可食。",
+    "source": "content_salt",
+    "target": "content_jerky"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_sandstorm_rifle",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_sandstorm_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只處理匹配的小機構與外殼；加燃料是補充，不算免費修理。",
+    "source": "content_scrap_iron",
+    "target": "content_lighter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "玻璃罩、合適燈芯與支架可分別維護；不附帶燃料。",
+    "source": "content_scrap_iron",
+    "target": "content_oil_lamp"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_scrap_iron_armor",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_scrap_iron_armor",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "廢刀只轉入金屬回收候選，不形成完整成品循環。",
+    "source": "content_scrap_machete",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_scrap_rifle",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_scrap_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "分離可用金屬與握柄材料，實際可回收量等待拆解規則。",
+    "source": "content_screwdriver",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "分離可用金屬與握柄材料，實際可回收量等待拆解規則。",
+    "source": "content_screwdriver",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "這裡只記外殼／支撐材關係，缺正式濾材、處理能力與污染檢驗；不得由此配方直接產生可飲水或無限濾水器。",
+    "source": "content_screwdriver",
+    "target": "content_water_filter"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_sealed_cargo_crate",
+    "target": "content_rubber"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_sealed_cargo_crate",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_semi_auto_rifle",
+    "target": "content_aluminum_stock"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_semi_auto_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "保存部分待測板件會犧牲整機與校驗資訊。",
+    "source": "content_signal_receiver",
+    "target": "content_circuit_board"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "保存部分待測板件會犧牲整機與校驗資訊。",
+    "source": "content_signal_receiver",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_single_shot_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_single_shot_shotgun",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "可裁取未污染外布，填料不保證可用；整個睡袋隨之失去完整性。",
+    "source": "content_sleeping_bag",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_sniper_rifle",
+    "target": "content_glass"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_sniper_rifle",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_snub_revolver",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解會失去完整槍械；只提議材料去向，無數量或可回收彈藥承諾。",
+    "source": "content_snub_revolver",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只保留金屬頭與可用皮束，不產生完整替代矛。",
+    "source": "content_spear",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只保留金屬頭與可用皮束，不產生完整替代矛。",
+    "source": "content_spear",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_assault_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_bolt_action_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只能由適當工具校正或更換機械件，不能用普通玻璃宣稱恢復精密鏡片品質。",
+    "source": "content_spring",
+    "target": "content_camera"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_caravan_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_caravan_smg"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_civilian_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_double_barrel_shotgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_flare_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "依故障更換合規燈罩、線路或接點；沒有相容燈泡時不能保證修復。",
+    "source": "content_spring",
+    "target": "content_flashlight"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_heavy_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "由適配工匠修理機械，保留木托補片的來源特徵。",
+    "source": "content_spring",
+    "target": "content_homecoming"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_improvised_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_industrial_nailgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "僅檢修可識別的機械件並保留刻字；修理不增加傳說屬性。",
+    "source": "content_spring",
+    "target": "content_last_round"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_light_machine_gun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只處理匹配的小機構與外殼；加燃料是補充，不算免費修理。",
+    "source": "content_spring",
+    "target": "content_lighter"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_machine_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_old_hunter_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_old_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_old_smg"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "更換損壞機件或錶面，須有能辨識機芯的工匠；刻字與走時紀錄不能靠換件生成。",
+    "source": "content_spring",
+    "target": "content_old_world_watch"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只提議鉸接與匹配回位機構維護；不產生絕緣認證。",
+    "source": "content_spring",
+    "target": "content_pliers"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_police_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_pump_shotgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_sandstorm_rifle"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "報廢彈簧僅保留材料，不保留回彈性能。",
+    "source": "content_spring",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_scrap_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_semi_auto_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_single_shot_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_single_shot_shotgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_spring",
+    "target": "content_snub_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "僅檢修機械，保留槍帶與保管標記；是否射擊與文物保存承諾另定。",
+    "source": "content_spring",
+    "target": "content_well_guardian"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_stab_vest",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_assault_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "重刀變形只能交工坊評估，握皮可另換。",
+    "source": "content_steel_stock",
+    "target": "content_car_panel_cleaver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_steel_stock",
+    "target": "content_car_panel_cuirass"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "先檢查接頭與鉤部，長桿更換另需材料來源。",
+    "source": "content_steel_stock",
+    "target": "content_caravan_polearm"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只有工坊能評估校直是否安全；纏布不恢復結構。",
+    "source": "content_steel_stock",
+    "target": "content_crowbar"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "專門配鞘與刃口保養可能需返回產地。",
+    "source": "content_steel_stock",
+    "target": "content_desert_sabre"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_double_barrel_shotgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "鉸鏈與鏟面要分別鑑定；裂開鏟面可能不值得修。",
+    "source": "content_steel_stock",
+    "target": "content_entrenching_shovel"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "金屬刃與握部修繕分開；木柄來源另待 crafting 定義。",
+    "source": "content_steel_stock",
+    "target": "content_fire_axe"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_flamethrower"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_flare_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "確認空罐已符合安全作業條件後，由工匠處理密封與罐體；不能保證所有罐可救。",
+    "source": "content_steel_stock",
+    "target": "content_fuel_can"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_grenade_launcher"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_heavy_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "齒端與桿部需熟手檢查，不能任意校直後宣稱安全。",
+    "source": "content_steel_stock",
+    "target": "content_hunting_fork"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "皮鞘與刃身分別維修；不因一次磨刃恢復所有損壞。",
+    "source": "content_steel_stock",
+    "target": "content_hunting_knife"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_improvised_pistol"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "受力件需專業檢查與匹配更換，無法驗證承載時保持不可用。",
+    "source": "content_steel_stock",
+    "target": "content_jack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_light_machine_gun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "工匠可重整護套與特定形狀工具；折斷細件不保證可接回。",
+    "source": "content_steel_stock",
+    "target": "content_lockpick_set"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只允許經量測的柄部補修；磨改鉗口是改造並可能失去匹配用途，不是假裝恢復原樣。",
+    "source": "content_steel_stock",
+    "target": "content_number_sixty_three"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "燈體關係不包含燃料；需專業製作、密封與燃料相容性檢驗，不提供現實操作步驟或永久照明。",
+    "source": "content_steel_stock",
+    "target": "content_oil_lamp"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_old_revolver"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_old_smg"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只提議鉸接與匹配回位機構維護；不產生絕緣認證。",
+    "source": "content_steel_stock",
+    "target": "content_pliers"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案：技工評估缺口後才能換修，材料不代表可自行修復。",
+    "source": "content_steel_stock",
+    "target": "content_rusted_knife"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "切壞或失去規格的鋼料只降級成回收鐵，不能原樣等量升回鋼材。",
+    "source": "content_steel_stock",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_steel_stock",
+    "target": "content_scrap_iron_armor"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只對可修刃口與握部生效，裂穿刀身應退役。",
+    "source": "content_steel_stock",
+    "target": "content_scrap_machete"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_scrap_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需匹配材料重整握柄或更換尖端，不把磨平工具直接宣稱已恢復。",
+    "source": "content_steel_stock",
+    "target": "content_screwdriver"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "需要工坊、電力及密封檢驗；普通焊接不保證危險品容器合格。工具是持有條件，耗材與產量尚未定。",
+    "source": "content_steel_stock",
+    "target": "content_sealed_cargo_crate"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "需先辨識破損部位與相容材料；補外觀不能保證恢復原防護能力。",
+    "source": "content_steel_stock",
+    "target": "content_sealed_cargo_crate"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_semi_auto_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_single_shot_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_single_shot_shotgun"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "提案僅為相容零件關係；須合格工坊檢查，不提供製造步驟或保證復原。",
+    "source": "content_steel_stock",
+    "target": "content_sniper_rifle"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "矛頭與綁束可評估修繕，木桿材料另待定義。",
+    "source": "content_steel_stock",
+    "target": "content_spear"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "只修補篷布與合規支架，材料尺寸及天候限制仍需核對。",
+    "source": "content_steel_stock",
+    "target": "content_tent"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "腰帶需要扣具加工與皮革縫合；尺寸、工具固定方式尚未定，不能自動增加負重或行動速度。",
+    "source": "content_steel_stock",
+    "target": "content_tool_belt"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "修收納盒與分隔；補齊遺失工具需另交實物，不能用原料自動生成整套。",
+    "source": "content_steel_stock",
+    "target": "content_toolbox"
+  },
+  {
+    "kind": "craft_input",
+    "note_zh": "背包製作需要版型、肩帶與接縫檢驗；空包重量不是容量，不能繞過現有背包權威。",
+    "source": "content_steel_stock",
+    "target": "content_travel_backpack"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "刃口由工坊處理，缺失木柄仍缺正式材料設計。",
+    "source": "content_steel_stock",
+    "target": "content_wood_axe"
+  },
+  {
+    "kind": "repair_input",
+    "note_zh": "由工匠判斷是否可替換調整機構；已失準或開裂的受力部位可判廢。",
+    "source": "content_steel_stock",
+    "target": "content_wrench"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆毁後只回收可分離材料，不保留可用放電模組。",
+    "source": "content_stun_baton",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆毁後只回收可分離材料，不保留可用放電模組。",
+    "source": "content_stun_baton",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "無法使用的金屬器械可作降級回收，需處理污染，失去醫療器械身份。",
+    "source": "content_surgical_kit",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_tactical_helmet",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_tactical_helmet",
+    "target": "content_steel_stock"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "部分布面和支架可回收，不返還完整帳篷或全部原料。",
+    "source": "content_tent",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "部分布面和支架可回收，不返還完整帳篷或全部原料。",
+    "source": "content_tent",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_tool_belt",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "這裡只拆空的收納盒；套內工具需先清點移交，不複製成免費實物。",
+    "source": "content_toolbox",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "這裡只拆空的收納盒；套內工具需先清點移交，不複製成免費實物。",
+    "source": "content_toolbox",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_travel_backpack",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_travel_backpack",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "金屬壺報廢後僅可能回收部分潔淨金屬，失去容器用途。",
+    "source": "content_water",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只回收可分離外殼，污染濾材不當作淨水產品或完整材料返還。",
+    "source": "content_water_filter",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "只回收可分離外殼，污染濾材不當作淨水產品或完整材料返還。",
+    "source": "content_water_filter",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_waterproof_bag",
+    "target": "content_plastic"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_waterskin",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "停用並確認供能安全後拆分可回收件，不能保留完整設備。",
+    "source": "content_welding_tools",
+    "target": "content_copper_wire"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "停用並確認供能安全後拆分可回收件，不能保留完整設備。",
+    "source": "content_welding_tools",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "craft_tool_not_consumed",
+    "note_zh": "需要工坊、電力及密封檢驗；普通焊接不保證危險品容器合格。工具是持有條件，耗材與產量尚未定。",
+    "source": "content_welding_tools",
+    "target": "content_sealed_cargo_crate"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解永久失去完整地方遺物；必須先明示後果與權利人同意。",
+    "source": "content_well_guardian",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆解永久失去完整地方遺物；必須先明示後果與權利人同意。",
+    "source": "content_well_guardian",
+    "target": "content_spring"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_wilderness_cloak",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "回收金屬頭後失去完整斧具，無免費木材產出。",
+    "source": "content_wood_axe",
+    "target": "content_scrap_iron"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_work_clothes",
+    "target": "content_cloth"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "拆作材料會失去完整裝備；污染、材料狀態與回收量仍須規則決定。",
+    "source": "content_worker_leather_jacket",
+    "target": "content_leather"
+  },
+  {
+    "kind": "salvage_output",
+    "note_zh": "報廢金屬回收不保留精度，不能直接兌回完整扳手。",
+    "source": "content_wrench",
+    "target": "content_scrap_iron"
+  }
+]

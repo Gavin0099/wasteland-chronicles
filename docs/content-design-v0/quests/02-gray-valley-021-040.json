@@ -1,0 +1,1702 @@
+[
+  {
+    "quest_id": "quest_gray_valley_021",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "保留彈簧還是拆成廢鐵",
+    "premise_zh": "拆解場帶班工核准處理唯一一具失效機械，可保全主彈簧或拆成廢鐵；目前兩種成果都有驗收人，不能同時領兩份成果。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003",
+      "hook_gray_valley_023"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工核准處理唯一一具失效機械，可保全主彈簧或拆成廢鐵；目前兩種成果都有驗收人，不能同時領兩份成果。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天拆解檯預約或機械已被核准拆解時結束。",
+      "without_player_zh": "其他工班可按實際授權接手，完成後原機械不再供玩家重拆。"
+    },
+    "approaches": [
+      {
+        "label_zh": "保留完整主彈簧",
+        "required_items": [
+          "content_toolbox"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "2天，需工具箱及MECHANICS 2，儲能風險先解除。",
+        "outcome_zh": "取得彈簧1份，機械記為拆解，殘件由場方保管。",
+        "rewards": [
+          {
+            "content_id": "content_spring",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "回收核准低階材料",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需撬棍與安全拆解流程。",
+        "outcome_zh": "取得廢鐵2份，完整彈簧回收路徑失效。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_069"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "單具機械與拆解產物",
+        "change_zh": "一次性消耗原現物並移轉一種已核准成果。",
+        "authority_needed_zh": "未來disassembly、jobs與item ownership；scrap資源不自動增加。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "時間、工具與材料用途形成選擇，不設定武器傷害或稀有度。 彈簧批次分辨人需確認回收物沒有混袋。",
+    "dependencies": [
+      "disassembly",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_022",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "工衣架上的領用名字",
+    "premise_zh": "帶班工的公用工衣架有3件可穿衣物，一位已領過的人忘記登記，另一位新到工人尚未領取；兩人都屬既有人口。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_002",
+      "hook_gray_valley_046"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工的公用工衣架有3件可穿衣物，一位已領過的人忘記登記，另一位新到工人尚未領取；兩人都屬既有人口。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天發放時段或本批衣物已完整分配時結束。",
+      "without_player_zh": "保管人可照原規則繼續發放，不為玩家保留全批衣物，也不生成新工人。"
+    },
+    "approaches": [
+      {
+        "label_zh": "核對既有領用並補記一次",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，需本人與保管人共同確認。",
+        "outcome_zh": "修正重複領用資格，新領用者按剩餘實物領1件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交出自有舊工作服協助有需要者",
+        "required_items": [
+          "content_work_clothes"
+        ],
+        "consumed_items": [
+          "content_work_clothes"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付舊工作服1件，1天；原領用爭議仍待查。",
+        "outcome_zh": "接收者取得玩家這件衣物，公用庫不因此減少。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_066"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "領衣紀錄與單件衣物",
+        "change_zh": "更正已核實記錄或移交玩家現物，不創造衣物副本。",
+        "authority_needed_zh": "未來jobs、npc relationship與ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "贈衣不買斷他人資格，也不自動提高聲望。 工衣識別補記人負責把衣物標記與人的領用資格分開。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_023",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "銅線不是銅色廢物",
+    "premise_zh": "材料記帳員要驗收線架上的2份銅線，完整絕緣層與可徒手卸下的一卷需不同工時，報酬已明定按實際成果分配。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_002",
+      "hook_gray_valley_020"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員要驗收線架上的2份銅線，完整絕緣層與可徒手卸下的一卷需不同工時，報酬已明定按實際成果分配。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天回收授權或線架已由其他工班清空時閉單。",
+      "without_player_zh": "買家需求可改變，未移交線仍歸場方；正式買賣另按當前報價。"
+    },
+    "approaches": [
+      {
+        "label_zh": "逐段保全回收2份",
+        "required_items": [
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "2天，需鉗子及MECHANICS 2，斷電已驗。",
+        "outcome_zh": "取得銅線2份，架上對應現物全部扣除。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "只領核准可卸的一卷",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，不需工具，放棄此單餘料份額。",
+        "outcome_zh": "取得銅線1份，另一份留場方。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_062"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "有限線架回收成果",
+        "change_zh": "記錄一次移轉，後續供需由真正可交易庫存推導。",
+        "authority_needed_zh": "未來disassembly、regional_trade與ownership，無商品價格百分比獎勵。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "低技能仍有可行工作，但保全更多材料需時間與技術。 收料人需要把材料品質與搬運成本說明給交貨者。",
+    "dependencies": [
+      "disassembly",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_024",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "共用牆的拆除邊界",
+    "premise_zh": "帶班工拿到兩組工班相衝突的拆除圖，只有一面共用牆的授權重疊，其他工作不受影響；目前沒有推擠事實。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003",
+      "hook_gray_valley_045"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工拿到兩組工班相衝突的拆除圖，只有一面共用牆的授權重疊，其他工作不受影響；目前沒有推擠事實。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "圖面被有權保管者正式更正、工班合法撤案或現場衝突升級時重開評估。",
+      "without_player_zh": "兩班可自行停下爭議牆並繼續其他工作，不強制發生戰鬥。"
+    },
+    "approaches": [
+      {
+        "label_zh": "共同封存爭議牆施工範圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，需雙方同意，不能停掉不相關工作。",
+        "outcome_zh": "只暫停該牆，交給有權圖面持有人核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "比對結構編號找出圖面錯位",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 3
+        },
+        "cost_zh": "2天，需維修手冊與MECHANICS 3，只供核驗不拆牆。",
+        "outcome_zh": "提供明確圖號差異，由授權者修訂範圍。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_078"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "拆除授權範圍",
+        "change_zh": "暫停指定爭議範圍或記錄正式更正，不給全城治安加成。",
+        "authority_needed_zh": "未來jobs、repair、場地ownership和npc relationship。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "若後來真有暴力，另由戰鬥authority处理，不能預寫玩家靠勝負取得土地。 居民通路協商人關心拆牆期間是否仍保留既有出入口。",
+    "dependencies": [
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_025",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "找得到但搬不走的檔案",
+    "premise_zh": "流動技工代檔案員勘查被鐵櫃擋住的房間，側窗安全且文件位置已確認；主門清障需要更強工具。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_003",
+      "hook_gray_valley_049"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工代檔案員勘查被鐵櫃擋住的房間，側窗安全且文件位置已確認；主門清障需要更強工具。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天閱覽許可或館方撤回作業範圍時結束。",
+      "without_player_zh": "檔案員可自行安排別人救文件，已移交部分不能在窗口重生。"
+    },
+    "approaches": [
+      {
+        "label_zh": "先由側窗交出指定文件",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需繩索和已核准接收人。",
+        "outcome_zh": "急件離開受阻房間，主門仍封堵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用合格千斤頂移開鐵櫃",
+        "required_items": [
+          "content_jack"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "2天，需千斤頂及MECHANICS 2，荷載與支承已驗。",
+        "outcome_zh": "恢復指定主門通路，文件仍由館方保管。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_071"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "檔案移交或現地通路",
+        "change_zh": "只改已移交文件位置或這一扇門的障礙。",
+        "authority_needed_zh": "未來cargo、exploration、repair與knowledge保管。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "初期可以只救急件，後期有工具再完整處理同一地點。 舊資料公開異議人要求急件交付不擴大私人資料閱覽範圍。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_026",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "工班離開後的未完成單",
+    "premise_zh": "材料記帳員發現一份委託的原工班已按真實日程離場，未領材料仍留倉；新工班尚未取得授權。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_002",
+      "hook_gray_valley_048",
+      "hook_gray_valley_050"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員發現一份委託的原工班已按真實日程離場，未領材料仍留倉；新工班尚未取得授權。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "原單依法終止或新承接授權完成即收案；不能把離場者傳送回來簽收。",
+      "without_player_zh": "材料保管與工班日程继续運作，無新承接者就留未開工狀態。"
+    },
+    "approaches": [
+      {
+        "label_zh": "清點未領材料並關閉舊領用資格",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需原契約允許終止，倉庫簽認。",
+        "outcome_zh": "未領材料保持倉庫所有，舊單不再可提貨。",
+        "rewards": []
+      },
+      {
+        "label_zh": "為現有候選工班核對承接條件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天，需SPEECH 2與有權者批准。",
+        "outcome_zh": "若獲批准建立新單，原單不被覆寫成其履約紀錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_067",
+      "ruin_013"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "舊領料單與承接資格",
+        "change_zh": "關閉失效領料權或建立有來源的新委託。",
+        "authority_needed_zh": "現有人物狀態只讀；未來jobs、ownership與契約轉讓。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "世界的人會移動；委託關閉不等於工作被神奇完成。 工坊轉介人與跨班整理人需核對承接資格和材料交接。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_027",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "一件可用儀表的選擇",
+    "premise_zh": "流動技工取得實驗台回收許可，保管者只准領電表或拆電路板其中一項；兩件現物都已登記。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_001",
+      "hook_gray_valley_007",
+      "hook_gray_valley_034"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工取得實驗台回收許可，保管者只准領電表或拆電路板其中一項；兩件現物都已登記。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天回收期或任一核准選項已交付時結束整單。",
+      "without_player_zh": "其他合格者可按許可取得一項，剩下仍歸原保管者，不另生同等報酬。"
+    },
+    "approaches": [
+      {
+        "label_zh": "取完整電表待校驗",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，不自動保證量測精度。",
+        "outcome_zh": "取得萬用電表1台，電路板領用權終止。",
+        "rewards": [
+          {
+            "content_id": "content_multimeter",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "拆下已斷電的指定電路板",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "2天，需螺絲起子與ELECTRONICS 2。",
+        "outcome_zh": "取得電路板1份，電表留原位。",
+        "rewards": [
+          {
+            "content_id": "content_circuit_board",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_076"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "互斥回收許可",
+        "change_zh": "一次移交一個實物，關閉另一路的本單資格。",
+        "authority_needed_zh": "未來electronics、disassembly、jobs與ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "設備取得是新準備條件，不保證維修全成功。 校準件保管人與電路板收納人分別關心兩種互斥成果的後續驗收。",
+    "dependencies": [
+      "disassembly",
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_028",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "下層地窖的帶班同伴",
+    "premise_zh": "帶班工的一位現有同伴困在安全矮地窖，本人可自行攀援，吊繩點及不承重側板已勘驗；救出後還需查其實際身體狀況。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003",
+      "hook_gray_valley_045"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工的一位現有同伴困在安全矮地窖，本人可自行攀援，吊繩點及不承重側板已勘驗；救出後還需查其實際身體狀況。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "本人已脫困、狀態不再適合原救援法或結構條件變化時停止原工作。",
+      "without_player_zh": "現場人員可自行救援；不因未接就安排必然死亡。"
+    },
+    "approaches": [
+      {
+        "label_zh": "架繩協助本人攀出",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "1天，需合格繩索與SURVIVAL 2。",
+        "outcome_zh": "同伴移到地面，繩索收回，不自動治療。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拆開核准的外側非承重板",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "1天，需撬棍與MECHANICS 2。",
+        "outcome_zh": "同伴由側口離開，側板不再封閉。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_061"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "既有人員位置與地窖出口",
+        "change_zh": "依實際救援改位置，健康狀態由後續正式檢查決定。",
+        "authority_needed_zh": "未來hazards、exploration、injury及現有人員authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "非技工可以走繩索路，不必先把全部技能練高。 居民通路協商人關心新側口後續如何恢復受限通行。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_029",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "來源清楚才願意收",
+    "premise_zh": "材料記帳員收到一批出自工廠清洗槽的金屬樣本，買家要求來源與危害資料；安全邊緣可回收區已另作檢定，槽底仍未知。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_002",
+      "hook_gray_valley_027",
+      "hook_gray_valley_020"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員收到一批出自工廠清洗槽的金屬樣本，買家要求來源與危害資料；安全邊緣可回收區已另作檢定，槽底仍未知。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天驗收窗口或買家撤回本批意向時結束。",
+      "without_player_zh": "其他買家可自行出價，但不因沒有玩家就把未知殘留當安全材料。"
+    },
+    "approaches": [
+      {
+        "label_zh": "只回收已合格邊緣材料",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "1天，需SCAVENGING 2與現場有效回收授權。",
+        "outcome_zh": "取得廢鐵1份並保留來源，未知槽底不動。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "維持封存，提交完整來源記錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，不取得材料收益。",
+        "outcome_zh": "買家可據資料決定後續鑑定，本次未交易。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_052"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "材料來源與准收範圍",
+        "change_zh": "移轉已驗合格份額或保留封存，不提高未驗材料品質。",
+        "authority_needed_zh": "未來hazards、identification、regional_trade與ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "灰谷常見材料仍可有來源差異，不能全部當等值垃圾。 面罩標籤核對人反對用普通防塵標籤冒充危害合格證明，收料人需要來源。",
+    "dependencies": [
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_030",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "外借輪椅與倉庫清點",
+    "premise_zh": "記帳員協助醫療倉核對一輛仍在合法外借中的輪椅，新盤點員想把它列遺失；借用日期可核對但姓名部分模糊。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_001",
+      "hook_gray_valley_038"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "記帳員協助醫療倉核對一輛仍在合法外借中的輪椅，新盤點員想把它列遺失；借用日期可核對但姓名部分模糊。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天盤點更正或原保管者已確認借用狀態時結束。",
+      "without_player_zh": "保管者可自己查詢，使用中的輔具不因玩家缺席被強制沒收。"
+    },
+    "approaches": [
+      {
+        "label_zh": "核對交接班次找回合法借用依據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，需SPEECH 1，不補寫模糊姓名。",
+        "outcome_zh": "清單由遺失疑義改待確認外借，沒有追回現物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "邀實際借用人自願說明需求",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天，先確認本人可聯絡與願意參與。",
+        "outcome_zh": "留下有來源的續借或歸還提案，由保管者決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_045"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "外借輔具分類",
+        "change_zh": "更正已核實記錄，物件去向仍按真實保管。",
+        "authority_needed_zh": "未來jobs、npc relationship、ownership與醫療需求事實。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "盤點準確與當事人需求可同時被考慮，不能用貪財標籤判偷竊。 醫療資料看守人協助限制涉及借用者的私人需求資料閱覽。",
+    "dependencies": [
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_031",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "哪只控制盒仍在工作",
+    "premise_zh": "流動技工獲准回收遺跡機架上一只停用盒，旁邊另一只仍服務居民；兩者需按有效標籤與現地隔離核對。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_003",
+      "hook_gray_valley_034",
+      "hook_gray_valley_025"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工獲准回收遺跡機架上一只停用盒，旁邊另一只仍服務居民；兩者需按有效標籤與現地隔離核對。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天回收許可或標籤／設備狀態改變便重驗，已拆回的盒不可再領。",
+      "without_player_zh": "居民照現有設備運作，別人若先拆核准盒就關閉對應份額。"
+    },
+    "approaches": [
+      {
+        "label_zh": "只拆已證實停用的控制盒",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "2天，需螺絲起子與ELECTRONICS 2，斷電隔離驗證通過。",
+        "outcome_zh": "取得電路板1份，不碰服務居民的盒子。",
+        "rewards": [
+          {
+            "content_id": "content_circuit_board",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "邀保管人先確認兩盒身分",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，需對方實際可到場。",
+        "outcome_zh": "確立回收範圍，本次不拆、不領電路板。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_091"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "單一核准控制盒",
+        "change_zh": "按現物識別拆解一次；保留另一設備完整。",
+        "authority_needed_zh": "未來electronics、disassembly、jobs與場景連線事實。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "高技能不給猜錯後強行成功的特權，標籤不明即取消拆解。 電路板收納人保存來源；技工拒絕在兩盒身分未清前承諾拆卸。",
+    "dependencies": [
+      "disassembly",
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_032",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "拆解場來了新收貨要求",
+    "premise_zh": "記帳員看到新希望一份真實未履行的零件需求已撤回，原本為此預留的回收份額尚未領取；市場其餘需求仍存在。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_002",
+      "hook_gray_valley_037"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "記帳員看到新希望一份真實未履行的零件需求已撤回，原本為此預留的回收份額尚未領取；市場其餘需求仍存在。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "預留被有權者取消或改綁新有效訂單時結束，不回收已合法交出的零件。",
+      "without_player_zh": "市場需求照世界變化，倉庫可以繼續等待或接受真實新單，不生成虛構買家救市。"
+    },
+    "approaches": [
+      {
+        "label_zh": "取消失效訂單的預留",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，倉庫保管者核對撤回證據。",
+        "outcome_zh": "原預留釋出但仍在倉，不向玩家發物品。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對是否適合另一份現存需求",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "2天，需BARTER 2，必須有真實有效新單與相符規格。",
+        "outcome_zh": "獲批准才改綁新訂單，不保證售出。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_099"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "零件預留資格",
+        "change_zh": "解除或合法重新綁定同一現物份額。",
+        "authority_needed_zh": "現有市場資訊只讀；未來jobs、regional_trade與預留ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "不以任務直接調需求敏感度、價格或商隊生成率。 限額採買人只能接受當前有用途且規格相符的重新預留。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_033",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "能保留下來的橡膠",
+    "premise_zh": "帶班工批准回收一段已拆卸的緩衝墊，完整運回可得橡膠2份，裁下小段只能領1份；其餘由場方處理。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_002",
+      "hook_gray_valley_020"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工批准回收一段已拆卸的緩衝墊，完整運回可得橡膠2份，裁下小段只能領1份；其餘由場方處理。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天回收作業期或墊子已完成移交時結束。",
+      "without_player_zh": "他人可按實際授權接手，原墊被移出後不重生。"
+    },
+    "approaches": [
+      {
+        "label_zh": "整段保留並搬運",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，需旅行包且重量、貨位相符。",
+        "outcome_zh": "取得橡膠2份，原墊移除。",
+        "rewards": [
+          {
+            "content_id": "content_rubber",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "裁下核准鬆脫段",
+        "required_items": [
+          "content_hunting_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需獵刀，放棄本單餘份。",
+        "outcome_zh": "取得橡膠1份，其餘留場方。",
+        "rewards": [
+          {
+            "content_id": "content_rubber",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_079"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "一段緩衝墊",
+        "change_zh": "一次性移轉已選份額，裁切後不能再聲稱完整回收。",
+        "authority_needed_zh": "未來disassembly、cargo與ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "刀是工作方法，並未因此取得任何未定義戰鬥數值。 收料人需要分清整段與裁切後份額，不承諾相同用途。",
+    "dependencies": [
+      "cargo",
+      "disassembly",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_034",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "保存劇院的路線箱",
+    "premise_zh": "帶班工代劇院現有住戶請託，擋風用樂器箱留有可讀巡演路線，住戶願在有替代物時讓檔案員抄錄。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003",
+      "hook_gray_valley_049"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工代劇院現有住戶請託，擋風用樂器箱留有可讀巡演路線，住戶願在有替代物時讓檔案員抄錄。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天住戶允許時段或其實際搬離後重新驗證。",
+      "without_player_zh": "住戶可自行改擋風方法，箱子仍屬原保管人，不因玩家未接便焚毀。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交出布料維持原擋風位置",
+        "required_items": [
+          "content_cloth"
+        ],
+        "consumed_items": [
+          "content_cloth"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布料1份，1天，需住戶驗收願意替換。",
+        "outcome_zh": "箱面露出可供抄錄，原住處仍有替代遮擋。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在不移箱的位置分段抄寫",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，僅抄可見文字，缺字保留。",
+        "outcome_zh": "得到有限歷史路線記錄，不改住處安排。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_054"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "住戶擋風物與歷史資訊",
+        "change_zh": "只移轉布料或保存授權可見文字，箱子不變成玩家裝備。",
+        "authority_needed_zh": "未來camping、knowledge、npc relationship與物品authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "普通居民的生活用途可以比收藏價值更急迫，玩家可選如何協助。 舊資料公開異議人要求抄錄路線前排除住戶私人附記。",
+    "dependencies": [
+      "camping",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_035",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "桌腳也有另一個買家",
+    "premise_zh": "材料記帳員發現回收棚桌腳是帶地名的舊路標，桌主愿討論替換但仍需要桌子，買方尚未承諾價錢。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_001",
+      "hook_gray_valley_032"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員發現回收棚桌腳是帶地名的舊路標，桌主愿討論替換但仍需要桌子，買方尚未承諾價錢。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天詢價期或桌主撤回替換意願時結束。",
+      "without_player_zh": "桌主可繼續使用桌子，收藏買方可退出，不保證歷史物必有高價。"
+    },
+    "approaches": [
+      {
+        "label_zh": "提出相容鋼材換回路標",
+        "required_items": [
+          "content_steel_stock"
+        ],
+        "consumed_items": [
+          "content_steel_stock"
+        ],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "交付鋼材1份只在替換可行且雙方同意時提交；2天。",
+        "outcome_zh": "核准替換完成後路標轉指定保管者，桌子仍可用。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只出售授權的地名抄錄服務",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "1天，桌主同意抄可見部分，價金由後續交易另議。",
+        "outcome_zh": "提供資訊副本，路標仍當桌腳，不領實物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_057"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "路標的用途與交易範圍",
+        "change_zh": "完成時才移轉實物或已同意抄錄資訊，不雙賣同一所有權。",
+        "authority_needed_zh": "未來repair、regional_trade、knowledge與ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "物品可以同時是家具材料與歷史線索，市場價值取決於具體需求。 工具故事展示人可協助保存路標來歷，但不能替桌主決定出售。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_036",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "該先進哪一間工作房",
+    "premise_zh": "流動技工同時接到兩間工作房的合規開門請求，工具時段只夠一間；一間急需文件，另一間要領回收料，兩方願談先後。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_003",
+      "hook_gray_valley_022",
+      "hook_gray_valley_048"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工同時接到兩間工作房的合規開門請求，工具時段只夠一間；一間急需文件，另一間要領回收料，兩方願談先後。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天工具預約期或兩方另有有效安排時結束。",
+      "without_player_zh": "工房可自行另找技工，只有實際完成才更新開門狀態，不能自動生成工具補足。"
+    },
+    "approaches": [
+      {
+        "label_zh": "先用側窗交急件再處理材料門",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，需繩索與已驗證的側窗，兩方批准順序。",
+        "outcome_zh": "急件交付、材料門保留原排程，不宣稱兩門都修好。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調交換原定工具時段",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，需SPEECH 2，權利人自願。",
+        "outcome_zh": "形成明確新順序，实际開門仍待技工提交。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_071",
+      "ruin_100"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "工具時段與兩項工作",
+        "change_zh": "更新已同意排程或實際急件交付，不把排程視為工程完成。",
+        "authority_needed_zh": "未來jobs、cargo、npc relationship與場景入口authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "能力增加可行方法，仍要處理他人利益與有限時間。 共享工具箱協調人與接單轉介人可提供實際工具時段，不能重複承諾。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_037",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "取回資料而不拆整台機器",
+    "premise_zh": "流動技工在舊修理室發現管線圖被不承重掛鉤壓住，圖角含一處閥位編號；場地保管者允許保存資料，不准改閥。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_001",
+      "hook_gray_valley_026",
+      "hook_gray_valley_030"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工在舊修理室發現管線圖被不承重掛鉤壓住，圖角含一處閥位編號；場地保管者允許保存資料，不准改閥。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天查閱許可或保管者已取回原圖時結束。",
+      "without_player_zh": "其他人可按授權保存原圖，閥位按現有狀態運作，不等玩家才工作。"
+    },
+    "approaches": [
+      {
+        "label_zh": "夾開掛鉤保住圖角",
+        "required_items": [
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天，需鉗子與MECHANICS 1，掛鉤安全先驗。",
+        "outcome_zh": "完整圖角交保管人，閥位仍需現地核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "抄下可見編號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "1天，需SCAVENGING 1，不拉扯圖紙。",
+        "outcome_zh": "取得部分編號證據，缺失位置保持未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_003"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "授權管線資料",
+        "change_zh": "記錄已保存原圖或有限文字副本，不操作設備。",
+        "authority_needed_zh": "未來knowledge、repair、exploration與保管權。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "後續可把同一資料帶回真正修復工作，現在不直接提升供水。 舊管見證人與維修頁抄寫人可核對圖號，缺失內容仍標未知。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_038",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "收貨人遷走的材料箱",
+    "premise_zh": "記帳員收到收貨人已真實離開灰谷的記錄，一箱未簽收材料仍在中轉倉；原契約允許等待新地址或退回發貨人。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_002",
+      "hook_gray_valley_050"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "記帳員收到收貨人已真實離開灰谷的記錄，一箱未簽收材料仍在中轉倉；原契約允許等待新地址或退回發貨人。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "有效新地址、合法退回或原契約終止後關閉；已離場者不能被召回配合。",
+      "without_player_zh": "箱子保持當前保管，當事人可按真實通訊提供新地址；沒有消息不代表死亡或棄權。"
+    },
+    "approaches": [
+      {
+        "label_zh": "按原條款退回有權發貨者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，需其當前可接收與正式移交。",
+        "outcome_zh": "原箱回發貨者，中轉保管結束，不新增材料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對新收件位置後重開交付單",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，僅在有可驗證新地址時可選。",
+        "outcome_zh": "關閉舊地點交付資格，新運送成本另算。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_094"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "一箱材料的交付地址",
+        "change_zh": "更改有效交付單或實際退貨，保持現物單一保管。",
+        "authority_needed_zh": "現有人員遷徙只讀；未來jobs、cargo與ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "不因任務存在凍結人口移動，不把移居誤判死亡。 跨班交接整理人需保留退貨前後單一保管位置。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_039",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "實驗清洗槽的安全邊界",
+    "premise_zh": "帶班工得到舊清洗槽周邊的分區資料，外緣已驗安全，內部沉積物未知；目標是建立可回收範圍而非冒險取最大份量。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003",
+      "hook_gray_valley_027"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工得到舊清洗槽周邊的分區資料，外緣已驗安全，內部沉積物未知；目標是建立可回收範圍而非冒險取最大份量。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天勘查許可、危害檢定失效或場地封閉時結束。",
+      "without_player_zh": "場方可自行封鎖未知區域，若新資料出現依證據更新，不製造固定傷害。"
+    },
+    "approaches": [
+      {
+        "label_zh": "標定已驗安全邊緣",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "1天，需SCAVENGING 2，不越過未知區。",
+        "outcome_zh": "提交清楚回收界線，後續工單只能取合格份額。",
+        "rewards": []
+      },
+      {
+        "label_zh": "封存整槽等專業分析",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，需場方同意停止本輪回收。",
+        "outcome_zh": "本輪不領廢料，保留完整樣本位置。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_052"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "有限危害分區",
+        "change_zh": "建立或維持限制範圍，不把一張面罩當全面免疫。",
+        "authority_needed_zh": "未來hazards、identification、exploration與jobs。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "專業能力可辨認限制，也可以讓玩家知道現在該停手。 面罩標籤核對人確保場方沒有把衣物當作未知化學品的防護證明。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-06",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_040",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "遺跡回收窗口真的關了",
+    "premise_zh": "帶班工收到合法保管者已結束本輪回收的正式通知，一份未開工開門單因此失效；尚無玩家持有委託物。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_002",
+      "hook_gray_valley_047",
+      "hook_gray_valley_048"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工收到合法保管者已結束本輪回收的正式通知，一份未開工開門單因此失效；尚無玩家持有委託物。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "通知驗證完成就終止舊單，或保管者真正另開新窗口才有新任務。",
+      "without_player_zh": "保管者按實際安排管理遺跡，玩家不接也不保持永遠可回收。"
+    },
+    "approaches": [
+      {
+        "label_zh": "註銷未開工單與工具預約",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，核對通知權限與原單。",
+        "outcome_zh": "舊單關閉，工具預約釋出，無退款因尚未付款。",
+        "rewards": []
+      },
+      {
+        "label_zh": "向保管者申請另一次受限查閱",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，需SPEECH 2；可被拒絕，不能沿用舊權限。",
+        "outcome_zh": "得到明確批准範圍或拒絕理由；只有新批准才可進場。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_100"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "已終止回收資格",
+        "change_zh": "關閉舊資格，若有新批准另記來源和範圍。",
+        "authority_needed_zh": "未來jobs、exploration與場地ownership；不重置遺跡掉落。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "角色變強後仍面對會改變的世界，不保證過去每扇門一直等著。 拆解留影人與工坊轉介人需撤銷已失效的進場時段。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  }
+]

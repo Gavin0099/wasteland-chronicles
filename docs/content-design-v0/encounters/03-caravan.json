@@ -1,0 +1,3891 @@
+[
+  {
+    "encounter_id": "caravan_001",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "出發時少了一只水壺",
+    "context_zh": "商隊已核准一名同行者的水份額，但缺少個人容器，還沒有出發。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "caravan_route"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊已核准一名同行者的水份額，但缺少個人容器，還沒有出發。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借空水壺給同行者",
+        "required_items": [
+          "content_water"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "水壺暫時離手，水由既有配給來源實際交付。",
+        "outcome_zh": "同行者有容器候選，玩家不能同時把它裝自己的水。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調先借商隊已有空容器",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "花準備時間，需真實保管人同意。",
+        "outcome_zh": "可能利用現有器具，不新增任何容器或水。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留水壺不承諾同行",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄這次同行安排。",
+        "outcome_zh": "商隊可依真實排程離開。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "一旦商隊離開，現場借用窗口關閉；後續只追蹤實際物品。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_002",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "拉緊車蓋的那條繩",
+    "context_zh": "貨車布蓋的一個固定點鬆開，司機想割掉整條還能用的繩。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "road_camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "貨車布蓋的一個固定點鬆開，司機想割掉整條還能用的繩。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用獵刀只剪不可挽回的纏結",
+        "required_items": [
+          "content_hunting_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需貨主允許與停車，剪下部分不再可用。",
+        "outcome_zh": "保留可分離的繩段，但完整繩索是否還能使用待檢驗。",
+        "rewards": []
+      },
+      {
+        "label_zh": "停車重新安排固定方式",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "花時間並需貨主同意，不保證原繩可承重。",
+        "outcome_zh": "避免立即切斷，可能拖延行程。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替受力繩作保證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不操作貨車。",
+        "outcome_zh": "司機另找合適人員，玩家不取得繩索。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若途中已換繩，就不能再領取同一修繕報酬。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_003",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "貨單上的種子不見了",
+    "context_zh": "檢查點看到種子貨單，車上卻是一排未標記布袋；還沒拆驗。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "checkpoint"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "檢查點看到種子貨單，車上卻是一排未標記布袋；還沒拆驗。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "提供空布袋隔離第一批驗收樣本",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交布袋1只，只有獲准樣本可拆分。",
+        "outcome_zh": "讓已查與待查貨分開，不增加種子數量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求貨主與檢查者一起核對封條",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "耗等待時間，需双方在場。",
+        "outcome_zh": "保留所有權與見證，避免單方猜測。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退出這批貨的代簽",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄代簽費，不承擔未見貨責任。",
+        "outcome_zh": "貨物由原主繼續處理。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "封條若實際已破，後續只能記錄破損，不能用對話恢復封存。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_004",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "灶前最後一份乾糧",
+    "context_zh": "廚人准備分配最後一份現有乾糧，兩名輪班者都錯過用餐。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "roadside_camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "廚人准備分配最後一份現有乾糧，兩名輪班者都錯過用餐。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "拿出自己的乾糧分享",
+        "required_items": [],
+        "consumed_items": [
+          "content_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交乾糧1份，自己失去這份旅糧。",
+        "outcome_zh": "多一份實物可協商分配，不保證改善全部飢餓。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對誰已在前站領過補餐",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "花查詢時間，不把記錯當欺骗。",
+        "outcome_zh": "讓廚人依可確認資訊決定份額。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留自己的旅糧",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不捐物也不搶現有份額。",
+        "outcome_zh": "隊伍需自行安排剩餘補給。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "如果其他補給實际到達，緊急分配需求可結束；不生成因果不明死亡。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "cooking"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_005",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "新路標指向舊礦口",
+    "context_zh": "路標朝向與老向導記憶不同，隊伍尚未走入新分岔。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "fork"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "路標朝向與老向導記憶不同，隊伍尚未走入新分岔。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用指南針記錄矛盾方向",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "花觀察時間，不能證明任何路徑安全。",
+        "outcome_zh": "取得可對照方位，仍需近期目擊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "比對地形再決定是否走原路",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "需要生存知識與现場時間。",
+        "outcome_zh": "指出可見差異，提出保守行程候選。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退出不確定的帶路承諾",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "可能錯過隊伍這次出發。",
+        "outcome_zh": "不替新路擔保，正式路網不變。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "地形若再次改變，筆記要重驗，不能永久生成捷徑。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "navigation",
+      "exploration",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_006",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "橋欄外的落袋",
+    "context_zh": "一只已確認屬商隊的小袋落在橋外平台，內容還没點收。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "bridge_approach"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一只已確認屬商隊的小袋落在橋外平台，內容還没點收。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用繩索提出受控取回方案",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "需安全錨點、协作者與場主允許，不保證可下降。",
+        "outcome_zh": "在條件成立時可取回原袋，內容依實物清點。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先找橋下合法步行入口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "耗勘察時間，可能需繞行。",
+        "outcome_zh": "避免垂降但不承諾必有通路。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置暫不取回",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄當下貨物使用。",
+        "outcome_zh": "袋子不自動消失或重生，後續需真實世界持續記錄。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "如果別人合法取回，後續需談交接，不重復生成袋內物。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "exploration",
+      "hazards",
+      "cargo",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_007",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "農具箱被寫成武器箱",
+    "context_zh": "護送者看見長柄器具便要求武器保管費，貨主說箱內是農具。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "convoy_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "護送者看見長柄器具便要求武器保管費，貨主說箱內是農具。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "展示自己伐木斧的工具用途",
+        "required_items": [
+          "content_wood_axe"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只說明器具形制，需貨主同意檢查真正箱子。",
+        "outcome_zh": "区分用途與所有權，不自行免除檢查。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把驗貨與護送費分開談",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗協商時間，雙方可不同意。",
+        "outcome_zh": "成交依據實际内容，不能由圖標自動分類收費。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替沒看見的箱子作證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄仲介費。",
+        "outcome_zh": "原兩方繼續處理。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "實際驗收後改寫貨單需双方見證，不從標籤生成武器。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_008",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "篷車角落的濕手冊",
+    "context_zh": "一份維修手冊沾濕，工匠急著撕開黏住的頁面。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一份維修手冊沾濕，工匠急著撕開黏住的頁面。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "借防水袋先隔開其他濕貨",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只保護現物，不能修復已濕頁面。",
+        "outcome_zh": "阻止進一步混放的方案成立，文字仍待查看。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先記錄可見頁碼與機型",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "耗解讀時間，不補写缺頁。",
+        "outcome_zh": "保留能查證的資料索引。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替缺頁內容做保證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不拆書、不取走手冊。",
+        "outcome_zh": "由原主决定修復方式。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若紙頁已毀，後續只能找其他來源，不能自動恢復知識。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "cargo",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "caravan_009",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "輪班守衛的長槍交接",
+    "context_zh": "守衛換班時交出商隊步槍，但接手者尚未確認槍況和配套。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "guard_shift"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "守衛換班時交出商隊步槍，但接手者尚未確認槍況和配套。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "提供自己維修手冊供對照",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅核對型號相關內容，不能替代實物檢驗。",
+        "outcome_zh": "列明尚缺的检查項，武器未自動裝到任何人身上。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求双方一起寫下交接狀態",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗換班時間，不隐瞒缺件。",
+        "outcome_zh": "保管責任明確，戰鬥能力仍按正式規則。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕代簽已檢查",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不接手武器。",
+        "outcome_zh": "護衛須自行安排合格驗收。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "原守衛若已離隊，只能追查现有記錄，不再復制出可見人手。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_010",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "一只布袋的回程價",
+    "context_zh": "回程商人願拿自己的一份乾糧換空布袋，因為零件袋已破。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "barter_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "回程商人願拿自己的一份乾糧換空布袋，因為零件袋已破。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "按約交換空袋",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交布袋1只，收取商人真實持有的乾糧1份。",
+        "outcome_zh": "完成一次有限交換，沒有固定套利保證。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "借袋到下個交接點",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需写清借期；没有乾糧报酬。",
+        "outcome_zh": "保留所有權但暫時失去使用。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留空袋準備自己的貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不成交。",
+        "outcome_zh": "商人可另找包裝。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "商人乾糧只够一次提案，交付後不能再領。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_011",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "有人認出箱上的家徽",
+    "context_zh": "同行者認出商人貨箱上的私人記號，怀疑是離散家人舊物。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "roadside"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "同行者認出商人貨箱上的私人記號，怀疑是離散家人舊物。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用相機在貨主同意下記錄外觀",
+        "required_items": [
+          "content_camera"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需可用媒體與電源，不能拍摄私人内容。",
+        "outcome_zh": "保存標記對照資料，不判定貨物被偷。",
+        "rewards": []
+      },
+      {
+        "label_zh": "请認物者先提供独立細節",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "花談話時間，避免引導猜測。",
+        "outcome_zh": "得到可驗證的認領線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替猜測扣押貨箱",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取得任何貨物。",
+        "outcome_zh": "各方仍可尋正式見證。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若貨主提出真實轉手證據，後續依證據調整，不因認物強制開戰。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "reputation",
+      "electronics"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_012",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "一袋野菜換不回的時間",
+    "context_zh": "採集者帶回野菜，廚人說辨識和處理要占出發前時間。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "採集者帶回野菜，廚人說辨識和處理要占出發前時間。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "提供已確認的乾糧代替這餐",
+        "required_items": [],
+        "consumed_items": [
+          "content_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交乾糧1份，野菜仍屬採集者。",
+        "outcome_zh": "隊伍可以不用急著吃未知植物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助辨識可查的植物特徵",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "耗辨識時間，未知部分不得保證可食。",
+        "outcome_zh": "只形成待確認清單，不自動生成安全食物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不吃也不要求丟掉別人的野菜",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "保留自己的補給。",
+        "outcome_zh": "採集者决定後續處理。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "隊伍若已出發，辨識工作需另約安全停點，不能凍結車隊。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cooking",
+      "identification",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "caravan_013",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "要鋪路還是留下布料",
+    "context_zh": "車隊想拿貨主布料铺住短段濕泥，貨主不願承受毁損。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "mud_section"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "車隊想拿貨主布料铺住短段濕泥，貨主不願承受毁損。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "捐出自己的一份布料供有限使用",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交布料1份，使用後不保證可回收。",
+        "outcome_zh": "只提供小面積材料，不能保證整隊通過。",
+        "rewards": []
+      },
+      {
+        "label_zh": "重新查看可繞行地面",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "耗勘察時間，可能增加路程。",
+        "outcome_zh": "提出绕過泥段的候選，而非立即修改路線。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不擅自使用他人物資",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不改動貨物。",
+        "outcome_zh": "隊长需另尋被同意的方案。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "天氣或地面變化後要再驗，不把布料當永久道路修復。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_014",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "護田犬挡在車前",
+    "context_zh": "一隻有主護田犬擋住車道，隊伍尚未確認主人在哪裡。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一隻有主護田犬擋住車道，隊伍尚未確認主人在哪裡。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "以已裝備捕獸叉保持距離等待主人",
+        "required_items": [
+          "content_hunting_fork"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MELEE",
+          "rank": 1
+        },
+        "cost_zh": "需玩家真實持有並裝備，僅隔出退路；可能仍失控，結果待戰鬥規則。",
+        "outcome_zh": "接受對峙風險，不能保證無傷或捕獲。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先向邻近農戶詢問主人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗聯絡時間，不擅自餵陌生動物。",
+        "outcome_zh": "給原主人介入机會，不生成新NPC。",
+        "rewards": []
+      },
+      {
+        "label_zh": "停車不向前逼近",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "延後通行，不取得動物戰利品。",
+        "outcome_zh": "保留安全距離等待條件改變。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若原主已帶走犬，對峙結束；不把動物計入人類人口。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "hazards",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_015",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "登山包里失衡的玻璃",
+    "context_zh": "旅人的玻璃樣品與飲水裝在同側，背包一直向一邊扯。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "旅人的玻璃樣品與飲水裝在同側，背包一直向一邊扯。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用自己的布袋分開可分裝小件",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "暫借袋，仍需全部實物各自計重。",
+        "outcome_zh": "提供整理方案，不提高背包容量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助按真實重量調整裝載",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "耗整裝時間，物主須同意觸碰。",
+        "outcome_zh": "改善可見分布，沒有已實作負重增益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接手易碎貨物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不承擔未約定損壞责任。",
+        "outcome_zh": "旅人自行決定是否寄存部分行李。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若另有运输者接收，需正式交接，不讓同件貨同時在兩個背包。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards",
+      "equipment"
+    ],
+    "inspiration_refs": [
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_016",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "出城後才說要買盐",
+    "context_zh": "委託人臨時改口要玩家回新希望買鹽，商隊仍可能按原计划走。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "market_road"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "委託人臨時改口要玩家回新希望買鹽，商隊仍可能按原计划走。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交出自己的一份鹽完成有限需求",
+        "required_items": [],
+        "consumed_items": [
+          "content_salt"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交鹽1份，報酬需另約，不能直接兌換世界資源單位。",
+        "outcome_zh": "減少回城需求，原物去向明確。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商留到下一站真實采购",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "花談判時間，委託人可能拒絕。",
+        "outcome_zh": "重排交付條件，不保證下一站有盐。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕未約定的返城工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收新增報酬。",
+        "outcome_zh": "商隊繼續按實際排程决策。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "接受變更前要確認當前位置，不能把已走出的日數倒回。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_017",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "遠處鏡光像是信號",
+    "context_zh": "遠處坡顶反光反復出现，隊伍不知是否有意向自己示意。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "ridge"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "遠處坡顶反光反復出现，隊伍不知是否有意向自己示意。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用望遠鏡觀察反光來源",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗觀察時間，視野受實際地形限制。",
+        "outcome_zh": "只描述可見物，不確認敵友。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對出發前約定的信號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "需真實約定與知情者，花詢問時間。",
+        "outcome_zh": "分清已知通訊與陌生反光。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保持原地不回應未知信號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄可能的會面。",
+        "outcome_zh": "不暴露额外訊息，仍不能保證無危险。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若反光源實際離開，觀察窗口關闭，不生成永驻伏兵。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "exploration",
+      "knowledge",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_018",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "未經同意的猎刀借用",
+    "context_zh": "廚人把護衛私人的獵刀拿去處理污物，護衛要求先停用。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "rest_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "廚人把護衛私人的獵刀拿去處理污物，護衛要求先停用。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借出自己的廢鐵砍刀處理粗作業",
+        "required_items": [
+          "content_scrap_machete"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "明確限定不接觸食品，工具暫離手。",
+        "outcome_zh": "提供替代工作工具，原獵刀仍待處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請雙方寫下用途與清理責任",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗調解時間，不用口才宣稱已清潔。",
+        "outcome_zh": "所有權和工作需求分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不代替刀主同意繼續使用",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交物品。",
+        "outcome_zh": "廚人須另找获准器具。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "原刀處理結果需独立確認；調解不能自動清除污染或改變刀況。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "cooking",
+      "identification",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_019",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "補給箱里只有標籤",
+    "context_zh": "舊中轉點的箱子留着粮食標簽，里面實際庫存未知。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "abandoned_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊中轉點的箱子留着粮食標簽，里面實際庫存未知。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用手電筒检查允許查看的空間",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需電源與無主/開啟權確認。",
+        "outcome_zh": "顯示看得到的現物，標籤不生成糧食。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先查近期路過者是否使用過",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "花查訪時間，傳聞保持未證實。",
+        "outcome_zh": "得到可能的補給去向。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不把這處列入確定補給站",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "繼續按已有補給規劃。",
+        "outcome_zh": "不依赖未經確認物资。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若已經空箱，後續仍須有實际補貨來源，不能周期重生。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "lighting",
+      "exploration",
+      "knowledge",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_020",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "抵达灰谷後谁先卸貨",
+    "context_zh": "糧食與廢鐵貨主爭先卸貨，只有一組願意工作的搬运者。",
+    "location_tags": [
+      "new_hope",
+      "gray_valley",
+      "arrival_gate"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "糧食與廢鐵貨主爭先卸貨，只有一組願意工作的搬运者。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "提供密封貨箱暫保管已驗小件",
+        "required_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "借出實物箱，重量與倉位仍受限。",
+        "outcome_zh": "讓部分小件可被明確交接，不增加搬运人手。",
+        "rewards": []
+      },
+      {
+        "label_zh": "依收貨人實際在場時間排順序",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗協商時間，貨主需同意。",
+        "outcome_zh": "提出可驗證的卸貨次序。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只卸自己有權處理的行李",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄別批貨的工資。",
+        "outcome_zh": "不奪取其他貨主裝卸权。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若搬運者已經離場，需重新安排，不能為完成任務生成人口。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_021",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "停在坡前的鬆輪框",
+    "context_zh": "貨車停穩後，車主發現外輪框螺栓鬆動；備件箱有相符墊片，他另留銅線1份支付協助。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "service_track"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "貨車停穩後，車主發現外輪框螺栓鬆動；備件箱有相符墊片，他另留銅線1份支付協助。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用扳手協助工人固定輪框",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；工具留己，工人使用車上既有墊片。",
+        "outcome_zh": "固定並完成空車檢查，車主交付銅線1份。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "幫忙卸下有主貨物等車主處理",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；搬貨到車主指定布面，沒有材料消耗。",
+        "outcome_zh": "車身減載後可由車主檢查，玩家不領維修報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "離開停車點繼續自己的行程",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不承接護貨責任。",
+        "outcome_zh": "貨物與待修車仍歸原主，沒有免費零件可取。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "車主若已修妥就不重開報酬；此處不定義一般載具維修規則。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "caravan_022",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "陰影裡的兩塊電路板",
+    "context_zh": "回收商自有2片電路板，一片包裝受壓；買家只願付可辨來源的那片，商人請同行人見證拆封。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "shade_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "回收商自有2片電路板，一片包裝受壓；買家只願付可辨來源的那片，商人請同行人見證拆封。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "比對兩片板上的接頭和原標籤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 1
+        },
+        "cost_zh": "0天；只做外觀辨識，不通電。",
+        "outcome_zh": "確認兩片來自不同型號，買家撤回通用替代的假設，分開報價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用防水袋暫護兩張來源單",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；袋子留己，原件由雙方在場核對。",
+        "outcome_zh": "來源單未被風捲走，雙方完成分批登記；無額外物品收入。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕替未測試功能背書",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不買也不作保。",
+        "outcome_zh": "商人仍持有兩片原物，買家可另找檢測者。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "外觀分型不等於功能驗收；後續通電測試需要電子設備與正式流程。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "identification",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_023",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "吹散的金屬價籤",
+    "context_zh": "起風把回收商的價籤吹離貨堆，一名顧客拿最低那張要求買最重的鋼材。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "windy_pass"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "起風把回收商的價籤吹離貨堆，一名顧客拿最低那張要求買最重的鋼材。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "依原始清單恢復各堆標籤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；請雙方見證，不使用重量猜價格。",
+        "outcome_zh": "清單證明低價屬廢鐵，鋼材恢復原標示；成交與否由買家決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "借繩索把新標牌固定在貨架",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；繩索暫借後收回，商人先核對價目。",
+        "outcome_zh": "標牌固定，這一陣風不再混亂標示；不領物品報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不參與這筆爭議交易",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；保留自己的物資。",
+        "outcome_zh": "買賣雙方留在原貨前處理，沒有強制折價。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "爭議若已成交則只能查成交證據，不能以後來的牌價回改買賣。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_024",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "客人坐上待售胸甲",
+    "context_zh": "旅人把車板胸甲當凳子，貨主擔心固定帶被扯壞，双方都不想在烈日下爭吵。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "roadside_shelter"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "旅人把車板胸甲當凳子，貨主擔心固定帶被扯壞，双方都不想在烈日下爭吵。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "挪出自己的舊旅行包作臨時座位",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；自有包先卸下易碎物，保持所有權。",
+        "outcome_zh": "旅人離開胸甲，貨主檢查後確認帶子未斷，爭執結束。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請旅人與貨主一起檢查現況",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；用協商讓雙方接受同一次檢查。",
+        "outcome_zh": "兩人共同記錄帶子原有磨損，沒有新損壞就沒有賠款。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保持距離讓雙方自行處理",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不碰待售物。",
+        "outcome_zh": "沒有把爭吵變成襲擊事件，也不取得胸甲。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若檢查真有新損傷，賠偿需依可驗證責任另談，不自動從玩家扣款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_025",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "把手電筒當成信號器",
+    "context_zh": "臨時驗貨人把一支普通手電筒誤認為發射器，要求貨主留下解釋；外殼銘牌仍清楚。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "customs_canopy"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "臨時驗貨人把一支普通手電筒誤認為發射器，要求貨主留下解釋；外殼銘牌仍清楚。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "拿自己的手電筒展示燈頭構造",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不拆對方貨，不消耗電池。",
+        "outcome_zh": "驗貨人比對銘牌與燈頭後更正分類，放回原貨。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請對方先指出限制條目",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天；花協商工夫查明查驗範圍。",
+        "outcome_zh": "查驗表只管發射器，普通燈具不在其中，這次滯留結束。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替陌生貨主說明",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；自行走允許的通道。",
+        "outcome_zh": "貨主保留申辯機會，玩家未取得通行特權。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "這是具體誤分類的解決，非永久免驗資格。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "electronics",
+      "identification",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_026",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "路邊空箱的主人回來了",
+    "context_zh": "隊員正要收走一只空密封貨箱，原主帶著相符封號從坡下回來；他曾把箱子放著去找掉落的繩索。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "washout"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "隊員正要收走一只空密封貨箱，原主帶著相符封號從坡下回來；他曾把箱子放著去找掉落的繩索。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "幫忙把空箱拖回平地",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；借自己的繩索牽引，物品留己。",
+        "outcome_zh": "箱子交回原主，原主指明坡下已查過的路段供後來人參考。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對封號再勸隊員放手",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；不靠先發現就判定所有權。",
+        "outcome_zh": "封號與原主記錄相符，隊員撤回無主物主張。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不加入搬取",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不拿箱子或裡面的殘物。",
+        "outcome_zh": "雙方留在現場協調，玩家無收益。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "失主出現是這份提案的固定情境；不可把有主箱子當重生寶箱。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge",
+      "exploration"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_027",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "守夜者借走了唯一指南針",
+    "context_zh": "探路人把商隊共有指南針帶去坡頂，營地另一人想先行，卻沒有方向器材。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "dusk_camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "探路人把商隊共有指南針帶去坡頂，營地另一人想先行，卻沒有方向器材。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用自己的指南針陪他核對近處路口",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "1天；只往返已知近處，不留器材給對方。",
+        "outcome_zh": "對方辨認回營方向後返回，玩家沒有改寫整條商路。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請先行者等共有器材歸還",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；提出等待理由，由對方決定是否接受。",
+        "outcome_zh": "對方同意留營到本次換班，減少分散；不是強制所有隊員聽令。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只處理自己的行程",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不替別人導航。",
+        "outcome_zh": "先行者需另作決定，不能寫死他必然迷路。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "共用器材真的歸還或持有人改變後重查可用性，不能同時借給兩人。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "navigation",
+      "camping",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_028",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "用燃料換一碗湯的提議",
+    "context_zh": "煮食者缺鹽，油料商卻想用自己的燃料罐換湯；煮食者沒有安全存油的地方。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "fuel_waystation"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "煮食者缺鹽，油料商卻想用自己的燃料罐換湯；煮食者沒有安全存油的地方。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用自己的鹽換煮食者的一份乾糧",
+        "required_items": [],
+        "consumed_items": [
+          "content_salt"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交鹽1份，對方從自有口糧交乾糧1份。",
+        "outcome_zh": "雙方完成小額交換，油料商的罐子仍屬油料商。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "協調先記下需求，不在灶旁換油",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；需要買賣雙方同意。",
+        "outcome_zh": "燃料罐退回存放區，湯的付款另外商議。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不居中換貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領湯或燃料。",
+        "outcome_zh": "雙方自行決定是否成交。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "一份鹽與一份乾糧是這次雙方接受的有限交換，不成為全世界固定匯率。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "cooking",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "caravan_029",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "面罩後面的求助聲",
+    "context_zh": "一名搬貨人戴著不合臉的沙塵面罩，說話漏風；他只想調整固定帶，不想購買新防具。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "sand_cut"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名搬貨人戴著不合臉的沙塵面罩，說話漏風；他只想調整固定帶，不想購買新防具。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "示範自己面罩的帶扣方向",
+        "required_items": [
+          "content_dust_mask"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；自己的面罩留己，雙方在避風處調整。",
+        "outcome_zh": "搬貨人發現帶子穿反，重穿後能正常說話；不宣稱毒氣防護。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪他走到避風牆後等風小",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；放棄當日的一段趕路時間。",
+        "outcome_zh": "對方可摘下面罩重新整理，本次協助完成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "指明避風處後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不拆對方裝具。",
+        "outcome_zh": "對方知道近處遮蔽位置，後續由本人決定。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "此處只處理穿戴問題，遇到真實污染仍需不同器材與危害規則。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_030",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "少了一顆軸承的換貨",
+    "context_zh": "工具商要保留最後一件軸承給乾井買家，但路上工人願以一把鉗子交換。兩件都已有實物，沒有誰非賣不可。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "night_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工具商要保留最後一件軸承給乾井買家，但路上工人願以一把鉗子交換。兩件都已有實物，沒有誰非賣不可。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交自己的軸承換工人的鉗子",
+        "required_items": [],
+        "consumed_items": [
+          "content_bearing"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交軸承1件，工人交鉗子1把。",
+        "outcome_zh": "個人交換完成，工具商原來的預留貨不受影響。",
+        "rewards": [
+          {
+            "content_id": "content_pliers",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "讓工具商說清預留承諾",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；花交易協商時間。",
+        "outcome_zh": "工人理解預留原因，改留一份抵城後詢價的約定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不動用自己的備件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；拒絕交換。",
+        "outcome_zh": "工人保留鉗子，商人保留預留軸承。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "預留承諾是否有效需以實際記錄為準，不能把玩家未交易當成背約。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_031",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "重箱過橋前的計算",
+    "context_zh": "小橋通道只容一人推箱；同行人提議把密封貨箱拆開分兩趟，貨主怕混掉托管件。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "low_bridge"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "小橋通道只容一人推箱；同行人提議把密封貨箱拆開分兩趟，貨主怕混掉托管件。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用自己的布袋分裝已點收小件",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；袋暫借後歸還，每趟有貨主見證。",
+        "outcome_zh": "兩趟交接完成，小件數量相符，封箱主物仍由貨主管。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請貨主按交接順序親自陪走",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；不拆封未知內容，改用更慢的逐箱搬運。",
+        "outcome_zh": "全數有主箱件抵達另一端，沒有新增背包容量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "放棄這次搬運工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不承擔貨箱運輸。",
+        "outcome_zh": "貨主自行另找人手，無自動掉貨或橋崩。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "是否能搬運須依實際重量與承載權限檢查；故事不允許穿越已封閉危橋。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "exploration",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_032",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "保養筆記被拿去墊灶",
+    "context_zh": "灶台下壓著一份貨主的維修手冊，封面焦黃但文字未燒；貨主不知自己的書被借走。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "repair_camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "灶台下壓著一份貨主的維修手冊，封面焦黃但文字未燒；貨主不知自己的書被借走。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "提供廢鐵墊片換下手冊",
+        "required_items": [],
+        "consumed_items": [
+          "content_scrap_iron"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交廢鐵1份作灶台墊片，書還給原貨主。",
+        "outcome_zh": "手冊離開熱源，貨主確認書頁可讀；書不歸玩家。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫停灶台使用後請貨主取書",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；等待炊事完成及冷卻。",
+        "outcome_zh": "原手冊完整交回，煮食者另找非紙材料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "告知貨主位置後不介入",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不拿走手冊。",
+        "outcome_zh": "貨主可自行處理這次借用爭議。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "即使玩家救回手冊也沒有立即技能經驗；閱讀與知識解鎖另有權限。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "camping",
+      "knowledge",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_033",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "山脊上看似敵人的長影",
+    "context_zh": "夕陽把兩根晾衣桿投成持械者影子；前隊已停車，後隊尚不知停車原因。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "ridge"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "夕陽把兩根晾衣桿投成持械者影子；前隊已停車，後隊尚不知停車原因。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用望遠鏡查看投影來源",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；從現有遮蔽處觀察，不接近陌生營地。",
+        "outcome_zh": "看見晾衣桿與布條，排除這兩個影子是持槍者；附近其他風險仍未查。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿安全側坡核對地物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "1天；不跨進營地，靠荒野辨位回到隊伍。",
+        "outcome_zh": "從另一角度確認桿子，將具體位置告知前隊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留距離等前隊傳回消息",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；接受延誤，不做攻擊判斷。",
+        "outcome_zh": "玩家沒有主動激起衝突，停車原因由前隊處理。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "確認物影不是保證全路無敵；不因缺少武器讓影子變真敵人。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "navigation",
+      "exploration",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_034",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "有人願買裝不下的塑膠",
+    "context_zh": "回收者自有塑膠2份，因行李滿了願用其中1份換一只布袋；買家只想買乾淨完整的那份。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "turnoff"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "回收者自有塑膠2份，因行李滿了願用其中1份換一只布袋；買家只想買乾淨完整的那份。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交布袋換其中一份塑膠",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；布袋1只交給回收者，塑膠1份歸己。",
+        "outcome_zh": "回收者把餘下1份裝袋，這次交換結束。",
+        "rewards": [
+          {
+            "content_id": "content_plastic",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "幫雙方先分清兩份材質狀態",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "0天；比較污染與破損外觀，不替用途作保。",
+        "outcome_zh": "完整與待查貨分開，買家只對完整那份開價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留布袋不參與",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不收購塑膠。",
+        "outcome_zh": "回收者需自選留下哪些行李。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "這次丟棄或成交都由物主決定，不能讓玩家離開自動生成路邊戰利品。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_035",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "交接者穿了相同外套",
+    "context_zh": "兩位商人都穿商隊外套，傳貨者把私人信封交錯；兩人都還在場且未拆封。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "meeting_point"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩位商人都穿商隊外套，傳貨者把私人信封交錯；兩人都還在場且未拆封。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "核對封口姓名再各自交還",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；請兩人同時見證，不讀信內文。",
+        "outcome_zh": "兩個信封回到正確收件者，誤投當場結束。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用防水袋暫收兩封等傳貨者回看",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；袋留己，封口保持完整。",
+        "outcome_zh": "原傳貨者對照底單完成交接，玩家交回兩封原件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把誤投情況告知兩人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接管信件。",
+        "outcome_zh": "收件者自行核對，玩家不因衣著推定任何身分。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "衣服只是可見線索，不能變成派系通行或永久信任效果。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_036",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "不願上膛的護送驗槍",
+    "context_zh": "雇主想用開槍聲證明護衛槍可用，護衛只有任務所需的有限配套，不願為演示消耗。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "inspection_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "雇主想用開槍聲證明護衛槍可用，護衛只有任務所需的有限配套，不願為演示消耗。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "以自有且已裝備的商隊步槍接受靜態檢查",
+        "required_items": [
+          "content_caravan_rifle"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "FIREARMS",
+          "rank": 1
+        },
+        "cost_zh": "0天；保持卸載並由雙方同意檢查，不消耗彈藥。",
+        "outcome_zh": "雇主看到外觀與操作紀錄，只簽目前可驗的項目，不宣稱實射合格。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商改由有授權的工坊驗收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天；雙方同意延後，不替工坊保證結果。",
+        "outcome_zh": "護送契約加入實際驗收條件，沒有當場戰鬥。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接要求無故開槍的工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；放棄報酬。",
+        "outcome_zh": "雇主另尋人選，玩家保留物資。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續實射需正式武器、相容耗材及安全場地權限；技能本身不生成槍或彈。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_037",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "熟客要求先拿後付",
+    "context_zh": "工具買家自稱常來，想從商隊取走一把扳手；車主的舊帳顯示他曾結清，但本次沒有信用約定。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "rest_yard"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工具買家自稱常來，想從商隊取走一把扳手；車主的舊帳顯示他曾結清，但本次沒有信用約定。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用自己的扳手換他現有的銅線",
+        "required_items": [],
+        "consumed_items": [
+          "content_wrench"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交扳手1把，收其自有銅線1份。",
+        "outcome_zh": "完成兩人間的實物交換，不替商隊授信。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "請車主和買家另立本次交付條件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天；交易協商不保證賒帳獲准。",
+        "outcome_zh": "雙方同意先不交貨，抵城確認付款後再取工具。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不為熟客墊貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不簽保證。",
+        "outcome_zh": "原車主保留扳手，買家保留付款選擇。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "過去付款紀錄只作資訊，不能自動給任何人無上限信用。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_038",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "掉在沙上的藥品類別牌",
+    "context_zh": "風捲走一張寫著藥物的分類牌，旅人以為牌旁無字瓶子就是藥品，準備收走。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "open_ground"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "風捲走一張寫著藥物的分類牌，旅人以為牌旁無字瓶子就是藥品，準備收走。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "把瓶子留在原位並查實際貨單",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MEDICINE",
+          "rank": 1
+        },
+        "cost_zh": "0天；核對後發現那是貨主的清潔劑樣本。",
+        "outcome_zh": "旅人知道不能按類別牌服用，原瓶交回貨主。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請貨主當面說明瓶子用途",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；等貨主從前隊返回，不替瓶子命名。",
+        "outcome_zh": "貨主出示樣本標記，瓶子不被當醫療用品領走。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提醒別試喝，繼續前進",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不碰瓶子。",
+        "outcome_zh": "旅人得到警告，是否等待由本人決定。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "類別示意牌不是可使用的實物藥；未知物不因顏色獲得治療效果。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "identification",
+      "knowledge",
+      "injury"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_039",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "抵城前的繩索公約",
+    "context_zh": "隊員用一條共有繩索綁三位貨主的貨物，抵城各自解繩會散開別人的包。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "approach"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "隊員用一條共有繩索綁三位貨主的貨物，抵城各自解繩會散開別人的包。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借自己的繩索先固定其中一批",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；借用完成後收回，不切共有繩。",
+        "outcome_zh": "第一批可獨立卸下，剩餘兩批由貨主依序解開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "組織三位貨主一起卸完整車",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天；等所有在場者安排同一時段。",
+        "outcome_zh": "三批各點收一次，共有繩交回原保管人。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先領自己的可獨立行李",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不拆共有綁帶。",
+        "outcome_zh": "其他貨保持固定，玩家不代收任何一批。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "到場與貨主同意需要真實條件，不能因對話瞬間傳送缺席者。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_040",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "乾井不收滿箱螺絲",
+    "context_zh": "買家原需求是鉗子，商隊卻送來一箱雜螺絲；貨主帶著明確訂單，錯裝在灰谷已發生。",
+    "location_tags": [
+      "gray_valley",
+      "dry_well",
+      "town_edge"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "買家原需求是鉗子，商隊卻送來一箱雜螺絲；貨主帶著明確訂單，錯裝在灰谷已發生。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交自己的鉗子完成單件急用交換",
+        "required_items": [],
+        "consumed_items": [
+          "content_pliers"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；鉗子1把交買家，買家從已留存物支付鹽1份。",
+        "outcome_zh": "買家急用需求完成；雜螺絲仍由原貨主處理，沒有抹掉錯裝責任。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "整理錯裝與收貨證據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "1天；留副本給雙方，不改原訂單。",
+        "outcome_zh": "貨主同意把雜件帶回並重新安排正確工具。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接手錯誤訂單",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不替商隊賠償。",
+        "outcome_zh": "原雙方繼續協調退換，玩家無貨物收益。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "重新送貨需新行程與實物，不由本結果立即完成。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "cargo",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_041",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "帶不走的最後一罐水",
+    "context_zh": "出城旅人只剩一個空手位，自己的淨水1份和已承諾代送的種子包不能一起拿；他願用水換借一只袋子走到首站。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "dawn_exit"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "出城旅人只剩一個空手位，自己的淨水1份和已承諾代送的種子包不能一起拿；他願用水換借一只袋子走到首站。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借布袋陪走到首站再取回",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；布袋暫時供對方裝種子，交站後歸己。",
+        "outcome_zh": "種子保持原封送抵首站，旅人按約交淨水1份。",
+        "rewards": [
+          {
+            "content_id": "content_clean_water",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "交一只防水袋換淨水",
+        "required_items": [],
+        "consumed_items": [
+          "content_waterproof_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交防水袋1只，收旅人自有淨水1份。",
+        "outcome_zh": "旅人保留種子並能攜行，玩家得到有限交換的水。",
+        "rewards": [
+          {
+            "content_id": "content_clean_water",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "不交換，提醒可找寄存處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不碰兩件行李。",
+        "outcome_zh": "旅人自行決定寄存或另找搬手。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "旅人的水只有1份，兩條報酬分支互斥；沒有由空容器生成水。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_042",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沙袍裡縫著另一座城的牌",
+    "context_zh": "農戶看到沙袍上的乾井貨牌，以為穿袍者能代售燃料；那其實只是舊衣縫補材料。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "rocky_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "農戶看到沙袍上的乾井貨牌，以為穿袍者能代售燃料；那其實只是舊衣縫補材料。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "展示自己的沙地長袍相同布料",
+        "required_items": [
+          "content_desert_robe"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；衣服留己，只比較縫補位置。",
+        "outcome_zh": "農戶理解牌子不證明經銷資格，撤回錯誤委託。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請双方說清真正願意承擔的代售範圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；花溝通工夫，不替不存在貨源作保。",
+        "outcome_zh": "雙方同意只交換下次市集日期，未簽燃料訂單。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替衣物符號背書",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接受佣金。",
+        "outcome_zh": "農戶需另找真正貨主。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "地區衣著提供文化線索，不產生派系、商人執照或永久交易優惠。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_043",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "涵洞裡的空袋與回聲",
+    "context_zh": "兩只空布袋掉在可見涵洞邊，貨主授權取回，回聲讓他擔心有野獸；入口有足夠日光。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "culvert"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩只空布袋掉在可見涵洞邊，貨主授權取回，回聲讓他擔心有野獸；入口有足夠日光。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用繩索從外側勾回兩只袋",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；繩索留己，不進入涵洞深處。",
+        "outcome_zh": "兩袋均取回，貨主以其中1只作報酬，另一只自留。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "觀察通風口後等安靜再徒手取近袋",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "1天；只取可從入口站立觸及的一只。",
+        "outcome_zh": "確認回聲來自風拍鐵片，取回1只交原主；無物品報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不靠近涵洞",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；放棄取袋工作。",
+        "outcome_zh": "兩只袋仍待原主處理，不製造必然襲擊。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "取回物是已存在的兩只袋，不能重複進出刷取；深處內容未由本事件揭露。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "exploration",
+      "cargo",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_044",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "想拿咖啡當飲水的客人",
+    "context_zh": "一位客人帶著咖啡卻沒備好旅途水，想把乾粉直接分給同行者抵水份。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "midday_camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一位客人帶著咖啡卻沒備好旅途水，想把乾粉直接分給同行者抵水份。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交自己的淨水換他的咖啡",
+        "required_items": [],
+        "consumed_items": [
+          "content_clean_water"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；淨水1份歸對方，咖啡1份歸玩家。",
+        "outcome_zh": "對方獲得可飲用物，玩家失去該份補給並得到交易品。",
+        "rewards": [
+          {
+            "content_id": "content_coffee",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "請他把咖啡留作抵城交易",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "0天；以生存常識說明乾粉不能代水。",
+        "outcome_zh": "對方收好咖啡，改向有自願餘水者詢價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留自己的補給",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不交出水。",
+        "outcome_zh": "客人仍可找其他來源，不由拒絕直接判死亡。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "食飲需求需真正生存系統結算；這份提案只移轉明列物品。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_045",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "指南針旁的磁性廢料",
+    "context_zh": "同行者依指南針報出錯誤方位，卻把大量鋼材放在羅盤旁；遠處固定地標可比對。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "marker_post"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "同行者依指南針報出錯誤方位，卻把大量鋼材放在羅盤旁；遠處固定地標可比對。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "把自有指南針移開鋼材重新比對",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；物品留己，在遠離貨堆處讀數。",
+        "outcome_zh": "新讀數與固定地標一致，確認先前讀值受近處金屬影響。",
+        "rewards": []
+      },
+      {
+        "label_zh": "以日照和已知地物核對轉向",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "1天；只查眼前路口，不能保證遠方路況。",
+        "outcome_zh": "排除錯誤岔路，隊伍回到既定路標。",
+        "rewards": []
+      },
+      {
+        "label_zh": "停在路標旁等可靠指引",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不繼續走不確定岔路。",
+        "outcome_zh": "自己的隊形保持完整，等待現有向導回應。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "正確方位不等於道路可通行，之後障礙仍需實地資訊。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "navigation",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "caravan_046",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "荒屋裡有人曬醫療袋",
+    "context_zh": "旅人看見一個醫療袋掛在荒屋檐下，以為是可撿物；屋後有原主人正在洗布。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "abandoned_porch"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "旅人看見一個醫療袋掛在荒屋檐下，以為是可撿物；屋後有原主人正在洗布。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "先詢問屋後的人再看袋子",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；保持距離，不打開袋內物。",
+        "outcome_zh": "原主人拿出相符扣牌，確認醫療袋有主，誤會結束。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用望遠鏡查看公開區域的活動",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；只看是否有人使用屋舍，不窺看袋內。",
+        "outcome_zh": "看見晾布與生活動線，知道這處不是無人庫房。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不取走掛在檐下的物件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；繼續上路。",
+        "outcome_zh": "醫療袋留給原主，沒有免費治療道具入袋。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "荒廢外觀不能自行消除所有權；屋舍使用與NPC綁定都需真實紀錄。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "exploration",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_047",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "鹽袋漏出一條白線",
+    "context_zh": "商隊貨主的鹽袋破了，尾端已撒出少量鹽；他保有兩份完好的鹽，願給1份換合適包裝。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "salt_flat"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊貨主的鹽袋破了，尾端已撒出少量鹽；他保有兩份完好的鹽，願給1份換合適包裝。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交布袋重裝剩餘完整鹽",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；布袋1只歸貨主，收完整鹽1份。",
+        "outcome_zh": "另一份鹽裝好留貨主，落地髒鹽不算乾淨補給。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "用繩索暫收緊外口陪他到首站",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；繩索暫借後歸還，不領鹽報酬。",
+        "outcome_zh": "袋口不再張開，剩餘兩份由貨主到站重新包裝。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只提醒漏袋後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不撿地上的白粉。",
+        "outcome_zh": "貨主自行停車處理。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只清點完好實物；散落量不可自動四捨五入成可領取的一份。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "caravan_048",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "回信只寫了姓氏",
+    "context_zh": "返程信差帶一封只寫姓氏的回信，同行兩人同姓且都聲稱在新希望有人等。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "courier_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差帶一封只寫姓氏的回信，同行兩人同姓且都聲稱在新希望有人等。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "請兩人各說未公開的寄件細節",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天；信差只核對封面附記，不公開內文。",
+        "outcome_zh": "只有其中一人的寄件地點相符，信差交給正確收件者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用防水袋封存信件陪送到原投遞處",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；袋子留己，原信封不拆。",
+        "outcome_zh": "原投遞處有完整簽收底單，信差完成正確交付。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替任何一人認領",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不收信。",
+        "outcome_zh": "信差保留原件繼續查名。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "姓氏不是充分身分證據；交付一次後不可重領同封信。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_049",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "鋼筋棍要當撬具還是貨物",
+    "context_zh": "搬運者借了一根鋼筋棍想撬壞路面，貨主說它是客人訂好的直料，不能任意彎曲。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "cracked_road"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "搬運者借了一根鋼筋棍想撬壞路面，貨主說它是客人訂好的直料，不能任意彎曲。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借自己的撬棍處理已鬆的木墊板",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；僅撬車旁木墊板，不破壞公共路面。",
+        "outcome_zh": "搬運需求解決，訂好的鋼筋棍完整歸還貨主。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把裝卸工作拆成不需撬動的步驟",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；請原搬運者逐件移到現有平地。",
+        "outcome_zh": "多走幾趟完成卸裝，鋼筋貨不受損。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不提供工具或替借用作保",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；自己的物品保持原状。",
+        "outcome_zh": "雙方需重新約定工具用途。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "工具兼武器不是任意材料破壞權；需明定允許接觸的物件。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_050",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "乾糧裡混進種子包",
+    "context_zh": "補給員把一包待送種子放進晚餐箱，封口仍完整；廚工正準備拆箱分食。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "orchard_edge"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "補給員把一包待送種子放進晚餐箱，封口仍完整；廚工正準備拆箱分食。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "對照封號把種子包分回交貨箱",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "0天；核對後由原補給員重封。",
+        "outcome_zh": "種子保持完整，晚餐只分已確認食物，錯裝修正。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拿自己的布袋暫分隔待查包件",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；袋暫借，分類完成後歸己。",
+        "outcome_zh": "廚工先處理確認的乾糧，種子包等待補給員核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不吃或領取這包未知貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；保留自己的口糧。",
+        "outcome_zh": "玩家不把封箱標題當成每件內容的證明。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "物品身份依實物定義與所有權，不由當前容器標籤覆寫。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "identification",
+      "cooking"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "caravan_051",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "雨來時外套先蓋哪箱",
+    "context_zh": "突來陣雨前，商隊只有一片空布罩，紙件與鐵料都在車外；鐵料可短暫淋雨，紙件不能。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "rain_front"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "突來陣雨前，商隊只有一片空布罩，紙件與鐵料都在車外；鐵料可短暫淋雨，紙件不能。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借商隊外套罩住自己的紙件再幫搬公共單據",
+        "required_items": [
+          "content_caravan_coat"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；自有外套短暫作遮雨，事後歸己。",
+        "outcome_zh": "兩批紙件送入篷下，鐵料另行擦乾；沒有文件遺失。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先搬紙件，再依序搬已包鐵料",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "1天；不耗物品，接受搬運延誤。",
+        "outcome_zh": "有限搬運人手先保護敏感貨，車主完成重新排架。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只保護自己的行李",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接公共貨物。",
+        "outcome_zh": "其他貨由原主決定保護順序，不自動判損失。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "衣物不成為永久防水箱；若已有明確污染，不能借衣物掩蓋危害。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards",
+      "equipment"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "caravan_052",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "不能拿來煮的原料瓶",
+    "context_zh": "商人裝化學品的瓶子與飲水瓶外形相近，炊事者把未開封瓶搬到鍋旁；標籤還可讀。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "creek_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商人裝化學品的瓶子與飲水瓶外形相近，炊事者把未開封瓶搬到鍋旁；標籤還可讀。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "指出標籤並請貨主收回",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MEDICINE",
+          "rank": 1
+        },
+        "cost_zh": "0天；不打開、不聞未知內容。",
+        "outcome_zh": "瓶子回到有標記的貨架，炊事者改用已確認飲水。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用繩索標出不同貨區的邊界",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；繩索暫借後歸己，貨主自行搬瓶。",
+        "outcome_zh": "飲用與非飲用容器分區，這批貨不再混在灶邊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕使用來源不明液體",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不吃尚未確認材料的餐食。",
+        "outcome_zh": "自己的決定不自動替全隊完成化驗。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "這是標籤已知的避免誤用情境，不提供實際化學處理方法或全能淨化。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "identification",
+      "cargo",
+      "cooking",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "caravan_053",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收費者忘了已收的那一筆",
+    "context_zh": "宿棚收費者把昨天的底單夾在今天本子裡，旅人被要求重付；相符簽名與日期仍清楚。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "toll_camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "宿棚收費者把昨天的底單夾在今天本子裡，旅人被要求重付；相符簽名與日期仍清楚。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "請雙方核對日期與入住標記",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；用交易經驗分開兩天底單。",
+        "outcome_zh": "確認旅人本次已付，重複要求撤回，沒有額外退款可領。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪旅人等原見證者回來",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不先替對方墊付。",
+        "outcome_zh": "見證者確認同一筆付款，收費者改正記錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不介入付費爭議",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；只確認自己的帳。",
+        "outcome_zh": "原雙方繼續查證，不將收費者直接標成盜匪。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "帳目錯誤不等於犯罪證據；沒有實際多付就沒有凭空退款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "caravan_054",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "遺跡岔口的臨時邀請",
+    "context_zh": "商隊路過一座能從外面看見的平台，隊員想離隊找舊世工具；原護送約定要求在下站交貨前同行。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "old_quarry"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊路過一座能從外面看見的平台，隊員想離隊找舊世工具；原護送約定要求在下站交貨前同行。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用望遠鏡記下入口地物，留待返程",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不離開約定護送範圍。",
+        "outcome_zh": "取得可重訪的外部位置描述，沒有當場寶物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商由現有替補接手再短探外圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天；必須真的有自願替補與貨主同意。",
+        "outcome_zh": "完成責任交接後看到平台上的舊搬運軌跡；更深探索另開事件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "繼續原行程",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；放棄當下探索。",
+        "outcome_zh": "貨物按原計畫同行，岔口不為等待玩家停止變化。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "探索邀請不是免責傳送；替補、路線與返程時機都需活世界條件。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "exploration",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_055",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "農戶想要燃料卻拿出種子",
+    "context_zh": "返鄉農戶拿自有種子2包詢價燃料，商隊此趟沒有可出售燃料，只有空罐。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "farm_approach"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返鄉農戶拿自有種子2包詢價燃料，商隊此趟沒有可出售燃料，只有空罐。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "拿自己的扳手換種子1包",
+        "required_items": [],
+        "consumed_items": [
+          "content_wrench"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；扳手1把歸農戶，種子1包歸玩家。",
+        "outcome_zh": "農戶得到願意接受的農具，燃料需求仍留待真正供貨者。",
+        "rewards": [
+          {
+            "content_id": "content_seeds",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "說清空罐與燃料的差別並代留詢價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；只傳遞需求，不承諾存貨。",
+        "outcome_zh": "農戶保留兩包種子，下次可直接找有燃料者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不做這筆交換",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；各自保留物資。",
+        "outcome_zh": "沒有把空罐轉成燃料或種子轉成貨幣。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "農戶後續買到燃料要有真正交易，需求不能直接拉高全城物價。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "caravan_056",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "刀鞘掉了的送貨者",
+    "context_zh": "送貨者的廢鐵砍刀還在，刀鞘卻掉了；他不想讓裸刃割破同袋紙件。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "resting_wall"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "送貨者的廢鐵砍刀還在，刀鞘卻掉了；他不想讓裸刃割破同袋紙件。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "移交皮革讓他包住刀刃",
+        "required_items": [],
+        "consumed_items": [
+          "content_leather"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；皮革1份歸送貨者，僅作當次包覆。",
+        "outcome_zh": "裸刃與紙件隔開，抵城仍需適合的刀鞘；沒有提升武器數值。",
+        "rewards": []
+      },
+      {
+        "label_zh": "借自己的舊旅行包分開封口紙件",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；陪同到下一站取回背包。",
+        "outcome_zh": "紙件完整到站，刀與紙件由不同位置攜帶。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提醒他分開放後繼續走",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接管刀具。",
+        "outcome_zh": "送貨者自行選擇如何處理，沒有自動受傷。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "包覆與分裝是具體物流操作，未定義耐久、製作刀鞘或醫療效果。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "equipment",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "caravan_057",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "舊世手錶換錯了故事",
+    "context_zh": "收藏者把普通舊世界手錶說成守井人遺物，賣家只承認是在市場買到，沒有歷史證明。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "roadside_market"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "收藏者把普通舊世界手錶說成守井人遺物，賣家只承認是在市場買到，沒有歷史證明。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "請賣家只保證能證明的來源",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天；降低傳聞價值不保證成交。",
+        "outcome_zh": "商品改按無證明舊物出售，故事與物件分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拿自己的紙本日記記錄兩套說法",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；日記留己，不把轉述寫成已驗史實。",
+        "outcome_zh": "保存可查的來源分歧，玩家不替手錶命名為獨特物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不為傳聞多付",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；退出交易。",
+        "outcome_zh": "手錶和故事留在原攤，沒有鑑定完成宣稱。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若後來有獨立證據可重估，但不能靠同一段傳言反覆加價。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "identification",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "caravan_058",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩座城的同名收貨人",
+    "context_zh": "交貨單寫常見姓名，商隊到新希望才發現原底單城名是灰谷；貨物仍未卸下。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "boundary_gate"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "交貨單寫常見姓名，商隊到新希望才發現原底單城名是灰谷；貨物仍未卸下。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "核對城名與收件標記，撤回錯誤卸貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；根據底單不凭姓名交物。",
+        "outcome_zh": "貨物留車，確認真正收件地，原貨主安排下一趟。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用防水袋替貨主保存更正後副本",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；袋暫借，文件完成封存後歸己。",
+        "outcome_zh": "兩份單據不再混用，玩家未完成跨城交貨。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替同名者收貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不取得物品。",
+        "outcome_zh": "商隊自行查明地址。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "改地址不改實際位置；下一趟仍需正常旅行天數與真正運送者。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "navigation",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "caravan_059",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "空回程車想載活種子",
+    "context_zh": "車主空返，種庫願寄兩包種子，但車箱剛裝過油料，清潔狀態不明。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "granary_lane"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "車主空返，種庫願寄兩包種子，但車箱剛裝過油料，清潔狀態不明。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用自己的密封貨箱隔離原封種子",
+        "required_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；箱子借用到卸貨後歸己，先由種庫驗收適用性。",
+        "outcome_zh": "兩包維持原封進獨立箱，完成短程試送；車箱不因此整體潔淨。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請種庫先查舊貨紀錄再决定",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "1天；有核對資料與車主同意。",
+        "outcome_zh": "確認是否需要不同載具，未驗收前不裝種子。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替這次運輸作保",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接種子。",
+        "outcome_zh": "種庫可等其他實際車輛，不自動扣收成。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "貨箱不是無條件抗污染；裝載必須通過將來的容器相容與危害規則。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards",
+      "regional_trade",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "caravan_060",
+    "category": "caravan",
+    "status": "DESIGN_ONLY",
+    "title_zh": "散場後留下的一把扳手",
+    "context_zh": "商隊卸完貨，清潔者找到一把扳手。柄上刻號能對到仍在城內的工人，他預留廢鐵1份謝酬。",
+    "location_tags": [
+      "dry_well",
+      "new_hope",
+      "arrival_square"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊卸完貨，清潔者找到一把扳手。柄上刻號能對到仍在城內的工人，他預留廢鐵1份謝酬。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "循刻號把扳手交回工人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；只保管拾得物到交付，不把它當自己的工具。",
+        "outcome_zh": "工人核號簽收，從自有餘料交廢鐵1份作謝酬。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "請卸貨員當場辨認刻號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；利用對話取得可驗的失主指認，再當面交付。",
+        "outcome_zh": "工人從鄰棚過來核對後取回工具，交同一份廢鐵1份。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "交給有交接簿的失物處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；放棄私人謝酬。",
+        "outcome_zh": "扳手登記留存，失主可自行領回。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "工具返還與謝酬皆一次性；失主若已離城則改走失物保管，不能傳送他回來。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-04"
+    ]
+  }
+]

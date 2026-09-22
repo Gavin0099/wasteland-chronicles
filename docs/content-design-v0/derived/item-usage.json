@@ -1,0 +1,4387 @@
+[
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_adrenaline",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "腎上腺素",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_aluminum_stock",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "anomaly_021"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_020"
+    ],
+    "name_zh": "鋁材",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_ammo_bandolier",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "town_075"
+    ],
+    "hook_ids": [],
+    "name_zh": "彈藥帶",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "category_illustration",
+    "content_id": "content_ammunition",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "彈藥",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_anti_radiation_medicine",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "抗輻射藥",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_antibiotics",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "抗生素",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_antidote",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "解毒劑",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_assault_rifle",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "軍用突擊步槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_bandage",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_rewards": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_059",
+      "ruin_092"
+    ],
+    "hook_ids": [
+      "hook_new_hope_018"
+    ],
+    "name_zh": "繃帶",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_battery",
+    "edge_counts": {
+      "encounter_consumes": 3,
+      "encounter_requires": 1,
+      "person_item": 5,
+      "quest_consumes": 1
+    },
+    "encounter_ids": [
+      "anomaly_018",
+      "npc_070",
+      "town_040",
+      "wild_011"
+    ],
+    "hook_ids": [
+      "hook_dry_well_016",
+      "hook_dry_well_018",
+      "hook_dry_well_040",
+      "hook_dry_well_041",
+      "hook_gray_valley_033"
+    ],
+    "name_zh": "電池",
+    "quest_ids": [
+      "quest_gray_valley_006"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_battery_cell",
+    "edge_counts": {
+      "person_item": 1
+    },
+    "encounter_ids": [],
+    "hook_ids": [
+      "hook_gray_valley_010"
+    ],
+    "name_zh": "電池芯",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_bearing",
+    "edge_counts": {
+      "encounter_consumes": 3,
+      "encounter_requires": 1,
+      "encounter_rewards": 3,
+      "person_item": 1,
+      "quest_consumes": 1
+    },
+    "encounter_ids": [
+      "caravan_030",
+      "ruin_024",
+      "ruin_067",
+      "town_026",
+      "town_036",
+      "town_065",
+      "wild_042"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_037"
+    ],
+    "name_zh": "軸承",
+    "quest_ids": [
+      "quest_gray_valley_002"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_binoculars",
+    "edge_counts": {
+      "encounter_requires": 20,
+      "person_item": 1,
+      "quest_requires": 4
+    },
+    "encounter_ids": [
+      "anomaly_040",
+      "caravan_017",
+      "caravan_033",
+      "caravan_046",
+      "caravan_054",
+      "ruin_010",
+      "ruin_034",
+      "ruin_048",
+      "ruin_051",
+      "town_011",
+      "town_082",
+      "wild_006",
+      "wild_009",
+      "wild_019",
+      "wild_032",
+      "wild_047",
+      "wild_048",
+      "wild_071",
+      "wild_078",
+      "wild_092"
+    ],
+    "hook_ids": [
+      "hook_dry_well_035"
+    ],
+    "name_zh": "望遠鏡",
+    "quest_ids": [
+      "quest_dry_well_005",
+      "quest_dry_well_023",
+      "quest_new_hope_011",
+      "quest_new_hope_029"
+    ],
+    "roles": [
+      "explore",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_black_box_memory",
+    "edge_counts": {
+      "person_item": 1
+    },
+    "encounter_ids": [],
+    "hook_ids": [
+      "hook_gray_valley_036"
+    ],
+    "name_zh": "黑盒記憶體",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_black_water_drop",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "anomaly_006"
+    ],
+    "hook_ids": [
+      "hook_dry_well_038"
+    ],
+    "name_zh": "黑色水滴",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_bolt_action_rifle",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "栓動步槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_burn_ointment",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "燒傷藥膏",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_camera",
+    "edge_counts": {
+      "encounter_requires": 5,
+      "person_item": 5
+    },
+    "encounter_ids": [
+      "anomaly_008",
+      "caravan_011",
+      "npc_045",
+      "npc_046",
+      "wild_045"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_008",
+      "hook_gray_valley_016",
+      "hook_gray_valley_032",
+      "hook_gray_valley_047",
+      "hook_new_hope_022"
+    ],
+    "name_zh": "相機",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_canned_food",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_requires": 1,
+      "encounter_rewards": 1,
+      "person_item": 3,
+      "quest_rewards": 1
+    },
+    "encounter_ids": [
+      "ruin_037",
+      "ruin_077",
+      "town_028"
+    ],
+    "hook_ids": [
+      "hook_new_hope_015",
+      "hook_new_hope_037",
+      "hook_new_hope_038"
+    ],
+    "name_zh": "罐頭",
+    "quest_ids": [
+      "quest_dry_well_014"
+    ],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_car_panel_cleaver",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "車板刀",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_car_panel_cuirass",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_035"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_008",
+      "hook_gray_valley_045"
+    ],
+    "name_zh": "車板胸甲",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_caravan_coat",
+    "edge_counts": {
+      "encounter_requires": 5,
+      "person_item": 3
+    },
+    "encounter_ids": [
+      "caravan_051",
+      "npc_008",
+      "ruin_087",
+      "wild_050",
+      "wild_056"
+    ],
+    "hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_012",
+      "hook_dry_well_029"
+    ],
+    "name_zh": "商隊外套",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_caravan_polearm",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "商隊槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_caravan_rifle",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "caravan_036"
+    ],
+    "hook_ids": [],
+    "name_zh": "商隊步槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_caravan_smg",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "商隊護衛槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_chemicals",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "化學品",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_cigarettes",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "香菸",
+    "quest_ids": [],
+    "roles": [
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_circuit_board",
+    "edge_counts": {
+      "encounter_rewards": 2,
+      "person_item": 1,
+      "quest_rewards": 2
+    },
+    "encounter_ids": [
+      "ruin_076",
+      "ruin_091"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_034"
+    ],
+    "name_zh": "電路板",
+    "quest_ids": [
+      "quest_gray_valley_027",
+      "quest_gray_valley_031"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_civilian_pistol",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "民用手槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_clean_water",
+    "edge_counts": {
+      "encounter_consumes": 6,
+      "encounter_requires": 2,
+      "encounter_rewards": 4,
+      "person_item": 2,
+      "quest_rewards": 2
+    },
+    "encounter_ids": [
+      "caravan_041",
+      "caravan_044",
+      "npc_021",
+      "npc_065",
+      "town_001",
+      "town_097",
+      "wild_057",
+      "wild_065"
+    ],
+    "hook_ids": [
+      "hook_new_hope_030",
+      "hook_new_hope_039"
+    ],
+    "name_zh": "淨水",
+    "quest_ids": [
+      "quest_new_hope_001"
+    ],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_cloth",
+    "edge_counts": {
+      "encounter_consumes": 6,
+      "encounter_requires": 1,
+      "encounter_rewards": 7,
+      "person_item": 3,
+      "quest_consumes": 3,
+      "quest_requires": 3,
+      "quest_rewards": 8
+    },
+    "encounter_ids": [
+      "anomaly_012",
+      "anomaly_024",
+      "anomaly_025",
+      "caravan_013",
+      "npc_058",
+      "ruin_008",
+      "ruin_020",
+      "ruin_054",
+      "ruin_075",
+      "ruin_086",
+      "town_020",
+      "wild_011",
+      "wild_068"
+    ],
+    "hook_ids": [
+      "hook_dry_well_007",
+      "hook_dry_well_047",
+      "hook_new_hope_017"
+    ],
+    "name_zh": "布料",
+    "quest_ids": [
+      "quest_dry_well_007",
+      "quest_dry_well_021",
+      "quest_dry_well_031",
+      "quest_gray_valley_034",
+      "quest_new_hope_018",
+      "quest_new_hope_020",
+      "quest_new_hope_028",
+      "quest_new_hope_039"
+    ],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_cloth_sack",
+    "edge_counts": {
+      "encounter_consumes": 12,
+      "encounter_requires": 11,
+      "encounter_rewards": 5,
+      "person_item": 6,
+      "quest_consumes": 6,
+      "quest_requires": 6,
+      "quest_rewards": 7
+    },
+    "encounter_ids": [
+      "anomaly_021",
+      "anomaly_029",
+      "anomaly_033",
+      "caravan_003",
+      "caravan_010",
+      "caravan_015",
+      "caravan_031",
+      "caravan_034",
+      "caravan_041",
+      "caravan_043",
+      "caravan_047",
+      "caravan_050",
+      "ruin_070",
+      "ruin_089",
+      "ruin_093",
+      "town_002",
+      "town_008",
+      "town_020",
+      "town_037",
+      "town_045",
+      "town_070",
+      "wild_006",
+      "wild_020",
+      "wild_086",
+      "wild_094"
+    ],
+    "hook_ids": [
+      "hook_dry_well_020",
+      "hook_gray_valley_023",
+      "hook_gray_valley_050",
+      "hook_new_hope_008",
+      "hook_new_hope_014",
+      "hook_new_hope_031"
+    ],
+    "name_zh": "布袋",
+    "quest_ids": [
+      "quest_dry_well_002",
+      "quest_dry_well_003",
+      "quest_dry_well_007",
+      "quest_dry_well_021",
+      "quest_gray_valley_003",
+      "quest_gray_valley_011",
+      "quest_new_hope_002",
+      "quest_new_hope_006",
+      "quest_new_hope_008",
+      "quest_new_hope_011",
+      "quest_new_hope_020",
+      "quest_new_hope_022",
+      "quest_new_hope_023",
+      "quest_new_hope_038"
+    ],
+    "roles": [
+      "trade",
+      "explore",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_coffee",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_rewards": 2,
+      "person_item": 3
+    },
+    "encounter_ids": [
+      "caravan_044",
+      "npc_023",
+      "wild_067"
+    ],
+    "hook_ids": [
+      "hook_new_hope_026",
+      "hook_new_hope_027",
+      "hook_new_hope_047"
+    ],
+    "name_zh": "咖啡",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_company_keycard",
+    "edge_counts": {
+      "encounter_requires": 2
+    },
+    "encounter_ids": [
+      "town_023",
+      "wild_079"
+    ],
+    "hook_ids": [],
+    "name_zh": "公司門禁卡",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_compass",
+    "edge_counts": {
+      "encounter_requires": 13,
+      "person_item": 3,
+      "quest_requires": 2
+    },
+    "encounter_ids": [
+      "anomaly_022",
+      "caravan_005",
+      "caravan_027",
+      "caravan_045",
+      "npc_073",
+      "ruin_041",
+      "town_025",
+      "town_032",
+      "town_069",
+      "wild_004",
+      "wild_022",
+      "wild_083",
+      "wild_100"
+    ],
+    "hook_ids": [
+      "hook_dry_well_021",
+      "hook_dry_well_035",
+      "hook_new_hope_033"
+    ],
+    "name_zh": "指南針",
+    "quest_ids": [
+      "quest_dry_well_011",
+      "quest_new_hope_035"
+    ],
+    "roles": [
+      "explore",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_copper_wire",
+    "edge_counts": {
+      "encounter_consumes": 3,
+      "encounter_rewards": 7,
+      "person_item": 3,
+      "quest_rewards": 4
+    },
+    "encounter_ids": [
+      "caravan_021",
+      "caravan_037",
+      "npc_032",
+      "npc_044",
+      "ruin_062",
+      "town_036",
+      "town_062",
+      "wild_026"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_005",
+      "hook_gray_valley_015",
+      "hook_gray_valley_031"
+    ],
+    "name_zh": "銅線",
+    "quest_ids": [
+      "quest_gray_valley_002",
+      "quest_gray_valley_023"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_crowbar",
+    "edge_counts": {
+      "encounter_requires": 8,
+      "person_item": 1,
+      "quest_requires": 5
+    },
+    "encounter_ids": [
+      "caravan_049",
+      "ruin_061",
+      "ruin_063",
+      "ruin_069",
+      "ruin_083",
+      "town_004",
+      "town_035",
+      "wild_039"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_001"
+    ],
+    "name_zh": "撬棍",
+    "quest_ids": [
+      "quest_dry_well_025",
+      "quest_gray_valley_001",
+      "quest_gray_valley_021",
+      "quest_gray_valley_028",
+      "quest_new_hope_004"
+    ],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_data_disk",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_069"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_013",
+      "hook_gray_valley_049"
+    ],
+    "name_zh": "資料磁碟",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_desert_robe",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 5,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "caravan_042",
+      "npc_009",
+      "npc_058",
+      "town_074",
+      "town_090",
+      "wild_005"
+    ],
+    "hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_007"
+    ],
+    "name_zh": "沙地長袍",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_desert_sabre",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "沙地彎刀",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_dirty_water",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 1,
+      "encounter_rewards": 2
+    },
+    "encounter_ids": [
+      "ruin_002",
+      "wild_002",
+      "wild_003"
+    ],
+    "hook_ids": [],
+    "name_zh": "污水",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_disinfectant",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "消毒水",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_double_barrel_shotgun",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "雙管散彈槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_dust_mask",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_requires": 4,
+      "person_item": 2,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "caravan_029",
+      "npc_074",
+      "ruin_044",
+      "town_044",
+      "wild_005"
+    ],
+    "hook_ids": [
+      "hook_dry_well_022",
+      "hook_gray_valley_027"
+    ],
+    "name_zh": "沙塵面罩",
+    "quest_ids": [
+      "quest_gray_valley_010"
+    ],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_engineering_goggles",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 11,
+      "person_item": 3,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "anomaly_001",
+      "anomaly_010",
+      "anomaly_027",
+      "anomaly_031",
+      "npc_074",
+      "town_050",
+      "town_086",
+      "wild_008",
+      "wild_024",
+      "wild_054",
+      "wild_064"
+    ],
+    "hook_ids": [
+      "hook_dry_well_022",
+      "hook_gray_valley_010",
+      "hook_new_hope_005"
+    ],
+    "name_zh": "工程護目鏡",
+    "quest_ids": [
+      "quest_gray_valley_016"
+    ],
+    "roles": [
+      "explore",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_entrenching_shovel",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "person_item": 3,
+      "quest_requires": 2
+    },
+    "encounter_ids": [
+      "town_043",
+      "wild_008",
+      "wild_094"
+    ],
+    "hook_ids": [
+      "hook_new_hope_006",
+      "hook_new_hope_026",
+      "hook_new_hope_043"
+    ],
+    "name_zh": "工兵鏟",
+    "quest_ids": [
+      "quest_new_hope_018",
+      "quest_new_hope_026"
+    ],
+    "roles": [
+      "explore",
+      "survival",
+      "combat",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_farm_clothes",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "town_010"
+    ],
+    "hook_ids": [],
+    "name_zh": "農務服",
+    "quest_ids": [
+      "quest_new_hope_010"
+    ],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_fire_axe",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "消防斧",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_firefighter_suit",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "town_083"
+    ],
+    "hook_ids": [],
+    "name_zh": "防火服",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_first_aid_kit",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_requires": 3,
+      "encounter_rewards": 1,
+      "person_item": 4
+    },
+    "encounter_ids": [
+      "npc_003",
+      "npc_075",
+      "town_048",
+      "wild_052",
+      "wild_053"
+    ],
+    "hook_ids": [
+      "hook_dry_well_008",
+      "hook_dry_well_026",
+      "hook_new_hope_003",
+      "hook_new_hope_018"
+    ],
+    "name_zh": "急救包",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_flamethrower",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "火焰噴射器",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_flare_pistol",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "信號槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_flashlight",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 14,
+      "encounter_rewards": 1,
+      "person_item": 5,
+      "quest_requires": 3
+    },
+    "encounter_ids": [
+      "anomaly_025",
+      "caravan_019",
+      "caravan_025",
+      "npc_005",
+      "ruin_002",
+      "ruin_009",
+      "ruin_025",
+      "ruin_082",
+      "town_027",
+      "town_049",
+      "town_063",
+      "town_094",
+      "wild_011",
+      "wild_021",
+      "wild_072"
+    ],
+    "hook_ids": [
+      "hook_dry_well_018",
+      "hook_dry_well_043",
+      "hook_gray_valley_002",
+      "hook_gray_valley_005",
+      "hook_gray_valley_033"
+    ],
+    "name_zh": "手電筒",
+    "quest_ids": [
+      "quest_gray_valley_015",
+      "quest_gray_valley_018",
+      "quest_new_hope_036"
+    ],
+    "roles": [
+      "explore",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_food",
+    "edge_counts": {
+      "encounter_consumes": 7,
+      "encounter_requires": 3,
+      "encounter_rewards": 10,
+      "person_item": 4,
+      "quest_consumes": 2,
+      "quest_requires": 2,
+      "quest_rewards": 11
+    },
+    "encounter_ids": [
+      "caravan_004",
+      "caravan_010",
+      "caravan_012",
+      "caravan_028",
+      "npc_018",
+      "ruin_035",
+      "ruin_084",
+      "town_003",
+      "town_031",
+      "town_068",
+      "town_069",
+      "town_070",
+      "wild_051"
+    ],
+    "hook_ids": [
+      "hook_dry_well_015",
+      "hook_new_hope_008",
+      "hook_new_hope_026",
+      "hook_new_hope_027"
+    ],
+    "name_zh": "乾糧",
+    "quest_ids": [
+      "quest_dry_well_025",
+      "quest_dry_well_038",
+      "quest_gray_valley_014",
+      "quest_new_hope_003",
+      "quest_new_hope_007",
+      "quest_new_hope_008",
+      "quest_new_hope_014",
+      "quest_new_hope_021"
+    ],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_fuel",
+    "edge_counts": {
+      "encounter_consumes": 1
+    },
+    "encounter_ids": [
+      "npc_076"
+    ],
+    "hook_ids": [],
+    "name_zh": "燃料",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_fuel_can",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "encounter_rewards": 2,
+      "person_item": 6,
+      "quest_rewards": 1
+    },
+    "encounter_ids": [
+      "npc_056",
+      "ruin_026",
+      "ruin_072",
+      "town_091",
+      "wild_040"
+    ],
+    "hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_005",
+      "hook_dry_well_024",
+      "hook_dry_well_025",
+      "hook_dry_well_048",
+      "hook_new_hope_037"
+    ],
+    "name_zh": "燃料罐",
+    "quest_ids": [
+      "quest_dry_well_005"
+    ],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_gas_mask",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_043",
+      "town_072",
+      "wild_031"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_027"
+    ],
+    "name_zh": "防毒面具",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_gear",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_050",
+      "town_039"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_037"
+    ],
+    "name_zh": "齒輪",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_geological_survey_map",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "person_item": 4
+    },
+    "encounter_ids": [
+      "npc_016",
+      "wild_076"
+    ],
+    "hook_ids": [
+      "hook_dry_well_032",
+      "hook_gray_valley_026",
+      "hook_new_hope_006",
+      "hook_new_hope_033"
+    ],
+    "name_zh": "地質調查圖",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_glass",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_rewards": 3,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "anomaly_004",
+      "anomaly_010",
+      "ruin_060",
+      "wild_008",
+      "wild_015"
+    ],
+    "hook_ids": [
+      "hook_dry_well_038"
+    ],
+    "name_zh": "玻璃",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_gray_seed",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 2,
+      "encounter_rewards": 2,
+      "person_item": 3
+    },
+    "encounter_ids": [
+      "anomaly_029",
+      "anomaly_031",
+      "anomaly_032",
+      "npc_027",
+      "wild_082"
+    ],
+    "hook_ids": [
+      "hook_dry_well_044",
+      "hook_new_hope_014",
+      "hook_new_hope_032"
+    ],
+    "name_zh": "灰種",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_grenade_launcher",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "榴彈發射器",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_hand_crank_generator",
+    "edge_counts": {
+      "encounter_requires": 2
+    },
+    "encounter_ids": [
+      "ruin_050",
+      "town_051"
+    ],
+    "hook_ids": [],
+    "name_zh": "手搖發電機",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_hazmat_suit",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "wild_091"
+    ],
+    "hook_ids": [],
+    "name_zh": "防化服",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_heat_core",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "encounter_rewards": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "anomaly_033",
+      "anomaly_035",
+      "anomaly_036"
+    ],
+    "hook_ids": [
+      "hook_dry_well_045",
+      "hook_gray_valley_043"
+    ],
+    "name_zh": "熱核",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_heat_insulation_suit",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 2,
+      "person_item": 1,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "anomaly_034",
+      "town_054",
+      "wild_015"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_043"
+    ],
+    "name_zh": "隔熱服",
+    "quest_ids": [
+      "quest_gray_valley_020"
+    ],
+    "roles": [
+      "explore",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_heavy_revolver",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "大口徑左輪",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_hiking_backpack",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 2,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_029",
+      "wild_061",
+      "wild_095"
+    ],
+    "hook_ids": [
+      "hook_new_hope_029"
+    ],
+    "name_zh": "登山背包",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_hollow_stone",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "encounter_rewards": 2,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "anomaly_009",
+      "anomaly_012",
+      "wild_086"
+    ],
+    "hook_ids": [
+      "hook_dry_well_039",
+      "hook_gray_valley_035"
+    ],
+    "name_zh": "空心石",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_homecoming",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_062"
+    ],
+    "hook_ids": [
+      "hook_dry_well_011"
+    ],
+    "name_zh": "回家",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_hospital_id_card",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_015",
+      "wild_081"
+    ],
+    "hook_ids": [
+      "hook_new_hope_020"
+    ],
+    "name_zh": "醫院識別卡",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_humming_stone",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 4,
+      "encounter_rewards": 1,
+      "person_item": 3
+    },
+    "encounter_ids": [
+      "anomaly_013",
+      "anomaly_014",
+      "anomaly_015",
+      "anomaly_016"
+    ],
+    "hook_ids": [
+      "hook_dry_well_040",
+      "hook_gray_valley_040",
+      "hook_new_hope_040"
+    ],
+    "name_zh": "鳴石",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_hunting_fork",
+    "edge_counts": {
+      "encounter_requires": 2
+    },
+    "encounter_ids": [
+      "caravan_014",
+      "wild_049"
+    ],
+    "hook_ids": [],
+    "name_zh": "捕獸叉",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_hunting_knife",
+    "edge_counts": {
+      "encounter_requires": 8,
+      "person_item": 3,
+      "quest_requires": 2
+    },
+    "encounter_ids": [
+      "caravan_002",
+      "npc_012",
+      "ruin_008",
+      "ruin_079",
+      "town_007",
+      "town_015",
+      "wild_017",
+      "wild_075"
+    ],
+    "hook_ids": [
+      "hook_new_hope_011",
+      "hook_new_hope_012",
+      "hook_new_hope_028"
+    ],
+    "name_zh": "獵刀",
+    "quest_ids": [
+      "quest_gray_valley_033",
+      "quest_new_hope_007"
+    ],
+    "roles": [
+      "combat",
+      "explore",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_identity_document",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "person_item": 4
+    },
+    "encounter_ids": [
+      "npc_026",
+      "wild_089"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_049",
+      "hook_new_hope_010",
+      "hook_new_hope_025",
+      "hook_new_hope_036"
+    ],
+    "name_zh": "身分證件",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_improvised_pistol",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "土製手槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_industrial_nailgun",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_054"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_024"
+    ],
+    "name_zh": "工業釘槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_jack",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "ruin_029",
+      "ruin_071"
+    ],
+    "hook_ids": [],
+    "name_zh": "千斤頂",
+    "quest_ids": [
+      "quest_gray_valley_025"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_jerky",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_rewards": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_066",
+      "wild_058"
+    ],
+    "hook_ids": [
+      "hook_dry_well_015",
+      "hook_dry_well_033"
+    ],
+    "name_zh": "肉乾",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_last_round",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_061"
+    ],
+    "hook_ids": [
+      "hook_dry_well_010"
+    ],
+    "name_zh": "最後一發",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_leather",
+    "edge_counts": {
+      "encounter_consumes": 7,
+      "encounter_requires": 2,
+      "encounter_rewards": 2,
+      "person_item": 2,
+      "quest_rewards": 2
+    },
+    "encounter_ids": [
+      "caravan_056",
+      "npc_025",
+      "npc_033",
+      "npc_041",
+      "town_015",
+      "town_029",
+      "town_055",
+      "town_084",
+      "wild_043",
+      "wild_064"
+    ],
+    "hook_ids": [
+      "hook_new_hope_012",
+      "hook_new_hope_028"
+    ],
+    "name_zh": "皮革",
+    "quest_ids": [
+      "quest_new_hope_015"
+    ],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_light_machine_gun",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "輕機槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_lighter",
+    "edge_counts": {
+      "person_item": 1
+    },
+    "encounter_ids": [],
+    "hook_ids": [
+      "hook_new_hope_037"
+    ],
+    "name_zh": "打火機",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_liquor",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "ruin_031"
+    ],
+    "hook_ids": [],
+    "name_zh": "酒",
+    "quest_ids": [],
+    "roles": [
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_lockpick_set",
+    "edge_counts": {
+      "encounter_requires": 2
+    },
+    "encounter_ids": [
+      "ruin_013",
+      "town_058"
+    ],
+    "hook_ids": [],
+    "name_zh": "開鎖工具",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_machine_pistol",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "衝鋒手槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_matches",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "火柴",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "category_illustration",
+    "content_id": "content_mechanical_parts",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "機械零件",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_medical_manual",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "person_item": 4,
+      "quest_requires": 2
+    },
+    "encounter_ids": [
+      "npc_022",
+      "ruin_005",
+      "ruin_034"
+    ],
+    "hook_ids": [
+      "hook_new_hope_003",
+      "hook_new_hope_019",
+      "hook_new_hope_035",
+      "hook_new_hope_041"
+    ],
+    "name_zh": "醫療手冊",
+    "quest_ids": [
+      "quest_new_hope_027",
+      "quest_new_hope_033"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_medical_satchel",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 5
+    },
+    "encounter_ids": [
+      "town_033"
+    ],
+    "hook_ids": [
+      "hook_dry_well_026",
+      "hook_dry_well_036",
+      "hook_new_hope_018",
+      "hook_new_hope_042",
+      "hook_new_hope_050"
+    ],
+    "name_zh": "醫療袋",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "category_illustration",
+    "content_id": "content_medicines",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "藥物",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_memory_core",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_048"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_018",
+      "hook_gray_valley_036"
+    ],
+    "name_zh": "記憶核心",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_metal_detector",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_042",
+      "town_052"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_026"
+    ],
+    "name_zh": "金屬探測器",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_military_backpack",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "town_017"
+    ],
+    "hook_ids": [],
+    "name_zh": "軍用背包",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_military_dog_tags",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_061",
+      "wild_063"
+    ],
+    "hook_ids": [
+      "hook_dry_well_009",
+      "hook_gray_valley_047"
+    ],
+    "name_zh": "軍人識別牌",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_military_manual",
+    "edge_counts": {
+      "encounter_requires": 2
+    },
+    "encounter_ids": [
+      "wild_069",
+      "wild_080"
+    ],
+    "hook_ids": [],
+    "name_zh": "軍用手冊",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade",
+      "combat"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_military_medical_chip",
+    "edge_counts": {
+      "person_item": 3
+    },
+    "encounter_ids": [],
+    "hook_ids": [
+      "hook_gray_valley_019",
+      "hook_gray_valley_038",
+      "hook_new_hope_019"
+    ],
+    "name_zh": "軍醫資料晶片",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_motorcycle_jacket",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "npc_078",
+      "town_042"
+    ],
+    "hook_ids": [],
+    "name_zh": "摩托夾克",
+    "quest_ids": [
+      "quest_gray_valley_008"
+    ],
+    "roles": [
+      "survival",
+      "combat",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_multimeter",
+    "edge_counts": {
+      "encounter_requires": 13,
+      "encounter_rewards": 1,
+      "person_item": 2,
+      "quest_requires": 3,
+      "quest_rewards": 1
+    },
+    "encounter_ids": [
+      "anomaly_013",
+      "anomaly_018",
+      "anomaly_020",
+      "anomaly_037",
+      "ruin_011",
+      "ruin_015",
+      "ruin_025",
+      "ruin_028",
+      "ruin_040",
+      "ruin_076",
+      "town_056",
+      "town_088",
+      "wild_046",
+      "wild_084"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_007",
+      "hook_gray_valley_015"
+    ],
+    "name_zh": "萬用電表",
+    "quest_ids": [
+      "quest_dry_well_029",
+      "quest_dry_well_033",
+      "quest_gray_valley_017",
+      "quest_gray_valley_027"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_muscle_stimulator",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "肌纖維刺激器",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_music_player",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "person_item": 4
+    },
+    "encounter_ids": [
+      "npc_028",
+      "npc_047",
+      "ruin_058"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_009",
+      "hook_gray_valley_017",
+      "hook_new_hope_023",
+      "hook_new_hope_040"
+    ],
+    "name_zh": "音樂播放器",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_neural_reflex_module",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "神經反射模組",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade",
+      "combat"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_night_vision_goggles",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "夜視鏡",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_number_sixty_three",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_038"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_011",
+      "hook_gray_valley_032"
+    ],
+    "name_zh": "六十三號",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_oil_lamp",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_requires": 2,
+      "encounter_rewards": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "anomaly_026",
+      "town_076",
+      "wild_007",
+      "wild_068"
+    ],
+    "hook_ids": [
+      "hook_dry_well_024"
+    ],
+    "name_zh": "油燈",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_hunter_rifle",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "老獵人的槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_photograph",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 2,
+      "person_item": 5
+    },
+    "encounter_ids": [
+      "wild_059",
+      "wild_098"
+    ],
+    "hook_ids": [
+      "hook_dry_well_010",
+      "hook_gray_valley_016",
+      "hook_new_hope_022",
+      "hook_new_hope_044",
+      "hook_new_hope_049"
+    ],
+    "name_zh": "老照片",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_revolver",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_063"
+    ],
+    "hook_ids": [
+      "hook_dry_well_012"
+    ],
+    "name_zh": "老式左輪",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_smg",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "舊世衝鋒槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_world_canned_food",
+    "edge_counts": {
+      "encounter_rewards": 2,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "ruin_038",
+      "wild_024"
+    ],
+    "hook_ids": [
+      "hook_new_hope_038"
+    ],
+    "name_zh": "舊世罐頭",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_world_map",
+    "edge_counts": {
+      "encounter_requires": 18,
+      "person_item": 3,
+      "quest_requires": 4
+    },
+    "encounter_ids": [
+      "anomaly_022",
+      "npc_062",
+      "npc_064",
+      "npc_073",
+      "npc_079",
+      "ruin_009",
+      "ruin_017",
+      "ruin_018",
+      "ruin_041",
+      "ruin_055",
+      "ruin_098",
+      "town_009",
+      "town_064",
+      "town_098",
+      "wild_004",
+      "wild_035",
+      "wild_073",
+      "wild_100"
+    ],
+    "hook_ids": [
+      "hook_dry_well_011",
+      "hook_dry_well_013",
+      "hook_dry_well_032"
+    ],
+    "name_zh": "舊世地圖",
+    "quest_ids": [
+      "quest_dry_well_027",
+      "quest_dry_well_035",
+      "quest_gray_valley_015",
+      "quest_new_hope_035"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_world_medical_case",
+    "edge_counts": {
+      "person_item": 1
+    },
+    "encounter_ids": [],
+    "hook_ids": [
+      "hook_new_hope_020"
+    ],
+    "name_zh": "舊世醫療箱",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_world_military_armor",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "舊世軍甲",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_world_tactical_chip",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "舊世戰術晶片",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_old_world_watch",
+    "edge_counts": {
+      "encounter_requires": 4,
+      "person_item": 6
+    },
+    "encounter_ids": [
+      "anomaly_039",
+      "npc_039",
+      "town_006",
+      "wild_044"
+    ],
+    "hook_ids": [
+      "hook_dry_well_050",
+      "hook_gray_valley_012",
+      "hook_gray_valley_028",
+      "hook_gray_valley_044",
+      "hook_new_hope_004",
+      "hook_new_hope_049"
+    ],
+    "name_zh": "舊世界手錶",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_painkillers",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "止痛藥",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_paper_journal",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 13,
+      "encounter_rewards": 1,
+      "person_item": 15
+    },
+    "encounter_ids": [
+      "anomaly_005",
+      "anomaly_019",
+      "anomaly_027",
+      "anomaly_033",
+      "anomaly_038",
+      "anomaly_039",
+      "caravan_057",
+      "npc_025",
+      "npc_046",
+      "npc_051",
+      "town_053",
+      "town_061",
+      "town_087",
+      "wild_073",
+      "wild_093"
+    ],
+    "hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_005",
+      "hook_dry_well_013",
+      "hook_dry_well_019",
+      "hook_dry_well_028",
+      "hook_dry_well_049",
+      "hook_dry_well_050",
+      "hook_gray_valley_012",
+      "hook_gray_valley_021",
+      "hook_gray_valley_028",
+      "hook_gray_valley_050",
+      "hook_new_hope_004",
+      "hook_new_hope_007",
+      "hook_new_hope_041",
+      "hook_new_hope_044"
+    ],
+    "name_zh": "紙本日記",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_planting_manual",
+    "edge_counts": {
+      "encounter_requires": 7,
+      "person_item": 6,
+      "quest_requires": 4
+    },
+    "encounter_ids": [
+      "anomaly_029",
+      "npc_014",
+      "ruin_007",
+      "ruin_043",
+      "town_005",
+      "town_013",
+      "wild_088"
+    ],
+    "hook_ids": [
+      "hook_dry_well_044",
+      "hook_new_hope_009",
+      "hook_new_hope_014",
+      "hook_new_hope_032",
+      "hook_new_hope_035",
+      "hook_new_hope_046"
+    ],
+    "name_zh": "種植手冊",
+    "quest_ids": [
+      "quest_new_hope_005",
+      "quest_new_hope_013",
+      "quest_new_hope_024",
+      "quest_new_hope_034"
+    ],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_plastic",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_rewards": 2
+    },
+    "encounter_ids": [
+      "anomaly_024",
+      "caravan_034",
+      "ruin_095"
+    ],
+    "hook_ids": [],
+    "name_zh": "塑膠",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_pliers",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 7,
+      "encounter_rewards": 1,
+      "person_item": 2,
+      "quest_requires": 3
+    },
+    "encounter_ids": [
+      "caravan_030",
+      "caravan_040",
+      "ruin_003",
+      "ruin_060",
+      "ruin_062",
+      "town_100",
+      "wild_024",
+      "wild_026",
+      "wild_042"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_004",
+      "hook_gray_valley_022"
+    ],
+    "name_zh": "鉗子",
+    "quest_ids": [
+      "quest_dry_well_013",
+      "quest_gray_valley_023",
+      "quest_gray_valley_037"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_police_ballistic_vest",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "警用防彈衣",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_police_pistol",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "警用手槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_power_hammer",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "動力錘",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "combat",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_precision_engineering_manual",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "anomaly_007",
+      "anomaly_035",
+      "npc_034"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_030"
+    ],
+    "name_zh": "精密工程手冊",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_precision_parts",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 1,
+      "person_item": 1,
+      "quest_consumes": 1,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "ruin_099"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_007"
+    ],
+    "name_zh": "精密零件",
+    "quest_ids": [
+      "quest_dry_well_028"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_pump_shotgun",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "泵動散彈槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_purification_tablets",
+    "edge_counts": {
+      "person_item": 2
+    },
+    "encounter_ids": [],
+    "hook_ids": [
+      "hook_new_hope_030",
+      "hook_new_hope_045"
+    ],
+    "name_zh": "淨水錠",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_radio",
+    "edge_counts": {
+      "encounter_requires": 6,
+      "person_item": 6
+    },
+    "encounter_ids": [
+      "npc_068",
+      "town_059",
+      "town_079",
+      "town_099",
+      "wild_062",
+      "wild_085"
+    ],
+    "hook_ids": [
+      "hook_dry_well_016",
+      "hook_dry_well_017",
+      "hook_gray_valley_017",
+      "hook_gray_valley_040",
+      "hook_gray_valley_042",
+      "hook_gray_valley_048"
+    ],
+    "name_zh": "無線電",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_raw_meat",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "生肉",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_rebar_club",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 4,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_006",
+      "ruin_065",
+      "wild_027",
+      "wild_074"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_003"
+    ],
+    "name_zh": "鋼筋棍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_repair_manual",
+    "edge_counts": {
+      "encounter_requires": 10,
+      "encounter_rewards": 1,
+      "person_item": 6,
+      "quest_requires": 3
+    },
+    "encounter_ids": [
+      "anomaly_001",
+      "caravan_009",
+      "npc_055",
+      "ruin_021",
+      "ruin_032",
+      "ruin_039",
+      "town_036",
+      "town_067",
+      "town_081",
+      "wild_041",
+      "wild_090"
+    ],
+    "hook_ids": [
+      "hook_dry_well_006",
+      "hook_gray_valley_011",
+      "hook_gray_valley_013",
+      "hook_gray_valley_025",
+      "hook_gray_valley_030",
+      "hook_gray_valley_048"
+    ],
+    "name_zh": "維修手冊",
+    "quest_ids": [
+      "quest_dry_well_015",
+      "quest_gray_valley_002",
+      "quest_gray_valley_024"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_reverse_magnetic_shard",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "encounter_rewards": 1,
+      "person_item": 3
+    },
+    "encounter_ids": [
+      "anomaly_021",
+      "anomaly_023"
+    ],
+    "hook_ids": [
+      "hook_dry_well_021",
+      "hook_dry_well_042",
+      "hook_gray_valley_039"
+    ],
+    "name_zh": "逆磁片",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_rope",
+    "edge_counts": {
+      "encounter_consumes": 9,
+      "encounter_requires": 26,
+      "encounter_rewards": 1,
+      "person_item": 13,
+      "quest_consumes": 1,
+      "quest_requires": 12
+    },
+    "encounter_ids": [
+      "anomaly_011",
+      "caravan_006",
+      "caravan_023",
+      "caravan_026",
+      "caravan_039",
+      "caravan_043",
+      "caravan_047",
+      "caravan_052",
+      "npc_002",
+      "npc_013",
+      "npc_054",
+      "npc_067",
+      "ruin_001",
+      "ruin_012",
+      "ruin_020",
+      "ruin_036",
+      "ruin_042",
+      "ruin_047",
+      "ruin_061",
+      "ruin_068",
+      "ruin_071",
+      "ruin_081",
+      "ruin_085",
+      "ruin_089",
+      "town_019",
+      "town_071",
+      "town_077",
+      "wild_001",
+      "wild_007",
+      "wild_012",
+      "wild_033",
+      "wild_055",
+      "wild_058"
+    ],
+    "hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_023",
+      "hook_dry_well_031",
+      "hook_dry_well_048",
+      "hook_gray_valley_039",
+      "hook_gray_valley_045",
+      "hook_new_hope_001",
+      "hook_new_hope_002",
+      "hook_new_hope_005",
+      "hook_new_hope_011",
+      "hook_new_hope_013",
+      "hook_new_hope_048",
+      "hook_new_hope_050"
+    ],
+    "name_zh": "繩索",
+    "quest_ids": [
+      "quest_dry_well_002",
+      "quest_dry_well_010",
+      "quest_dry_well_012",
+      "quest_dry_well_013",
+      "quest_gray_valley_025",
+      "quest_gray_valley_028",
+      "quest_gray_valley_036",
+      "quest_new_hope_009",
+      "quest_new_hope_015",
+      "quest_new_hope_017",
+      "quest_new_hope_019",
+      "quest_new_hope_032"
+    ],
+    "roles": [
+      "explore",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_rubber",
+    "edge_counts": {
+      "encounter_rewards": 2,
+      "person_item": 2,
+      "quest_rewards": 2
+    },
+    "encounter_ids": [
+      "ruin_079"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_006",
+      "hook_gray_valley_041"
+    ],
+    "name_zh": "橡膠",
+    "quest_ids": [
+      "quest_gray_valley_033"
+    ],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_rusted_knife",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 2,
+      "person_item": 1,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "npc_011",
+      "town_007",
+      "wild_010"
+    ],
+    "hook_ids": [
+      "hook_new_hope_011"
+    ],
+    "name_zh": "生鏽小刀",
+    "quest_ids": [
+      "quest_new_hope_007"
+    ],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_salt",
+    "edge_counts": {
+      "encounter_consumes": 4,
+      "encounter_requires": 1,
+      "encounter_rewards": 5,
+      "person_item": 3,
+      "quest_rewards": 10
+    },
+    "encounter_ids": [
+      "caravan_016",
+      "caravan_028",
+      "caravan_040",
+      "caravan_047",
+      "npc_017",
+      "ruin_089",
+      "wild_034",
+      "wild_070"
+    ],
+    "hook_ids": [
+      "hook_dry_well_033",
+      "hook_new_hope_015",
+      "hook_new_hope_034"
+    ],
+    "name_zh": "鹽",
+    "quest_ids": [
+      "quest_dry_well_001",
+      "quest_dry_well_002",
+      "quest_dry_well_013",
+      "quest_gray_valley_016",
+      "quest_new_hope_005",
+      "quest_new_hope_032"
+    ],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_sandstorm_rifle",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "town_093"
+    ],
+    "hook_ids": [],
+    "name_zh": "沙暴步槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_scrap_iron",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_rewards": 7,
+      "person_item": 2,
+      "quest_consumes": 1,
+      "quest_rewards": 5
+    },
+    "encounter_ids": [
+      "caravan_032",
+      "caravan_060",
+      "ruin_022",
+      "ruin_052",
+      "ruin_069",
+      "town_035",
+      "town_047"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_020"
+    ],
+    "name_zh": "廢鐵",
+    "quest_ids": [
+      "quest_gray_valley_001",
+      "quest_gray_valley_013",
+      "quest_gray_valley_021",
+      "quest_gray_valley_029",
+      "quest_new_hope_004"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_scrap_iron_armor",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "拼裝鐵甲",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_scrap_machete",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "caravan_018",
+      "npc_013",
+      "wild_028"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_021",
+      "hook_new_hope_013"
+    ],
+    "name_zh": "廢鐵砍刀",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_scrap_rifle",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "廢土拼裝步槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_screwdriver",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 10,
+      "person_item": 2,
+      "quest_requires": 2,
+      "quest_rewards": 2
+    },
+    "encounter_ids": [
+      "ruin_006",
+      "ruin_073",
+      "ruin_076",
+      "ruin_082",
+      "ruin_091",
+      "ruin_095",
+      "town_038",
+      "wild_021",
+      "wild_042",
+      "wild_090"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_014",
+      "hook_gray_valley_029"
+    ],
+    "name_zh": "螺絲起子",
+    "quest_ids": [
+      "quest_gray_valley_009",
+      "quest_gray_valley_027",
+      "quest_gray_valley_031"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_sealed_cargo_crate",
+    "edge_counts": {
+      "encounter_consumes": 6,
+      "encounter_requires": 7,
+      "person_item": 4,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "anomaly_001",
+      "anomaly_005",
+      "anomaly_017",
+      "anomaly_025",
+      "anomaly_033",
+      "caravan_020",
+      "caravan_059",
+      "npc_037",
+      "npc_080",
+      "town_016",
+      "town_078",
+      "town_092",
+      "wild_097"
+    ],
+    "hook_ids": [
+      "hook_dry_well_030",
+      "hook_dry_well_039",
+      "hook_dry_well_046",
+      "hook_new_hope_024"
+    ],
+    "name_zh": "密封貨箱",
+    "quest_ids": [
+      "quest_new_hope_030"
+    ],
+    "roles": [
+      "trade",
+      "explore",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_seeds",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_requires": 3,
+      "encounter_rewards": 5,
+      "person_item": 3,
+      "quest_rewards": 2
+    },
+    "encounter_ids": [
+      "caravan_055",
+      "ruin_007",
+      "ruin_033",
+      "ruin_068",
+      "town_002",
+      "town_005",
+      "town_034",
+      "wild_016"
+    ],
+    "hook_ids": [
+      "hook_new_hope_002",
+      "hook_new_hope_009",
+      "hook_new_hope_046"
+    ],
+    "name_zh": "種子",
+    "quest_ids": [
+      "quest_new_hope_002"
+    ],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_semi_auto_rifle",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "半自動步槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_shadowless_glass",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 1,
+      "encounter_rewards": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "anomaly_025",
+      "anomaly_028"
+    ],
+    "hook_ids": [
+      "hook_dry_well_043"
+    ],
+    "name_zh": "無影玻璃",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_signal_receiver",
+    "edge_counts": {
+      "encounter_requires": 4,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_069",
+      "ruin_016",
+      "ruin_028",
+      "wild_077"
+    ],
+    "hook_ids": [
+      "hook_dry_well_017"
+    ],
+    "name_zh": "訊號接收器",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_silence_box",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "encounter_rewards": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "anomaly_037"
+    ],
+    "hook_ids": [
+      "hook_dry_well_046",
+      "hook_gray_valley_042"
+    ],
+    "name_zh": "沉默盒",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_single_shot_rifle",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "單發獵槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_single_shot_shotgun",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "單管散彈槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_sleeping_bag",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 2,
+      "person_item": 3,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "anomaly_036",
+      "ruin_080",
+      "wild_014"
+    ],
+    "hook_ids": [
+      "hook_dry_well_045",
+      "hook_new_hope_021",
+      "hook_new_hope_042"
+    ],
+    "name_zh": "睡袋",
+    "quest_ids": [
+      "quest_dry_well_008"
+    ],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_sniper_rifle",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "狙擊步槍",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_snub_revolver",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "短管左輪",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_spear",
+    "edge_counts": {
+      "encounter_requires": 4
+    },
+    "encounter_ids": [
+      "ruin_074",
+      "town_021",
+      "wild_023",
+      "wild_038"
+    ],
+    "hook_ids": [],
+    "name_zh": "長矛",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_spices",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_072",
+      "town_085"
+    ],
+    "hook_ids": [
+      "hook_dry_well_020",
+      "hook_new_hope_034"
+    ],
+    "name_zh": "香料",
+    "quest_ids": [],
+    "roles": [
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_spring",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_rewards": 2,
+      "person_item": 2,
+      "quest_rewards": 1
+    },
+    "encounter_ids": [
+      "npc_053",
+      "ruin_069",
+      "wild_021"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_023",
+      "hook_gray_valley_037"
+    ],
+    "name_zh": "彈簧",
+    "quest_ids": [
+      "quest_gray_valley_021"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_stab_vest",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "ruin_078",
+      "ruin_096"
+    ],
+    "hook_ids": [],
+    "name_zh": "防刺背心",
+    "quest_ids": [
+      "quest_dry_well_034"
+    ],
+    "roles": [
+      "combat",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_static_bone",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "anomaly_020"
+    ],
+    "hook_ids": [
+      "hook_dry_well_041",
+      "hook_gray_valley_041"
+    ],
+    "name_zh": "靜電骨",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_steel_stock",
+    "edge_counts": {
+      "encounter_consumes": 4,
+      "encounter_requires": 1,
+      "encounter_rewards": 2,
+      "quest_consumes": 1,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "anomaly_009",
+      "anomaly_021",
+      "ruin_022",
+      "ruin_057",
+      "town_041",
+      "wild_001"
+    ],
+    "hook_ids": [],
+    "name_zh": "鋼材",
+    "quest_ids": [
+      "quest_gray_valley_035"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_stun_baton",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "電擊棒",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_sugar",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "糖",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_surgical_kit",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "手術包",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_tactical_helmet",
+    "edge_counts": {},
+    "encounter_ids": [],
+    "hook_ids": [],
+    "name_zh": "舊世戰術頭盔",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "survival",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_tea",
+    "edge_counts": {
+      "encounter_consumes": 2,
+      "encounter_requires": 1,
+      "encounter_rewards": 2,
+      "person_item": 3
+    },
+    "encounter_ids": [
+      "npc_071",
+      "town_022",
+      "wild_047",
+      "wild_096"
+    ],
+    "hook_ids": [
+      "hook_dry_well_019",
+      "hook_new_hope_027",
+      "hook_new_hope_047"
+    ],
+    "name_zh": "茶葉",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_tent",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 4,
+      "encounter_rewards": 1,
+      "person_item": 2,
+      "quest_requires": 2
+    },
+    "encounter_ids": [
+      "npc_024",
+      "ruin_073",
+      "ruin_090",
+      "town_012",
+      "wild_025",
+      "wild_060"
+    ],
+    "hook_ids": [
+      "hook_dry_well_031",
+      "hook_new_hope_021"
+    ],
+    "name_zh": "帳篷",
+    "quest_ids": [
+      "quest_dry_well_020",
+      "quest_new_hope_012"
+    ],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_tool_belt",
+    "edge_counts": {
+      "encounter_requires": 5,
+      "person_item": 5,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "npc_041",
+      "ruin_022",
+      "ruin_072",
+      "ruin_097",
+      "wild_013"
+    ],
+    "hook_ids": [
+      "hook_dry_well_047",
+      "hook_gray_valley_014",
+      "hook_gray_valley_024",
+      "hook_gray_valley_029",
+      "hook_new_hope_048"
+    ],
+    "name_zh": "工具腰帶",
+    "quest_ids": [
+      "quest_dry_well_031"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_toolbox",
+    "edge_counts": {
+      "encounter_requires": 10,
+      "person_item": 3,
+      "quest_requires": 2
+    },
+    "encounter_ids": [
+      "npc_031",
+      "npc_052",
+      "ruin_023",
+      "ruin_024",
+      "ruin_039",
+      "ruin_069",
+      "ruin_100",
+      "town_060",
+      "town_080",
+      "wild_099"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_022",
+      "hook_gray_valley_044",
+      "hook_gray_valley_050"
+    ],
+    "name_zh": "工具箱",
+    "quest_ids": [
+      "quest_dry_well_017",
+      "quest_gray_valley_021"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_travel_backpack",
+    "edge_counts": {
+      "encounter_requires": 10,
+      "person_item": 7,
+      "quest_requires": 4
+    },
+    "encounter_ids": [
+      "caravan_024",
+      "caravan_056",
+      "npc_007",
+      "ruin_066",
+      "ruin_070",
+      "ruin_079",
+      "ruin_088",
+      "ruin_092",
+      "ruin_097",
+      "wild_034"
+    ],
+    "hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_023",
+      "hook_dry_well_027",
+      "hook_dry_well_030",
+      "hook_gray_valley_035",
+      "hook_new_hope_024",
+      "hook_new_hope_029"
+    ],
+    "name_zh": "舊旅行包",
+    "quest_ids": [
+      "quest_dry_well_007",
+      "quest_dry_well_021",
+      "quest_dry_well_031",
+      "quest_gray_valley_033"
+    ],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_uncold_ice",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 1,
+      "encounter_rewards": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "anomaly_001",
+      "anomaly_003"
+    ],
+    "hook_ids": [
+      "hook_dry_well_037",
+      "hook_new_hope_016"
+    ],
+    "name_zh": "不冷的冰",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_unknown_implant",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_049"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_019",
+      "hook_gray_valley_038"
+    ],
+    "name_zh": "未知植入物",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_unlabelled_medicine",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "town_014"
+    ],
+    "hook_ids": [
+      "hook_dry_well_008",
+      "hook_dry_well_036"
+    ],
+    "name_zh": "未標示藥劑",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_unsent_letter",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "person_item": 5
+    },
+    "encounter_ids": [
+      "npc_010"
+    ],
+    "hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_049",
+      "hook_new_hope_025",
+      "hook_new_hope_036",
+      "hook_new_hope_044"
+    ],
+    "name_zh": "沒有寄出的信",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_vinyl_record",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "encounter_rewards": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_036",
+      "wild_057"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_009",
+      "hook_new_hope_023"
+    ],
+    "name_zh": "黑膠唱片",
+    "quest_ids": [],
+    "roles": [
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_water",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 4,
+      "encounter_rewards": 1,
+      "person_item": 7
+    },
+    "encounter_ids": [
+      "anomaly_030",
+      "caravan_001",
+      "npc_077",
+      "ruin_014",
+      "wild_002",
+      "wild_096"
+    ],
+    "hook_ids": [
+      "hook_dry_well_014",
+      "hook_dry_well_025",
+      "hook_dry_well_034",
+      "hook_dry_well_048",
+      "hook_new_hope_007",
+      "hook_new_hope_039",
+      "hook_new_hope_046"
+    ],
+    "name_zh": "水壺",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_water_filter",
+    "edge_counts": {
+      "encounter_requires": 2,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "npc_021",
+      "wild_003"
+    ],
+    "hook_ids": [
+      "hook_new_hope_030",
+      "hook_new_hope_045"
+    ],
+    "name_zh": "濾水器",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_waterproof_bag",
+    "edge_counts": {
+      "encounter_consumes": 9,
+      "encounter_requires": 25,
+      "person_item": 10,
+      "quest_requires": 7
+    },
+    "encounter_ids": [
+      "anomaly_002",
+      "anomaly_019",
+      "caravan_008",
+      "caravan_022",
+      "caravan_035",
+      "caravan_041",
+      "caravan_048",
+      "caravan_058",
+      "npc_030",
+      "npc_079",
+      "ruin_004",
+      "ruin_015",
+      "ruin_027",
+      "ruin_033",
+      "ruin_038",
+      "ruin_063",
+      "ruin_088",
+      "town_001",
+      "town_003",
+      "town_030",
+      "town_046",
+      "town_057",
+      "town_066",
+      "town_071",
+      "town_089",
+      "town_095",
+      "wild_018",
+      "wild_036",
+      "wild_052",
+      "wild_067",
+      "wild_082"
+    ],
+    "hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_028",
+      "hook_dry_well_037",
+      "hook_dry_well_042",
+      "hook_gray_valley_018",
+      "hook_gray_valley_034",
+      "hook_new_hope_002",
+      "hook_new_hope_016",
+      "hook_new_hope_031",
+      "hook_new_hope_035"
+    ],
+    "name_zh": "防水袋",
+    "quest_ids": [
+      "quest_gray_valley_012",
+      "quest_gray_valley_014",
+      "quest_new_hope_001",
+      "quest_new_hope_003",
+      "quest_new_hope_016",
+      "quest_new_hope_031",
+      "quest_new_hope_037"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_waterskin",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 3,
+      "encounter_rewards": 2,
+      "person_item": 4
+    },
+    "encounter_ids": [
+      "npc_019",
+      "npc_065",
+      "town_073",
+      "town_084",
+      "wild_061"
+    ],
+    "hook_ids": [
+      "hook_dry_well_014",
+      "hook_dry_well_027",
+      "hook_dry_well_034",
+      "hook_new_hope_010"
+    ],
+    "name_zh": "水袋",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_welding_tools",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_044"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_031"
+    ],
+    "name_zh": "焊接工具",
+    "quest_ids": [],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_well_guardian",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 1
+    },
+    "encounter_ids": [
+      "npc_060"
+    ],
+    "hook_ids": [
+      "hook_dry_well_009"
+    ],
+    "name_zh": "守井人",
+    "quest_ids": [],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_wild_greens",
+    "edge_counts": {
+      "encounter_rewards": 1
+    },
+    "encounter_ids": [
+      "wild_070"
+    ],
+    "hook_ids": [],
+    "name_zh": "野菜",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_wilderness_cloak",
+    "edge_counts": {
+      "encounter_requires": 1
+    },
+    "encounter_ids": [
+      "town_024"
+    ],
+    "hook_ids": [],
+    "name_zh": "荒野斗篷",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_wood_axe",
+    "edge_counts": {
+      "encounter_requires": 3,
+      "person_item": 1,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "caravan_007",
+      "town_018",
+      "wild_016"
+    ],
+    "hook_ids": [
+      "hook_new_hope_043"
+    ],
+    "name_zh": "伐木斧",
+    "quest_ids": [
+      "quest_new_hope_025"
+    ],
+    "roles": [
+      "survival",
+      "explore",
+      "combat",
+      "trade"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_work_clothes",
+    "edge_counts": {
+      "encounter_consumes": 1,
+      "encounter_requires": 4,
+      "encounter_rewards": 1,
+      "person_item": 3,
+      "quest_consumes": 2,
+      "quest_requires": 1
+    },
+    "encounter_ids": [
+      "npc_004",
+      "ruin_019",
+      "ruin_066",
+      "town_096",
+      "wild_030"
+    ],
+    "hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_046",
+      "hook_new_hope_017"
+    ],
+    "name_zh": "舊工作服",
+    "quest_ids": [
+      "quest_gray_valley_012",
+      "quest_gray_valley_022"
+    ],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_worker_leather_jacket",
+    "edge_counts": {
+      "encounter_requires": 1,
+      "person_item": 2
+    },
+    "encounter_ids": [
+      "ruin_030"
+    ],
+    "hook_ids": [
+      "hook_dry_well_029",
+      "hook_gray_valley_046"
+    ],
+    "name_zh": "工人皮衣",
+    "quest_ids": [],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ]
+  },
+  {
+    "art_role": "item_illustration",
+    "content_id": "content_wrench",
+    "edge_counts": {
+      "encounter_consumes": 6,
+      "encounter_requires": 11,
+      "encounter_rewards": 2,
+      "person_item": 7,
+      "quest_requires": 4,
+      "quest_rewards": 2
+    },
+    "encounter_ids": [
+      "caravan_021",
+      "caravan_037",
+      "caravan_055",
+      "npc_001",
+      "npc_033",
+      "npc_038",
+      "npc_057",
+      "ruin_046",
+      "ruin_067",
+      "ruin_093",
+      "town_035",
+      "town_052",
+      "wild_001",
+      "wild_029",
+      "wild_037",
+      "wild_066",
+      "wild_087"
+    ],
+    "hook_ids": [
+      "hook_dry_well_006",
+      "hook_gray_valley_002",
+      "hook_gray_valley_004",
+      "hook_gray_valley_006",
+      "hook_gray_valley_025",
+      "hook_new_hope_001",
+      "hook_new_hope_050"
+    ],
+    "name_zh": "扳手",
+    "quest_ids": [
+      "quest_dry_well_003",
+      "quest_gray_valley_001",
+      "quest_gray_valley_004",
+      "quest_gray_valley_009",
+      "quest_gray_valley_018"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ]
+  }
+]

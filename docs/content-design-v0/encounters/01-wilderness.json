@@ -1,0 +1,6064 @@
+[
+  {
+    "encounter_id": "wild_001",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "倒吊在橋腹的貨櫃",
+    "context_zh": "一只貨櫃卡在橋腹，外側鉸鏈尚在，橋面已無法承重。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一只貨櫃卡在橋腹，外側鉸鏈尚在，橋面已無法承重。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從岸邊固定點下降拆鉸鏈",
+        "required_items": [
+          "content_rope",
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；繩索與扳手保留；需先確認固定點，不能直接站上橋面。",
+        "outcome_zh": "只卸下外側鉸鏈，貨櫃內部仍封閉；取得鋼材 1。",
+        "rewards": [
+          {
+            "content_id": "content_steel_stock",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "記下橋腹位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；放棄本次回收。",
+        "outcome_zh": "得到需要吊掛設備的地點線索，不揭露櫃內物品。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「倒吊在橋腹的貨櫃」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "disassembly",
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_002",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "白鹽圈中的積水",
+    "context_zh": "一灘積水邊緣有厚白圈，舊運水人留下『別當淡水』的刻痕。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一灘積水邊緣有厚白圈，舊運水人留下『別當淡水』的刻痕。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "封裝樣本帶去聚落詢問",
+        "required_items": [
+          "content_water"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；水壺需為空，暫不能裝飲水。",
+        "outcome_zh": "封存污水 1；未鑑定，不增加現有飲水補給。",
+        "rewards": [
+          {
+            "content_id": "content_dirty_water",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "繞到上游查看",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；沒有保證找到水。",
+        "outcome_zh": "確認白圈延伸到上游岩層，撤銷淡水線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「白鹽圈中的積水」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_003",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "濁流旁的斷濾管",
+    "context_zh": "露營者留下的取水管被泥堵住，附近沒有污染標記但水質未知。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "露營者留下的取水管被泥堵住，附近沒有污染標記但水質未知。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "接管收集待驗濾液",
+        "required_items": [
+          "content_water_filter"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；占用濾水器一次處理時段，濾材狀態待正式規則。",
+        "outcome_zh": "得到污水 1 的待驗樣本；过濾不等於可飲用。",
+        "rewards": [
+          {
+            "content_id": "content_dirty_water",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "指出取水口可能受上游影響",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不取水。",
+        "outcome_zh": "留下水質未知的警示，不製造安全水源。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「濁流旁的斷濾管」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_004",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "風口的兩塊路牌",
+    "context_zh": "兩塊同名路牌指向不同山口，一塊釘在新木樁上。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩塊同名路牌指向不同山口，一塊釘在新木樁上。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "核對山稜與舊路向",
+        "required_items": [
+          "content_compass",
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；舊圖不能證明當前可通行。",
+        "outcome_zh": "排除指向絕壁的一塊路牌，只確认原道路方向。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿新木樁腳印查看",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；仍不直接啟用新路。",
+        "outcome_zh": "找到改道者留下的坍塌示意，取得候選繞道情報。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「風口的兩塊路牌」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_005",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沙牆前的低窪地",
+    "context_zh": "沙牆正接近，一處低地可避風，卻有舊洪痕。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "沙牆正接近，一處低地可避風，卻有舊洪痕。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "穿戴遮蔽物退到高地背風面",
+        "required_items": [
+          "content_desert_robe",
+          "content_dust_mask"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；必須持有並穿戴兩件衣物，不進沙牆。",
+        "outcome_zh": "避開低地洪線並停留候風；衣物不提供穿越風暴的保證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在外緣石棚等待",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；需承擔兩天既有生存消耗。",
+        "outcome_zh": "在已確認穩固的石棚等風停，失去出發時機但不下低地。",
+        "rewards": []
+      },
+      {
+        "label_zh": "放棄本次通過，退回安全處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取得物品；不得縮短原路程或跨越未解除的障礙。",
+        "outcome_zh": "退回沙牆外的安全轉折點，取消本次穿越；未抵達目的地。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「沙牆前的低窪地」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "camping",
+      "equipment",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_006",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被拖走半截的營繩",
+    "context_zh": "營位有獸跡，拖痕沿繩子一直進入密草。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "營位有獸跡，拖痕沿繩子一直進入密草。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "遠看拖痕盡頭",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不靠近草叢。",
+        "outcome_zh": "看見帳篷勾在倒木而非獵物口中，標出可回收的位置，尚未取得。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿空曠邊緣繞近",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；放棄草叢內任何物品。",
+        "outcome_zh": "拾回外緣的一只布袋 1，帳篷留在內側。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「被拖走半截的營繩」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_007",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "繩梯只剩兩階",
+    "context_zh": "坡腳舊繩梯斷了，中段檢修台還放著一盞油燈。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "坡腳舊繩梯斷了，中段檢修台還放著一盞油燈。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從完整扶手設置下降線",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [
+          "content_rope"
+        ],
+        "required_skill": null,
+        "cost_zh": "+1 天；留下一條繩索固定現場，本選項須交付繩索 1。",
+        "outcome_zh": "取回油燈 1；繩索留給往來者，不能同時保留。",
+        "rewards": [
+          {
+            "content_id": "content_oil_lamp",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "從坡底繞行",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；攜行負擔不變。",
+        "outcome_zh": "從底部階梯抵達空的管理棚，確認通道，未取得檢修台油燈。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「繩梯只剩兩階」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_008",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "生火圈裡的玻璃屑",
+    "context_zh": "一個看似乾淨的舊火圈混著玻璃，旁邊覆蓋的物資需要搬開才知內容。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一個看似乾淨的舊火圈混著玻璃，旁邊覆蓋的物資需要搬開才知內容。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "穿戴護目鏡並分離碎片",
+        "required_items": [
+          "content_engineering_goggles",
+          "content_entrenching_shovel"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不徒手翻動，不保證物資完整。",
+        "outcome_zh": "分離出玻璃 1；火圈清理完成但不提供額外食物。",
+        "rewards": [
+          {
+            "content_id": "content_glass",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "另找營位",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；放棄現場回收。",
+        "outcome_zh": "找到無碎片的裸岩地，只建立候選營位。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「生火圈裡的玻璃屑」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "camping",
+      "disassembly",
+      "equipment",
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_009",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沒有腳印的水桶",
+    "context_zh": "路旁滿水桶乾淨得異常，桶底連接一條拉線。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "路旁滿水桶乾淨得異常，桶底連接一條拉線。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "追看拉線去向",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；保持距離，不觸碰水桶。",
+        "outcome_zh": "確認拉線通到空棚，不判定它是陷阱還是取水記號。",
+        "rewards": []
+      },
+      {
+        "label_zh": "封鎖近側路徑並留警示",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取得桶水。",
+        "outcome_zh": "留下有拉線的客觀警示，下一隊可選擇檢查，不能宣稱已解除陷阱。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「沒有腳印的水桶」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_010",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "石縫裡的乾糧袋",
+    "context_zh": "乾糧袋夾在兩塊石頭間，紙牌寫著一個返程日期。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "乾糧袋夾在兩塊石頭間，紙牌寫著一個返程日期。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "切開外層綁帶檢查失主標記",
+        "required_items": [
+          "content_rusted_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；只切綁帶，不開封食物。",
+        "outcome_zh": "讀到返程者姓名縮寫，袋子留原處，取得可追查失主的線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在路口留下物資位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不移動物資。",
+        "outcome_zh": "更多人能看見位置；失主方便尋回，也增加被先取走的可能，結果待後續事實。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「石縫裡的乾糧袋」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_011",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "雨水沖開的獸穴",
+    "context_zh": "暴雨後一處舊獸穴露出，洞口有破布但未見新鮮獸跡。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "暴雨後一處舊獸穴露出，洞口有破布但未見新鮮獸跡。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從洞外照明檢查",
+        "required_items": [
+          "content_flashlight",
+          "content_battery"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；電池需有可用電量，能量扣量待 lighting 規格，暫不可執行。",
+        "outcome_zh": "看見破布下是塌落木框，不鑽入；新增結構不穩的警告。",
+        "rewards": []
+      },
+      {
+        "label_zh": "白天擴大外圍觀察",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不進洞。",
+        "outcome_zh": "找到外側散落布料 1，洞穴仍列為未確認。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「雨水沖開的獸穴」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "lighting"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_012",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被風吹斷的飲水排隊線",
+    "context_zh": "一列旅人把水桶排在井邊，但排隊繩被風打散，順序有爭議。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一列旅人把水桶排在井邊，但排隊繩被風打散，順序有爭議。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出繩索重新標隊列",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；繩索在當次排隊結束後收回；需當事人同意。",
+        "outcome_zh": "把仍在場者的位置記錄清楚，不增加井水總量或自動優先權。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助核對誰先到",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；可能有人拒絕證詞，不保證獲得水。",
+        "outcome_zh": "形成雙方同意的臨時次序；未達同意則維持爭議不強制。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「被風吹斷的飲水排隊線」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_013",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "長坡末端的背帶",
+    "context_zh": "同行者的背包肩帶斷裂，他打算把沉重貨物丟在坡邊。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "同行者的背包肩帶斷裂，他打算把沉重貨物丟在坡邊。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "借腰帶固定他的散件",
+        "required_items": [
+          "content_tool_belt"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；工具腰帶暫借至坡頂，自己的工具需收回包內。",
+        "outcome_zh": "對方保住散件，玩家不取得所有權；坡頂歸還腰帶。",
+        "rewards": []
+      },
+      {
+        "label_zh": "幫忙分批搬到坡頂",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；不得超出未來搬運上限。",
+        "outcome_zh": "搬完原有貨物，不憑空增加物資，雙方都失去兩天。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「長坡末端的背帶」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_014",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "潮濕谷地的兩張床位",
+    "context_zh": "石棚內有兩張乾燥床板，先到者把另一張留給尚未回來的同伴。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "石棚內有兩張乾燥床板，先到者把另一張留給尚未回來的同伴。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "在棚外高處鋪自己的睡袋",
+        "required_items": [
+          "content_sleeping_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需自有可用睡袋，不能宣稱免除低溫傷害。",
+        "outcome_zh": "保留他人的床位並安排自備露宿位；是否能休息由 camping 決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商在棚內輪流休息",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；需屋主同意，沒有取得床板。",
+        "outcome_zh": "把休息時間分開，較晚離開；沒有同意時不能強占。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「潮濕谷地的兩張床位」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "camping",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_015",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "燒焦的草圈",
+    "context_zh": "草圈中央有閃光，外圈仍有溫熱灰燼。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "草圈中央有閃光，外圈仍有溫熱灰燼。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "穿戴防護，在邊緣冷卻區觀察",
+        "required_items": [
+          "content_heat_insulation_suit"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不踏入中心，服裝不保證對未知熱源安全。",
+        "outcome_zh": "辨認反光來自玻璃 1，僅回收已冷卻外緣碎片。",
+        "rewards": [
+          {
+            "content_id": "content_glass",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "等整個外圈冷卻再經過",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；不撿中心物。",
+        "outcome_zh": "沿可見冷卻區通過，中心熱源仍未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「燒焦的草圈」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_016",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "倒木壓住的農具",
+    "context_zh": "新希望往外的支路有倒木壓住農具，一位農人正在找人借工具。",
+    "location_tags": [
+      "new_hope_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "新希望往外的支路有倒木壓住農具，一位農人正在找人借工具。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "在農人指引下清掉細枝",
+        "required_items": [
+          "content_wood_axe"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；只處理可見細枝，不承諾斬開受力主幹。",
+        "outcome_zh": "露出農具位置並交還農人；他贈予種子 1。",
+        "rewards": [
+          {
+            "content_id": "content_seeds",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "替他傳回借具消息",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；需下一次實際抵達聚落才交付消息。",
+        "outcome_zh": "登記求援請求，農具仍受壓，當下沒有報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「倒木壓住的農具」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_017",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩岸各拉一端的繩",
+    "context_zh": "小溪兩岸的人都說繩索屬於自己，誰也不肯先放手。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "小溪兩岸的人都說繩索屬於自己，誰也不肯先放手。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "提議切斷旁邊勾住的廢綁帶",
+        "required_items": [
+          "content_hunting_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；需兩邊同意，刀只切廢帶不切承重繩。",
+        "outcome_zh": "解除廢帶糾結，繩索所有權爭議仍保留給雙方，玩家不取繩。",
+        "rewards": []
+      },
+      {
+        "label_zh": "替雙方比對繩上記號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不保證當場解決。",
+        "outcome_zh": "辨認出兩段不同舊繩的接點，雙方取得可再協商的事實。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「兩岸各拉一端的繩」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_018",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "防潮箱外的青苔線",
+    "context_zh": "箱底浸水，箱蓋有運往乾井的字樣，領取人不在。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "箱底浸水，箱蓋有運往乾井的字樣，領取人不在。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "將浮出的文件封裝保留",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；防水袋占用，文件所有權仍屬貨主。",
+        "outcome_zh": "保住運單資訊；不取箱內貨物，待尋到貨主交還。",
+        "rewards": []
+      },
+      {
+        "label_zh": "將箱子拖至較高石台",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；只可搬動能力允許的重量。",
+        "outcome_zh": "箱子離水，紙張已濕不保證恢復內容；不生成可讀副本。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「防潮箱外的青苔線」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_019",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "落石前的一聲呼哨",
+    "context_zh": "對面坡上有人呼哨示警，聲音被回音反射得難以定位。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "對面坡上有人呼哨示警，聲音被回音反射得難以定位。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "確認示警者指向的坡面",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；視線受限時方案不可用。",
+        "outcome_zh": "看見他指向鬆動石壁，標記一段必須避開的坡腳。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先退回上個轉彎",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不猜聲音來源。",
+        "outcome_zh": "離開可疑坡腳後等待，放棄與示警者接觸的機會。",
+        "rewards": []
+      },
+      {
+        "label_zh": "放棄本次通過，退回安全處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取得物品；不得縮短原路程或跨越未解除的障礙。",
+        "outcome_zh": "退回上一個安全轉彎，不跨過落石坡脚，路程進度不增加。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「落石前的一聲呼哨」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_020",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被牲口踩破的種袋",
+    "context_zh": "路上散滿種子，附近有農人的追車腳印。",
+    "location_tags": [
+      "new_hope_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "路上散滿種子，附近有農人的追車腳印。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "收集乾燥種子等待認領",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；布袋暫用，拾得種子不自動歸玩家。",
+        "outcome_zh": "形成待領取貨袋，保留失主標記，沒有玩家物品收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只攔下下一輛車轉告",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不收集種子。",
+        "outcome_zh": "傳遞事故位置，散落物仍可能受損，不能宣稱已救回收成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「被牲口踩破的種袋」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_021",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "夜裡還在轉的風標",
+    "context_zh": "風已停，營地外的風標卻仍緩慢轉動，底座傳出喀聲。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "風已停，營地外的風標卻仍緩慢轉動，底座傳出喀聲。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "白天拆看外罩",
+        "required_items": [
+          "content_flashlight",
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；手電筒須可用；只拆無電外罩。",
+        "outcome_zh": "發現手動發條，回收彈簧 1；現象不需要超自然解釋。",
+        "rewards": [
+          {
+            "content_id": "content_spring",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "留在遠處記下轉動間隔",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不接觸裝置。",
+        "outcome_zh": "取得周期線索，仍不確知驅動來源。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「夜裡還在轉的風標」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "lighting"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_022",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "空井邊的濕腳印",
+    "context_zh": "井是乾的，離井的腳印卻一直滴水到灌木叢。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井是乾的，離井的腳印卻一直滴水到灌木叢。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "記下方位後追到開闊處",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；只跟到視線安全處。",
+        "outcome_zh": "發現灌木後有搬水歇腳點，水源仍未找到。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在井邊留下求水記號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不保證任何人回應。",
+        "outcome_zh": "留下需要水源情報的記號，不補充飲水也不自動觸發NPC。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「空井邊的濕腳印」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_023",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "流沙邊的空鞋",
+    "context_zh": "一隻鞋陷在沙邊，沒有可見傷者，也無法判斷鞋子放了多久。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一隻鞋陷在沙邊，沒有可見傷者，也無法判斷鞋子放了多久。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "由硬地探查邊界",
+        "required_items": [
+          "content_spear"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；長矛不是救援承重器，不把身體移出硬地。",
+        "outcome_zh": "標出可觸及的鬆沙邊界，沒有證據可判定有人死亡。",
+        "rewards": []
+      },
+      {
+        "label_zh": "繞開並回報未知險地",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取鞋。",
+        "outcome_zh": "帶走地點情報，避免把空鞋編造成死亡事件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「流沙邊的空鞋」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_024",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "暴雨沖出的罐頭箱",
+    "context_zh": "山溝露出一箱罐頭，多數鼓脹，只有一罐外觀完整。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "山溝露出一箱罐頭，多數鼓脹，只有一罐外觀完整。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從箱外取出完整封罐",
+        "required_items": [
+          "content_engineering_goggles",
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；穿戴護目鏡；不開罐、不試吃。",
+        "outcome_zh": "取得舊世罐頭 1 作待鑑定物，不能當作已安全食物。",
+        "rewards": [
+          {
+            "content_id": "content_old_world_canned_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "留標記請專業者檢查",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；沒有物品收入。",
+        "outcome_zh": "保留樣本現場，不把外觀完整當成可食證據。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「暴雨沖出的罐頭箱」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_025",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "高地最後一片陰影",
+    "context_zh": "正午前方只剩一處陰影，一名慢行者還沒走到。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "正午前方只剩一處陰影，一名慢行者還沒走到。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "在旁搭起額外遮蔽",
+        "required_items": [
+          "content_tent"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；帳篷需完整且可搭設，耗時仍有生存消耗。",
+        "outcome_zh": "多一處臨時遮蔽候選，玩家留用帳篷；不直接降低全隊口渴。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把陰影留給慢行者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；自己退回上一處陰地。",
+        "outcome_zh": "對方有機會先歇腳，玩家延後上路，沒有立即物品報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「高地最後一片陰影」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "camping",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_026",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "廢車排水孔的銅色",
+    "context_zh": "灰谷外廢車堆正在積水，一條銅線卡在車底出水口。",
+    "location_tags": [
+      "gray_valley_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "灰谷外廢車堆正在積水，一條銅線卡在車底出水口。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從斷開的線端取回銅線",
+        "required_items": [
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；須確認車體無電；不能拉動整束未知接線。",
+        "outcome_zh": "取得銅線 1；排水孔恢復通暢，車體仍留原地。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "清掉出口樹葉",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不接觸車底。",
+        "outcome_zh": "減少可見阻塞，銅線仍卡住；沒有取得零件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「廢車排水孔的銅色」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_027",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "嵌在車輪裡的鐵條",
+    "context_zh": "一輛無主車架擋住窄路，鐵條卡在輪緣，推動會帶歪路旁欄杆。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一輛無主車架擋住窄路，鐵條卡在輪緣，推動會帶歪路旁欄杆。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "把自有鐵棍墊在輪前導向",
+        "required_items": [
+          "content_rebar_club"
+        ],
+        "consumed_items": [
+          "content_rebar_club"
+        ],
+        "required_skill": null,
+        "cost_zh": "+1 天；鋼筋棍留作路邊止輪件，消耗 1。",
+        "outcome_zh": "把空車架推入寬處；自己的鐵棍留在現場，沒有零件收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拆開可徒手卸下的欄杆接頭",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；需得到道路維護者同意。",
+        "outcome_zh": "讓窄路暫時可繞車通行，留下欄杆缺口待修。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「嵌在車輪裡的鐵條」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_028",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "刺藤纏住的里程牌",
+    "context_zh": "里程牌只有上半可見，附近兩條岔路都有車轍。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "里程牌只有上半可見，附近兩條岔路都有車轍。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "切開非承重刺藤",
+        "required_items": [
+          "content_scrap_machete"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；保留根部，不把牌桩砍倒。",
+        "outcome_zh": "露出往灰谷的舊里程；標記是歷史距離，不改現有路程天數。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿車轍尋找近期營跡",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不直接選一條新路。",
+        "outcome_zh": "辨認哪側最近有人走過，但不知道是否通到灰谷。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「刺藤纏住的里程牌」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_029",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "開裂水管旁的修理告示",
+    "context_zh": "告示請路人把可用扳手送回灰谷，管內早已沒有水。",
+    "location_tags": [
+      "gray_valley_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "告示請路人把可用扳手送回灰谷，管內早已沒有水。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "把自有扳手放進領取箱",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [
+          "content_wrench"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付扳手 1，不等於修復管線。",
+        "outcome_zh": "領取箱多一件工具；取得待核收據，當下沒有付款。",
+        "rewards": []
+      },
+      {
+        "label_zh": "抄下工具尺寸需求",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不交付工具。",
+        "outcome_zh": "得到具體採買請求，待真正交付才有報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「開裂水管旁的修理告示」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_030",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "油污布下的完整軸承",
+    "context_zh": "一塊油污布包著軸承，旁邊還留著拖往乾井的維修車痕。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一塊油污布包著軸承，旁邊還留著拖往乾井的維修車痕。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "穿上可弄髒的衣物移開廢油布",
+        "required_items": [
+          "content_work_clothes"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需穿戴工作服；接觸面污染後不能當乾淨醫用布。",
+        "outcome_zh": "把軸承 1 移到原處乾燥石台，附上疑似失主路線；沒有轉入玩家庫存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "追上最近休息點詢問",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不拿走軸承。",
+        "outcome_zh": "得知是否有人正在找零件；沒有生成追查對象，需存在的旅隊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「油污布下的完整軸承」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_031",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "燃料味濃的捷徑",
+    "context_zh": "通往乾井的側道有濃烈燃料味，一只翻倒罐子堵住排水槽。",
+    "location_tags": [
+      "dry_well_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "通往乾井的側道有濃烈燃料味，一只翻倒罐子堵住排水槽。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "在遠側核對罐身警示",
+        "required_items": [
+          "content_gas_mask"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；面具型號與濾材未驗證，不得進入氣味中心。",
+        "outcome_zh": "辨認為危險洩漏區並標記；不回收未知燃料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "繞回高處主路",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不進洩漏區。",
+        "outcome_zh": "延後抵達並保留警告情報，路線本身不被永久刪除。",
+        "rewards": []
+      },
+      {
+        "label_zh": "放棄本次通過，退回安全處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取得物品；不得縮短原路程或跨越未解除的障礙。",
+        "outcome_zh": "沿已確認的來路退出洩漏支路，不視為通過乾井捷徑。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「燃料味濃的捷徑」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_032",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "未冷卻的爐渣路",
+    "context_zh": "灰谷外把新爐渣倒上道路，表面已黑，縫隙仍泛紅。",
+    "location_tags": [
+      "gray_valley_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "灰谷外把新爐渣倒上道路，表面已黑，縫隙仍泛紅。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "檢查外緣是否已隔離",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；只遠觀，不測試踩踏。",
+        "outcome_zh": "找到一段有冷卻標識的繞行入口，仍需維護者確認可用。",
+        "rewards": []
+      },
+      {
+        "label_zh": "等待維護者封路處理",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；不翻越封線。",
+        "outcome_zh": "在封線外等待兩天；只有實際綁定商隊已出發時才記錯過班次，否則不生成發車後果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "放棄本次通過，退回安全處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不取得物品；不得縮短原路程或跨越未解除的障礙。",
+        "outcome_zh": "停在爐渣路前的安全封線外，取消本次通過；沒有越過熱路面。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「未冷卻的爐渣路」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_033",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被拆錯的一排標樁",
+    "context_zh": "拆料者把橋前標樁當廢木拿走，地上只剩孔洞。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆料者把橋前標樁當廢木拿走，地上只剩孔洞。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "沿現存欄杆設臨時邊界",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [
+          "content_rope"
+        ],
+        "required_skill": null,
+        "cost_zh": "+1 天；留繩索 1，不充當承重護欄。",
+        "outcome_zh": "讓人看見橋緣，仍須正式護欄才能恢復原通行條件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "留在路口引導繞行",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；無物品成本。",
+        "outcome_zh": "本次引導路人繞過橋頭；離開後需要其他維護者接手。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「被拆錯的一排標樁」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_034",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "從包底漏出的鹽",
+    "context_zh": "鹽商包底破了，白色細線沿路延伸，商人還未察覺。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "鹽商包底破了，白色細線沿路延伸，商人還未察覺。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借出空旅行包裝剩貨",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；旅行包須有可用空間，暫借至下一個路口。",
+        "outcome_zh": "保住未灑出的貨；歸還背包時獲鹽 1 作謝禮。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "喊住商人一起折好破口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不借物品。",
+        "outcome_zh": "商人減少續漏，但只能減量搬貨，玩家不取得獎品。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「從包底漏出的鹽」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_035",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "送錯方向的箭頭",
+    "context_zh": "炭筆箭頭旁寫著『新希望收糖』，但指向乾井。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "炭筆箭頭旁寫著『新希望收糖』，但指向乾井。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "核對地形並標出資訊衝突",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不把舊圖當即時市場資料。",
+        "outcome_zh": "留下地理方向更正，收購消息仍待驗證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "向返程旅人查問消息日期",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需要現有旅人願意停步。",
+        "outcome_zh": "取得帶日期的消息候選，不直接改糖價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「送錯方向的箭頭」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "navigation",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_036",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "車架下方的遮雨布",
+    "context_zh": "無人車架旁留著『借用請歸還』，遮雨布能救下即將淋濕的文件。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "無人車架旁留著『借用請歸還』，遮雨布能救下即將淋濕的文件。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用自己的袋子收好文件",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；自有袋子占用。",
+        "outcome_zh": "文件保持包覆，公用雨布留給下一個人。",
+        "rewards": []
+      },
+      {
+        "label_zh": "借雨布等雨停後歸還",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不得帶離現場。",
+        "outcome_zh": "用時間换暫時遮蔽，不取得公物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「車架下方的遮雨布」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "camping",
+      "cargo",
+      "exploration",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_037",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "渡口纜車的空把手",
+    "context_zh": "纜車停在對岸，岸邊只剩轉柄孔與被拆下的使用牌。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "纜車停在對岸，岸邊只剩轉柄孔與被拆下的使用牌。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "比對轉柄孔但不驅動",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；工具不匹配就停止，無安全驗證不可啟動。",
+        "outcome_zh": "確認缺的是專用轉柄，扳手不能通吃機械；得到缺件情報。",
+        "rewards": []
+      },
+      {
+        "label_zh": "走到上游淺灘評估",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；尚不涉水。",
+        "outcome_zh": "找到另一個渡點候選，水深與流速仍待查證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「渡口纜車的空把手」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_038",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "鋼索上掛著藥袋",
+    "context_zh": "一個藥袋掛在斷橋鋼索上，標籤指向新希望診療所。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一個藥袋掛在斷橋鋼索上，標籤指向新希望診療所。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從岸內勾回外側藥袋",
+        "required_items": [
+          "content_spear"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不走上斷橋，不攀鋼索。",
+        "outcome_zh": "把醫療袋 1 從鋼索移到岸邊指定保管點；內容未驗證，沒有成為玩家獎品。",
+        "rewards": []
+      },
+      {
+        "label_zh": "回報診療所位置與標籤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；需日後到達才完成回報。",
+        "outcome_zh": "留下可領回線索，當下藥袋仍懸空。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「鋼索上掛著藥袋」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_039",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "乾涸渠道的窄門",
+    "context_zh": "渠道維護門只能從外側推開，門後聽不到水聲。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "渠道維護門只能從外側推開，門後聽不到水聲。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "撬開已鬆脫的外層擋板",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；會損壞擋板，需確認廢棄無主才可拆。",
+        "outcome_zh": "露出內門型號，仍無法進入密閉渠室。",
+        "rewards": []
+      },
+      {
+        "label_zh": "抄下維護門編號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；保留門體完整。",
+        "outcome_zh": "可向聚落查問維護權限，未解鎖入口。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「乾涸渠道的窄門」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_040",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "乾井界碑的汽油標記",
+    "context_zh": "界碑上畫了燃料罐，旁邊沒有標價也沒有貨。",
+    "location_tags": [
+      "dry_well_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "界碑上畫了燃料罐，旁邊沒有標價也沒有貨。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "展示空罐詢問路邊收貨者",
+        "required_items": [
+          "content_fuel_can"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；容器需空且相容，不交出燃料。",
+        "outcome_zh": "得知他只回收容器，並非提供燃料；避免錯誤採買。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只記錄標記與位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不推定價格。",
+        "outcome_zh": "保留待驗收購線索，沒有取得燃料或Caps。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「乾井界碑的汽油標記」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_041",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "把手全新的舊刀",
+    "context_zh": "一把刀插在路旁木樁上，新把手刻著修理鋪記號。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一把刀插在路旁木樁上，新把手刻著修理鋪記號。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "比對手冊中的鉚接圖",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；圖冊需相應頁可讀；不試刀。",
+        "outcome_zh": "看出把手安裝方式與圖不符，形成待修檢查線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "送到附近失物告示處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不據為己有。",
+        "outcome_zh": "登記失物，等待所有者認領，不生成新刀進玩家庫存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「把手全新的舊刀」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_042",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "商道上的滑輪殼",
+    "context_zh": "一個拆空的滑輪殼落在道路中，內部只剩一粒滾珠軸承。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一個拆空的滑輪殼落在道路中，內部只剩一粒滾珠軸承。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "分開破殼取出軸承",
+        "required_items": [
+          "content_pliers",
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；只能取無負載殘骸。",
+        "outcome_zh": "取得軸承 1；外殼報廢不再當完整滑輪。",
+        "rewards": [
+          {
+            "content_id": "content_bearing",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "把殘骸移到路邊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不拆零件。",
+        "outcome_zh": "讓出車道，零件留給維護者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「商道上的滑輪殼」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "disassembly",
+      "exploration",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_043",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "晾在鹽地的皮甲",
+    "context_zh": "一件工人皮衣掛在鹽地，留著『還沒洗好』的便條。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一件工人皮衣掛在鹽地，留著『還沒洗好』的便條。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "替衣主留下補片",
+        "required_items": [
+          "content_leather"
+        ],
+        "consumed_items": [
+          "content_leather"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付皮革 1，不拆取整件衣服。",
+        "outcome_zh": "衣主有補片可用；不自動完成修復，不獲防具。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把掉落便條重新壓牢",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不動衣物。",
+        "outcome_zh": "保存所有權提醒，沒有物品報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「晾在鹽地的皮甲」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_044",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "石堆後的散貨秤",
+    "context_zh": "一把秤藏在石堆後，砝碼旁有乾井與灰谷兩種商印。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一把秤藏在石堆後，砝碼旁有乾井與灰谷兩種商印。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用固定間隔記錄秤的自行回位",
+        "required_items": [
+          "content_old_world_watch"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；手錶需可用，不能只靠外觀判斷校準。",
+        "outcome_zh": "看出秤在空載時仍漂移，取得停用秤的理由，不設定新價格。",
+        "rewards": []
+      },
+      {
+        "label_zh": "尋找兩地商隊核對秤主",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取秤與砝碼。",
+        "outcome_zh": "保留共同財產證據，等待實際商隊確認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「石堆後的散貨秤」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_045",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩車之間的碎酒瓶",
+    "context_zh": "兩隊互怪對方撞破貨，地上瓶頸卻都朝同一坡向。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩隊互怪對方撞破貨，地上瓶頸卻都朝同一坡向。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "記錄原位供雙方比對",
+        "required_items": [
+          "content_camera"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；相機需可用媒材；不自動判賠。",
+        "outcome_zh": "保存碎片方向證據，賠償仍由雙方協商。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先清出一條步行路",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不徒手撿鋒利玻璃。",
+        "outcome_zh": "讓後來旅人通過，現場部分足跡消失，調查資訊較少。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「兩車之間的碎酒瓶」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_046",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "半埋的電纜標記",
+    "context_zh": "沙地露出高壓警示，旁邊銅線看似已斷。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "沙地露出高壓警示，旁邊銅線看似已斷。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從既有安全測點核對標示",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "+1 天；需 ELECTRONICS 2；無安全測點則不可選。",
+        "outcome_zh": "只產生是否可停用該段的待審紀錄，不直接取走電纜。",
+        "rewards": []
+      },
+      {
+        "label_zh": "標出禁挖範圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不碰電線。",
+        "outcome_zh": "提供可見警示，沒有回收銅線。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「半埋的電纜標記」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_047",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "排成一列的空罐",
+    "context_zh": "空罐排成箭頭，但最末一罐內留著一小袋茶葉。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "空罐排成箭頭，但最末一罐內留著一小袋茶葉。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "先觀察箭頭終點",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不移動罐列。",
+        "outcome_zh": "看見終點是有人使用的茶棚，罐列是路標而不是免費拾荒。",
+        "rewards": []
+      },
+      {
+        "label_zh": "走到茶棚詢問",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不先拿走茶葉。",
+        "outcome_zh": "確認路標用途；棚主可提供茶葉 1，須實際在場並願意分享。",
+        "rewards": [
+          {
+            "content_id": "content_tea",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「排成一列的空罐」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_048",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "無字的繞路旗",
+    "context_zh": "紅旗插在道路中間，周圍沒有工人，也沒有可見障礙。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "紅旗插在道路中間，周圍沒有工人，也沒有可見障礙。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "查看旗後路基",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不跨旗。",
+        "outcome_zh": "辨認下陷路基，記下需重量限制的區段，不能自行判定載重上限。",
+        "rewards": []
+      },
+      {
+        "label_zh": "步行回傳封路消息",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；沒有替代路獎勵。",
+        "outcome_zh": "把旗與凹陷位置交給維護者，通行權仍待確認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「無字的繞路旗」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_049",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "懸在枯樹上的套索",
+    "context_zh": "套索旁有捕獸叉，樹下只有打翻的食物包，沒有被困生物。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "套索旁有捕獸叉，樹下只有打翻的食物包，沒有被困生物。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用自有工具挑開地面廢線",
+        "required_items": [
+          "content_hunting_fork"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不觸碰仍受力的套索。",
+        "outcome_zh": "清出繞過枯樹的落腳處，保持陷阱原狀供主人辨認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "留下有人使用的標記",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不取他人的工具或食物。",
+        "outcome_zh": "下一位旅人能看見陷阱線索，不宣稱已排除危險。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「懸在枯樹上的套索」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_050",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "寫在油桶上的鐘點",
+    "context_zh": "油桶寫著交貨時間，天色已過，桶內只剩交貨人的披風。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "油桶寫著交貨時間，天色已過，桶內只剩交貨人的披風。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "穿上自己的外套在交貨點候一輪",
+        "required_items": [
+          "content_caravan_coat"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；服裝不提供通行身份；不動他人披風。",
+        "outcome_zh": "若約定對象仍在此路上可核對失約原因，沒有保證NPC抵達。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把時間與衣物位置帶回市集",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；待抵達才可公告。",
+        "outcome_zh": "形成失約消息，不憑物品推定人已死亡。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「寫在油桶上的鐘點」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_051",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "背陰處的最後一份糧",
+    "context_zh": "一位仍能行走的旅人把空糧袋翻給你看，下一段路沒有已知補給點。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一位仍能行走的旅人把空糧袋翻給你看，下一段路沒有已知補給點。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "分出一份乾糧",
+        "required_items": [
+          "content_food"
+        ],
+        "consumed_items": [
+          "content_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付乾糧 1，不能再計入自己的補給。",
+        "outcome_zh": "旅人收到乾糧 1，玩家沒有物品報酬，也不保證他的後續存活。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪他走回上一個路口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不交付口糧。",
+        "outcome_zh": "協助他回到已知道路，仍需自己尋找補給。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「背陰處的最後一份糧」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_052",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "裹著油布的急件",
+    "context_zh": "信差願用手上唯一的急救包換防潮材料；包裹是他代送的種子。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "信差願用手上唯一的急救包換防潮材料；包裹是他代送的種子。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交換防水袋保住急件",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [
+          "content_waterproof_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付防水袋 1；急救包封裝完整但效果未接線。",
+        "outcome_zh": "取得急救包 1；信差失去醫療用品，得到防潮容器。",
+        "rewards": [
+          {
+            "content_id": "content_first_aid_kit",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "教他把油布折回破口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；僅作臨時遮蔽，不保證防水。",
+        "outcome_zh": "信差保有急救包並延後出發，玩家沒有物品收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「裹著油布的急件」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_053",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被扔掉的拐杖",
+    "context_zh": "受傷搬運者坐在路邊，說原拐杖一受力就斷，想先等同伴。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "受傷搬運者坐在路邊，說原拐杖一受力就斷，想先等同伴。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "徵得同意後提供封裝醫療品",
+        "required_items": [
+          "content_first_aid_kit"
+        ],
+        "consumed_items": [
+          "content_first_aid_kit"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付急救包 1，不直接執行醫療或補HP。",
+        "outcome_zh": "受助者持有急救包，傷勢與能否行走仍由未來 injury 規則決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "留下來替他攔回同伴",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不搬動傷者。",
+        "outcome_zh": "協助聯絡現有同行者，沒有醫療效果或獎品。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「被扔掉的拐杖」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_054",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "車轍裡的破眼鏡",
+    "context_zh": "一名辨不清遠路的老人正在找鏡框，鏡片已碎在車轍內。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名辨不清遠路的老人正在找鏡框，鏡片已碎在車轍內。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出護目鏡擋風再陪走一段",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；暫借後歸還；護目鏡不矯正視力。",
+        "outcome_zh": "老人可擋風但仍需引路，沒有把裝備寫成治療。",
+        "rewards": []
+      },
+      {
+        "label_zh": "慢慢帶他到清楚的路標",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；無物品成本。",
+        "outcome_zh": "抵達路標後交由他自行決定去向，不自動建立永久同伴。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「車轍裡的破眼鏡」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_055",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沒有鎖的郵袋",
+    "context_zh": "一只未上鎖郵袋落在岔路，袋口露出一張親筆信。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一只未上鎖郵袋落在岔路，袋口露出一張親筆信。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "把袋口綁好送回路口保管",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；繩索保留，僅用可解綁結；不讀私人信件。",
+        "outcome_zh": "郵袋留在明確領取點，玩家取得交接位置紀錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讀取信封的收件地",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不拆信。",
+        "outcome_zh": "知道應送的聚落，但原位保管仍可能被他人先拿走。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「沒有鎖的郵袋」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_056",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "陌生人的熟悉外套",
+    "context_zh": "一名小販穿著商隊外套，用內側補丁當成同業證明，卻說不出車隊名字。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名小販穿著商隊外套，用內側補丁當成同業證明，卻說不出車隊名字。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "展示同款補丁並指出不是身份證明",
+        "required_items": [
+          "content_caravan_coat"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不交出外套，不把服裝當聲望。",
+        "outcome_zh": "雙方回到核對貨單的程序，沒有直接判他有罪。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只買看得見的貨物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；本次不付款，先要求具體貨單與報價。",
+        "outcome_zh": "停止預付提議；交易仍待正式報價與市場權限。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「陌生人的熟悉外套」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_057",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "換一口水的收藏者",
+    "context_zh": "收藏者抱著黑膠唱片，願用一張換一份安全飲水。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "收藏者抱著黑膠唱片，願用一張換一份安全飲水。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "按他的報價交換",
+        "required_items": [
+          "content_clean_water"
+        ],
+        "consumed_items": [
+          "content_clean_water"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付淨水 1；兩件物品都需有正式所有權。",
+        "outcome_zh": "取得黑膠唱片 1，對方取得淨水 1；沒有額外Caps。",
+        "rewards": [
+          {
+            "content_id": "content_vinyl_record",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "帶他到最近取水告示",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取唱片。",
+        "outcome_zh": "保留他的收藏，提供已知取水方向，不能保證有水。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「換一口水的收藏者」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_058",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "羊群前的一條細線",
+    "context_zh": "農人設細線阻止羊群靠近裂地，線被車輪壓得快斷。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "農人設細線阻止羊群靠近裂地，線被車輪壓得快斷。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "換上較醒目的繩界",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [
+          "content_rope"
+        ],
+        "required_skill": null,
+        "cost_zh": "+1 天；交付繩索 1，只作界線，不承諾攔住牲畜。",
+        "outcome_zh": "農人取得繩索，贈予肉乾 1；裂地仍需處理。",
+        "rewards": [
+          {
+            "content_id": "content_jerky",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "幫農人把羊群趕回欄內",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需農人同意，不取得牲畜。",
+        "outcome_zh": "暫時離開裂地區，舊界線仍需更換。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「羊群前的一條細線」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_059",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩人的一張舊照片",
+    "context_zh": "返鄉者在路牌下認出你持有照片的背景，想帶原照片給家人看。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返鄉者在路牌下認出你持有照片的背景，想帶原照片給家人看。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "將照片交給返鄉者",
+        "required_items": [
+          "content_old_photograph"
+        ],
+        "consumed_items": [
+          "content_old_photograph"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付老照片 1，不保留同一實體副本。",
+        "outcome_zh": "照片去向變成返鄉者持有；得到一個可日後拜訪的家族線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "描述照片但保留原物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；沒有複製裝置，不生成新照片。",
+        "outcome_zh": "返鄉者帶走口述內容，辨識仍有不確定性。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「兩人的一張舊照片」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_060",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "睡在界碑兩側的人",
+    "context_zh": "兩戶互不信任的旅人各守界碑一側，都不肯先交出公用帳篷。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩戶互不信任的旅人各守界碑一側，都不肯先交出公用帳篷。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "搭自己的帳篷作中立遮蔽",
+        "required_items": [
+          "content_tent"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不移轉帳篷所有權，需双方同意靠近。",
+        "outcome_zh": "雙方可在遮蔽處談分配；是否達成協議仍由對話結果決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先劃出輪用時間",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不提供物品。",
+        "outcome_zh": "提出可核對的時間表，拒絕者可退出，不能強制和解。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「睡在界碑兩側的人」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "camping",
+      "exploration",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_061",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "送貨者丟下的水袋",
+    "context_zh": "送貨者說水袋太重，願把空袋留給幫他搬過山的人。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "送貨者說水袋太重，願把空袋留給幫他搬過山的人。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用空餘空間帶一段貨",
+        "required_items": [
+          "content_hiking_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；必須通過未來負重檢查，背包本身尚無容量加成。",
+        "outcome_zh": "交還貨物後取得水袋 1；並未取得額外飲水。",
+        "rewards": [
+          {
+            "content_id": "content_waterskin",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "幫他把貨分成兩趟",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；不替他扛超重貨。",
+        "outcome_zh": "完成較慢的原物移動，他保有水袋，玩家沒有獎品。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「送貨者丟下的水袋」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "equipment",
+      "exploration",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_062",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "從另一頭傳來的回話",
+    "context_zh": "對岸的人回話總慢一拍，可能是回聲，也可能有人藏在涵洞。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "對岸的人回話總慢一拍，可能是回聲，也可能有人藏在涵洞。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "播送約定呼號確認另一隊",
+        "required_items": [
+          "content_radio"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；需電力、共同頻道和對方設備，缺一不可選。",
+        "outcome_zh": "若已登記對方回覆，確認有人在另一岸；不靠模糊聲音創造NPC。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退到看得見對岸的位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不進涵洞。",
+        "outcome_zh": "以視線確認空間，無人可見時只記錄未知聲響。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「從另一頭傳來的回話」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_063",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "落在路中央的軍牌",
+    "context_zh": "軍人識別牌壓在石頭下，背面另刻了後來的姓名。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "軍人識別牌壓在石頭下，背面另刻了後來的姓名。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "比對自有軍牌的刻法",
+        "required_items": [
+          "content_military_dog_tags"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不把格式相同當成同一人。",
+        "outcome_zh": "區分工廠字與後刻字，留下可詢問退伍者的資料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "將地面軍牌交至失物處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不宣告原主人死亡。",
+        "outcome_zh": "保留雙重姓名與發現位置，等待現有人口中的認領者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「落在路中央的軍牌」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_064",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "交換護目鏡的木匠",
+    "context_zh": "木匠要在風大的路邊收工，願用剩餘皮革換可用護目鏡。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "木匠要在風大的路邊收工，願用剩餘皮革換可用護目鏡。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "按明示數量交換",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [
+          "content_engineering_goggles"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付工程護目鏡 1。",
+        "outcome_zh": "取得皮革 2，木匠得到護目鏡；不宣稱工作必定安全完成。",
+        "rewards": [
+          {
+            "content_id": "content_leather",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "幫他把未完木件收回棚內",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不交裝備。",
+        "outcome_zh": "工作延後，他保有材料，玩家沒有交換收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「交換護目鏡的木匠」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_065",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沒開封的醫療箱與找水的人",
+    "context_zh": "一名旅人背著待交付的舊醫療箱，因缺水打算拆封換水。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名旅人背著待交付的舊醫療箱，因缺水打算拆封換水。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交付一份水讓他保住封條",
+        "required_items": [
+          "content_clean_water"
+        ],
+        "consumed_items": [
+          "content_clean_water"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；消耗淨水 1。",
+        "outcome_zh": "他收到水，醫療箱仍屬原委託；玩家沒有箱子或醫藥獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪他返回可求援的主路",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不拆封箱子。",
+        "outcome_zh": "保住交貨證據並改道，委託可能逾時，後果需 jobs 判定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「沒開封的醫療箱與找水的人」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_066",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "路邊的自修課",
+    "context_zh": "一名學徒拿著維修手冊，想借工具核對圖上的螺帽尺寸。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名學徒拿著維修手冊，想借工具核對圖上的螺帽尺寸。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "借他做不通電的尺寸比對",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；扳手使用後歸還，不增加技能數值。",
+        "outcome_zh": "學徒指出缺了一頁型號表，課程留下下一個查書目標。",
+        "rewards": []
+      },
+      {
+        "label_zh": "幫他找圖上的零件編號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不假定自己會修設備。",
+        "outcome_zh": "抄出零件編號，仍缺實物尺寸；沒有免費修復。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「路邊的自修課」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship",
+      "skills_growth"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_067",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "把布當紙的路書",
+    "context_zh": "旅人將路況寫在布條上，雨要把炭字洗掉，他願以咖啡交換保護袋。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "旅人將路況寫在布條上，雨要把炭字洗掉，他願以咖啡交換保護袋。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交換袋子保全路書",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [
+          "content_waterproof_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付防水袋 1。",
+        "outcome_zh": "取得咖啡 1；路書留給原作者，不同時獲得全部情報。",
+        "rewards": [
+          {
+            "content_id": "content_coffee",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "與作者口述核對後記錄要點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；只取得同意分享的兩個路口名稱。",
+        "outcome_zh": "原布可能受損，但兩個可查證位置留下；不增加咖啡。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「把布當紙的路書」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_068",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "願意付布料的修橋者",
+    "context_zh": "修橋者需要照明才能檢查橋底，願用兩捲布換一盞可用油燈。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "修橋者需要照明才能檢查橋底，願用兩捲布換一盞可用油燈。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交換燈具，不代替檢修",
+        "required_items": [
+          "content_oil_lamp"
+        ],
+        "consumed_items": [
+          "content_oil_lamp"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付可用油燈 1；燃料是否包含需報價明示。",
+        "outcome_zh": "取得布料 2；橋是否開放仍待檢修。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "等到白天幫他標記裂縫位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不交燈具。",
+        "outcome_zh": "留下裂縫位置紀錄，沒有承諾橋梁安全。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「願意付布料的修橋者」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "lighting",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_069",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "護送者的空槍套",
+    "context_zh": "一名護送者把空槍套當警示，貨主以為他仍持有武器。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名護送者把空槍套當警示，貨主以為他仍持有武器。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "指出裝備清單與實物不符",
+        "required_items": [
+          "content_military_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；手冊不是武力或執法權。",
+        "outcome_zh": "貨主知道缺少實際武器，可重新決定是否出發；不觸發無武器攻擊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求出發前公開核對裝備",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；所有人同意才檢查。",
+        "outcome_zh": "以共同清點取代猜測，委託可能延期但不直接判定欺詐。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「護送者的空槍套」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_070",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "野菜採集者的界線",
+    "context_zh": "採集者用枝條圈出一小片野菜，說要留種，願以少量存貨換鹽。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "採集者用枝條圈出一小片野菜，說要留種，願以少量存貨換鹽。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "以鹽交換已採好的菜",
+        "required_items": [
+          "content_salt"
+        ],
+        "consumed_items": [
+          "content_salt"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付鹽 1，不碰保種區。",
+        "outcome_zh": "取得野菜 2，來源與可食性仍要由正式食物規格處理。",
+        "rewards": [
+          {
+            "content_id": "content_wild_greens",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "幫他把保種界線補清楚",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不採走任何菜。",
+        "outcome_zh": "保住下一次採集機會，沒有立即食物收入。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「野菜採集者的界線」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cooking",
+      "exploration",
+      "item_ownership",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_071",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "等不到接班的路口守望",
+    "context_zh": "守望者只剩一副望遠鏡，想趕回聚落問接班人是否出事。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "守望者只剩一副望遠鏡，想趕回聚落問接班人是否出事。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "拿自己的鏡子暫代觀察",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取得守望職權，不持有武器也不能攻擊。",
+        "outcome_zh": "守望者有時間回去查問，玩家只回報看見的隊伍數。",
+        "rewards": []
+      },
+      {
+        "label_zh": "替他捎信到下一站",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；待實際抵達才交付。",
+        "outcome_zh": "保留原守望安排，接班原因仍未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「等不到接班的路口守望」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_072",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "孩子做的燃料罐燈",
+    "context_zh": "路邊教室用廢罐當燈殼，孩子把仍有燃料味的罐子搬進棚內。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "路邊教室用廢罐當燈殼，孩子把仍有燃料味的罐子搬進棚內。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借用可用電燈替代試燈",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需可用電量，手電筒離開時收回。",
+        "outcome_zh": "本次取消可疑罐燈試點，不製造永久照明設施。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓大家先到棚外日光下",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不拆燃料罐。",
+        "outcome_zh": "課程改到白天，保留危險罐供成人處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「孩子做的燃料罐燈」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "lighting",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_073",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "用日記換方向",
+    "context_zh": "迷途抄寫者願交出一份紙本日記，換你手中地圖指向的出口。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "迷途抄寫者願交出一份紙本日記，換你手中地圖指向的出口。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "展示地圖並讓他自行核對",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不保證舊出口仍通。",
+        "outcome_zh": "取得紙本日記 1；對方保有是否走舊路的決定。",
+        "rewards": [
+          {
+            "content_id": "content_paper_journal",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "帶他返回上一個已知路標",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；不收日記。",
+        "outcome_zh": "用更久時間換已確認的起點，日記留給抄寫者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「用日記換方向」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_074",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "敲擊鋼軌的求援者",
+    "context_zh": "有人用石頭敲軌道，想通知另一端停下推車，石頭已裂。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "有人用石頭敲軌道，想通知另一端停下推車，石頭已裂。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出敲擊工具並目視確認回應",
+        "required_items": [
+          "content_rebar_club"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；工具歸還；沒有回應時不假定訊息已送達。",
+        "outcome_zh": "若對面在視線內停車才記成功，否則只記發出訊號。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿安全外側跑去路口示警",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不走軌道。",
+        "outcome_zh": "把警告送到路口，尚未接觸者仍不視為已知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「敲擊鋼軌的求援者」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_075",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被認錯的獵刀",
+    "context_zh": "你拿出獵刀時，一名旅人說那種皮套屬於失蹤的兄弟。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "你拿出獵刀時，一名旅人說那種皮套屬於失蹤的兄弟。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "讓對方核對刀柄刻痕",
+        "required_items": [
+          "content_hunting_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不交出所有權；需對方願意說出獨有記號。",
+        "outcome_zh": "皮套款式本身不足以認人，將具體刻痕交由故事紀錄比對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "告知自己的取得地點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；只述真實物品來源，不編造前主人。",
+        "outcome_zh": "提供可追查的下一站，不宣稱找到失蹤者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「被認錯的獵刀」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_076",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "地圖沒有的岔井",
+    "context_zh": "地質圖上的廢井仍在，井口卻多了一道新砌矮牆。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "地質圖上的廢井仍在，井口卻多了一道新砌矮牆。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "比對岩層標記",
+        "required_items": [
+          "content_geological_survey_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不下井、不鑽牆。",
+        "outcome_zh": "確認地點吻合但入口後來被封，留下尋找封井原因的探索目標。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿矮牆尋找施工日期",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不拆牆。",
+        "outcome_zh": "找到近期施工痕跡，不能據此判定井下有寶物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「地圖沒有的岔井」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_077",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "不再回應的道路信標",
+    "context_zh": "信標還亮著，卻沒有播報近期道路狀況。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "信標還亮著，卻沒有播報近期道路狀況。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "只接收現有訊號",
+        "required_items": [
+          "content_signal_receiver"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需可用電源，不向裝置寫入。",
+        "outcome_zh": "發現重播的是同一段舊警告，情報需標記過期。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿主路尋找人工公告",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不依過期訊號改道。",
+        "outcome_zh": "到達公告位置，若無新公告則仍記未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「不再回應的道路信標」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_078",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "廢觀測台的望遠鏡座",
+    "context_zh": "觀測台沒有鏡筒，刻度盤卻對著遠處一條發白山稜。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "觀測台沒有鏡筒，刻度盤卻對著遠處一條發白山稜。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "以自有鏡筒觀察標定點",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不把方向刻度當地形通行許可。",
+        "outcome_zh": "看見山稜一扇封閉入口，得到位置線索而非通行權。",
+        "rewards": []
+      },
+      {
+        "label_zh": "抄下刻度和台座編號",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；保留日後再查的目標。",
+        "outcome_zh": "取得可回訪的定位資料，尚不揭露入口外觀。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「廢觀測台的望遠鏡座」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_079",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "圍牆外的識別讀取器",
+    "context_zh": "舊廠外牆讀取器亮著待機燈，裡面沒有可見人員。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊廠外牆讀取器亮著待機燈，裡面沒有可見人員。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "核對卡面與讀取器廠名",
+        "required_items": [
+          "content_company_keycard"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；只比對外觀，不刷未知卡。",
+        "outcome_zh": "廠名不同就記不相容；相符仍需門禁與所有權授權。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿外牆找訪客入口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不翻牆。",
+        "outcome_zh": "找到封死的訪客門，取得另一個調查節點。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「圍牆外的識別讀取器」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_080",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "舊軍道的聲音回廊",
+    "context_zh": "谷內連續響起金屬敲擊，入口牌寫著過去的演習編號。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "谷內連續響起金屬敲擊，入口牌寫著過去的演習編號。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "核對演習用聲號表",
+        "required_items": [
+          "content_military_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需相符版本；不據聲號宣告軍隊仍在。",
+        "outcome_zh": "聲音節奏不完整，留下機械或人為兩種待查可能。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退到側坡確認聲源方向",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不入谷。",
+        "outcome_zh": "定位回聲最強的石壁，仍未識別發聲者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「舊軍道的聲音回廊」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_081",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "一半淹水的病院指示牌",
+    "context_zh": "路牌把急救站指向淹水隧道，另一面貼著撤離箭頭。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "路牌把急救站指向淹水隧道，另一面貼著撤離箭頭。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "核對卡上的舊院區編號",
+        "required_items": [
+          "content_hospital_id_card"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；卡片不是醫療資格或現行通行證。",
+        "outcome_zh": "確認牌子屬舊院區，記下可追問檔案的編號。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿撤離箭頭走至高處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不進水隧道。",
+        "outcome_zh": "找到廢棄集結地，撤離者去向仍須其他證據。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「一半淹水的病院指示牌」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_082",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "農田盡頭的灰色芽",
+    "context_zh": "農田外一株灰芽長在碎玻璃邊，農人不願把它混進種袋。",
+    "location_tags": [
+      "new_hope_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "農田外一株灰芽長在碎玻璃邊，農人不願把它混進種袋。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "依農人同意封存落下的莢",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；袋子隔離占用，不種植或食用未知物。",
+        "outcome_zh": "取得灰種 1，保持未鑑定；不增加農產量。",
+        "rewards": [
+          {
+            "content_id": "content_gray_seed",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "標出位置讓農人避開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不採集。",
+        "outcome_zh": "保留原生現場，農田管理仍由既有耕作者決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「農田盡頭的灰色芽」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_083",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "讓指南針偏轉的車廂",
+    "context_zh": "走近廢車廂時指針偏轉，遠離便恢復。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "走近廢車廂時指針偏轉，遠離便恢復。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從外圍記下偏轉範圍",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不靠指針穿越車廂。",
+        "outcome_zh": "得到局部干擾線索，不直接鑑定成奇物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "沿可見山稜繞過",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不取車廂物。",
+        "outcome_zh": "用地標維持方向，干擾源留待專門探索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「讓指南針偏轉的車廂」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_084",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "夜間發暖的地基",
+    "context_zh": "舊屋地基一角入夜仍暖，附近枯草卻没有起火。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊屋地基一角入夜仍暖，附近枯草卻没有起火。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "核對外露的安全測試端",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "+1 天；需 ELECTRONICS 2 且端子安全可識別；不撬地基。",
+        "outcome_zh": "若無供電證據就記未解熱源，不能宣布免費能源。",
+        "rewards": []
+      },
+      {
+        "label_zh": "隔著路面觀察至天亮",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不在暖地基上露宿。",
+        "outcome_zh": "記下日夜溫感差異，無物品收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「夜間發暖的地基」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_085",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "廢車裡的無聲收音機",
+    "context_zh": "接近一只封閉金屬盒時，同行者的無線電突然只剩底噪。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "接近一只封閉金屬盒時，同行者的無線電突然只剩底噪。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "移到不同位置比對接收",
+        "required_items": [
+          "content_radio"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需可用電力，不開盒。",
+        "outcome_zh": "確認干擾有位置關聯，尚未取得沉默盒或知道原因。",
+        "rewards": []
+      },
+      {
+        "label_zh": "撤回最後能通訊的位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不移動盒子。",
+        "outcome_zh": "恢復已知通訊條件，盒子留在現場成為長期探索目標。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「廢車裡的無聲收音機」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_086",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "石頭上的異常輕痕",
+    "context_zh": "一名勘探者留下筆記說某石頭比看起來輕，要求不要混入普通碎石。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名勘探者留下筆記說某石頭比看起來輕，要求不要混入普通碎石。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "分袋保留已標記的樣本",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；樣本來源有標記且可領取，布袋隔離占用。",
+        "outcome_zh": "取得空心石 1；只確認異常重量描述，沒有負重能力加成。",
+        "rewards": [
+          {
+            "content_id": "content_hollow_stone",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "抄錄筆記後原地保留",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不取石頭。",
+        "outcome_zh": "保全勘探者的位置資料，等待找到本人或研究者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「石頭上的異常輕痕」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_087",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "曾經有人修過的護欄",
+    "context_zh": "護欄用不同年代的螺栓補過，最新的一顆已鬆。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "護欄用不同年代的螺栓補過，最新的一顆已鬆。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "按維護標示固定相符螺栓",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "+1 天；需 MECHANICS 2；僅處理已授權接點。",
+        "outcome_zh": "完成局部固定紀錄，整段橋梁仍未獲安全認證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "封起鬆動的一小段",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；維護人到場前不開放此段。",
+        "outcome_zh": "讓使用者避開鬆動處，不消耗零件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「曾經有人修過的護欄」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_088",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩塊版本不同的種植牌",
+    "context_zh": "試驗田外兩塊牌寫不同播種時期，最近的牌面被刮去署名。",
+    "location_tags": [
+      "new_hope_outskirts"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "試驗田外兩塊牌寫不同播種時期，最近的牌面被刮去署名。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "依版本記錄兩種說法",
+        "required_items": [
+          "content_planting_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不直接改耕作安排。",
+        "outcome_zh": "指出資料版本差異，農人可找原試驗紀錄再決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把兩牌完整留存給耕作者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不拔掉任何牌。",
+        "outcome_zh": "保留衝突資訊，沒有假裝自己已驗證收成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「兩塊版本不同的種植牌」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_089",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "腳印走到鐵門就停",
+    "context_zh": "鐵門外腳印很多，門内卻沒有可見通道，門上貼著有時限的租用紙。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "鐵門外腳印很多，門内卻沒有可見通道，門上貼著有時限的租用紙。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用本人證件向現有看管者詢問",
+        "required_items": [
+          "content_identity_document"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不冒用身份，證件不自動開門。",
+        "outcome_zh": "看管者提供查詢程序，仍需租用者同意才可進入。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下租用到期日後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不守候假想人物。",
+        "outcome_zh": "留下有期限的線索；到期後仍需真實場地狀態重新判斷。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「腳印走到鐵門就停」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_090",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "押在石縫中的維修手冊",
+    "context_zh": "拾荒者願以手冊換一件好攜帶的工具，不收沉重武器。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拾荒者願以手冊換一件好攜帶的工具，不收沉重武器。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用螺絲起子交換可讀手冊",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [
+          "content_screwdriver"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付螺絲起子 1，先確認手冊頁面存在。",
+        "outcome_zh": "取得維修手冊 1；沒有直接提升 MECHANICS。",
+        "rewards": [
+          {
+            "content_id": "content_repair_manual",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "抄下封面型號再查需求",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不複製全文、不取得物品。",
+        "outcome_zh": "知道哪種設備可能用得上，保留自己的工具。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「押在石縫中的維修手冊」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_091",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "漏光的地下門縫",
+    "context_zh": "地下門縫有規律漏光，但門外空氣有未知刺鼻味。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "地下門縫有規律漏光，但門外空氣有未知刺鼻味。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "核對防護標籤與外部警示",
+        "required_items": [
+          "content_hazmat_suit"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；衣物未經相容性核對不能進入。",
+        "outcome_zh": "確認目前防護能力資料不足，標記需專門檢測的入口。",
+        "rewards": []
+      },
+      {
+        "label_zh": "留在上風側記錄閃光間隔",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不靠門吸聞或進入。",
+        "outcome_zh": "取得時間線索，仍不判斷裡面有人。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「漏光的地下門縫」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_092",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "離地一寸的舊軌枕",
+    "context_zh": "一段舊軌枕下面卡著不明薄片，看似沒有直接接觸地面。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一段舊軌枕下面卡著不明薄片，看似沒有直接接觸地面。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "從遠處記錄接觸點",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不試圖拉出薄片。",
+        "outcome_zh": "確認可見空隙，仍排除不了隱藏支撐，不直接發放逆磁片。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把載重隊伍引離軌道",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不改永久路線。",
+        "outcome_zh": "避免本次車隊壓上未知結構，調查機會留在原地。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「離地一寸的舊軌枕」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_093",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被日記標出的露營禁地",
+    "context_zh": "露營地看來平整，紙本日記卻把此處畫上交叉線，沒有原因。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "露營地看來平整，紙本日記卻把此處畫上交叉線，沒有原因。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "比對相鄰頁的日期與天候",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需頁面可讀，日記可能過期。",
+        "outcome_zh": "發現禁記只出現在雨季附近，形成排查積水的假說。",
+        "rewards": []
+      },
+      {
+        "label_zh": "換一處已使用過的營位",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；放棄本處近路。",
+        "outcome_zh": "避開未知理由的禁地，不把日記內容直接寫成天候事實。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「被日記標出的露營禁地」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "camping",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_094",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "路旁回收箱滿了",
+    "context_zh": "維護者設的廢料箱塞滿大件，細碎金屬開始散上道路。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "維護者設的廢料箱塞滿大件，細碎金屬開始散上道路。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "收起外溢金屬交回箱主",
+        "required_items": [
+          "content_entrenching_shovel",
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；布袋暫用後收回，不拿他人的回收料。",
+        "outcome_zh": "道路外緣清出通行帶，箱主承諾的處理工作仍需真的完成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "通知返程維護車",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；待有實際車隊接收才算送達。",
+        "outcome_zh": "留下溢箱位置，不即時生成維護者或清除物資。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「路旁回收箱滿了」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_095",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "一條走不完的舊捷徑",
+    "context_zh": "地圖的捷徑在山腰變成舊輸送帶，後段已斷。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "地圖的捷徑在山腰變成舊輸送帶，後段已斷。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "卸下多餘貨物保管後步行回撤",
+        "required_items": [
+          "content_hiking_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需合法保管點與負重檢查，背包不授予攀登能力。",
+        "outcome_zh": "回到岔路並留下未通的路況，貨物不自動傳送。",
+        "rewards": []
+      },
+      {
+        "label_zh": "原路帶全貨回撤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；不能超載移動。",
+        "outcome_zh": "保持所有貨在身邊，較慢回到主路。",
+        "rewards": []
+      },
+      {
+        "label_zh": "放棄本次通過，退回安全處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；不取得物品；不得縮短原路程或跨越未解除的障礙。",
+        "outcome_zh": "帶著原貨退回岔路，結束本次捷徑嘗試；沒有抵達另一端。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「一條走不完的舊捷徑」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_096",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "標價過期的臨時攤",
+    "context_zh": "攤主仍掛著去年水價，手頭只剩茶葉和空水壺。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "攤主仍掛著去年水價，手頭只剩茶葉和空水壺。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "詢問是否願交換空容器",
+        "required_items": [
+          "content_tea"
+        ],
+        "consumed_items": [
+          "content_tea"
+        ],
+        "required_skill": null,
+        "cost_zh": "+0 天；交付茶葉 1，報價固定空水壺 1。",
+        "outcome_zh": "取得水壺 1；不附飲水，不沿用過期水價。",
+        "rewards": [
+          {
+            "content_id": "content_water",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "要求先更新貨單再回來",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；沒有本次交易。",
+        "outcome_zh": "保留資產，記下攤位缺水而非物價已變的觀察。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「標價過期的臨時攤」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_097",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "遺落在里程碑的密封箱",
+    "context_zh": "箱上封條寫著運往灰谷，另一張便條要求不要放近熱源。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "箱上封條寫著運往灰谷，另一張便條要求不要放近熱源。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用自己的箱體外護後交接",
+        "required_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；需空箱與貨主或受託人同意，不開原箱。",
+        "outcome_zh": "取得交接證據，原箱內容未知且不歸玩家。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把位置與警示帶回車隊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；未交付前不領運送報酬。",
+        "outcome_zh": "提供可追查的失物情報，箱子仍原地。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「遺落在里程碑的密封箱」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_098",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "河岸上被磨平的名字",
+    "context_zh": "一塊小碑被水磨去半個名字，旁邊有尚可辨認的工廠編號。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一塊小碑被水磨去半個名字，旁邊有尚可辨認的工廠編號。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "比對照片背景中的工廠牆",
+        "required_items": [
+          "content_old_photograph"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；相似建築不等於身份確證。",
+        "outcome_zh": "提出一個可回訪的工廠候選，沒有宣布墓主身份。",
+        "rewards": []
+      },
+      {
+        "label_zh": "將碑文原樣抄下",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不補寫缺字。",
+        "outcome_zh": "保留不完整證據，留給有資料的人核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「河岸上被磨平的名字」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "wild_099",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "只有一邊有車轍的坡道",
+    "context_zh": "上坡輪跡很深，下坡全是腳印，入口告示已破。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "上坡輪跡很深，下坡全是腳印，入口告示已破。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "檢查路邊廢棄煞車組件",
+        "required_items": [
+          "content_toolbox"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "+1 天；需 MECHANICS 2，僅檢查已卸下無負載部件。",
+        "outcome_zh": "發現制動磨耗樣本，提出坡道載重風險，不保證所有車都相同。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改以少貨分段搬運",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+2 天；需 cargo 核算，不憑敘事越過容量限制。",
+        "outcome_zh": "以兩天完成核准的分段搬運，原貨物保留；只有實際綁定班次先離開時才記錯過出發。",
+        "rewards": []
+      },
+      {
+        "label_zh": "放棄本次通過，退回安全處",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不取得物品；不得縮短原路程或跨越未解除的障礙。",
+        "outcome_zh": "留在坡道入口的安全平地，取消本次上坡；原有貨物與路程進度不變。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「只有一邊有車轍的坡道」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "wild_100",
+    "category": "wilderness",
+    "status": "DESIGN_ONLY",
+    "title_zh": "回程路上新添的路標",
+    "context_zh": "同一岔路比去程多了一塊『有人等你』的木牌，沒有名字。",
+    "location_tags": [
+      "wilderness"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "同一岔路比去程多了一塊『有人等你』的木牌，沒有名字。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "記下新牌位置仍走已確認道路",
+        "required_items": [
+          "content_old_world_map",
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+0 天；不把匿名留言當可靠任務。",
+        "outcome_zh": "留下可回查的地點記錄，沒有自動接受邀請。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在主路等到白天觀察來者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "+1 天；不離開可見道路。",
+        "outcome_zh": "只有真實到場的人才能開始對話，沒有來者就明確結算空等。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留補給，離開現場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "額外時間 0 天；不取得現場物品。",
+        "outcome_zh": "不介入這次事件，原有旅程繼續；沒有新增報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續只追蹤「回程路上新添的路標」已選方案的現場與物品去向；不得重新生成同一份回收物或推定受助者生死。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  }
+]

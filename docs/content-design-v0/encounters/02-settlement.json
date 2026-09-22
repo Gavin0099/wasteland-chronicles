@@ -1,0 +1,6299 @@
+[
+  {
+    "encounter_id": "town_001",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "輪到你的空水壺",
+    "context_zh": "水務保管人已封好3份淨水：2份要送給棚下兩位領水者，另1份是本次搬運報酬。名單上第二位被重抄一次，封條和本人可當場核對。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "水務保管人已封好3份淨水：2份要送給棚下兩位領水者，另1份是本次搬運報酬。名單上第二位被重抄一次，封條和本人可當場核對。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用防水袋分批搬送兩份淨水",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；借用自有防水袋完成兩次短程搬送，袋子留己。",
+        "outcome_zh": "兩位領水者各簽收1份；保管人從預留報酬轉交淨水1份。重抄項註銷。",
+        "rewards": [
+          {
+            "content_id": "content_clean_water",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "先核對姓名，再徒手逐份送達",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不需工具，完成核名、搬送與回報。",
+        "outcome_zh": "確認重複項並送達兩份；預留的淨水1份交給玩家。",
+        "rewards": [
+          {
+            "content_id": "content_clean_water",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "只指出重抄，不接搬運",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；沒有物品交付。",
+        "outcome_zh": "保管人與領水者當面核對後刪去重抄項；三份水仍由保管人保管，玩家無報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "報酬只有預留的1份，兩份貨物與報酬各只可交付一次；若其他工人已送完，工作關閉。 與 quest_new_hope_001 綁定同一發案人、標的現物及預留報酬；事件產生的一次性完成紀錄供任務引用，不另行付款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_002",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "種庫的兩種袋口",
+    "context_zh": "種庫有3包來源已知的種子。兩包目的地標籤互換，封口編號能查回原單；照管人留第3包作重新分裝與上架報酬。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫有3包來源已知的種子。兩包目的地標籤互換，封口編號能查回原單；照管人留第3包作重新分裝與上架報酬。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用一只布袋隔開兩批並搬回正確架位",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交布袋1只作庫內分隔，核對封號後搬兩包。",
+        "outcome_zh": "兩批各回到正確架位，照管人從自有存貨交付種子1包。",
+        "rewards": [
+          {
+            "content_id": "content_seeds",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "按封口編號逐包核對再上架",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "1天；不消耗物品，以搜刮經驗辨認重綁痕跡。",
+        "outcome_zh": "查明只是標籤互換，原封種子無混裝；完成上架後領種子1包。",
+        "rewards": [
+          {
+            "content_id": "content_seeds",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "把三包移到照管人看得到的空桌",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；只協助短程搬運，不領分裝工作。",
+        "outcome_zh": "待核對貨集中保管，三包都留在種庫，玩家不獲報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "種子報酬從第3包移轉，不能重複領取；架位被別人核正後這份委託結束。 與 quest_new_hope_002 綁定同一發案人、標的現物及預留報酬；事件產生的一次性完成紀錄供任務引用，不另行付款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_003",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "診所怕雨的收貨單",
+    "context_zh": "診療所收貨人有一份領貨單要送到南倉棚；漏雨走廊會弄濕紙張，屋簷繞路則多一天。收貨人預留自有乾糧1份，交回簽收聯即付。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診療所收貨人有一份領貨單要送到南倉棚；漏雨走廊會弄濕紙張，屋簷繞路則多一天。收貨人預留自有乾糧1份，交回簽收聯即付。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用防水袋護送並帶回簽收聯",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；防水袋裝文件走短廊，交付後歸己。",
+        "outcome_zh": "南倉棚確認次日可交的包件並簽收；帶回聯單，領取乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "沿有屋簷的巷道步行送件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不耗物品，走較長的乾燥路線。",
+        "outcome_zh": "原單完整送達，帶回相同簽收聯與乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "把領貨單留在診所",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接送件。",
+        "outcome_zh": "原件仍安全留存，收貨人另找信差；玩家不領乾糧。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "委託只完成送件，不等同藥物交貨或治疗；簽收聯與乾糧報酬皆一次性。 與 quest_new_hope_003 綁定同一發案人、標的現物及預留報酬；事件產生的一次性完成紀錄供任務引用，不另行付款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_004",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "灌渠格柵底下的繩結",
+    "context_zh": "灌渠檢查者發現格柵下卡住一段有主繩索，水勢與結構狀態還未確認。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "灌渠檢查者發現格柵下卡住一段有主繩索，水勢與結構狀態還未確認。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用撬棍協助抬邊",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "須檢查安全支點並有另一人承接；工具留在玩家手上。",
+        "outcome_zh": "只打開可檢查的縫隙，不直接修復整條灌渠。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先從上游確認停水可能",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "花查訪時間並取得用水者同意。",
+        "outcome_zh": "形成可安排的停水檢查方案，格柵暫時不動。",
+        "rewards": []
+      },
+      {
+        "label_zh": "標記位置交給輪值工",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "提供所見，不承諾可安全開啟。",
+        "outcome_zh": "輪值工可另行評估，玩家不取走繩索。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若輪值工已處理或水勢改變，重新檢查後才可接手。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "hazards",
+      "exploration"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_005",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "等待播種的外地種子",
+    "context_zh": "農戶得到標籤不完整的種子，希望趕上下一次工作安排；是否適合本地尚未知。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "農戶得到標籤不完整的種子，希望趕上下一次工作安排；是否適合本地尚未知。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交出可追溯的種子包",
+        "required_items": [],
+        "consumed_items": [
+          "content_seeds"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交種子1包，來源需雙方核對；不保證適地。",
+        "outcome_zh": "農戶取得一份可檢查樣本，沒有立即增加產量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "查種植手冊的適地條件",
+        "required_items": [
+          "content_planting_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "借閱自己的手冊並花解讀時間。",
+        "outcome_zh": "列出需查證的土壤與季節條件，農戶自行決定是否等待。",
+        "rewards": []
+      },
+      {
+        "label_zh": "建議先保留原包裝",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不領工作報酬，也不交換種子。",
+        "outcome_zh": "樣本留存，等待有依據的判斷。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若農戶已自行採用其他種源，這份提案轉為保存資料，不能倒轉播種。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "identification",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_006",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "井邊兩張欠條",
+    "context_zh": "同一筆運水被記在兩張欠條上，兩戶都認為自己先付款。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "同一筆運水被記在兩張欠條上，兩戶都認為自己先付款。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用舊世界手錶核對見證時間",
+        "required_items": [
+          "content_old_world_watch"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需讓見證者說明當時鐘錶是否準確，物品不轉移。",
+        "outcome_zh": "建立可核對的時間線，不能單憑手錶裁定付款。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請兩戶逐筆對照交付證據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "投入調解時間，雙方需願意配合。",
+        "outcome_zh": "把已知付款與尚缺證據分開，欠款由有權者處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替任一方背書",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "失去當場調解機會。",
+        "outcome_zh": "爭議仍在，不扣任何一戶的水或錢。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "實際帳目被確認後爭議才結束，玩家不在也不能強制判敗。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "reputation",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_007",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收成桌上的鈍刀",
+    "context_zh": "分裝工人的刀口已不適合割包裝，他想借工具而非買武器。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "分裝工人的刀口已不適合割包裝，他想借工具而非買武器。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借出獵刀處理乾淨包裝",
+        "required_items": [
+          "content_hunting_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "須約定用途與歸還，期間自己不能用這把刀。",
+        "outcome_zh": "分裝者獲得合適刃具候選，後續清潔仍需處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用生鏽小刀只割廢棄外繩",
+        "required_items": [
+          "content_rusted_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅處理不接觸食物的外繩，切斷的繩不能再用。",
+        "outcome_zh": "先拆掉外層束縛，食物處理仍等待乾淨工具。",
+        "rewards": []
+      },
+      {
+        "label_zh": "等工人找到自己的替代刀",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "本次不借出器具。",
+        "outcome_zh": "包裝保持原狀，不宣稱食物腐敗。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若已有可用工具到場，借刀提案失效，不能重複領取同一工作報酬。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "cooking"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "town_008",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "潮濕的鹽袋底",
+    "context_zh": "市場上一袋鹽底部受潮，買家只願買已核對的乾燥部分。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "市場上一袋鹽底部受潮，買家只願買已核對的乾燥部分。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "提供空布袋重新分裝",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交布袋1只；實際鹽量由原物清點。",
+        "outcome_zh": "把可驗收部分分開，玩家不自動取得鹽。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先談品質分級再議價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "花談判時間，不替未驗收部分保證。",
+        "outcome_zh": "提出依實際狀態成交的條件，雙方仍可拒絕。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不買這批鹽",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄可能的低價貨。",
+        "outcome_zh": "原貨留給攤主，價格不因玩家離開自動下降。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若其他買家先買走，提案按剩餘實物重估。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "cargo",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "town_009",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被雨水抹掉的菜圃牌",
+    "context_zh": "幾塊菜圃界牌上的記號消失，農戶怕修渠時踩壞別人的地。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "幾塊菜圃界牌上的記號消失，農戶怕修渠時踩壞別人的地。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "參照舊世地圖核對固定地物",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "地圖年代需確認，花現場比對時間。",
+        "outcome_zh": "標出可確認的舊地物，私人邊界仍需住戶同意。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請相鄰農戶一起描述舊界線",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "需雙方在場，不用口才強奪土地。",
+        "outcome_zh": "取得可另行確認的共同記錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "避開爭議菜圃施工",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "可能延後這段工作。",
+        "outcome_zh": "不動界牌，也不修改土地歸屬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若住戶已確認新界線，舊地圖只能作歷史參考。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_010",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "農務服上的陌生補丁",
+    "context_zh": "失物處的一套農務服被兩個家庭認領，補丁比姓名更完整。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "失物處的一套農務服被兩個家庭認領，補丁比姓名更完整。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "拿自己的農務服比較裁縫手法",
+        "required_items": [
+          "content_farm_clothes"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只提供對照，不交出自己的衣服。",
+        "outcome_zh": "找到可能的裁縫來源，仍需查認失物所有者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "分開詢問不公開的衣物細節",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "花時間並尊重雙方隱私。",
+        "outcome_zh": "核對誰能提供相符細節，不讓猜測直接定罪。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓失物處繼續保管",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收取失物或報酬。",
+        "outcome_zh": "等待新的所有權證據。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若真正失主提出證明則交還，不能把逾期物品自動判給玩家。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_011",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "夜半糧倉的反光",
+    "context_zh": "守望者看見糧倉高窗閃光，不確定是玻璃還是有人移動。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "守望者看見糧倉高窗閃光，不確定是玻璃還是有人移動。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用望遠鏡從公共地點觀察",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗觀察時間，不闖入或判定有人偷竊。",
+        "outcome_zh": "描述可見反光位置，身份仍可能未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提議與倉主一起檢查門窗",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "需倉主同意與現場照明。",
+        "outcome_zh": "合法查明可接近的入口，沒有自動戰鬥。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只把目擊時間交給守望者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不自行追人。",
+        "outcome_zh": "守望者得到未證實線索。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若倉主已確認是鬆動窗片，警戒提案關閉，不生成盜賊。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "exploration",
+      "lighting",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "town_012",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "帳篷該給哪一戶",
+    "context_zh": "公共宿棚暫時擁擠，兩戶都想借一頂有限的帳篷。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "公共宿棚暫時擁擠，兩戶都想借一頂有限的帳篷。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出自己持有的帳篷",
+        "required_items": [
+          "content_tent"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "帳篷暫交保管人；需約定使用者、地點與歸還。",
+        "outcome_zh": "增加一件可分配實物，搭設和氣候效果仍待規則。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助核對宿棚的實際空位",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "花清點時間，不假設有人必須離開。",
+        "outcome_zh": "可能找到原有空間，是否分配由保管者決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留帳篷準備自己出發",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不承諾援助。",
+        "outcome_zh": "兩戶仍需等待可用宿處，不自動生成難民。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若已有其他住處可用，借用需求減少；不得以玩家缺席製造凍死事件。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "camping",
+      "cargo",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_013",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "只剩半頁的種植記錄",
+    "context_zh": "種庫保管人找到一本缺頁記錄，剩餘頁寫著未辨認的田塊代號。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫保管人找到一本缺頁記錄，剩餘頁寫著未辨認的田塊代號。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "對照種植手冊的記錄格式",
+        "required_items": [
+          "content_planting_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "耗解讀時間，手冊不轉移。",
+        "outcome_zh": "辨識哪些欄位缺失，不能補造不存在的產量紀錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "找曾替田塊命名的人詢問",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "需對方願意回憶。",
+        "outcome_zh": "得到口述對照表，仍標為待驗證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先保持原頁不動",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄當場解讀。",
+        "outcome_zh": "避免誤填，交回種庫保存。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若後續找到原頁才可更新記錄，不以一次技能通過重建所有知識。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_014",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "診所門口的未標示藥劑",
+    "context_zh": "陌生人留下無標籤瓶子想換食物，診所不知內容是否可靠。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "陌生人留下無標籤瓶子想換食物，診所不知內容是否可靠。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "將自己的未標示藥劑一同列為待查樣本",
+        "required_items": [],
+        "consumed_items": [
+          "content_unlabelled_medicine"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交未標示藥劑1瓶，必須分開來源編號。",
+        "outcome_zh": "診所只取得待鑑別樣本，不投入治療或給予藥效承諾。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助建立交付來源記錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MEDICINE",
+          "rank": 1
+        },
+        "cost_zh": "花詢問時間，不用 MEDICINE 直接猜成分。",
+        "outcome_zh": "整理誰在何處取得瓶子，仍等待專業鑑定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕拿藥物換糧",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "本次不交易。",
+        "outcome_zh": "瓶子不進公共醫療庫，也不指控贈物者下毒。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有鑑定權限與結果成立後才能決定處置。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "injury",
+      "identification",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_015",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "獵戶要帶走整張皮",
+    "context_zh": "獵戶願用自己的一張皮革支付包裝工作，但不願留下獵刀。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "獵戶願用自己的一張皮革支付包裝工作，但不願留下獵刀。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借獵刀協助整理包邊",
+        "required_items": [
+          "content_hunting_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只處理獵戶同意部分，刀不轉移；完成後由獵戶交付皮革1份。",
+        "outcome_zh": "完成有限的包裝工作，取得實際約定皮料。",
+        "rewards": [
+          {
+            "content_id": "content_leather",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "談成整批送往灰谷再驗收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "需重新協商運輸責任，沒有當場皮料獎勵。",
+        "outcome_zh": "把爭議轉為有條件的後續委託。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接受這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不拿皮料也不動獵物。",
+        "outcome_zh": "獵戶可另找熟手。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若實際皮料已交付他人，這份報酬不可再次領取。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "town_016",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "油燈和種子的同一輛車",
+    "context_zh": "倉工想把油燈混放種袋旁，車位有限但搬運規範尚未談妥。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "倉工想把油燈混放種袋旁，車位有限但搬運規範尚未談妥。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用密封貨箱分隔精密貨物",
+        "required_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只安排已有箱與貨，需搬運人手。",
+        "outcome_zh": "形成隔離裝載方案，不直接保證防火或增加車位。",
+        "rewards": []
+      },
+      {
+        "label_zh": "調整出發次序",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "花排程協商時間，一批貨可能晚走。",
+        "outcome_zh": "避免本次混裝，需貨主同意延期。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕替混裝簽收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄這次搬運費。",
+        "outcome_zh": "貨主仍須自行處理，玩家不承擔已拒絕的交接。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若貨車已離開，只能追蹤真實交接，不回溯改裝載。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_017",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "村口的陌生軍包",
+    "context_zh": "守門人要求持軍用背包的旅人說明來源，包內尚未公開。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "守門人要求持軍用背包的旅人說明來源，包內尚未公開。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "主動清點自己軍包的內容",
+        "required_items": [
+          "content_military_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需同意有限範圍檢查，私人文件另行遮蔽。",
+        "outcome_zh": "登記實際物品，不因軍用外型判定身份。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商由見證者監督檢查",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "投入交涉時間，不直接免除規則。",
+        "outcome_zh": "形成保護雙方的檢查程序。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不入城",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄本次城內交易機會。",
+        "outcome_zh": "旅人仍在原位置，不能由敘事自動遷徙。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "城門條件若由正式 authority 改變才更新通行，不因對話強制生成士兵。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "reputation",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "town_018",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "木棚旁的公用斧",
+    "context_zh": "公用伐木斧被借走後無人簽名，修棚工期尚未到。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "公用伐木斧被借走後無人簽名，修棚工期尚未到。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "短期借出自己的伐木斧",
+        "required_items": [
+          "content_wood_axe"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "約定歸還與可用工作，期間自己不能用。",
+        "outcome_zh": "修棚者先有工具可檢視，原斧仍需尋找。",
+        "rewards": []
+      },
+      {
+        "label_zh": "重查工具交接口述",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗查訪時間，只記錄可確認證言。",
+        "outcome_zh": "縮小查找範圍，不把無簽名等同偷竊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "等待下一次工具點收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不代墊工具或材料。",
+        "outcome_zh": "工作由负责人重新排程。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若原借用人歸還斧頭，替代借用應取消或按約返還。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_019",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "井繩磨到哪一段",
+    "context_zh": "井口輪值者發現繩索某處磨白，尚未確認整條負荷狀態。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井口輪值者發現繩索某處磨白，尚未確認整條負荷狀態。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交付一條完整繩索作替換候選",
+        "required_items": [],
+        "consumed_items": [
+          "content_rope"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交繩索1條，先由熟手檢查適用性。",
+        "outcome_zh": "提供可評估替換物，不立即提高供水量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助標記磨損並暫停這組提水",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "耗現場工作時間，需轮值者同意。",
+        "outcome_zh": "保持問題可見，其他既有取水方式另行安排。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只報告所見磨痕",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不操作受力繩索。",
+        "outcome_zh": "輪值者仍須自行評估，沒有自動斷繩事故。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若繩已更換，先驗收實際狀態，不能再次交付換取同一報酬。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_020",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收購商只想要乾淨袋子",
+    "context_zh": "商人願以自己的布料支付洗好且完整的布袋，但來源與污物種類未明。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商人願以自己的布料支付洗好且完整的布袋，但來源與污物種類未明。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交付一只已確認乾淨的布袋",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "轉交布袋1只，商人交付布料1份；雙方物品都只轉移一次。",
+        "outcome_zh": "完成一次小額實物交換。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "先問清楚先前裝過什麼",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "耗查核時間，拒絕替未知污染做保證。",
+        "outcome_zh": "把不明袋另列待查，不當場交易。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留自己的袋子",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄這次布料交換。",
+        "outcome_zh": "商人可等其他供應，價格不自動上升。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "商人的實際布料耗盡即結束交換，不能形成無限套利循環。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "identification",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "town_021",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "農道護欄上的長矛",
+    "context_zh": "護田隊把長矛靠在公用護欄，孩子的家人希望移走而非沒收。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "護田隊把長矛靠在公用護欄，孩子的家人希望移走而非沒收。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "示範自己的長矛如何安全寄放",
+        "required_items": [
+          "content_spear"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "器具僅作展示，不揮舞；需地主同意。",
+        "outcome_zh": "提出可行的存放方式，未轉移護田隊武器。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調工作區與公共通道",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗調解時間，不要求任一方永久放棄工作。",
+        "outcome_zh": "劃出待双方面簽的存放約定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接手護田隊器材",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "避免未授权持有，仍可提醒有障礙。",
+        "outcome_zh": "器材保管責任仍留在原隊伍。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若護田隊已換班，重新確認保管人，不能讓舊約定控制新人物。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_022",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "茶葉換來的閒談",
+    "context_zh": "一名返鄉者想借茶會談路況，但他帶回的情報可能過期。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名返鄉者想借茶會談路況，但他帶回的情報可能過期。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "提供一份茶葉作招待",
+        "required_items": [],
+        "consumed_items": [
+          "content_tea"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交茶葉1份，接受者可分享但不保證情報。",
+        "outcome_zh": "形成自願談話機會，不直接揭示安全路線。",
+        "rewards": []
+      },
+      {
+        "label_zh": "逐條核對路況日期和目擊地點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗詢問時間，保持未知內容標記。",
+        "outcome_zh": "得到可驗證的情報清單。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只聽公開消息後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交物品，也不替路況背書。",
+        "outcome_zh": "仍可保留已公開陳述，沒有隱藏關係加成。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若新商隊帶來更新目擊，舊說法需被標記過期。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "town_023",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "倉門上的鑰匙影子",
+    "context_zh": "維修者帶來的公司門禁卡外形像倉門讀卡片，但門的來源不明。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "維修者帶來的公司門禁卡外形像倉門讀卡片，但門的來源不明。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "比對自己的公司門禁卡型號",
+        "required_items": [
+          "content_company_keycard"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需門主許可，先不刷卡。",
+        "outcome_zh": "核對介面與標記，只形成相容性假設。",
+        "rewards": []
+      },
+      {
+        "label_zh": "查倉門改裝紀錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "花尋訪時間，需有真實記錄可看。",
+        "outcome_zh": "確認門是否仍用舊控制器，沒有自動開鎖。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓門主使用既有進出方式",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄快捷調查。",
+        "outcome_zh": "保持門控現況，不宣稱卡片失效或有效。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若門主已更換控制器，舊卡提案結束；不能用卡圖跳過授權。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "knowledge",
+      "exploration"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "town_024",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "露天曬場的黑雲",
+    "context_zh": "曬場負責人擔心將到的雨，實際可用遮布比貨物少。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "曬場負責人擔心將到的雨，實際可用遮布比貨物少。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借荒野斗篷保護一小包貨",
+        "required_items": [
+          "content_wilderness_cloak"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "斗篷暫時離手，只覆有限體積。",
+        "outcome_zh": "提供局部遮覆，不宣稱保住整批收成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先按貨主同意搬運高風險批次",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "投入搬運時間，其他貨仍暴露。",
+        "outcome_zh": "提出有取捨的優先順序。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替貨主決定優先順序",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "失去參與報酬。",
+        "outcome_zh": "貨主自行處理，天氣後果需實際系統。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若降雨未發生或遮棚已備妥，緊急需求自然不成立。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_025",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "孩子畫的井下地圖",
+    "context_zh": "一張孩子畫的井下圖在居民間流傳，有人誤以為是可靠入口圖。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一張孩子畫的井下圖在居民間流傳，有人誤以為是可靠入口圖。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用指南針核對地面方位",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只在安全公共地點比對方向。",
+        "outcome_zh": "指出圖與地面方位是否矛盾，不能證明井下空間存在。",
+        "rewards": []
+      },
+      {
+        "label_zh": "詢問畫圖者哪些是想像",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "需監護者同意談話，不恐嚇孩子。",
+        "outcome_zh": "把親眼所見與故事分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提醒大家不要拿圖下井",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收取地圖或進行探索。",
+        "outcome_zh": "保留公共安全提醒，不新增地下地點。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有後續實地調查與地點 authority 成立，才可能形成探索任務。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "navigation",
+      "exploration",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_026",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "磨坊借走的軸承",
+    "context_zh": "磨坊委託人帶來一張借件單，所列軸承是否適合設備尚未量測。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "磨坊委託人帶來一張借件單，所列軸承是否適合設備尚未量測。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "提供一件軸承送檢",
+        "required_items": [],
+        "consumed_items": [
+          "content_bearing"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交軸承1件，不保證相容。",
+        "outcome_zh": "磨坊取得可測樣本，生產尚未恢復。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先核對設備銘牌",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "需工主同意與現場時間。",
+        "outcome_zh": "縮小相容規格，暫不拆設備。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕代替借件人承諾",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不出件、不收訂金。",
+        "outcome_zh": "原借件責任不轉到玩家。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若設備另有故障，借件提案須重新評估，不能把交件寫成增產。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "town_027",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "診所的兩種照明",
+    "context_zh": "診所要在一次夜間收貨時辨認標籤，油燈與手電筒的補給情況不同。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診所要在一次夜間收貨時辨認標籤，油燈與手電筒的補給情況不同。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出手電筒協助查標籤",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "燈暫離手；相容電池需另核對。",
+        "outcome_zh": "只取得局部照明方案，不賦予醫療效果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改到白天共同收貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "花排程協商時間，貨物留原保管人。",
+        "outcome_zh": "避開夜間辨識限制，可能延後驗收。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只把貨送到封存位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不代簽內容正確。",
+        "outcome_zh": "完成有限搬運，標籤仍待核對。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若收貨人已改期，借燈需求取消；不因等待製造病患死亡。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "lighting",
+      "cargo",
+      "injury"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "town_028",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "一罐不想拆封的舊食物",
+    "context_zh": "收藏者和缺糧旅人都想買同一罐舊世罐頭，內容是否可食尚未知。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "收藏者和缺糧旅人都想買同一罐舊世罐頭，內容是否可食尚未知。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "提出自己的罐頭交換給旅人",
+        "required_items": [],
+        "consumed_items": [
+          "content_canned_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交罐頭1份，仍需食品狀態檢查。",
+        "outcome_zh": "旅人獲得普通實物，收藏品不必當場拆開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調先做非破壞檢查",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "需兩名買家與賣方同意。",
+        "outcome_zh": "把收藏與食用需求分開，沒有保證可食。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不介入競價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不付款也不領取罐頭。",
+        "outcome_zh": "賣方自己決定去向，不自動抬價。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若任何一方成交，另一方只能尋找其他實物，不能複製唯一罐頭。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "identification",
+      "cooking"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_029",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "糧倉外的補鞋桌",
+    "context_zh": "修補者有一份皮革可作報酬，但客人都把自己的衣物說成最急。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "修補者有一份皮革可作報酬，但客人都把自己的衣物說成最急。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交一份皮革換取下次排程",
+        "required_items": [],
+        "consumed_items": [
+          "content_leather"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交皮革1份；只登記有條件工單。",
+        "outcome_zh": "修補者有材料候選，玩家不立即取得修好裝備。",
+        "rewards": []
+      },
+      {
+        "label_zh": "替大家確認實際出發日",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗調解時間，客人需提供可核對資訊。",
+        "outcome_zh": "提出按真實行程排序的方案。",
+        "rewards": []
+      },
+      {
+        "label_zh": "接受原有順序等待",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "可能錯過自己的便利時段。",
+        "outcome_zh": "不搶占其他人的工單。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若修補者因材料或健康無法工作，工單須重談，不靠文字完成修理。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_030",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "菜圃邊的未知灰種",
+    "context_zh": "農戶撿到不明灰色種子，有人希望直接種在公用菜圃。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "農戶撿到不明灰色種子，有人希望直接種在公用菜圃。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "提供防水袋保存樣本記錄",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "借用袋保護記錄，不把未知樣本與食物混放。",
+        "outcome_zh": "保留來源資訊，樣本效果仍未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助劃分觀察與種植決定",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "花討論時間，不用生存技能直接鑑定。",
+        "outcome_zh": "先要求有權管理者決定是否接受調查。",
+        "rewards": []
+      },
+      {
+        "label_zh": "反對在公用地立刻試種",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取得灰種。",
+        "outcome_zh": "保留現有菜圃，未知風險仍需研究。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若樣本已被取走，不能生成替代奇物；後續僅追蹤實際去向。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "identification",
+      "hazards",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-06",
+      "FICTION-ROADSIDE"
+    ]
+  },
+  {
+    "encounter_id": "town_031",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收成工人的空午餐袋",
+    "context_zh": "臨時工錯過領餐時段，但名單上已記作領取。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "臨時工錯過領餐時段，但名單上已記作領取。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交出一份乾糧",
+        "required_items": [],
+        "consumed_items": [
+          "content_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交乾糧1份，自身物品扣除一次。",
+        "outcome_zh": "工人取得食物；原配餐錯記仍需處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪工人核對領餐紀錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗查核時間，不保證立即補發。",
+        "outcome_zh": "把已領與未領證據交給配餐者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留自己的旅糧",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不捐物，也不指控工人說謊。",
+        "outcome_zh": "工人可另向配餐者申訴。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若原份額已補領，不再重複補發；不因未援助直接殺死工人。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_032",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "巡田人改走的新路",
+    "context_zh": "巡田人說近路可以省行程，但地圖上只有舊水道。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "巡田人說近路可以省行程，但地圖上只有舊水道。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用指南針記錄地面方向",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗勘察時間，只在獲准範圍走查。",
+        "outcome_zh": "得到待驗證路線筆記，不修改正式路網。",
+        "rewards": []
+      },
+      {
+        "label_zh": "比較水道和地形證據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "需要觀察與生存知識。",
+        "outcome_zh": "辨認哪些地段可能需繞路，仍不保證安全。",
+        "rewards": []
+      },
+      {
+        "label_zh": "繼續使用原路",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "接受已知路線的時間成本。",
+        "outcome_zh": "不依未驗證消息改變旅行。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若地面條件再變，筆記需重新驗證；不能永久新增捷徑。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "navigation",
+      "exploration",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_033",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被借出去的醫療袋",
+    "context_zh": "診所的空醫療袋被拿去裝農具，借用者以為只要倒空就可歸還。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診所的空醫療袋被拿去裝農具，借用者以為只要倒空就可歸還。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借自己的空醫療袋周轉",
+        "required_items": [
+          "content_medical_satchel"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "袋暫交診所，內容物不隨之生成。",
+        "outcome_zh": "提供可檢查替代攜具，原袋仍需清理評估。",
+        "rewards": []
+      },
+      {
+        "label_zh": "幫双方寫清用途與歸還條件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MEDICINE",
+          "rank": 1
+        },
+        "cost_zh": "花協商時間，不判定袋已無菌。",
+        "outcome_zh": "區分清空、清潔和可用的不同承諾。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替借用者保證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "本次不交出物品。",
+        "outcome_zh": "由診所決定是否接回原袋。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若原袋驗收不合格，需新的實際處置，不以交談恢復用途。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "injury",
+      "cargo",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_034",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "外地商人的種子價目",
+    "context_zh": "外地商人把種子與砂礫混裝展示，買家只看袋子的大小。",
+    "location_tags": [
+      "new_hope"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "外地商人把種子與砂礫混裝展示，買家只看袋子的大小。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用自己的可追溯種子作對照",
+        "required_items": [
+          "content_seeds"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅展示，需保護原包裝與所有權。",
+        "outcome_zh": "顯示包裝體積不等於實際種子量，成分仍待檢查。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求按驗收結果報價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗議價時間，賣方可拒絕交易。",
+        "outcome_zh": "提出可查驗的成交條件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "離開攤位不購買",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄可能的廉價貨。",
+        "outcome_zh": "不把懷疑直接寫成詐騙定罪。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若貨物已封存待查，新的交易只能依正式查驗結果提出。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "identification",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_035",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "帶班工的卡住貨蓋",
+    "context_zh": "拆解場的合法貨箱裝有3份已登記廢鐵，蓋緣只是被變形扣片卡住。帶班工授權開箱搬出2份，餘下1份作報酬；工班已固定箱體與安全支點。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場的合法貨箱裝有3份已登記廢鐵，蓋緣只是被變形扣片卡住。帶班工授權開箱搬出2份，餘下1份作報酬；工班已固定箱體與安全支點。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用撬棍抬開扣片並卸下兩份廢鐵",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；借自有撬棍操作既定支點，工具留己。",
+        "outcome_zh": "貨蓋打開，2份廢鐵送入場內貨架；帶班工交付剩下的廢鐵1份。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "用扳手拆外框再重新固定",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；扳手留己，拆裝外露螺栓，不耗新材料。",
+        "outcome_zh": "外框復位且貨物完成卸交；領取箱內預留廢鐵1份。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "幫忙清出卸貨空位後退出",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；只移動帶班工指定的空架。",
+        "outcome_zh": "場內有了卸貨位置，開箱仍留給工班；玩家不領箱內物。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "箱內3份各有去處，開箱報酬只能移轉一次；他人先完成開箱則本工作關閉。 與 quest_gray_valley_001 綁定同一發案人、標的現物及預留報酬；事件產生的一次性完成紀錄供任務引用，不另行付款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "exploration",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "town_036",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "流動技工的磨損接頭",
+    "context_zh": "流動技工已拆下小型手推車的接頭，確認需換標準軸承1件。他自有銅線2份，願用其中1份換軸承；若用相符維修手冊找出替代固定法，也付同份銅線。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工已拆下小型手推車的接頭，確認需換標準軸承1件。他自有銅線2份，願用其中1份換軸承；若用相符維修手冊找出替代固定法，也付同份銅線。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "交付相符軸承讓技工裝回車上",
+        "required_items": [],
+        "consumed_items": [
+          "content_bearing"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交軸承1件，規格在交付前比對。",
+        "outcome_zh": "技工完成這台手推車的接頭更換並示範空車轉動；玩家領銅線1份。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "按相符手冊協助調整備用固定座",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；閱讀自己的維修手冊，技工使用原車既有備座。",
+        "outcome_zh": "兩人改用完好的備座，空車測試通過；銅線1份作協作報酬，手冊留己。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "協助把車移到工坊待修區",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不交零件，也不進行修復。",
+        "outcome_zh": "車離開通道並掛上待修牌，技工保留兩份銅線；玩家無報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "這是特定手推車的有限修復提案，非任意機器修理權；報酬與備座使用狀態須同次提交。 與 quest_gray_valley_002 綁定同一發案人、標的現物及預留報酬；事件產生的一次性完成紀錄供任務引用，不另行付款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "knowledge",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "town_037",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "材料記帳員的兩盤銅線",
+    "context_zh": "桌上兩盤銅線各1份：紅繩盤屬診所託管，白繩盤屬工坊可售存貨。原始交接單寫明顏色，只是抄入同一欄；記帳員另有布袋1只作歸位報酬。診所已書面授權在灰谷的記帳員核認紅盤，工坊授權同在灰谷的流動技工核認白盤，兩人已約次日共同見證；不要求新希望收貨人到場。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "桌上兩盤銅線各1份：紅繩盤屬診所託管，白繩盤屬工坊可售存貨。原始交接單寫明顏色，只是抄入同一欄；記帳員另有布袋1只作歸位報酬。診所已書面授權在灰谷的記帳員核認紅盤，工坊授權同在灰谷的流動技工核認白盤，兩人已約次日共同見證；不要求新希望收貨人到場。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "核對原單並將兩盤送回各自貨架",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；依交接單核色與簽名，再搬到標示的架位。",
+        "outcome_zh": "託管與可售欄被正確分開，兩盤各歸其架；記帳員交付布袋1只。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "等本地授權代表依約逐盤核認",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不消耗物品，核對灰谷記帳員與流動技工的有效委任和在場狀態，再共同見證簽名。",
+        "outcome_zh": "兩盤歸屬明確且移到正確架位；玩家領同一只預留布袋。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "只隔開桌上的兩盤，不參與記帳",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不買或取走銅線。",
+        "outcome_zh": "貨物不再混在一起，原帳仍等記帳員處理；布袋留在原庫。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "託管物不成為可售物；這次清點不改全城銅價。完成後不可重領布袋。 與 quest_gray_valley_003 綁定同一發案人、標的現物及預留報酬；事件產生的一次性完成紀錄供任務引用，不另行付款。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_038",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "工坊門邊的空工具腰帶",
+    "context_zh": "學徒帶著空腰帶找工作，領班誤以為他已備齊工具。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "學徒帶著空腰帶找工作，領班誤以為他已備齊工具。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借出螺絲起子供指定檢查",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅借自有工具，約定归還與用途。",
+        "outcome_zh": "學徒有一件工具可用，仍不算完整工具套裝。",
+        "rewards": []
+      },
+      {
+        "label_zh": "替學徒核對工單要求",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "花協商時間，技術能力另測。",
+        "outcome_zh": "明確列出還缺哪些實物與條件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替他保證已備齊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不出借工具。",
+        "outcome_zh": "領班需重新確認，不自動取消學徒生活來源。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若工單已有人接手，借用需求重新確認，不追討不存在的工資。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "town_039",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "同一枚齒輪的兩個買主",
+    "context_zh": "工坊修機者和收藏者都想要一枚帶印記的齒輪，只有一件現物。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工坊修機者和收藏者都想要一枚帶印記的齒輪，只有一件現物。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用自己的一枚齒輪提出替代",
+        "required_items": [],
+        "consumed_items": [
+          "content_gear"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交齒輪1枚前須確認相容並取得三方同意。",
+        "outcome_zh": "可能讓修機者有樣本，原帶印齒輪不被複製。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先談檢查後再決定去向",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "投入議價與查驗時間。",
+        "outcome_zh": "區分可用機件與收藏記號的價值。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替物主選買家",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不獲抽成或物品。",
+        "outcome_zh": "物主保留處分權。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "一旦實際成交，未得者的需求保留但不得再發同枚齒輪。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_040",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "停電前的最後一節電池",
+    "context_zh": "修配攤只剩一件電池，照明與測量工作都想使用它。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "修配攤只剩一件電池，照明與測量工作都想使用它。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交付自己的一件電池",
+        "required_items": [],
+        "consumed_items": [
+          "content_battery"
+        ],
+        "required_skill": null,
+        "cost_zh": "轉交電池1件，先核對規格。",
+        "outcome_zh": "增加一件可檢查電源，實際使用順序由收貨方決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先停掉可延後的檢查工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 1
+        },
+        "cost_zh": "需工主同意並花協商時間。",
+        "outcome_zh": "保留現有電源給已同意的用途，不產生額外電力。",
+        "rewards": []
+      },
+      {
+        "label_zh": "等新補給到來",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄當日測量便利。",
+        "outcome_zh": "攤主可另作安排，不保證商隊必然抵達。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有真正補貨或工作結束時需求才關閉。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "lighting"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_041",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "焊工拒收的薄鋼板",
+    "context_zh": "委託人希望焊工把薄板用在承重位置，工匠認為條件不足。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "委託人希望焊工把薄板用在承重位置，工匠認為條件不足。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "拿鋼材樣本送檢",
+        "required_items": [],
+        "consumed_items": [
+          "content_steel_stock"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交鋼材1份作評估，不保證適用。",
+        "outcome_zh": "焊工可判斷新材料候選，未完成工程。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先重談工程的用途",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗調解時間，不壓工匠違背判斷。",
+        "outcome_zh": "把裝飾板與承重需求分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下不明責任的工單",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "沒有材料或工資變動。",
+        "outcome_zh": "委託人需自行提出可接受方案。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若工程已改設計，原需求撤回；不能用技能閾值保證結構安全。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "town_042",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "摩托夾克上的舊隊徽",
+    "context_zh": "居民認出二手夾克的圖案，賣家卻把它當成現行組織通行證。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "居民認出二手夾克的圖案，賣家卻把它當成現行組織通行證。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "展示自己的同式夾克比較年代",
+        "required_items": [
+          "content_motorcycle_jacket"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只作外觀對照，物品不轉移。",
+        "outcome_zh": "證明款式可能跨年代，不能替任何人授予身分。",
+        "rewards": []
+      },
+      {
+        "label_zh": "詢問居民認識圖案的經過",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "需對方自願與查訪時間。",
+        "outcome_zh": "把舊故事與現在權限分開記錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不購買通行承諾",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄交易但不沒收衣物。",
+        "outcome_zh": "假說留待查證。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若真正組織已不存在，仍可保存歷史，不憑圖案創立新派系。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "reputation",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_043",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "工兵鏟的鬆鉸鏈",
+    "context_zh": "回收者想把可折疊鏟當成全新工具出售，折柄已出現鬆動。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "回收者想把可折疊鏟當成全新工具出售，折柄已出現鬆動。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用工兵鏟樣品說明檢查位置",
+        "required_items": [
+          "content_entrenching_shovel"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅比較自有工具，不實測超出安全負荷。",
+        "outcome_zh": "買家看見需要檢查的部位，不獲得通用耐久數字。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求以待修品談價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "耗議價時間，賣家可不賣。",
+        "outcome_zh": "將已知缺陷納入條件，修復另列。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不買這把工具",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不付錢，不拿鏟。",
+        "outcome_zh": "賣家仍負責告知其他買家狀況。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若已送修，需看真實結果，不把送修狀態當恢復完成。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "town_044",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "公用車間的粉塵布",
+    "context_zh": "工班把普通布料當成所有粉塵防護，卻不確定正在拆哪種材料。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工班把普通布料當成所有粉塵防護，卻不確定正在拆哪種材料。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "提供沙塵面罩讓工人檢查適用性",
+        "required_items": [],
+        "consumed_items": [
+          "content_dust_mask"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交沙塵面罩1件，不承诺覆蓋未知危害。",
+        "outcome_zh": "提供有限防塵候選，仍需材料辨識。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先追查材料標記",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "耗查驗時間並暫緩本次拆解。",
+        "outcome_zh": "把已知粉塵與未知危害分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退出這次拆解工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄即時工資。",
+        "outcome_zh": "不在未明危害下操作，也不自動封闭整座工坊。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "材料被正式辨識或移走後才重開工作，不能靠文字給全體免疫。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "hazards",
+      "identification",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "town_045",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "回收秤旁的砂袋",
+    "context_zh": "廢料買家發現秤盤旁掉出砂土，尚不能確定來自哪批材料。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "廢料買家發現秤盤旁掉出砂土，尚不能確定來自哪批材料。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用布袋分開已點收金屬",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交布袋1只，實際數量由當事人清點。",
+        "outcome_zh": "暫時隔開已驗收物，避免混淆。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓每位貨主分批重新見證秤量",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗現場時間，不指控任何一人。",
+        "outcome_zh": "建立可追查的收貨結果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留貨物稍後再賣",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "延後成交。",
+        "outcome_zh": "自己的貨物不進爭議秤盤。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有新驗收記錄能修正交易，不能從怀疑直接扣錢或生成賠償。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_046",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "用過的防化服能拆嗎",
+    "context_zh": "拆解攤收到一件來源不明的防化服，買家想把它裁成補丁。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解攤收到一件來源不明的防化服，買家想把它裁成補丁。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "提供防水袋保存來源紙條",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "袋暫借，只保護紙條，不包裝未知污染服。",
+        "outcome_zh": "保留可查的交接資訊，衣物保持隔離。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求先做污染與材質鑑定",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MEDICINE",
+          "rank": 2
+        },
+        "cost_zh": "耗專業查詢時間，不直接清除污染。",
+        "outcome_zh": "延後拆料，避免把待查衣物算成乾淨布料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接觸或收購",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄回收價值。",
+        "outcome_zh": "物主仍須找有能力的處理者。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若取得正式檢驗結果再決定拆解；本事件不產生藥物或治療。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "hazards",
+      "identification",
+      "injury",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_047",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "資料磁碟只是墊片嗎",
+    "context_zh": "工人拿一片資料磁碟墊住桌腳，旁邊文件顯示可能屬於未完成維修。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工人拿一片資料磁碟墊住桌腳，旁邊文件顯示可能屬於未完成維修。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "交出一份廢鐵換下墊片用途",
+        "required_items": [],
+        "consumed_items": [
+          "content_scrap_iron"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交廢鐵1份，工人須同意保留原磁碟。",
+        "outcome_zh": "磁碟暫由原保管者保存，未讀出任何資料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "解釋先核對資料所有權",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 1
+        },
+        "cost_zh": "耗說明時間，需管理者同意。",
+        "outcome_zh": "把磁碟列為待查，不強行複製內容。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只記錄磁碟所在位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取走公物。",
+        "outcome_zh": "之後可請有權者調查。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若磁碟已損壞，不能靠後續技能成功補回不存在的資料。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "knowledge",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_048",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "夜班的空醫療箱",
+    "context_zh": "工班發現舊世醫療箱裡只有隔層，供貨者卻說是完整補給。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工班發現舊世醫療箱裡只有隔層，供貨者卻說是完整補給。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "展示自己的急救包清點方式",
+        "required_items": [
+          "content_first_aid_kit"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只示範已拥有物，内容效果仍待醫療規則。",
+        "outcome_zh": "讓買家理解箱子與內裝用品不同。",
+        "rewards": []
+      },
+      {
+        "label_zh": "依交接單要求分清空箱與用品",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "耗驗收時間，不憑 MEDICINE 生成欠貨。",
+        "outcome_zh": "把缺項記入待處理清單。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕替整套補給簽收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收貨也不收轉手費。",
+        "outcome_zh": "原供貨者需回應實際缺項。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若供貨者實際補齊才能再驗收；空箱不能重複兌換急救包。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "injury",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "town_049",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "消防斧砍不開的鐵門",
+    "context_zh": "回收者想用消防斧對付封死鐵門，忽略了門框旁的維修標記。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "回收者想用消防斧對付封死鐵門，忽略了門框旁的維修標記。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用手電筒檢查門框標記",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需可用電源與進場許可，不破門。",
+        "outcome_zh": "看清可能的維修入口信息，仍待核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "向場主提出查控制器方案",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "需技術知識與查驗時間。",
+        "outcome_zh": "把破壞方案改為有條件設備調查。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不參與強行破拆",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄本次進入機會。",
+        "outcome_zh": "門保持原狀，不生成陷阱或暴力懲罰。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若場主拒絕授權，技能和工具都不能代替所有權。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "lighting",
+      "electronics",
+      "exploration",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "town_050",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "破鏡片與新鬆緊帶",
+    "context_zh": "護目鏡攤位把新帶子當成鏡片安全證明，買家只摸了外框。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "護目鏡攤位把新帶子當成鏡片安全證明，買家只摸了外框。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用自己的工程護目鏡做對照",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只比較可見刮痕與固定結構，不宣稱檢測所有危害。",
+        "outcome_zh": "指出需分開驗收的部位。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商先驗片再談價格",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "花議價時間，賣方需同意檢查。",
+        "outcome_zh": "成交以實際狀態為條件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不買未驗收防護具",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄低價選項。",
+        "outcome_zh": "原貨仍由賣家持有。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若鏡片更換完成需重新看實物，不能把承諾修補當成已修好。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "identification",
+      "regional_trade",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "town_051",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "誰的延長線先拔掉",
+    "context_zh": "兩個工位共用一條待檢電源線，一邊維持照明，一邊想做測試。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩個工位共用一條待檢電源線，一邊維持照明，一邊想做測試。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借手搖發電機供專人評估",
+        "required_items": [
+          "content_hand_crank_generator"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "發電機暫時離手，須先確認接口與負載。",
+        "outcome_zh": "形成另一供電候選，不直接令工位復工。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調輪流測試的時間表",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "需兩工位同意，測試方可能等待。",
+        "outcome_zh": "保留照明時段，未增加電力總量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不擅自拔任何人的線",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄本次快速測試。",
+        "outcome_zh": "原使用者仍需自己解決衝突。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若供電狀態改變，排程要重新確認，不把一次安排寫成永久供電。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "lighting"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_052",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "拆車場找不到的小扳手",
+    "context_zh": "帶班工願用一把場內備用扳手支付尋物工作，但必須先證明被找到的是借出那把。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "帶班工願用一把場內備用扳手支付尋物工作，但必須先證明被找到的是借出那把。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用金屬探測器限定在許可區搜查",
+        "required_items": [
+          "content_metal_detector"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需相容電源與尋物時間，不能取走其他場內金屬。",
+        "outcome_zh": "找到的每件物仍要核對編號；確認歸還後領扳手1把。",
+        "rewards": [
+          {
+            "content_id": "content_wrench",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "按工位交接順序問人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "花查訪時間，需當事人願意配合。",
+        "outcome_zh": "可能找到最後借用位置，證據不足時不領報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接這份尋物工",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取得場內任何工具。",
+        "outcome_zh": "工班可另行點收。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "扳手報酬只從已保留的一把備用品交付；工具已歸還後任務關閉。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "exploration",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "town_053",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "皮衣背面的一份工資",
+    "context_zh": "二手工人皮衣內縫著未領工資票，票上名字與賣家不同。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "二手工人皮衣內縫著未領工資票，票上名字與賣家不同。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "以紙本日記記下交接細節",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需原持有人同意抄記，不收集無關私事。",
+        "outcome_zh": "保存票據出處，不能直接兌現他人工資。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪賣家找出可確認票據的人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗查訪時間，不先斷言贓物。",
+        "outcome_zh": "建立能處理申領的聯絡方向。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不買帶爭議票據的衣物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄這次交易。",
+        "outcome_zh": "衣物與票仍由原保管人保存。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有真實工資責任人核對後才能處理，不從票據凭空生成Caps。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "reputation",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_054",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "回收爐外的熱作業名單",
+    "context_zh": "工坊有一件隔熱服，却有兩組工作都希望插隊使用。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工坊有一件隔熱服，却有兩組工作都希望插隊使用。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交自己的隔熱服供檢驗借用",
+        "required_items": [
+          "content_heat_insulation_suit"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "借出期間不能自己穿用；需尺碼與狀況檢驗。",
+        "outcome_zh": "增加可評估裝備，但每組仍需正式作業安排。",
+        "rewards": []
+      },
+      {
+        "label_zh": "比較哪一組可等設備自然冷卻",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "花技術評估時間，不承諾冷卻速度。",
+        "outcome_zh": "提出不用同時搶裝備的排程。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不加入當日熱作業",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄本次工作機會。",
+        "outcome_zh": "工坊仍負責排程與風險。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若設備實際冷卻或服裝未通過檢驗，需求需重新排定。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "hazards",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_055",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "舊軍甲的空扣位",
+    "context_zh": "收藏者願買一套舊世軍甲，守衛只想要其中一條完整固定帶。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "收藏者願買一套舊世軍甲，守衛只想要其中一條完整固定帶。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "提供皮革讓工坊評估替代帶",
+        "required_items": [],
+        "consumed_items": [
+          "content_leather"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交皮革1份，不能保證可做軍甲配件。",
+        "outcome_zh": "提供修配材料候選，原套裝保持完整。",
+        "rewards": []
+      },
+      {
+        "label_zh": "談一次不拆件的共同檢查",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "需兩方同意及檢查時間。",
+        "outcome_zh": "先確定配件能否替代，再由物主選擇出售方式。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替物主決定拆套",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收取中介報酬。",
+        "outcome_zh": "完整性與使用需求的衝突仍存在。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "一旦真正拆件，收藏完整性不能由後續對話恢復。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "repair",
+      "identification",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "town_056",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沒有通電的電擊棒",
+    "context_zh": "警備舊貨攤把不亮的電擊棒說成只缺一點運氣，工人要求證明。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "警備舊貨攤把不亮的電擊棒說成只缺一點運氣，工人要求證明。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用萬用電表作受控檢查",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "需專業者同意與安全隔離，不對人試用。",
+        "outcome_zh": "只記錄可檢測的電氣狀態，不宣稱武器效果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求賣方列明未知狀態",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "耗談判時間，無法保證對方同意。",
+        "outcome_zh": "把待修品與可用品的報價分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕不明器材交易",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不付款不拿貨。",
+        "outcome_zh": "保留檢驗需求，不創造故障懲罰。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若器材被移交檢修，本攤交易暫停，之後必須依真實結果重談。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "identification",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_057",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "拆解場的一張老照片",
+    "context_zh": "工人從公車殘骸找到合照，不知道是否應與金屬一起賣掉。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工人從公車殘骸找到合照，不知道是否應與金屬一起賣掉。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "借防水袋保存原照片",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只借袋，照片仍由發现者保管。",
+        "outcome_zh": "保留可識別影像，沒有直接揭露人物身份。",
+        "rewards": []
+      },
+      {
+        "label_zh": "向附近居民展示經同意公開的部分",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "花查訪時間，避免公開無關私人資訊。",
+        "outcome_zh": "取得可能的辨認線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先放進場內失物櫃",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不占有照片。",
+        "outcome_zh": "給可能的失主保留認領機會。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若有人提出身份證明再交還；不得為照片臨時生成人物。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_058",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "貨場上鎖的便宜槍盒",
+    "context_zh": "買家想先付款領走鎖盒，賣方卻不知道裡面是否真的有槍。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "買家想先付款領走鎖盒，賣方卻不知道裡面是否真的有槍。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "在貨主同意下請持開鎖工具者評估",
+        "required_items": [
+          "content_lockpick_set"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "需自己持有工具、正當開啟權與作業時間。",
+        "outcome_zh": "只提出開箱檢查方案，內容物不由傳聞生成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "談成見貨才付款",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗議價時間，賣家可拒絕。",
+        "outcome_zh": "避免為未知內容背書，沒有立即收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不購買未驗收盒子",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "失去可能的便宜貨。",
+        "outcome_zh": "鎖盒留在原貨主處。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若正式開箱結果與傳聞不同，所有報價和工作需依實物重算。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "exploration",
+      "identification",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "town_059",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "公共收音室的靜默盒",
+    "context_zh": "居民把會干擾收音的盒子搬進收音室，卻不知干擾範圍。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "居民把會干擾收音的盒子搬進收音室，卻不知干擾範圍。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用自己無線電在受控距離觀察",
+        "required_items": [
+          "content_radio"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "需管理者同意，不擅自中斷重要通信。",
+        "outcome_zh": "記錄可見的訊號變化，原因仍未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調先分隔保管再研究",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗溝通與搬運安排，不判定盒子安全。",
+        "outcome_zh": "讓使用者选择暫停觀察或另找研究者。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不參與試驗",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取得盒子。",
+        "outcome_zh": "管理者保留處置責任，通訊不因拒絕自動損坏。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有明確測得現象才更新知識，不能從物名推導全城停訊。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "identification",
+      "hazards",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-06",
+      "FICTION-ROADSIDE"
+    ]
+  },
+  {
+    "encounter_id": "town_060",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "釘槍訂單缺的是耗材",
+    "context_zh": "工班收到工業釘槍卻沒有相容耗材，委託人以為工具到了就能完工。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工班收到工業釘槍卻沒有相容耗材，委託人以為工具到了就能完工。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借工具箱先檢查其他可行固定方式",
+        "required_items": [
+          "content_toolbox"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "需工坊許可，工具借用不等於材料已齊。",
+        "outcome_zh": "提出有限替代方案，施工仍待审批與實物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "重談分段交貨與驗收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "花協商時間，原工期可能改動。",
+        "outcome_zh": "把缺耗材責任列清，不能凭承诺宣布完工。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替缺件工單簽完工",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄提前工資。",
+        "outcome_zh": "工具仍屬原收貨者，耗材需另找。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若耗材實際抵達，再由工班確認是否能使用；不套用彈藥 category 為釘料。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "crafting",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "town_061",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "夜班守衛想寄存頭盔",
+    "context_zh": "守衛想把頭盔放在酒館換輕便，店主不願負責不明損傷。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "守衛想把頭盔放在酒館換輕便，店主不願負責不明損傷。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "用紙本日記協助記錄交接外觀",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需双方同意，只記可見狀態。",
+        "outcome_zh": "建立寄存記錄，不能證明隱藏防護能力。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商改由正式保管人接收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗聯絡時間，守衛可能需晚些休息。",
+        "outcome_zh": "把保管責任轉給願意接受的人。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕替任何一方擔保",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不持有頭盔或收取費用。",
+        "outcome_zh": "兩方可自行決定是否寄存。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若頭盔被本人領回，寄存提案結束，不把單據當複製裝備的憑證。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_062",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "能發電卻找不到線",
+    "context_zh": "工坊展示一台手搖發電機，接收方缺少相容線材與负载說明。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工坊展示一台手搖發電機，接收方缺少相容線材與负载說明。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "交銅線樣本供檢驗",
+        "required_items": [],
+        "consumed_items": [
+          "content_copper_wire"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交銅線1份，不承诺能直接接線。",
+        "outcome_zh": "工坊得到候選材料，系统仍待專業設計。",
+        "rewards": []
+      },
+      {
+        "label_zh": "檢查用電設備的需求標記",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "花電子技術檢查時間，不直接通電。",
+        "outcome_zh": "確認下一步要查的相容條件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只訂購設備不承諾服務已可用",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "可放棄本次交付，不預付不存在的發電收益。",
+        "outcome_zh": "供貨需等條件完整後重談。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若目標設備改型，原接線方案失效，不能永久給工坊加電力。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "repair",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "town_063",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "舊獵槍的刻字被磨掉一半",
+    "context_zh": "收購者拿到老獵人的槍，有人願高價買下，另一人說它是家人物件。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "收購者拿到老獵人的槍，有人願高價買下，另一人說它是家人物件。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用手電筒側照可見刻痕",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需要可用電源，只記錄實際露出的標記。",
+        "outcome_zh": "保存目前可見線索，不能補造被磨掉的名字。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請認領者先提供獨立細節",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "花查訪時間，避免透露全部刻痕。",
+        "outcome_zh": "取得可比較證據，不直接判所有權。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求原保管人先不磨掉剩餘刻字",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只提出保存建議，不沒收槍。",
+        "outcome_zh": "原物保持可追查狀態。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "老獵人的槍是唯一物件，成交或交還後不能再次出現在本提案中。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "identification",
+      "knowledge",
+      "lighting"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "town_064",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "居民抗議的重型運送",
+    "context_zh": "工坊想把動力錘穿過住宅走廊，居民擔心地面與噪音。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工坊想把動力錘穿過住宅走廊，居民擔心地面與噪音。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用舊世地圖找可能的舊卸貨口",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需現場驗證，不把舊圖當现有通路。",
+        "outcome_zh": "提出另一條運送路線候選。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調工坊與居民分段驗證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "花時間，不能強令住戶開門。",
+        "outcome_zh": "把負荷、路權與時間條件列明。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕替未同意路線搬運",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄搬運費。",
+        "outcome_zh": "設備留原位，居民不自動失去住宅。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若實际找到合法卸貨路，才可重開運送委託；不以對話創造路徑。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_065",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "錯把小零件當成整套機械",
+    "context_zh": "一張採購單寫著機械零件，收貨者卻期待完整修理套組。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一張採購單寫著機械零件，收貨者卻期待完整修理套組。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "以自己的軸承示範逐件命名",
+        "required_items": [
+          "content_bearing"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅展示實物，category illustration 不作交付。",
+        "outcome_zh": "區分具體零件與家族概念，重寫可驗收需求。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先要求工單列明每件規格",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "耗採購協商時間，不先承諾整套。",
+        "outcome_zh": "把未知需求交回技工確認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替模糊單據簽收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品、不領收貨費。",
+        "outcome_zh": "原需求仍未满足。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "需求確定後另立實物單，不從一張分類圖生成整套零件。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge",
+      "repair",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "town_066",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "鑑價師想拆開的相機",
+    "context_zh": "相機主人想保留舊照片，鑑價師卻只想收內部材料。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "相機主人想保留舊照片，鑑價師卻只想收內部材料。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用防水袋先保護附帶紙本照片",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "借袋保護已存在照片，數位內容另待規則。",
+        "outcome_zh": "保存部分可見記憶，尚未拆相機。",
+        "rewards": []
+      },
+      {
+        "label_zh": "找能辨識儲存媒體的人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "耗聯絡和檢查時間，不承诺可恢復資料。",
+        "outcome_zh": "把個人記憶與金屬回收分開決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "建議保持原機等待",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄立即出售價值。",
+        "outcome_zh": "主人保留下一次檢查可能。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若已拆毁資料媒體，不能在後續對話中補回照片。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "knowledge",
+      "disassembly",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "town_067",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "材料庫的私人維修手冊",
+    "context_zh": "材料庫把技工私人的手冊鎖在公共櫃，理由是大家都可能用到。",
+    "location_tags": [
+      "gray_valley"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料庫把技工私人的手冊鎖在公共櫃，理由是大家都可能用到。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "借自己的維修手冊支援有限查閱",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需型號相符及借期，書不複製成永久公共庫存。",
+        "outcome_zh": "提供暫時替代，原手冊仍應核對歸屬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商公共查閱與私人保管分開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "花討論時間，雙方可拒絕。",
+        "outcome_zh": "提出有條件共用安排，不直接解鎖全城修理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替強留私物背書",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不拿走任何書。",
+        "outcome_zh": "爭議交由有權當事人處理。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若原主取回手冊，公共服務是否繼續需要另有實际替代。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_068",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "燃料核帳員的污漬欄位",
+    "context_zh": "油污遮住一張空燃料罐交接單的件數。門房副本記2只，現場也只有編號相符的2只空罐；核帳員預留乾糧1份，請人取副本並移罐歸位。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "油污遮住一張空燃料罐交接單的件數。門房副本記2只，現場也只有編號相符的2只空罐；核帳員預留乾糧1份，請人取副本並移罐歸位。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "去門房取副本，再把兩只空罐移回架位",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；徒手分次搬運，不轉移罐的所有權。",
+        "outcome_zh": "副本、編號與現物一致，確認無短少；玩家完成歸位後領乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "當面整理三方記錄並協調一次搬妥",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；用交易經驗請門房和現有搬運工共同見證。",
+        "outcome_zh": "遮住的件數確定為2，兩罐歸位且簽收；核帳員付預留乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "保留原單，拒絕代簽",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；無交付。",
+        "outcome_zh": "核帳員保留空罐與副本追查需求，玩家不領乾糧。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "空罐件數不是現有燃料資源單位，核單不增減燃料庫；工作完成或另有人接手即關閉。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "regional_trade",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_069",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "排程人手上的兩張路線單",
+    "context_zh": "商隊排程人手上舊單寫西岔口可通行，新單寫那裡坍塌；岔口在一天可往返處。他自有乾糧2份，願付其中1份換現場辨路回報。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊排程人手上舊單寫西岔口可通行，新單寫那裡坍塌；岔口在一天可往返處。他自有乾糧2份，願付其中1份換現場辨路回報。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "帶指南針去查岔口並繪回程標記",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "1天；只到可見坍塌外側，不穿越崩塌區。",
+        "outcome_zh": "核實西岔口已封且東側原路仍可辨認；回報後領乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "陪返程信差走到岔口指認",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；等待信差既定返程，再隨行確認可見路口。",
+        "outcome_zh": "信差指出同一封閉位置，玩家帶回更新標記；排程人付乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "只把兩張單按日期分開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不替路況背書。",
+        "outcome_zh": "排程人看清哪份較新，沒有得到實地回報，乾糧留庫。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只確認這一岔口，不承諾整條路安全；實際商隊若先出發，這份帶路工作結束。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "navigation",
+      "knowledge",
+      "exploration"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "town_070",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "井口輪值人的空位",
+    "context_zh": "井口輪值人要去交班，已核准兩位等候者各領1份封裝淨水；他另外留乾糧1份，請人把2份水送到棚下並帶回簽收。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井口輪值人要去交班，已核准兩位等候者各領1份封裝淨水；他另外留乾糧1份，請人把2份水送到棚下並帶回簽收。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用布袋分開兩份水並一次送達",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；自有布袋留己，按既定名字交件。",
+        "outcome_zh": "兩位等候者各領1份，簽收聯交回輪值人；玩家領乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "徒手分兩趟送水並帶回簽收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不需物品，不能改配水份額。",
+        "outcome_zh": "兩份核准用水全部送達，輪值人交付預留乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "把空位留給下一名輪值者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；沒有領水或接管井口。",
+        "outcome_zh": "水仍由交班者保管，玩家不拿工作報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "交班紀錄保留真正領取者，完成後不再有這兩份送水工作；無新增取水權或產量加成。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_071",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "返程信差的破袋口",
+    "context_zh": "返程信差自有繩索1條，願用它換一只防水袋裝本趟紙件；若無袋，他也接受協助把紙件分送到城內兩處，不付繩索。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差自有繩索1條，願用它換一只防水袋裝本趟紙件；若無袋，他也接受協助把紙件分送到城內兩處，不付繩索。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交防水袋換信差的繩索",
+        "required_items": [],
+        "consumed_items": [
+          "content_waterproof_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；轉交防水袋1只，收取信差自有繩索1條。",
+        "outcome_zh": "紙件換袋封妥，繩索歸玩家；雙方各失去交換出去的實物。",
+        "rewards": [
+          {
+            "content_id": "content_rope",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "替信差分送城內兩份封口紙件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不拆閱、不消耗自有物品。",
+        "outcome_zh": "兩位收件者簽收，信差只需帶剩餘紙件返程；玩家得到簽收憑據，無物品報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接手這次紙件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；無物品轉移。",
+        "outcome_zh": "信差保留繩索與紙件，可自行找裁縫。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "有限交換只有這一條繩，實際信差離城後不再提供現場換袋；不把同一紙件重複送達。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_072",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "面罩攤的毒氣承諾",
+    "context_zh": "商人宣稱沙塵面罩也能應付所有未知氣味，準備遠行者猶豫不決。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商人宣稱沙塵面罩也能應付所有未知氣味，準備遠行者猶豫不決。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "展示防毒面具的獨立濾材需求",
+        "required_items": [
+          "content_gas_mask"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只比較裝具，不試吸不明氣體。",
+        "outcome_zh": "說明密封、濾材與危害需分開確認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "追問承諾的驗證依據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗談話時間，不讓高社交直接判成分。",
+        "outcome_zh": "把無法證明的說法標為未驗證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不靠這項承諾出發",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄當下便宜裝備。",
+        "outcome_zh": "可以另找可靠資訊，不自動取消整條路線。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有新檢測與裝備規則建立後才改安全判斷。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "hazards",
+      "identification",
+      "equipment"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "town_073",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "燃料罐想裝飲水",
+    "context_zh": "旅人看到乾淨外表的燃料罐，想借來裝取配水。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "旅人看到乾淨外表的燃料罐，想借來裝取配水。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出自己的空水袋",
+        "required_items": [
+          "content_waterskin"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需容器狀況確認與借期，水仍由原配水者提供。",
+        "outcome_zh": "提供較合適的候選容器，不對飲水品質作自動保證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "追查罐子原先用途",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "花查訪時間，不以外表認定清潔。",
+        "outcome_zh": "把容器历史不明的限制說清。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕替混用容器背書",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不領取或轉移液體。",
+        "outcome_zh": "旅人另找器具，不能因拒援生成疾病。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "如果已有合適容器，需求取消；容器檢查不能替代水處理。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "water_treatment",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_074",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沙袍下擺的商隊記號",
+    "context_zh": "裁縫認出沙袍縫法來自一支過境隊伍，失主卻還沒現身。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "裁縫認出沙袍縫法來自一支過境隊伍，失主卻還沒現身。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "拿自己的沙地長袍比對縫法",
+        "required_items": [
+          "content_desert_robe"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只提供對照，不轉移衣物。",
+        "outcome_zh": "得到可能的裁縫來源，不直接定位失主。",
+        "rewards": []
+      },
+      {
+        "label_zh": "向排程人查那批隊伍的公開停靠記錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗查閱時間，不侵犯私人貨單。",
+        "outcome_zh": "確定可詢問的下一站候選。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交回失物處等待認領",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不把衣服當免費掉落。",
+        "outcome_zh": "原物保留，未生成新追尋任務。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "如果失主已領回，追查提案結束，不能再出售同件長袍。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_075",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "大口徑器材的空配套盒",
+    "context_zh": "一名護衛買了大口徑左輪，才發現隨附盒子沒有任何可用補給。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名護衛買了大口徑左輪，才發現隨附盒子沒有任何可用補給。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用彈藥帶示範空攜具的限制",
+        "required_items": [
+          "content_ammo_bandolier"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只展示空帶，不能當彈藥實物。",
+        "outcome_zh": "明確區分器材、攜具與尚未定義的補給。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對成交單是否承諾包含配套",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗議價與查單時間。",
+        "outcome_zh": "將可證明的承諾交回交易双方處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替任何人墊付未知補給",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不花錢也不供應不存在的彈藥。",
+        "outcome_zh": "護衛需要重新安排自身裝備。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若雙方實際退貨，必須同時記錄物與款；不從空盒生成彈藥。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "town_076",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "燃料合作人的私人油燈",
+    "context_zh": "夜間議事想借一盞私人油燈，燈主擔心耗掉自己返程所需燃料。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "夜間議事想借一盞私人油燈，燈主擔心耗掉自己返程所需燃料。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借自己的油燈但先約定耗材",
+        "required_items": [
+          "content_oil_lamp"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "燈暫離手，實際耗材需另確認，不把 aggregate Fuel 等同燈油。",
+        "outcome_zh": "議事有照明候選，使用成本明示。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改約白天對帳",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "花排程時間，部分人可能需等候。",
+        "outcome_zh": "保留旅用燃料但延後決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不要求燈主代墊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "本次不辦夜間核帳。",
+        "outcome_zh": "各自物資保持歸屬，不自動掉信誉。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若清晨已有全員到場才開會，不能僅因改期完成核帳。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "lighting",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_077",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "外營地的第三條繩",
+    "context_zh": "外營地搭帳篷時發現繩索不足，管理者不想拆掉另一戶的固定繩。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "外營地搭帳篷時發現繩索不足，管理者不想拆掉另一戶的固定繩。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交付一條自己的繩索",
+        "required_items": [],
+        "consumed_items": [
+          "content_rope"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交繩索1條，實際適用負荷待檢查。",
+        "outcome_zh": "提供一件搭設材料候選，未保證抗風。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調縮小本次搭設範圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "需住戶同意，空間可能不足。",
+        "outcome_zh": "保留既有帳篷穩定，另找剩餘住處。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不拆別人的固定繩",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不提供新物資。",
+        "outcome_zh": "管理者仍需調整方案，不生成倒棚事故。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若其他材料到場，可重新決定搭設；不能把捐一條繩變成永久宿位。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "camping",
+      "hazards",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_078",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "煉製場門外的污鞋",
+    "context_zh": "場方希望把可疑污鞋帶到宿舍清洗，居民擔心污染來源不明。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "場方希望把可疑污鞋帶到宿舍清洗，居民擔心污染來源不明。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借密封貨箱作隔離候選",
+        "required_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只暫借空箱，需確認適用性與日後處理。",
+        "outcome_zh": "提供分隔保管方案，不清除污染。",
+        "rewards": []
+      },
+      {
+        "label_zh": "追查鞋子接觸過的作業區",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MEDICINE",
+          "rank": 1
+        },
+        "cost_zh": "耗查訪時間，不能靠氣味定成分。",
+        "outcome_zh": "列出需要專門評估的接觸史。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕帶進公共宿舍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不沒收私物。",
+        "outcome_zh": "原持有人需另找處理方案。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若正式檢查證明來源，處置依結果重談，不以恐慌生成疾病。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "hazards",
+      "cargo",
+      "identification",
+      "injury"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "town_079",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "無線電只剩一段回話",
+    "context_zh": "井口聽見一段斷續商隊回話，缺了地點與日期。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井口聽見一段斷續商隊回話，缺了地點與日期。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用自己的無線電記錄可重現片段",
+        "required_items": [
+          "content_radio"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需電源與合法頻段安排，不占用緊急通信。",
+        "outcome_zh": "保存實際訊息，未知部分不補寫。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請熟悉路線的人比對提到的地物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗詢問時間，結果保持候選。",
+        "outcome_zh": "缩小可能來源但不直接移動商隊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不把殘訊當成即時求救",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "沒有出發或消耗補給。",
+        "outcome_zh": "等待更多可驗證訊息。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若後續確認是舊重播，撤回緊急性而保留原記錄。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_080",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "酒商的空回程箱",
+    "context_zh": "酒商的密封貨箱可以回灰谷，但他只願載同意登記的乾燥貨物。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "酒商的密封貨箱可以回灰谷，但他只願載同意登記的乾燥貨物。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "托運自己的工具箱",
+        "required_items": [
+          "content_toolbox"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "物品交承運者保管，需約定費用與領取權。",
+        "outcome_zh": "建立具體貨物委託，不把工具留在玩家庫存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先談同行取貨代替托運",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "花議價時間，玩家須配合真實行程。",
+        "outcome_zh": "避免分離保管但承擔旅行安排。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不使用這個回程箱",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "保留物品，也放棄此次運輸位。",
+        "outcome_zh": "箱位可被他人實際接用。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "箱子若已出發，只能按當前位置處理，不瞬移回來補裝。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_081",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "護衛槍的保養簿欠頁",
+    "context_zh": "商隊護衛槍附一份缺頁保養簿，賣家認為只要還能動就足够。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊護衛槍附一份缺頁保養簿，賣家認為只要還能動就足够。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借維修手冊核對可能缺失檢查項",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "需機型相符，不進行實際射擊。",
+        "outcome_zh": "列出未知槍況，不能單憑手冊證明可用。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把未知狀態寫入成交條件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗協商時間，可能談不成。",
+        "outcome_zh": "買賣双方明確承擔哪部分風險。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接手缺乏資訊的器材",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不付款也不使用槍。",
+        "outcome_zh": "原主可另找檢驗服務。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若之後找到真實保養紀錄再更新估價，不自動提高傷害。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "knowledge",
+      "identification",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "town_082",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "露營炊煙引來的誤會",
+    "context_zh": "城外有人生火做飯，巡守人以為是求救煙但尚未確認。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "城外有人生火做飯，巡守人以為是求救煙但尚未確認。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "帶雙筒望遠鏡先觀察營地外圍",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "只從公共地點觀察，不假定能看清每人身份。",
+        "outcome_zh": "區分可見炊事與求救跡象。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請巡守人安排自願使者詢問",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗聯絡時間，不直接派生NPC。",
+        "outcome_zh": "由真實可用人手決定是否前往。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不把未確認煙霧當作攻擊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "保持目擊記錄。",
+        "outcome_zh": "巡守者繼續自行評估。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若已確認是炊事，誤報可撤销；不憑玩家選項生成敵對營地。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "camping",
+      "knowledge",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_083",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "工單上的防火服尺寸",
+    "context_zh": "煉製場委託尋找防火服，卻沒寫使用者尺寸或配套需求。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "煉製場委託尋找防火服，卻沒寫使用者尺寸或配套需求。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "帶自己的防火服供有限試穿檢查",
+        "required_items": [
+          "content_firefighter_suit"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "暫借檢查，不進入危險作業區。",
+        "outcome_zh": "確認尺寸候選，衣物可靠性另驗。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先把配套與人員條件補進需求",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "耗工單協商時間，不把紙上條件當實物。",
+        "outcome_zh": "避免買錯器材，尚未完成采购。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替模糊工單先墊錢",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不消耗資金。",
+        "outcome_zh": "委託人需先澄清需求。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "使用者若更換，尺寸檢查也要重做，不能用一套衣服覆蓋所有人。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "hazards",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "town_084",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "皮匠願換的最後一只水袋",
+    "context_zh": "皮匠保留一只空水袋，願換材料但不提供水。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "皮匠保留一只空水袋，願換材料但不提供水。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "交皮革換空水袋",
+        "required_items": [],
+        "consumed_items": [
+          "content_leather"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交皮革1份，皮匠交付水袋1只；交易需核對兩件真實物。",
+        "outcome_zh": "玩家得到空容器，不增加飲水。",
+        "rewards": [
+          {
+            "content_id": "content_waterskin",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "委託先修自己的破袋",
+        "required_items": [
+          "content_waterskin"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需實際持有水袋、等待檢查並另談成本。",
+        "outcome_zh": "形成修理工單，沒有立即恢復容量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留材料不交換",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄這只有限存貨。",
+        "outcome_zh": "皮匠可賣給其他真實買家。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "保留水袋一旦成交就不能重領；新供貨須有独立來源。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "regional_trade",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "town_085",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "商隊餐桌上不開封的香料",
+    "context_zh": "貨主把香料帶到餐桌卻不願拆封，同行者以為他在炫耀。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "貨主把香料帶到餐桌卻不願拆封，同行者以為他在炫耀。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "提供自己的香料給本次共享",
+        "required_items": [],
+        "consumed_items": [
+          "content_spices"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交香料1份，自己失去該份實物。",
+        "outcome_zh": "在自願前提下增加餐食材料，不要求任何人透露貨單。",
+        "rewards": []
+      },
+      {
+        "label_zh": "替貨主說清委託品不能私用",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗溝通時間，不能強迫大家接受。",
+        "outcome_zh": "區分私人食物與有主貨物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不介入餐桌爭執",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交付或取用香料。",
+        "outcome_zh": "貨物仍維持封存。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若原貨主正式同意拆封才可使用，不能因聚餐自動消耗托運貨。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cooking",
+      "cargo",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_086",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "磨砂鏡片看不清路標",
+    "context_zh": "歸來旅人的工程護目鏡被砂磨花，他認為夜視鏡能解決所有視線問題。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "歸來旅人的工程護目鏡被砂磨花，他認為夜視鏡能解決所有視線問題。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "展示自己護目鏡可見的狀態差異",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅比較鏡片與固定帶，不保證下一段行程安全。",
+        "outcome_zh": "確認需要的是視野檢查，不直接升級裝備。",
+        "rewards": []
+      },
+      {
+        "label_zh": "問清白天眩光還是夜間視線問題",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "耗詢問時間，保留不確定部分。",
+        "outcome_zh": "把環境需求分清再考慮器材。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不推薦未驗收的替代裝具",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收購或領推銷費。",
+        "outcome_zh": "旅人可找專門工坊。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若實際檢查發现是路標問題，原裝具需求應重估。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "lighting",
+      "hazards",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-05"
+    ]
+  },
+  {
+    "encounter_id": "town_087",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "守井人的舊步槍記號",
+    "context_zh": "井口有人認出守井人步槍上的地方標記，現持有人卻只把它當一般舊槍。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井口有人認出守井人步槍上的地方標記，現持有人卻只把它當一般舊槍。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用紙本日記記錄不同證言",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需發言者同意，不補写不存在年代。",
+        "outcome_zh": "保存多方說法，所有權仍待核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請認物者提供獨立歷史細節",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗查訪時間，不由熟悉名字判可信。",
+        "outcome_zh": "找到可驗證的地方記憶。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不參與未確認的認領",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不拿走武器。",
+        "outcome_zh": "持有人仍需自行處理爭議。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "守井人是唯一物件提案；去向一經正式確認，不能重複出現為獎勵。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "town_088",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "庫房角落的不明熱核",
+    "context_zh": "庫房記帳員發現一件持續發熱的奇物，想知道能否靠近其他貨。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "庫房記帳員發現一件持續發熱的奇物，想知道能否靠近其他貨。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用萬用電表由專業者評估可測現象",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "需許可與安全隔離，不直接接觸未知接口。",
+        "outcome_zh": "只記錄能檢測的現象，未知危害仍在。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調先空出隔離保管位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "需庫方同意，減少可用倉位。",
+        "outcome_zh": "提供保守放置方案，不声稱奇物安全。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不帶走奇物也不試作熱源",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄可能價值。",
+        "outcome_zh": "庫方需尋找合適研究者。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有後續研究能確認用途，不能直接給煉製場永久能源。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "hazards",
+      "identification",
+      "electronics",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-06",
+      "FICTION-ROADSIDE"
+    ]
+  },
+  {
+    "encounter_id": "town_089",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "排隊者手上的老照片",
+    "context_zh": "一名外營地居民拿照片找過境者，希望在下一班車前問出線索。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名外營地居民拿照片找過境者，希望在下一班車前問出線索。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "借防水袋保護照片到詢問處",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "袋暫時離手，照片所有權仍歸居民。",
+        "outcome_zh": "保存目擊依據，不保証尋人結果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪同向返程者逐一詢問",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗現場時間，尊重被詢問者拒答。",
+        "outcome_zh": "取得附日期的可能目擊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不承諾代替居民長途尋人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取走照片。",
+        "outcome_zh": "居民可繼續問其他真實旅人。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "返程車若已離開，現場詢問窗口關閉，但不宣判被尋者命運。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "town_090",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "重箱佔了陰影下的位置",
+    "context_zh": "兩名貨主都希望把貨放在唯一遮蔭處，一箱是文件，一箱是待檢器材。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩名貨主都希望把貨放在唯一遮蔭處，一箱是文件，一箱是待檢器材。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用沙地長袍暫罩文件箱",
+        "required_items": [
+          "content_desert_robe"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "自己暫時失去穿著，不能保證降溫效果。",
+        "outcome_zh": "提供局部遮光候選，仍需貨主同意。",
+        "rewards": []
+      },
+      {
+        "label_zh": "依貨物可驗證需求協商輪替",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "耗溝通時間，不憑售價判優先。",
+        "outcome_zh": "把已知脆弱性與未知風險分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不擅自搬動任何貨箱",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不接受仲裁報酬。",
+        "outcome_zh": "貨主自行承擔存放決定。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "如果遮棚新增或貨物離開，爭用結束；不能從遮光文字直接消除所有損耗。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "hazards",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "town_091",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收購者只認燃料產地",
+    "context_zh": "外地收購者看到乾井標籤就認為任何燃料罐都已裝滿可用燃料。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "外地收購者看到乾井標籤就認為任何燃料罐都已裝滿可用燃料。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "展示自己的空燃料罐",
+        "required_items": [
+          "content_fuel_can"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅展示，不轉移任何燃料。",
+        "outcome_zh": "說明容器、標籤與實際內容需分別驗收。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求逐項核對交接內容",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "耗談判時間，賣方可不接受。",
+        "outcome_zh": "提出可檢查的報價基礎。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不參加只看標籤的交易",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄短期價差。",
+        "outcome_zh": "不生成有油的罐子或改aggregate庫存。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "只有實際量測與物品 authority 建立後可形成液體交付，單位換算仍待定。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "town_092",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "拆卸隊想借動力錘",
+    "context_zh": "設備拆卸隊想把遠處工坊的動力錘當成已經到場的承诺。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "設備拆卸隊想把遠處工坊的動力錘當成已經到場的承诺。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "以密封貨箱規劃配件保管",
+        "required_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "僅提供現有空箱，運輸和大機本體仍另找。",
+        "outcome_zh": "把小件去向先寫清，不代表動力錘已可用。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把运输與作業分成兩個驗收點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗工單協商時間，不保證發車。",
+        "outcome_zh": "讓欠缺機具的責任可見。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕先簽設備已到場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收取預支工資。",
+        "outcome_zh": "拆卸隊須等實際交接。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若機具無法抵達，作業不能靠文字繼續；可重新談其他合理方案。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "cargo",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_093",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沙暴步槍的外地維修價",
+    "context_zh": "灰谷來的技工能修一般機構，卻不願保證乾井式防砂套的做法。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "灰谷來的技工能修一般機構，卻不願保證乾井式防砂套的做法。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借自己的沙暴步槍作非射擊對照",
+        "required_items": [
+          "content_sandstorm_rifle"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需原主同意檢視，器材暫時不能使用。",
+        "outcome_zh": "提供地方配套樣本，不直接授予維修知識。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓工坊只承諾能驗收的部分",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗議價時間，未修部分保持標記。",
+        "outcome_zh": "分開機構檢查與地方覆套修配。",
+        "rewards": []
+      },
+      {
+        "label_zh": "等熟悉當地配套的人回來",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "接受延期。",
+        "outcome_zh": "槍況不因等候自動恢復。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若原技工離城，未完成工單須重新確認，不能把技工複製到兩地。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "combat_extension",
+      "repair",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "town_094",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "井旁的夜視鏡買家",
+    "context_zh": "買家打算用夜視鏡看清深井底部，卻不知井下是否有足夠可用光。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "買家打算用夜視鏡看清深井底部，卻不知井下是否有足夠可用光。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用手電筒提出有限照明檢查",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需電源與井口許可，不探身下井。",
+        "outcome_zh": "照到的範圍可記錄，不能自動揭露井底。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先向設備技師確認感測限制",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "耗查詢時間，不把設備名當萬能能力。",
+        "outcome_zh": "為買家列出未驗證條件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替井下能見度保證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不收取帶看費。",
+        "outcome_zh": "買家可放棄或另排調查。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若井口管理者封閉調查，器材資格不能代替通行許可。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "lighting",
+      "electronics",
+      "exploration",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "town_095",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "無名信件的托運費",
+    "context_zh": "一封沒有寄出的信被混入待運文件，沒有人知道是否應當打開找地址。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一封沒有寄出的信被混入待運文件，沒有人知道是否應當打開找地址。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用防水袋先封存原信",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "暫借袋，需保管人同意且不拆信。",
+        "outcome_zh": "保護有限物證，不揭露未知內容。",
+        "rewards": []
+      },
+      {
+        "label_zh": "查詢外封可見的筆跡與收貨關係",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗查訪時間，不要求閱讀私人正文。",
+        "outcome_zh": "得到可能收件者的候選線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保持未寄狀態留給保管者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取得唯一信件。",
+        "outcome_zh": "保留原主決定是否寄出的可能。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "沒有寄出的信不得反覆作随机掉落；完成交還後只追蹤既定去向。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "encounter_id": "town_096",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "商隊護衛不想借出外套",
+    "context_zh": "一名護衛拒絕把商隊外套借給陌生人，因為外套上縫著交接紙條。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名護衛拒絕把商隊外套借給陌生人，因為外套上縫著交接紙條。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出自己的舊工作服",
+        "required_items": [
+          "content_work_clothes"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "衣物暫借，需合身與對方同意。",
+        "outcome_zh": "提供替代穿著，不取得護衛私人紙條。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調先取下紙條再談借用",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "需護衛與借用者自願，花交涉時間。",
+        "outcome_zh": "把保密與援助需求分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "尊重護衛保留衣物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不強迫交出或複製紙條。",
+        "outcome_zh": "求助者仍可找別的衣物。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若借衣需求已經解决，私人物品不再成為可取用獎勵。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "equipment",
+      "knowledge",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_097",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "油料工人的鹽水午餐",
+    "context_zh": "工人只說口渴，攤販卻想把所有疲倦都歸因於缺某種食材。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工人只說口渴，攤販卻想把所有疲倦都歸因於缺某種食材。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "提供一份已確認的淨水",
+        "required_items": [],
+        "consumed_items": [
+          "content_clean_water"
+        ],
+        "required_skill": null,
+        "cost_zh": "移交淨水1份，僅供對方自願接受。",
+        "outcome_zh": "完成食用物品交付，不自動治療或診斷。",
+        "rewards": []
+      },
+      {
+        "label_zh": "建議先停下作業找有資格的人評估",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MEDICINE",
+          "rank": 1
+        },
+        "cost_zh": "耗聯絡時間，需工人同意。",
+        "outcome_zh": "避免憑一句話下診斷，原因仍待確認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不購買被保證療效的混合物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交物資，也不否定求助者感受。",
+        "outcome_zh": "保留實際求助，未生成疾病狀態。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續健康改變需正式 injury authority，不由一份水保證恢復。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "injury",
+      "hazards",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "town_098",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "商路熟客的假日記",
+    "context_zh": "有人出售看似老舊的日記，声稱內有失落補給點，實際頁面未驗證。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "有人出售看似老舊的日記，声稱內有失落補給點，實際頁面未驗證。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "拿舊世地圖比對可見地名",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗查核時間，不拆不允許的封頁。",
+        "outcome_zh": "辨認年代或地點矛盾，不能證明寶藏存在。",
+        "rewards": []
+      },
+      {
+        "label_zh": "要求出處與轉手記錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "耗議價時間，賣方可不賣。",
+        "outcome_zh": "將未知資訊價值與紙本物品價值分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不買無法查證的傳聞",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄可能的情報。",
+        "outcome_zh": "日記保持原主所有，地圖不新增地點。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若其他可靠目擊出現才更新可信度，不因付錢保證傳闻為真。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "knowledge",
+      "identification",
+      "navigation",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "town_099",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "工人把砂石當成鳴石",
+    "context_zh": "一塊普通石頭靠近設備時發聲，工人以為已找到可高價賣的奇物。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一塊普通石頭靠近設備時發聲，工人以為已找到可高價賣的奇物。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "用無線電比對設備開關時的現象",
+        "required_items": [
+          "content_radio"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "需可用電源與允許，不預設因果。",
+        "outcome_zh": "記錄聲音是否跟設備一致，仍不把石頭變成奇物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請各目擊者分別描述條件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "耗訪談時間，避免把轉述混成共同證據。",
+        "outcome_zh": "列出可以重查的現象。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不參與未證實的高價收購",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不取得未知物。",
+        "outcome_zh": "工人可找真正研究者。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "如現象無法重現，保留不確定結論；不得補生鳴石满足傳闻。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "electronics",
+      "identification",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-06",
+      "FICTION-ROADSIDE"
+    ]
+  },
+  {
+    "encounter_id": "town_100",
+    "category": "settlement",
+    "status": "DESIGN_ONLY",
+    "title_zh": "出城前的未結工具借條",
+    "context_zh": "返程隊即將離開，借出的鉗子還在煉製場，借條没有約定代領人。",
+    "location_tags": [
+      "dry_well"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程隊即將離開，借出的鉗子還在煉製場，借條没有約定代領人。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "借出自己的鉗子供原主周轉",
+        "required_items": [
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "工具暫離手，另寫明归還條件。",
+        "outcome_zh": "原主可繼續準備，舊借用關係仍需處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "聯絡雙方補上合法代領安排",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗協商時間，需當事人同意。",
+        "outcome_zh": "建立可執行的交接候選，不立即把遠處工具傳回。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替未明借條代簽",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "放棄可能的中介費。",
+        "outcome_zh": "原主自行決定是否等候。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "隊伍一旦實際離城，只能在新的位置和條件下安排归還。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "cargo",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "WG-04"
+    ]
+  }
+]

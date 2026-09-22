@@ -1,0 +1,2724 @@
+[
+  {
+    "encounter_id": "anomaly_001",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "冷庫裡的乾布",
+    "context_zh": "一間斷電冷庫裡有塊不冷的冰，包布乾燥，附近水杯卻比門外更冷。",
+    "location_tags": [
+      "ruins",
+      "cold_storage"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；一間斷電冷庫裡有塊不冷的冰，包布乾燥，附近水杯卻比門外更冷。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "隔離觀察布面",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有工程護目鏡；花1天觀察，不接觸樣本。",
+        "outcome_zh": "記錄布面是否結露與位置差異；仍不知道樣本成分。",
+        "rewards": []
+      },
+      {
+        "label_zh": "查冷庫停機紀錄",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有維修手冊，MECHANICS 2；比對設備，不移動樣本。",
+        "outcome_zh": "取得可核對的停機時間與設備疑點，沒有宣告降溫來源。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記住入口後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不消耗物品，不延誤；放棄此次近距離調查。",
+        "outcome_zh": "只保留入口位置，樣本留在原處。",
+        "rewards": []
+      },
+      {
+        "label_zh": "封箱帶回指定保管處",
+        "required_items": [],
+        "consumed_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付密封貨箱1個給指定保管處作樣本專用容器，花1天完成已授權封裝與轉運；樣本無主或原主同意，且隔離評估通過才可選。",
+        "outcome_zh": "密封貨箱−1、不冷的冰+1；箱子歸接收保管處、沒有被銷毀，玩家簽收的同一樣本封存於該箱。冷庫原樣本移出且不再可領，後續取用必須驗證保管位置與權限。",
+        "rewards": [
+          {
+            "content_id": "content_uncold_ice",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "若後續設備紀錄被正式讀取，再比較兩份資料；不得用旁白補出永續冷源。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_002",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "借冰的午餐箱",
+    "context_zh": "新希望一位既有人口中的保管者想把不冷的冰放進公共食物箱。",
+    "location_tags": [
+      "new_hope",
+      "store_room"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；新希望一位既有人口中的保管者想把不冷的冰放進公共食物箱。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "提供獨立試驗袋",
+        "required_items": [],
+        "consumed_items": [
+          "content_waterproof_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付防水袋1個，花1天協助隔離；不是食物安全檢驗。",
+        "outcome_zh": "防水袋−1；保管者可先做獨立觀察，公共食物保持分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先找食物保管人討論",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，不交物。",
+        "outcome_zh": "記錄保管人同意暫緩直接接觸的安排；是否安全仍未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不參與保管決定",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，立即離開。",
+        "outcome_zh": "玩家沒有取得冷藏效果；保管人的後續決策留待世界規則。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "未建立食品與污染權威前，暫緩或隔離只作候選工作狀態，不能改食物保存率。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "FICTION-ROADSIDE"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_003",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "車隊的降溫承諾",
+    "context_zh": "乾井商隊願收一塊不冷的冰，但契約把所有貨損都寫成持有人責任。",
+    "location_tags": [
+      "dry_well",
+      "caravan_yard"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井商隊願收一塊不冷的冰，但契約把所有貨損都寫成持有人責任。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "改成限時研究交付",
+        "required_items": [
+          "content_uncold_ice"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有不冷的冰，BARTER 2；談判，沒有同意前不交付。",
+        "outcome_zh": "提出只涵蓋本次觀察的條款，沒有承諾貨物不壞或固定成交。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交給測試場保管",
+        "required_items": [],
+        "consumed_items": [
+          "content_uncold_ice"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付不冷的冰1件；雙方先確認只有測試用途。",
+        "outcome_zh": "不冷的冰−1；取得有來源與用途限制的交接紀錄，不獲得通用售價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕貨損保證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不消耗物品、不花時間。",
+        "outcome_zh": "保留原物，這次交易結束。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "買家後續只能依正式測試結果提出新條件，不能自動建立全球冷鏈。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_004",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩只不同的測溫杯",
+    "context_zh": "灰谷測試台把同一塊不冷的冰放在兩只厚薄不同的杯子旁，讀值不一致。",
+    "location_tags": [
+      "gray_valley",
+      "testing_bench"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷測試台把同一塊不冷的冰放在兩只厚薄不同的杯子旁，讀值不一致。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "檢查容器差異",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "MECHANICS 2，花1天檢查接觸面；不改動樣本。",
+        "outcome_zh": "將容器厚薄列為未控制條件，暫不比較兩組讀值的高低。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交出等厚玻璃樣片",
+        "required_items": [],
+        "consumed_items": [
+          "content_glass"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付玻璃1份，花1天協助重設測試。",
+        "outcome_zh": "玻璃−1；留下條件較一致的新觀察紀錄，不保證得到預期結果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只抄下現有數據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；不需要工具。",
+        "outcome_zh": "帶走註明條件不一致的筆記；沒有鑑定結論。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "後續資料須保留原始失配紀錄，不能把第一次測試靜默改成成功。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_005",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "井邊的黑點瓶",
+    "context_zh": "新希望排水渠旁有一瓶黑色水滴，井水看來正常，兩者尚未證實相連。",
+    "location_tags": [
+      "new_hope",
+      "drainage"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；新希望排水渠旁有一瓶黑色水滴，井水看來正常，兩者尚未證實相連。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "封存並標記來源",
+        "required_items": [],
+        "consumed_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付密封貨箱1個，花1天；未知液體留在原瓶。",
+        "outcome_zh": "密封貨箱−1；樣本被隔離並留下來源位置，井水安全性仍未判定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "追查瓶子的搬運紀錄",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有紙本日記，SCAVENGING 2，比對可見記號。",
+        "outcome_zh": "取得需要詢問的搬運時間範圍；不把疑點當污染證據。",
+        "rewards": []
+      },
+      {
+        "label_zh": "通報保管人後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；口頭通報，不碰瓶子。",
+        "outcome_zh": "位置與所見被記錄，沒有消耗或獲得物品，也不宣告井水有毒。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "供水變化只能依未來檢驗與世界權威產生，不因黑色外觀直接扣水。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_006",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "要換瓶的買家",
+    "context_zh": "灰谷收購者願接收黑色水滴，卻要求把它倒進無標記容器。",
+    "location_tags": [
+      "gray_valley",
+      "exchange_table"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷收購者願接收黑色水滴，卻要求把它倒進無標記容器。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "堅持連原瓶交付",
+        "required_items": [
+          "content_black_water_drop"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有黑色水滴，BARTER 2；議價，不倒出。",
+        "outcome_zh": "提出保留原容器與來源記錄的條件；無合意即無交易。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改交有保管規則的研究者",
+        "required_items": [],
+        "consumed_items": [
+          "content_black_water_drop"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付黑色水滴1件，完成簽收。",
+        "outcome_zh": "黑色水滴−1；留下封存狀態與接收目的，不憑空得到固定報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "帶著原瓶離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不消耗物品，放棄當次交易。",
+        "outcome_zh": "原有所有權與未知狀態維持。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若未來有正式轉瓶流程，必須另記樣本量與容器，不得同時保留兩份完整樣本。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_007",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "黑滴的重量爭執",
+    "context_zh": "乾井寄存員發現黑色水滴封瓶前後的秤重紀錄不同，封條尚完整。",
+    "location_tags": [
+      "dry_well",
+      "bonded_store"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井寄存員發現黑色水滴封瓶前後的秤重紀錄不同，封條尚完整。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "先檢查秤的紀錄",
+        "required_items": [
+          "content_precision_engineering_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 3
+        },
+        "cost_zh": "0天，不推進世界日期；持有精密工程手冊，MECHANICS 3；樣本不開封。",
+        "outcome_zh": "列出秤的校準缺項，差異仍是待查問題。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請兩位保管人共同見證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "SPEECH 2，花1天安排再稱重。",
+        "outcome_zh": "新增一次有見證的封瓶稱量；不推定液體曾被偷換。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留爭議，暫不領取",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不花物品，延後領取至少1天。",
+        "outcome_zh": "原瓶繼續由現任保管者保管，玩家暫時不能使用或轉賣。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "差異成因應來自記錄或檢查結果，不能用奇物設定替所有帳差找理由。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_008",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "瓶外的同色油漬",
+    "context_zh": "遺跡工作臺的黑色水滴旁有普通油漬，看起來很像，但尚未比較。",
+    "location_tags": [
+      "ruins",
+      "abandoned_lab"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；遺跡工作臺的黑色水滴旁有普通油漬，看起來很像，但尚未比較。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "分別記錄位置",
+        "required_items": [
+          "content_camera"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有相機；相容底片與沖洗另計，先花1天完成文字與視角記錄。",
+        "outcome_zh": "兩處痕跡被分開列為觀察對象，不合併成同一材料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "找容器標籤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "SCAVENGING 2，花1天搜尋同一工作臺周邊；不徒手接觸。",
+        "outcome_zh": "找到可見標籤或明確記錄未找到；只縮小需要查證的來源。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不取樣，退出工作臺",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品成本，立即離開。",
+        "outcome_zh": "沒有取得液體、燃料或研究成果。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "外觀相似不代表可混合、可燃或可飲；後續取樣需獨立危害與所有權規則。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_009",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "少了一半的石料帳",
+    "context_zh": "灰谷工地把空心石記成普通石料，帳面重量與實際搬運感受不符。",
+    "location_tags": [
+      "gray_valley",
+      "construction_yard"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷工地把空心石記成普通石料，帳面重量與實際搬運感受不符。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "更正物件分類",
+        "required_items": [
+          "content_hollow_stone"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有空心石，SPEECH 2；說明未知材料不能按普通石料交貨。",
+        "outcome_zh": "帳目增加待驗樣本註記，普通石料欠額不被這塊石頭自動抵銷。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提供獨立稱量參考",
+        "required_items": [],
+        "consumed_items": [
+          "content_steel_stock"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付鋼材1份作已知對照，花1天；仍需可用秤具。",
+        "outcome_zh": "鋼材−1；形成一組對照紀錄，不證明空心石能承重。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫停這筆交貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不移轉任何物品，放棄當次結算。",
+        "outcome_zh": "雙方保留原貨與帳目，爭議仍待處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "接收獨立樣本作送驗",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；完成工地主人的轉交；只領已從普通石料帳分出的1件樣本。",
+        "outcome_zh": "空心石+1；原保管者失去同一件樣本，普通石料欠額不變。",
+        "rewards": [
+          {
+            "content_id": "content_hollow_stone",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "未完成材料分類前，不能把異常重量套入普通建材價格公式。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_010",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "想切開的學徒",
+    "context_zh": "灰谷學徒想把空心石切成兩半，師傅要求先保存完整樣本的量測。",
+    "location_tags": [
+      "gray_valley",
+      "workshop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷學徒想把空心石切成兩半，師傅要求先保存完整樣本的量測。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "安排無損觀察",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有工程護目鏡，花1天記錄外表、尺寸與已有重量資料。",
+        "outcome_zh": "留下切割前可比對的完整記錄；沒有產生兩份樣本。",
+        "rewards": []
+      },
+      {
+        "label_zh": "以普通玻璃示範記錄流程",
+        "required_items": [],
+        "consumed_items": [
+          "content_glass"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付玻璃1份，花1天演示標記；不切空心石。",
+        "outcome_zh": "玻璃−1；學徒學到此次記錄程序，沒有技能數值獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把决定留給所有人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不消耗物品，停止參與。",
+        "outcome_zh": "玩家沒有對樣本作不可逆處理；是否切割由後續正式狀態決定。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若日後選擇切割，須先定破壞後的物件身分，不能複製兩塊完整奇物。",
+    "dependencies": [
+      "crafting",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_011",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "輕石不是救生浮具",
+    "context_zh": "荒野渡口有人想把空心石綁在包上，認為它能讓貨物浮起來。",
+    "location_tags": [
+      "wilderness",
+      "crossing"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；荒野渡口有人想把空心石綁在包上，認為它能讓貨物浮起來。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用繩索先固定空包測試",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "持有繩索，SURVIVAL 2；花1天，不把人或重要貨物放入水中。",
+        "outcome_zh": "繩索保留；只得到該空包的受控觀察，不保證載重通過。",
+        "rewards": []
+      },
+      {
+        "label_zh": "分開運人與貨",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "花1天尋找已有可用過河安排；任何費用須另報價。",
+        "outcome_zh": "延誤1天，放棄直接用奇物載重；沒有保證已找到渡船。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不過河，返回路標",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，回到可確認的路段；不新增探索成果。",
+        "outcome_zh": "渡口與樣本保持原狀，玩家未承受未定義落水結果。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "浮力、載重與落水結果未有權威前，故事只提出測試與替代路徑。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_012",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沒有保護層的寄送盒",
+    "context_zh": "乾井郵貨人把空心石放進太大的木盒，打算用碎鐵填空。",
+    "location_tags": [
+      "dry_well",
+      "dispatch"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井郵貨人把空心石放進太大的木盒，打算用碎鐵填空。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "改用軟包材",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布料1份，花1天重新固定樣本。",
+        "outcome_zh": "布料−1；寄送方案改用軟包材，不能保證長途零損壞。",
+        "rewards": []
+      },
+      {
+        "label_zh": "親自帶回研究者",
+        "required_items": [
+          "content_hollow_stone"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有空心石，保留65克樣本負擔；路程與每日補給依實際旅行另結。",
+        "outcome_zh": "原物由玩家保管，取消本次代寄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "取消寄送",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不花物品，樣本仍在原所有人保管下。",
+        "outcome_zh": "沒有生成郵寄完成事件，也沒有研究回覆。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "運輸成本來自正式物件與路線，不能因名字輕就免去全部貨物負擔。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_013",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "斷電後的低鳴",
+    "context_zh": "灰谷變電棚已斷開主開關，鳴石卻仍偶爾發聲。",
+    "location_tags": [
+      "gray_valley",
+      "substation"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷變電棚已斷開主開關，鳴石卻仍偶爾發聲。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "量測可接近的外部回路",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "持有萬用電表，ELECTRONICS 2；花1天，不觸碰裸露線路。",
+        "outcome_zh": "記錄測得與未測得的位置；不能因低鳴直接斷定有人偷電。",
+        "rewards": []
+      },
+      {
+        "label_zh": "移遠樣本作對照",
+        "required_items": [
+          "content_humming_stone"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有鳴石，花1天在管理者許可下比對距離。",
+        "outcome_zh": "記錄移動前後聲響，鳴石保留；沒有直接修復電網。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退出棚外等待",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不消耗物品，等待1天。",
+        "outcome_zh": "只保留外部可聽到的聲響紀錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "接下隔離送驗委託",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；簽收，負擔1件樣本重量；保管人有權移轉且隔離條件通過才可選。",
+        "outcome_zh": "鳴石+1；棚內樣本移至玩家名下，研究尚未完成。",
+        "rewards": [
+          {
+            "content_id": "content_humming_stone",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "聲音與電源關聯由觀察資料決定，不能隨機宣判破壞者。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "cargo",
+      "electronics",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_014",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "尋寶器招牌",
+    "context_zh": "乾井商人想替鳴石掛上能找出地下財寶的招牌，沒有任何測試紀錄。",
+    "location_tags": [
+      "dry_well",
+      "bazaar"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井商人想替鳴石掛上能找出地下財寶的招牌，沒有任何測試紀錄。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "只同意出售已知描述",
+        "required_items": [
+          "content_humming_stone"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有鳴石，BARTER 2；談條款，不自動交貨。",
+        "outcome_zh": "提出只列已觀察聲響的文案；成交與否另依明確報價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "公開要求對照測試",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，需在場者同意。",
+        "outcome_zh": "記錄商人是否同意測試；不憑公開質疑直接扣名聲。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕宣傳安排",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品與時間消耗。",
+        "outcome_zh": "原物不移轉，尋寶能力仍未獲證明。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "買家關係與聲譽需獨立後果；本事件不給玩家免費探測寶箱功能。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_015",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "泵聲掩住石聲",
+    "context_zh": "新希望泵房噪音太大，保管者無法確認鳴石是否有回應。",
+    "location_tags": [
+      "new_hope",
+      "pump_house"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；新希望泵房噪音太大，保管者無法確認鳴石是否有回應。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "等到例行停機再測",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "花1天等待已同意的停機窗口，不另停供水。",
+        "outcome_zh": "記錄較安靜條件下是否能聽見石聲；沒有立即供水變化。",
+        "rewards": []
+      },
+      {
+        "label_zh": "搬至隔壁測試桌",
+        "required_items": [
+          "content_humming_stone"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有鳴石，花1天；須管理者同意且不接通未知設備。",
+        "outcome_zh": "樣本離開泵房後完成一次有限觀察，不能與原條件直接混為同組數據。",
+        "rewards": []
+      },
+      {
+        "label_zh": "標記目前無法辨識",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不花物品，立即結束。",
+        "outcome_zh": "結果明確記為環境噪音阻礙觀察，不填入成功或失敗的假結論。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "設備噪音與樣本反應要各自保存；不能靠按鈕成功把泵房強制安靜。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_016",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩位研究者的同一塊石頭",
+    "context_zh": "灰谷兩位既有人口中的研究者都想把同一塊鳴石帶走做全天測試。",
+    "location_tags": [
+      "gray_valley",
+      "shared_lab"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷兩位既有人口中的研究者都想把同一塊鳴石帶走做全天測試。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "安排先後借用",
+        "required_items": [
+          "content_humming_stone"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有鳴石，SPEECH 2；協商，需兩方同意。",
+        "outcome_zh": "記錄一份非重疊借用候選時間表；原物仍只有1件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只交付給其中一方",
+        "required_items": [],
+        "consumed_items": [
+          "content_humming_stone"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付鳴石1件，簽收；玩家先選定接收者。",
+        "outcome_zh": "鳴石−1；另一方未取得樣本，不能同時完成兩份交付。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留樣本暫不出借",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零消耗，承擔原有樣本負重。",
+        "outcome_zh": "兩項研究均保持未交付。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "借用與返還必須以正式所有權紀錄實作；對話不複製物件。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_017",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "燃料桌旁的劈啪聲",
+    "context_zh": "乾井裝卸桌旁出現靜電骨，操作員還沒確定聲響來源。",
+    "location_tags": [
+      "dry_well",
+      "fuel_loading"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井裝卸桌旁出現靜電骨，操作員還沒確定聲響來源。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "先隔離裝卸區",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，協調；不自行操作燃料設備。",
+        "outcome_zh": "記錄一次有管理者同意的隔離安排，沒有憑旁白引發或熄滅火災。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交出專用箱收存",
+        "required_items": [],
+        "consumed_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付密封貨箱1個，花1天；由具資格保管者處理未知樣本。",
+        "outcome_zh": "密封貨箱−1；樣本與燃料分開保管，但安全性仍待檢驗。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退到裝卸區外",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，立即離開近處。",
+        "outcome_zh": "未獲取樣本；保留清楚位置供通報。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "燃燒與傷害需明定hazards authority，不能以隨機恐嚇代替風險設計。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_018",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收音機需要的不是火花",
+    "context_zh": "灰谷學徒想用靜電骨替無線電供電，尚未確認電壓與輸出穩定性。",
+    "location_tags": [
+      "gray_valley",
+      "electronics_bench"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷學徒想用靜電骨替無線電供電，尚未確認電壓與輸出穩定性。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "先量測外部輸出",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "持有萬用電表，ELECTRONICS 2；花1天，不接收音機。",
+        "outcome_zh": "取得有限量測紀錄；未達相容條件就不能提供供電選項。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改用已知電池",
+        "required_items": [],
+        "consumed_items": [
+          "content_battery"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付電池1個，花1天確認設備接口。",
+        "outcome_zh": "電池−1；改測普通電源，靜電骨維持隔離；通訊是否成功另判。",
+        "rewards": []
+      },
+      {
+        "label_zh": "勸學徒先停止接線",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；不消耗物品，說明目前未知條件。",
+        "outcome_zh": "只留下停止測試的建議，學徒是否接受不能自動當既定關係結果。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "微弱電荷不等於可用能源；測試不能生出可無限販售的電池。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_019",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "雨後不再吸灰",
+    "context_zh": "荒野樣本箱受潮後，靜電骨不像之前那樣吸附細灰。",
+    "location_tags": [
+      "wilderness",
+      "field_camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；荒野樣本箱受潮後，靜電骨不像之前那樣吸附細灰。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "保持兩次條件紀錄",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有紙本日記，花1天記錄濕度線索與外觀，不強行烘乾。",
+        "outcome_zh": "新增雨前雨後差異，沒有宣判物件失效。",
+        "rewards": []
+      },
+      {
+        "label_zh": "借乾燥袋隔離存放",
+        "required_items": [],
+        "consumed_items": [
+          "content_waterproof_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付防水袋1個，等待1天觀察；不加热。",
+        "outcome_zh": "防水袋−1；取得另一條件下的觀察，不能從一次變化推定永久規則。",
+        "rewards": []
+      },
+      {
+        "label_zh": "停止採樣並離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，不額外等待。",
+        "outcome_zh": "樣本仍歸原所有人，未獲得新鑑定結果。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "需要保存環境條件才能比較，不能把觀察噪音變成隨機耐久扣除。",
+    "dependencies": [
+      "camping",
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_020",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "把樣本當武器的提議",
+    "context_zh": "一位護衛想把靜電骨绑在棍上，宣稱能不靠彈藥制敵。",
+    "location_tags": [
+      "caravan",
+      "rest_stop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；一位護衛想把靜電骨绑在棍上，宣稱能不靠彈藥制敵。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "拒絕人體測試並量測",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "持有萬用電表，ELECTRONICS 2；花1天做隔離檢查。",
+        "outcome_zh": "只記錄可測輸出，不生成電擊武器或傷害數值。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交由保管者封存",
+        "required_items": [],
+        "consumed_items": [
+          "content_static_bone"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付靜電骨1件，建立簽收。",
+        "outcome_zh": "靜電骨−1；護衛未取得改造武器，樣本去向明確。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接受示範邀請",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零消耗，保持與未知裝置距離。",
+        "outcome_zh": "沒有戰鬥發生或人體效果；玩家保留離開路線。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若未來研究成為武器，須另外定裝備、攻擊與傷害權威，不能沿用此測試當作已完成。",
+    "dependencies": [
+      "combat_extension",
+      "electronics",
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_021",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "滑離工作臺的墊片",
+    "context_zh": "灰谷同一角落的金屬墊片總偏向外側，旁邊放著工坊保管的逆磁片；本案綁定工作臺上的這片樣本，管理者同意在場搬移作對照，所有權仍留工坊。",
+    "location_tags": [
+      "gray_valley",
+      "metal_workshop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷同一角落的金屬墊片總偏向外側，旁邊放著工坊保管的逆磁片；本案綁定工作臺上的這片樣本，管理者同意在場搬移作對照，所有權仍留工坊。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "分離不同材質樣本",
+        "required_items": [],
+        "consumed_items": [
+          "content_aluminum_stock",
+          "content_steel_stock"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付鋁材1份與鋼材1份，花1天測試。",
+        "outcome_zh": "鋁材−1、鋼材−1；得到材質分開的觀察紀錄，不泛化成所有金屬規則。",
+        "rewards": []
+      },
+      {
+        "label_zh": "移走逆磁片檢查桌面",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "MECHANICS 2；花1天在管理者在場時搬移本案樣本，不需玩家先擁有另一片；先查工作臺平整度。",
+        "outcome_zh": "記錄同一工作臺有無指定樣本時的差異，再把原樣本交回管理者；不直接排除傾斜或振動。",
+        "rewards": []
+      },
+      {
+        "label_zh": "停用該角落",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不花物品，把此次作業延後1天。",
+        "outcome_zh": "工作暫停，沒有奇物鑑定結論。",
+        "rewards": []
+      },
+      {
+        "label_zh": "接收可移動的試驗片",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布袋1個作帶離標記，花1天；先取得工坊同意並通過運輸隔離檢查。",
+        "outcome_zh": "布袋−1、逆磁片+1；工作臺不再持有同一片樣本。",
+        "rewards": [
+          {
+            "content_id": "content_reverse_magnetic_shard",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "後續若要判定材料特性，需保留桌面條件；不能用奇物跳過對照。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_022",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "羅盤不肯安定",
+    "context_zh": "乾井商隊把指南針和逆磁片放在同一包裡，路標讀值出現差異。",
+    "location_tags": [
+      "dry_well",
+      "caravan_pack"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井商隊把指南針和逆磁片放在同一包裡，路標讀值出現差異。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "分開再核對路標",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "持有指南針，SURVIVAL 2；花1天，先遠離其他金屬貨。",
+        "outcome_zh": "取得新的方向讀值與地標比對；不保證單一物件就是干擾源。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改用地圖與可見山形",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有舊世地圖，花1天確認現地可辨認地物。",
+        "outcome_zh": "建立不用這次羅盤讀數的候選走向；舊圖未標部分仍未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "留在已知路標等待",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "等待1天，當日水糧依旅行權威明確結算。",
+        "outcome_zh": "不走未確認方向，沒有自動到達目的地。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "方向資訊、導航與實際移動分开；分包不直接改路程天數。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_023",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被誇大的擋彈展示",
+    "context_zh": "灰谷看客把逆磁片的金屬反應誇成能擋住槍彈，尚無可靠試驗。",
+    "location_tags": [
+      "gray_valley",
+      "public_square"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷看客把逆磁片的金屬反應誇成能擋住槍彈，尚無可靠試驗。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "要求只做低能量材料測試",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，協調；不允許任何人對人開槍。",
+        "outcome_zh": "若參與者同意，展示改為普通金屬樣本觀察；沒有護甲數值。",
+        "rewards": []
+      },
+      {
+        "label_zh": "撤回自己的樣本",
+        "required_items": [
+          "content_reverse_magnetic_shard"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；持有逆磁片，確認借用權與收回簽收。",
+        "outcome_zh": "樣本回到原有持有人保管；展示不能繼續使用此物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "離開射線可能經過的區域",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，立即退出。",
+        "outcome_zh": "不參與危險測試，沒有戰鬥獎勵。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "任何投射物交互作用都需新combat/hazards規則，不由觀眾宣稱成立。",
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_024",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收樣櫃的鐵扣",
+    "context_zh": "研究者準備把逆磁片鎖進鐵扣櫃，扣件在接近時移動。",
+    "location_tags": [
+      "ruins",
+      "temporary_archive"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；研究者準備把逆磁片鎖進鐵扣櫃，扣件在接近時移動。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "提供非金屬包層",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth",
+          "content_plastic"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布料1份與塑膠1份，花1天由保管者試置。",
+        "outcome_zh": "布料−1、塑膠−1；形成新的封存候選，並記錄扣件仍否受影響。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不入櫃，限定觀察區",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，協調一處無作業的保管位置。",
+        "outcome_zh": "只記錄暫存安排，不宣稱完全隔絕作用。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫停交付",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品移轉；玩家保留原樣本負重。",
+        "outcome_zh": "研究者尚未收件，沒有寄存完成記錄。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "封存方式需經實際觀察；不能用普通塑膠當成萬用異常屏障。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_025",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "看似空著的窗框",
+    "context_zh": "遺跡窗框看似沒有玻璃，布條卻在穿過時被割開，地上可見無影玻璃邊緣。",
+    "location_tags": [
+      "ruins",
+      "window_corridor"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；遺跡窗框看似沒有玻璃，布條卻在穿過時被割開，地上可見無影玻璃邊緣。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "標記邊界再繞過",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布料1份作可見標記，花1天，不拆玻璃。",
+        "outcome_zh": "布料−1；邊界被標示，玩家改走旁邊已確認通道。",
+        "rewards": []
+      },
+      {
+        "label_zh": "從另一角度照明",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有手電筒，花1天；能源按未來照明規則另結。",
+        "outcome_zh": "取得在不同入射角下可見的邊緣紀錄，不宣稱玻璃無法傷人。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退回入口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零消耗，不碰窗框。",
+        "outcome_zh": "不取得玻璃，保留障礙位置。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請保管者封裝移交原片",
+        "required_items": [],
+        "consumed_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付密封貨箱1個，花1天；需有權的保管者、可行拆卸和運輸保護，玩家不徒手試取。",
+        "outcome_zh": "密封貨箱−1、無影玻璃+1；窗框原片移除，沒有生出可重複撿取的新玻璃。",
+        "rewards": [
+          {
+            "content_id": "content_shadowless_glass",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "割傷與移動需正式危害規則；此設計不讓玩家在未知判定下突然扣血。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "injury",
+      "item_ownership",
+      "knowledge",
+      "lighting"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_026",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "路標燈的錯誤試驗",
+    "context_zh": "乾井研究者想把無影玻璃架在公共路標燈前測試。",
+    "location_tags": [
+      "dry_well",
+      "route_lamp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井研究者想把無影玻璃架在公共路標燈前測試。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "提供獨立照明",
+        "required_items": [],
+        "consumed_items": [
+          "content_oil_lamp"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付油燈1盞，燃料與點火條件另需確認。",
+        "outcome_zh": "油燈−1；測試移到非公共路標位置，原路標不受這次安排影響。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商閉站後觀察",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，需管理者安排替代路標。",
+        "outcome_zh": "提出受控時段，尚未得到管理者同意前不能開始。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不協助這次試驗",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，立即離開。",
+        "outcome_zh": "沒有調暗路標，也沒有鑑定結果。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "光學現象不授權影響公共導航；任何實際照明改變要由世界狀態提交。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "lighting",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_027",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "無影玻璃的包裹清單",
+    "context_zh": "灰谷收樣員無法從陰影確認包裹裡有幾片玻璃，拒絕簽收。",
+    "location_tags": [
+      "gray_valley",
+      "receiving_room"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷收樣員無法從陰影確認包裹裡有幾片玻璃，拒絕簽收。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "共同核對可見邊界",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有工程護目鏡，花1天，在原所有人同意下檢查包裝。",
+        "outcome_zh": "只按可確認實體數量簽收；看不清的部分保持未驗收。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交出封箱前的記錄",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有紙本日記，SPEECH 2，比對封條與記錄。",
+        "outcome_zh": "提供來源證據，收樣員仍可要求實物核對；不自動變成交付成功。",
+        "rewards": []
+      },
+      {
+        "label_zh": "帶回包裹",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不移轉物件，承擔原有負重。",
+        "outcome_zh": "驗收未完成，沒有同時保留原物與交付報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "物件數量與顯示資訊分開；不因難看見便當成無重量或不存在。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_028",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "收藏者要的隱身片",
+    "context_zh": "外來收藏者把無影玻璃稱為隱身片，要求保證能遮住一個人。",
+    "location_tags": [
+      "caravan",
+      "collector_tent"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；外來收藏者把無影玻璃稱為隱身片，要求保證能遮住一個人。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "展示已知角度條件",
+        "required_items": [
+          "content_shadowless_glass"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有無影玻璃，花1天展示可重複觀察；不讓人躲進危險位置。",
+        "outcome_zh": "買家只得到已知光學資訊，是否收購另議，沒有隱身效果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "送交光學研究委託",
+        "required_items": [],
+        "consumed_items": [
+          "content_shadowless_glass"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付無影玻璃1件，簽收並保留用途限制。",
+        "outcome_zh": "無影玻璃−1；接收者取得同一片樣本，沒有固定金錢獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕保證，結束交易",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品與時間消耗。",
+        "outcome_zh": "保留物件與未知範圍，不留下虛假商品能力。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "任何隱蔽效果需獨立設計與驗證，不從商品名稱推導。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_029",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "混進普通種子的灰粒",
+    "context_zh": "新希望種子袋裡發現灰種，保管人還沒開始分發。",
+    "location_tags": [
+      "new_hope",
+      "seed_store"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；新希望種子袋裡發現灰種，保管人還沒開始分發。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "分袋標記",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布袋1個，花1天協助保管人分離可辨認灰粒。",
+        "outcome_zh": "布袋−1；未知樣本與普通種子分開，沒有宣告普通種子全數安全。",
+        "rewards": []
+      },
+      {
+        "label_zh": "比對來源簿",
+        "required_items": [
+          "content_planting_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有種植手冊，SURVIVAL 2；核對入庫日期與可見外觀。",
+        "outcome_zh": "留下需要詢問的批次，不因外觀就確定物種。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不領取這一袋",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，放棄當次領種。",
+        "outcome_zh": "玩家沒有取得種子；保管問題仍由現任管理者處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "領取一粒封存送驗",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；簽收；保管者只同意轉交已分離的1粒灰種，不領普通種子。",
+        "outcome_zh": "灰種+1；原種庫對應樣本−1，玩家取得送驗保管責任而非播種許可。",
+        "rewards": [
+          {
+            "content_id": "content_gray_seed",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "播種、繁殖與作物影響均需新規則；分袋不能自動清除世界污染。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_030",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沒有灌水的試驗盆",
+    "context_zh": "乾井有人說灰種不用水，但展示的盆在夜裡曾被移動。",
+    "location_tags": [
+      "dry_well",
+      "courtyard"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井有人說灰種不用水，但展示的盆在夜裡曾被移動。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "安排可見條件的對照",
+        "required_items": [],
+        "consumed_items": [
+          "content_water"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付水壺1個供分開記錄供水，花1天建立觀察安排。",
+        "outcome_zh": "水壺−1；只建立可追蹤供水的試驗，不保證發芽或免灌溉。",
+        "rewards": []
+      },
+      {
+        "label_zh": "詢問搬盆者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，請當事人說明，無強制搜查。",
+        "outcome_zh": "記錄其說法與仍未確認之處，不因回答含糊直接判騙子。",
+        "rewards": []
+      },
+      {
+        "label_zh": "保留疑問，不交易",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零消耗。",
+        "outcome_zh": "沒有買入種子，也未承認免灌溉效果。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "生長結果需按未來觀察時程，不能用一天對話生成成熟農作物。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_031",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "研究者要的最後一粒",
+    "context_zh": "灰谷研究者想切開手上唯一一粒灰種，另一位保管者想留作試種。",
+    "location_tags": [
+      "gray_valley",
+      "sample_room"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷研究者想切開手上唯一一粒灰種，另一位保管者想留作試種。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "保留完整外觀記錄",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有工程護目鏡，花1天記錄；不切開。",
+        "outcome_zh": "樣本保持完整，兩種後續用途都尚未實施。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交給隔離試種方",
+        "required_items": [],
+        "consumed_items": [
+          "content_gray_seed"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付灰種1粒，訂明只作有限試種。",
+        "outcome_zh": "灰種−1；切片研究方未取得樣本，不能複製第二粒。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不決定破壞性去向",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不消耗物品，原保管方式維持。",
+        "outcome_zh": "兩項工作都沒有完成，沒有立即研究獎勵。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "切開與播種消耗同一有限樣本；結果與後代數量需要正式權威。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_032",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "以灰種抵糧的契約",
+    "context_zh": "商隊買家想用灰種的傳聞產量抵扣眼前欠下的普通糧食。",
+    "location_tags": [
+      "caravan",
+      "contract_table"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；商隊買家想用灰種的傳聞產量抵扣眼前欠下的普通糧食。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "將種子與糧債分列",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；BARTER 2，修改條款；不移轉物品。",
+        "outcome_zh": "提出未知樣本不可當已實現產量的帳目，糧債仍待實際清償。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只談樣本研究交付",
+        "required_items": [
+          "content_gray_seed"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有灰種，SPEECH 2，需買家同意另立委託。",
+        "outcome_zh": "保留樣本價值未知，是否交付按新條款另決，不替欠糧擦帳。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕參與這筆交換",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，退出談判。",
+        "outcome_zh": "無種子、糧食或金錢移轉。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "未經試驗的作物不計入聚落產出，未來買賣也不預支不存在的收成。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_033",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "沒有開關的保溫箱",
+    "context_zh": "荒野營地把熱核塞進封閉箱，箱壁溫度持續變化，沒人知道何時會停止。",
+    "location_tags": [
+      "wilderness",
+      "camp"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；荒野營地把熱核塞進封閉箱，箱壁溫度持續變化，沒人知道何時會停止。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "隔開食物與樣本",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布袋1個重新裝普通補給，花1天；由保管者處理熱核。",
+        "outcome_zh": "布袋−1；補給與未知熱源分離，不宣告既有食物安全或已損壞。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記錄箱外溫度趨勢",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有紙本日記，花1天從安全距離觀察，不開箱。",
+        "outcome_zh": "得到時間與可見變化紀錄，沒有暖營地的效果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "離開箱體附近",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零消耗，選擇遠離未知熱源。",
+        "outcome_zh": "沒有受控試驗也沒有獲得熱核。",
+        "rewards": []
+      },
+      {
+        "label_zh": "承接核準的熱源轉運",
+        "required_items": [],
+        "consumed_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付密封貨箱1個作追蹤箱，花1天；先有獨立熱隔離评估與原主同意，普通箱子不保證隔熱。",
+        "outcome_zh": "密封貨箱−1、熱核+1；營地原樣本移出，轉運不產生供暖效果。",
+        "rewards": [
+          {
+            "content_id": "content_heat_core",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "箱內壓力、溫度與食品影響需明定規則，不能用描述擲出突然爆炸。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "camping",
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_034",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "熱核與燃料桶的位置",
+    "context_zh": "乾井裝卸場把熱核暫存在燃料桶旁，值班者對搬移責任有爭議。",
+    "location_tags": [
+      "dry_well",
+      "loading_yard"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井裝卸場把熱核暫存在燃料桶旁，值班者對搬移責任有爭議。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "協調清出隔離位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，請管理者確認搬移人與路線。",
+        "outcome_zh": "建立一次保管責任明確的候選安排，不自行移動未知熱源。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提供隔熱裝備供專人評估",
+        "required_items": [],
+        "consumed_items": [
+          "content_heat_insulation_suit"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付隔熱服1件，簽收；裝備是否適用需檢查。",
+        "outcome_zh": "隔熱服−1；操作員取得待檢裝備，並不因此保證可安全搬熱核。",
+        "rewards": []
+      },
+      {
+        "label_zh": "停止在場交易並退離",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不移轉物品，放棄當次交易。",
+        "outcome_zh": "玩家離開近處，沒有改動燃料庫存或火災狀態。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "處置成功需要危害與設備適用權威；一件隔熱服不能消除所有熱風險。",
+    "dependencies": [
+      "cargo",
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_035",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "工坊的永動招標",
+    "context_zh": "灰谷工坊想以熱核保證全年供能，測試資料只有一次短暫升溫。",
+    "location_tags": [
+      "gray_valley",
+      "workshop_bid"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷工坊想以熱核保證全年供能，測試資料只有一次短暫升溫。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "改寫成有限負載測試",
+        "required_items": [
+          "content_precision_engineering_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 3
+        },
+        "cost_zh": "持有精密工程手冊，MECHANICS 3；花1天列出可測條件。",
+        "outcome_zh": "產生限定條件的測試方案，沒有全年能源承諾。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只交樣本不承擔產能保證",
+        "required_items": [
+          "content_heat_core"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有熱核，BARTER 2；談判，未合意不交物。",
+        "outcome_zh": "提出研究用途條款；樣本所有權與報酬尚未改變。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退出招標",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗。",
+        "outcome_zh": "未建立供能義務，也沒有取得研究報酬。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "任何聚落永久產出都要經新設備authority，不能以一段合約文字增加燃料或電力。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_036",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "雪夜的兩種暖意",
+    "context_zh": "一位旅人想抱著熱核過夜，另一人提出使用普通睡袋等待援助。",
+    "location_tags": [
+      "wilderness",
+      "shelter"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；一位旅人想抱著熱核過夜，另一人提出使用普通睡袋等待援助。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "借出普通睡袋",
+        "required_items": [],
+        "consumed_items": [
+          "content_sleeping_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付睡袋1個，記錄借用；不把熱核貼身。",
+        "outcome_zh": "睡袋−1；旅人取得已知用品，具體保溫與返還仍待露營/所有權規則。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓熱核保持隔離觀察",
+        "required_items": [
+          "content_heat_core"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；持有熱核，SURVIVAL 2，規劃距離與看守安排。",
+        "outcome_zh": "只得到一項不直接接觸的候選安排，沒有立即治療或全隊免寒。",
+        "rewards": []
+      },
+      {
+        "label_zh": "繼續前往已知庇護點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "本事件不另耗物品；路程與每日補給按實際旅行結算。",
+        "outcome_zh": "不接觸樣本，旅人去向留待其正式世界狀態。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "失溫與援助結果需要露營/傷病規則；沒有規則時不能宣稱救活或害死。",
+    "dependencies": [
+      "camping",
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "injury",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "FICTION-ROADSIDE"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_037",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "聽不見交班聲的桌子",
+    "context_zh": "灰谷聯絡桌放上沉默盒後聲音斷續，但天線也剛移過位置。",
+    "location_tags": [
+      "gray_valley",
+      "radio_room"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；灰谷聯絡桌放上沉默盒後聲音斷續，但天線也剛移過位置。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "分開測試兩個變因",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "持有萬用電表，ELECTRONICS 2，花1天協調測試；不切斷正式值班。",
+        "outcome_zh": "留下天線與盒子分別變動的觀察記錄，不直接判定唯一成因。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把盒子移回保管區",
+        "required_items": [
+          "content_silence_box"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "持有沉默盒，花1天，在管理者許可下搬移。",
+        "outcome_zh": "記錄移開後接收狀態；原物仍只有1件，不保證全部通訊恢復。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先用跑腿傳達交班",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "花1天步行到已知值班點，不需要物品。",
+        "outcome_zh": "這一則訊息由人帶到；沒有修好無線電網。",
+        "rewards": []
+      },
+      {
+        "label_zh": "帶往離站測試點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "花1天完成保管者簽收與通信隔離安排；只在運輸條件確認後可選。",
+        "outcome_zh": "沉默盒+1；原桌樣本移至玩家保管，收音機是否恢復依另行觀察。",
+        "rewards": [
+          {
+            "content_id": "content_silence_box",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "followup_zh": "通訊與NPC知識的實際更新需正式提交，不因聲音變清就讓全世界同步情報。 樣本移交與現場扣除共用同一操作回執；即使耗時0天，也只能移交原有這件一次。封裝容器、樣本所有權、實際保管人與位置須分別保存，不可同時當作玩家隨身可用物與遠端保管物。",
+    "dependencies": [
+      "cargo",
+      "electronics",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_038",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "要在市場試沉默盒",
+    "context_zh": "乾井買家要求在公共電臺附近展示沉默盒，值班人沒有同意。",
+    "location_tags": [
+      "dry_well",
+      "public_radio"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；乾井買家要求在公共電臺附近展示沉默盒，值班人沒有同意。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "改約離站測試",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0天，不推進世界日期；SPEECH 2，協商地點，沒有同意前不展示。",
+        "outcome_zh": "提出不干擾公共聯絡的安排，交易仍未完成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提供只含已知結果的紀錄",
+        "required_items": [
+          "content_paper_journal"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；持有紙本日記，比對原測試條件。",
+        "outcome_zh": "買家看到有範圍限制的資料，無法據此聲稱所有頻段均受影響。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕示範",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品與時間消耗。",
+        "outcome_zh": "保留樣本，公共電臺不受玩家此次行動影響。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "買家是否接受條件是後續社交/交易狀態，不用假定必然成交。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_039",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "失聯商隊與錯放的箱子",
+    "context_zh": "商隊懷疑沉默盒令前哨失聯，但最後一次回報比裝箱時間更早。",
+    "location_tags": [
+      "caravan",
+      "dispatch"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；商隊懷疑沉默盒令前哨失聯，但最後一次回報比裝箱時間更早。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "核對兩份時間線",
+        "required_items": [
+          "content_old_world_watch"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；持有舊世界手錶與可核對的交班紀錄。",
+        "outcome_zh": "列出時間先後與時計偏差疑點，不能把樣本當失聯唯一原因。",
+        "rewards": []
+      },
+      {
+        "label_zh": "派送可驗證的查詢信",
+        "required_items": [],
+        "consumed_items": [
+          "content_paper_journal"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；交付紙本日記1本作記錄載體，編寫明確查詢。",
+        "outcome_zh": "紙本日記−1；形成待送達的查詢，沒有直接知道前哨生死。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不作推斷，保留原紀錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，不改動已有報告。",
+        "outcome_zh": "失聯成因仍未知，沒有生成事故或死亡。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "查詢實際送達需旅行與既有人物行動；時間矛盾不是一按就破案。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "FICTION-ROADSIDE"
+    ]
+  },
+  {
+    "encounter_id": "anomaly_040",
+    "category": "anomaly",
+    "status": "DESIGN_ONLY",
+    "title_zh": "把沉默盒當隱身許可",
+    "context_zh": "一位旅人認為帶著沉默盒就不會被守衛發現，打算穿越仍有人值守的路口。",
+    "location_tags": [
+      "wilderness",
+      "watched_crossing"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "候選現象須由未來世界紀錄保存其位置、樣本所有權與已觀察資料；一位旅人認為帶著沉默盒就不會被守衛發現，打算穿越仍有人值守的路口。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "指出可見視線與哨位",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "持有望遠鏡，SURVIVAL 2；花1天遠距觀察，不接近守衛。",
+        "outcome_zh": "取得可見哨位資訊；沉默盒不提供視覺隱形或通行權。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改走公開查驗程序",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，不推進世界日期；向有權的值班者詢問通行條件，不亮出未知裝置。",
+        "outcome_zh": "得到可詢問的條件或明確拒絕；沒有自動通過路口。",
+        "rewards": []
+      },
+      {
+        "label_zh": "離開路口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "零物品消耗，放棄本次穿越。",
+        "outcome_zh": "沒有戰鬥或新通行權，樣本保管不變。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "發現、通訊與通行是不同權威；未定機制不能被奇物敘事合併成萬能潛行。",
+    "dependencies": [
+      "combat_extension",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-ROADSIDE"
+    ]
+  }
+]

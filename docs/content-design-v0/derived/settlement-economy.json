@@ -1,0 +1,5552 @@
+[
+  {
+    "content_id": "content_adrenaline",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 80,
+    "reason_zh": "需求窄但補貨困難，不能當普通提神貨販售。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "90 Caps 是可信緊急庫存的設計估值，非效果強弱排名。"
+  },
+  {
+    "content_id": "content_adrenaline",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 80,
+    "reason_zh": "舊設施偶有封存貨，必須核驗。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "90 Caps 是可信緊急庫存的設計估值，非效果強弱排名。"
+  },
+  {
+    "content_id": "content_adrenaline",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 80,
+    "reason_zh": "只為診所保留緊急庫存。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "90 Caps 是可信緊急庫存的設計估值，非效果強弱排名。"
+  },
+  {
+    "content_id": "content_aluminum_stock",
+    "demand": "high",
+    "proposed_base_value_caps": 26,
+    "proposed_weight_g": 800,
+    "reason_zh": "長途車體和可攜箱具想降低重量。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "26 Caps 反映可用板面與較少攜行負擔，非強度排序。"
+  },
+  {
+    "content_id": "content_aluminum_stock",
+    "demand": "medium",
+    "proposed_base_value_caps": 26,
+    "proposed_weight_g": 800,
+    "reason_zh": "運輸廢料可回收，完整片面較少。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "26 Caps 反映可用板面與較少攜行負擔，非強度排序。"
+  },
+  {
+    "content_id": "content_aluminum_stock",
+    "demand": "low",
+    "proposed_base_value_caps": 26,
+    "proposed_weight_g": 800,
+    "reason_zh": "不是所有農具都需要輕金屬。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "26 Caps 反映可用板面與較少攜行負擔，非強度排序。"
+  },
+  {
+    "content_id": "content_ammo_bandolier",
+    "demand": "high",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 420,
+    "reason_zh": "護運人員整理相容補給有需求。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "75 Caps 提案取決於皮環和扣件完整。"
+  },
+  {
+    "content_id": "content_ammo_bandolier",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 420,
+    "reason_zh": "皮革匠可修，但完整彈藥供應另計。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "75 Caps 提案取決於皮環和扣件完整。"
+  },
+  {
+    "content_id": "content_ammo_bandolier",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 420,
+    "reason_zh": "獵戶需匹配規格，不能按外形買。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "75 Caps 提案取決於皮環和扣件完整。"
+  },
+  {
+    "content_id": "content_ammunition",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "武器使用者需求留待具體彈種設計。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "分類圖沒有物理單位與統一底價，不參與掉落或交易數量。"
+  },
+  {
+    "content_id": "content_ammunition",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "工業地區也不使分類圖變成可製造的一件貨。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "分類圖沒有物理單位與統一底價，不參與掉落或交易數量。"
+  },
+  {
+    "content_id": "content_ammunition",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "分類圖不設供需；須先定義相容的具體彈藥。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "分類圖沒有物理單位與統一底價，不參與掉落或交易數量。"
+  },
+  {
+    "content_id": "content_anti_radiation_medicine",
+    "demand": "medium",
+    "proposed_base_value_caps": 100,
+    "proposed_weight_g": 60,
+    "reason_zh": "遠征商隊可能提出專門委託。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "100 Caps 反映來源受限與檢驗成本，價值不是通行禁區的保證。"
+  },
+  {
+    "content_id": "content_anti_radiation_medicine",
+    "demand": "medium",
+    "proposed_base_value_caps": 100,
+    "proposed_weight_g": 60,
+    "reason_zh": "調查舊設施者求購，仍需專業檢驗。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "100 Caps 反映來源受限與檢驗成本，價值不是通行禁區的保證。"
+  },
+  {
+    "content_id": "content_anti_radiation_medicine",
+    "demand": "low",
+    "proposed_base_value_caps": 100,
+    "proposed_weight_g": 60,
+    "reason_zh": "沒有已確認危害時不囤大量專門品。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "100 Caps 反映來源受限與檢驗成本，價值不是通行禁區的保證。"
+  },
+  {
+    "content_id": "content_antibiotics",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 50,
+    "reason_zh": "遠離可靠醫療來源，供貨很少。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "60 Caps 來自難以本地補產與可靠來源的稀缺性。"
+  },
+  {
+    "content_id": "content_antibiotics",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 50,
+    "reason_zh": "工傷照護與人口密集增加備貨需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "60 Caps 來自難以本地補產與可靠來源的稀缺性。"
+  },
+  {
+    "content_id": "content_antibiotics",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 50,
+    "reason_zh": "居民診所需要可信批次。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "60 Caps 來自難以本地補產與可靠來源的稀缺性。"
+  },
+  {
+    "content_id": "content_antidote",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 90,
+    "reason_zh": "荒野隊伍希望備用，但要能對應已知風險。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "75 Caps 由可信來源和狹窄用途估值，不能按所有中毒共用定價。"
+  },
+  {
+    "content_id": "content_antidote",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 90,
+    "reason_zh": "工業環境需要特定應變品，不接受通用宣稱。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "75 Caps 由可信來源和狹窄用途估值，不能按所有中毒共用定價。"
+  },
+  {
+    "content_id": "content_antidote",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 90,
+    "reason_zh": "採集區問題需先辨識，診所不收未知配方。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "75 Caps 由可信來源和狹窄用途估值，不能按所有中毒共用定價。"
+  },
+  {
+    "content_id": "content_assault_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 650,
+    "proposed_weight_g": 3650,
+    "reason_zh": "長線護運需要先解決相容補給。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "650 Caps 是完整主要機件的未平衡估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_assault_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 650,
+    "proposed_weight_g": 3650,
+    "reason_zh": "軍械研究者或組織化守衛才可能出價。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "650 Caps 是完整主要機件的未平衡估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_assault_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": 650,
+    "proposed_weight_g": 3650,
+    "reason_zh": "地方農業需求與維護資源皆有限。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "650 Caps 是完整主要機件的未平衡估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_bandage",
+    "demand": "high",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 70,
+    "reason_zh": "巡路隊補貨依賴商隊。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "8 Caps 讓它成為可負擔的基礎急救耗材，但仍要可靠供應。"
+  },
+  {
+    "content_id": "content_bandage",
+    "demand": "high",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 70,
+    "reason_zh": "工地常備需求較大。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "8 Caps 讓它成為可負擔的基礎急救耗材，但仍要可靠供應。"
+  },
+  {
+    "content_id": "content_bandage",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 70,
+    "reason_zh": "診所有基礎存量，農務受傷仍會消耗。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "8 Caps 讓它成為可負擔的基礎急救耗材，但仍要可靠供應。"
+  },
+  {
+    "content_id": "content_battery",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 100,
+    "reason_zh": "長途通訊裝置很難沿路補充。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "12 Caps 以小型電源估價，電量未知時不能當足額新品交易。"
+  },
+  {
+    "content_id": "content_battery",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 100,
+    "reason_zh": "電子與照明設備密集，供需同時存在。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "12 Caps 以小型電源估價，電量未知時不能當足額新品交易。"
+  },
+  {
+    "content_id": "content_battery",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 100,
+    "reason_zh": "巡水燈具需可靠電源。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "12 Caps 以小型電源估價，電量未知時不能當足額新品交易。"
+  },
+  {
+    "content_id": "content_battery_cell",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 120,
+    "reason_zh": "通訊電源重整時委託採購。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 反映可回收的內部部件，轉成可用電源另有工序成本。"
+  },
+  {
+    "content_id": "content_battery_cell",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 120,
+    "reason_zh": "電源維修工坊有專門需求。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 反映可回收的內部部件，轉成可用電源另有工序成本。"
+  },
+  {
+    "content_id": "content_battery_cell",
+    "demand": "low",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 120,
+    "reason_zh": "缺少封裝檢測工位，不適合普通商店大量收。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 反映可回收的內部部件，轉成可用電源另有工序成本。"
+  },
+  {
+    "content_id": "content_bearing",
+    "demand": "high",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 180,
+    "reason_zh": "長途車隊難在途中補到匹配件。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "22 Caps 反映運轉精度需求，失效件沒有同樣功能價值。"
+  },
+  {
+    "content_id": "content_bearing",
+    "demand": "high",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 180,
+    "reason_zh": "加工和拆解都會用到可靠軸承。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "22 Caps 反映運轉精度需求，失效件沒有同樣功能價值。"
+  },
+  {
+    "content_id": "content_bearing",
+    "demand": "medium",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 180,
+    "reason_zh": "農車與泵體要備合尺寸件。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "22 Caps 反映運轉精度需求，失效件沒有同樣功能價值。"
+  },
+  {
+    "content_id": "content_binoculars",
+    "demand": "high",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 650,
+    "reason_zh": "商隊在開闊地追認停靠與同行訊號。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "65 Caps 反映鏡片完整度和節省接近風險的用途。"
+  },
+  {
+    "content_id": "content_binoculars",
+    "demand": "medium",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 650,
+    "reason_zh": "外勤者要看遠方建築與標誌。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "65 Caps 反映鏡片完整度和節省接近風險的用途。"
+  },
+  {
+    "content_id": "content_binoculars",
+    "demand": "medium",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 650,
+    "reason_zh": "巡田與觀察遠處水路有用途。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "65 Caps 反映鏡片完整度和節省接近風險的用途。"
+  },
+  {
+    "content_id": "content_black_box_memory",
+    "demand": "high",
+    "proposed_base_value_caps": 450,
+    "proposed_weight_g": 360,
+    "reason_zh": "運輸與燃料事故的當事人可能需要可驗證記錄。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "完整事件序列對相關調查者有價值；記錄可能無關、缺失或不可讀，不能保證藏有高價秘密。"
+  },
+  {
+    "content_id": "content_black_box_memory",
+    "demand": "high",
+    "proposed_base_value_caps": 450,
+    "proposed_weight_g": 360,
+    "reason_zh": "設備事故調查較可能找到讀取能力。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "完整事件序列對相關調查者有價值；記錄可能無關、缺失或不可讀，不能保證藏有高價秘密。"
+  },
+  {
+    "content_id": "content_black_box_memory",
+    "demand": "medium",
+    "proposed_base_value_caps": 450,
+    "proposed_weight_g": 360,
+    "reason_zh": "補給事故牽涉當地供給時才有委託需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "完整事件序列對相關調查者有價值；記錄可能無關、缺失或不可讀，不能保證藏有高價秘密。"
+  },
+  {
+    "content_id": "content_black_water_drop",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 90,
+    "reason_zh": "煉製研究者對流動特性有興趣，但不當可燃料收購。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "未知液滴沒有通用售價；只記錄研究者是否願意在封存條件下接收。"
+  },
+  {
+    "content_id": "content_black_water_drop",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 90,
+    "reason_zh": "材料研究者可能接收有清楚來源的封存樣本。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "未知液滴沒有通用售價；只記錄研究者是否願意在封存條件下接收。"
+  },
+  {
+    "content_id": "content_black_water_drop",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 90,
+    "reason_zh": "供水者會關心污染風險，通常只願協助隔離而非購買。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "未知液滴沒有通用售價；只記錄研究者是否願意在封存條件下接收。"
+  },
+  {
+    "content_id": "content_bolt_action_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 285,
+    "proposed_weight_g": 3600,
+    "reason_zh": "長途使用者重視可查驗器材與補給。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "285 Caps 提案反映廣泛維護知識與較完整槍況。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_bolt_action_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 285,
+    "proposed_weight_g": 3600,
+    "reason_zh": "護衛會找保存良好的長槍。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "285 Caps 提案反映廣泛維護知識與較完整槍況。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_bolt_action_rifle",
+    "demand": "high",
+    "proposed_base_value_caps": 285,
+    "proposed_weight_g": 3600,
+    "reason_zh": "獵人有用途且能找到保養者。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "285 Caps 提案反映廣泛維護知識與較完整槍況。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_burn_ointment",
+    "demand": "high",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 120,
+    "reason_zh": "燃料裝卸區需要可核對的醫療供應。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "28 Caps 反映工地常備需求，不提供固定回血量。"
+  },
+  {
+    "content_id": "content_burn_ointment",
+    "demand": "high",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 120,
+    "reason_zh": "熱工車間有具體照護需求。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "28 Caps 反映工地常備需求，不提供固定回血量。"
+  },
+  {
+    "content_id": "content_burn_ointment",
+    "demand": "low",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 120,
+    "reason_zh": "日常診所少量存備。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "28 Caps 反映工地常備需求，不提供固定回血量。"
+  },
+  {
+    "content_id": "content_camera",
+    "demand": "medium",
+    "proposed_base_value_caps": 140,
+    "proposed_weight_g": 720,
+    "reason_zh": "運輸紀錄人有保存事故現場的理由，但沒有穩定底片來源。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "完整光學與機械部件可供使用或研究；底片與沖洗供應未建立，不能把機身視為無限拍照器。"
+  },
+  {
+    "content_id": "content_camera",
+    "demand": "medium",
+    "proposed_base_value_caps": 140,
+    "proposed_weight_g": 720,
+    "reason_zh": "調查者或光學工匠可能收購完整機身。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "完整光學與機械部件可供使用或研究；底片與沖洗供應未建立，不能把機身視為無限拍照器。"
+  },
+  {
+    "content_id": "content_camera",
+    "demand": "low",
+    "proposed_base_value_caps": 140,
+    "proposed_weight_g": 720,
+    "reason_zh": "一般農戶少有成像耗材，僅偶有家庭照片保存委託。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "完整光學與機械部件可供使用或研究；底片與沖洗供應未建立，不能把機身視為無限拍照器。"
+  },
+  {
+    "content_id": "content_canned_food",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 500,
+    "reason_zh": "封裝食物適合備在路線補給點。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 包含封裝與較方便運輸的成本，不是永久不壞。"
+  },
+  {
+    "content_id": "content_canned_food",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 500,
+    "reason_zh": "金屬容器易得，內容仍靠食物來源。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 包含封裝與較方便運輸的成本，不是永久不壞。"
+  },
+  {
+    "content_id": "content_canned_food",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 500,
+    "reason_zh": "有少量近期封裝，但罐材要回收。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 包含封裝與較方便運輸的成本，不是永久不壞。"
+  },
+  {
+    "content_id": "content_car_panel_cleaver",
+    "demand": "low",
+    "proposed_base_value_caps": 88,
+    "proposed_weight_g": 3400,
+    "reason_zh": "長途攜行笨重，只有固定工地願意收。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "88 Caps 提案保留重加工成本，但 3400 g 會擠占旅行負荷。"
+  },
+  {
+    "content_id": "content_car_panel_cleaver",
+    "demand": "medium",
+    "proposed_base_value_caps": 88,
+    "proposed_weight_g": 3400,
+    "reason_zh": "廢車場可供貨，工匠之間看重加工品質。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "88 Caps 提案保留重加工成本，但 3400 g 會擠占旅行負荷。"
+  },
+  {
+    "content_id": "content_car_panel_cleaver",
+    "demand": "medium",
+    "proposed_base_value_caps": 88,
+    "proposed_weight_g": 3400,
+    "reason_zh": "粗切織物與防護簾有小眾需求，農民更常買輕刀。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "88 Caps 提案保留重加工成本，但 3400 g 會擠占旅行負荷。"
+  },
+  {
+    "content_id": "content_car_panel_cuirass",
+    "demand": "low",
+    "proposed_base_value_caps": 250,
+    "proposed_weight_g": 8200,
+    "reason_zh": "長線商隊通常不願背負硬重甲。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "250 Caps 提案包含整形工時，搬運與合身成本另計。"
+  },
+  {
+    "content_id": "content_car_panel_cuirass",
+    "demand": "medium",
+    "proposed_base_value_caps": 250,
+    "proposed_weight_g": 8200,
+    "reason_zh": "近距離固定守望可能有小眾使用者。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "250 Caps 提案包含整形工時，搬運與合身成本另計。"
+  },
+  {
+    "content_id": "content_car_panel_cuirass",
+    "demand": "low",
+    "proposed_base_value_caps": 250,
+    "proposed_weight_g": 8200,
+    "reason_zh": "固定糧倉守衛也需權衡重量。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "250 Caps 提案包含整形工時，搬運與合身成本另計。"
+  },
+  {
+    "content_id": "content_caravan_coat",
+    "demand": "high",
+    "proposed_base_value_caps": 85,
+    "proposed_weight_g": 1500,
+    "reason_zh": "長線商隊需要可修補的外套。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "85 Caps 為有補強的旅行服提案；1500 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_caravan_coat",
+    "demand": "high",
+    "proposed_base_value_caps": 85,
+    "proposed_weight_g": 1500,
+    "reason_zh": "中轉維修與二手交易活躍。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "85 Caps 為有補強的旅行服提案；1500 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_caravan_coat",
+    "demand": "medium",
+    "proposed_base_value_caps": 85,
+    "proposed_weight_g": 1500,
+    "reason_zh": "糧運工作者會購買，農戶平時較少穿。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "85 Caps 為有補強的旅行服提案；1500 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_caravan_polearm",
+    "demand": "high",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 2900,
+    "reason_zh": "燃料商隊需要熟悉護車器具的人手。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "110 Caps 提案來自護車式樣及長柄運輸成本。"
+  },
+  {
+    "content_id": "content_caravan_polearm",
+    "demand": "medium",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 2900,
+    "reason_zh": "護車工坊能修頭部，完整長桿不常存放。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "110 Caps 提案來自護車式樣及長柄運輸成本。"
+  },
+  {
+    "content_id": "content_caravan_polearm",
+    "demand": "medium",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 2900,
+    "reason_zh": "糧車出發時會借用，平時需求低。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "110 Caps 提案來自護車式樣及長柄運輸成本。"
+  },
+  {
+    "content_id": "content_caravan_rifle",
+    "demand": "high",
+    "proposed_base_value_caps": 335,
+    "proposed_weight_g": 3400,
+    "reason_zh": "長線護運比零星家用更需要統一支援。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "335 Caps 提案把可追蹤的維修支持算入成品價值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_caravan_rifle",
+    "demand": "high",
+    "proposed_base_value_caps": 335,
+    "proposed_weight_g": 3400,
+    "reason_zh": "路線維修工坊會保有相容備件。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "335 Caps 提案把可追蹤的維修支持算入成品價值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_caravan_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 335,
+    "proposed_weight_g": 3400,
+    "reason_zh": "糧運期間有需求，農閒供應仍依商隊。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "335 Caps 提案把可追蹤的維修支持算入成品價值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_caravan_smg",
+    "demand": "high",
+    "proposed_base_value_caps": 520,
+    "proposed_weight_g": 2800,
+    "reason_zh": "燃料長線有持續維護與備件需求。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "520 Caps 提案包含交接資料完整時的維護價值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_caravan_smg",
+    "demand": "high",
+    "proposed_base_value_caps": 520,
+    "proposed_weight_g": 2800,
+    "reason_zh": "護車工坊需匹配零件，來源多為退役交接。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "520 Caps 提案包含交接資料完整時的維護價值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_caravan_smg",
+    "demand": "medium",
+    "proposed_base_value_caps": 520,
+    "proposed_weight_g": 2800,
+    "reason_zh": "糧車護送可借用，但主要供應在商隊。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "520 Caps 提案包含交接資料完整時的維護價值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_chemicals",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 500,
+    "reason_zh": "設備服務提出指定工序用料需求。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "35 Caps 為可追溯工坊用料的設計尺度，種類未定前不承諾通用售價。"
+  },
+  {
+    "content_id": "content_chemicals",
+    "demand": "high",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 500,
+    "reason_zh": "加工業需要，標籤與相容性很重要。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "35 Caps 為可追溯工坊用料的設計尺度，種類未定前不承諾通用售價。"
+  },
+  {
+    "content_id": "content_chemicals",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 500,
+    "reason_zh": "只有已辨明用途的工坊批次才收。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "35 Caps 為可追溯工坊用料的設計尺度，種類未定前不承諾通用售價。"
+  },
+  {
+    "content_id": "content_cigarettes",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 30,
+    "reason_zh": "隨商隊流通，不是所有攤販都收。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 來自習慣性需求和密封品完整性，不是通用貨幣。"
+  },
+  {
+    "content_id": "content_cigarettes",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 30,
+    "reason_zh": "值班工人和外來商人有零星市場。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 來自習慣性需求和密封品完整性，不是通用貨幣。"
+  },
+  {
+    "content_id": "content_cigarettes",
+    "demand": "low",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 30,
+    "reason_zh": "部分買家有需求，居民並非普遍接受。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 來自習慣性需求和密封品完整性，不是通用貨幣。"
+  },
+  {
+    "content_id": "content_circuit_board",
+    "demand": "high",
+    "proposed_base_value_caps": 40,
+    "proposed_weight_g": 180,
+    "reason_zh": "控制設備故障時急需可匹配板件。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "40 Caps 只是可識別板件的基準提議，未測試不保證功能價值。"
+  },
+  {
+    "content_id": "content_circuit_board",
+    "demand": "high",
+    "proposed_base_value_caps": 40,
+    "proposed_weight_g": 180,
+    "reason_zh": "回收與檢測條件集中。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "40 Caps 只是可識別板件的基準提議，未測試不保證功能價值。"
+  },
+  {
+    "content_id": "content_circuit_board",
+    "demand": "medium",
+    "proposed_base_value_caps": 40,
+    "proposed_weight_g": 180,
+    "reason_zh": "只有設備型號相符時有明確需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "40 Caps 只是可識別板件的基準提議，未測試不保證功能價值。"
+  },
+  {
+    "content_id": "content_civilian_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 240,
+    "proposed_weight_g": 780,
+    "reason_zh": "外來型式多，買家先確認可維修性。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "240 Caps 反映完整機件與較低攜行負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_civilian_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 240,
+    "proposed_weight_g": 780,
+    "reason_zh": "舊住宅和回收商是主要來源。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "240 Caps 反映完整機件與較低攜行負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_civilian_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 240,
+    "proposed_weight_g": 780,
+    "reason_zh": "短程貨主需要護衛，但不易自行維修。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "240 Caps 反映完整機件與較低攜行負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_clean_water",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 1100,
+    "reason_zh": "燃料產地仍需可靠飲水補給。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "12 Caps 以普通旅途補給作尺度，支付的是取水、檢驗與封裝。"
+  },
+  {
+    "content_id": "content_clean_water",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 1100,
+    "reason_zh": "工地飲水多仰賴運入。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "12 Caps 以普通旅途補給作尺度，支付的是取水、檢驗與封裝。"
+  },
+  {
+    "content_id": "content_clean_water",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 1100,
+    "reason_zh": "取水與封裝方便，但田間工班仍用水。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "12 Caps 以普通旅途補給作尺度，支付的是取水、檢驗與封裝。"
+  },
+  {
+    "content_id": "content_cloth",
+    "demand": "high",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 500,
+    "reason_zh": "商隊篷布與包袋磨損補料難。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "10 Caps 取常見可加工材料定位。"
+  },
+  {
+    "content_id": "content_cloth",
+    "demand": "high",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 500,
+    "reason_zh": "工衣和擦拭耗材需求多。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "10 Caps 取常見可加工材料定位。"
+  },
+  {
+    "content_id": "content_cloth",
+    "demand": "medium",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 500,
+    "reason_zh": "有修補與家庭加工來源。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "10 Caps 取常見可加工材料定位。"
+  },
+  {
+    "content_id": "content_cloth_sack",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 180,
+    "reason_zh": "乾燥貨物可分袋，燃料不能直接裝布袋。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "12 Caps 提案作低價包裝，仍比無主破布更完整。"
+  },
+  {
+    "content_id": "content_cloth_sack",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 180,
+    "reason_zh": "小零件要整理，但銳利材料容易刮破布袋。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "12 Caps 提案作低價包裝，仍比無主破布更完整。"
+  },
+  {
+    "content_id": "content_cloth_sack",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 180,
+    "reason_zh": "種子與乾燥農產常需分裝。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "12 Caps 提案作低價包裝，仍比無主破布更完整。"
+  },
+  {
+    "content_id": "content_coffee",
+    "demand": "medium",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 200,
+    "reason_zh": "商隊停靠店希望提供少見飲品。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "45 Caps 因外來供應少且有人偏好，並非每個聚落都有高需求。"
+  },
+  {
+    "content_id": "content_coffee",
+    "demand": "medium",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 200,
+    "reason_zh": "值班者和收藏外來口味的買家願意收。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "45 Caps 因外來供應少且有人偏好，並非每個聚落都有高需求。"
+  },
+  {
+    "content_id": "content_coffee",
+    "demand": "low",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 200,
+    "reason_zh": "多數家庭先買主食，少數買家偏好。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "45 Caps 因外來供應少且有人偏好，並非每個聚落都有高需求。"
+  },
+  {
+    "content_id": "content_company_keycard",
+    "demand": "medium",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 12,
+    "reason_zh": "燃料設施可能尋找特定公司序號，必須先查型號。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "估值來自特定設施的調查需求；卡號失效或讀取器不相容時不具一般通行價值。"
+  },
+  {
+    "content_id": "content_company_keycard",
+    "demand": "high",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 12,
+    "reason_zh": "舊工業維護設施與識別檔案較相關。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "估值來自特定設施的調查需求；卡號失效或讀取器不相容時不具一般通行價值。"
+  },
+  {
+    "content_id": "content_company_keycard",
+    "demand": "low",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 12,
+    "reason_zh": "多數農業場所沒有相容讀取器，僅有調查委託需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "估值來自特定設施的調查需求；卡號失效或讀取器不相容時不具一般通行價值。"
+  },
+  {
+    "content_id": "content_compass",
+    "demand": "high",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 100,
+    "reason_zh": "沙地少地標，可靠方位資訊有價值。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "35 Caps 以無需電源的導航工具估價，前提是可靠讀數。"
+  },
+  {
+    "content_id": "content_compass",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 100,
+    "reason_zh": "供應來自舊貨，金屬干擾區要檢驗。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "35 Caps 以無需電源的導航工具估價，前提是可靠讀數。"
+  },
+  {
+    "content_id": "content_compass",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 100,
+    "reason_zh": "採集者離開熟路才常用。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "35 Caps 以無需電源的導航工具估價，前提是可靠讀數。"
+  },
+  {
+    "content_id": "content_copper_wire",
+    "demand": "high",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 300,
+    "reason_zh": "泵站和中繼設備難取得相容線材。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "20 Caps 來自可辨來源的線材，分離污染和測試要花工。"
+  },
+  {
+    "content_id": "content_copper_wire",
+    "demand": "high",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 300,
+    "reason_zh": "拆解來源多，同時有大量配線工作。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "20 Caps 來自可辨來源的線材，分離污染和測試要花工。"
+  },
+  {
+    "content_id": "content_copper_wire",
+    "demand": "medium",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 300,
+    "reason_zh": "水泵與簡單電器修理會採買。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "20 Caps 來自可辨來源的線材，分離污染和測試要花工。"
+  },
+  {
+    "content_id": "content_crowbar",
+    "demand": "high",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 2000,
+    "reason_zh": "維修燃料棧板需要槓桿工具，需求受運輸量影響。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "65 Caps 與 2000 g 是一般化物品的未採用提案，不套用既有 2 carrying-unit crowbar。"
+  },
+  {
+    "content_id": "content_crowbar",
+    "demand": "medium",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 2000,
+    "reason_zh": "拆解場常備，完整直桿比扭曲廢件有用。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "65 Caps 與 2000 g 是一般化物品的未採用提案，不套用既有 2 carrying-unit crowbar。"
+  },
+  {
+    "content_id": "content_crowbar",
+    "demand": "high",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 2000,
+    "reason_zh": "倉庫修繕需要撬具，產地依賴外運。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "65 Caps 與 2000 g 是一般化物品的未採用提案，不套用既有 2 carrying-unit crowbar。"
+  },
+  {
+    "content_id": "content_data_disk",
+    "demand": "medium",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 90,
+    "reason_zh": "煉製批次與運輸紀錄有特定查詢需求。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "估值按可讀介面與保存條件提出；未知內容不按寶藏價出售，讀取結果可能只是日常紀錄。"
+  },
+  {
+    "content_id": "content_data_disk",
+    "demand": "high",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 90,
+    "reason_zh": "電子工坊或紀錄者較可能處理相容介面。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "估值按可讀介面與保存條件提出；未知內容不按寶藏價出售，讀取結果可能只是日常紀錄。"
+  },
+  {
+    "content_id": "content_data_disk",
+    "demand": "medium",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 90,
+    "reason_zh": "供水與農業歷史紀錄可能有用，但缺少常備讀取設備。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "估值按可讀介面與保存條件提出；未知內容不按寶藏價出售，讀取結果可能只是日常紀錄。"
+  },
+  {
+    "content_id": "content_desert_robe",
+    "demand": "high",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 900,
+    "reason_zh": "本地製作與日常替換都存在。",
+    "supply": "high",
+    "town_id": "dry_well",
+    "value_rationale_zh": "55 Caps 為地方常用服飾提案；900 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_desert_robe",
+    "demand": "medium",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 900,
+    "reason_zh": "前往乾井的旅客會在中轉地備貨。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "55 Caps 為地方常用服飾提案；900 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_desert_robe",
+    "demand": "low",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 900,
+    "reason_zh": "潮濕農務環境不特別需要長袍。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "55 Caps 為地方常用服飾提案；900 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_desert_sabre",
+    "demand": "high",
+    "proposed_base_value_caps": 135,
+    "proposed_weight_g": 1150,
+    "reason_zh": "熟悉維護方式且有配鞘工匠，地方需求明確。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "135 Caps 提案反映刀鞘與在地手工，非保證高傷害。"
+  },
+  {
+    "content_id": "content_desert_sabre",
+    "demand": "medium",
+    "proposed_base_value_caps": 135,
+    "proposed_weight_g": 1150,
+    "reason_zh": "收藏地方工藝與護衛有需求，供應依靠商隊。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "135 Caps 提案反映刀鞘與在地手工，非保證高傷害。"
+  },
+  {
+    "content_id": "content_desert_sabre",
+    "demand": "low",
+    "proposed_base_value_caps": 135,
+    "proposed_weight_g": 1150,
+    "reason_zh": "農用刀較實惠，旅人會為攜行性買單。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "135 Caps 提案反映刀鞘與在地手工，非保證高傷害。"
+  },
+  {
+    "content_id": "content_dirty_water",
+    "demand": "medium",
+    "proposed_base_value_caps": 2,
+    "proposed_weight_g": 1100,
+    "reason_zh": "井邊異常水樣有調查價值，不能當飲水補貨。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "2 Caps 只代表取樣與搬運價值，不按飲水售價估算。"
+  },
+  {
+    "content_id": "content_dirty_water",
+    "demand": "medium",
+    "proposed_base_value_caps": 2,
+    "proposed_weight_g": 1100,
+    "reason_zh": "排水檢查需要不同位置的樣本。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "2 Caps 只代表取樣與搬運價值，不按飲水售價估算。"
+  },
+  {
+    "content_id": "content_dirty_water",
+    "demand": "low",
+    "proposed_base_value_caps": 2,
+    "proposed_weight_g": 1100,
+    "reason_zh": "水樣採集容易，只收有來源記錄的樣本。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "2 Caps 只代表取樣與搬運價值，不按飲水售價估算。"
+  },
+  {
+    "content_id": "content_disinfectant",
+    "demand": "high",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 300,
+    "reason_zh": "燃料作業點需要可靠醫療備品。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "20 Caps 反映可靠標示與封裝成本，未知液體不照此估值。"
+  },
+  {
+    "content_id": "content_disinfectant",
+    "demand": "high",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 300,
+    "reason_zh": "工地診所多，可信醫用品仍有限。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "20 Caps 反映可靠標示與封裝成本，未知液體不照此估值。"
+  },
+  {
+    "content_id": "content_disinfectant",
+    "demand": "medium",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 300,
+    "reason_zh": "診所按來源收貨，不自製所有品項。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "20 Caps 反映可靠標示與封裝成本，未知液體不照此估值。"
+  },
+  {
+    "content_id": "content_double_barrel_shotgun",
+    "demand": "low",
+    "proposed_base_value_caps": 300,
+    "proposed_weight_g": 3350,
+    "reason_zh": "長途重量與補給使需求受限。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "300 Caps 提案考慮完整配對與較高保養負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_double_barrel_shotgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 300,
+    "proposed_weight_g": 3350,
+    "reason_zh": "工坊收購可檢修成對機件。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "300 Caps 提案考慮完整配對與較高保養負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_double_barrel_shotgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 300,
+    "proposed_weight_g": 3350,
+    "reason_zh": "獵戶認識型式，但會逐把檢查。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "300 Caps 提案考慮完整配對與較高保養負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_dust_mask",
+    "demand": "high",
+    "proposed_base_value_caps": 38,
+    "proposed_weight_g": 180,
+    "reason_zh": "沙地日常更換形成穩定流通。",
+    "supply": "high",
+    "town_id": "dry_well",
+    "value_rationale_zh": "38 Caps 提案比整件服裝便宜，定期換襯仍有成本。"
+  },
+  {
+    "content_id": "content_dust_mask",
+    "demand": "high",
+    "proposed_base_value_caps": 38,
+    "proposed_weight_g": 180,
+    "reason_zh": "粉塵工地與拆解場常用。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "38 Caps 提案比整件服裝便宜，定期換襯仍有成本。"
+  },
+  {
+    "content_id": "content_dust_mask",
+    "demand": "medium",
+    "proposed_base_value_caps": 38,
+    "proposed_weight_g": 180,
+    "reason_zh": "穀物搬運和乾燥農路也可能有需求。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "38 Caps 提案比整件服裝便宜，定期換襯仍有成本。"
+  },
+  {
+    "content_id": "content_engineering_goggles",
+    "demand": "high",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 240,
+    "reason_zh": "風砂和固定工地需要護目器材。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "65 Caps 提案包含完好鏡片與固定帶的日常工坊需求。"
+  },
+  {
+    "content_id": "content_engineering_goggles",
+    "demand": "high",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 240,
+    "reason_zh": "加工工班有供應與換新需求。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "65 Caps 提案包含完好鏡片與固定帶的日常工坊需求。"
+  },
+  {
+    "content_id": "content_engineering_goggles",
+    "demand": "medium",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 240,
+    "reason_zh": "谷物粉塵與修理工作需要。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "65 Caps 提案包含完好鏡片與固定帶的日常工坊需求。"
+  },
+  {
+    "content_id": "content_entrenching_shovel",
+    "demand": "high",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 1250,
+    "reason_zh": "埋設防風繩與挖排砂溝需要耐用鏟面。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "95 Caps 提案包含折疊鉸鏈便利性，重量指乾燥空鏟。"
+  },
+  {
+    "content_id": "content_entrenching_shovel",
+    "demand": "medium",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 1250,
+    "reason_zh": "工業地基與瓦礫間適用，但鉸鏈維修要工坊。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "95 Caps 提案包含折疊鉸鏈便利性，重量指乾燥空鏟。"
+  },
+  {
+    "content_id": "content_entrenching_shovel",
+    "demand": "high",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 1250,
+    "reason_zh": "清理灌溉溝需要小鏟，木柄農具仍較便宜。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "95 Caps 提案包含折疊鉸鏈便利性，重量指乾燥空鏟。"
+  },
+  {
+    "content_id": "content_farm_clothes",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 1050,
+    "reason_zh": "補給農田的外來短工可能收購。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "35 Caps 提案重視完整尺寸與換洗便利。"
+  },
+  {
+    "content_id": "content_farm_clothes",
+    "demand": "low",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 1050,
+    "reason_zh": "可作輕便工作衣，但工坊需要更耐磨材料。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "35 Caps 提案重視完整尺寸與換洗便利。"
+  },
+  {
+    "content_id": "content_farm_clothes",
+    "demand": "high",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 1050,
+    "reason_zh": "灌溉與收成工作需要日常替換。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "35 Caps 提案重視完整尺寸與換洗便利。"
+  },
+  {
+    "content_id": "content_fire_axe",
+    "demand": "medium",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 3200,
+    "reason_zh": "燃料場所只在安全評估後使用，不能任意破拆。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "145 Caps 提案反映耐用斧頭與完整柄，重載是攜帶代價。"
+  },
+  {
+    "content_id": "content_fire_axe",
+    "demand": "medium",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 3200,
+    "reason_zh": "廢公共設施能取得，切金屬仍要別的工具。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "145 Caps 提案反映耐用斧頭與完整柄，重載是攜帶代價。"
+  },
+  {
+    "content_id": "content_fire_axe",
+    "demand": "high",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 3200,
+    "reason_zh": "木造棚舍和災後救援需要重斧。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "145 Caps 提案反映耐用斧頭與完整柄，重載是攜帶代價。"
+  },
+  {
+    "content_id": "content_firefighter_suit",
+    "demand": "high",
+    "proposed_base_value_caps": 510,
+    "proposed_weight_g": 6400,
+    "reason_zh": "燃料事故需求迫切，但配套和訓練同樣重要。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "510 Caps 為經檢驗可用救援服的提案價。"
+  },
+  {
+    "content_id": "content_firefighter_suit",
+    "demand": "high",
+    "proposed_base_value_caps": 510,
+    "proposed_weight_g": 6400,
+    "reason_zh": "舊消防站與工業安全隊可能保管。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "510 Caps 為經檢驗可用救援服的提案價。"
+  },
+  {
+    "content_id": "content_firefighter_suit",
+    "demand": "medium",
+    "proposed_base_value_caps": 510,
+    "proposed_weight_g": 6400,
+    "reason_zh": "木造棚舍多，集體救援備品有理由。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "510 Caps 為經檢驗可用救援服的提案價。"
+  },
+  {
+    "content_id": "content_first_aid_kit",
+    "demand": "high",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 800,
+    "reason_zh": "車隊長途旅行需要完整套件。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "55 Caps 為成套、易攜且可核對內容的準備成本。"
+  },
+  {
+    "content_id": "content_first_aid_kit",
+    "demand": "high",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 800,
+    "reason_zh": "外勤工隊出發前常補貨。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "55 Caps 為成套、易攜且可核對內容的準備成本。"
+  },
+  {
+    "content_id": "content_first_aid_kit",
+    "demand": "medium",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 800,
+    "reason_zh": "可由診所整理有限套數。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "55 Caps 為成套、易攜且可核對內容的準備成本。"
+  },
+  {
+    "content_id": "content_flamethrower",
+    "demand": "low",
+    "proposed_base_value_caps": 850,
+    "proposed_weight_g": 13800,
+    "reason_zh": "燃料產地不代表願意接受危險器材。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "850 Caps 是無燃料器材的未採用估值，安全隔離可能比收購更昂貴。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_flamethrower",
+    "demand": "low",
+    "proposed_base_value_caps": 850,
+    "proposed_weight_g": 13800,
+    "reason_zh": "只有受託拆解或保管機構可能處理。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "850 Caps 是無燃料器材的未採用估值，安全隔離可能比收購更昂貴。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_flamethrower",
+    "demand": "none",
+    "proposed_base_value_caps": 850,
+    "proposed_weight_g": 13800,
+    "reason_zh": "農地與糧倉不需要此類普通貨物。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "850 Caps 是無燃料器材的未採用估值，安全隔離可能比收購更昂貴。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_flare_pistol",
+    "demand": "high",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 620,
+    "reason_zh": "荒漠長線商隊需要可見的失散信號。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "145 Caps 提案反映罕見專用用途，不含任何信號彈。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_flare_pistol",
+    "demand": "low",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 620,
+    "reason_zh": "密集建築遮擋視線，無線電可能更合適。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "145 Caps 提案反映罕見專用用途，不含任何信號彈。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_flare_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 620,
+    "reason_zh": "遠郊農場希望有求援方式，但需要約定。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "145 Caps 提案反映罕見專用用途，不含任何信號彈。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_flashlight",
+    "demand": "high",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 400,
+    "reason_zh": "夜間卸貨與泵房檢查依賴照明。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "35 Caps 來自可攜光源與外殼維護，不附贈能源。"
+  },
+  {
+    "content_id": "content_flashlight",
+    "demand": "high",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 400,
+    "reason_zh": "工地常用，替換零件也較容易找。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "35 Caps 來自可攜光源與外殼維護，不附贈能源。"
+  },
+  {
+    "content_id": "content_flashlight",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 400,
+    "reason_zh": "夜間巡水需要可攜光源。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "35 Caps 來自可攜光源與外殼維護，不附贈能源。"
+  },
+  {
+    "content_id": "content_food",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 400,
+    "reason_zh": "油料商隊出發前大量準備旅行口糧。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "12 Caps 與普通食物資源尺度接近，取方便攜帶的設計定位。"
+  },
+  {
+    "content_id": "content_food",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 400,
+    "reason_zh": "工人需要方便帶進工地的餐食。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "12 Caps 與普通食物資源尺度接近，取方便攜帶的設計定位。"
+  },
+  {
+    "content_id": "content_food",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 400,
+    "reason_zh": "農產可加工，居民和商隊都消費。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "12 Caps 與普通食物資源尺度接近，取方便攜帶的設計定位。"
+  },
+  {
+    "content_id": "content_fuel",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 1000,
+    "reason_zh": "產出與裝運消耗並存，不能視作無限廉價庫存。",
+    "supply": "high",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 參照既有燃料尺度作設計估值，未定物理換算或價格公式。"
+  },
+  {
+    "content_id": "content_fuel",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 1000,
+    "reason_zh": "工坊設備與車隊都需要能源。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 參照既有燃料尺度作設計估值，未定物理換算或價格公式。"
+  },
+  {
+    "content_id": "content_fuel",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 1000,
+    "reason_zh": "抽水和外來機具需相容油料。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 參照既有燃料尺度作設計估值，未定物理換算或價格公式。"
+  },
+  {
+    "content_id": "content_fuel_can",
+    "demand": "high",
+    "proposed_base_value_caps": 26,
+    "proposed_weight_g": 900,
+    "reason_zh": "燃料裝運周轉使空罐仍有需求。",
+    "supply": "high",
+    "town_id": "dry_well",
+    "value_rationale_zh": "26 Caps 來自耐搬運的罐體與封蓋，未包含燃料售價。"
+  },
+  {
+    "content_id": "content_fuel_can",
+    "demand": "medium",
+    "proposed_base_value_caps": 26,
+    "proposed_weight_g": 900,
+    "reason_zh": "金屬加工可修罐蓋與焊縫。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "26 Caps 來自耐搬運的罐體與封蓋，未包含燃料售價。"
+  },
+  {
+    "content_id": "content_fuel_can",
+    "demand": "low",
+    "proposed_base_value_caps": 26,
+    "proposed_weight_g": 900,
+    "reason_zh": "常用於外來機具燃料，不是主產貨。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "26 Caps 來自耐搬運的罐體與封蓋，未包含燃料售價。"
+  },
+  {
+    "content_id": "content_gas_mask",
+    "demand": "medium",
+    "proposed_base_value_caps": 310,
+    "proposed_weight_g": 950,
+    "reason_zh": "煉製場所需要確認具體危害後才採用。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "310 Caps 假設面體可用，不包含有效濾罐供應。"
+  },
+  {
+    "content_id": "content_gas_mask",
+    "demand": "high",
+    "proposed_base_value_caps": 310,
+    "proposed_weight_g": 950,
+    "reason_zh": "工業安全與遺跡調查者願意送檢。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "310 Caps 假設面體可用，不包含有效濾罐供應。"
+  },
+  {
+    "content_id": "content_gas_mask",
+    "demand": "low",
+    "proposed_base_value_caps": 310,
+    "proposed_weight_g": 950,
+    "reason_zh": "只在特殊環境調查有需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "310 Caps 假設面體可用，不包含有效濾罐供應。"
+  },
+  {
+    "content_id": "content_gear",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 450,
+    "reason_zh": "泵與車輛傳動要維護。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 取常見可量測機械件定位，加工相容性比稀有度重要。"
+  },
+  {
+    "content_id": "content_gear",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 450,
+    "reason_zh": "拆機來源多但仍須挑規格。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 取常見可量測機械件定位，加工相容性比稀有度重要。"
+  },
+  {
+    "content_id": "content_gear",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 450,
+    "reason_zh": "農具傳動有指定規格需求。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 取常見可量測機械件定位，加工相容性比稀有度重要。"
+  },
+  {
+    "content_id": "content_geological_survey_map",
+    "demand": "high",
+    "proposed_base_value_caps": 190,
+    "proposed_weight_g": 180,
+    "reason_zh": "尋找舊井與穩定道路基底有具體需求。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "位置與比例尺仍可對照的圖有調查價值，但地質標記不是可立即收取的資源。"
+  },
+  {
+    "content_id": "content_geological_survey_map",
+    "demand": "medium",
+    "proposed_base_value_caps": 190,
+    "proposed_weight_g": 180,
+    "reason_zh": "材料來源調查者關心特定岩層而非整張圖。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "位置與比例尺仍可對照的圖有調查價值，但地質標記不是可立即收取的資源。"
+  },
+  {
+    "content_id": "content_geological_survey_map",
+    "demand": "high",
+    "proposed_base_value_caps": 190,
+    "proposed_weight_g": 180,
+    "reason_zh": "井址調查與坡地用水可能需要舊鑽孔資料。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "位置與比例尺仍可對照的圖有調查價值，但地質標記不是可立即收取的資源。"
+  },
+  {
+    "content_id": "content_glass",
+    "demand": "medium",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 800,
+    "reason_zh": "泵房窗與標示罩有需求，但運輸易損。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "10 Caps 材料常見但完整運到買家手中有成本。"
+  },
+  {
+    "content_id": "content_glass",
+    "demand": "medium",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 800,
+    "reason_zh": "舊建築回收多，完整片仍需挑選。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "10 Caps 材料常見但完整運到買家手中有成本。"
+  },
+  {
+    "content_id": "content_glass",
+    "demand": "low",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 800,
+    "reason_zh": "家屋窗片有零星來源。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "10 Caps 材料常見但完整運到買家手中有成本。"
+  },
+  {
+    "content_id": "content_gray_seed",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 8,
+    "reason_zh": "耐旱傳聞可能吸引買家，但無試驗不能保證沙地可種。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有普通種子的確定農業價值；只有願意隔離試驗的研究者或種子保管者表達需求。"
+  },
+  {
+    "content_id": "content_gray_seed",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 8,
+    "reason_zh": "工業聚落多半只能協助保存與轉運。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有普通種子的確定農業價值；只有願意隔離試驗的研究者或種子保管者表達需求。"
+  },
+  {
+    "content_id": "content_gray_seed",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 8,
+    "reason_zh": "種子保管者可能願意提供隔離試驗，需求以不危及現有作物為前提。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有普通種子的確定農業價值；只有願意隔離試驗的研究者或種子保管者表達需求。"
+  },
+  {
+    "content_id": "content_grenade_launcher",
+    "demand": "low",
+    "proposed_base_value_caps": 1100,
+    "proposed_weight_g": 5800,
+    "reason_zh": "只有具體委託會尋求，不列日常商店供貨。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "1100 Caps 僅是完整無彈器材的設計估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_grenade_launcher",
+    "demand": "low",
+    "proposed_base_value_caps": 1100,
+    "proposed_weight_g": 5800,
+    "reason_zh": "少數受託保管者或研究工坊可能介入。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "1100 Caps 僅是完整無彈器材的設計估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_grenade_launcher",
+    "demand": "none",
+    "proposed_base_value_caps": 1100,
+    "proposed_weight_g": 5800,
+    "reason_zh": "農業聚落無一般使用者或正常收購需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "1100 Caps 僅是完整無彈器材的設計估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_hand_crank_generator",
+    "demand": "high",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 1500,
+    "reason_zh": "遠程停靠點想要備援通訊電源。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "110 Caps 交換的是離網備援能力，不是免費無限電力。"
+  },
+  {
+    "content_id": "content_hand_crank_generator",
+    "demand": "medium",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 1500,
+    "reason_zh": "能修小機構，但不取代固定供電。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "110 Caps 交換的是離網備援能力，不是免費無限電力。"
+  },
+  {
+    "content_id": "content_hand_crank_generator",
+    "demand": "medium",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 1500,
+    "reason_zh": "巡水隊可借用作臨時通訊供電。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "110 Caps 交換的是離網備援能力，不是免費無限電力。"
+  },
+  {
+    "content_id": "content_hazmat_suit",
+    "demand": "medium",
+    "proposed_base_value_caps": 540,
+    "proposed_weight_g": 2400,
+    "reason_zh": "燃料設施事故處理可能需要，危害類型仍須確認。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "540 Caps 提案要求可檢驗完整，未計清理與配套呼吸器。"
+  },
+  {
+    "content_id": "content_hazmat_suit",
+    "demand": "high",
+    "proposed_base_value_caps": 540,
+    "proposed_weight_g": 2400,
+    "reason_zh": "工業場址调查與安全作業需要合適防護。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "540 Caps 提案要求可檢驗完整，未計清理與配套呼吸器。"
+  },
+  {
+    "content_id": "content_hazmat_suit",
+    "demand": "low",
+    "proposed_base_value_caps": 540,
+    "proposed_weight_g": 2400,
+    "reason_zh": "只在特定污染调查有需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "540 Caps 提案要求可檢驗完整，未計清理與配套呼吸器。"
+  },
+  {
+    "content_id": "content_heat_core",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 1150,
+    "reason_zh": "煉製地對熱源有興趣，也需避免與燃料混放。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "不按永續能源估值；熱工與烹煮設備研究者可能以測試條件提出交付協議。"
+  },
+  {
+    "content_id": "content_heat_core",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 1150,
+    "reason_zh": "熱工工坊可能具備量測與隔離空間。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "不按永續能源估值；熱工與烹煮設備研究者可能以測試條件提出交付協議。"
+  },
+  {
+    "content_id": "content_heat_core",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 1150,
+    "reason_zh": "食品保存或烹煮工作可能提出研究需求，需先驗證接觸安全。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "不按永續能源估值；熱工與烹煮設備研究者可能以測試條件提出交付協議。"
+  },
+  {
+    "content_id": "content_heat_insulation_suit",
+    "demand": "medium",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 5200,
+    "reason_zh": "煉製設施維護需要先核對適用範圍。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "470 Caps 提案包含少見多層材料，體積與重量形成代價。"
+  },
+  {
+    "content_id": "content_heat_insulation_suit",
+    "demand": "high",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 5200,
+    "reason_zh": "熔爐與高溫作業場有具體使用者。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "470 Caps 提案包含少見多層材料，體積與重量形成代價。"
+  },
+  {
+    "content_id": "content_heat_insulation_suit",
+    "demand": "low",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 5200,
+    "reason_zh": "只有特殊設備工作會委託取得。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "470 Caps 提案包含少見多層材料，體積與重量形成代價。"
+  },
+  {
+    "content_id": "content_heavy_revolver",
+    "demand": "high",
+    "proposed_base_value_caps": 390,
+    "proposed_weight_g": 1650,
+    "reason_zh": "特定長線護衛團能支援其補給。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "390 Caps 為小量流通與工坊支援的提案估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_heavy_revolver",
+    "demand": "medium",
+    "proposed_base_value_caps": 390,
+    "proposed_weight_g": 1650,
+    "reason_zh": "專門槍匠有研究與維修需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "390 Caps 為小量流通與工坊支援的提案估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_heavy_revolver",
+    "demand": "low",
+    "proposed_base_value_caps": 390,
+    "proposed_weight_g": 1650,
+    "reason_zh": "普通獵務不願負擔稀少補給。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "390 Caps 為小量流通與工坊支援的提案估值。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_hiking_backpack",
+    "demand": "high",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 1900,
+    "reason_zh": "長線旅人願意為合身與平衡付代價。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "145 Caps 提案反映完整支架與可調背帶。"
+  },
+  {
+    "content_id": "content_hiking_backpack",
+    "demand": "medium",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 1900,
+    "reason_zh": "遺跡回收可取得，維修金屬架較方便。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "145 Caps 提案反映完整支架與可調背帶。"
+  },
+  {
+    "content_id": "content_hiking_backpack",
+    "demand": "medium",
+    "proposed_base_value_caps": 145,
+    "proposed_weight_g": 1900,
+    "reason_zh": "山路採集者需要，但一般短途不一定值得。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "145 Caps 提案反映完整支架與可調背帶。"
+  },
+  {
+    "content_id": "content_hollow_stone",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 65,
+    "reason_zh": "運輸者可能對輕質材料有興趣，但需強度證據。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有普遍市場估價；材料研究者與運輸工匠可能對量測結果提出特定委託。"
+  },
+  {
+    "content_id": "content_hollow_stone",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 65,
+    "reason_zh": "材料工匠可能想確認是否為空腔或特殊結構。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有普遍市場估價；材料研究者與運輸工匠可能對量測結果提出特定委託。"
+  },
+  {
+    "content_id": "content_hollow_stone",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 65,
+    "reason_zh": "農業工作沒有直接材料用途，除非有具體調查委託。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有普遍市場估價；材料研究者與運輸工匠可能對量測結果提出特定委託。"
+  },
+  {
+    "content_id": "content_homecoming",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3400,
+    "reason_zh": "一般商人只見到舊獵槍，私人來歷未必形成需求。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "特定尋物者可能提出交付條件，沒有全世界一致售價；槍的歷史比型號稀有度更重要。"
+  },
+  {
+    "content_id": "content_homecoming",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3400,
+    "reason_zh": "舊修理工若已有相關人物紀錄，可能辨認工法。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "特定尋物者可能提出交付條件，沒有全世界一致售價；槍的歷史比型號稀有度更重要。"
+  },
+  {
+    "content_id": "content_homecoming",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3400,
+    "reason_zh": "特定獵戶或失物委託人可能認得木托修補。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "特定尋物者可能提出交付條件，沒有全世界一致售價；槍的歷史比型號稀有度更重要。"
+  },
+  {
+    "content_id": "content_hospital_id_card",
+    "demand": "medium",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 15,
+    "reason_zh": "運藥委託會在意來源核實，但不承認過期牌證為醫師資格。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "價值在醫療設施查檔與來源核對，不是偽造專業資格或現成的救治權限。"
+  },
+  {
+    "content_id": "content_hospital_id_card",
+    "demand": "medium",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 15,
+    "reason_zh": "舊職員檔案與工傷紀錄可能相關。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "價值在醫療設施查檔與來源核對，不是偽造專業資格或現成的救治權限。"
+  },
+  {
+    "content_id": "content_hospital_id_card",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 15,
+    "reason_zh": "地方診療工作可能需要追溯舊庫房與採購紀錄。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "價值在醫療設施查檔與來源核對，不是偽造專業資格或現成的救治權限。"
+  },
+  {
+    "content_id": "content_humming_stone",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 380,
+    "reason_zh": "燃料站操作員可能對設備異常提示感興趣，但需先查干擾。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有通用售價；灰谷電子研究者關心可重複聲響，其他買家需求取決於可驗證用途。"
+  },
+  {
+    "content_id": "content_humming_stone",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 380,
+    "reason_zh": "電子研究者願意接收有設備對照紀錄的樣本。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有通用售價；灰谷電子研究者關心可重複聲響，其他買家需求取決於可驗證用途。"
+  },
+  {
+    "content_id": "content_humming_stone",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 380,
+    "reason_zh": "水閘設備有異音時才可能找研究協助。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有通用售價；灰谷電子研究者關心可重複聲響，其他買家需求取決於可驗證用途。"
+  },
+  {
+    "content_id": "content_hunting_fork",
+    "demand": "medium",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 2700,
+    "reason_zh": "商隊牲畜事故需要熟練者，器具供應稀少。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "80 Caps 提案反映專門用途而非較高戰力。"
+  },
+  {
+    "content_id": "content_hunting_fork",
+    "demand": "low",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 2700,
+    "reason_zh": "城市廢墟內用途窄，收購多按金屬看待。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "80 Caps 提案反映專門用途而非較高戰力。"
+  },
+  {
+    "content_id": "content_hunting_fork",
+    "demand": "medium",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 2700,
+    "reason_zh": "獵戶與護田工作有使用者。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "80 Caps 提案反映專門用途而非較高戰力。"
+  },
+  {
+    "content_id": "content_hunting_knife",
+    "demand": "medium",
+    "proposed_base_value_caps": 72,
+    "proposed_weight_g": 400,
+    "reason_zh": "遠行者需要可靠短刃，補鞘服務較少。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "72 Caps 為完整刀鞘和專用刃具的提案價；400 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_hunting_knife",
+    "demand": "medium",
+    "proposed_base_value_caps": 72,
+    "proposed_weight_g": 400,
+    "reason_zh": "收皮革的工人會買，但不是每間廢料店都收。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "72 Caps 為完整刀鞘和專用刃具的提案價；400 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_hunting_knife",
+    "demand": "high",
+    "proposed_base_value_caps": 72,
+    "proposed_weight_g": 400,
+    "reason_zh": "處理獵物與野外工作有穩定需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "72 Caps 為完整刀鞘和專用刃具的提案價；400 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_identity_document",
+    "demand": "low",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 25,
+    "reason_zh": "商隊較重現行見證，不把過期證件當保證書。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "估值只反映保存與查證工作；證件不作可自由販售的現行通行權。"
+  },
+  {
+    "content_id": "content_identity_document",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 25,
+    "reason_zh": "舊工務檔案較多，登記員可能協助核對編號。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "估值只反映保存與查證工作；證件不作可自由販售的現行通行權。"
+  },
+  {
+    "content_id": "content_identity_document",
+    "demand": "medium",
+    "proposed_base_value_caps": 35,
+    "proposed_weight_g": 25,
+    "reason_zh": "安置與尋親工作可能需要查證舊住址，證件本身沒有供給功能。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "估值只反映保存與查證工作；證件不作可自由販售的現行通行權。"
+  },
+  {
+    "content_id": "content_improvised_pistol",
+    "demand": "low",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 1250,
+    "reason_zh": "無法找到製作者時收購意願低。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "90 Caps 提案扣除了檢驗與不確定性成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_improvised_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 1250,
+    "reason_zh": "本地工坊提供來源與售後線索。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "90 Caps 提案扣除了檢驗與不確定性成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_improvised_pistol",
+    "demand": "low",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 1250,
+    "reason_zh": "農戶不願為廉價器材承擔未知安全風險。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "90 Caps 提案扣除了檢驗與不確定性成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_industrial_nailgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 205,
+    "proposed_weight_g": 3100,
+    "reason_zh": "貨箱修繕需要，但必須先運入相容耗材。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "205 Caps 提案反映可檢修工具；能源與釘料成本另列。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_industrial_nailgun",
+    "demand": "high",
+    "proposed_base_value_caps": 205,
+    "proposed_weight_g": 3100,
+    "reason_zh": "工坊可識別配套工具並提供檢修。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "205 Caps 提案反映可檢修工具；能源與釘料成本另列。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_industrial_nailgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 205,
+    "proposed_weight_g": 3100,
+    "reason_zh": "修繕棚舍有需求，但能源限制採用。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "205 Caps 提案反映可檢修工具；能源與釘料成本另列。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_jack",
+    "demand": "high",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 6000,
+    "reason_zh": "運油貨車常需道路救援。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "90 Caps 取救急用途，沉重使帶它上路本身就是選擇。"
+  },
+  {
+    "content_id": "content_jack",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 6000,
+    "reason_zh": "車輛拆解來源多。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "90 Caps 取救急用途，沉重使帶它上路本身就是選擇。"
+  },
+  {
+    "content_id": "content_jack",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 6000,
+    "reason_zh": "農車故障時有需求，平時少備。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "90 Caps 取救急用途，沉重使帶它上路本身就是選擇。"
+  },
+  {
+    "content_id": "content_jerky",
+    "demand": "high",
+    "proposed_base_value_caps": 16,
+    "proposed_weight_g": 200,
+    "reason_zh": "長途貨運偏好輕便補給。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "16 Caps 包含肉料與保存工序，單位較小而運送方便。"
+  },
+  {
+    "content_id": "content_jerky",
+    "demand": "medium",
+    "proposed_base_value_caps": 16,
+    "proposed_weight_g": 200,
+    "reason_zh": "值班工人接受耐攜肉食。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "16 Caps 包含肉料與保存工序，單位較小而運送方便。"
+  },
+  {
+    "content_id": "content_jerky",
+    "demand": "medium",
+    "proposed_base_value_caps": 16,
+    "proposed_weight_g": 200,
+    "reason_zh": "獵人有不定期供貨，並非農產固定產量。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "16 Caps 包含肉料與保存工序，單位較小而運送方便。"
+  },
+  {
+    "content_id": "content_last_round",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 1020,
+    "reason_zh": "護送往事中的特定關係人可能尋找此槍，並非固定高價收購。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "唯一物件不設普遍售價；需要查明來源、持有權與特定買家目的後才談交付。"
+  },
+  {
+    "content_id": "content_last_round",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 1020,
+    "reason_zh": "工匠可能願意檢驗機械，收藏者也需先看出處。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "唯一物件不設普遍售價；需要查明來源、持有權與特定買家目的後才談交付。"
+  },
+  {
+    "content_id": "content_last_round",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 1020,
+    "reason_zh": "只有與刻名或遺物交還有關的人可能提出請求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "唯一物件不設普遍售價；需要查明來源、持有權與特定買家目的後才談交付。"
+  },
+  {
+    "content_id": "content_leather",
+    "demand": "high",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 600,
+    "reason_zh": "綁帶和行囊耐磨部位常要修補。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "24 Caps 包含處理與可用面積的價值，並非生皮直接等價。"
+  },
+  {
+    "content_id": "content_leather",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 600,
+    "reason_zh": "工具護套與腰帶需要。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "24 Caps 包含處理與可用面積的價值，並非生皮直接等價。"
+  },
+  {
+    "content_id": "content_leather",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 600,
+    "reason_zh": "獵人與皮件工人形成小規模來源。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "24 Caps 包含處理與可用面積的價值，並非生皮直接等價。"
+  },
+  {
+    "content_id": "content_light_machine_gun",
+    "demand": "medium",
+    "proposed_base_value_caps": 1250,
+    "proposed_weight_g": 8400,
+    "reason_zh": "護運組織考慮整套後勤才會接受。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "1250 Caps 提案反映稀少完整機件，保管與長程運輸另付成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_light_machine_gun",
+    "demand": "medium",
+    "proposed_base_value_caps": 1250,
+    "proposed_weight_g": 8400,
+    "reason_zh": "大工坊能安排檢驗與重物搬運。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "1250 Caps 提案反映稀少完整機件，保管與長程運輸另付成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_light_machine_gun",
+    "demand": "low",
+    "proposed_base_value_caps": 1250,
+    "proposed_weight_g": 8400,
+    "reason_zh": "僅特定防衛委託可能需要，無一般採購量。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "1250 Caps 提案反映稀少完整機件，保管與長程運輸另付成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_lighter",
+    "demand": "high",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 90,
+    "reason_zh": "能補相容燃料的旅人偏好重用器具。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "24 Caps 高於火柴，交換的是可維護性而非無耗材點火。"
+  },
+  {
+    "content_id": "content_lighter",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 90,
+    "reason_zh": "外殼維修和舊貨拆件較方便。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "24 Caps 高於火柴，交換的是可維護性而非無耗材點火。"
+  },
+  {
+    "content_id": "content_lighter",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 90,
+    "reason_zh": "重用方便，但居民也有固定灶火。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "24 Caps 高於火柴，交換的是可維護性而非無耗材點火。"
+  },
+  {
+    "content_id": "content_liquor",
+    "demand": "medium",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 750,
+    "reason_zh": "旅店與特定買家需要完整瓶裝貨。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "28 Caps 以地方成品和運送重量估價，非戰鬥增益。"
+  },
+  {
+    "content_id": "content_liquor",
+    "demand": "medium",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 750,
+    "reason_zh": "工班聚餐時下單，非日常必需。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "28 Caps 以地方成品和運送重量估價，非戰鬥增益。"
+  },
+  {
+    "content_id": "content_liquor",
+    "demand": "medium",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 750,
+    "reason_zh": "季節性釀造與聚會需求並存。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "28 Caps 以地方成品和運送重量估價，非戰鬥增益。"
+  },
+  {
+    "content_id": "content_lockpick_set",
+    "demand": "medium",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 180,
+    "reason_zh": "貨運封箱與失鑰情況需要專門服務。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "65 Caps 來自精細形狀與難以隨地補造，並非保證開鎖成功。"
+  },
+  {
+    "content_id": "content_lockpick_set",
+    "demand": "medium",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 180,
+    "reason_zh": "舊機械鎖多，合法回收與維修可用。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "65 Caps 來自精細形狀與難以隨地補造，並非保證開鎖成功。"
+  },
+  {
+    "content_id": "content_lockpick_set",
+    "demand": "low",
+    "proposed_base_value_caps": 65,
+    "proposed_weight_g": 180,
+    "reason_zh": "鎖匠有合理用途，普通商店不囤。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "65 Caps 來自精細形狀與難以隨地補造，並非保證開鎖成功。"
+  },
+  {
+    "content_id": "content_machine_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 1450,
+    "reason_zh": "只有準備充足的護衛隊願意負擔。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "470 Caps 提案來自罕見機件，未包含任何額外彈藥。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_machine_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 1450,
+    "reason_zh": "電子與機械回收者會評估部件價值。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "470 Caps 提案來自罕見機件，未包含任何額外彈藥。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_machine_pistol",
+    "demand": "low",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 1450,
+    "reason_zh": "維護與補給能力不足，只有委託回收需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "470 Caps 提案來自罕見機件，未包含任何額外彈藥。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_matches",
+    "demand": "high",
+    "proposed_base_value_caps": 6,
+    "proposed_weight_g": 30,
+    "reason_zh": "野外停靠點缺乾燥補充品。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "6 Caps 便宜且輕，價值在乾燥時可立即使用。"
+  },
+  {
+    "content_id": "content_matches",
+    "demand": "medium",
+    "proposed_base_value_caps": 6,
+    "proposed_weight_g": 30,
+    "reason_zh": "工棚可供應，潮濕貨不收。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "6 Caps 便宜且輕，價值在乾燥時可立即使用。"
+  },
+  {
+    "content_id": "content_matches",
+    "demand": "medium",
+    "proposed_base_value_caps": 6,
+    "proposed_weight_g": 30,
+    "reason_zh": "廚房與旅行者都要乾燥火種。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "6 Caps 便宜且輕，價值在乾燥時可立即使用。"
+  },
+  {
+    "content_id": "content_mechanical_parts",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "泵站委託不能用泛稱零件充數。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有獨立物理單位與底價，不能和已列零件重複計入庫存。"
+  },
+  {
+    "content_id": "content_mechanical_parts",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "工業概況可用分類，庫存與價格仍按實物。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有獨立物理單位與底價，不能和已列零件重複計入庫存。"
+  },
+  {
+    "content_id": "content_mechanical_parts",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "農具需求要列齒輪、軸承等指定件。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有獨立物理單位與底價，不能和已列零件重複計入庫存。"
+  },
+  {
+    "content_id": "content_medical_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 850,
+    "reason_zh": "長途醫療補給工作可能需要清楚版本與適用範圍。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "完整且可辨識版本的參考資料對合格照護者有用；不能把讀物視作藥物或即時醫療能力。"
+  },
+  {
+    "content_id": "content_medical_manual",
+    "demand": "medium",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 850,
+    "reason_zh": "工傷照護與藥品整理可能需要特定章節。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "完整且可辨識版本的參考資料對合格照護者有用；不能把讀物視作藥物或即時醫療能力。"
+  },
+  {
+    "content_id": "content_medical_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 850,
+    "reason_zh": "地方照護者缺少可核對的參考資料。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "完整且可辨識版本的參考資料對合格照護者有用；不能把讀物視作藥物或即時醫療能力。"
+  },
+  {
+    "content_id": "content_medical_satchel",
+    "demand": "high",
+    "proposed_base_value_caps": 100,
+    "proposed_weight_g": 850,
+    "reason_zh": "遠行醫護需要可識別用品的攜具。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "100 Caps 提案反映可清理隔層和分類需求。"
+  },
+  {
+    "content_id": "content_medical_satchel",
+    "demand": "medium",
+    "proposed_base_value_caps": 100,
+    "proposed_weight_g": 850,
+    "reason_zh": "工傷照護點可能維修或交換袋具。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "100 Caps 提案反映可清理隔層和分類需求。"
+  },
+  {
+    "content_id": "content_medical_satchel",
+    "demand": "high",
+    "proposed_base_value_caps": 100,
+    "proposed_weight_g": 850,
+    "reason_zh": "偏遠診療需要整理少量補給。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "100 Caps 提案反映可清理隔層和分類需求。"
+  },
+  {
+    "content_id": "content_medicines",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "運送委託需要品項，不能交一個醫藥圖示。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "分類沒有重量和價格；需求分析須回到具體醫療品。"
+  },
+  {
+    "content_id": "content_medicines",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "分類彙整不等於存在通用醫藥庫存。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "分類沒有重量和價格；需求分析須回到具體醫療品。"
+  },
+  {
+    "content_id": "content_medicines",
+    "demand": "none",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": null,
+    "reason_zh": "診所的需求應分別記在具體用品。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "分類沒有重量和價格；需求分析須回到具體醫療品。"
+  },
+  {
+    "content_id": "content_memory_core",
+    "demand": "medium",
+    "proposed_base_value_caps": 680,
+    "proposed_weight_g": 480,
+    "reason_zh": "燃料批次與管線資料若可讀才有特定用途。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "完整接口與可驗證資料區有研究價值；未知檔案內容不預先估為萬用知識寶庫。"
+  },
+  {
+    "content_id": "content_memory_core",
+    "demand": "high",
+    "proposed_base_value_caps": 680,
+    "proposed_weight_g": 480,
+    "reason_zh": "電子研究與控制設備維護對相容核心有需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "完整接口與可驗證資料區有研究價值；未知檔案內容不預先估為萬用知識寶庫。"
+  },
+  {
+    "content_id": "content_memory_core",
+    "demand": "medium",
+    "proposed_base_value_caps": 680,
+    "proposed_weight_g": 480,
+    "reason_zh": "公共設備調查有可能需要舊資料，但無常備讀取設備。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "完整接口與可驗證資料區有研究價值；未知檔案內容不預先估為萬用知識寶庫。"
+  },
+  {
+    "content_id": "content_metal_detector",
+    "demand": "medium",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 1800,
+    "reason_zh": "荒地勘查隊偶爾提出指定委託。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "150 Caps 來自專門探查用途；不保證發現高價物。"
+  },
+  {
+    "content_id": "content_metal_detector",
+    "demand": "medium",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 1800,
+    "reason_zh": "有維護條件，廢料多也會造成干擾。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "150 Caps 來自專門探查用途；不保證發現高價物。"
+  },
+  {
+    "content_id": "content_metal_detector",
+    "demand": "medium",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 1800,
+    "reason_zh": "可找埋入田間的金屬，但要有人解讀。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "150 Caps 來自專門探查用途；不保證發現高價物。"
+  },
+  {
+    "content_id": "content_military_backpack",
+    "demand": "high",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 2400,
+    "reason_zh": "商隊重視耐用外袋，仍需逐包檢查。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "220 Caps 提案包含完好扣具與厚實布料。"
+  },
+  {
+    "content_id": "content_military_backpack",
+    "demand": "high",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 2400,
+    "reason_zh": "能處理扣具與厚布的工坊有市場。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "220 Caps 提案包含完好扣具與厚實布料。"
+  },
+  {
+    "content_id": "content_military_backpack",
+    "demand": "medium",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 2400,
+    "reason_zh": "長程搬運者需要，普通農務嫌重。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "220 Caps 提案包含完好扣具與厚實布料。"
+  },
+  {
+    "content_id": "content_military_dog_tags",
+    "demand": "high",
+    "proposed_base_value_caps": 40,
+    "proposed_weight_g": 45,
+    "reason_zh": "舊井守備故事與退伍旅人可能形成具名委託，非普遍收購。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "金屬本身不值高價，價值取決於可查證的服役紀錄或收回遺物的特定委託。"
+  },
+  {
+    "content_id": "content_military_dog_tags",
+    "demand": "medium",
+    "proposed_base_value_caps": 40,
+    "proposed_weight_g": 45,
+    "reason_zh": "檔案整理者可能把牌號與工業守備紀錄對照。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "金屬本身不值高價，價值取決於可查證的服役紀錄或收回遺物的特定委託。"
+  },
+  {
+    "content_id": "content_military_dog_tags",
+    "demand": "medium",
+    "proposed_base_value_caps": 40,
+    "proposed_weight_g": 45,
+    "reason_zh": "特定家庭可能希望收回已查證的遺物。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "金屬本身不值高價，價值取決於可查證的服役紀錄或收回遺物的特定委託。"
+  },
+  {
+    "content_id": "content_military_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 540,
+    "reason_zh": "商隊護衛對溝通與護送程序有具體需求。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "價值在可理解的程序與舊地圖註記；年代過舊或器材不同時不能直接套用戰術。"
+  },
+  {
+    "content_id": "content_military_manual",
+    "demand": "medium",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 540,
+    "reason_zh": "舊哨站調查者可能需要識讀標記。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "價值在可理解的程序與舊地圖註記；年代過舊或器材不同時不能直接套用戰術。"
+  },
+  {
+    "content_id": "content_military_manual",
+    "demand": "low",
+    "proposed_base_value_caps": 110,
+    "proposed_weight_g": 540,
+    "reason_zh": "地方守衛只需要少數交通與撤離章節。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "價值在可理解的程序與舊地圖註記；年代過舊或器材不同時不能直接套用戰術。"
+  },
+  {
+    "content_id": "content_military_medical_chip",
+    "demand": "medium",
+    "proposed_base_value_caps": 500,
+    "proposed_weight_g": 30,
+    "reason_zh": "長途醫療後勤可能對分流紀錄有研究需求。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "資料可能幫助專業人員理解舊醫療流程；不保證包含當前需要的處置或相容器材。"
+  },
+  {
+    "content_id": "content_military_medical_chip",
+    "demand": "medium",
+    "proposed_base_value_caps": 500,
+    "proposed_weight_g": 30,
+    "reason_zh": "讀取設備較可能找到，但專業解讀仍需醫療協作。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "資料可能幫助專業人員理解舊醫療流程；不保證包含當前需要的處置或相容器材。"
+  },
+  {
+    "content_id": "content_military_medical_chip",
+    "demand": "high",
+    "proposed_base_value_caps": 500,
+    "proposed_weight_g": 30,
+    "reason_zh": "診療資料保存委託可能需要可核對版本。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "資料可能幫助專業人員理解舊醫療流程；不保證包含當前需要的處置或相容器材。"
+  },
+  {
+    "content_id": "content_motorcycle_jacket",
+    "demand": "medium",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 2600,
+    "reason_zh": "長線駕駛與護運者看重耐用穿著。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "150 Caps 提案包含完整拉鍊和厚皮料，收藏意願另看個人。"
+  },
+  {
+    "content_id": "content_motorcycle_jacket",
+    "demand": "medium",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 2600,
+    "reason_zh": "廢車回收可能取得，皮革匠能修。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "150 Caps 提案包含完整拉鍊和厚皮料，收藏意願另看個人。"
+  },
+  {
+    "content_id": "content_motorcycle_jacket",
+    "demand": "low",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 2600,
+    "reason_zh": "農務使用不便，少數旅人有興趣。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "150 Caps 提案包含完整拉鍊和厚皮料，收藏意願另看個人。"
+  },
+  {
+    "content_id": "content_multimeter",
+    "demand": "high",
+    "proposed_base_value_caps": 85,
+    "proposed_weight_g": 400,
+    "reason_zh": "泵站診斷常缺可靠儀表。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "85 Caps 取可靠測量工具的定位，校驗與知識都影響用途。"
+  },
+  {
+    "content_id": "content_multimeter",
+    "demand": "high",
+    "proposed_base_value_caps": 85,
+    "proposed_weight_g": 400,
+    "reason_zh": "電器多且有能讀數的技工。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "85 Caps 取可靠測量工具的定位，校驗與知識都影響用途。"
+  },
+  {
+    "content_id": "content_multimeter",
+    "demand": "medium",
+    "proposed_base_value_caps": 85,
+    "proposed_weight_g": 400,
+    "reason_zh": "供水設備控制箱需要檢測。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "85 Caps 取可靠測量工具的定位，校驗與知識都影響用途。"
+  },
+  {
+    "content_id": "content_muscle_stimulator",
+    "demand": "low",
+    "proposed_base_value_caps": 560,
+    "proposed_weight_g": 950,
+    "reason_zh": "運輸負擔高，缺乏相容配件時買家很少。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "完整設備可供研究或專業復健用途；不按力量增幅定價，也不保證適合健康人使用。"
+  },
+  {
+    "content_id": "content_muscle_stimulator",
+    "demand": "high",
+    "proposed_base_value_caps": 560,
+    "proposed_weight_g": 950,
+    "reason_zh": "電子維修與醫療研究可分工檢查，但不能代替臨床判斷。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "完整設備可供研究或專業復健用途；不按力量增幅定價，也不保證適合健康人使用。"
+  },
+  {
+    "content_id": "content_muscle_stimulator",
+    "demand": "medium",
+    "proposed_base_value_caps": 560,
+    "proposed_weight_g": 950,
+    "reason_zh": "若有復健需求與合格人員才可能需要設備。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "完整設備可供研究或專業復健用途；不按力量增幅定價，也不保證適合健康人使用。"
+  },
+  {
+    "content_id": "content_music_player",
+    "demand": "low",
+    "proposed_base_value_caps": 70,
+    "proposed_weight_g": 260,
+    "reason_zh": "長途運輸偏重實用品，只有特定旅人尋找聲音紀錄。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "可播放且介面相容的機器才有使用價值；沒有電源與媒體時只是待檢舊物。"
+  },
+  {
+    "content_id": "content_music_player",
+    "demand": "medium",
+    "proposed_base_value_caps": 70,
+    "proposed_weight_g": 260,
+    "reason_zh": "拆件者與電子維修者可能有零星舊機身。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "可播放且介面相容的機器才有使用價值；沒有電源與媒體時只是待檢舊物。"
+  },
+  {
+    "content_id": "content_music_player",
+    "demand": "medium",
+    "proposed_base_value_caps": 70,
+    "proposed_weight_g": 260,
+    "reason_zh": "公共休息處可能想保留歌聲或口述故事，需要可用電源。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "可播放且介面相容的機器才有使用價值；沒有電源與媒體時只是待檢舊物。"
+  },
+  {
+    "content_id": "content_neural_reflex_module",
+    "demand": "medium",
+    "proposed_base_value_caps": 750,
+    "proposed_weight_g": 160,
+    "reason_zh": "外來收購者可能找特定型號，不能代表當地常備庫存。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "估值反映完整介面與研究價值，並非按保證的反應增益計價；安裝風險未平衡。"
+  },
+  {
+    "content_id": "content_neural_reflex_module",
+    "demand": "high",
+    "proposed_base_value_caps": 750,
+    "proposed_weight_g": 160,
+    "reason_zh": "電子研究者可能需要完整接點與來源紀錄。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "估值反映完整介面與研究價值，並非按保證的反應增益計價；安裝風險未平衡。"
+  },
+  {
+    "content_id": "content_neural_reflex_module",
+    "demand": "low",
+    "proposed_base_value_caps": 750,
+    "proposed_weight_g": 160,
+    "reason_zh": "一般居民沒有適配設備；有醫療研究委託時才有需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "估值反映完整介面與研究價值，並非按保證的反應增益計價；安裝風險未平衡。"
+  },
+  {
+    "content_id": "content_night_vision_goggles",
+    "demand": "medium",
+    "proposed_base_value_caps": 890,
+    "proposed_weight_g": 820,
+    "reason_zh": "夜行商隊需權衡電源供應和維修距離。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "890 Caps 提案反映罕見完好光電組件，不含電池。"
+  },
+  {
+    "content_id": "content_night_vision_goggles",
+    "demand": "high",
+    "proposed_base_value_caps": 890,
+    "proposed_weight_g": 820,
+    "reason_zh": "光電工坊和遺跡調查者有興趣。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "890 Caps 提案反映罕見完好光電組件，不含電池。"
+  },
+  {
+    "content_id": "content_night_vision_goggles",
+    "demand": "low",
+    "proposed_base_value_caps": 890,
+    "proposed_weight_g": 820,
+    "reason_zh": "只有特定守望需求，缺少維護者。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "890 Caps 提案反映罕見完好光電組件，不含電池。"
+  },
+  {
+    "content_id": "content_number_sixty_three",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 860,
+    "reason_zh": "若燃料設備沿用相同固定件才有特定需求，不能憑工業標籤通用。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "價值取決於與特定舊設備匹配的幾何與維修紀錄，不是通用高階工具等級。"
+  },
+  {
+    "content_id": "content_number_sixty_three",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 860,
+    "reason_zh": "相關工廠的調查者可能尋找這把有記錄的工具。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "價值取決於與特定舊設備匹配的幾何與維修紀錄，不是通用高階工具等級。"
+  },
+  {
+    "content_id": "content_number_sixty_three",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 860,
+    "reason_zh": "沒有相容設備時只是一件難用的老工具，可能協助轉交。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "價值取決於與特定舊設備匹配的幾何與維修紀錄，不是通用高階工具等級。"
+  },
+  {
+    "content_id": "content_oil_lamp",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 650,
+    "reason_zh": "可維護燈體常見，相容油料另取。",
+    "supply": "high",
+    "town_id": "dry_well",
+    "value_rationale_zh": "24 Caps 取低技術可維護的照明定位，需攜帶額外燃料。"
+  },
+  {
+    "content_id": "content_oil_lamp",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 650,
+    "reason_zh": "工地有照明需求，但油氣區限制使用。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "24 Caps 取低技術可維護的照明定位，需攜帶額外燃料。"
+  },
+  {
+    "content_id": "content_oil_lamp",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 650,
+    "reason_zh": "灶棚與停電時可用。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "24 Caps 取低技術可維護的照明定位，需攜帶額外燃料。"
+  },
+  {
+    "content_id": "content_old_hunter_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3500,
+    "reason_zh": "特定商隊可能保有舊交接線索，沒有例行庫存。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有通用估價；家人、原同伴與收藏者各有不同目的。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_hunter_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3500,
+    "reason_zh": "一般廢料商不應為無法確認的故事付高價。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有通用估價；家人、原同伴與收藏者各有不同目的。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_hunter_rifle",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3500,
+    "reason_zh": "只有與原獵人有關的人可能急於尋回，不代表常態大量需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有通用估價；家人、原同伴與收藏者各有不同目的。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_photograph",
+    "demand": "medium",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 15,
+    "reason_zh": "舊井與商路地景可能幫助比對歷史位置。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "一般相片交易價低；家族或調查需求另議，不能把私人意義換算為普遍高價。"
+  },
+  {
+    "content_id": "content_old_photograph",
+    "demand": "medium",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 15,
+    "reason_zh": "地方紀錄者可能收集工業聚落變遷影像。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "一般相片交易價低；家族或調查需求另議，不能把私人意義換算為普遍高價。"
+  },
+  {
+    "content_id": "content_old_photograph",
+    "demand": "low",
+    "proposed_base_value_caps": 20,
+    "proposed_weight_g": 15,
+    "reason_zh": "居民家藏可能流出，但只對相關的人有明確需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "一般相片交易價低；家族或調查需求另議，不能把私人意義換算為普遍高價。"
+  },
+  {
+    "content_id": "content_old_revolver",
+    "demand": "high",
+    "proposed_base_value_caps": 210,
+    "proposed_weight_g": 1050,
+    "reason_zh": "護衛旅途中需要能找到維修者的型式。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "210 Caps 對應可檢查的普通舊槍。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_revolver",
+    "demand": "medium",
+    "proposed_base_value_caps": 210,
+    "proposed_weight_g": 1050,
+    "reason_zh": "舊槍流通與維修工坊相對集中。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "210 Caps 對應可檢查的普通舊槍。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_revolver",
+    "demand": "medium",
+    "proposed_base_value_caps": 210,
+    "proposed_weight_g": 1050,
+    "reason_zh": "獵戶與村落守衛熟悉舊式器材。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "210 Caps 對應可檢查的普通舊槍。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_smg",
+    "demand": "medium",
+    "proposed_base_value_caps": 560,
+    "proposed_weight_g": 3100,
+    "reason_zh": "護運需要，但外地部件是限制。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "560 Caps 假設主要部件齊全，仍不保證立即可用。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_smg",
+    "demand": "high",
+    "proposed_base_value_caps": 560,
+    "proposed_weight_g": 3100,
+    "reason_zh": "工坊與有組織守衛可能收購可檢修器材。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "560 Caps 假設主要部件齊全，仍不保證立即可用。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_smg",
+    "demand": "low",
+    "proposed_base_value_caps": 560,
+    "proposed_weight_g": 3100,
+    "reason_zh": "保管和後勤超出多數農戶需要。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "560 Caps 假設主要部件齊全，仍不保證立即可用。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_old_world_canned_food",
+    "demand": "low",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 500,
+    "reason_zh": "商隊可能代找指定收藏者。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "60 Caps 是完整包裝對特定收藏者的提議價，普通廚房可能完全拒收。"
+  },
+  {
+    "content_id": "content_old_world_canned_food",
+    "demand": "medium",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 500,
+    "reason_zh": "舊貨研究者重視商標與封口。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "60 Caps 是完整包裝對特定收藏者的提議價，普通廚房可能完全拒收。"
+  },
+  {
+    "content_id": "content_old_world_canned_food",
+    "demand": "low",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 500,
+    "reason_zh": "廚房不把陳年封罐當正常食物。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "60 Caps 是完整包裝對特定收藏者的提議價，普通廚房可能完全拒收。"
+  },
+  {
+    "content_id": "content_old_world_map",
+    "demand": "high",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 120,
+    "reason_zh": "油運路線的舊橋與便道資訊有用。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "45 Caps 是可讀地圖的設計估價，真正用途取決於覆蓋位置。"
+  },
+  {
+    "content_id": "content_old_world_map",
+    "demand": "high",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 120,
+    "reason_zh": "舊工業道路和管線入口待比對。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "45 Caps 是可讀地圖的設計估價，真正用途取決於覆蓋位置。"
+  },
+  {
+    "content_id": "content_old_world_map",
+    "demand": "medium",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 120,
+    "reason_zh": "舊灌溉路網可能提供線索。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "45 Caps 是可讀地圖的設計估價，真正用途取決於覆蓋位置。"
+  },
+  {
+    "content_id": "content_old_world_medical_case",
+    "demand": "medium",
+    "proposed_base_value_caps": 240,
+    "proposed_weight_g": 2400,
+    "reason_zh": "偏遠醫療點可能委託運送整箱。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "240 Caps 是完整來源可驗證時的收藏／醫療設備提議價，內容未知須重估。"
+  },
+  {
+    "content_id": "content_old_world_medical_case",
+    "demand": "high",
+    "proposed_base_value_caps": 240,
+    "proposed_weight_g": 2400,
+    "reason_zh": "遺跡回收偶有整箱，可安排檢驗。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "240 Caps 是完整來源可驗證時的收藏／醫療設備提議價，內容未知須重估。"
+  },
+  {
+    "content_id": "content_old_world_medical_case",
+    "demand": "medium",
+    "proposed_base_value_caps": 240,
+    "proposed_weight_g": 2400,
+    "reason_zh": "診所重視可用內容，不能按封條推定完整。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "240 Caps 是完整來源可驗證時的收藏／醫療設備提議價，內容未知須重估。"
+  },
+  {
+    "content_id": "content_old_world_military_armor",
+    "demand": "medium",
+    "proposed_base_value_caps": 1150,
+    "proposed_weight_g": 9500,
+    "reason_zh": "特定高風險護運團會委託尋找。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "1150 Caps 提案僅對應主要組件齊全的收藏與使用需求。"
+  },
+  {
+    "content_id": "content_old_world_military_armor",
+    "demand": "medium",
+    "proposed_base_value_caps": 1150,
+    "proposed_weight_g": 9500,
+    "reason_zh": "專門檢修工坊與收藏者有不同需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "1150 Caps 提案僅對應主要組件齊全的收藏與使用需求。"
+  },
+  {
+    "content_id": "content_old_world_military_armor",
+    "demand": "low",
+    "proposed_base_value_caps": 1150,
+    "proposed_weight_g": 9500,
+    "reason_zh": "一般生活難以負擔，可能只接轉運委託。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "1150 Caps 提案僅對應主要組件齊全的收藏與使用需求。"
+  },
+  {
+    "content_id": "content_old_world_tactical_chip",
+    "demand": "high",
+    "proposed_base_value_caps": 420,
+    "proposed_weight_g": 35,
+    "reason_zh": "護送訓練委託可能需要可對照的行動紀錄。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "估值來自可讀的訓練資料；不能以未實作的永久戰力加成作保證。"
+  },
+  {
+    "content_id": "content_old_world_tactical_chip",
+    "demand": "medium",
+    "proposed_base_value_caps": 420,
+    "proposed_weight_g": 35,
+    "reason_zh": "舊終端工坊可處理格式，但通常沒有完整模擬設備。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "估值來自可讀的訓練資料；不能以未實作的永久戰力加成作保證。"
+  },
+  {
+    "content_id": "content_old_world_tactical_chip",
+    "demand": "low",
+    "proposed_base_value_caps": 420,
+    "proposed_weight_g": 35,
+    "reason_zh": "地方守衛可能只對可讀的撤離演練有興趣。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "估值來自可讀的訓練資料；不能以未實作的永久戰力加成作保證。"
+  },
+  {
+    "content_id": "content_old_world_watch",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 110,
+    "reason_zh": "車隊交班可能需要計時，但只在有排班工作時形成需求。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "價值來自可校時的機芯與可辨讀刻字；停擺或來源不明時不能直接套用此估值。"
+  },
+  {
+    "content_id": "content_old_world_watch",
+    "demand": "high",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 110,
+    "reason_zh": "修表與精密拆件的候選工匠需要可修機芯，會先辨別是否缺件。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "價值來自可校時的機芯與可辨讀刻字；停擺或來源不明時不能直接套用此估值。"
+  },
+  {
+    "content_id": "content_old_world_watch",
+    "demand": "medium",
+    "proposed_base_value_caps": 90,
+    "proposed_weight_g": 110,
+    "reason_zh": "水閘輪值者可能需要可校準的時計；本地不能穩定製作機芯。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "價值來自可校時的機芯與可辨讀刻字；停擺或來源不明時不能直接套用此估值。"
+  },
+  {
+    "content_id": "content_painkillers",
+    "demand": "medium",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 40,
+    "reason_zh": "商隊帶入，收貨方看重保存紀錄。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "22 Caps 以有來源的常備藥估值，非立即續戰的增益商品。"
+  },
+  {
+    "content_id": "content_painkillers",
+    "demand": "high",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 40,
+    "reason_zh": "工人求購多，但不能只靠藥物替代休養。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "22 Caps 以有來源的常備藥估值，非立即續戰的增益商品。"
+  },
+  {
+    "content_id": "content_painkillers",
+    "demand": "medium",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 40,
+    "reason_zh": "診所少量儲備，按需發放。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "22 Caps 以有來源的常備藥估值，非立即續戰的增益商品。"
+  },
+  {
+    "content_id": "content_paper_journal",
+    "demand": "high",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 320,
+    "reason_zh": "商路記錄與失聯車隊行程可能受到委託人關注。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "一般日記沒有固定寶藏價，估值僅作保存與有需求者交付的參考。"
+  },
+  {
+    "content_id": "content_paper_journal",
+    "demand": "medium",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 320,
+    "reason_zh": "設備維護手記與工人日記偶有調查價值。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "一般日記沒有固定寶藏價，估值僅作保存與有需求者交付的參考。"
+  },
+  {
+    "content_id": "content_paper_journal",
+    "demand": "medium",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 320,
+    "reason_zh": "居民可能尋找種植、取水或家族紀錄。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "一般日記沒有固定寶藏價，估值僅作保存與有需求者交付的參考。"
+  },
+  {
+    "content_id": "content_planting_manual",
+    "demand": "medium",
+    "proposed_base_value_caps": 140,
+    "proposed_weight_g": 620,
+    "reason_zh": "節水栽培的特定章節可能有需求，但不是燃料地的固定商品。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "適合本地作物與土壤條件的章節有價值；異地氣候與不明種子不能照書保證收成。"
+  },
+  {
+    "content_id": "content_planting_manual",
+    "demand": "medium",
+    "proposed_base_value_caps": 140,
+    "proposed_weight_g": 620,
+    "reason_zh": "工業聚落的小菜圃可能需要儲種與輪作知識。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "適合本地作物與土壤條件的章節有價值；異地氣候與不明種子不能照書保證收成。"
+  },
+  {
+    "content_id": "content_planting_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 140,
+    "proposed_weight_g": 620,
+    "reason_zh": "農戶與種子保管者關心本地適用版本，也可能交換試驗註記。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "適合本地作物與土壤條件的章節有價值；異地氣候與不明種子不能照書保證收成。"
+  },
+  {
+    "content_id": "content_plastic",
+    "demand": "medium",
+    "proposed_base_value_caps": 6,
+    "proposed_weight_g": 250,
+    "reason_zh": "路牌和貨單防濺需要便宜材料。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "6 Caps 因來源廣但適用工作窄，需按片面完整程度挑選。"
+  },
+  {
+    "content_id": "content_plastic",
+    "demand": "medium",
+    "proposed_base_value_caps": 6,
+    "proposed_weight_g": 250,
+    "reason_zh": "分選後可做保護與隔片。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "6 Caps 因來源廣但適用工作窄，需按片面完整程度挑選。"
+  },
+  {
+    "content_id": "content_plastic",
+    "demand": "low",
+    "proposed_base_value_caps": 6,
+    "proposed_weight_g": 250,
+    "reason_zh": "舊包材常見，普通修補需求小。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "6 Caps 因來源廣但適用工作窄，需按片面完整程度挑選。"
+  },
+  {
+    "content_id": "content_pliers",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 320,
+    "reason_zh": "車隊現場拆裝需要可攜夾持工具。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 因常用且可維護，價值來自穩定夾持而非戰力。"
+  },
+  {
+    "content_id": "content_pliers",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 320,
+    "reason_zh": "線材和插銷工作常見。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 因常用且可維護，價值來自穩定夾持而非戰力。"
+  },
+  {
+    "content_id": "content_pliers",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 320,
+    "reason_zh": "農務固定與小零件維護有需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 因常用且可維護，價值來自穩定夾持而非戰力。"
+  },
+  {
+    "content_id": "content_police_ballistic_vest",
+    "demand": "medium",
+    "proposed_base_value_caps": 460,
+    "proposed_weight_g": 4200,
+    "reason_zh": "有後勤的護運團尋找可靠防具。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "460 Caps 是可驗證完整個體的設計估值。"
+  },
+  {
+    "content_id": "content_police_ballistic_vest",
+    "demand": "medium",
+    "proposed_base_value_caps": 460,
+    "proposed_weight_g": 4200,
+    "reason_zh": "警備遺跡與檢驗工坊形成有限流通。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "460 Caps 是可驗證完整個體的設計估值。"
+  },
+  {
+    "content_id": "content_police_ballistic_vest",
+    "demand": "low",
+    "proposed_base_value_caps": 460,
+    "proposed_weight_g": 4200,
+    "reason_zh": "日常農務不需要，特定護衛委託例外。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "460 Caps 是可驗證完整個體的設計估值。"
+  },
+  {
+    "content_id": "content_police_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 310,
+    "proposed_weight_g": 880,
+    "reason_zh": "只對能取得相容補給的護衛有吸引力。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "310 Caps 假設保存了可查的型號資料。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_police_pistol",
+    "demand": "high",
+    "proposed_base_value_caps": 310,
+    "proposed_weight_g": 880,
+    "reason_zh": "舊警備倉與修理者可能提供配套資料。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "310 Caps 假設保存了可查的型號資料。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_police_pistol",
+    "demand": "medium",
+    "proposed_base_value_caps": 310,
+    "proposed_weight_g": 880,
+    "reason_zh": "守望隊有需求但不在本地生產。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "310 Caps 假設保存了可查的型號資料。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_power_hammer",
+    "demand": "medium",
+    "proposed_base_value_caps": 720,
+    "proposed_weight_g": 11500,
+    "reason_zh": "燃料設施重修可能借用，通常以工作委託而非個人購買。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "720 Caps 提案是可修復工業資產估值，未含搬運與供電費用。"
+  },
+  {
+    "content_id": "content_power_hammer",
+    "demand": "high",
+    "proposed_base_value_caps": 720,
+    "proposed_weight_g": 11500,
+    "reason_zh": "工業維修者能提供作業場所與運輸需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "720 Caps 提案是可修復工業資產估值，未含搬運與供電費用。"
+  },
+  {
+    "content_id": "content_power_hammer",
+    "demand": "low",
+    "proposed_base_value_caps": 720,
+    "proposed_weight_g": 11500,
+    "reason_zh": "僅大工程會需要，日常農務負擔不起物流。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "720 Caps 提案是可修復工業資產估值，未含搬運與供電費用。"
+  },
+  {
+    "content_id": "content_precision_engineering_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 360,
+    "proposed_weight_g": 980,
+    "reason_zh": "燃料泵密封與量測工作可能需要專門資料。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "特定公差表與量測方法對具備工具的人有用；沒有量具時不會自動得到精密加工能力。"
+  },
+  {
+    "content_id": "content_precision_engineering_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 360,
+    "proposed_weight_g": 980,
+    "reason_zh": "工坊可能尋找校準依據，但是否有相容治具決定用途。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "特定公差表與量測方法對具備工具的人有用；沒有量具時不會自動得到精密加工能力。"
+  },
+  {
+    "content_id": "content_precision_engineering_manual",
+    "demand": "medium",
+    "proposed_base_value_caps": 360,
+    "proposed_weight_g": 980,
+    "reason_zh": "水泵與農機只有特定部件需要高精度量測。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "特定公差表與量測方法對具備工具的人有用；沒有量具時不會自動得到精密加工能力。"
+  },
+  {
+    "content_id": "content_precision_parts",
+    "demand": "high",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 150,
+    "reason_zh": "泵站儀表失效時可能急需對應套件。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "75 Caps 來自成套精度與難補製，不能按金屬重量直換。"
+  },
+  {
+    "content_id": "content_precision_parts",
+    "demand": "high",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 150,
+    "reason_zh": "技工能辨規格但很難補製成套細件。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "75 Caps 來自成套精度與難補製，不能按金屬重量直換。"
+  },
+  {
+    "content_id": "content_precision_parts",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 150,
+    "reason_zh": "指定水務儀器修復才會下單。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "75 Caps 來自成套精度與難補製，不能按金屬重量直換。"
+  },
+  {
+    "content_id": "content_pump_shotgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 420,
+    "proposed_weight_g": 3450,
+    "reason_zh": "儲運場有需求，但零件依赖外來。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "420 Caps 提案來自較少見的完整機構。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_pump_shotgun",
+    "demand": "high",
+    "proposed_base_value_caps": 420,
+    "proposed_weight_g": 3450,
+    "reason_zh": "工業警備遺留與專門工坊可能配套。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "420 Caps 提案來自較少見的完整機構。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_pump_shotgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 420,
+    "proposed_weight_g": 3450,
+    "reason_zh": "固定糧倉守衛能安排維護，但普通農戶較少買。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "420 Caps 提案來自較少見的完整機構。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_purification_tablets",
+    "demand": "high",
+    "proposed_base_value_caps": 32,
+    "proposed_weight_g": 40,
+    "reason_zh": "長距離水源不確定，使可信批次吃緊。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "32 Caps 反映輕便、難補充與來源可信度；不是無限淨水權。"
+  },
+  {
+    "content_id": "content_purification_tablets",
+    "demand": "high",
+    "proposed_base_value_caps": 32,
+    "proposed_weight_g": 40,
+    "reason_zh": "工班離開供水點時需要備案。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "32 Caps 反映輕便、難補充與來源可信度；不是無限淨水權。"
+  },
+  {
+    "content_id": "content_purification_tablets",
+    "demand": "medium",
+    "proposed_base_value_caps": 32,
+    "proposed_weight_g": 40,
+    "reason_zh": "正常取水時需求有限，出行者備用。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "32 Caps 反映輕便、難補充與來源可信度；不是無限淨水權。"
+  },
+  {
+    "content_id": "content_radio",
+    "demand": "high",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 700,
+    "reason_zh": "停靠點距離長，補機仍靠外來貨。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "95 Caps 包括可用通訊機構，範圍與電源限制不能忽略。"
+  },
+  {
+    "content_id": "content_radio",
+    "demand": "high",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 700,
+    "reason_zh": "維修工班和商隊都需通訊。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "95 Caps 包括可用通訊機構，範圍與電源限制不能忽略。"
+  },
+  {
+    "content_id": "content_radio",
+    "demand": "medium",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 700,
+    "reason_zh": "取水站與外勤隊有聯絡需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "95 Caps 包括可用通訊機構，範圍與電源限制不能忽略。"
+  },
+  {
+    "content_id": "content_raw_meat",
+    "demand": "low",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 600,
+    "reason_zh": "沒有可靠保存時不積壓生鮮肉。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "8 Caps 低於成品肉乾，因需處理且不適合長途無照料搬運。"
+  },
+  {
+    "content_id": "content_raw_meat",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 600,
+    "reason_zh": "廚房可處理，前提是能及時送達。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "8 Caps 低於成品肉乾，因需處理且不適合長途無照料搬運。"
+  },
+  {
+    "content_id": "content_raw_meat",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 600,
+    "reason_zh": "獵人可短距離交貨。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "8 Caps 低於成品肉乾，因需處理且不適合長途無照料搬運。"
+  },
+  {
+    "content_id": "content_rebar_club",
+    "demand": "medium",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 1800,
+    "reason_zh": "固定破損棚架有臨時需求，會與更輕工具競爭。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "22 Caps 提案只略高於可用廢鋼；1800 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_rebar_club",
+    "demand": "low",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 1800,
+    "reason_zh": "來源多，拆解工人通常能自行找到。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "22 Caps 提案只略高於可用廢鋼；1800 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_rebar_club",
+    "demand": "low",
+    "proposed_base_value_caps": 22,
+    "proposed_weight_g": 1800,
+    "reason_zh": "可當粗用支桿，但長途運輸不劃算。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "22 Caps 提案只略高於可用廢鋼；1800 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_repair_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 650,
+    "reason_zh": "燃料輸送設備的停機成本使相容手冊有價值。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "有型號索引、完整故障表的手冊對使用相同設備的人有價值；不適配的版本較難出售。"
+  },
+  {
+    "content_id": "content_repair_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 650,
+    "reason_zh": "工坊保存與交換型號資料，也可能已有重複版本。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "有型號索引、完整故障表的手冊對使用相同設備的人有價值；不適配的版本較難出售。"
+  },
+  {
+    "content_id": "content_repair_manual",
+    "demand": "high",
+    "proposed_base_value_caps": 150,
+    "proposed_weight_g": 650,
+    "reason_zh": "泵、農具等設備若型號相容便有需求，當地印製來源稀少。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "有型號索引、完整故障表的手冊對使用相同設備的人有價值；不適配的版本較難出售。"
+  },
+  {
+    "content_id": "content_reverse_magnetic_shard",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 260,
+    "reason_zh": "運輸機件研究可能有興趣，但需與羅盤及零件分開保管。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有標準價格；只有願意測試特定金屬反應的工匠或研究者提出需求。"
+  },
+  {
+    "content_id": "content_reverse_magnetic_shard",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 260,
+    "reason_zh": "金屬工坊對不同材料的反應有實驗需求。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有標準價格；只有願意測試特定金屬反應的工匠或研究者提出需求。"
+  },
+  {
+    "content_id": "content_reverse_magnetic_shard",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 260,
+    "reason_zh": "農具使用者沒有未經測試樣本的直接需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有標準價格；只有願意測試特定金屬反應的工匠或研究者提出需求。"
+  },
+  {
+    "content_id": "content_rope",
+    "demand": "high",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 2500,
+    "reason_zh": "長途貨箱固定與道路救援需求多。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "30 Caps 反映多次使用的固定用途，但不保證可承受任何重量。"
+  },
+  {
+    "content_id": "content_rope",
+    "demand": "medium",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 2500,
+    "reason_zh": "工地有舊繩供應，但承載狀況需查。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "30 Caps 反映多次使用的固定用途，但不保證可承受任何重量。"
+  },
+  {
+    "content_id": "content_rope",
+    "demand": "medium",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 2500,
+    "reason_zh": "農務搬運會綁束物資。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "30 Caps 反映多次使用的固定用途，但不保證可承受任何重量。"
+  },
+  {
+    "content_id": "content_rubber",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 400,
+    "reason_zh": "燃料接點需要已確認相容的密封料。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "12 Caps 取常用密封材料尺度，來源和老化狀況會改變可用性。"
+  },
+  {
+    "content_id": "content_rubber",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 400,
+    "reason_zh": "廢車和工業庫存有來源。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "12 Caps 取常用密封材料尺度，來源和老化狀況會改變可用性。"
+  },
+  {
+    "content_id": "content_rubber",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 400,
+    "reason_zh": "接水與農具修補需合用途材料。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "12 Caps 取常用密封材料尺度，來源和老化狀況會改變可用性。"
+  },
+  {
+    "content_id": "content_rusted_knife",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 250,
+    "reason_zh": "旅人需要便宜備用刀，品質差異必須可見。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 提案反映缺口與修理負擔；250 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_rusted_knife",
+    "demand": "low",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 250,
+    "reason_zh": "拆屋回收常見，工坊偏好狀態更好的刃具。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 提案反映缺口與修理負擔；250 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_rusted_knife",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 250,
+    "reason_zh": "農戶常用小刀處理包裝，但鏽刃收購價有限。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 提案反映缺口與修理負擔；250 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_salt",
+    "demand": "medium",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 250,
+    "reason_zh": "鄰近鹽貨來源，仍要分辨用途。",
+    "supply": "high",
+    "town_id": "dry_well",
+    "value_rationale_zh": "10 Caps 以小袋耐運商品估值，來源與用途確認影響是否有人收。"
+  },
+  {
+    "content_id": "content_salt",
+    "demand": "medium",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 250,
+    "reason_zh": "商隊轉運，廚房與材料批次分開。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "10 Caps 以小袋耐運商品估值，來源與用途確認影響是否有人收。"
+  },
+  {
+    "content_id": "content_salt",
+    "demand": "high",
+    "proposed_base_value_caps": 10,
+    "proposed_weight_g": 250,
+    "reason_zh": "保存收成和肉食時有需求。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "10 Caps 以小袋耐運商品估值，來源與用途確認影響是否有人收。"
+  },
+  {
+    "content_id": "content_sandstorm_rifle",
+    "demand": "high",
+    "proposed_base_value_caps": 430,
+    "proposed_weight_g": 3900,
+    "reason_zh": "當地有維護經驗與相容配件來源。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "430 Caps 提案包含地方修配與防砂配套。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_sandstorm_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 430,
+    "proposed_weight_g": 3900,
+    "reason_zh": "替乾井商隊服務的工坊有需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "430 Caps 提案包含地方修配與防砂配套。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_sandstorm_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": 430,
+    "proposed_weight_g": 3900,
+    "reason_zh": "農業路線不常需要額外防砂配套。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "430 Caps 提案包含地方修配與防砂配套。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_scrap_iron",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 1000,
+    "reason_zh": "車場有零散來源，也需替換支架材料。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "8 Caps 以重、常見且仍需加工的材料定位。"
+  },
+  {
+    "content_id": "content_scrap_iron",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 1000,
+    "reason_zh": "回收多，需再分選才有用途。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "8 Caps 以重、常見且仍需加工的材料定位。"
+  },
+  {
+    "content_id": "content_scrap_iron",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 1000,
+    "reason_zh": "可補簡單農具構件，長途搬運未必合算。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "8 Caps 以重、常見且仍需加工的材料定位。"
+  },
+  {
+    "content_id": "content_scrap_iron_armor",
+    "demand": "low",
+    "proposed_base_value_caps": 190,
+    "proposed_weight_g": 6500,
+    "reason_zh": "遠行重量與散熱限制購買意願。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "190 Caps 提案偏重本地材料取得容易，6500 g 為明显負擔。"
+  },
+  {
+    "content_id": "content_scrap_iron_armor",
+    "demand": "medium",
+    "proposed_base_value_caps": 190,
+    "proposed_weight_g": 6500,
+    "reason_zh": "固定守衛與在地修配有需求。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "190 Caps 提案偏重本地材料取得容易，6500 g 為明显負擔。"
+  },
+  {
+    "content_id": "content_scrap_iron_armor",
+    "demand": "low",
+    "proposed_base_value_caps": 190,
+    "proposed_weight_g": 6500,
+    "reason_zh": "農業出行不願攜帶重護具。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "190 Caps 提案偏重本地材料取得容易，6500 g 為明显負擔。"
+  },
+  {
+    "content_id": "content_scrap_machete",
+    "demand": "low",
+    "proposed_base_value_caps": 48,
+    "proposed_weight_g": 1200,
+    "reason_zh": "沙地植被較少，通常作旅行備刃。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "48 Caps 提案體現在地加工與有限材料品質；1200 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_scrap_machete",
+    "demand": "medium",
+    "proposed_base_value_caps": 48,
+    "proposed_weight_g": 1200,
+    "reason_zh": "在地成品多，交易重點是工匠與刃口品質。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "48 Caps 提案體現在地加工與有限材料品質；1200 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_scrap_machete",
+    "demand": "high",
+    "proposed_base_value_caps": 48,
+    "proposed_weight_g": 1200,
+    "reason_zh": "開闢被灌木遮住的小徑有需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "48 Caps 提案體現在地加工與有限材料品質；1200 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_scrap_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 4100,
+    "reason_zh": "遠離製作者時難以保證維修，買家謹慎。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "220 Caps 提案扣除重量與個體差异造成的後勤負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_scrap_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 4100,
+    "reason_zh": "本地修配工坊有售後意願。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "220 Caps 提案扣除重量與個體差异造成的後勤負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_scrap_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 4100,
+    "reason_zh": "農戶可透過灰谷委託維修，往返時間是成本。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "220 Caps 提案扣除重量與個體差异造成的後勤負擔。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_screwdriver",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 180,
+    "reason_zh": "泵站護蓋要維護，從商隊補充。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "12 Caps 是容易攜帶和補充的入門工具價格提議。"
+  },
+  {
+    "content_id": "content_screwdriver",
+    "demand": "high",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 180,
+    "reason_zh": "工地與電子修理都使用，規格需要分清。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "12 Caps 是容易攜帶和補充的入門工具價格提議。"
+  },
+  {
+    "content_id": "content_screwdriver",
+    "demand": "medium",
+    "proposed_base_value_caps": 12,
+    "proposed_weight_g": 180,
+    "reason_zh": "家用設備維護需求分散。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "12 Caps 是容易攜帶和補充的入門工具價格提議。"
+  },
+  {
+    "content_id": "content_sealed_cargo_crate",
+    "demand": "high",
+    "proposed_base_value_caps": 185,
+    "proposed_weight_g": 7800,
+    "reason_zh": "燃料相關精密件需防串貨與交接追蹤。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "185 Caps 提案反映箱體與封條槽價值，不含貨物。"
+  },
+  {
+    "content_id": "content_sealed_cargo_crate",
+    "demand": "high",
+    "proposed_base_value_caps": 185,
+    "proposed_weight_g": 7800,
+    "reason_zh": "工業成品與零件托運需要硬箱。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "185 Caps 提案反映箱體與封條槽價值，不含貨物。"
+  },
+  {
+    "content_id": "content_sealed_cargo_crate",
+    "demand": "medium",
+    "proposed_base_value_caps": 185,
+    "proposed_weight_g": 7800,
+    "reason_zh": "較昂貴農產或種子運輸才值得使用。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "185 Caps 提案反映箱體與封條槽價值，不含貨物。"
+  },
+  {
+    "content_id": "content_seeds",
+    "demand": "medium",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 100,
+    "reason_zh": "缺水環境只為明確試種計畫採購。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "30 Caps 取有來源品種的準備價值，不能按未來整片收成估現價。"
+  },
+  {
+    "content_id": "content_seeds",
+    "demand": "low",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 100,
+    "reason_zh": "少量院落栽種，不是主要產業。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "30 Caps 取有來源品種的準備價值，不能按未來整片收成估現價。"
+  },
+  {
+    "content_id": "content_seeds",
+    "demand": "high",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 100,
+    "reason_zh": "保存種源與下一季播種都需要，供需可以同時高。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "30 Caps 取有來源品種的準備價值，不能按未來整片收成估現價。"
+  },
+  {
+    "content_id": "content_semi_auto_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 3700,
+    "reason_zh": "有後勤的護運隊願意收，零散旅人未必。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "470 Caps 提案反映完整機構與較稀少維修資源。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_semi_auto_rifle",
+    "demand": "high",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 3700,
+    "reason_zh": "專門工坊可評估零件圖與整機用途。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "470 Caps 提案反映完整機構與較稀少維修資源。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_semi_auto_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": 470,
+    "proposed_weight_g": 3700,
+    "reason_zh": "一般獵務難維持此類支援。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "470 Caps 提案反映完整機構與較稀少維修資源。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_shadowless_glass",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 340,
+    "reason_zh": "地景測量委託可能願意研究光線現象，但不常備進貨。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有一般玻璃的通用估價；光學研究者可能因可重複現象願意接收。"
+  },
+  {
+    "content_id": "content_shadowless_glass",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 340,
+    "reason_zh": "光學與照明研究者會在意原片邊緣與來源。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有一般玻璃的通用估價；光學研究者可能因可重複現象願意接收。"
+  },
+  {
+    "content_id": "content_shadowless_glass",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 340,
+    "reason_zh": "一般窗戶需求偏重耐用，特殊樣本沒有直接民生用途。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有一般玻璃的通用估價；光學研究者可能因可重複現象願意接收。"
+  },
+  {
+    "content_id": "content_signal_receiver",
+    "demand": "medium",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 1300,
+    "reason_zh": "遠征隊追查中繼訊號時會委託。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "180 Caps 取專門測量與稀少零件定位，而非保證發現秘密。"
+  },
+  {
+    "content_id": "content_signal_receiver",
+    "demand": "high",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 1300,
+    "reason_zh": "舊工業通訊設施有調查需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "180 Caps 取專門測量與稀少零件定位，而非保證發現秘密。"
+  },
+  {
+    "content_id": "content_signal_receiver",
+    "demand": "low",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 1300,
+    "reason_zh": "偶爾調查水泵控制訊號，不常備專機。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "180 Caps 取專門測量與稀少零件定位，而非保證發現秘密。"
+  },
+  {
+    "content_id": "content_silence_box",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 620,
+    "reason_zh": "商隊聯絡站有隔離與查明問題的動機，但不代表可常規交易。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "只有明確通訊研究或隔離需求，不以尚未驗證的隱匿能力出售；普遍價格保持未知。"
+  },
+  {
+    "content_id": "content_silence_box",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 620,
+    "reason_zh": "訊號維修者可能願意建立測試紀錄。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "只有明確通訊研究或隔離需求，不以尚未驗證的隱匿能力出售；普遍價格保持未知。"
+  },
+  {
+    "content_id": "content_silence_box",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 620,
+    "reason_zh": "供水值班若靠無線電聯絡，會關注干擾來源而非希望擁有干擾器。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "只有明確通訊研究或隔離需求，不以尚未驗證的隱匿能力出售；普遍價格保持未知。"
+  },
+  {
+    "content_id": "content_single_shot_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 160,
+    "proposed_weight_g": 2750,
+    "reason_zh": "沿途獵務可能需要，但補給受路線限制。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "160 Caps 提案保留新人可追求的完整器材。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_single_shot_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": 160,
+    "proposed_weight_g": 2750,
+    "reason_zh": "狹窄廢墟限制長槍用途。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "160 Caps 提案保留新人可追求的完整器材。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_single_shot_rifle",
+    "demand": "high",
+    "proposed_base_value_caps": 160,
+    "proposed_weight_g": 2750,
+    "reason_zh": "農獵生活常見，當地有維護經驗。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "160 Caps 提案保留新人可追求的完整器材。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_single_shot_shotgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 185,
+    "proposed_weight_g": 2950,
+    "reason_zh": "短程看守需求存在，補給須另核實。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "185 Caps 提案維持可取得性並保留檢驗成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_single_shot_shotgun",
+    "demand": "medium",
+    "proposed_base_value_caps": 185,
+    "proposed_weight_g": 2950,
+    "reason_zh": "回收商能找到舊民用器材。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "185 Caps 提案維持可取得性並保留檢驗成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_single_shot_shotgun",
+    "demand": "high",
+    "proposed_base_value_caps": 185,
+    "proposed_weight_g": 2950,
+    "reason_zh": "農舍與護田人員有具體需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "185 Caps 提案維持可取得性並保留檢驗成本。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_sleeping_bag",
+    "demand": "high",
+    "proposed_base_value_caps": 38,
+    "proposed_weight_g": 1700,
+    "reason_zh": "乾井是長途出行補給點。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "38 Caps 主要是填料、縫製與攜行成本。"
+  },
+  {
+    "content_id": "content_sleeping_bag",
+    "demand": "medium",
+    "proposed_base_value_caps": 38,
+    "proposed_weight_g": 1700,
+    "reason_zh": "夜班工棚與旅人採買。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "38 Caps 主要是填料、縫製與攜行成本。"
+  },
+  {
+    "content_id": "content_sleeping_bag",
+    "demand": "medium",
+    "proposed_base_value_caps": 38,
+    "proposed_weight_g": 1700,
+    "reason_zh": "裁縫可維修，外出工作者需要。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "38 Caps 主要是填料、縫製與攜行成本。"
+  },
+  {
+    "content_id": "content_sniper_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 980,
+    "proposed_weight_g": 5200,
+    "reason_zh": "特定遠行隊有需求，絕非常備市場貨。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "980 Caps 提案反映少見完整配套，物流與檢驗費另計。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_sniper_rifle",
+    "demand": "medium",
+    "proposed_base_value_caps": 980,
+    "proposed_weight_g": 5200,
+    "reason_zh": "精密工坊或特定委託人有需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "980 Caps 提案反映少見完整配套，物流與檢驗費另計。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_sniper_rifle",
+    "demand": "low",
+    "proposed_base_value_caps": 980,
+    "proposed_weight_g": 5200,
+    "reason_zh": "農戶難以維護，可能只接受替專人轉運。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "980 Caps 提案反映少見完整配套，物流與檢驗費另計。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_snub_revolver",
+    "demand": "medium",
+    "proposed_base_value_caps": 250,
+    "proposed_weight_g": 720,
+    "reason_zh": "商隊人員偏好便攜備用器材，但仍需補給。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "250 Caps 提案包含輕便需求而非單純傷害提升。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_snub_revolver",
+    "demand": "medium",
+    "proposed_base_value_caps": 250,
+    "proposed_weight_g": 720,
+    "reason_zh": "短程信使與商人有攜行需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "250 Caps 提案包含輕便需求而非單純傷害提升。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_snub_revolver",
+    "demand": "low",
+    "proposed_base_value_caps": 250,
+    "proposed_weight_g": 720,
+    "reason_zh": "農務更重視通用長工具與獵具。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "250 Caps 提案包含輕便需求而非單純傷害提升。 重量按空槍提案，價格不是現有商店報價。"
+  },
+  {
+    "content_id": "content_spear",
+    "demand": "medium",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 2300,
+    "reason_zh": "商隊守夜偶有需求，長桿運輸不便。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "60 Caps 提案適合普通護田器具；2300 g 不包含携行架。"
+  },
+  {
+    "content_id": "content_spear",
+    "demand": "low",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 2300,
+    "reason_zh": "廢墟狹窄，工人偏好短工具。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "60 Caps 提案適合普通護田器具；2300 g 不包含携行架。"
+  },
+  {
+    "content_id": "content_spear",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 2300,
+    "reason_zh": "獵人和護田隊熟悉長柄器具。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "60 Caps 提案適合普通護田器具；2300 g 不包含携行架。"
+  },
+  {
+    "content_id": "content_spices",
+    "demand": "medium",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 80,
+    "reason_zh": "旅店會為指定客人預訂，非無限需求。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "30 Caps 以輕便外來貨定位，需求集中在廚師和特定買家。"
+  },
+  {
+    "content_id": "content_spices",
+    "demand": "medium",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 80,
+    "reason_zh": "聚落廚房想區別普通供餐。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "30 Caps 以輕便外來貨定位，需求集中在廚師和特定買家。"
+  },
+  {
+    "content_id": "content_spices",
+    "demand": "low",
+    "proposed_base_value_caps": 30,
+    "proposed_weight_g": 80,
+    "reason_zh": "部分本地品種易得，外來風味另找買家。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "30 Caps 以輕便外來貨定位，需求集中在廚師和特定買家。"
+  },
+  {
+    "content_id": "content_spring",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 80,
+    "reason_zh": "貨車門扣與箱扣需合規替換件。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "8 Caps 是小而常見的替換件估值，匹配錯誤會失去用途。"
+  },
+  {
+    "content_id": "content_spring",
+    "demand": "medium",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 80,
+    "reason_zh": "細機構維修常用。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "8 Caps 是小而常見的替換件估值，匹配錯誤會失去用途。"
+  },
+  {
+    "content_id": "content_spring",
+    "demand": "low",
+    "proposed_base_value_caps": 8,
+    "proposed_weight_g": 80,
+    "reason_zh": "日用扣件可拆取，需求零散。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "8 Caps 是小而常見的替換件估值，匹配錯誤會失去用途。"
+  },
+  {
+    "content_id": "content_stab_vest",
+    "demand": "medium",
+    "proposed_base_value_caps": 230,
+    "proposed_weight_g": 2100,
+    "reason_zh": "商隊保護有需求，合身尺碼限制交易。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "230 Caps 假設內襯可驗證且側帶完整。"
+  },
+  {
+    "content_id": "content_stab_vest",
+    "demand": "high",
+    "proposed_base_value_caps": 230,
+    "proposed_weight_g": 2100,
+    "reason_zh": "倉庫守衛與器材檢驗者需要。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "230 Caps 假設內襯可驗證且側帶完整。"
+  },
+  {
+    "content_id": "content_stab_vest",
+    "demand": "medium",
+    "proposed_base_value_caps": 230,
+    "proposed_weight_g": 2100,
+    "reason_zh": "近身護送工作有需求，但無在地製造。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "230 Caps 假設內襯可驗證且側帶完整。"
+  },
+  {
+    "content_id": "content_static_bone",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 190,
+    "reason_zh": "燃料場所會要求隔離，有安全研究需求但不當常備貨物。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "只有特定靜電研究需求，未驗證能量輸出前不按電池或發電設備計價。"
+  },
+  {
+    "content_id": "content_static_bone",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 190,
+    "reason_zh": "電學工匠可能願做受控對照。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "只有特定靜電研究需求，未驗證能量輸出前不按電池或發電設備計價。"
+  },
+  {
+    "content_id": "content_static_bone",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 190,
+    "reason_zh": "一般工作缺少用途，保管者更在意避免接觸易燃物。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "只有特定靜電研究需求，未驗證能量輸出前不按電池或發電設備計價。"
+  },
+  {
+    "content_id": "content_steel_stock",
+    "demand": "high",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 1500,
+    "reason_zh": "車架與泵房構件希望用可靠坯料。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "24 Caps 比混雜廢鐵高，因較容易量測與安排加工。"
+  },
+  {
+    "content_id": "content_steel_stock",
+    "demand": "high",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 1500,
+    "reason_zh": "工坊能加工，穩定規格仍有需求。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "24 Caps 比混雜廢鐵高，因較容易量測與安排加工。"
+  },
+  {
+    "content_id": "content_steel_stock",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 1500,
+    "reason_zh": "指定農具加工會採買合規板條。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "24 Caps 比混雜廢鐵高，因較容易量測與安排加工。"
+  },
+  {
+    "content_id": "content_stun_baton",
+    "demand": "low",
+    "proposed_base_value_caps": 260,
+    "proposed_weight_g": 950,
+    "reason_zh": "電源補充不易，日常防衛不依賴它。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "260 Caps 是可檢修器材的設計估值；無法證實工作的個體不保證此價。"
+  },
+  {
+    "content_id": "content_stun_baton",
+    "demand": "medium",
+    "proposed_base_value_caps": 260,
+    "proposed_weight_g": 950,
+    "reason_zh": "有能力檢修舊警備設備的工坊願意收。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "260 Caps 是可檢修器材的設計估值；無法證實工作的個體不保證此價。"
+  },
+  {
+    "content_id": "content_stun_baton",
+    "demand": "low",
+    "proposed_base_value_caps": 260,
+    "proposed_weight_g": 950,
+    "reason_zh": "缺少電子維護，需求限特定守衛或研究者。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "260 Caps 是可檢修器材的設計估值；無法證實工作的個體不保證此價。"
+  },
+  {
+    "content_id": "content_sugar",
+    "demand": "medium",
+    "proposed_base_value_caps": 16,
+    "proposed_weight_g": 250,
+    "reason_zh": "小包裝便於商隊帶入。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "16 Caps 因加工、保存和甜味需求，沿路供應仍有限。"
+  },
+  {
+    "content_id": "content_sugar",
+    "demand": "medium",
+    "proposed_base_value_caps": 16,
+    "proposed_weight_g": 250,
+    "reason_zh": "廚房需要少量調味。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "16 Caps 因加工、保存和甜味需求，沿路供應仍有限。"
+  },
+  {
+    "content_id": "content_sugar",
+    "demand": "medium",
+    "proposed_base_value_caps": 16,
+    "proposed_weight_g": 250,
+    "reason_zh": "食品加工有來源與需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "16 Caps 因加工、保存和甜味需求，沿路供應仍有限。"
+  },
+  {
+    "content_id": "content_surgical_kit",
+    "demand": "medium",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 1100,
+    "reason_zh": "偏遠處置點希望備有器械，仍缺完整醫療條件。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "180 Caps 反映精度和完整性，不能按普通廢鐵秤價。"
+  },
+  {
+    "content_id": "content_surgical_kit",
+    "demand": "high",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 1100,
+    "reason_zh": "有精加工修復條件但缺完整醫療套件。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "180 Caps 反映精度和完整性，不能按普通廢鐵秤價。"
+  },
+  {
+    "content_id": "content_surgical_kit",
+    "demand": "medium",
+    "proposed_base_value_caps": 180,
+    "proposed_weight_g": 1100,
+    "reason_zh": "診所願意接收，不能穩定製造精密器械。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "180 Caps 反映精度和完整性，不能按普通廢鐵秤價。"
+  },
+  {
+    "content_id": "content_tactical_helmet",
+    "demand": "medium",
+    "proposed_base_value_caps": 320,
+    "proposed_weight_g": 1550,
+    "reason_zh": "護衛需要合身器材，但有重量及散熱代價。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "320 Caps 提案只適用檢驗後可接受的個體。"
+  },
+  {
+    "content_id": "content_tactical_helmet",
+    "demand": "medium",
+    "proposed_base_value_caps": 320,
+    "proposed_weight_g": 1550,
+    "reason_zh": "安全器材工坊可檢驗並處理二手流通。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "320 Caps 提案只適用檢驗後可接受的個體。"
+  },
+  {
+    "content_id": "content_tactical_helmet",
+    "demand": "low",
+    "proposed_base_value_caps": 320,
+    "proposed_weight_g": 1550,
+    "reason_zh": "農務少需軍用頭具，特定守望者例外。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "320 Caps 提案只適用檢驗後可接受的個體。"
+  },
+  {
+    "content_id": "content_tea",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 100,
+    "reason_zh": "停靠店歡迎輕便耐攜葉茶。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "24 Caps 為容易分量使用的地方商品估值，口味不等於能力加成。"
+  },
+  {
+    "content_id": "content_tea",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 100,
+    "reason_zh": "工班休息棚與居民採買。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "24 Caps 為容易分量使用的地方商品估值，口味不等於能力加成。"
+  },
+  {
+    "content_id": "content_tea",
+    "demand": "medium",
+    "proposed_base_value_caps": 24,
+    "proposed_weight_g": 100,
+    "reason_zh": "小批加工與待客文化形成需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "24 Caps 為容易分量使用的地方商品估值，口味不等於能力加成。"
+  },
+  {
+    "content_id": "content_tent",
+    "demand": "high",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 3800,
+    "reason_zh": "商隊停靠時間不固定，完整帳篷有需求。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "75 Caps 包括成套支架與篷布，較重的運送負擔壓低通用性。"
+  },
+  {
+    "content_id": "content_tent",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 3800,
+    "reason_zh": "臨時工地想要遮蔽卻難備齊支架。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "75 Caps 包括成套支架與篷布，較重的運送負擔壓低通用性。"
+  },
+  {
+    "content_id": "content_tent",
+    "demand": "medium",
+    "proposed_base_value_caps": 75,
+    "proposed_weight_g": 3800,
+    "reason_zh": "農務季外勤可租借使用。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "75 Caps 包括成套支架與篷布，較重的運送負擔壓低通用性。"
+  },
+  {
+    "content_id": "content_tool_belt",
+    "demand": "high",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 650,
+    "reason_zh": "煉製設備維護者需要整理小工具。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "55 Caps 提案反映皮套與縫線完整度。"
+  },
+  {
+    "content_id": "content_tool_belt",
+    "demand": "high",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 650,
+    "reason_zh": "工坊最常用，修皮與工具需求互相連結。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "55 Caps 提案反映皮套與縫線完整度。"
+  },
+  {
+    "content_id": "content_tool_belt",
+    "demand": "medium",
+    "proposed_base_value_caps": 55,
+    "proposed_weight_g": 650,
+    "reason_zh": "農具修繕與棚舍維護有需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "55 Caps 提案反映皮套與縫線完整度。"
+  },
+  {
+    "content_id": "content_toolbox",
+    "demand": "high",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 4500,
+    "reason_zh": "長途車隊希望帶完整維修套件。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "95 Caps 包括完整套組與收納，攜行成本比單帶扳手高。"
+  },
+  {
+    "content_id": "content_toolbox",
+    "demand": "high",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 4500,
+    "reason_zh": "工班可備齊也會消耗或遺失工具。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "95 Caps 包括完整套組與收納，攜行成本比單帶扳手高。"
+  },
+  {
+    "content_id": "content_toolbox",
+    "demand": "medium",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 4500,
+    "reason_zh": "農忙時租用整套較合算。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "95 Caps 包括完整套組與收納，攜行成本比單帶扳手高。"
+  },
+  {
+    "content_id": "content_travel_backpack",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 1100,
+    "reason_zh": "長線補給準備需要可靠攜行器具。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "60 Caps 提案反映完整但老舊的旅行包；重量沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_travel_backpack",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 1100,
+    "reason_zh": "拾荒與中轉人口讓二手包流通頻繁。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "60 Caps 提案反映完整但老舊的旅行包；重量沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_travel_backpack",
+    "demand": "high",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 1100,
+    "reason_zh": "送貨與外出換物的居民需要可修補背包。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "60 Caps 提案反映完整但老舊的旅行包；重量沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_uncold_ice",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 420,
+    "reason_zh": "高溫運輸工作可能願意資助測試，不能假定已有冷鏈市場。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有穩定價格；灰谷熱工研究者或乾井冷藏委託人可能提出有條件的收受意願。"
+  },
+  {
+    "content_id": "content_uncold_ice",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 420,
+    "reason_zh": "熱工研究者對隔離測試有具體需求。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有穩定價格；灰谷熱工研究者或乾井冷藏委託人可能提出有條件的收受意願。"
+  },
+  {
+    "content_id": "content_uncold_ice",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 420,
+    "reason_zh": "食物保管者可能想了解降溫現象，需先驗證食物接觸安全。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有穩定價格；灰谷熱工研究者或乾井冷藏委託人可能提出有條件的收受意願。"
+  },
+  {
+    "content_id": "content_unknown_implant",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 75,
+    "reason_zh": "外來收藏者可能詢問，但其說法不能作安全性證據。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "用途、適配條件與危害未知，不提出普遍售價；僅有具體研究委託人可表達收受意願。"
+  },
+  {
+    "content_id": "content_unknown_implant",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 75,
+    "reason_zh": "特定電子與醫療研究者願意檢查完整封裝，需先談保存條件。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "用途、適配條件與危害未知，不提出普遍售價；僅有具體研究委託人可表達收受意願。"
+  },
+  {
+    "content_id": "content_unknown_implant",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 75,
+    "reason_zh": "地方照護者可能願意協助轉介，沒有直接使用需求。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "用途、適配條件與危害未知，不提出普遍售價；僅有具體研究委託人可表達收受意願。"
+  },
+  {
+    "content_id": "content_unlabelled_medicine",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 80,
+    "reason_zh": "普通商人不承擔未知液體風險。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "沒有通用底價；只列願意接收封存樣本的研究者，鑑定前不當成有效藥。"
+  },
+  {
+    "content_id": "content_unlabelled_medicine",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 80,
+    "reason_zh": "能接觸到調查設備的研究者願意評估。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "沒有通用底價；只列願意接收封存樣本的研究者，鑑定前不當成有效藥。"
+  },
+  {
+    "content_id": "content_unlabelled_medicine",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 80,
+    "reason_zh": "診所拒作正常藥品，只可能協助轉交樣本。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "沒有通用底價；只列願意接收封存樣本的研究者，鑑定前不當成有效藥。"
+  },
+  {
+    "content_id": "content_unsent_letter",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 18,
+    "reason_zh": "商隊郵袋與旅人見證可能協助轉送，並非一般貨物需求。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "不設一般市場價格；可能有送達委託報酬，但報酬是工作條件，不是信件內在售價。"
+  },
+  {
+    "content_id": "content_unsent_letter",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 18,
+    "reason_zh": "舊地址的工務紀錄可能提供去向線索，不代表當地買信。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "不設一般市場價格；可能有送達委託報酬，但報酬是工作條件，不是信件內在售價。"
+  },
+  {
+    "content_id": "content_unsent_letter",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 18,
+    "reason_zh": "若住民紀錄匹配地址，可能提供轉交或查詢。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "不設一般市場價格；可能有送達委託報酬，但報酬是工作條件，不是信件內在售價。"
+  },
+  {
+    "content_id": "content_vinyl_record",
+    "demand": "medium",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 220,
+    "reason_zh": "外地商隊收藏者可能找指定編號，不無限收購同款。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "內容、保存狀況與特定收藏需求形成價值；沒有唱機也不產生播放功能。"
+  },
+  {
+    "content_id": "content_vinyl_record",
+    "demand": "low",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 220,
+    "reason_zh": "舊媒體較易從工業區住家回收，但能播放的設備較少。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "內容、保存狀況與特定收藏需求形成價值；沒有唱機也不產生播放功能。"
+  },
+  {
+    "content_id": "content_vinyl_record",
+    "demand": "medium",
+    "proposed_base_value_caps": 60,
+    "proposed_weight_g": 220,
+    "reason_zh": "有休息室或收藏活動時才有需求，農業生產不直接消耗唱片。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "內容、保存狀況與特定收藏需求形成價值；沒有唱機也不產生播放功能。"
+  },
+  {
+    "content_id": "content_water",
+    "demand": "high",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 300,
+    "reason_zh": "長路攜水需求高，空壺仍須另找水源。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "18 Caps 主要來自可重複使用的密封與攜行便利。"
+  },
+  {
+    "content_id": "content_water",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 300,
+    "reason_zh": "工人和旅人都需密封容器。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "18 Caps 主要來自可重複使用的密封與攜行便利。"
+  },
+  {
+    "content_id": "content_water",
+    "demand": "medium",
+    "proposed_base_value_caps": 18,
+    "proposed_weight_g": 300,
+    "reason_zh": "取水家庭會修用水壺。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "18 Caps 主要來自可重複使用的密封與攜行便利。"
+  },
+  {
+    "content_id": "content_water_filter",
+    "demand": "high",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 600,
+    "reason_zh": "繞遠水路的商隊希望重複使用設備。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "120 Caps 來自可維護的機構與攜行用途，仍要負擔替換濾材。"
+  },
+  {
+    "content_id": "content_water_filter",
+    "demand": "high",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 600,
+    "reason_zh": "工地臨時供水需要可檢驗設備。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "120 Caps 來自可維護的機構與攜行用途，仍要負擔替換濾材。"
+  },
+  {
+    "content_id": "content_water_filter",
+    "demand": "medium",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 600,
+    "reason_zh": "有人維護泵體，但替換濾材仍有限。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "120 Caps 來自可維護的機構與攜行用途，仍要負擔替換濾材。"
+  },
+  {
+    "content_id": "content_waterproof_bag",
+    "demand": "medium",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 320,
+    "reason_zh": "可阻擋砂與潑濺，但不是長時間高溫防護。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "80 Caps 提案反映完整封口較難修復。"
+  },
+  {
+    "content_id": "content_waterproof_bag",
+    "demand": "medium",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 320,
+    "reason_zh": "精密零件文件運輸有需求。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "80 Caps 提案反映完整封口較難修復。"
+  },
+  {
+    "content_id": "content_waterproof_bag",
+    "demand": "high",
+    "proposed_base_value_caps": 80,
+    "proposed_weight_g": 320,
+    "reason_zh": "灌溉區送信與種子資料需要防濕。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "80 Caps 提案反映完整封口較難修復。"
+  },
+  {
+    "content_id": "content_waterskin",
+    "demand": "high",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 380,
+    "reason_zh": "長段無補給路線需要可維護儲水容器。",
+    "supply": "high",
+    "town_id": "dry_well",
+    "value_rationale_zh": "45 Caps 提案讓旅行容器可取得，但仍需支付或取得水。"
+  },
+  {
+    "content_id": "content_waterskin",
+    "demand": "medium",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 380,
+    "reason_zh": "運送個人配給時有需求，皮革維修要專人。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "45 Caps 提案讓旅行容器可取得，但仍需支付或取得水。"
+  },
+  {
+    "content_id": "content_waterskin",
+    "demand": "medium",
+    "proposed_base_value_caps": 45,
+    "proposed_weight_g": 380,
+    "reason_zh": "水源較易取得，外出者會買攜具。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "45 Caps 提案讓旅行容器可取得，但仍需支付或取得水。"
+  },
+  {
+    "content_id": "content_welding_tools",
+    "demand": "high",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 7000,
+    "reason_zh": "車架與容器維修需求高，但作業場所受油氣限制。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "220 Caps 因設備與配套稀少，使用前還有供能和技術成本。"
+  },
+  {
+    "content_id": "content_welding_tools",
+    "demand": "high",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 7000,
+    "reason_zh": "有操作工位與配套供應。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "220 Caps 因設備與配套稀少，使用前還有供能和技術成本。"
+  },
+  {
+    "content_id": "content_welding_tools",
+    "demand": "medium",
+    "proposed_base_value_caps": 220,
+    "proposed_weight_g": 7000,
+    "reason_zh": "少數大型農具修理要外請設備。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "220 Caps 因設備與配套稀少，使用前還有供能和技術成本。"
+  },
+  {
+    "content_id": "content_well_guardian",
+    "demand": "high",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3900,
+    "reason_zh": "地方保管者與相關住民可能想查明去向；需求不是常態商店收購價。",
+    "supply": "none",
+    "town_id": "dry_well",
+    "value_rationale_zh": "對乾井特定保管人具有地方歷史價值；外地沒有保證高價，且須先確認持有權。"
+  },
+  {
+    "content_id": "content_well_guardian",
+    "demand": "medium",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3900,
+    "reason_zh": "工匠可檢查機械，但不能替乾井裁定歷史所有權。",
+    "supply": "none",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "對乾井特定保管人具有地方歷史價值；外地沒有保證高價，且須先確認持有權。"
+  },
+  {
+    "content_id": "content_well_guardian",
+    "demand": "low",
+    "proposed_base_value_caps": null,
+    "proposed_weight_g": 3900,
+    "reason_zh": "外地居民通常不認得地方標記，除非已有相關委託。",
+    "supply": "none",
+    "town_id": "new_hope",
+    "value_rationale_zh": "對乾井特定保管人具有地方歷史價值；外地沒有保證高價，且須先確認持有權。"
+  },
+  {
+    "content_id": "content_wild_greens",
+    "demand": "low",
+    "proposed_base_value_caps": 4,
+    "proposed_weight_g": 250,
+    "reason_zh": "長程運送不利於普通葉菜，適合就近採買。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "4 Caps 反映近產地易得但運送時間敏感。"
+  },
+  {
+    "content_id": "content_wild_greens",
+    "demand": "medium",
+    "proposed_base_value_caps": 4,
+    "proposed_weight_g": 250,
+    "reason_zh": "市場想添鮮食，長途貨容易失去價值。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "4 Caps 反映近產地易得但運送時間敏感。"
+  },
+  {
+    "content_id": "content_wild_greens",
+    "demand": "medium",
+    "proposed_base_value_caps": 4,
+    "proposed_weight_g": 250,
+    "reason_zh": "採集區近，廚房只收已辨識鮮貨。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "4 Caps 反映近產地易得但運送時間敏感。"
+  },
+  {
+    "content_id": "content_wilderness_cloak",
+    "demand": "medium",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 1350,
+    "reason_zh": "營地遮覆有用，但沙袍更常見。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "95 Caps 提案反映完整大面積布料與旅行耐用性。"
+  },
+  {
+    "content_id": "content_wilderness_cloak",
+    "demand": "medium",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 1350,
+    "reason_zh": "出城拾荒者會找容易修補的披覆。",
+    "supply": "low",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "95 Caps 提案反映完整大面積布料與旅行耐用性。"
+  },
+  {
+    "content_id": "content_wilderness_cloak",
+    "demand": "medium",
+    "proposed_base_value_caps": 95,
+    "proposed_weight_g": 1350,
+    "reason_zh": "林緣旅行和夜間等候有需求。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "95 Caps 提案反映完整大面積布料與旅行耐用性。"
+  },
+  {
+    "content_id": "content_wood_axe",
+    "demand": "low",
+    "proposed_base_value_caps": 105,
+    "proposed_weight_g": 2600,
+    "reason_zh": "缺少木材使重斧不常用，遠行商隊偶爾收購。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "105 Caps 提案來自農林工具需求，不因能當武器而自動增價。"
+  },
+  {
+    "content_id": "content_wood_axe",
+    "demand": "medium",
+    "proposed_base_value_caps": 105,
+    "proposed_weight_g": 2600,
+    "reason_zh": "工坊燒火需要劈材，成品通常由外地送來。",
+    "supply": "medium",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "105 Caps 提案來自農林工具需求，不因能當武器而自動增價。"
+  },
+  {
+    "content_id": "content_wood_axe",
+    "demand": "high",
+    "proposed_base_value_caps": 105,
+    "proposed_weight_g": 2600,
+    "reason_zh": "農林邊緣持續需要，替換工具有買家。",
+    "supply": "high",
+    "town_id": "new_hope",
+    "value_rationale_zh": "105 Caps 提案來自農林工具需求，不因能當武器而自動增價。"
+  },
+  {
+    "content_id": "content_work_clothes",
+    "demand": "low",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 1200,
+    "reason_zh": "厚布在乾熱路線有負擔，固定工地仍會使用。",
+    "supply": "medium",
+    "town_id": "dry_well",
+    "value_rationale_zh": "28 Caps 提案反映二手布衣；1200 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_work_clothes",
+    "demand": "high",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 1200,
+    "reason_zh": "工班更換頻繁，二手供應與日常需求並存。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "28 Caps 提案反映二手布衣；1200 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_work_clothes",
+    "demand": "medium",
+    "proposed_base_value_caps": 28,
+    "proposed_weight_g": 1200,
+    "reason_zh": "農務可穿，但較輕衣物也有用途。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "28 Caps 提案反映二手布衣；1200 g 沿用 ITEM-1。"
+  },
+  {
+    "content_id": "content_worker_leather_jacket",
+    "demand": "medium",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 2300,
+    "reason_zh": "油料搬運者可能需求，悶熱是代價。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "120 Caps 提案反映皮革用料與維修便利。"
+  },
+  {
+    "content_id": "content_worker_leather_jacket",
+    "demand": "high",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 2300,
+    "reason_zh": "工業工作最常見，當地能修縫。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "120 Caps 提案反映皮革用料與維修便利。"
+  },
+  {
+    "content_id": "content_worker_leather_jacket",
+    "demand": "medium",
+    "proposed_base_value_caps": 120,
+    "proposed_weight_g": 2300,
+    "reason_zh": "畜務與粗搬運有需要，輕農務較少使用。",
+    "supply": "low",
+    "town_id": "new_hope",
+    "value_rationale_zh": "120 Caps 提案反映皮革用料與維修便利。"
+  },
+  {
+    "content_id": "content_wrench",
+    "demand": "high",
+    "proposed_base_value_caps": 25,
+    "proposed_weight_g": 700,
+    "reason_zh": "燃料泵與貨車接頭需要合尺寸工具。",
+    "supply": "low",
+    "town_id": "dry_well",
+    "value_rationale_zh": "25 Caps 反映灰谷易維護的普通手工具，遠地需求來自用途而非稀有度。"
+  },
+  {
+    "content_id": "content_wrench",
+    "demand": "medium",
+    "proposed_base_value_caps": 25,
+    "proposed_weight_g": 700,
+    "reason_zh": "工業來源多，常見規格易補貨。",
+    "supply": "high",
+    "town_id": "gray_valley",
+    "value_rationale_zh": "25 Caps 反映灰谷易維護的普通手工具，遠地需求來自用途而非稀有度。"
+  },
+  {
+    "content_id": "content_wrench",
+    "demand": "medium",
+    "proposed_base_value_caps": 25,
+    "proposed_weight_g": 700,
+    "reason_zh": "農具與水泵需要，較少現地製造。",
+    "supply": "medium",
+    "town_id": "new_hope",
+    "value_rationale_zh": "25 Caps 反映灰谷易維護的普通手工具，遠地需求來自用途而非稀有度。"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "scope": "Bounded independent editorial review; not balance/medical/engineering validation",
+  "file": "docs/content-design-v0/items/02-supplies-materials-trade.json",
+  "sha256": "d453f4fe68976d14aafb3263407de833e5d7c6909e647796886959cbbab7889e",
+  "records": 75,
+  "distinct_assets": 75,
+  "physical_candidates": 72,
+  "nonphysical_categories": [
+    "content_ammunition",
+    "content_medicines",
+    "content_mechanical_parts"
+  ],
+  "runtime_ids_unchanged": true,
+  "regional_market_rows": 225,
+  "unknown_medicine_value": null,
+  "reviewed_boundaries": [
+    "empty water vessel versus packaged clean water",
+    "empty fuel can versus packaged fuel",
+    "toolkits do not duplicate contained tools",
+    "first aid supplies do not imply HP or healing authority",
+    "filter shell repair does not restore filtration media",
+    "rope end label maintenance does not restore load-bearing fibers",
+    "symbolic salvage destroys complete original and provides no ratios",
+    "category artwork supplies/demand/actions/weights/values remain nonphysical",
+    "regional demand includes finite use reasons and no price multipliers"
+  ],
+  "not_claimed": [
+    "recipe mass/value conservation",
+    "tested prices or weights",
+    "container capacity or fluid volume contract",
+    "runtime item registration",
+    "actual stocked shops or NPC clinics"
+  ]
+}

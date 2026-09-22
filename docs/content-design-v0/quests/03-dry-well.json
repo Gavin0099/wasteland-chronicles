@@ -1,0 +1,3324 @@
+[
+  {
+    "quest_id": "quest_dry_well_001",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "兩張燃料收據的一次交割",
+    "premise_zh": "燃料核帳員的同日正式存量快照為8個既有抽象fuel單位，紙帳寫10；已查明同一筆2單位出貨被重複抄入。兩張簽收原件仍在，鹽1份已由核帳員保留作報酬。未知的是哪位抄寫者經手，不把錯帳當偷竊。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "燃料核帳員的同日正式存量快照為8個既有抽象fuel單位，紙帳寫10；已查明同一筆2單位出貨被重複抄入。兩張簽收原件仍在，鹽1份已由核帳員保留作報酬。未知的是哪位抄寫者經手，不把錯帳當偷竊。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天核帳窗口結束，或原件已被正式接管時停止接受新協助；已完成交割不能重算。",
+      "without_player_zh": "若核帳員或另一名受託者先完成核對，依真實完成記錄關閉；沒有他人處理就保留待核帳，燃料仍按正式庫存運作。"
+    },
+    "approaches": [
+      {
+        "label_zh": "指出重複序號並由核帳員當場簽認",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；需BARTER 1，原件、快照和簽署者同時在場。",
+        "outcome_zh": "紙帳由10更正為8，取得核帳員的鹽1份；世界fuel數量完全不改。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "逐張重列已有出入帳",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不需要自備道具，兩份原件由核帳員提供查閱。",
+        "outcome_zh": "把同筆交割只計一次，由核帳員簽認紙帳8；取得同一份鹽報酬。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_093"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "乾井紙本核帳記錄與預留報酬",
+        "change_zh": "登記重複序號及唯一更正記錄；鹽由核帳員轉給履約者一次。",
+        "authority_needed_zh": "未來jobs證據驗收與item ownership；現有fuel快照只讀，紙帳屬新委託證據資料。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "可延伸到ruin_093的桶秤工作；第一任務不要求校秤、修理或把空罐換成fuel。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_002",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "院落裡的最後一箱",
+    "premise_zh": "商隊排程人有一箱已驗收乾貨要送到同一遺跡院落的返程信差，綁帶斷裂。箱重已核對可由現場既有人力搬運，鹽1份由排程人持有作報酬；貨物內容有清單，途中不安排隱藏襲擊。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊排程人有一箱已驗收乾貨要送到同一遺跡院落的返程信差，綁帶斷裂。箱重已核對可由現場既有人力搬運，鹽1份由排程人持有作報酬；貨物內容有清單，途中不安排隱藏襲擊。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天內收貨，或返程信差依既定行程離開前截止；離開後改交接地點需新委託，不追回時間。",
+      "without_player_zh": "若排程人另找到運力便照實交貨並撤單；未找到則原箱留在現保管人處，商隊不會為玩家永久停留。"
+    },
+    "approaches": [
+      {
+        "label_zh": "借出繩索固定後完成單次搬運",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；需繩索，送達後解下歸還玩家，核驗原箱封條。",
+        "outcome_zh": "貨箱移交返程信差，取得鹽1份，原地不再有同一箱。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "經箱主同意用布袋分批搬",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；需布袋，兩次份額逐項核對，袋子交清後返還。",
+        "outcome_zh": "同批乾貨全部移交後取得同一份鹽1份；中途只交一半不得領全額。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_089"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "有限貨箱、交接紀錄及報酬",
+        "change_zh": "委託貨物從排程人保管移到信差；只產生一次完成與一次報酬移轉。",
+        "authority_needed_zh": "未來cargo／jobs／item ownership；具體份額與借用狀態需先實作。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "此工作只在同一院落計現地工時；任何跨聚落續運另走既有travel authority。與ruin_089共用同一貨箱、保管人、收件人、預留鹽與工作識別；事件交割回執即結清此任務，任務完成不得再次發鹽。兩處的rewards是同一筆交付提案，不是兩筆可累加獎勵。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_003",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "還給井口的核帳空間",
+    "premise_zh": "井口輪值人與燃料核帳員已同意停用桶秤的處置：可移往已確認的檢修點，或暫時換一處核帳工作面。停用秤不參與當前計量；輪值人有布袋1個作搬運報酬，臨時換位路徑則沒有物品報酬。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井口輪值人與燃料核帳員已同意停用桶秤的處置：可移往已確認的檢修點，或暫時換一處核帳工作面。停用秤不參與當前計量；輪值人有布袋1個作搬運報酬，臨時換位路徑則沒有物品報酬。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天井房整理窗口結束，或另一工班已完成指定搬移時閉單；不以逾期造成缺水。",
+      "without_player_zh": "若輪值人依既有排班找到可用場地就自行安排；否則維持現有核帳位置與取水流程，不生成事故。"
+    },
+    "approaches": [
+      {
+        "label_zh": "卸定位片後搬到檢修點",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "2天；需扳手與MECHANICS 2，現場已有經驗證的人力、支承及搬運空間。",
+        "outcome_zh": "停用秤移出井房，取得布袋1個；秤尚未校驗，不能拿來交易。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "在已同意的側廊布置臨時核帳桌",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不需自備物品，使用輪值人已有桌凳且保留取水通道。",
+        "outcome_zh": "核帳工作移到側廊，桶秤仍原位；本路不領搬秤報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_093"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "井房空間使用與停用設備位置",
+        "change_zh": "記錄秤的新位置或臨時桌的使用期限，兩路不能重複計作搬秤完成。",
+        "authority_needed_zh": "未來jobs、cargo與場景位置事實；既有water/fuel數量只讀。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "兩路都沒有改水產量、商品價格或技能rank；正式校秤另立後續工作。與ruin_093共用同一桶秤、許可、側廊桌凳、預留布袋與工作識別；同意已在offer facts中，不再要求SPEECH。事件的搬移／布置回執即結清此任務，任務不得重發布袋。兩處rewards是同一筆交付的兩個視角。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_004",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "井口的兩份輪值表",
+    "premise_zh": "井口輪值人收到營地與燃料合作社各一份輪值提案，同一時段重疊；兩方已有指定代表願意協商，現有取水安排仍有效。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_002",
+      "hook_dry_well_050"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井口輪值人收到營地與燃料合作社各一份輪值提案，同一時段重疊；兩方已有指定代表願意協商，現有取水安排仍有效。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天提案會議結束或雙方已簽新表便撤單，現有輪值不被倒改。",
+      "without_player_zh": "若代表自行達成安排就按實際協議收案；否則沿用現有表，不自動爆發衝突。"
+    },
+    "approaches": [
+      {
+        "label_zh": "重排重疊時段，保留雙方總工時",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，雙方簽認後才採用。",
+        "outcome_zh": "產生一份替代輪值表，沒有增加井水。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先試一日分開報到位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，須值班人同意提供已有空間。",
+        "outcome_zh": "減少當天排隊混淆，正式輪值表不變。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_080"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "井口排班提案",
+        "change_zh": "簽認後替換指定時段；試行只記當日報到規則。",
+        "authority_needed_zh": "未來jobs與排班事實，人物仍綁既有人口。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "營地與合作社內部可有不同意見，不把任一群體設成固定善惡。 三份交班簿整理人需確認同一人沒有被排在兩處。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_005",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "燃料庫以外的回收物",
+    "premise_zh": "燃料核帳員取得近郊空桶庫的合法回收許可，3只空桶已驗收，搬運報酬為現有空燃料罐1個；未知的是庫外道路承載狀況。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_005"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "燃料核帳員取得近郊空桶庫的合法回收許可，3只空桶已驗收，搬運報酬為現有空燃料罐1個；未知的是庫外道路承載狀況。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天回收許可截止或原保管者完成移交時閉單。",
+      "without_player_zh": "若其他工班承接就依其實際交接改狀態；未搬桶則原地保管，不把空桶變燃料。"
+    },
+    "approaches": [
+      {
+        "label_zh": "安排合格載具搬回3只空桶",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，接受前核驗運力，不能只靠背包容量猜。",
+        "outcome_zh": "3只空桶入指定保管點，取得空燃料罐1個。",
+        "rewards": [
+          {
+            "content_id": "content_fuel_can",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "先取得庫外道路承載記錄",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "1天，不領桶與報酬。",
+        "outcome_zh": "補足派車所需路況範圍，待核帳員另排運輸。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_072"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "空桶現物與回收許可",
+        "change_zh": "完成時只移轉3只已存在空桶和1個報酬罐。",
+        "authority_needed_zh": "未來cargo、jobs、物品所有權與道路承載事實。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "空燃料罐不給抽象fuel；這個較後任務物品不屬首30核心。 油桶印記核對人協助確認空桶批次與交割來源。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_006",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "商隊已改走外環",
+    "premise_zh": "排程人收到一支現有商隊改走外環的確認，內街原訂卸貨位尚未撤銷；未知的是內街其他貨主是否同意合併貨位。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_004",
+      "hook_dry_well_027"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人收到一支現有商隊改走外環的確認，內街原訂卸貨位尚未撤銷；未知的是內街其他貨主是否同意合併貨位。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "商隊實際抵達或卸貨位已重新分配即關閉，不把已行進商隊拉回。",
+      "without_player_zh": "即使玩家不接，商隊仍按真實路線前進；排程人若另完成通知就撤去未讀通知工作。"
+    },
+    "approaches": [
+      {
+        "label_zh": "逐戶通知已確認的新卸貨點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，通知只涵蓋本筆商隊與名冊收貨人。",
+        "outcome_zh": "已接收者的通知狀態更新，內街保留貨位可由原權利人釋出。",
+        "rewards": []
+      },
+      {
+        "label_zh": "與受影響貨主安排外環集合",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天，須各貨主自願；不強制其貨物移動。",
+        "outcome_zh": "形成當次集合名冊，不改變商隊路線本身。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_049"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "卸貨通知與場地預約",
+        "change_zh": "更新具名委託的知悉狀態，撤銷已同意不用的預約。",
+        "authority_needed_zh": "現有商隊行程只讀；未來jobs、貨位預約與通知資料。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "若商隊在工作期間到達，剩餘通知依當前位置重新判斷。 末位車位申請人需要知道新卸貨點和已釋出的預約。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "LD-P01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_007",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "破底鹽袋的交接",
+    "premise_zh": "返程信差帶回一批鹽，唯一破袋下已有乾淨托盤接住可回收部分；井口輪值人接受這份實物交接，報酬為信差的布料1份。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_002",
+      "hook_dry_well_033"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差帶回一批鹽，唯一破袋下已有乾淨托盤接住可回收部分；井口輪值人接受這份實物交接，報酬為信差的布料1份。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天托盤使用期限結束，或鹽已轉移保管即收案。",
+      "without_player_zh": "若信差找到新容器便照實換袋；未換則托盤仍保管已回收份額，不憑期限讓鹽消失。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交出布袋重新裝好",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "1天，消耗布袋1個；驗收可回收鹽而非污損部分。",
+        "outcome_zh": "鹽交給輪值人，取得布料1份。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "借旅行包送至收貨人再取回",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，袋內可用空間經核對且不混裝私人物。",
+        "outcome_zh": "鹽完成交接，旅行包返還，取得同一份布料。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_070"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "鹽的單一保管位置",
+        "change_zh": "移轉托盤中的可回收份額，原托盤清空；報酬只付一次。",
+        "authority_needed_zh": "未來cargo／jobs／物品所有權；食用品質另驗。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "布袋方案失去容器，借包方案占用時間與裝載空間。 有限鹽料買家只接受本批經核實可用的份額。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_008",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "臨時宿屋的替代床位",
+    "premise_zh": "輪值人代兩名現有旅人請託：一張床已獲准使用，但兩人抵達時間重疊，地面另有可安全鋪睡袋的位置。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_031"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "輪值人代兩名現有旅人請託：一張床已獲准使用，但兩人抵達時間重疊，地面另有可安全鋪睡袋的位置。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天住宿窗口結束或任一人實際離開後重算需求。",
+      "without_player_zh": "兩人可以自行找到住處或輪替；只有實際安排完成才結案，不因玩家拒絕就安排受傷。"
+    },
+    "approaches": [
+      {
+        "label_zh": "借出睡袋一夜",
+        "required_items": [
+          "content_sleeping_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，睡袋暫交旅人，玩家同夜不能使用。",
+        "outcome_zh": "一人用床、一人用睡袋；醒後交接歸還，不增加床位。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商前後半夜輪用",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，雙方同意且沒有已知特殊醫療限制。",
+        "outcome_zh": "當夜床位分時使用，不取得物品或治療效果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_080"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "單一床位與借用品",
+        "change_zh": "記錄當夜使用區間和借物歸還，不形成永久住屋。",
+        "authority_needed_zh": "未來camping、排班、借用所有權；任何醫療限制由injury系統。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "後續可詢問旅途消息，但不保證新情報或聲望獎勵。 露營位置協調人確認替代睡袋位不擋取水通道。",
+    "dependencies": [
+      "camping",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_009",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "空罐的錯誤估價",
+    "premise_zh": "燃料核帳員收到一份把空罐當滿罐估價的報價；現物為一只已驗空燃料罐，交易尚未確認，買方願重新議價。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_005"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "燃料核帳員收到一份把空罐當滿罐估價的報價；現物為一只已驗空燃料罐，交易尚未確認，買方願重新議價。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天報價有效期後終止，或雙方已完成新交易即不再接受調解。",
+      "without_player_zh": "雙方可按現物另報價或取消；沒有玩家也不必強制成交。"
+    },
+    "approaches": [
+      {
+        "label_zh": "當場分開容器與內容物報價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "0天，需BARTER 2；雙方見到驗空記錄。",
+        "outcome_zh": "舊報價標為失效，新報價只含容器；不直接替玩家買罐。",
+        "rewards": []
+      },
+      {
+        "label_zh": "帶雙方重做現物清點",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，保持空罐原所有權。",
+        "outcome_zh": "確認無內容物後取消錯誤報價，是否重報由雙方決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_026",
+      "ruin_072"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "一份未成交報價",
+        "change_zh": "撤回包含不存在燃料的報價，保留清點證據。",
+        "authority_needed_zh": "未來regional_trade報價authority；現有fuel資源不可依空罐數調整。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "價格是議價結果提案，不給固定折扣；空罐用途仍可有價值。 油桶印記核對人可提供容器來源，但不能替不存在的燃料背書。",
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_010",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "燃料庫旁的通行時段",
+    "premise_zh": "合作社與外營地都使用庫旁窄巷，一方需搬空桶、一方需提水，兩種用途當前都合法。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_002",
+      "hook_dry_well_031",
+      "hook_dry_well_048"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "合作社與外營地都使用庫旁窄巷，一方需搬空桶、一方需提水，兩種用途當前都合法。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天協商會議結束或双方另有有效通行安排便關閉。",
+      "without_player_zh": "各方依實際排班繼續；若無協議維持現有通行規則，不自動封鎖外營地。"
+    },
+    "approaches": [
+      {
+        "label_zh": "安排兩種貨流分時進出",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，當事人共同簽認。",
+        "outcome_zh": "生成可撤回的試行時段表，未限制正常居民自由移動。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先搬開有同意的空箱",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，需合格人力和繩索，箱子有明確新位置。",
+        "outcome_zh": "移除已存在障礙，改善這一段空間，其他巷道不變。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_081"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "庫旁通行安排",
+        "change_zh": "只改指定時段或已授權空箱位置。",
+        "authority_needed_zh": "未來場景cargo與通行約定，不增加水產量或fuel庫存。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "物理移障與社會協議是不同解法，不能自動合併成永久通路buff。 露營位置協調人與公私物見證人共同核對原有通行權。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_011",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "找到地圖上的第二口井",
+    "premise_zh": "返程信差攜一張舊測繪圖，標了第二口井；本次目標只是確認其現址，未知是否仍有水或可進入。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_002",
+      "hook_dry_well_021",
+      "hook_dry_well_035"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差攜一張舊測繪圖，標了第二口井；本次目標只是確認其現址，未知是否仍有水或可進入。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天勘察窗口結束或已由別人提交合格現址記錄時撤單。",
+      "without_player_zh": "若有實際新情報便更新位置；否則舊圖保持待證，不能自動生成新水源。"
+    },
+    "approaches": [
+      {
+        "label_zh": "從安全觀察點核對地標",
+        "required_items": [
+          "content_compass"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "2天，需指南針與可見地標，不進入井內。",
+        "outcome_zh": "完成現址定位或清楚記錄不相符，兩者都是可驗收成果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對改版年份與舊地名",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "1天，信差提供原圖查閱。",
+        "outcome_zh": "將未證實井點標成待查，排除把規劃線當現存道路。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_041"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "舊圖位置證據",
+        "change_zh": "保存帶來源的可見地標與日期，不建立可飲用水產地。",
+        "authority_needed_zh": "未來exploration與knowledge證據；水源、水質與route authority另立。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "進井與取水是後續需求，需正式危害與水源事實。 羅盤觀察人和地標觀察人需區分儀器偏差與真實地形。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_012",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "井房積水警示的去留",
+    "premise_zh": "輪值人收到涵洞堵塞的現地記錄；堵物位置已確定，但當前水勢是否允許搬運須在接案時讀取。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001",
+      "hook_dry_well_013"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "輪值人收到涵洞堵塞的現地記錄；堵物位置已確定，但當前水勢是否允許搬運須在接案時讀取。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "實際水势變得不適合作業、堵物已移除或警示被新證據取代時閉單。",
+      "without_player_zh": "輪值人可依自己的巡查更新警示；下雨與積水依世界實際條件，不為玩家製造洪水。"
+    },
+    "approaches": [
+      {
+        "label_zh": "在合格水勢下移走堵物",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "1天，需繩索、SURVIVAL 2與有效固定點，三者重驗。",
+        "outcome_zh": "堵物移到岸上待認領，更新此處障礙記錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改成持續有效的繞行告示",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需現有安全替代路線被核准。",
+        "outcome_zh": "居民收到帶日期的警示，涵洞仍未疏通。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_042"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "涵洞障礙與警示",
+        "change_zh": "只更新已完成清障或新告示的事實，實際排水另觀察。",
+        "authority_needed_zh": "未來hazards、navigation、jobs與場景障礙authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "世界變動可以使工作失去必要性，而不是必須等玩家結案。 路況紙抄錄人只能傳遞帶日期的有效警示。",
+    "dependencies": [
+      "cargo",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_013",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "給外環貨站的綁帶",
+    "premise_zh": "商隊排程人需要把現有貨站綁帶改掛到較低位置，現場架位安全且主人同意；報酬為已有鹽1份。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001",
+      "hook_dry_well_023"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊排程人需要把現有貨站綁帶改掛到較低位置，現場架位安全且主人同意；報酬為已有鹽1份。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天掛架使用窗口或貨站實際搬遷時截止。",
+      "without_player_zh": "若其他工人先完成便取消重複雇工，綁帶不自行補充。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用鉗子卸下已無負載的掛鉤",
+        "required_items": [
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需鉗子，先確認架位未承重。",
+        "outcome_zh": "綁帶移至核准低位，取得鹽1份。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "借自有繩索建立臨時低位掛線",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，繩索借出直到掛鉤改妥，報酬同一份鹽。",
+        "outcome_zh": "暫時可從低位取用綁帶，原掛鉤未修。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_003",
+      "ruin_047"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "貨站工具位置與借繩",
+        "change_zh": "記錄掛位或繩索在貨站的保管狀態。",
+        "authority_needed_zh": "未來cargo、repair與借用權威；鹽從既有報酬持有人扣除。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "借繩到期仍未歸還時要呈現占用，不讓玩家同時拿去攀爬。 井架繩索原主關心借出的繩何時解除負載並歸還。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_014",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "不拆開的返鄉信",
+    "premise_zh": "返程信差代一位已綁定居民找回近郊舊屋的一封信，原主人有權接收且已保留罐頭1罐報酬；信內容不屬驗收條件。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_003",
+      "hook_dry_well_049"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差代一位已綁定居民找回近郊舊屋的一封信，原主人有權接收且已保留罐頭1罐報酬；信內容不屬驗收條件。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天會合窗口或信差實際離開時關閉現接件地點；信件不得因失約複製。",
+      "without_player_zh": "若原主另找人取回就更新保管狀態；未取回仍留原處，不強制生成悲劇。"
+    },
+    "approaches": [
+      {
+        "label_zh": "原封取信並當面交回",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，路線與屋內安全已確認，封條需保留。",
+        "outcome_zh": "信歸原主，取得罐頭1罐。",
+        "rewards": [
+          {
+            "content_id": "content_canned_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "帶原主人到安全門口自行取回",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "2天，需本人可到場，玩家放棄報酬。",
+        "outcome_zh": "本人取信，玩家不持有信內容或原件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_077"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "私人信件保管",
+        "change_zh": "只移交同一封原信，罐頭報酬限核准搬運路徑。",
+        "authority_needed_zh": "未來jobs、npc_relationship與ownership，既有人物日程另驗。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "不把讀私信設成免費加技能的最佳解。 私人路線消息保管人可以傳聯絡方式，不公開收件人的藏物點。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_015",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "手冊換現物的邊界",
+    "premise_zh": "燃料核帳員協助一位技工出售自己的維修手冊，買方誤以為購入就包含不限次修理；交易尚未完成。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_047"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "燃料核帳員協助一位技工出售自己的維修手冊，買方誤以為購入就包含不限次修理；交易尚未完成。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天報價有效期或任一方撤回報價時結束。",
+      "without_player_zh": "雙方可自主另議，沒有玩家介入也不強制成交或毀約。"
+    },
+    "approaches": [
+      {
+        "label_zh": "將書籍轉讓與修理工時分成兩約",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "1天，双方確認各自價金與工作範圍後才生效。",
+        "outcome_zh": "兩種承諾各有明確對象，沒有直接增加技能。",
+        "rewards": []
+      },
+      {
+        "label_zh": "示範手冊可讀範圍後取消服務誤會",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，使用玩家自有手冊，不交出或抄全本。",
+        "outcome_zh": "買方知道工具、技能與資料仍各自需要，可決定是否買書。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_039",
+      "ruin_032"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "未成交書籍報價",
+        "change_zh": "記錄一次條款澄清，後續交易由當事人另行提交。",
+        "authority_needed_zh": "未來regional_trade契約與knowledge權限，repair authority仍獨立。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "機械技能不足者也能買書，不把書籍變成rank直接增幅。 外營手工介紹人須把賣書和接修的有限工時分開介紹。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_016",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "誰能留下舊告示",
+    "premise_zh": "商隊排程人要清理廢站告示板，外營地代表認為其中仍有有效預付憑條；雙方同意先列清單再移除。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001",
+      "hook_dry_well_028"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "商隊排程人要清理廢站告示板，外營地代表認為其中仍有有效預付憑條；雙方同意先列清單再移除。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天共同清點時段或公告板已有有效新管理協議時結束。",
+      "without_player_zh": "若原持有人先取回憑條便更新清單；沒有清點就不得把紙條視作全數失效。"
+    },
+    "approaches": [
+      {
+        "label_zh": "按有無可核對收件人分類",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天，不公布私人姓名，疑義件保留。",
+        "outcome_zh": "無爭議過期告示移到存檔箱，有效憑條仍可查詢。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先只清理確定空白與破損邊料",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，原有效文字不移除。",
+        "outcome_zh": "騰出部分板面，爭議公告留待代表處理。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_049"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "公告板與憑條保管",
+        "change_zh": "移動已共同核准的紙件，保留來歷與未決項。",
+        "authority_needed_zh": "未來knowledge、jobs與npc relationship；憑條不能自動折現。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "兩方都需要可靠資訊，爭議不是好人和壞人的固定二分。 返程帳簿保管人協助保留仍有效憑條的交接來源。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_017",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "找到井房的替代入口",
+    "premise_zh": "輪值人得到近郊泵站側門線索，主門被失效鎖擋住；一位仍在世舊員工願提供路線，但未承諾同行。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001",
+      "hook_dry_well_006"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "輪值人得到近郊泵站側門線索，主門被失效鎖擋住；一位仍在世舊員工願提供路線，但未承諾同行。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天回收許可或泵站保管者撤銷進入權時截止。",
+      "without_player_zh": "若舊員工先行離開，社交路徑依其位置失效；其他路徑仍按實際條件保留。"
+    },
+    "approaches": [
+      {
+        "label_zh": "談妥舊員工帶路",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天，需同意、安全路線與實際可用日程。",
+        "outcome_zh": "透過側門進入核准房間，不改動主鎖。",
+        "rewards": []
+      },
+      {
+        "label_zh": "按授權拆卸失效主鎖",
+        "required_items": [
+          "content_toolbox"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 3
+        },
+        "cost_zh": "1天，需工具箱與MECHANICS 3，門框已驗安全。",
+        "outcome_zh": "恢復本次主門開啟，不取得整個泵站所有權。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_100"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "受限入口許可",
+        "change_zh": "記錄一次進入和主門是否實際改動，兩條路不預設寶物。",
+        "authority_needed_zh": "未來exploration、repair、NPC日程與場景權限。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "高技術是不同進入方法；不是讓低技術角色永遠無解。 急件修泵接洽人可說明入口用途，不能替舊員工給予同意。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "navigation",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_018",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "燃料需求變了以後",
+    "premise_zh": "核帳員收到既有市場fuel需求變動的只讀記錄，一份尚未交貨的私人空罐訂單因此被提出複議；訂單尚可依原條款撤回。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_005"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "核帳員收到既有市場fuel需求變動的只讀記錄，一份尚未交貨的私人空罐訂單因此被提出複議；訂單尚可依原條款撤回。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "買賣任一方依有效條款完成撤回或原交易已完成便結束複議。",
+      "without_player_zh": "需求和價格照模擬運作；買賣雙方若自行處理就照實收案，不鎖定市場等玩家。"
+    },
+    "approaches": [
+      {
+        "label_zh": "核對訂單是否包含燃料內容物",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "1天，讀原件，不改市場數字。",
+        "outcome_zh": "把容器需求和fuel需求分開，買方據此確認或撤回。",
+        "rewards": []
+      },
+      {
+        "label_zh": "安排雙方實物驗收後決定",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，空罐留原持有人直到正式交易。",
+        "outcome_zh": "留下現物檢查記錄，不憑需求上升替容器加價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_026"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "私人訂單狀態",
+        "change_zh": "只記錄當事人合法確認或撤回，不發物品及市場補貼。",
+        "authority_needed_zh": "現有市場狀態只讀；未來regional_trade訂單與jobs資料。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "世界需求是提案觸發來源之一，不是百分比獎勵的依據。 油桶印記核對人把空容器現物和燃料訂單內容分开。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_019",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "把借來的工具送回去",
+    "premise_zh": "排程人持有一把灰谷技工借出的扳手，歸還點臨時改到遺跡訓練棚；所有權與型號已有記錄，收件人當前可接收。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001",
+      "hook_dry_well_048"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人持有一把灰谷技工借出的扳手，歸還點臨時改到遺跡訓練棚；所有權與型號已有記錄，收件人當前可接收。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天歸還窗口或收件人搬離指定點前截止；過期需改交接安排。",
+      "without_player_zh": "若排程人先自行歸還就撤單，扳手只有一把，不重生另一份。"
+    },
+    "approaches": [
+      {
+        "label_zh": "按序號原件送還",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，委託扳手不能當玩家工具使用或出售。",
+        "outcome_zh": "扳手回到原主，借用紀錄結束。",
+        "rewards": []
+      },
+      {
+        "label_zh": "邀原主在既定返程點領取",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天安排，對方同意且日程可行才成立。",
+        "outcome_zh": "改為原主持有的自取約定，實際領取後才結案。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_046"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "借用工具與歸還責任",
+        "change_zh": "收到原主驗收後將借用標記關閉。",
+        "authority_needed_zh": "未來jobs、cargo與借用所有權；NPC旅行依自身authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "交接期間兩邊不能同時持有這把工具。 公私物見證人確認這是借具歸還而非工具買賣。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_020",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "夜裡找回自己的營位",
+    "premise_zh": "返程信差替一位已登記旅人求助，遺跡營地的白班冊可證實其床位，夜班卻沒有看到副本。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_002",
+      "hook_dry_well_031"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差替一位已登記旅人求助，遺跡營地的白班冊可證實其床位，夜班卻沒有看到副本。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天營位權到期或登記已核實時結束；既有住宿截止不延後。",
+      "without_player_zh": "若夜班自行查到白班冊就讓本人按原規則入住；否則仍按現有規則處理，不安排虛構攻擊。"
+    },
+    "approaches": [
+      {
+        "label_zh": "把白班登記帶給夜班當面核對",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，登記原件由有權保管者提供，不修改姓名。",
+        "outcome_zh": "相符旅人依原床位權入營，沒有新增床位。",
+        "rewards": []
+      },
+      {
+        "label_zh": "借出自己的帳篷安置一夜",
+        "required_items": [
+          "content_tent"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，帳篷暫借，玩家同夜不能另用。",
+        "outcome_zh": "旅人在核准外側營位休息，床位爭議明日再核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_090"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "一名既有旅人的入住核對",
+        "change_zh": "只更新核實狀態或一夜借帳篷事實。",
+        "authority_needed_zh": "未來camping、jobs與npc relationship，不生成新旅人。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "未找到原件時不是社交rank足夠就可偽造通行權。 露營位置協調人核對外側臨時營位的使用許可。",
+    "dependencies": [
+      "camping",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_021",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "有限鹽貨的兩種運法",
+    "premise_zh": "排程人有已清點的鹽貨與一個貨位，整包搬運或分裝會占用不同工時；兩方案交付量相同，報酬固定為現有布料1份。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_004",
+      "hook_dry_well_033"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人有已清點的鹽貨與一個貨位，整包搬運或分裝會占用不同工時；兩方案交付量相同，報酬固定為現有布料1份。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天收貨窗口或收貨人已依條款撤回訂單時結束。",
+      "without_player_zh": "若別人實際運走便撤除相應貨量，不能維持同一份貨可供玩家接。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用旅行包一次運送",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需核驗重量和可用貨位，沒有額外背包加成。",
+        "outcome_zh": "同批鹽完整交割，取得布料1份。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "用布袋按清單分兩次運",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，需布袋，兩次均簽收後領報酬。",
+        "outcome_zh": "同批鹽交割，取得同一份布料，原貨位清空。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_089"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "一批鹽貨與運輸契約",
+        "change_zh": "只移轉實際交割鹽貨與已預留布料。",
+        "authority_needed_zh": "未來cargo、jobs、regional_trade；此鹽不映射abstract food。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "差異在容器和工時，不用高等級標籤區分工作。 有限鹽料買家驗收同一批份額，不因分兩趟就重複收購。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_022",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "兩枚不同日期的貨章",
+    "premise_zh": "核帳員受託協調近郊警備亭的物資領取爭議，兩方憑據日期不同；現物批號存在，但尚未公開核對。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_048"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "核帳員受託協調近郊警備亭的物資領取爭議，兩方憑據日期不同；現物批號存在，但尚未公開核對。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天共同見證會議或貨物已由合法程序移交時閉單。",
+      "without_player_zh": "若雙方先請其他見證人處理，依實際裁定更新；不能因拖延直接把貨給較強者。"
+    },
+    "approaches": [
+      {
+        "label_zh": "共同核對批號與最新有效憑據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "1天，需雙方同意查看外標。",
+        "outcome_zh": "相符貨物交給被共同確認的收件人，未決部分仍封存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先封存在雙方认可的位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，兩方簽收保管協議。",
+        "outcome_zh": "貨物只換保管點，所有權不因玩家調解而轉給玩家。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_064"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "爭議貨物保管",
+        "change_zh": "依共同驗證完成移交或有限期封存。",
+        "authority_needed_zh": "未來jobs、ownership、npc_relationship及證據流程。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "若證據不完整，封存可算已完成的委託成果，不假裝已判清歸屬。 公私物見證人記錄暫存並不等於讓渡所有權。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_023",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "測風站的舊日記錄",
+    "premise_zh": "返程信差想核實一段舊路傳聞，近郊測風站仍可遠觀最後讀數；站內狀況未知。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_003",
+      "hook_dry_well_035"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差想核實一段舊路傳聞，近郊測風站仍可遠觀最後讀數；站內狀況未知。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天採訪窗口或原委託路線已取消時閉單。",
+      "without_player_zh": "商隊仍按現有已知路線行進；沒人核實就維持傳聞未證，不改天氣。"
+    },
+    "approaches": [
+      {
+        "label_zh": "遠觀讀數並注明歷史日期",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需望遠鏡，可見刻度才記。",
+        "outcome_zh": "交付有日期的過去風況，明確不是今日預報。",
+        "rewards": []
+      },
+      {
+        "label_zh": "實地走已確認安全的小院繞路",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "2天，需SURVIVAL 1，不跨入未驗證建築。",
+        "outcome_zh": "交付當前小院障礙位置，與舊讀數分開。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_051"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "道路傳聞的證據來源",
+        "change_zh": "新增有時間範圍的觀察，不能把過去氣象當路線安全值。",
+        "authority_needed_zh": "未來exploration、knowledge與navigation；天氣狀態無本任務修改權。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "資訊可以降低不確定，但不給無條件安全通行。 地標觀察人協助標注真正看得見的讀數範圍。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "LD-P01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_024",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "商隊未到以前撤下誤報",
+    "premise_zh": "排程人發現公告寫商隊已抵達，正式行程卻仍在途中；公告造成收貨人前來等候，未有實際交貨。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001",
+      "hook_dry_well_013"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人發現公告寫商隊已抵達，正式行程卻仍在途中；公告造成收貨人前來等候，未有實際交貨。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "商隊真正抵達或公告已正確更正時結束；若抵達，改為當前卸貨需求。",
+      "without_player_zh": "行程照模擬前進，排程人可自主更正；不能為保留任務延遲商隊。"
+    },
+    "approaches": [
+      {
+        "label_zh": "把公告更正為途中狀態",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，需原張貼人授權，附正式快照日期。",
+        "outcome_zh": "撤除已抵達的錯誤文字，未聲稱確切未來到站時間。",
+        "rewards": []
+      },
+      {
+        "label_zh": "逐一通知已到場收貨人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，只通知現有等候者。",
+        "outcome_zh": "收貨人得知當前狀態，是否離開由其實際日程決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_028",
+      "ruin_049"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "一則錯誤公告",
+        "change_zh": "更正已核實的資訊與實際通知名單，無資源獎勵。",
+        "authority_needed_zh": "現有caravan狀態只讀；未來knowledge與通知工作資料。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "信息修正不建立新商隊、到站時間或人口遷移。 路況紙抄錄人須註明公告是途中狀態而非到站證據。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_025",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "門廊裡的那塊封板",
+    "premise_zh": "輪值人取得近郊公共避雨廊的保管同意，要拆除誤封的一端木板；驗收報酬是其持有的乾糧1份。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_047"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "輪值人取得近郊公共避雨廊的保管同意，要拆除誤封的一端木板；驗收報酬是其持有的乾糧1份。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天修繕授權到期或封板已被核准拆除時結束。",
+      "without_player_zh": "若原工班自行回來處理，照實取消工作；天氣依現況演變，不設逾期傷亡。"
+    },
+    "approaches": [
+      {
+        "label_zh": "拆下不承重的核准封板",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天，需撬棍與MECHANICS 1，工作區已驗安全。",
+        "outcome_zh": "入口恢復，取得乾糧1份，另一端保持封閉。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "協商旁邊門廊暫時開放",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，需住戶同意，沒有拆板工資。",
+        "outcome_zh": "本次降雨可使用替代空間，原封板不變。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_083"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "避雨廊受限通路",
+        "change_zh": "改變核准入口或當次臨時通行權，報酬按真正完成工作移轉。",
+        "authority_needed_zh": "未來repair、jobs、場景入口與物品authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "完成後仍須世界環境權威判斷能否避雨，不增加人物能力。 外營手工介紹人只介紹已取得許可的小段破拆工作。",
+    "dependencies": [
+      "camping",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_026",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "不用拆信的失物交換",
+    "premise_zh": "返程信差拿到兩件包裹送錯位置的完整外標，兩位現有收件人都同意互換；內容無需公開。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_003",
+      "hook_dry_well_030"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差拿到兩件包裹送錯位置的完整外標，兩位現有收件人都同意互換；內容無需公開。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天會合期限或任一收件人實際離開後重新安排；不追溯撤回已簽收包裹。",
+      "without_player_zh": "雙方可自己完成交換，只有實際發生後才結案，未發生則保持各自保管記錄。"
+    },
+    "approaches": [
+      {
+        "label_zh": "依外標交換正確收件位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "1天，雙方簽收，封裝完整。",
+        "outcome_zh": "兩件包裹各歸正確收件人，玩家不保留原件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "安排兩位收件人共同見面",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "2天，需實際可用日程，玩家不代持包裹。",
+        "outcome_zh": "由本人完成互換，隱私內容未被讀取。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_094"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "兩件私人包裹",
+        "change_zh": "只改現物保管人與簽收資料，無副本獎励。",
+        "authority_needed_zh": "未來cargo、jobs、npc_relationship與ownership。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "姓名相同不等於同一人，接受時必須有可核實收件依據。 外營寄物帳管理人需保留兩件包裹的單一保管去向。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_027",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "地圖的資訊與原件",
+    "premise_zh": "排程人借到一份唯一原圖，兩支現有運輸隊需要不同段落資訊；保管者允許重繪已驗證段落，不同意出售原圖。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_001",
+      "hook_dry_well_032"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人借到一份唯一原圖，兩支現有運輸隊需要不同段落資訊；保管者允許重繪已驗證段落，不同意出售原圖。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天借圖期限或原圖已按約收回時截止；只讀副本可以保留已授權內容。",
+      "without_player_zh": "兩隊若自行調整行程便縮小需求；原圖依借約歸還，不因玩家未接就消失。"
+    },
+    "approaches": [
+      {
+        "label_zh": "重繪授權且已驗證路段",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "2天，需SURVIVAL 2和自有舊世地圖作對照。",
+        "outcome_zh": "交付有限路段記錄，原圖保管權不變。",
+        "rewards": []
+      },
+      {
+        "label_zh": "安排共同走到已確認分岔",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天協商，兩隊同意且行程相容才採用。",
+        "outcome_zh": "共用當次導路，不生成第二張可出售原圖。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_098"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "地圖查閱與導路協議",
+        "change_zh": "記錄授權資訊副本或一次同行安排。",
+        "authority_needed_zh": "未來knowledge、navigation、jobs；unique item不能被知識抄錄複製。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "資訊有市場價值，但原物所有權和抄錄權仍分開。 地圖註記寄售人確認資訊抄錄權沒有被當作出售唯一原圖。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "LD-P01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_028",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "先救設備還是先領料",
+    "premise_zh": "核帳員見證一份精密零件的兩方申請：抽水維修與醫療設備維修都合規，但只有一方已備齊其餘條件；哪方就緒需現地核對。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_002",
+      "hook_dry_well_006",
+      "hook_dry_well_008"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "核帳員見證一份精密零件的兩方申請：抽水維修與醫療設備維修都合規，但只有一方已備齊其餘條件；哪方就緒需現地核對。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天分配會議或零件已由有權分配者正式交出時結束。",
+      "without_player_zh": "分配者可依實際工況自行裁定；未修設備維持原狀，不憑逾期強制崩潰。"
+    },
+    "approaches": [
+      {
+        "label_zh": "核對兩份開工條件交由分配者決定",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "1天，需MECHANICS 2，不以個人偏好改零件規格。",
+        "outcome_zh": "將唯一零件交給獲核准就緒工作，另一方仍有需求。",
+        "rewards": []
+      },
+      {
+        "label_zh": "補上自己持有的相容零件",
+        "required_items": [
+          "content_precision_parts"
+        ],
+        "consumed_items": [
+          "content_precision_parts"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付精密零件1份，1天；兩工作規格都需驗證。",
+        "outcome_zh": "兩方各收到1份零件，未直接完成任一設備修復。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_099"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "兩份工作申請與有限零件",
+        "change_zh": "只記錄分配與已交付現物，後續修復須另提交。",
+        "authority_needed_zh": "未來repair、jobs、ownership與分配程序。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "社會選擇改變誰先具備條件，不直接產生水或療效。 修泵接洽人和照護用品收貨人分別核對兩項工作的實際就緒條件。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_029",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "地底鈴聲的來源",
+    "premise_zh": "返程信差收到近郊電話樓的鈴聲記錄，建築外側可安全觀察，機身另接細線；來源未知，不預設幽靈或求救者。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_001",
+      "hook_dry_well_017"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差收到近郊電話樓的鈴聲記錄，建築外側可安全觀察，機身另接細線；來源未知，不預設幽靈或求救者。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天觀察窗口或場地許可撤銷時結束。",
+      "without_player_zh": "若保管者先找到來源便改為記錄查證，聲音是否停止依實際裝置狀態。"
+    },
+    "approaches": [
+      {
+        "label_zh": "檢查外接細線的可見部分",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "2天，需萬用電表與ELECTRONICS 2，先確認安全隔離。",
+        "outcome_zh": "交付線路來源的可核實記錄，未知段仍標未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記錄聲響與周邊裝置時序",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，不觸碰線路。",
+        "outcome_zh": "提供可供對照的時序，不能憑規律斷言有人求救。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_040"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "電話樓聲音調查",
+        "change_zh": "新增實際觀察，不創造神祕人物或修改時間。",
+        "authority_needed_zh": "未來electronics、knowledge與exploration，異常若有需獨立facts。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "若其實是普通裝置，也應給明確調查結果，而非永遠含糊。 舊呼號查證人可比較既有聲號記錄，不能由聲音生成求援者。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-06",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_030",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "沙塵後的倉庫開放",
+    "premise_zh": "排程人收到現有天候已轉好的消息，但遺跡倉庫的門口障礙尚未重查；舊停業告示仍在。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_004",
+      "hook_dry_well_013"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人收到現有天候已轉好的消息，但遺跡倉庫的門口障礙尚未重查；舊停業告示仍在。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "倉庫真正重新開放、許可撤銷或天候再次不適合時重新評估並關閉舊工作。",
+      "without_player_zh": "保管者可自行巡查；天候照真實演進，沒有玩家也會改變。"
+    },
+    "approaches": [
+      {
+        "label_zh": "核對已安全的門口障礙",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "1天，需SURVIVAL 2；只檢查外部且遵守實際危害。",
+        "outcome_zh": "保管者據實決定是否撤停業告示，不由玩家直接宣告整庫安全。",
+        "rewards": []
+      },
+      {
+        "label_zh": "通知貨主告示尚未更新",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，資訊標明日期和範圍。",
+        "outcome_zh": "貨主知道天晴不等於倉庫已開，現有貨物原地保管。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_071"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "倉庫對外資訊",
+        "change_zh": "更新巡查及通知事實，通路仍以實際障礙為準。",
+        "authority_needed_zh": "現有天候／環境若無對應facts則整個trigger延後；未來hazards與jobs。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "設計前提不能假裝已有完整沙塵天氣系統。 路況紙抄錄人把天候改善與倉庫已開分成兩項資訊。",
+    "dependencies": [
+      "cargo",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_031",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "乾貨庫的通氣縫",
+    "premise_zh": "輪值人代公共乾貨庫保管者請人移開遮縫布包，物主已批准新架位；布料1份已預留作報酬。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_001",
+      "hook_dry_well_031"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "輪值人代公共乾貨庫保管者請人移開遮縫布包，物主已批准新架位；布料1份已預留作報酬。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天整理窗口或物主已自行移包時收案。",
+      "without_player_zh": "若另有人完成按實際記錄結案；未完成不直接扣食物庫存。"
+    },
+    "approaches": [
+      {
+        "label_zh": "清點布包後搬到新架位",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需旅行包且承重相符。",
+        "outcome_zh": "布包移開，取得布料1份，不設定食物保存加成。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "借工具腰帶先掛走小件",
+        "required_items": [
+          "content_tool_belt"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，腰帶暫借；只能騰出局部空隙，無完整搬運報酬。",
+        "outcome_zh": "小件分開保管，大包仍待搬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_097"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "乾貨庫現物位置",
+        "change_zh": "記錄已搬份額與借用工具，不以敘事治好腐敗。",
+        "authority_needed_zh": "未來cargo、jobs及保存環境，食品本身狀態另有authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "中間成果可交代清楚，不讓部分作業冒充全部完成。 營位協調人關心儲物移位是否占用已核准通道。",
+    "dependencies": [
+      "camping",
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_032",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "借出去的旅行包",
+    "premise_zh": "返程信差借出旅行包給現有搬鹽工，對方工作已完成但在別處輪值；包可由指定見證人接收。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_002",
+      "hook_dry_well_030"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "返程信差借出旅行包給現有搬鹽工，對方工作已完成但在別處輪值；包可由指定見證人接收。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天歸還會合或原主與借用人已自行交接時截止。",
+      "without_player_zh": "雙方仍可依真實日程協調，包不因玩家拒接就失竊。"
+    },
+    "approaches": [
+      {
+        "label_zh": "到核准窗口代收再歸還",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天，不用借包裝私人物。",
+        "outcome_zh": "同一旅行包回到信差，借用紀錄關閉。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改約雙方共同空檔",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，需日程相容與雙方同意。",
+        "outcome_zh": "建立新會合時間，真正交接前借用仍未結束。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_070"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "借包責任",
+        "change_zh": "保留單一保管人及實際返還時間。",
+        "authority_needed_zh": "未來cargo、ownership與jobs；NPC日程不能因對話被任意覆寫。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "只有實際返還才可解除玩家若有的代保管責任。 外營寄物帳管理人核對借包返還之前的代保管人。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_033",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "不按顏色買線材",
+    "premise_zh": "核帳員代燃料庫收購一批已拆出的線材，賣方按外皮顏色估值，買方需要可核實規格；現物只有1批，尚未成交。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_047"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "核帳員代燃料庫收購一批已拆出的線材，賣方按外皮顏色估值，買方需要可核實規格；現物只有1批，尚未成交。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天報價期或賣方已撤回時收案。",
+      "without_player_zh": "買家可拒買，賣家可另找實際買方；不自動刷新同一批線。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用儀表與規格表做受限驗收",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "2天，需萬用電表及ELECTRONICS 2，樣本量由雙方同意。",
+        "outcome_zh": "報告可驗證規格，是否成交由雙方報價決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "退回缺少規格的報價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，依既有採購條件拒收，不損毀現物。",
+        "outcome_zh": "訂單保持未成交，賣方仍持有線材。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_062"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "線材採購資格",
+        "change_zh": "只記驗收證據與報價狀態，不任意改品質或強制高價收購。",
+        "authority_needed_zh": "未來regional_trade、electronics和驗收authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "地區需求可以高，但不保證任何品質都有人收。 手工介紹人可轉介量測者，但不在缺規格時保證線材相容。",
+    "dependencies": [
+      "electronics",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_034",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "不能用武力裁定貨主",
+    "premise_zh": "排程人接到車庫對峙消息，現有看守與攜貨者有互相矛盾的憑據；目前未動武，排程人授權請雙方到場核對。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_004",
+      "hook_dry_well_012"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人接到車庫對峙消息，現有看守與攜貨者有互相矛盾的憑據；目前未動武，排程人授權請雙方到場核對。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "雙方已和解、離開或暴力事實改變時舊調解邀請失效，依當前情況另判。",
+      "without_player_zh": "各方可自行停止爭執；不因玩家沒來就必定開戰或死亡。"
+    },
+    "approaches": [
+      {
+        "label_zh": "主持見證核對",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，需SPEECH 2及雙方同意。",
+        "outcome_zh": "把貨物保管與人身安全分開，未決物仍原地封存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "若已動武，協助雙方撤出工具區",
+        "required_items": [
+          "content_stab_vest"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MELEE",
+          "rank": 2
+        },
+        "cost_zh": "進入未來對峙流程，時間與風險由combat authority結算。",
+        "outcome_zh": "只處理撤離與實際傷害，不把戰鬥勝者當合法貨主。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_065"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "當前對峙與爭議貨物",
+        "change_zh": "記錄真實停手、撤離或證據移交結果。",
+        "authority_needed_zh": "未來combat_extension、equipment、injury、jobs與ownership；尚未動武時戰鬥路徑不開放。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "此任務明確晚於首輪內容；戰鬥結果不能取代所有權程序。 護送條款核對人要求撤離協助與貨主歸屬保持兩份記錄。",
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_035",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "地下市場的兩種警告",
+    "premise_zh": "信差帶來地下市場通風井的照片，舊維修編號和新警告矛盾；委託只要求查清警告來源，未授權下井。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_002",
+      "hook_dry_well_013"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "信差帶來地下市場通風井的照片，舊維修編號和新警告矛盾；委託只要求查清警告來源，未授權下井。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 6,
+      "expiry_zh": "6天查詢期限或有權保管者提供新警示時閉單。",
+      "without_player_zh": "市場管理者可自主限制入口，不能為等玩家保持危險通道開放。"
+    },
+    "approaches": [
+      {
+        "label_zh": "查新警告的見證者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天，需現有可聯絡見證人與SPEECH 2。",
+        "outcome_zh": "取得帶來源的近況，舊維修標記仍作歷史資料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用舊圖標出可能相連區段",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天，需舊世地圖，不進入井口。",
+        "outcome_zh": "交付有限位置對照，空氣狀況依舊未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_055"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "入口警示證據",
+        "change_zh": "新增來源與範圍，不解除未檢測空氣的封鎖。",
+        "authority_needed_zh": "未來hazards、knowledge、exploration及現有NPC聯絡條件。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "防毒裝備取得後也仍需要現場危害相容，不是萬用鑰匙。 路況紙抄錄人保留新警告來源，不把舊維修代號當安全保證。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_036",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "回收場已有人接手",
+    "premise_zh": "核帳員原持有回收許可，但現有保管權記錄已合法移轉；一份尚未開工的回收委託需重審，沒有現物已被玩家領走。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_028",
+      "hook_dry_well_048"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "核帳員原持有回收許可，但現有保管權記錄已合法移轉；一份尚未開工的回收委託需重審，沒有現物已被玩家領走。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "新保管者確認或撤銷許可時關閉重審工作，舊許可不追溯覆寫新保管權。",
+      "without_player_zh": "回收場可繼續被新主人管理；玩家缺席不把它退回舊主或生成衝突。"
+    },
+    "approaches": [
+      {
+        "label_zh": "向新保管者重新確認工作範圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，需其自願同意。",
+        "outcome_zh": "形成新授權或明確拒絕，拒絕也可完成詢問工作。",
+        "rewards": []
+      },
+      {
+        "label_zh": "撤回未領取的舊委託",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，記錄撤回原因，沒有資源退款因未交款。",
+        "outcome_zh": "舊單關閉，不再聲稱擁有回收資格。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_013"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "回收許可有效性",
+        "change_zh": "終止已失效授權或建立有來源的新許可。",
+        "authority_needed_zh": "未來jobs、場地ownership與NPC authority；沒有強制奪回所有權。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "世界會變，未完成工作可以合理失效，而不是維持永恆任務點。 帳簿保管人與交接見證人保留舊許可終止和新保管權來源。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_037",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "收回擋雨的公用繩",
+    "premise_zh": "輪值人借出一條繩索給遺跡曬場，現在架位已改好，可取回公用繩；所有物品與接收窗口已登記。",
+    "issuer_hook_id": "hook_dry_well_003",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_004",
+      "hook_dry_well_002",
+      "hook_dry_well_023"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "輪值人借出一條繩索給遺跡曬場，現在架位已改好，可取回公用繩；所有物品與接收窗口已登記。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天接收窗口或繩索已由其他人還回時結束。",
+      "without_player_zh": "曬場可按真實進度自行歸還，不因逾期複製繩索補庫存。"
+    },
+    "approaches": [
+      {
+        "label_zh": "拆下無負載繩索並送回",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "1天，先確認不再承重，不順手領走晾物。",
+        "outcome_zh": "同一條繩回到輪值人公用庫。",
+        "rewards": []
+      },
+      {
+        "label_zh": "安排曬場保管人自行交接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天，雙方確認實際時段。",
+        "outcome_zh": "建立待完成交接，不提前把繩算入公用庫。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_047"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "公用繩借還",
+        "change_zh": "歸還簽收才關閉借用，未歸還保持外借狀態。",
+        "authority_needed_zh": "未來ownership、cargo與jobs。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "小工作讓普通角色有事可做，驗收條件仍清楚。 井架繩索原主必須在實際歸還後才把它排進下一班用途。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_038",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "那張沒有燒掉的課本頁",
+    "premise_zh": "信差答應把近郊舊教室的一頁可讀技術資料帶給願意保存它的人，現使用者正以紙生火且願討論交換。",
+    "issuer_hook_id": "hook_dry_well_004",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_001",
+      "hook_dry_well_003",
+      "hook_dry_well_047",
+      "hook_dry_well_049"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "信差答應把近郊舊教室的一頁可讀技術資料帶給願意保存它的人，現使用者正以紙生火且願討論交換。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天約定或紙頁被原主人合法另行處置後終止，不能從灰燼重生原件。",
+      "without_player_zh": "使用者依自身需求決定是否保存；不為懲罰玩家強制焚毀。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交乾糧換取保存和移交同意",
+        "required_items": [
+          "content_food"
+        ],
+        "consumed_items": [
+          "content_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付乾糧1份，1天；對方同意後才扣物。",
+        "outcome_zh": "該頁交到受託保存人，沒有技能提升。",
+        "rewards": []
+      },
+      {
+        "label_zh": "說明可讀用途請對方自願捐出",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天，需SPEECH 2，對方可拒絕且沒有保證成功。",
+        "outcome_zh": "若同意，原頁移交；若拒絕，明確回報未取得。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_035"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "一頁資料保管",
+        "change_zh": "只在同意與現物存在時移交，不把紙頁複製成手冊。",
+        "authority_needed_zh": "未來knowledge、ownership與NPC同意結果。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "慈悲與保存知識都可能需要自己的補給，不額外給永久技能。 手工介紹人可協助找到保存者；消息保管人不公開頁上的私人地址。",
+    "dependencies": [
+      "camping",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_039",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "分清寄修與待售",
+    "premise_zh": "核帳員替市集整理近郊鐘錶店清單，3件寄修物被誤列待售；寄修憑單存在而持有人是否仍在乾井未知。",
+    "issuer_hook_id": "hook_dry_well_001",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_002",
+      "hook_dry_well_004",
+      "hook_dry_well_030"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "核帳員替市集整理近郊鐘錶店清單，3件寄修物被誤列待售；寄修憑單存在而持有人是否仍在乾井未知。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天清點窗口或有權店主已完成更正時閉單。",
+      "without_player_zh": "店主可自行撤下待售牌，原主行蹤依世界而變，不生成繼承人領物。"
+    },
+    "approaches": [
+      {
+        "label_zh": "核對憑單撤下3件寄修品報價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "1天，物品留原保管者，不代判主人死亡。",
+        "outcome_zh": "3件改回寄修保管，停止本次出售資格。",
+        "rewards": []
+      },
+      {
+        "label_zh": "逐一查詢仍可聯絡的寄修人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天，只對實際找到的人通知。",
+        "outcome_zh": "取得返還安排，未找到者仍保留待查保管。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_059"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "寄修物出售資格",
+        "change_zh": "更正錯誤清單與已通知記錄，不更改腕錶品質。",
+        "authority_needed_zh": "未來regional_trade、ownership及NPC可用性。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "主人不在場不是無主物；歷史讓東西有價值但不決定合法買賣。 外營寄物帳管理人協助把寄修保管和待售貨單分開。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_dry_well_040",
+    "town_id": "dry_well",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "終止一份不公平的排他約",
+    "premise_zh": "排程人發現貨站試行約禁止外營地使用一處其原本有權使用的公用架，條款尚未生效，雙方代表願重談。",
+    "issuer_hook_id": "hook_dry_well_002",
+    "stakeholder_hook_ids": [
+      "hook_dry_well_003",
+      "hook_dry_well_001",
+      "hook_dry_well_027",
+      "hook_dry_well_031",
+      "hook_dry_well_048"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "排程人發現貨站試行約禁止外營地使用一處其原本有權使用的公用架，條款尚未生效，雙方代表願重談。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天修約會議或合法新協議已簽署時關閉；不追溯奪走已完成交易。",
+      "without_player_zh": "若雙方自行修約就記錄真實結果，未修約仍按未生效狀態，不直接降低全鎮治安。"
+    },
+    "approaches": [
+      {
+        "label_zh": "刪除未獲授權的排他範圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 3
+        },
+        "cost_zh": "1天，雙方簽認與場地保管人核對。",
+        "outcome_zh": "新約只規範實際租用架位，公用架權利保留。",
+        "rewards": []
+      },
+      {
+        "label_zh": "撤回本次租約保留現有用法",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天，原提案人同意撤回，沒有暗中罰款。",
+        "outcome_zh": "不成立新租約，双方仍按既有使用權活動。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫不承接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領取委託物或消耗用品。",
+        "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "ruin_060",
+      "ruin_097"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "貨架使用契約",
+        "change_zh": "修訂或撤回一份未生效提案，沒有全城聲望加減。",
+        "authority_needed_zh": "未來場地ownership、jobs與relationship，群體標籤不是正式勢力authority。",
+        "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+      }
+    ],
+    "followup_zh": "不同利益可由程序和現物安排解決，不必每條衝突都開戰。 車位申請人、營位協調人與交接見證人各核對與自己有關的公用範圍。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  }
+]

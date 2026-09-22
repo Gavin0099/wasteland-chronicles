@@ -1,0 +1,1579 @@
+[
+  {
+    "quest_id": "quest_new_hope_021",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "留給夜班的一份糧",
+    "premise_zh": "診療所收貨人替仍在值班的現有工人求一份乾糧；對方不能離崗排隊，診所沒有可挪用的病患口糧。",
+    "issuer_hook_id": "hook_new_hope_003",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001",
+      "hook_new_hope_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診療所收貨人替仍在值班的現有工人求一份乾糧；對方不能離崗排隊，診所沒有可挪用的病患口糧。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 1,
+      "expiry_zh": "本次夜班結束即關閉；公告超過1天不接受代送。",
+      "without_player_zh": "若原值班人已換班，需求消失；若沒換班，只依他的真實補給處理，不宣告餓死。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交付自己的乾糧給值班人",
+        "required_items": [
+          "content_food"
+        ],
+        "consumed_items": [
+          "content_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "0 天；交付乾糧 1。",
+        "outcome_zh": "值班人收到乾糧 1；自己的旅程少一份補給，沒有額外報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調輪班者代排領糧",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；不挪動任何糧；需值班與接班者同意。",
+        "outcome_zh": "形成明確領取順序，仍只使用原本可分配份額。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_031"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "個人補給交付",
+        "change_zh": "只更新實際收受乾糧的人與來源，不改診所公共庫存。",
+        "authority_needed_zh": "個人物品移轉與值班工作owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "受助者下一次是否願意協作需真實記錄，不立刻贈送更值錢的東西。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_022",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "乾淨袋子不是第二份種子",
+    "premise_zh": "種庫照管人收到外商以乾淨布袋作條件的收購提議；種庫已有種子2份、舊包裝已汙損，雙方尚未交割。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001",
+      "hook_dry_well_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫照管人收到外商以乾淨布袋作條件的收購提議；種庫已有種子2份、舊包裝已汙損，雙方尚未交割。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "收購者實際離開或公告3天後關閉，以先到者為準。",
+      "without_player_zh": "若種庫自己找到袋子便撤銷求袋工作；買家離開只取消這次報價，不刪除種子。"
+    },
+    "approaches": [
+      {
+        "label_zh": "提供一只布袋完成原量包裝",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "1 天；交付布袋 1，不取得其中種子。",
+        "outcome_zh": "種子2份移入新袋，由種庫保管；可重新提請買家驗收。",
+        "rewards": []
+      },
+      {
+        "label_zh": "重新談以原包裝驗收",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "1 天；BARTER 2；不移轉種子。",
+        "outcome_zh": "買家同意先驗種子再決定收購，包裝問題改為另行報價。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_020",
+      "town_034"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "收購條件與保管容器",
+        "change_zh": "保存同一批種子的數量與新容器去向；實際出售需另一個交易提交。",
+        "authority_needed_zh": "包裝／交易報價owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "不得把完成包裝同時算成賣種成功與新種子獎勵。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "LD-P01"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_023",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "磨坊借件的回程",
+    "premise_zh": "磨坊已取下一枚可歸還軸承，原物屬灰谷流動技工；種庫照管人擔保它不是採購品，另備鹽1份作運送報酬。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_new_hope_001"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "磨坊已取下一枚可歸還軸承，原物屬灰谷流動技工；種庫照管人擔保它不是採購品，另備鹽1份作運送報酬。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "灰谷原收件人不再能接收時暫停，重新指定收件人需雙方確認。",
+      "without_player_zh": "若其他運送者已接走同一軸承，本委託取消；無人接手時留在磨坊，不複製第二枚。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用自己的袋子接下返件",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "現場裝件0天；跨城耗時沿用真實路程；布袋交接後取回。",
+        "outcome_zh": "完成灰谷實際交接才取得鹽1份；此選項只建立待運承諾，不能在接單時先領。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請原技工回程時自取",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天協調；需技工同意，玩家不領鹽。",
+        "outcome_zh": "零件留在磨坊，記錄技工的接回方式，不能讓他立即傳送。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_026",
+      "caravan_001"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "待返還借件",
+        "change_zh": "同一枚軸承由磨坊保管轉為運送保管，再交原持有人；報酬另從擔保者實物來源扣。",
+        "authority_needed_zh": "跨城工作與custody transfer owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "town_026 是返件來源；caravan_001 僅是跨城同行前的水壺準備支線，不是軸承交割的必經步驟。抵達時若技工遷移，保留保管責任並重驗；不得用姓名生成另一個技工。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_024",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "半頁田記的另一半",
+    "premise_zh": "種庫只保有半頁種植紀錄，上面有舊試驗田編號；缺頁是否仍在不明，要求帶回可驗證線索而非承諾收成。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫只保有半頁種植紀錄，上面有舊試驗田編號；缺頁是否仍在不明，要求帶回可驗證線索而非承諾收成。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "原記錄被正式找回或試驗田已不再可查時撤案。",
+      "without_player_zh": "種庫仍可依既有方法播種，不能因玩家沒查就固定減產。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用種植手冊比對頁碼與型號",
+        "required_items": [
+          "content_planting_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；手冊保留。",
+        "outcome_zh": "確定缺頁來自哪個版本，取得下一站檔案編號，沒有技能獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把半頁交由現有老耕作者口述核對",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2 天；須本人在場且同意；不補寫他不知道的部分。",
+        "outcome_zh": "留下帶來源的口述與仍未知的欄位，與原件分開保存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_013",
+      "wild_088"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "知識來源紀錄",
+        "change_zh": "登記版本與證詞，沒有確認的農法不得進生產參數。",
+        "authority_needed_zh": "knowledge與工作owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "後續可找同版文件；兩種途徑都不把閱讀變成免費SURVIVAL升級。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P01"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_025",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "公用斧該跟誰走",
+    "premise_zh": "水務保管人与種庫都需要同一把公用伐木斧：前者要清路，後者要整理棚材；沒有第二把可借。",
+    "issuer_hook_id": "hook_new_hope_001",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_002",
+      "hook_gray_valley_001"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "水務保管人与種庫都需要同一把公用伐木斧：前者要清路，後者要整理棚材；沒有第二把可借。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "兩天後重新排工；已開始的那份工作不能靠任務倒退。",
+      "without_player_zh": "若其中一方找到其他工具，爭議自行結束；否則按當事者真正協議排程。"
+    },
+    "approaches": [
+      {
+        "label_zh": "借出自己的伐木斧給種庫",
+        "required_items": [
+          "content_wood_axe"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；物品借用後須歸還，不轉成兩把工具。",
+        "outcome_zh": "種庫取得暫用工具，公用斧可分配給清路工班；兩項工程仍各自執行。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商先清路再回來整理棚材",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1 天；SPEECH 2；雙方同意。",
+        "outcome_zh": "確定順序與移交人，種庫接受延後；玩家無物品收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_018"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "共享工具排程",
+        "change_zh": "一件工具每段時間只交给一個保管者，兩方都有放棄的時機。",
+        "authority_needed_zh": "借用／排工／關係owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "若違約，後續爭議依實際逾期紀錄產生，不按陣營貼永久善惡標籤。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_026",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "格柵前的枯枝",
+    "premise_zh": "已存在的取水渠道前方堆了枯枝，保管人已確認只是格柵堵塞；水源存量與供水能力仍沿用世界狀態。",
+    "issuer_hook_id": "hook_new_hope_001",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "已存在的取水渠道前方堆了枯枝，保管人已確認只是格柵堵塞；水源存量與供水能力仍沿用世界狀態。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "兩天後若渠道用途或水況已改，須重新勘查，原方案失效。",
+      "without_player_zh": "若維護班先清除則撤案；沒有清除時只保留堵塞事實，不能直接減人口。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用工兵鏟清理格柵外側",
+        "required_items": [
+          "content_entrenching_shovel"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；工具保留，只處理已確認安全的外側。",
+        "outcome_zh": "枯枝移至岸上，格柵外側通暢；可否恢復取水由設施owner確認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "通知原維護班改走側道取水",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；不清格柵，需確認側道真的存在。",
+        "outcome_zh": "這一班改用已核准的另一取水口，堵塞留待後續。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_004"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "渠道局部阻塞",
+        "change_zh": "只提交指定格柵是否清除；供水量由設施與水源條件推導。",
+        "authority_needed_zh": "設施狀態與工作owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "不能同時給水產量加成、降水價和免費淨水三份收益。",
+    "dependencies": [
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_027",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "空醫療袋的歸還條件",
+    "premise_zh": "診療所借出的一只空醫療袋被現有農具借用者拿來裝工具；借用者與袋子位置已知，診所的借出簿和現場農具是待核對事實。",
+    "issuer_hook_id": "hook_new_hope_003",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001",
+      "hook_dry_well_004"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診療所借出的一只空醫療袋被現有農具借用者拿來裝工具；借用者與袋子位置已知，診所的借出簿和現場農具是待核對事實。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "三天後原定周轉時段失效，改按當前診所需求重新驗收。",
+      "without_player_zh": "若借用者先按規範交回，委託撤銷；若未返還，只保留實際逾期責任，不當成失竊或死亡。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用手冊說明用途界線，安排隔離交回",
+        "required_items": [
+          "content_medical_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；手冊只供一般規範，需比對真實借出簿並獲雙方同意。",
+        "outcome_zh": "借用者把農具移出，原空袋交到診所隔離保管；尚未被判定可作醫療攜具。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請借用者到診所共同核對原袋",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2 天；須本人與袋子到場，不生成袋內清單。",
+        "outcome_zh": "完成原物、借期與曾裝農具的交接紀錄；是否能再用由實際驗收決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_033"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "借用責任",
+        "change_zh": "返袋需原物與收件簽認；到期不把不存在的袋子重造進診所。",
+        "authority_needed_zh": "custody與jobs owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "對應 town_033 的同一空袋與用途爭議；手冊不能提供個別袋的內容紀錄，也不能藉交談恢復無菌狀態。",
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_028",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "糧倉與補鞋桌的布",
+    "premise_zh": "種庫存有布料2份，補鞋者想全拿來接急單，糧倉卻需保留1份補袋；兩方都提出具體用量。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001",
+      "hook_gray_valley_003"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫存有布料2份，補鞋者想全拿來接急單，糧倉卻需保留1份補袋；兩方都提出具體用量。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "已完成布料交割或兩天後急單取消，原分配提議關閉。",
+      "without_player_zh": "工人可自行協商或失去急單；不自動讓衣物損坏或粮食消失。"
+    },
+    "approaches": [
+      {
+        "label_zh": "補上一份自己的布料",
+        "required_items": [
+          "content_cloth"
+        ],
+        "consumed_items": [
+          "content_cloth"
+        ],
+        "required_skill": null,
+        "cost_zh": "0 天；交付布料1。",
+        "outcome_zh": "糧倉保留原1份，補鞋者取得其餘原1份與玩家1份；沒有複製布料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓補鞋急單只接一半",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "1 天；BARTER 1；需補鞋者同意。",
+        "outcome_zh": "雙方各留原布料1份，補鞋者放棄部分收入；不減世界貨幣總量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_029"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "有限布料分配",
+        "change_zh": "記錄三方實際收受與同意的數量，沒有新的公共庫存來源。",
+        "authority_needed_zh": "物品交易與工作owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "日後補鞋者可能優先找別的供應人，需依真實合作紀錄決定。",
+    "dependencies": [
+      "crafting",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_029",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "孩子的井下圖",
+    "premise_zh": "水務保管人拿到孩子畫的井下地圖，孩子只從井口看過繩索，圖中房間是想像；仍有一個真實井口記號待查。",
+    "issuer_hook_id": "hook_new_hope_001",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "水務保管人拿到孩子畫的井下地圖，孩子只從井口看過繩索，圖中房間是想像；仍有一個真實井口記號待查。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "井口整修封閉或記號被正式辨認後撤案；不能永遠保持同一線索。",
+      "without_player_zh": "保管人仍可依原井況供水，不把想像地圖生成成地下城。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用望遠鏡從核准位置觀察井壁標記",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；不下井。",
+        "outcome_zh": "讀到一個維護班編號，證實圖上的房間沒有現場依據。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請孩子重述哪些是親眼所見",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；沒有技能門檻，不暗示特定答案。",
+        "outcome_zh": "把可觀察的繩結位置和想像部分分開，留下一條可驗證線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_025"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "地點知識",
+        "change_zh": "保存來源與可確認記號，未證實空間不得進世界地圖。",
+        "authority_needed_zh": "knowledge owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "下一步查維護班的既有記錄，不能直接發放遺跡寶物。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "LD-P01"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_030",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "同車的燈與種子",
+    "premise_zh": "一輛現有商隊車只剩一個已核准貨位；種庫想運種子，水務班想運空油燈，雙方都不願推遲。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001",
+      "hook_dry_well_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一輛現有商隊車只剩一個已核准貨位；種庫想運種子，水務班想運空油燈，雙方都不願推遲。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "商隊真正出發即停止接受改裝；已離城的車不能召回。",
+      "without_player_zh": "未達成協議就沿原裝貨紀錄出發，不替任一方補造貨位。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用自己的密封貨箱提出合載方案",
+        "required_items": [
+          "content_sealed_cargo_crate"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；需重量、隔離相容性與車主批准；貨箱借用後返還。",
+        "outcome_zh": "只在正式載貨檢查通過時合載原物，沒有增加車輛容量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "承接下一趟種子的運送協調",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；不接走本趟貨，需種庫同意延後。",
+        "outcome_zh": "燈依本趟原名單走，種子留庫等下一個真實運送機會。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_016"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "商隊裝載選擇",
+        "change_zh": "改變此車已核准的貨位使用者，總負重不變；未通過則原子拒絕。",
+        "authority_needed_zh": "caravan cargo與工作owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "延後的種子仍是原批，下一趟時重验庫存、接收者與播種條件。",
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_031",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "雨前的曬場交接",
+    "premise_zh": "種庫收到已查證的降雨預警，露天曬場有一批已清點種子需移入現有空棚；空棚只有足夠一批的位置。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫收到已查證的降雨預警，露天曬場有一批已清點種子需移入現有空棚；空棚只有足夠一批的位置。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 1,
+      "expiry_zh": "雨到或公告1天後重新評估，已濕物不得仍套乾種交接方案。",
+      "without_player_zh": "若原工班先搬完便撤案；若真的受潮，按實際狀態開新工作，不固定全損。"
+    },
+    "approaches": [
+      {
+        "label_zh": "借出防水袋搬最外側一批",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；袋子交接後歸還；按已確認袋容分批。",
+        "outcome_zh": "同一批種子由曬場移入空棚，棚位占用；無新種子收入。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調現場工班先搬曬場",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "0 天；SPEECH 2，需工班同意暫停原工作。",
+        "outcome_zh": "工班改序，另一項工作延後；不把協調當已完成搬運。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_024"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "種子存放位置",
+        "change_zh": "實際搬完才記錄保管位置與棚位占用，收成由後續生產規則推導。",
+        "authority_needed_zh": "cargo／天候／設施狀態owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "空棚的其他需求可能接著出現，不能一直拿同一個空位重複收貨。",
+    "dependencies": [
+      "cargo",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_032",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "把井繩留給下一班",
+    "premise_zh": "井口班已確認公用繩有一段不堪繼續用，水務保管人願以現存鹽1份交換一條合格替換繩。",
+    "issuer_hook_id": "hook_new_hope_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_new_hope_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "井口班已確認公用繩有一段不堪繼續用，水務保管人願以現存鹽1份交換一條合格替換繩。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "兩天內或替換繩先到時關閉；到期後仍不得使用不合格繩。",
+      "without_player_zh": "維護班可自行採買；沒有替換則停用對應起吊方式，不直接停整城供水。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交付合格的自有繩索",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [
+          "content_rope"
+        ],
+        "required_skill": null,
+        "cost_zh": "0 天；交付繩索1；型號與狀態需驗收。",
+        "outcome_zh": "井口接收繩索1，玩家取得鹽1；舊繩另行退役，不生成可用新繩。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "將不合格的繩段標明並通知採買",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；不交繩、不領鹽。",
+        "outcome_zh": "完成停用標示，實際替換仍待其他人；玩家保留自己的工具。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_019"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "維護用品交割",
+        "change_zh": "轉移一條真實繩索與同一份鹽，不給工具永久增產buff。",
+        "authority_needed_zh": "物品驗收、退役與交易owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "退役繩能否作非承重用途需另有分類，不能悄悄回收成同品質繩索。",
+    "dependencies": [
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_033",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "不拆封的家藏罐頭",
+    "premise_zh": "診療所收貨人代一位老人求鑑別意見；老人珍藏的舊世罐頭來自家人，沒有同意食用或拆封。",
+    "issuer_hook_id": "hook_new_hope_003",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診療所收貨人代一位老人求鑑別意見；老人珍藏的舊世罐頭來自家人，沒有同意食用或拆封。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "物主撤回同意或原物已被別人合法處置後關閉。",
+      "without_player_zh": "老人可以繼續保留收藏，不能因玩家拒絕就讓他自動吃下並中毒。"
+    },
+    "approaches": [
+      {
+        "label_zh": "借醫療手冊比對可讀標籤",
+        "required_items": [
+          "content_medical_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；只查資料，不提供可食保證或醫療指示。",
+        "outcome_zh": "取得品名與保存標籤的可讀部分，原罐完整交還。",
+        "rewards": []
+      },
+      {
+        "label_zh": "替老人聯絡願接原罐的收藏者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2 天；未得到物主再次同意前不移轉。",
+        "outcome_zh": "找到一個不要求食用的去處提案，成交仍要物主決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_028"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "私人收藏的保管",
+        "change_zh": "保留所有權與同意範圍，不用價值估算替物主決定。",
+        "authority_needed_zh": "knowledge／custody／關係owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "家族故事可以留下後續拜訪，不提供藥效、食物值或免費Caps。",
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_034",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "別把外地種子當本地收成",
+    "premise_zh": "種庫收到商人的價目，外地種子被寫成本地試種成功品；目前只有來源單，沒有收成試驗。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_dry_well_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫收到商人的價目，外地種子被寫成本地試種成功品；目前只有來源單，沒有收成試驗。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "商人更正價目或3天後本次報價失效。",
+      "without_player_zh": "其他人仍可自行交易；委託不直接凍結整個市場或判商人有罪。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用種植手冊比對試種資料要求",
+        "required_items": [
+          "content_planting_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；手冊不代替實地試驗。",
+        "outcome_zh": "把『已成功』改成『來源已知、效果未驗證』的待簽修訂，需商人同意。",
+        "rewards": []
+      },
+      {
+        "label_zh": "公開可核對的來源單摘要",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "1 天；BARTER 2；不揭露無關個資。",
+        "outcome_zh": "買家獲得來源差異，可自行改變出價；任務不手動改種子價格。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_005",
+      "town_034"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "商品資訊",
+        "change_zh": "只提交真實來源與更正標示，需求与價格仍由既有交易／經濟規則處理。",
+        "authority_needed_zh": "交易資訊／knowledge owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "若商人拒絕更正，保留證據與爭議；不得直接扣他錢給玩家。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_035",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "改道巡田人的足跡",
+    "premise_zh": "水務保管人發現巡田人改走另一條邊路；本人留下避開濕坡的短訊，但新路尚無完整地圖。",
+    "issuer_hook_id": "hook_new_hope_001",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "水務保管人發現巡田人改走另一條邊路；本人留下避開濕坡的短訊，但新路尚無完整地圖。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "巡田路正式改回或新路被封閉時，舊調查委託失效。",
+      "without_player_zh": "巡田人按自己的真實行程行動，不停在原地等玩家。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用指南針與舊世地圖核對岔口",
+        "required_items": [
+          "content_compass",
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；不創造捷徑，不更改既有路程天數。",
+        "outcome_zh": "回報兩條已觀察路段的接點，原訊息中的安全說法仍需現勘。",
+        "rewards": []
+      },
+      {
+        "label_zh": "等巡田人回到現有交接點再詢問",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2 天；若未到只記等待，沒有強制召回。",
+        "outcome_zh": "本人到場時能補足改道原因；未到則工作保持未完成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_032"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "路況情報",
+        "change_zh": "保存地點、時間與觀察者，不把口述直接變成可行道路。",
+        "authority_needed_zh": "navigation／knowledge／道路owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "後續可將已證實濕坡列入既有風險事實，需另行正式提交。",
+    "dependencies": [
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_036",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "診所燈光的借用順序",
+    "premise_zh": "診所與井口夜班同時要借一盞已驗證可用油燈，庫內只有這一盞；診所需要看收貨封條，井口需要看隊列。",
+    "issuer_hook_id": "hook_new_hope_003",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診所與井口夜班同時要借一盞已驗證可用油燈，庫內只有這一盞；診所需要看收貨封條，井口需要看隊列。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 1,
+      "expiry_zh": "本輪夜班結束即關閉，不讓借用排程永遠停住。",
+      "without_player_zh": "若任一方自備燈具，借用爭議消失；沒有燈時依各自實際工作限制處理。"
+    },
+    "approaches": [
+      {
+        "label_zh": "暫借自有手電筒給診所",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；需可用電源，約定夜班結束收回；能源扣量待正式規格。",
+        "outcome_zh": "診所改用自備電燈，公用油燈可借井口；不產生第二盞公用灯。",
+        "rewards": []
+      },
+      {
+        "label_zh": "把收貨檢查改到日光下",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；需貨主同意等1天再驗收。",
+        "outcome_zh": "診所延後收貨確認，井口保有本輪油燈；未驗貨仍不能付款。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_027"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "照明借用與收貨時間",
+        "change_zh": "變更同意的排程與保管者，既有燈具和電池數量不增加。",
+        "authority_needed_zh": "lighting／借用／jobs owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "借走燈後若玩家提前離開，應先完成返還或記錄真實違約，不複製燈具。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "lighting",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_037",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "未知灰種與原來的菜圃",
+    "premise_zh": "種庫照管人接到菜圃邊出現灰種的紀錄，原田仍在生產，沒有證據證明它有毒或有益。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_001",
+      "hook_new_hope_003"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫照管人接到菜圃邊出現灰種的紀錄，原田仍在生產，沒有證據證明它有毒或有益。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "兩天後若原樣本被移走或田界改動，重新採樣委託；舊位置不再當新證據。",
+      "without_player_zh": "耕作者可自行隔離已見樣本；不在玩家缺席時自動蔓延成災。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用防水袋隔離已有落種",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；袋子占用直到交給收件人；不散播或食用。",
+        "outcome_zh": "將已確認的一份樣本交種庫保管；玩家無新增灰種獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "畫出發現點並停止該小區新播種",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；需耕作者同意；不拔除原作物。",
+        "outcome_zh": "保留現場與觀察期限，是否擴大管理區依後續真實資料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_030"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "樣本保管與田區觀察",
+        "change_zh": "只移交現有樣本或記錄同意的田區措施，不直接改產量與汙染值。",
+        "authority_needed_zh": "identification／設施區域／jobs owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "灰種是長期線索，不保證下一次長出稀有材料。",
+    "dependencies": [
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_038",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "護欄上的長矛要還人",
+    "premise_zh": "農道護欄缺一段，有人把自己長矛插在旁邊作標示，現在要取回；水務班備有廢鐵1份，但缺搬運工具。",
+    "issuer_hook_id": "hook_new_hope_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_new_hope_002"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "農道護欄缺一段，有人把自己長矛插在旁邊作標示，現在要取回；水務班備有廢鐵1份，但缺搬運工具。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "兩天後或長矛物主取回時，原交換方案失效，仍保留缺口警示。",
+      "without_player_zh": "原維護者可先設其他標記；不因玩家沒接就生成一次跌落事故。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用布袋搬運班內現有廢鐵",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；袋子歸還玩家，廢鐵來源是維護班已有1份。",
+        "outcome_zh": "把廢鐵1份送到修理點，長矛仍待真正護欄完成後歸還。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在缺口前改設臨時繞行告示",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1 天；需路權人同意，不宣告護欄修好。",
+        "outcome_zh": "長矛可歸還物主，這段改走已核准側道直到維護完成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_021"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "臨時標示與材料位置",
+        "change_zh": "不以長矛圖片代替護欄狀態，記錄原物歸還和真正維護進度。",
+        "authority_needed_zh": "cargo／道路／工作owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "後續工班能使用已送材料，但不可再向玩家索取同一份而重領搬運費。",
+    "dependencies": [
+      "cargo",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "LD-P02"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_039",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "補丁上的另一個家",
+    "premise_zh": "種庫的借衣裡出現外地補丁，穿衣者願意返還衣物卻希望保留家人縫的補丁；衣服原主重視完整。",
+    "issuer_hook_id": "hook_new_hope_002",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_003",
+      "hook_dry_well_004"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "種庫的借衣裡出現外地補丁，穿衣者願意返還衣物卻希望保留家人縫的補丁；衣服原主重視完整。"
+    },
+    "deadline": {
+      "kind": "world_event",
+      "days": null,
+      "expiry_zh": "兩位當事者自行達成協議或收回調解同意時結束。",
+      "without_player_zh": "未達共識就保留原衣與雙方請求，不把借衣者自動標成小偷。"
+    },
+    "approaches": [
+      {
+        "label_zh": "提供自有布料作替換補片",
+        "required_items": [
+          "content_cloth"
+        ],
+        "consumed_items": [
+          "content_cloth"
+        ],
+        "required_skill": null,
+        "cost_zh": "1 天；交付布料1；需雙方同意再交專業者處理。",
+        "outcome_zh": "原主收到補片材料，家族補丁去向按協議記錄；本選項不自行執行縫製。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓衣主先保管整衣並約定再次見面",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1 天；SPEECH 1；雙方同意。",
+        "outcome_zh": "物品保管清楚，私人紀念仍待協商，玩家不取得任何衣物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_010"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "私人紀念與借用同意",
+        "change_zh": "保留物體與補丁來源，不把其價值折算成強制賠償。",
+        "authority_needed_zh": "npc_relationship／custody owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "可由補丁牽出返鄉拜訪，但收件人必須綁定現有人口。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_new_hope_040",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "兩張欠條與已領走的水",
+    "premise_zh": "水務保管人持有兩張指向同一份已完成配水的欠條，原交接紀錄可核對；問題是記帳重複，並非又少一份水。",
+    "issuer_hook_id": "hook_new_hope_001",
+    "stakeholder_hook_ids": [
+      "hook_new_hope_002",
+      "hook_dry_well_001"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "水務保管人持有兩張指向同一份已完成配水的欠條，原交接紀錄可核對；問題是記帳重複，並非又少一份水。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "兩天後當輪帳務封存；更正轉入正式歷史勘誤流程，不重啟配水。",
+      "without_player_zh": "若原記帳人先查明便撤案；未查明只保留爭議欄，不能再次扣水。"
+    },
+    "approaches": [
+      {
+        "label_zh": "對照兩張紙與既有交接紀錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "1 天；BARTER 1；只可更正本次重複欄。",
+        "outcome_zh": "一張註記為副本，配水總量不變；雙方各持同一更正紀錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請兩位簽收人在場逐项核對",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2 天；不用工具，需當事人同意與在場。",
+        "outcome_zh": "確認是同一次領取，留下見證更正；若人不到則不憑空完成。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不接下這份工作",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0 天；不移轉物品或領取報酬。",
+        "outcome_zh": "保留拒絕紀錄；委託者依真實狀況另找方案，玩家不替世界決定結果。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_006"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "記帳與歷史解讀",
+        "change_zh": "更正工作紀錄，不改已完成的供水交易、不刪世界ledger事件。",
+        "authority_needed_zh": "jobs紀錄／知識更正owner",
+        "derivation_boundary_zh": "先提交實際物品／工作事實；人口、產量、價格和商隊反應由各自模擬推導，不由任務直接加減。"
+      }
+    ],
+    "followup_zh": "這份更正可供後來商隊避免重複請款，不能因此直接降全城水價。",
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-METRO"
+    ]
+  }
+]

@@ -1,0 +1,2259 @@
+[
+  {
+    "content_id": "content_adrenaline",
+    "proposed_sources": [
+      "ambulance_locker",
+      "medical_shipment"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_aluminum_stock",
+    "proposed_sources": [
+      "vehicle_skin_store",
+      "factory_rack"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_ammo_bandolier",
+    "proposed_sources": [
+      "guard_kit",
+      "military_clothing_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_ammunition",
+    "proposed_sources": [],
+    "rarity": "category",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_anti_radiation_medicine",
+    "proposed_sources": [
+      "hazard_response_locker",
+      "clinic_vault"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_antibiotics",
+    "proposed_sources": [
+      "sealed_pharmacy_stock",
+      "medical_shipment"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_antidote",
+    "proposed_sources": [
+      "toxicology_cabinet",
+      "field_medical_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_assault_rifle",
+    "proposed_sources": [
+      "sealed_armoury_crate",
+      "convoy_lockbox"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_bandage",
+    "proposed_sources": [
+      "clinic_drawer",
+      "rescue_kit"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_092"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_battery",
+    "proposed_sources": [
+      "electrical_store",
+      "maintenance_box"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_battery_cell",
+    "proposed_sources": [
+      "battery_workshop",
+      "electronics_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_bearing",
+    "proposed_sources": [
+      "axle_spares",
+      "workshop_drawer"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_024",
+      "ruin_067",
+      "wild_042"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_binoculars",
+    "proposed_sources": [
+      "watch_post",
+      "scout_pack"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_black_box_memory",
+    "proposed_sources": [
+      "crashed_service_vehicle",
+      "control_room",
+      "sealed_recorder_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_black_water_drop",
+    "proposed_sources": [
+      "anomalous_seep",
+      "sealed_vial",
+      "abandoned_lab"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_bolt_action_rifle",
+    "proposed_sources": [
+      "hunter_lockbox",
+      "caravan_weapons_case"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_burn_ointment",
+    "proposed_sources": [
+      "factory_first_aid_box",
+      "clinic_stock"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_camera",
+    "proposed_sources": [
+      "old_homes",
+      "survey_case",
+      "estate_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_canned_food",
+    "proposed_sources": [
+      "ration_crate",
+      "store_shelf"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_077"
+    ],
+    "reward_quests": [
+      "quest_dry_well_014"
+    ]
+  },
+  {
+    "content_id": "content_car_panel_cleaver",
+    "proposed_sources": [
+      "vehicle_breaker_stall",
+      "heavy_tool_chest"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_car_panel_cuirass",
+    "proposed_sources": [
+      "heavy_guard_store",
+      "metalworker_display"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_caravan_coat",
+    "proposed_sources": [
+      "caravan_lost_property",
+      "travelling_tailor"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_caravan_polearm",
+    "proposed_sources": [
+      "guard_equipment_rack",
+      "caravan_lost_property"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_caravan_rifle",
+    "proposed_sources": [
+      "guard_depot",
+      "caravan_equipment_rack"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_caravan_smg",
+    "proposed_sources": [
+      "retired_guard_locker",
+      "caravan_gear_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_chemicals",
+    "proposed_sources": [
+      "chemical_cabinet",
+      "workshop_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_cigarettes",
+    "proposed_sources": [
+      "merchant_stock",
+      "sealed_shop_drawer"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_circuit_board",
+    "proposed_sources": [
+      "control_cabinet",
+      "electronics_bin"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_076",
+      "ruin_091"
+    ],
+    "reward_quests": [
+      "quest_gray_valley_027",
+      "quest_gray_valley_031"
+    ]
+  },
+  {
+    "content_id": "content_civilian_pistol",
+    "proposed_sources": [
+      "house_safe",
+      "confiscated_property_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_clean_water",
+    "proposed_sources": [
+      "water_store",
+      "caravan_provisions"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_041",
+      "town_001"
+    ],
+    "reward_quests": [
+      "quest_new_hope_001"
+    ]
+  },
+  {
+    "content_id": "content_cloth",
+    "proposed_sources": [
+      "tailor_store",
+      "linen_shelf"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_008",
+      "ruin_020",
+      "ruin_075",
+      "ruin_086",
+      "town_020",
+      "wild_011",
+      "wild_068"
+    ],
+    "reward_quests": [
+      "quest_dry_well_007",
+      "quest_dry_well_021",
+      "quest_dry_well_031",
+      "quest_new_hope_018",
+      "quest_new_hope_020"
+    ]
+  },
+  {
+    "content_id": "content_cloth_sack",
+    "proposed_sources": [
+      "market_packaging",
+      "farm_store"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_043",
+      "ruin_093",
+      "town_037",
+      "wild_006"
+    ],
+    "reward_quests": [
+      "quest_dry_well_003",
+      "quest_gray_valley_003",
+      "quest_new_hope_006",
+      "quest_new_hope_011"
+    ]
+  },
+  {
+    "content_id": "content_coffee",
+    "proposed_sources": [
+      "import_crate",
+      "sealed_shop_stock"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_044",
+      "wild_067"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_company_keycard",
+    "proposed_sources": [
+      "company_office",
+      "maintenance_locker",
+      "lost_luggage"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_compass",
+    "proposed_sources": [
+      "surveyor_pack",
+      "route_station"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_copper_wire",
+    "proposed_sources": [
+      "cable_duct",
+      "electrician_store"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_021",
+      "caravan_037",
+      "ruin_062",
+      "town_036",
+      "wild_026"
+    ],
+    "reward_quests": [
+      "quest_gray_valley_002",
+      "quest_gray_valley_023"
+    ]
+  },
+  {
+    "content_id": "content_crowbar",
+    "proposed_sources": [
+      "workshop_rack",
+      "maintenance_locker"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_data_disk",
+    "proposed_sources": [
+      "office_archive",
+      "sealed_terminal_case",
+      "research_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_desert_robe",
+    "proposed_sources": [
+      "desert_clothing_stall",
+      "caravan_spare_bundle"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_desert_sabre",
+    "proposed_sources": [
+      "desert_smith_stall",
+      "caravan_gear_chest"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_dirty_water",
+    "proposed_sources": [
+      "collection_basin",
+      "abandoned_cistern"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_002",
+      "wild_003"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_disinfectant",
+    "proposed_sources": [
+      "clinic_cabinet",
+      "sealed_medical_crate"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_double_barrel_shotgun",
+    "proposed_sources": [
+      "family_lockbox",
+      "hunting_camp_storage"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_dust_mask",
+    "proposed_sources": [
+      "desert_market",
+      "spare_cloth_bundle"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_engineering_goggles",
+    "proposed_sources": [
+      "tool_counter",
+      "workshop_change_room"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_entrenching_shovel",
+    "proposed_sources": [
+      "engineer_locker",
+      "abandoned_camp"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_farm_clothes",
+    "proposed_sources": [
+      "farmhouse_clothesline",
+      "agricultural_store"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_fire_axe",
+    "proposed_sources": [
+      "rescue_cabinet",
+      "fire_station_storage"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_firefighter_suit",
+    "proposed_sources": [
+      "fire_station_locker",
+      "emergency_store"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_first_aid_kit",
+    "proposed_sources": [
+      "emergency_cabinet",
+      "caravan_medical_bag"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_052"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_flamethrower",
+    "proposed_sources": [
+      "isolated_equipment_room",
+      "sealed_hazard_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_flare_pistol",
+    "proposed_sources": [
+      "rescue_kit",
+      "signal_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_flashlight",
+    "proposed_sources": [
+      "maintenance_box",
+      "household_drawer"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_082"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_food",
+    "proposed_sources": [
+      "provision_store",
+      "traveller_pack"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_010",
+      "caravan_028",
+      "town_003",
+      "town_068",
+      "town_069",
+      "town_070"
+    ],
+    "reward_quests": [
+      "quest_dry_well_025",
+      "quest_gray_valley_014",
+      "quest_new_hope_003",
+      "quest_new_hope_007",
+      "quest_new_hope_008",
+      "quest_new_hope_014"
+    ]
+  },
+  {
+    "content_id": "content_fuel",
+    "proposed_sources": [
+      "fuel_depot",
+      "caravan_supply"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_fuel_can",
+    "proposed_sources": [
+      "refinery_store",
+      "garage_shelf"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_026",
+      "ruin_072"
+    ],
+    "reward_quests": [
+      "quest_dry_well_005"
+    ]
+  },
+  {
+    "content_id": "content_gas_mask",
+    "proposed_sources": [
+      "safety_equipment_case",
+      "emergency_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_gear",
+    "proposed_sources": [
+      "machine_spares",
+      "gearbox"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_geological_survey_map",
+    "proposed_sources": [
+      "survey_office",
+      "field_case",
+      "geological_archive"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_glass",
+    "proposed_sources": [
+      "glazier_rack",
+      "window_store"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_060",
+      "wild_008",
+      "wild_015"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_gray_seed",
+    "proposed_sources": [
+      "sealed_botanical_case",
+      "anomalous_garden",
+      "soil_sample_box"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_029",
+      "wild_082"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_grenade_launcher",
+    "proposed_sources": [
+      "sealed_military_case",
+      "impounded_cargo"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_hand_crank_generator",
+    "proposed_sources": [
+      "emergency_store",
+      "relay_station"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_hazmat_suit",
+    "proposed_sources": [
+      "safety_locker",
+      "laboratory_store"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_heat_core",
+    "proposed_sources": [
+      "sealed_thermal_chamber",
+      "anomalous_boiler_case",
+      "survey_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_033"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_heat_insulation_suit",
+    "proposed_sources": [
+      "foundry_change_room",
+      "safety_store"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_heavy_revolver",
+    "proposed_sources": [
+      "specialist_guard_locker",
+      "caravan_barter_chest"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_hiking_backpack",
+    "proposed_sources": [
+      "outdoor_store",
+      "abandoned_camp"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_hollow_stone",
+    "proposed_sources": [
+      "rockfall_pocket",
+      "anomalous_quarry",
+      "survey_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_009",
+      "wild_086"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_homecoming",
+    "proposed_sources": [
+      "documented_personal_transfer",
+      "abandoned_named_cache"
+    ],
+    "rarity": "unique",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_hospital_id_card",
+    "proposed_sources": [
+      "clinic_archive",
+      "staff_locker",
+      "personal_effects"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_humming_stone",
+    "proposed_sources": [
+      "substation_rubble",
+      "anomalous_rock_pocket",
+      "sealed_sample_box"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_013"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_hunting_fork",
+    "proposed_sources": [
+      "trapper_camp",
+      "hunting_shed"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_hunting_knife",
+    "proposed_sources": [
+      "hunting_lodge",
+      "hunter_tool_roll"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_identity_document",
+    "proposed_sources": [
+      "personal_effects",
+      "office_archive",
+      "lost_luggage"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_improvised_pistol",
+    "proposed_sources": [
+      "workshop_return_shelf",
+      "barter_stall"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_industrial_nailgun",
+    "proposed_sources": [
+      "contractor_toolbox",
+      "factory_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_jack",
+    "proposed_sources": [
+      "roadside_garage",
+      "vehicle_tool_locker"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_jerky",
+    "proposed_sources": [
+      "hunter_pack",
+      "smoking_shed"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_058"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_last_round",
+    "proposed_sources": [
+      "named_estate_locker",
+      "documented_personal_transfer"
+    ],
+    "rarity": "unique",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_leather",
+    "proposed_sources": [
+      "tannery_store",
+      "saddler_bench"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "town_015",
+      "wild_064"
+    ],
+    "reward_quests": [
+      "quest_new_hope_015"
+    ]
+  },
+  {
+    "content_id": "content_light_machine_gun",
+    "proposed_sources": [
+      "heavy_armoury_case",
+      "convoy_support_store"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_lighter",
+    "proposed_sources": [
+      "worker_pocket",
+      "market_stall"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_liquor",
+    "proposed_sources": [
+      "tavern_store",
+      "merchant_case"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_lockpick_set",
+    "proposed_sources": [
+      "locksmith_roll",
+      "confiscated_goods_box"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_machine_pistol",
+    "proposed_sources": [
+      "sealed_security_crate",
+      "armoury_shelf"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_matches",
+    "proposed_sources": [
+      "kitchen_drawer",
+      "camp_tin"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_mechanical_parts",
+    "proposed_sources": [],
+    "rarity": "category",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_medical_manual",
+    "proposed_sources": [
+      "clinic_archive",
+      "training_room",
+      "medical_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_medical_satchel",
+    "proposed_sources": [
+      "clinic_store",
+      "travelling_medic_kit"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_medicines",
+    "proposed_sources": [],
+    "rarity": "category",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_memory_core",
+    "proposed_sources": [
+      "sealed_server_case",
+      "research_archive",
+      "decommissioned_control_room"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_metal_detector",
+    "proposed_sources": [
+      "survey_store",
+      "security_depot"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_military_backpack",
+    "proposed_sources": [
+      "supply_locker",
+      "sealed_field_kit"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_military_dog_tags",
+    "proposed_sources": [
+      "old_checkpoint",
+      "personal_effects",
+      "military_locker"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_military_manual",
+    "proposed_sources": [
+      "old_checkpoint",
+      "training_store",
+      "military_locker"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_military_medical_chip",
+    "proposed_sources": [
+      "field_hospital_terminal",
+      "medical_archive",
+      "sealed_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_motorcycle_jacket",
+    "proposed_sources": [
+      "vehicle_seat_locker",
+      "roadside_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_multimeter",
+    "proposed_sources": [
+      "electrician_bag",
+      "control_room"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_076"
+    ],
+    "reward_quests": [
+      "quest_gray_valley_027"
+    ]
+  },
+  {
+    "content_id": "content_muscle_stimulator",
+    "proposed_sources": [
+      "rehabilitation_room",
+      "medical_store",
+      "research_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_music_player",
+    "proposed_sources": [
+      "old_homes",
+      "lost_luggage",
+      "workshop_drawer"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_neural_reflex_module",
+    "proposed_sources": [
+      "sealed_research_case",
+      "rehabilitation_lab",
+      "prototype_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_night_vision_goggles",
+    "proposed_sources": [
+      "optics_locker",
+      "sealed_patrol_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_number_sixty_three",
+    "proposed_sources": [
+      "numbered_factory_tool_locker",
+      "documented_personal_transfer"
+    ],
+    "rarity": "unique",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_oil_lamp",
+    "proposed_sources": [
+      "pump_shed",
+      "roadside_shelter"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_007"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_hunter_rifle",
+    "proposed_sources": [
+      "personal_bequest",
+      "hidden_hunting_cabin"
+    ],
+    "rarity": "unique",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_photograph",
+    "proposed_sources": [
+      "old_homes",
+      "personal_effects",
+      "archive_folder"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_revolver",
+    "proposed_sources": [
+      "locked_household_chest",
+      "guard_personal_storage"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_smg",
+    "proposed_sources": [
+      "armoury_crate",
+      "depot_rack"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_world_canned_food",
+    "proposed_sources": [
+      "sealed_pantry",
+      "museum_household_display"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_038",
+      "wild_024"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_world_map",
+    "proposed_sources": [
+      "map_drawer",
+      "abandoned_route_office"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_world_medical_case",
+    "proposed_sources": [
+      "sealed_clinic_store",
+      "ambulance_cache"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_world_military_armor",
+    "proposed_sources": [
+      "sealed_protection_locker",
+      "officer_store"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_world_tactical_chip",
+    "proposed_sources": [
+      "training_terminal",
+      "military_archive",
+      "sealed_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_old_world_watch",
+    "proposed_sources": [
+      "old_homes",
+      "locker",
+      "personal_effects"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_painkillers",
+    "proposed_sources": [
+      "pharmacy_drawer",
+      "clinic_stock"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_paper_journal",
+    "proposed_sources": [
+      "personal_effects",
+      "old_homes",
+      "field_camp"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_073"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_planting_manual",
+    "proposed_sources": [
+      "farmhouse_shelf",
+      "agricultural_office",
+      "seed_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_plastic",
+    "proposed_sources": [
+      "packaging_store",
+      "sorted_scrap_bin"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_034",
+      "ruin_095"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_pliers",
+    "proposed_sources": [
+      "wireman_bag",
+      "workbench"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_030"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_police_ballistic_vest",
+    "proposed_sources": [
+      "police_locker",
+      "sealed_protection_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_police_pistol",
+    "proposed_sources": [
+      "police_property_locker",
+      "evidence_room"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_power_hammer",
+    "proposed_sources": [
+      "demolition_store",
+      "machinery_crate"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_precision_engineering_manual",
+    "proposed_sources": [
+      "metrology_room",
+      "engineering_archive",
+      "precision_workshop"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_precision_parts",
+    "proposed_sources": [
+      "instrument_case",
+      "precision_workshop"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_pump_shotgun",
+    "proposed_sources": [
+      "security_equipment_cage",
+      "warehouse_guard_store"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_purification_tablets",
+    "proposed_sources": [
+      "clinic_cabinet",
+      "expedition_cache"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_radio",
+    "proposed_sources": [
+      "convoy_cab",
+      "watch_post"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_raw_meat",
+    "proposed_sources": [
+      "hunter_camp",
+      "butcher_table"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_rebar_club",
+    "proposed_sources": [
+      "collapsed_slab",
+      "salvage_heap"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_repair_manual",
+    "proposed_sources": [
+      "workshop_shelf",
+      "maintenance_office",
+      "service_vehicle"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_090"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_reverse_magnetic_shard",
+    "proposed_sources": [
+      "anomalous_machine_ruin",
+      "sealed_sample_box",
+      "fallen_pylon"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_021"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_rope",
+    "proposed_sources": [
+      "cargo_store",
+      "bridge_maintenance_box"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "town_071"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_rubber",
+    "proposed_sources": [
+      "rubber_stock",
+      "garage_store"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_079"
+    ],
+    "reward_quests": [
+      "quest_gray_valley_033"
+    ]
+  },
+  {
+    "content_id": "content_rusted_knife",
+    "proposed_sources": [
+      "kitchen_drawer",
+      "discarded_travel_kit"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_salt",
+    "proposed_sources": [
+      "dry_store",
+      "merchant_sack"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_040",
+      "caravan_047",
+      "ruin_089",
+      "wild_034"
+    ],
+    "reward_quests": [
+      "quest_dry_well_001",
+      "quest_dry_well_002",
+      "quest_dry_well_013",
+      "quest_gray_valley_016",
+      "quest_new_hope_005",
+      "quest_new_hope_032"
+    ]
+  },
+  {
+    "content_id": "content_sandstorm_rifle",
+    "proposed_sources": [
+      "desert_guard_rack",
+      "caravan_repair_case"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_scrap_iron",
+    "proposed_sources": [
+      "scrap_heap",
+      "dismantling_bin"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_060",
+      "ruin_022",
+      "ruin_052",
+      "ruin_069",
+      "town_035"
+    ],
+    "reward_quests": [
+      "quest_gray_valley_001",
+      "quest_gray_valley_021",
+      "quest_gray_valley_029",
+      "quest_new_hope_004"
+    ]
+  },
+  {
+    "content_id": "content_scrap_iron_armor",
+    "proposed_sources": [
+      "armour_workbench",
+      "militia_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_scrap_machete",
+    "proposed_sources": [
+      "smith_workbench",
+      "scavenger_pack"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_scrap_rifle",
+    "proposed_sources": [
+      "local_gunsmith_rack",
+      "repair_return_crate"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_screwdriver",
+    "proposed_sources": [
+      "electrical_drawer",
+      "workbench"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": [
+      "quest_gray_valley_009"
+    ]
+  },
+  {
+    "content_id": "content_sealed_cargo_crate",
+    "proposed_sources": [
+      "freight_depot",
+      "warehouse_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_seeds",
+    "proposed_sources": [
+      "seed_store",
+      "farm_exchange"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "caravan_055",
+      "ruin_033",
+      "town_002",
+      "wild_016"
+    ],
+    "reward_quests": [
+      "quest_new_hope_002"
+    ]
+  },
+  {
+    "content_id": "content_semi_auto_rifle",
+    "proposed_sources": [
+      "sealed_rifle_case",
+      "maintenance_cage"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_shadowless_glass",
+    "proposed_sources": [
+      "optics_lab",
+      "anomalous_window_frame",
+      "sealed_crate"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_025"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_signal_receiver",
+    "proposed_sources": [
+      "relay_station",
+      "technical_lab"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_silence_box",
+    "proposed_sources": [
+      "abandoned_relay",
+      "sealed_electronics_case",
+      "anomalous_control_room"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_037"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_single_shot_rifle",
+    "proposed_sources": [
+      "hunting_cabin",
+      "farm_guard_store"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_single_shot_shotgun",
+    "proposed_sources": [
+      "farm_safe",
+      "village_watch_cabinet"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_sleeping_bag",
+    "proposed_sources": [
+      "traveller_pack",
+      "camp_bed"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_sniper_rifle",
+    "proposed_sources": [
+      "precision_equipment_case",
+      "specialist_lockroom"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_snub_revolver",
+    "proposed_sources": [
+      "traveller_lockbox",
+      "guard_storage"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_spear",
+    "proposed_sources": [
+      "hunter_rack",
+      "farm_guard_post"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_spices",
+    "proposed_sources": [
+      "import_case",
+      "cook_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_spring",
+    "proposed_sources": [
+      "hardware_drawer",
+      "scrap_device"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_069",
+      "wild_021"
+    ],
+    "reward_quests": [
+      "quest_gray_valley_021"
+    ]
+  },
+  {
+    "content_id": "content_stab_vest",
+    "proposed_sources": [
+      "guard_locker",
+      "security_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_static_bone",
+    "proposed_sources": [
+      "dry_channel",
+      "anomalous_scrap_nest",
+      "sample_locker"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_steel_stock",
+    "proposed_sources": [
+      "metal_rack",
+      "factory_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_022",
+      "wild_001"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_stun_baton",
+    "proposed_sources": [
+      "security_locker",
+      "sealed_guard_room"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_sugar",
+    "proposed_sources": [
+      "dry_store",
+      "merchant_sack"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_surgical_kit",
+    "proposed_sources": [
+      "operating_room_store",
+      "medical_archive_cache"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_tactical_helmet",
+    "proposed_sources": [
+      "helmet_rack",
+      "sealed_protection_box"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_tea",
+    "proposed_sources": [
+      "dry_grocery",
+      "seller_tin"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "npc_071",
+      "wild_047"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_tent",
+    "proposed_sources": [
+      "expedition_store",
+      "abandoned_camp"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_073"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_tool_belt",
+    "proposed_sources": [
+      "workbench_hook",
+      "tool_stall"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_toolbox",
+    "proposed_sources": [
+      "maintenance_cart",
+      "garage_store"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_travel_backpack",
+    "proposed_sources": [
+      "secondhand_pack_stall",
+      "traveller_storage"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_uncold_ice",
+    "proposed_sources": [
+      "sealed_cold_room",
+      "anomalous_drain",
+      "mineral_case"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "anomaly_001"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_unknown_implant",
+    "proposed_sources": [
+      "sealed_medical_case",
+      "research_locker",
+      "contaminated_archive"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_unlabelled_medicine",
+    "proposed_sources": [
+      "unlabelled_lab_drawer",
+      "abandoned_clinic"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_unsent_letter",
+    "proposed_sources": [
+      "documented_personal_effects",
+      "lost_post_bag"
+    ],
+    "rarity": "unique",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_vinyl_record",
+    "proposed_sources": [
+      "old_homes",
+      "broadcasting_store",
+      "estate_box"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_057"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_water",
+    "proposed_sources": [
+      "traveller_pack",
+      "camp_storage"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_096"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_water_filter",
+    "proposed_sources": [
+      "pump_house",
+      "caravan_service_box"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_waterproof_bag",
+    "proposed_sources": [
+      "outdoor_store",
+      "courier_supply"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_waterskin",
+    "proposed_sources": [
+      "water_vendor_stall",
+      "traveller_pack"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "town_084",
+      "wild_061"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_welding_tools",
+    "proposed_sources": [
+      "fabrication_shop",
+      "repair_truck"
+    ],
+    "rarity": "rare",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_well_guardian",
+    "proposed_sources": [
+      "dry_well_historical_lockbox",
+      "documented_personal_transfer"
+    ],
+    "rarity": "unique",
+    "regular_stock_allowed": false,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_wild_greens",
+    "proposed_sources": [
+      "riverbank",
+      "forager_basket"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "wild_070"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_wilderness_cloak",
+    "proposed_sources": [
+      "outdoor_supply_stall",
+      "traveller_cache"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_wood_axe",
+    "proposed_sources": [
+      "farm_shed",
+      "woodcutter_camp"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_work_clothes",
+    "proposed_sources": [
+      "worker_locker",
+      "secondhand_clothing_stall"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_066"
+    ],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_worker_leather_jacket",
+    "proposed_sources": [
+      "factory_change_room",
+      "leatherworker_stall"
+    ],
+    "rarity": "uncommon",
+    "regular_stock_allowed": true,
+    "reward_encounters": [],
+    "reward_quests": []
+  },
+  {
+    "content_id": "content_wrench",
+    "proposed_sources": [
+      "maintenance_box",
+      "pump_shed"
+    ],
+    "rarity": "common",
+    "regular_stock_allowed": true,
+    "reward_encounters": [
+      "ruin_046",
+      "town_052"
+    ],
+    "reward_quests": [
+      "quest_gray_valley_018"
+    ]
+  }
+]
