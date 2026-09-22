@@ -7,6 +7,7 @@ var field_state: Dictionary = Field.new_state()
 const Capability = preload("res://simulation/capability_profile.gd")
 const RankCodec = preload("res://simulation/rank_json_codec.gd")
 const ItemInventory = preload("res://simulation/item_inventory_state.gd")
+const Equipment = preload("res://simulation/equipment_state.gd")
 
 var current_day: int = 0
 var total_initial_population: int = -1
@@ -262,6 +263,14 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 			var item_inventory_error := ItemInventory.validate_serialized(player_data.item_inventory)
 			if item_inventory_error != "":
 				return {"success": false, "world": null, "error": item_inventory_error}
+		if player_data.has("equipment"):
+			var item_inventory_data: Variant = player_data.get("item_inventory", {"items": []})
+			var checked_inventory := ItemInventory.from_dict_checked(item_inventory_data)
+			if not checked_inventory.success:
+				return {"success": false, "world": null, "error": checked_inventory.error}
+			var equipment_error := Equipment.validate_serialized(player_data.equipment, checked_inventory.inventory)
+			if equipment_error != "":
+				return {"success": false, "world": null, "error": equipment_error}
 		# Old profile loaders canonicalize metadata. Before migration, reject
 		# malformed values rather than repairing them into a different biography.
 		var profiles: Variant = data.get("npc_profile_registry")

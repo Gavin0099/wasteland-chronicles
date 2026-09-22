@@ -3,6 +3,7 @@ extends RefCounted
 
 const Capability = preload("res://simulation/capability_profile.gd")
 const ItemInventory = preload("res://simulation/item_inventory_state.gd")
+const Equipment = preload("res://simulation/equipment_state.gd")
 var capability: RefCounted
 const Field = preload("res://simulation/field_adventure.gd")
 var field_kit: Dictionary = Field.new_kit()
@@ -34,6 +35,7 @@ var field_kit: Dictionary = Field.new_kit()
 var npc_id: StringName = &""
 var inventory: ResourceState = null
 var item_inventory: RefCounted = null
+var equipment: RefCounted = null
 var capacity_total: int = 20
 var money: int = 50
 var water_pressure: float = 0.0
@@ -51,6 +53,7 @@ func _init(
 	money = p_money
 	inventory = ResourceState.new()
 	item_inventory = ItemInventory.new()
+	equipment = Equipment.new()
 	capability = Capability.legacy(npc_id) if npc_id != &"" else null
 
 func pickup_item(item_id: Variant, quantity: int = 1) -> Dictionary:
@@ -61,6 +64,12 @@ func drop_item(item_id: Variant, quantity: int = 1) -> Dictionary:
 
 func inspect_item(item_id: Variant) -> Dictionary:
 	return item_inventory.inspect_item(item_id)
+
+func equip_item(item_id: Variant, slot: String) -> Dictionary:
+	return equipment.equip(item_id, slot, item_inventory)
+
+func unequip_item(slot: String) -> Dictionary:
+	return equipment.unequip(slot)
 
 func get_total_inventory_load() -> int:
 	if inventory == null:
@@ -76,6 +85,8 @@ func duplicate_state() -> PlayerState:
 		copy.inventory = inventory.duplicate_state()
 	if item_inventory != null:
 		copy.item_inventory = item_inventory.duplicate_state()
+	if equipment != null:
+		copy.equipment = equipment.duplicate_state()
 	copy.field_kit = field_kit.duplicate(true)
 	copy.water_pressure = water_pressure
 	copy.food_pressure = food_pressure
@@ -99,6 +110,8 @@ func to_dict() -> Dictionary:
 	}
 	if item_inventory != null and not item_inventory.is_empty():
 		result["item_inventory"] = item_inventory.to_dict()
+	if equipment != null and not equipment.is_empty():
+		result["equipment"] = equipment.to_dict()
 	return result
 
 static func from_dict(data: Dictionary) -> PlayerState:
@@ -120,6 +133,10 @@ static func from_dict(data: Dictionary) -> PlayerState:
 		p.item_inventory = ItemInventory.from_dict(data["item_inventory"])
 	else:
 		p.item_inventory = ItemInventory.new()
+	if data.has("equipment"):
+		p.equipment = Equipment.from_dict(data["equipment"], p.item_inventory)
+	else:
+		p.equipment = Equipment.new()
 
 	p.water_pressure = float(data.get("water_pressure", 0.0))
 	p.food_pressure = float(data.get("food_pressure", 0.0))
