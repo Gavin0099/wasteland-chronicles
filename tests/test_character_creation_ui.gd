@@ -32,10 +32,21 @@ func run() -> void:
 	for id in expected:
 		ui.background_buttons[id].pressed.emit()
 		check(ui.background_id == id, "background button selects its package")
+		# CHAR-INFO changed the SHAPE of this preview, not its guarantee. A
+		# trained skill still shows its own rank row; the untrained ones, which
+		# are always seven identical "0 外行" rows for a 2/1/1 package, are named
+		# together on one line instead of pushing the rest below the fold. Every
+		# skill must still be visible, and no rank may be misstated.
 		for skill in Presentation.Profile.SKILLS:
 			var rank: int = expected[id].get(skill, 0)
-			var row := "%s    %s%s    %d  %s" % [Presentation.SKILL_NAMES[skill], "■".repeat(rank), "□".repeat(5 - rank), rank, ["外行", "略懂", "熟練"][rank]]
-			check(row in ui.preview.text, "visible preview: " + id + "/" + skill)
+			var skill_name: String = Presentation.SKILL_NAMES[skill]
+			check(skill_name in ui.preview.text, "every skill stays visible: " + id + "/" + skill)
+			if rank > 0:
+				var row := "%s    %s%s    %d  %s" % [skill_name, "■".repeat(rank), "□".repeat(5 - rank), rank, ["外行", "略懂", "熟練"][rank]]
+				check(row in ui.preview.text, "visible preview: " + id + "/" + skill)
+			else:
+				var untrained_row := "%s    %s    0  外行" % [skill_name, "□".repeat(5)]
+				check(not (untrained_row in ui.preview.text), "untrained skills do not each take a row: " + id + "/" + skill)
 	check(ui.world.to_canonical_json() == baseline, "previews cannot mutate world")
 	ui.trait_buttons.CAUTIOUS.button_pressed = true
 	ui.trait_buttons.CURIOUS.button_pressed = true

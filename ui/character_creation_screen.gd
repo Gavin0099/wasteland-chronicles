@@ -12,6 +12,8 @@ var selected_traits: Array = []
 var trait_buttons: Dictionary = {}
 var background_buttons: Dictionary = {}
 var preview: Label
+var effect_label: Label
+var trait_effect_label: Label
 var trait_count: Label
 var error_label: Label
 var submit_button: Button
@@ -58,7 +60,7 @@ func build() -> void:
 	scroll.add_child(columns)
 	var fields := VBoxContainer.new()
 	fields.size_flags_horizontal = SIZE_EXPAND_FILL
-	fields.size_flags_stretch_ratio = 1.6
+	fields.size_flags_stretch_ratio = 1.35
 	fields.add_theme_constant_override("separation", 8)
 	columns.add_child(fields)
 	var identity := HBoxContainer.new()
@@ -89,26 +91,45 @@ func build() -> void:
 		backgrounds.add_child(button)
 		background_buttons[id] = button
 	trait_count = label_in(fields, "人物特質  /  0–2 項", 18)
-	var note := label_in(fields, "部分特質會提供不同的遭遇處理方式。", 14)
+	var note := label_in(fields, "部分特質會提供不同的遭遇處理方式。標示 ★ 的特質目前有專屬選項；其餘只影響敘事。", 14)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.add_theme_color_override("font_color", Color("96938B"))
 	var traits := GridContainer.new()
 	traits.columns = 2
 	traits.add_theme_constant_override("h_separation", 16)
 	fields.add_child(traits)
+	# CHAR-INFO: a trait used to be a bare word with the explanation buried in a
+	# tooltip, so the player was choosing blind. The description sits under the
+	# name now, and traits that actually open a roadside approach say so - the
+	# marker is derived from the encounter catalogue, never hand-maintained.
 	for id in Presentation.Profile.CORE_TRAITS:
+		var cell := VBoxContainer.new()
+		cell.size_flags_horizontal = SIZE_EXPAND_FILL
+		cell.add_theme_constant_override("separation", 0)
+		traits.add_child(cell)
+
 		var button := CheckBox.new()
-		button.text = Presentation.TRAITS[id][0]
-		button.tooltip_text = Presentation.TRAITS[id][1]
+		var unlocks: Array = Presentation.trait_unlocks(id)
+		button.text = "%s%s" % [Presentation.TRAITS[id][0], "　★" if not unlocks.is_empty() else ""]
+		button.tooltip_text = Presentation.trait_effect_text(id)
 		button.add_theme_color_override("font_disabled_color", Color("96938B"))
 		button.accessibility_description = Presentation.TRAITS[id][1]
-		button.custom_minimum_size.y = 36
+		button.custom_minimum_size.y = 30
 		button.size_flags_horizontal = SIZE_EXPAND_FILL
 		button.toggled.connect(toggle_trait.bind(id))
-		traits.add_child(button)
+		cell.add_child(button)
+
+		var blurb := Label.new()
+		blurb.text = "　　%s" % Presentation.TRAITS[id][1]
+		blurb.add_theme_font_size_override("font_size", 12)
+		blurb.add_theme_color_override("font_color", Color("8B877E"))
+		blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		blurb.size_flags_horizontal = SIZE_EXPAND_FILL
+		cell.add_child(blurb)
 		trait_buttons[id] = button
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = SIZE_EXPAND_FILL
-	panel.size_flags_stretch_ratio = 1.0
+	panel.size_flags_stretch_ratio = 1.2
 	columns.add_child(panel)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
@@ -121,6 +142,23 @@ func build() -> void:
 	var initial_note := label_in(box, "背景只決定初始能力，並非永久加成。", 14)
 	initial_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	initial_note.add_theme_color_override("font_color", Color("96938B"))
+
+	# CHAR-INFO: ranks alone never told the player what a background MEANS. This
+	# section says what it can already do on the road and what it gives up, both
+	# read back from the encounter catalogue rather than described here.
+	var effect_head := label_in(box, "這個背景實際上的差別", 16)
+	effect_head.add_theme_color_override("font_color", Color("D9822B"))
+	effect_label = label_in(box, "", 13)
+	effect_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	effect_label.size_flags_horizontal = SIZE_EXPAND_FILL
+	effect_label.add_theme_constant_override("line_spacing", 4)
+
+	var trait_head := label_in(box, "已選特質", 16)
+	trait_head.add_theme_color_override("font_color", Color("D9822B"))
+	trait_effect_label = label_in(box, "", 13)
+	trait_effect_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	trait_effect_label.size_flags_horizontal = SIZE_EXPAND_FILL
+	trait_effect_label.add_theme_constant_override("line_spacing", 4)
 	error_label = label_in(form, "", 16)
 	error_label.hide()
 	error_label.add_theme_color_override("font_color", Color("D9822B"))
@@ -160,9 +198,27 @@ func select_background(id: String) -> void:
 		background_buttons[key].set_pressed_no_signal(key == id)
 	var package: Dictionary = Presentation.Catalogue.resolve(id)
 	if package.success:
-		preview.text = "%s\n%s\n\n%s" % [Presentation.background_name(id), Presentation.BACKGROUNDS[id][1], Presentation.skill_text(package.ranks)]
+		preview.text = "%s\n%s\n\n%s" % [Presentation.background_name(id), Presentation.BACKGROUNDS[id][1], Presentation.starting_skill_text(package.ranks)]
+		if effect_label != null:
+			effect_label.text = Presentation.background_effect_text(id, package.ranks)
 	else:
 		preview.text = "無效背景"
+		if effect_label != null:
+			effect_label.text = ""
+	_refresh_trait_effects()
+
+# Traits change what you would THINK of doing, not what you are capable of, so
+# the panel says that outright rather than showing an empty stat block.
+func _refresh_trait_effects() -> void:
+	if trait_effect_label == null:
+		return
+	if selected_traits.is_empty():
+		trait_effect_label.text = "尚未選擇。特質不影響數值，只改變你在路上想得到的做法。"
+		return
+	var blocks := PackedStringArray()
+	for id in selected_traits:
+		blocks.append(Presentation.trait_effect_text(id))
+	trait_effect_label.text = "\n\n".join(blocks)
 
 func toggle_trait(enabled: bool, id: String) -> void:
 	if committed:
@@ -175,6 +231,7 @@ func toggle_trait(enabled: bool, id: String) -> void:
 		trait_buttons[key].set_pressed_no_signal(key in selected_traits)
 		trait_buttons[key].disabled = selected_traits.size() == 2 and key not in selected_traits
 	trait_count.text = "人物特質  /  %d / 2（可不選）" % selected_traits.size()
+	_refresh_trait_effects()
 
 func submit() -> Dictionary:
 	if committed:
