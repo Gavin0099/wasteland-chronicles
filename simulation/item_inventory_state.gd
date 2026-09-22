@@ -121,10 +121,12 @@ static func validate_serialized(data: Variant) -> String:
 		var resolved := Registry.resolve(entry.item_id)
 		if not resolved.success:
 			return "UNKNOWN_ITEM_ID"
-		if typeof(entry.quantity) != TYPE_INT or entry.quantity <= 0:
+		var restored_quantity := _restore_quantity(entry.quantity)
+		if not restored_quantity.ok:
 			return "INVALID_ITEM_QUANTITY"
+		var quantity: int = restored_quantity.value
 		var definition: Dictionary = resolved.definition
-		if (not definition.stackable and entry.quantity != 1) or (definition.stackable and entry.quantity > int(definition.max_stack)):
+		if (not definition.stackable and quantity != 1) or (definition.stackable and quantity > int(definition.max_stack)):
 			return "INVALID_ITEM_STACK"
 		seen[entry.item_id] = true
 	var candidate := new()
@@ -140,7 +142,7 @@ static func from_dict_checked(data: Variant) -> Dictionary:
 		return {"success": false, "inventory": null, "error": error}
 	var inventory := new()
 	for entry in data.items:
-		inventory._quantities[entry.item_id] = entry.quantity
+		inventory._quantities[entry.item_id] = int(entry.quantity)
 	return {"success": true, "inventory": inventory, "error": ""}
 
 static func from_dict(data: Variant) -> RefCounted:
@@ -152,3 +154,10 @@ func _success(item_id: String) -> Dictionary:
 
 func _failure(error: String) -> Dictionary:
 	return {"success": false, "error": error, "item_id": "", "quantity": 0, "total_weight_g": total_weight_g()}
+
+static func _restore_quantity(value: Variant) -> Dictionary:
+	if typeof(value) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(value)) or float(value) <= 0 or float(value) != floor(float(value)):
+		return {"ok": false, "value": 0}
+	if absf(float(value)) > 9007199254740992.0:
+		return {"ok": false, "value": 0}
+	return {"ok": true, "value": int(value)}

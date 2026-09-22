@@ -224,7 +224,9 @@ func query_noise(world: WorldState, reverse: bool) -> void:
 func no_definition_data(value: Variant) -> bool:
 	if value is Dictionary:
 		for key in value:
-			if str(key) in ["item_definitions", "item_catalogue", "item_schema_version", "item_id", "asset_id", "base_weight", "display_name_zh", "stack_mode"]:
+			# ITEM-3 may persist a stable item_id reference in player ownership;
+			# copied definition fields remain forbidden in world saves.
+			if str(key) in ["item_definitions", "item_catalogue", "item_schema_version", "asset_id", "base_weight", "display_name_zh", "stack_mode"]:
 				return false
 			if not no_definition_data(value[key]):
 				return false

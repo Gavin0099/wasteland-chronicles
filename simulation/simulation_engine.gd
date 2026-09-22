@@ -1797,6 +1797,9 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var spent: Dictionary = {}
 	var extra_day := false
 	var offered: Dictionary = {}
+	var offered_items: Dictionary = {}
+	var gained_items: Dictionary = {}
+	var items_left_behind: Dictionary = {}
 	var inventory_before := {}
 	var day_before := world.current_day
 	for commodity in COMMODITIES:
@@ -1808,6 +1811,8 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			# the ledger records what was really taken, not what was on offer.
 			offered = TravelEncounter.wreck_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
 			extra_day = true
 		&"CLEAR":
 			p.inventory.add_amount("scrap", -1)
@@ -1837,11 +1842,15 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"STRIP_PARTS":
 			offered = TravelEncounter.strip_parts_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
 			extra_day = true
 		&"QUICK_PICK":
 			# The capability bought is the DAY, not the loot: no tick happens.
 			offered = TravelEncounter.quick_pick_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
 		&"SCOUT_PATH":
 			pass
 		&"FORCE_THROUGH":
@@ -1872,6 +1881,13 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 
 	gained = _give_player_goods(p, offered)
+	for item_id in offered_items:
+		var requested_items: int = int(offered_items[item_id])
+		var item_result := p.pickup_item(item_id, requested_items)
+		if item_result.success:
+			gained_items[item_id] = requested_items
+		else:
+			items_left_behind[item_id] = requested_items
 	var left_behind := {}
 	for commodity in offered:
 		var amount := int(offered[commodity]) - int(gained.get(commodity, 0))
@@ -1894,6 +1910,9 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		"cost_extra_day": extra_day, "elapsed_days": world.current_day - day_before,
 		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
+	if not gained_items.is_empty() or not items_left_behind.is_empty():
+		receipt["items_gained"] = gained_items
+		receipt["items_left_behind"] = items_left_behind
 	world.record_event(EventRecord.new(world.current_day, "TRAVEL_ENCOUNTER_RESOLVED", p.npc_id, enc.destination_id, receipt))
 	world.pending_encounter_result = world.event_log.size() - 1
 	var result := receipt.duplicate(true)

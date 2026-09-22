@@ -34,6 +34,7 @@ whole value before constructing a world; malformed item data is rejected.
 ## Deferred authority
 
 This slice does not make an item usable merely because its metadata has an
-`actions` list. Equipment, encounter choices, loot generation, market stock,
-medical effects, repairs and combat all remain later slices. The next owner
-slice is ITEM-4: formal item loot/usage at encounter resolution.
+`actions` list. Equipment, market stock, medical effects, repairs and combat
+remain later slices. ITEM-4 may now put a formal item ID into an encounter
+receipt, but only the inventory ownership channel changes; it does not make the
+item an equipped effect or grant an action.

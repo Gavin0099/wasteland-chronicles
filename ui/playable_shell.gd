@@ -1,6 +1,8 @@
 class_name PlayableShell
 extends Control
 
+const ItemRegistry = preload("res://simulation/item_registry.gd")
+
 # ==============================================================================
 # S5: PLAYABLE UI SHELL (SURVIVOR PDA FAST-LANE) — UX-P1
 # ==============================================================================
@@ -1120,6 +1122,17 @@ func _resource_lines(amounts: Dictionary, prefix: String) -> String:
 			lines.append("%s %s%d" % [names[key], prefix, int(amounts[key])])
 	return "\n".join(lines)
 
+func _item_lines(amounts: Dictionary, prefix: String) -> String:
+	var lines: PackedStringArray = []
+	var ids: Array = amounts.keys()
+	ids.sort()
+	for item_id in ids:
+		var resolved := ItemRegistry.resolve(item_id)
+		if not resolved.success or int(amounts[item_id]) <= 0:
+			continue
+		lines.append("▣ %s %s%d" % [String(resolved.definition.display_name_zh), prefix, int(amounts[item_id])])
+	return "\n".join(lines)
+
 func _render_encounter_result(result: Dictionary) -> void:
 	lbl_encounter_route.text = String(result.route_label)
 	lbl_encounter_title.text = "%s · 結算結果" % String(result.title)
@@ -1139,17 +1152,23 @@ func _render_encounter_result(result: Dictionary) -> void:
 		"TRADE_COLUMN": "你用瓶蓋跟他們換了些東西。",
 	}
 	var gains := _resource_lines(result.gained, "+")
+	var item_gains := _item_lines(result.get("items_gained", {}), "+")
 	var losses := _resource_lines(result.spent, "−")
 	var left := _resource_lines(result.left_behind, "")
+	var item_left := _item_lines(result.get("items_left_behind", {}), "")
+	if not item_gains.is_empty():
+		gains = gains + ("\n" if not gains.is_empty() else "") + item_gains
 	if gains.is_empty():
 		gains = "沒有獲得物資。"
-		if result.option == "SEARCH" and left.is_empty():
+		if result.option == "SEARCH" and left.is_empty() and item_left.is_empty():
 			gains = "你翻遍了車廂，沒有找到值得帶走的東西。"
 	lbl_encounter_body.text = "%s\n\n獲得\n%s\n\n消耗\n%s\n\n時間\n+%d 天" % [
 		descriptions.get(result.option, "選擇已結算。"), gains,
 		losses if not losses.is_empty() else "無", int(result.elapsed_days)]
 	if not left.is_empty():
 		lbl_encounter_body.text += "\n\n背包空間不足，未帶走\n%s" % left
+	if not item_left.is_empty():
+		lbl_encounter_body.text += "\n\n物品容量不足，未帶走\n%s" % item_left
 	if result.is_dead:
 		lbl_encounter_body.text += "\n\n你已在這段時間死亡，旅程結束。"
 	var bp: Dictionary = current_projection.player.backpack

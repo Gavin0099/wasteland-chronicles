@@ -40,6 +40,7 @@ const ROCKSLIDE := &"ROCKSLIDE"
 const ROADBLOCK := &"ROADBLOCK"
 const DEHYDRATED_TRAVELLER := &"DEHYDRATED_TRAVELLER"
 const REFUGEE_COLUMN := &"REFUGEE_COLUMN"
+const ItemRegistry = preload("res://simulation/item_registry.gd")
 
 # Base weights for an ordinary, quiet stretch of road. EMPTY is deliberately
 # the heaviest: an encounter has to stay an interruption, not a commute.
@@ -299,6 +300,26 @@ static func valid_resolution(data: Dictionary) -> bool:
 			var amount: Variant = data[field][resource]
 			if typeof(amount) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(amount)) or float(amount) <= 0 or float(amount) != floor(float(amount)):
 				return false
+	for field in ["items_gained", "items_left_behind"]:
+		if data.has(field) and not valid_item_quantities(data[field]):
+			return false
+	return true
+
+static func valid_item_quantities(value: Variant) -> bool:
+	if typeof(value) != TYPE_DICTIONARY:
+		return false
+	for item_id in value:
+		if typeof(item_id) != TYPE_STRING:
+			return false
+		var resolved := ItemRegistry.resolve(item_id)
+		if not resolved.success:
+			return false
+		var amount: Variant = value[item_id]
+		if typeof(amount) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(amount)) or float(amount) <= 0 or float(amount) != floor(float(amount)):
+			return false
+		var definition: Dictionary = resolved.definition
+		if (not definition.stackable and float(amount) != 1.0) or (definition.stackable and float(amount) > float(definition.max_stack)):
+			return false
 	return true
 
 # ── What you actually find ───────────────────────────────────────────────────
@@ -321,6 +342,21 @@ static func wreck_yield(day: int, origin_id: StringName, destination_id: StringN
 	if roll == 8:
 		return {"scrap": 1, "fuel": 2}             # a half-full jerrycan
 	return {"scrap": 4 + (h / 10) % 3, "fuel": 2}  # a genuinely good find
+
+# ITEM-4: formal item loot remains a separate channel from the old aggregate
+# resource yield. The same wreck facts produce the same item on replay, while a
+# picked-over truck can still give no item at all. Item effects, rarity and
+# equipment authority remain deferred.
+static func wreck_item_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, option_id: StringName = &"SEARCH") -> Dictionary:
+	var h := stable_hash("wreck-item|%s|%s>%s|%d|%d" % [String(option_id), String(origin_id), String(destination_id), day, travel_day_index])
+	var roll := (h >> 1) % 12
+	if roll <= 7:
+		return {}
+	match roll:
+		8: return {"rusted_knife": 1}
+		9: return {"flashlight": 1}
+		10: return {"wrench": 1}
+		_: return {"rope": 1}
 
 # The traveller gives what little he has. He is grateful, not rich, and one
 # in five has nothing left to give at all.
