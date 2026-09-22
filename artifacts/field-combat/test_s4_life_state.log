@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+        WASTELAND CHRONICLES - S4-B NPC LIFE STATE TEST SUITE
+================================================================================
+
+--- [GATE B1] Exactly-One Container ---
+  Mara: SETTLED | container=settlement:gray_valley | is_alive=true ✓
+  Duplicate registration correctly rejected: DUPLICATE_LIFE_STATE: NPC npc:00000001 already has a life state
+PASS GATE B1: Exactly-One Container verified.
+
+--- [GATE B2] Aggregate Subset ---
+  settlement:new_hope: named_settled=0 <= population=120
+  settlement:gray_valley: named_settled=3 <= population=100
+  settlement:dry_well: named_settled=0 <= population=80
+PASS GATE B2: Aggregate Subset strictly verified.
+
+--- [GATE B3] Atomic Departure ---
+  Gray Valley: 100 → 99 (−1 for Mara departure)
+  Mara: IN_TRANSIT in party refugee:test_party_b3 (headcount=1)
+  Engine invariants PASS post-departure.
+PASS GATE B3: Atomic Departure verified.
+
+--- [GATE B4] Physical Arrival (Axiom 9) ---
+  Day 60: Mara still IN_TRANSIT (no arrival yet, days_remaining=2)
+  Day 61: Mara still IN_TRANSIT (correct: no teleport, days_remaining=1)
+  Day 62 Evening: Mara arrived at New Hope (population: 120 → 121)
+  Axiom 9 verified: Arrival Day 62 = Departure Day 60 + Route Days 3 - 1
+PASS GATE B4: Physical Arrival (Axiom 9) verified.
+
+--- [GATE B5] Atomic Arrival ---
+  New Hope: 120 → 121 (+1 for Mara arrival)
+  Party headcount: 1 → 0
+  Mara: SETTLED at settlement:new_hope
+PASS GATE B5: Atomic Arrival verified.
+
+--- [GATE B6] Atomic Mortality ---
+  NpcIdentity preserved after death: id=npc:00000001 name=Mara
+  Double death correctly rejected: INVALID_STATUS: cannot die from status 2
+  IN_TRANSIT → DEAD now permitted: party headcount 1 → 0, origin deaths +1
+  (a person who dies on the road is counted where they set out from)
+  New Hope: 121 → 120 (−1 Mara death; cumulative_deaths=1)
+PASS GATE B6: Atomic Mortality verified.
+
+--- [GATE B7] Aggregate Cannot Choose Named ---
+  Setup: Gray Valley population=15, named=15, anonymous=0
+  anonymous_count=0 → migration must FAIL CLOSED
+  NAMED_MIGRATION_DECISION_REQUIRED emitted ✓
+  NAMED_SELECTION_REQUIRED emitted ✓
+  Gray Valley population unchanged at 15 (all 3 named NPCs untouched)
+PASS GATE B7: Aggregate Cannot Choose Named verified.
+
+--- [GATE B8] Replay / Validator / Regression ---
+  Dual world SHA-256 bitwise identical: 85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047
+  Serialization round-trip SHA-256 matches: 85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047
+  Exported artifacts/world_snapshot_s4b.json for independent lifecycle audit.
+  Engine invariants PASS on replay world.
+PASS GATE B8: Replay / Validator / Regression verified.
+
+================================================================================
+ALL S4-B RUNTIME ACCEPTANCE GATES (B1 ~ B8) PASSED CLEANLY!
+================================================================================

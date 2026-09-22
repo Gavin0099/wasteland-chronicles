@@ -1,6 +1,9 @@
 class_name WorldState
 extends RefCounted
 
+const Field = preload("res://simulation/field_adventure.gd")
+var field_state: Dictionary = Field.new_state()
+
 const Capability = preload("res://simulation/capability_profile.gd")
 const RankCodec = preload("res://simulation/rank_json_codec.gd")
 
@@ -118,6 +121,7 @@ func duplicate_state() -> WorldState:
 		copy.player = player.duplicate_state()
 	copy.active_encounter = active_encounter.duplicate_state() if active_encounter != null else null
 	copy.pending_encounter_result = pending_encounter_result
+	copy.field_state = field_state.duplicate(true)
 	return copy
 
 func to_dict() -> Dictionary:
@@ -154,6 +158,8 @@ func to_dict() -> Dictionary:
 
 	var result := {
 		"progression_schema_version": 1,
+		"field_schema_version": 1,
+		"field_state": field_state.duplicate(true),
 		"current_day": current_day,
 		"total_initial_population": total_initial_population,
 		"next_npc_sequence": next_npc_sequence,
@@ -192,6 +198,9 @@ func to_dict() -> Dictionary:
 # quietly loads as "nothing ever happened" is more dangerous than a world that
 # refuses to load at all, because the first one lies and the second one stops.
 static func from_dict_checked(data: Dictionary) -> Dictionary:
+	var field_error := Field.validate_wire(data)
+	if field_error != "":
+		return {"success": false, "world": null, "error": field_error}
 	# The events key is MANDATORY. A pre-S4-C.1 snapshot carrying
 	# "event_count": 20 with no ledger would otherwise silently reconstruct a
 	# world in which nothing has ever happened.
@@ -296,6 +305,11 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 				return {"success": false, "world": null, "error": "ENCOUNTER_MALFORMED: unknown encounter type '%s'" % enc.encounter_type}
 			w.active_encounter = enc
 
+	if data.has("field_state"):
+		w.field_state = Field.normalize_state(data.field_state)
+	var field_world_error := Field.validate_world(w)
+	if field_world_error != "":
+		return {"success": false, "world": null, "error": field_world_error}
 	var receipt: Variant = data.get("pending_encounter_result", -1)
 	if typeof(receipt) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(receipt)) or float(receipt) != floor(float(receipt)) or float(receipt) < -1 or float(receipt) >= w.event_log.size():
 		return {"success": false, "world": null, "error": "ENCOUNTER_RESULT_MALFORMED: invalid ledger reference"}

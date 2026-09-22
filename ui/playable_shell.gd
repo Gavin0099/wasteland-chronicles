@@ -95,6 +95,7 @@ var lbl_inspection_details: Label
 var market_panel: VBoxContainer
 var market_trade_buttons: Dictionary = {}
 
+var field_button: Button
 var btn_wait: Button
 var btn_travel: Button
 var event_feed_container: VBoxContainer
@@ -135,6 +136,9 @@ func _render_projection(proj: Dictionary) -> void:
 	var day: int = proj.get("current_day", 0)
 	var p: Dictionary = proj.get("player", {})
 	var bp: Dictionary = p.get("backpack", {})
+	if field_button != null:
+		field_button.disabled = world.field_state.receipt < 0 and (p.get("status") != "SETTLED" or p.get("current_container_id") != "settlement:gray_valley")
+		field_button.tooltip_text = "需停留在灰谷才能進入附近補給棚。" if field_button.disabled else "灰谷近郊：準備裝備與回合制戰鬥"
 
 	# 1. Top Status Bar
 	if top_status_bar != null:
@@ -650,6 +654,10 @@ func _build_ui_layout_if_needed() -> void:
 	character_button.text = "人物 / 補給"
 	character_button.pressed.connect(_show_character)
 	header.add_child(character_button)
+	field_button = Button.new()
+	field_button.text = "郊外 / 裝備"
+	field_button.pressed.connect(_show_field)
+	header.add_child(field_button)
 
 	# Compatibility labels
 	lbl_day = Label.new()
@@ -1226,3 +1234,14 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 		if reason.begins_with(code):
 			return {"INSUFFICIENT_WATER": "水不足", "INSUFFICIENT_FOOD": "食物不足", "INSUFFICIENT_SCRAP": "廢料不足", "INSUFFICIENT_MONEY": "瓶蓋不足", "BACKPACK_FULL": "背包容量不足"}[code]
 	return "目前無法採取這個做法，請查看需求與消耗。"
+
+func _show_field() -> void:
+	if world == null or world.player == null or get_node_or_null("FieldScreen") != null or field_button.disabled:
+		return
+	var screen = preload("res://ui/field_screen.gd").new()
+	screen.name = "FieldScreen"
+	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(screen)
+	screen.setup(world, engine)
+	screen.world_changed.connect(refresh_ui)
+	screen.closed.connect(refresh_ui)

@@ -44,6 +44,7 @@ func setup(character: Dictionary, player: Dictionary) -> void:
 	scroll.add_child(columns)
 	var left := panel_in(columns)
 	identity_label = label_in(left, "%s · %d 歲" % [character.name, character.age], "PdaTitle")
+	label_in(left, "生命　%d / 12" % character.field_kit.hp)
 	label_in(left, "背景", "PdaSection")
 	label_in(left, Presentation.background_name(character.background_id))
 	label_in(left, "人物特質", "PdaSection")
@@ -52,6 +53,7 @@ func setup(character: Dictionary, player: Dictionary) -> void:
 	left.add_child(HSeparator.new())
 	label_in(left, "隨身補給", "PdaSection")
 	label_in(left, "瓶蓋　%d" % player.money)
+	label_in(left, "撬棍　" + ("已裝備" if character.field_kit.equipped else ("持有 · 負重 2" if character.field_kit.crowbar else "未持有")))
 	var bp: Dictionary = player.backpack
 	for id in ["water", "food", "scrap", "fuel"]:
 		var row := HBoxContainer.new()

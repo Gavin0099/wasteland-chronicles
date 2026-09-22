@@ -132,7 +132,9 @@ func _init() -> void:
 	padded.content_margin_top = Tokens.PAD
 	padded.content_margin_bottom = Tokens.PAD
 	theme.set_stylebox("panel", "PdaPanel", padded)
-	theme.set_type_variation("PdaPrimary", "Button")
+	theme.set_type_variation("PdaCommand", "Button")
+	theme.set_color("font_disabled_color", "PdaCommand", Tokens.SECONDARY)
+	theme.set_type_variation("PdaPrimary", "PdaCommand")
 	var primary: StyleBoxFlat = btn_normal.duplicate()
 	primary.border_color = Tokens.AMBER
 	theme.set_stylebox("normal", "PdaPrimary", primary)

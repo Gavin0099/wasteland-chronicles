@@ -24,9 +24,10 @@ enum Action {
 	SELL              = 3,
 	RESOLVE_ENCOUNTER = 4,
 	CONTINUE_JOURNEY = 5,
+	FIELD_ACTION = 6,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -52,6 +53,7 @@ func _init(
 
 static func action_name(value: int) -> String:
 	match value:
+		Action.FIELD_ACTION: return "FIELD_ACTION"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
 		Action.BUY: return "BUY"
@@ -104,3 +106,6 @@ static func create_resolve_encounter(p_player_id: StringName, p_option_id: Strin
 
 static func create_continue_journey(p_player_id: StringName, result_index: int) -> PlayerIntent:
 	return PlayerIntent.new(Action.CONTINUE_JOURNEY, p_player_id, &"", {"result_index": result_index})
+
+static func create_field_action(p_player_id: StringName, fields: Dictionary) -> PlayerIntent:
+	return PlayerIntent.new(Action.FIELD_ACTION, p_player_id, &"", fields.duplicate(true))

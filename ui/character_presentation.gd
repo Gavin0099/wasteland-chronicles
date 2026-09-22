@@ -34,6 +34,7 @@ static func project(world: WorldState) -> Dictionary:
 	var identity: NpcIdentity = world.npc_registry.get_npc(world.player.npc_id)
 	var data: Dictionary = world.player.capability.to_dict()
 	return {"name": identity.name, "age": identity.age_at_materialization,
+		"field_kit": world.player.field_kit.duplicate(true),
 		"background_id": data.background_id, "traits": data.selected_creation_traits,
 		"ranks": data.skill_ranks, "legacy": data.creation_origin == "LEGACY_MIGRATION"}
 

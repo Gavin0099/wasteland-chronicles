@@ -3,6 +3,8 @@ extends RefCounted
 
 const Capability = preload("res://simulation/capability_profile.gd")
 var capability: RefCounted
+const Field = preload("res://simulation/field_adventure.gd")
+var field_kit: Dictionary = Field.new_kit()
 
 # ==============================================================================
 # S5-A: PLAYER AVATAR STATE
@@ -51,7 +53,7 @@ func _init(
 func get_total_inventory_load() -> int:
 	if inventory == null:
 		return 0
-	return inventory.water + inventory.food + inventory.scrap + inventory.fuel
+	return inventory.water + inventory.food + inventory.scrap + inventory.fuel + (Field.KIT_WEIGHT if field_kit.crowbar else 0)
 
 func has_cargo_capacity(amount: int) -> bool:
 	return get_total_inventory_load() + amount <= capacity_total
@@ -60,6 +62,7 @@ func duplicate_state() -> PlayerState:
 	var copy := PlayerState.new(npc_id, capacity_total, money)
 	if inventory != null:
 		copy.inventory = inventory.duplicate_state()
+	copy.field_kit = field_kit.duplicate(true)
 	copy.water_pressure = water_pressure
 	copy.food_pressure = food_pressure
 	copy.water_exposure = water_exposure
@@ -70,6 +73,7 @@ func duplicate_state() -> PlayerState:
 func to_dict() -> Dictionary:
 	return {
 		"npc_id": String(npc_id),
+		"field_kit": field_kit.duplicate(true),
 		"capability": capability.to_dict() if capability != null else null,
 		"capacity_total": capacity_total,
 		"money": money,
@@ -85,6 +89,9 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	var cap := int(data.get("capacity_total", 20))
 	var mon := int(data.get("money", 50))
 	var p := PlayerState.new(nid, cap, mon)
+	if data.has("field_kit"):
+		p.field_kit = data.field_kit.duplicate(true)
+		p.field_kit.hp = int(p.field_kit.hp)
 	if data.has("capability"):
 		p.capability = Capability.from_dict_checked(data.capability).profile
 

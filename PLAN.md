@@ -38,6 +38,7 @@
 - [ ] S5-C4 : Level & Perks — experience milestones and sparse, consequential specialization choices
 - [ ] S5-C4.5 : Acquired Traits — real-life history creates opt-in candidates; 6 target identities, effects and tradeoffs required
 - [ ] S5-C5 : Equipment Progression — equipment enables previously unavailable actions and places
+- [x] Field Combat Lite — owner-authorized first example: 1v1 turn-based outskirts battle, crowbar equipment/cache, persistent HP/results, Passage of the Book visual direction. 40 suites pass; full C5 and C2-B remain open.
 - [ ] S5-C6 : Job Progression — natural capability requirements, not quest-level labels
 - [ ] S5-C7 : Capstone — advanced builds and rare items reconnect character growth to world consequences
 - [ ] World Expansion 3 -> 5 settlements — deferred; sparse roads/chokepoints retained, former S5-C0 identifier superseded
@@ -55,6 +56,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-22: **First combat and equipment example implemented** — owner chose attack/defend/flee and confirmed **俠客遊・前途道標** as the visual reference. One Gray Valley shed and animal enemy, original arena/fighter images, post-commit Tween motion with reduced-motion mode. Crowbar costs 3 scrap, weighs 2, changes melee damage and opens a one-time cache. Existing named-death and day authorities retained; field schema version 1 is separate from strict C1 ranks. 40 suites pass with save/load and normal/reduced-motion replay; no claim of C2-B fun validation, full C5, XP, party or grid combat.
 
 - 2026-09-22: **Owner authorized consistent UI, then item and combat work** — canonical skill is `wc-survivor-pda-design-system`, old v1 skill is a compatibility pointer. Shared Godot tokens/theme variations now drive character and supplies presentation; obsolete Trait copy and raw blocked tooltips corrected. 38 suites exit 0; screenshots at 1280×720 and 1152×648. No C2-B experience claim. Owner explicitly chose small turn-based combat (attack/defend/flee with both sides' state) for the next scoped gameplay implementation; not event-only resolution.
 

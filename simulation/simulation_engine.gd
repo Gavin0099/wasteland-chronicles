@@ -1047,6 +1047,9 @@ func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -
 	return ""
 
 func validate_invariants(world: WorldState) -> String:
+	var field_error := WorldState.Field.validate_world(world)
+	if field_error != "":
+		return field_error
 	if world.player != null:
 		if world.player.capability == null:
 			return "MISSING_CAPABILITY_PROFILE"
@@ -1947,6 +1950,11 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	if not PlayerIntent.is_authorized_action(intent.action):
 		return "UNAUTHORIZED_ACTION: %s is outside the S5-B2 closed action space" % PlayerIntent.action_name(intent.action)
 
+	if intent.action == PlayerIntent.Action.FIELD_ACTION:
+		return WorldState.Field.authorize(world, intent.payload)
+	if not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
+		return "FIELD_ACTIVITY_PENDING"
+
 	# A dead player may dismiss a fatal receipt, but cannot resume travelling.
 	if intent.action == PlayerIntent.Action.CONTINUE_JOURNEY:
 		var receipt: Variant = intent.payload.get("result_index", -1)
@@ -2120,6 +2128,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.FIELD_ACTION:
+			return WorldState.Field.commit(world, self, intent.payload)
 		PlayerIntent.Action.CONTINUE_JOURNEY:
 			return _continue_after_encounter(world)
 		PlayerIntent.Action.RESOLVE_ENCOUNTER:

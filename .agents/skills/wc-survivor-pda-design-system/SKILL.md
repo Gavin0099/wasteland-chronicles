@@ -58,7 +58,7 @@ component is touched; do not repaint unrelated screens just to widen a UI task.
 - Each panel answers one question. Character: who am I / what can I do? Supplies:
   what do I carry? Encounter: what can I choose / what happened? Combat, once implemented:
   whose turn is it / what will this action cost / what happened?
-- Reuse theme type variations `PdaTitle`, `PdaSection`, `PdaMuted`, `PdaPrimary`,
+- Reuse theme type variations `PdaTitle`, `PdaSection`, `PdaMuted`, `PdaCommand`, `PdaPrimary`,
   `PdaPanel`, and `PdaDialog`. Do not copy a local StyleBox into each new screen.
 - Skill ranks are integers 0–5 with five segments, number, and rank name:
   外行 / 略懂 / 熟練 / 專業 / 專家 / 大師. Never display them as percentages.
@@ -94,3 +94,16 @@ knowledge boundaries. Debug history remains labeled as debug, not player knowled
 
 Do not add images or download asset packs just to satisfy this skill. Reuse local art;
 if art is requested, reference an existing anchor and apply this same palette and grammar.
+
+## Current combat art reference
+
+Owner selected **Lunatic Dawn: Passage of the Book (俠客遊・前途道標)** as the
+first battle-screen reference. Use an elevated/isometric arena with visible fighters
+and a stable command area, retaining this project's PDA frame. First slice is a
+single player and animal opponent; do not imply formation, pathfinding, party or
+movement mechanics from the visual composition. Assets live in `ui/assets/combat/`.
+The environment contains no fighters, UI or text. Fighter cutouts are separate;
+weapon presence, HP, damage and outcomes come from current state. Tween motion is a
+projection after commit; never apply damage in an animation callback. Keep reduced
+motion available. Sprite pose animation can be expanded later without changing combat
+authority. See `docs/field-combat-lite.md` for the implemented first-slice limits.

@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S2 SUPPLY SHOCK & COUNTERFACTUAL TEST
+================================================================================
+>>> [SHOCK APPLIED] Day 30: Caravan c_hope_gray destroyed!
+PASS 1: Determinism Replay (World B SHA-256: dcd88ada3b30b4f425024e7170162eb23f82d597b6736f880b5aa23b3d21a34b)
+PASS 2: No Phantom Arrivals (Post-shock c_hope_gray arrivals == 0)
+PASS 3: Latency Verified (Day 30 price matches baseline $21.47, no instant jump)
+PASS 4: Causal Direction (Water depleted to 0, Day 100 price rose from $31.59 to $37.50)
+PASS 5: Locality Verified (Dry Well sustained at Day 40: Water 61, Fuel 114)
+================================================================================
+ALL S2-A / S2-B ACCEPTANCE CHECKS PASSED!
+================================================================================

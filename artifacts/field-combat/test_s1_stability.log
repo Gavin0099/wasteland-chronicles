@@ -1,0 +1,34 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S1 LIVING ECONOMY 100-DAY STABILITY TEST
+================================================================================
+
+[Logistics Activity]
+Total successful cargo deliveries across 100 days: 99
+
+[Determinism Replay Check]
+Run 1 SHA-256 (Day 100): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c
+Run 2 SHA-256 (Day 100): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c
+
+================================================================================
+100-DAY COMMODITY STABILITY SUMMARY (MIN ~ MAX STOCKS vs TARGET)
+================================================================================
+[新希望 (New Hope)]
+  - Water : Current = 216 | Range = [104 ~ 220] | Target = 100 | Price = $ 1.60
+  - Food  : Current = 137 | Range = [ 80 ~ 141] | Target =  80 | Price = $ 2.00
+  - Scrap : Current = 109 | Range = [ 45 ~ 121] | Target =  60 | Price = $ 3.20
+  - Fuel  : Current =  41 | Range = [ 30 ~  49] | Target =  40 | Price = $19.25
+[灰谷 (Gray Valley)]
+  - Water : Current =  21 | Range = [  1 ~  90] | Target =  80 | Price = $31.59
+  - Food  : Current =  56 | Range = [ 49 ~  84] | Target =  80 | Price = $17.40
+  - Scrap : Current = 341 | Range = [ 94 ~ 345] | Target = 100 | Price = $ 1.60
+  - Fuel  : Current =  38 | Range = [ 30 ~  46] | Target =  40 | Price = $21.50
+[乾井 (Dry Well)]
+  - Water : Current =  52 | Range = [ 40 ~  69] | Target =  60 | Price = $18.00
+  - Food  : Current =  52 | Range = [ 40 ~  67] | Target =  60 | Price = $18.00
+  - Scrap : Current =  49 | Range = [ 45 ~  50] | Target =  50 | Price = $14.42
+  - Fuel  : Current = 174 | Range = [ 79 ~ 188] | Target = 100 | Price = $ 2.00
+================================================================================
+ALL S1 ACCEPTANCE CRITERIA PASSED! The 3 settlements sustainably co-exist for 100 days.
+================================================================================
