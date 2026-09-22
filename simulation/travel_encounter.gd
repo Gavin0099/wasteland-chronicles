@@ -179,6 +179,8 @@ static func options(encounter_type: StringName) -> Array:
 				{"id": &"SEARCH", "label": "搜尋殘骸", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明"},
 				{"id": &"STRIP_PARTS", "label": "拆解引擎與傳動", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明",
 					"requires": _skill("MECHANICS", 2), "requirement_label": "機械 熟練", "gate": GATE_CAPABILITY},
+				{"id": &"USE_WRENCH", "label": "用扳手拆下可用部件", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明",
+					"requires_item": "wrench", "requirement_label": "持有：扳手", "gate": GATE_ITEM},
 				{"id": &"QUICK_PICK", "label": "一眼挑出值得帶走的", "detail": "不耽誤行程　收穫不明",
 					"requires": _skill("SCAVENGING", 2), "requirement_label": "搜刮 熟練", "gate": GATE_KNOWLEDGE},
 				{"id": &"LEAVE", "label": "繼續趕路", "detail": "什麼也沒發生"},
@@ -190,6 +192,8 @@ static func options(encounter_type: StringName) -> Array:
 					"requires": _skill("SURVIVAL", 2), "requirement_label": "荒野求生 熟練", "gate": GATE_KNOWLEDGE},
 				{"id": &"FORCE_THROUGH", "label": "直接翻過去", "detail": "不耗廢料、不耽誤行程　翻越時弄丟 1 件物資（廢料→燃料→水）",
 					"requires": _trait("RECKLESS"), "requirement_label": "魯莽", "gate": GATE_KNOWLEDGE},
+				{"id": &"USE_ROPE", "label": "用繩索固定路線", "detail": "不耗廢料、不耽誤行程",
+					"requires_item": "rope", "requirement_label": "持有：繩索", "gate": GATE_ITEM},
 				{"id": &"DETOUR", "label": "繞路", "detail": "耗時 1 天（水 −1、食物 −1）"},
 			]
 		ROADBLOCK:
@@ -243,6 +247,7 @@ static func options(encounter_type: StringName) -> Array:
 # stand in front of a landslide thinking about climbing it.
 const GATE_CAPABILITY := "capability"
 const GATE_KNOWLEDGE := "knowledge"
+const GATE_ITEM := "item"
 
 static func _skill(skill_id: String, min_rank: int) -> Dictionary:
 	return {"all": [{"kind": "skill", "skill_id": skill_id, "min_rank": min_rank}]}
@@ -268,6 +273,12 @@ static func option_gate(encounter_type: StringName, option_id: StringName) -> St
 	for o in options(encounter_type):
 		if o["id"] == option_id:
 			return String(o.get("gate", GATE_KNOWLEDGE))
+	return ""
+
+static func option_item_requirement(encounter_type: StringName, option_id: StringName) -> String:
+	for o in options(encounter_type):
+		if o["id"] == option_id:
+			return String(o.get("requires_item", ""))
 	return ""
 
 static func has_option(encounter_type: StringName, option_id: StringName) -> bool:

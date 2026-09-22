@@ -1759,6 +1759,11 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 			return "CAPABILITY_NOT_MET: %s requires %s" % [
 				option_id, TravelEncounter.option_requirement_label(enc.encounter_type, option_id)
 			]
+	var required_item := TravelEncounter.option_item_requirement(enc.encounter_type, option_id)
+	if required_item != "" and not p.inspect_item(required_item).success:
+		return "ITEM_NOT_HELD: %s requires %s" % [
+			option_id, TravelEncounter.option_requirement_label(enc.encounter_type, option_id)
+		]
 
 	match option_id:
 		&"CLEAR":
@@ -1845,6 +1850,12 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered_items = TravelEncounter.wreck_item_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
 			extra_day = true
+		&"USE_WRENCH":
+			offered = TravelEncounter.strip_parts_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+			extra_day = true
 		&"QUICK_PICK":
 			# The capability bought is the DAY, not the loot: no tick happens.
 			offered = TravelEncounter.quick_pick_yield(
@@ -1861,6 +1872,8 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 				if p.inventory.get_amount(commodity) >= 1:
 					_take_from_player(p, {commodity: 1})
 					break
+		&"USE_ROPE":
+			pass
 		&"HAGGLE":
 			p.money -= TravelEncounter.HAGGLED_TOLL_CAPS
 			spent["caps"] = TravelEncounter.HAGGLED_TOLL_CAPS
