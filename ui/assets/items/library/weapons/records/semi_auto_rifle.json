@@ -1,0 +1,27 @@
+{
+  "id": "semi_auto_rifle",
+  "name": "半自動步槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/semi_auto_rifle.png",
+  "source_output": "exec-05744f8b-fb69-4c9a-8ae9-470341e3b9c6.png",
+  "sha256": "ebf804a7aaeeb307891400b69c9a7a300344fb5cd51ed14429652bcbd46db870",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    17,
+    49,
+    1236,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "bandage",
+  "name": "繃帶",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/bandage.png",
+  "source_output": "exec-57e2e6e8-0560-4d84-98ba-dfa33db98c6a.png",
+  "sha256": "2cd660f8d1ffc4c5d429eec5580678dae67b1d45bdcf4557985fed628ff5be49",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1192,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "medicines",
+  "name": "藥物",
+  "section": 11,
+  "art_role": "category_illustration",
+  "file": "ui/assets/items/library/supplies/medicines.png",
+  "source_output": "exec-a5590aa9-6755-4597-8d6f-0d4c6a0f9562.png",
+  "sha256": "01d8ce952a3937363f7a3e426dd6c1a39d9517a7ba258913fce3f4dd8a352931",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    25,
+    1224,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

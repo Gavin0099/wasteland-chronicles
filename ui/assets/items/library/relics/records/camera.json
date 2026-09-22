@@ -1,0 +1,27 @@
+{
+  "id": "camera",
+  "name": "相機",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/camera.png",
+  "source_output": "exec-9bdbd5e8-4d55-49b0-94fc-d13949eadc67.png",
+  "sha256": "75a7b56a4cf6ea0ce796f94109626f94bc602a36f934d946fcad3e96d8f5955b",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    3,
+    1218,
+    1214
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

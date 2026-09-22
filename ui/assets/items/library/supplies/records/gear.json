@@ -1,0 +1,27 @@
+{
+  "id": "gear",
+  "name": "齒輪",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/gear.png",
+  "source_output": "exec-ebd967f4-38a0-4c58-8711-bdfacf93cb0a.png",
+  "sha256": "f70c3d464b1616894a8b6bd1954ee225c2747e41355c19c7ed7fa35a21f47e6e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1232,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "geological_survey_map",
+  "name": "地質調查圖",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/geological_survey_map.png",
+  "source_output": "exec-40a9c3cf-5057-4fa7-915d-e90a924c3277.png",
+  "sha256": "4dd63ab61bc1ac5e2bbe7a201b441a111d113c52fe1e96a6675557455ca96fb7",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1222,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

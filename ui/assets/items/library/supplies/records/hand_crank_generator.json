@@ -1,0 +1,27 @@
+{
+  "id": "hand_crank_generator",
+  "name": "手搖發電機",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/hand_crank_generator.png",
+  "source_output": "exec-ae3a54bf-d11a-4053-9892-2a4ae9f48e40.png",
+  "sha256": "cef0bb0e12498db3e60dfff93e266785198fedefe36117493f757be492d970d1",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1234,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

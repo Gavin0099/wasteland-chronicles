@@ -1,0 +1,27 @@
+{
+  "id": "painkillers",
+  "name": "止痛藥",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/painkillers.png",
+  "source_output": "exec-e3a61ca1-5f13-4d7d-863a-c835d5fe86b7.png",
+  "sha256": "9c20191e4e710ee86a2bf096482a2068ea6de2844102090bf31dfa3101b7af15",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    43,
+    53,
+    1253,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

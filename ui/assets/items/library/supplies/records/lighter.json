@@ -1,0 +1,27 @@
+{
+  "id": "lighter",
+  "name": "打火機",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/lighter.png",
+  "source_output": "exec-0a40ad86-48c5-4286-86cf-cc50dbade99e.png",
+  "sha256": "1ad8a020de4e272dfc1f0ec95a440a30f8cedfa004603f8096fc795983d90566",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1200,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

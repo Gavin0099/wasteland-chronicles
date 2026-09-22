@@ -1,0 +1,27 @@
+{
+  "id": "double_barrel_shotgun",
+  "name": "雙管散彈槍",
+  "section": 4,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/double_barrel_shotgun.png",
+  "source_output": "exec-b9516f66-90b7-429e-8612-28a62dac2084.png",
+  "sha256": "a7761f993644f59d43c5bfb8917bba3939e7bf6bf2f5837755061025f82701d9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1240,
+    1198
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

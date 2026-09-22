@@ -1,0 +1,27 @@
+{
+  "id": "glass",
+  "name": "玻璃",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/glass.png",
+  "source_output": "exec-5f334bec-b403-43f9-9c29-084d1090b0d2.png",
+  "sha256": "9d1161e52df1e9bab7576364c09cb47e4cb2f40b8571b612ab7d2615564a624c",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    21,
+    1202,
+    1226
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "hiking_backpack",
+  "name": "登山背包",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/hiking_backpack.png",
+  "source_output": "exec-e1e667ba-6175-4dcb-a4ac-1033e70b30f6.png",
+  "sha256": "055291d43f5b2bda78ba4611af10c038c1b594a384a6129b8fa95fc00703af0e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    33,
+    1236,
+    1231
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

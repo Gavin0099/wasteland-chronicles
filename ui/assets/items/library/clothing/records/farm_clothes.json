@@ -1,0 +1,27 @@
+{
+  "id": "farm_clothes",
+  "name": "農務服",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/farm_clothes.png",
+  "source_output": "exec-5e8363f9-9680-4e8a-a09a-e9ee30cf5aaf.png",
+  "sha256": "e486838281db7640e508a73b7d42f46c7f3556289e06b62595bd072b3f238040",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    41,
+    2,
+    1200,
+    1237
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

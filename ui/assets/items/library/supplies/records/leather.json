@@ -1,0 +1,27 @@
+{
+  "id": "leather",
+  "name": "皮革",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/leather.png",
+  "source_output": "exec-b841ff3d-cc71-4793-aa85-667f2ce261de.png",
+  "sha256": "a32a9fa2c140284935440df6f2e6e9b0428b4175e6e02105a1dd390541d6b6ee",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    9,
+    1194,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

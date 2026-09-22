@@ -10,6 +10,11 @@ The follow-up twelve-item art set is documented in `candidates/ASSETS.md`, with
 separate original PNGs, prompts and preview sheets. Candidate artwork is not
 registered in the runtime item component until its corresponding gameplay exists.
 
+The full fifteen-category illustration library is documented in
+`library/ASSETS.md`, with a browsable category and original-image index at
+`artifacts/item-art-library/INDEX.md`. It reuses the twelve-item baseline and four
+of these existing illustrations; it does not replace their runtime resource roles.
+
 Six original transparent images generated on 2026-09-22 with the built-in
 `image_gen` tool. Exact prompts are in `prompts.json`. All files are the original
 tool outputs, copied into this repository with alpha preserved; no third-party

@@ -1,0 +1,27 @@
+{
+  "id": "wild_greens",
+  "name": "野菜",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/wild_greens.png",
+  "source_output": "exec-2a373c3d-2105-46c4-9fe8-9909f725510f.png",
+  "sha256": "089a44073167dd745eeb19c4bb25878fc367cfeb72f9191a5b04085b6867c9b9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    39,
+    1142,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

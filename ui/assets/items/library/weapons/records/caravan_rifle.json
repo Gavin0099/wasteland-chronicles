@@ -1,0 +1,27 @@
+{
+  "id": "caravan_rifle",
+  "name": "商隊步槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/caravan_rifle.png",
+  "source_output": "exec-b9a66e61-236a-442d-82dc-8e816bbf3cc2.png",
+  "sha256": "d038225081b9e4f46454bd2ea730514ab3fe1fea6b830bb98b569a78ad88b355",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    14,
+    53,
+    1240,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

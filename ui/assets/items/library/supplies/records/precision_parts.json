@@ -1,0 +1,27 @@
+{
+  "id": "precision_parts",
+  "name": "精密零件",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/precision_parts.png",
+  "source_output": "exec-77f8fe16-7e93-437b-9820-973231e3b937.png",
+  "sha256": "b6e11ce11e1aff25b76d4c49fd6454dcf002e5c05a64d433f3d1e5e9dd4a3e51",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1200,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

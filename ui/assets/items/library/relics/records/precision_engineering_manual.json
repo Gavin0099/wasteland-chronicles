@@ -1,0 +1,27 @@
+{
+  "id": "precision_engineering_manual",
+  "name": "精密工程手冊",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/precision_engineering_manual.png",
+  "source_output": "exec-be5ac44c-cbea-4e08-a81a-18475fcc3b98.png",
+  "sha256": "2efcad0e7bb635450c39607e4288b3b82969b0a98dba6a485508975fad1eae84",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    49,
+    1224,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

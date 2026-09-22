@@ -1,0 +1,27 @@
+{
+  "id": "flamethrower",
+  "name": "火焰噴射器",
+  "section": 4,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/flamethrower.png",
+  "source_output": "exec-10c2b6b9-1e41-4c22-ad5b-6a0737e39293.png",
+  "sha256": "a1e26917fc9bcfc6e4063be0752083ef70b7ef4437323cd5c4265d4b27d8798f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1240,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "waterskin",
+  "name": "水袋",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/waterskin.png",
+  "source_output": "exec-d79c00e7-72c2-4c4d-ac78-6ac0740e65f5.png",
+  "sha256": "52bfc0372a93fbbd5042cbdcc94a30e8c30b7f7292f2bda6cb7d07825f49dadd",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1220,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

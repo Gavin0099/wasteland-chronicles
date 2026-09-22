@@ -1,0 +1,27 @@
+{
+  "id": "medical_manual",
+  "name": "醫療手冊",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/medical_manual.png",
+  "source_output": "exec-558e4211-4a6b-421d-94d1-5f297c6381e9.png",
+  "sha256": "7af2b4de7b2f14439a05cdea81f86772264c8e8680b87157348138c994ccab35",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    33,
+    1227,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

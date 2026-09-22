@@ -1,0 +1,27 @@
+{
+  "id": "welding_tools",
+  "name": "焊接工具",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/welding_tools.png",
+  "source_output": "exec-e3ccab4d-74cc-4e8e-9687-3eb555a9aac1.png",
+  "sha256": "42c89bb3c88ade742a40a5899553027a202309e0442bcaccb1d01f1fb7a1a14d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    23,
+    1232,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "metal_detector",
+  "name": "金屬探測器",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/metal_detector.png",
+  "source_output": "exec-6c6e0060-97f5-4b86-bcc4-510002c4a63a.png",
+  "sha256": "c5f5d1a2b581fa5f24f9667074c3292636a7821a90a269c2d0e17f9240f08b12",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    63,
+    50,
+    1206,
+    1221
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "clean_water",
+  "name": "淨水",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/clean_water.png",
+  "source_output": "exec-ca6dcd6f-178e-47c7-af00-cc31e77f6905.png",
+  "sha256": "d39ce193dd02cb940e0cff797a7d8a6ae7c402193d350757d0ace63651e27421",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1222,
+    1240
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

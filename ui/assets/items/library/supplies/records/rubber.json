@@ -1,0 +1,27 @@
+{
+  "id": "rubber",
+  "name": "橡膠",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/rubber.png",
+  "source_output": "exec-aea8885c-77fa-426d-bbd7-e99e66241bcd.png",
+  "sha256": "969859d116ad23dfb8aa71efe6845fbc94420bf4e6cba9a6264bef7204d6a69a",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    7,
+    1222,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

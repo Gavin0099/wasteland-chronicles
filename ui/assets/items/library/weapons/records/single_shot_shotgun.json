@@ -1,0 +1,27 @@
+{
+  "id": "single_shot_shotgun",
+  "name": "單管散彈槍",
+  "section": 4,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/single_shot_shotgun.png",
+  "source_output": "exec-b249afc1-70b0-464b-8ef7-d035c55cc35f.png",
+  "sha256": "a3149fde31736ea106c84602e0dcf3e43983c095931f571097cd20c7c8493036",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    37,
+    49,
+    1227,
+    1222
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

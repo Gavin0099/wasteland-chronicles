@@ -1,0 +1,27 @@
+{
+  "id": "black_water_drop",
+  "name": "黑色水滴",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/black_water_drop.png",
+  "source_output": "exec-be2607b0-601f-4bd8-8efb-4b42a2c12b72.png",
+  "sha256": "dd6277e6e2d9f44550cc4cc16b841203e8014f85b0b61d287051ba623392d83b",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    63,
+    35,
+    1199,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

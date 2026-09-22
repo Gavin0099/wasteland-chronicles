@@ -1,0 +1,27 @@
+{
+  "id": "firefighter_suit",
+  "name": "防火服",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/firefighter_suit.png",
+  "source_output": "exec-5d726d0b-0907-4e1c-b1c2-1e4c574a93a0.png",
+  "sha256": "63bb5064d16e907259f376a8df39a0fa09e31bda51f1987ea7c3d5ae16b3e65d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    21,
+    1218,
+    1232
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

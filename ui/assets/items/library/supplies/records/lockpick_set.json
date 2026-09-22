@@ -1,0 +1,27 @@
+{
+  "id": "lockpick_set",
+  "name": "開鎖工具",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/lockpick_set.png",
+  "source_output": "exec-6da111e5-acbe-4834-80f8-a186483f9194.png",
+  "sha256": "1479d071b00d0613013b0cfc8f110c0c7c13bd30a53cfeb0a977deeb9c9885d0",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    9,
+    1234,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

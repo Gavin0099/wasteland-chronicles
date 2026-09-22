@@ -1,0 +1,27 @@
+{
+  "id": "medical_satchel",
+  "name": "醫療袋",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/medical_satchel.png",
+  "source_output": "exec-f591afcc-7087-4db3-ba26-9872b920b31e.png",
+  "sha256": "6a0d7994b5aa565b7c6bfe32e77a5a473a4744a1aabc9cc97703a7dae860efd8",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1238,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

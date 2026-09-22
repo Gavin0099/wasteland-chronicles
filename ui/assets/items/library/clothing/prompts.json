@@ -1,0 +1,190 @@
+{
+  "generator": "builtin image_gen",
+  "date": "2026-09-22",
+  "scope": "Item World V0 sections 5 and 6: 26 remaining original artwork assets; gameplay not implemented",
+  "style_anchor": "artifacts/item-art-v0-batch2/clothing.png",
+  "jobs": [
+    {
+      "id": "farm_clothes",
+      "name": "農務服",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: A single set of faded ochre canvas farmer's bib overalls layered over a plain off-white long-sleeved work shirt as one outfit, empty garment, patched knees, soil wear at cuffs, loose cloth straps; front three-quarter view. Clearly agricultural everyday workwear, no armor, no shoes or tools."
+    },
+    {
+      "id": "worker_leather_jacket",
+      "name": "工人皮衣",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: A rugged sleeveless brown leather worker's protective jerkin with broad shoulder straps, reinforced apron-like front panels and two heavy buckles; empty garment, plain collarless neck, soot scuffs and stitched repairs. Industrial labor clothing, short waist length, no biker zipper or armor plates."
+    },
+    {
+      "id": "motorcycle_jacket",
+      "name": "摩托夾克",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: A short dark charcoal-brown distressed leather motorcycle jacket, empty garment with both long sleeves, diagonal asymmetrical zip, wide lapels and reinforced elbows, no patches or logos; front three-quarter view, distinct angular silhouette."
+    },
+    {
+      "id": "stab_vest",
+      "name": "防刺背心",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: An empty compact sleeveless stab-resistant vest, dusty beige heavy fabric with visibly layered quilted vertical stiff panels and broad velcro-like side straps, small square neck opening. No hard military plates, no badges, no text; clear light tan silhouette."
+    },
+    {
+      "id": "police_ballistic_vest",
+      "name": "警用防彈衣",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: An empty bulky midnight grey-blue old police ballistic vest with broad padded front and back panels, wide shoulder straps, three squared utility pouches along waist, worn buckles. No police lettering, badges, ammunition or logos; front three-quarter view."
+    },
+    {
+      "id": "scrap_iron_armor",
+      "name": "拼裝鐵甲",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: An empty improvised iron torso armor assemblage: irregular small rusty iron plates riveted over an old brown leather vest, mismatched small shoulder guards, visibly handmade asymmetry and leather lacing. No human wearer, no spikes, no helmet, no weapon. Practical poor wasteland armor, front three-quarter."
+    },
+    {
+      "id": "car_panel_cuirass",
+      "name": "車板胸甲",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One empty heavy crude breastplate hammered from a faded dull olive automobile body panel, broad single bowed chest shell with curved lower edge and welded ribs, chipped paint revealing rusty steel, two broad leather shoulder straps and side buckles. No shoulder guards, no wearer; distinguish from tiled scrap armor."
+    },
+    {
+      "id": "old_world_military_armor",
+      "name": "舊世軍甲",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: An empty rare pre-collapse military torso armor, disciplined olive-grey segmented composite chest and abdominal plates with matching angular shoulder guards and sturdy fabric harness. Compact grounded military equipment, age scratches, no powered exoskeleton or sci-fi glow, no wearer/helmet/weapon."
+    },
+    {
+      "id": "hazmat_suit",
+      "name": "防化服",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: A single empty full-body protective chemical suit, faded mustard-ochre rubberized fabric, hollow integrated hood with clear empty dark visor opening, zipper flap, sealed cuffs and boot-shaped empty foot sections, no hands or face inside. Creased weathered fabric, no symbols, no hose or extra gear."
+    },
+    {
+      "id": "heat_insulation_suit",
+      "name": "隔熱服",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: A single empty industrial aluminized heat-insulating coverall, dull silver-grey crinkled reflective fabric, broad hollow hood with dark rectangular face opening, long sleeves and trousers integrated, quilted joints and thick cuffs. Subtle tarnished metal-fabric highlights, no person, no flames, no letters."
+    },
+    {
+      "id": "firefighter_suit",
+      "name": "防火服",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: An empty firefighter protective turnout outfit as one item: heavy dark dusty charcoal coat above matching trousers, aged muted ochre reflective bands at chest cuffs and trouser hems, heavy fasteners and quilted collar. No helmet, boots, people, fire, symbols or text. Entire garment visible."
+    },
+    {
+      "id": "wilderness_cloak",
+      "name": "荒野斗篷",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: A single long empty weathered moss-olive hooded wilderness cloak, ragged hem, deep broad draping folds, simple rope toggle at throat, charcoal lining glimpsed inside hollow hood. Asymmetric windless drape with clear triangular silhouette, no person, no decorative fantasy clasps."
+    },
+    {
+      "id": "dust_mask",
+      "name": "沙塵面罩",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One practical sandstorm face mask, dusty tan layered fabric wrapping shaped around nose and mouth, small stitched oval filter patch at front, two intact brown elastic straps trailing inward. Empty cutout, no head or goggles, no military gas canisters. Front three-quarter view, clear compact cloth silhouette."
+    },
+    {
+      "id": "gas_mask",
+      "name": "防毒面具",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One worn olive-grey full-face industrial gas mask, two round dark glass eyepieces, a prominent circular side filter canister and intact rubber straps tucked behind, cracked aged rubber and brushed metal fittings. Empty transparent eyepiece interior reflections with no face. Front three-quarter view."
+    },
+    {
+      "id": "engineering_goggles",
+      "name": "工程護目鏡",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One pair of industrial engineering safety goggles as one item, two wide amber-tinted rectangular lenses in scuffed brown leather and dull steel frame, broad aged cloth head strap looped behind. No person, no helmet; subtle lens highlights, three-quarter view."
+    },
+    {
+      "id": "night_vision_goggles",
+      "name": "夜視鏡",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One old compact military binocular night-vision goggle unit, two stubby cylindrical dark olive optical tubes side by side, small hinge bridge and folded elastic head harness behind, tiny dull glass lenses. No helmet, no face, no screen display, no neon glow; front three-quarter view."
+    },
+    {
+      "id": "tactical_helmet",
+      "name": "舊世戰術頭盔",
+      "section": 5,
+      "category": "clothing_armor",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One old-world tactical combat helmet, rounded low-cut matte olive composite shell with faded canvas cover and restrained short side rails, worn leather chin straps hang within silhouette, no attached goggles or camera, no insignia, no head. Three-quarter front view."
+    },
+    {
+      "id": "cloth_sack",
+      "name": "布袋",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One humble patched brown burlap cloth sack, small tied drawstring neck and soft rounded bulging bottom, visibly rough woven texture and one ivory rectangular stitch repair, standing cutout without ground. No contents or loose rope, simple low-tier carrying bag."
+    },
+    {
+      "id": "hiking_backpack",
+      "name": "登山背包",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One tall faded ochre and grey hiking backpack with narrow tubular trekking silhouette, internal frame, long zip front, thick waist belt and two long compressed side pockets, a tightly rolled canvas pad strapped across its top as part of pack. No dangling tools or person; three-quarter front view."
+    },
+    {
+      "id": "military_backpack",
+      "name": "軍用背包",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One broad boxy olive-drab military rucksack, rugged thick canvas with regular webbing loops, compact squared external pouches and padded harness, twin closure straps, reinforced stitched base. No insignia or weapons, no bedroll; clearly stout tactical pack rather than old leather travel bag."
+    },
+    {
+      "id": "tool_belt",
+      "name": "工具腰帶",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One worn brown leather tool belt arranged in a shallow closed oval, heavy brass buckle front center, two large empty open work pouches and several empty stitched tool loops along sides. No tools inserted, no waist/body, practical grime, all complete belt visible."
+    },
+    {
+      "id": "ammo_bandolier",
+      "name": "彈藥帶",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One brown leather ammunition bandolier curved into an oval loop, many evenly spaced closed canvas cartridge pockets around the belt and a plain brass buckle; a few dull capped cartridge ends just visible in loops. No firearm, no wearer, no bullet diagrams or labels."
+    },
+    {
+      "id": "medical_satchel",
+      "name": "醫療袋",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One weathered off-white rectangular canvas medical shoulder satchel, long brown shoulder strap folded neatly behind bag, wide flap and twin brass snap closures, small plain faded ivory plus-shaped cloth stitching on olive patch. No red cross, no letters, no contents. Distinct pale fabric bag."
+    },
+    {
+      "id": "waterskin",
+      "name": "水袋",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One traditional tan-brown leather waterskin, soft flattened teardrop pouch with stitched seam around edge, narrow capped wooden spout at top, thin cord shoulder sling looped behind. Small dark patina, no water spill, no flask or rigid canteen; three-quarter view."
+    },
+    {
+      "id": "waterproof_bag",
+      "name": "防水袋",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One medium roll-top waterproof dry bag of faded slate-blue waxed rubberized canvas, tightly rolled top secured by a black simple buckle into a carrying handle, oval reinforced base, creases and scuffs. No backpack straps, no printed markings; three-quarter view."
+    },
+    {
+      "id": "sealed_cargo_crate",
+      "name": "密封貨箱",
+      "section": 6,
+      "category": "carrying_gear",
+      "prompt": "Create one original Wasteland Chronicles inventory-item illustration. Style: realistic hand-painted game asset, restrained natural textures, worn practical post-apocalyptic materials, muted olive, dusty brown, dirty ivory, rusty steel palette. Clear strong silhouette; soft diffuse upper-left light, gentle self-shadow only. Single full object centered in a square 1024x1024 composition, object fills about 80% of canvas, 8% transparent padding on all sides. Genuine transparent RGBA background, absolutely no backdrop, floor, cast shadow, gradient or checkerboard painted into image. No frame, UI, labels, readable text, logos, badges, stat symbols, hands, people, skin, mannequin or body parts. Clothing is an EMPTY garment with hollow neck and sleeves, presented as an inventory cutout. Entire item visible, no clipping. Must remain distinct at 32-48px. Original utilitarian design, no franchise marks. Subject: One closed compact rectangular caravan cargo case of weathered grey metal with olive inset panels, raised sealing gasket at lid, two chunky intact clasps, recessed side handles and scuffed corner protectors. No military markings or text, no contents, three-quarter view showing lid and two sides."
+    }
+  ]
+}

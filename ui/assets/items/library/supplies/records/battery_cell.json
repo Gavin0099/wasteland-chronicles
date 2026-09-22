@@ -1,0 +1,27 @@
+{
+  "id": "battery_cell",
+  "name": "電池芯",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/battery_cell.png",
+  "source_output": "exec-760cc153-0933-4c6c-ac43-460ead576fc1.png",
+  "sha256": "87fc7933f9272ecc08360432cdb2fe15220227ad38f55711af21f5f653571f7f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    23,
+    1200,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

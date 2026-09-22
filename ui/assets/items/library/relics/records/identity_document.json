@@ -1,0 +1,27 @@
+{
+  "id": "identity_document",
+  "name": "身分證件",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/identity_document.png",
+  "source_output": "exec-dff1e276-4e71-4f77-b72b-84832b019efd.png",
+  "sha256": "6046c426437b13c1211aa64c6924323352a3c6136b7580a61cea920052be783d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    57,
+    1200,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

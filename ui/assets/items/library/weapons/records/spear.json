@@ -1,0 +1,27 @@
+{
+  "id": "spear",
+  "name": "長矛",
+  "section": 1,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/spear.png",
+  "source_output": "exec-6b27e649-aced-4b14-b963-d0314355f213.png",
+  "sha256": "142f68e02f477f70bcd10ea9a6b10eb437c2a3a0a77f1ee9a266f31834b6385c",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1226,
+    1229
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

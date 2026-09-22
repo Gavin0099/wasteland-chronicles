@@ -1,0 +1,27 @@
+{
+  "id": "canned_food",
+  "name": "罐頭",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/canned_food.png",
+  "source_output": "exec-a458178f-ddf3-47d3-a3cf-d5f7f97f22f1.png",
+  "sha256": "aad6958a7bc11488b19d5715f8e15d07e6de0b53e1e6106a3b69ee391d5c9926",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    53,
+    1222,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

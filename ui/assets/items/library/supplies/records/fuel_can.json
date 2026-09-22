@@ -1,0 +1,27 @@
+{
+  "id": "fuel_can",
+  "name": "燃料罐",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/fuel_can.png",
+  "source_output": "exec-bced5e7e-2025-488a-92bd-2c076dee8d3f.png",
+  "sha256": "58b8f443d22e52f286f57c0a3757ea0743b09aa058f224ea058c15f642e6d014",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    37,
+    19,
+    1240,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

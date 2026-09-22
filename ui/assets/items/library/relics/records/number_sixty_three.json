@@ -1,0 +1,27 @@
+{
+  "id": "number_sixty_three",
+  "name": "六十三號",
+  "section": 15,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/number_sixty_three.png",
+  "source_output": "exec-b992ac31-3415-4358-9e3c-9a96911212df.png",
+  "sha256": "c5be1a3a43d7d0a8c003a622fe6c38f0c9b27351880df561dea2160bc32714b3",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1241,
+    1223
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

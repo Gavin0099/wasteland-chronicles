@@ -1,0 +1,27 @@
+{
+  "id": "cloth_sack",
+  "name": "布袋",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/cloth_sack.png",
+  "source_output": "exec-11ce9df7-83b9-46c1-b2d0-dfdd9363c804.png",
+  "sha256": "b30979911fb06df2dc59b37cefae85ed9feccb4cf5c9764bbf2ce9ca8e1c342d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1236,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

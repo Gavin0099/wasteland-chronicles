@@ -1,0 +1,27 @@
+{
+  "id": "shadowless_glass",
+  "name": "無影玻璃",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/shadowless_glass.png",
+  "source_output": "exec-d7da1e6c-872b-4efa-a74e-7a27033c3537.png",
+  "sha256": "b8f143171c9c7061f3d3e3f8db41e319d36ad11eaea12cb3985d6338944a07a4",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    57,
+    48,
+    1186,
+    1210
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

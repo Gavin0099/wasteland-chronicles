@@ -1,0 +1,27 @@
+{
+  "id": "stab_vest",
+  "name": "防刺背心",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/stab_vest.png",
+  "source_output": "exec-69a321bf-bf66-4192-be5b-26a6e1350f91.png",
+  "sha256": "5a42da42defc1e50e02b4907f7493601186539cfadfb2285c399acf7a75e70ee",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    39,
+    1200,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

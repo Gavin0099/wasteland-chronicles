@@ -1,0 +1,27 @@
+{
+  "id": "mechanical_parts",
+  "name": "機械零件",
+  "section": 11,
+  "art_role": "category_illustration",
+  "file": "ui/assets/items/library/supplies/mechanical_parts.png",
+  "source_output": "exec-055e1c31-07e8-4e90-ae7a-3ae2071d1dc2.png",
+  "sha256": "9187afda0f200f741e19ddd2a4be93cbb5051bc3aa2ed7f3e2c663b921d656e4",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1232,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

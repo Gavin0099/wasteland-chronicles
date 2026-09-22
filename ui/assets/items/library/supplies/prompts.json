@@ -1,0 +1,557 @@
+{
+  "generator": "built-in image_gen",
+  "date": "2026-09-22",
+  "scope": "art-only; no runtime registration or gameplay",
+  "jobs": [
+    {
+      "id": "clean_water",
+      "name": "淨水",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A clear cylindrical glass drinking-water bottle filled with visibly clean colorless water, dull screw cap and small protective canvas loop; no label. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "dirty_water",
+      "name": "污水",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One squat salvaged translucent plastic bottle filled with cloudy brown-green water and sediment, worn dark screw cap; no label. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "purification_tablets",
+      "name": "淨水錠",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A small open dull aluminium screw-top tin containing several chalk-white round water purification tablets, its lid beside it. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "water_filter",
+      "name": "濾水器",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One rugged olive hand-pump camping water filter with a compact cylindrical filter body, pump handle and neatly looped short hoses, a single connected unit. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "jerky",
+      "name": "肉乾",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A modest bundle of wholesome dry brown meat jerky strips tied with plain twine, visible dried fibrous texture, preserved food not rotten. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "canned_food",
+      "name": "罐頭",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One intact utilitarian ribbed steel food tin, slightly worn but clean and safely sealed, plain ivory paper band without writing, pull ring on lid. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "wild_greens",
+      "name": "野菜",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A small freshly gathered edible wild greens bundle, broad muted green leaves and thin stems tied with rough twine, wholesome and unspoiled. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "raw_meat",
+      "name": "生肉",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One clean fresh cut of raw game meat with dark red muscle and pale fat along one edge, resting in a folded plain waxed-paper wrapper; no blood puddle or gore. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "salt",
+      "name": "鹽",
+      "section": [
+        7,
+        11
+      ],
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small open coarse-cloth pouch of pale salt crystals, several crystals at its mouth, no table or surrounding surface. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "matches",
+      "name": "火柴",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small worn plain cardboard matchbox slid partly open to reveal a neat row of wooden matches with muted rust-brown heads; no writing. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "lighter",
+      "name": "打火機",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One battered rectangular brass flip-top pocket lighter, lid open, wick unlit, scratched metal with a strong recognizable silhouette. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "fuel_can",
+      "name": "燃料罐",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small cylindrical camping fuel canister, muted olive paint, brass valve under a compact protective metal collar; distinct from a rectangular jerrycan. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "sleeping_bag",
+      "name": "睡袋",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One rolled weathered olive canvas sleeping bag tightly cinched by two brown straps, visible padded rolled opening, single compact bedroll. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "tent",
+      "name": "帳篷",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small simple low triangular canvas hiking tent, muted sand and olive fabric, short integrated guy lines and stakes, pitched but isolated with no ground, no person. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "battery",
+      "name": "電池",
+      "section": [
+        7,
+        11
+      ],
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: Two ordinary cylindrical portable batteries side by side at slightly different angles, worn ivory and dull blue metal sleeves, visible positive terminals, no labels. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "oil_lamp",
+      "name": "油燈",
+      "section": 7,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One old kerosene hurricane oil lantern, weathered dark steel frame, intact smoky clear glass chimney, fuel reservoir and carrying loop, unlit. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "bandage",
+      "name": "繃帶",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One compact roll of clean ivory gauze bandage with a short loose strip curling forward, subtle woven fibers, no blood. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "disinfectant",
+      "name": "消毒水",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One squat amber glass disinfectant bottle with ribbed black screw cap and plain ivory paper label bearing only a small generic ivory cross embossed in a dark patch, no lettering. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "painkillers",
+      "name": "止痛藥",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small rectangular foil blister strip holding six ivory oblong painkiller tablets, a corner of plain faded ochre cardboard sleeve behind it; no printing. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "antibiotics",
+      "name": "抗生素",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One narrow dark amber pill bottle with pale screw cap, plain blue-grey label without writing, two beige two-part capsules beside it, a compact medicine asset. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "surgical_kit",
+      "name": "手術包",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One compact weathered olive surgical instrument roll partly opened to reveal neatly secured steel forceps, scissors and a scalpel under clean ivory cloth; sterile tools, no blood. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "adrenaline",
+      "name": "腎上腺素",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One compact capped adrenaline auto-injector pen, dull steel and ivory barrel, muted orange safety end, no visible needle, no writing. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "anti_radiation_medicine",
+      "name": "抗輻射藥",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One squat flat olive military-style medicine tin, latched lid and plain ivory circular inset, a small blister pack of dark ochre tablets partly nested in it, no writing or radiation icon. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "antidote",
+      "name": "解毒劑",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small sealed greenish glass antidote vial inside a fitted aged leather protective sleeve, intact rubber stopper and dull aluminium crimp seal, no writing. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "burn_ointment",
+      "name": "燒傷藥膏",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One squeezed soft aluminium ointment tube with ivory screw cap, a faded warm tan band and plain ivory medical plus mark, no lettering. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "old_world_medical_case",
+      "name": "舊世醫療箱",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One sturdy pre-war metal medical case, faded pale blue paint, rounded reinforced corners, latch and carrying handle, large ivory medical plus painted on front, closed, no red cross. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "unlabelled_medicine",
+      "name": "未標示藥劑",
+      "section": 8,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small sealed smoky glass bottle containing opaque amber liquid, cork secured with fraying cord, torn blank label remnant, ambiguous but practical old medicine, no magic glow. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "screwdriver",
+      "name": "螺絲起子",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One weathered flat-head screwdriver, scratched steel shaft and simple dark brown grooved handle, diagonal three-quarter view, entire tip visible. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "pliers",
+      "name": "鉗子",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One sturdy pair of combination pliers with dark steel jaws slightly open and aged olive rubber-coated handles, diagonal compact composition. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "toolbox",
+      "name": "工具箱",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One closed rectangular steel toolbox, muted rust-red worn paint, single folding handle, latch and reinforced edges, useful rather than ruined. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "welding_tools",
+      "name": "焊接工具",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A portable welding torch kit as one coherent compact asset: small paired dull-metal gas cylinders in a carrying frame, coiled hose and torch secured to its side, no sparks. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "multimeter",
+      "name": "萬用電表",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One rugged old analogue electrical multimeter, faded ochre rubber case, needle gauge without readable numbers, selector dial and two attached leads neatly looped. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "hand_crank_generator",
+      "name": "手搖發電機",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One compact portable hand-crank generator, olive metal box with integrated folded side crank, small cable socket and short coiled output wire, no text. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "jack",
+      "name": "千斤頂",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One heavy utilitarian steel scissor car jack partly extended, worn dark steel and rusty joints, crank rod tucked alongside as part of the tool. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "metal_detector",
+      "name": "金屬探測器",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One worn portable metal detector, circular search coil, slim angled shaft, olive grip and compact control unit, entire connected instrument visible diagonally. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "binoculars",
+      "name": "望遠鏡",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One pair of rugged compact field binoculars, muted olive rubber armour and dark glass lenses, short attached brown strap loop, three-quarter view. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "compass",
+      "name": "指南針",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One open brass lensatic pocket compass, dark green lid, simple visible needle and unlettered tick marks, aged metal, no readable words or numbers. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "old_world_map",
+      "name": "舊世地圖",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One folded old paper map partly unfolded, faded abstract road lines and topographic curves with no writing, torn creases and brown paper edges, isolated. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "radio",
+      "name": "無線電",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One rugged portable two-way radio, worn dark olive casing, short upright antenna, ribbed speaker grille and two knobs, no screen text. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "signal_receiver",
+      "name": "訊號接收器",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One compact specialised signal receiver, square dull grey metal field box with a foldable small directional loop antenna and single unlettered analogue meter, distinct from a handheld radio. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "lockpick_set",
+      "name": "開鎖工具",
+      "section": 9,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small worn leather roll opened to show several slender hooked steel lock picks and a tension wrench, arranged neatly, no lock or extra scene. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "scrap_iron",
+      "name": "廢鐵",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A small coherent pile of rusty irregular scrap iron plates and one bent iron bracket, jagged but safe-looking worn edges, no gears or tools. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "steel_stock",
+      "name": "鋼材",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: Three short cut lengths of structural steel stock, one flat bar and two squared profiles bundled with a steel strap, clean grey cut ends and light oxidation. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "aluminum_stock",
+      "name": "鋁材",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A compact bundle of lightweight pale aluminium sheets and short hollow aluminium angle sections, satin silver scuffed surfaces, visibly lighter than dark steel. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "copper_wire",
+      "name": "銅線",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One neat coil of salvaged bare copper wire with a short loose end, warm dull copper patina, no other materials. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "circuit_board",
+      "name": "電路板",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One salvaged rectangular green-brown circuit board, visible copper traces and several small capacitors and chips, intact practical electronics, no lettering. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "gear",
+      "name": "齒輪",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One robust rusty steel spur gear, circular toothed rim and central bore clearly visible, three-quarter slight angle, no additional scrap. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "bearing",
+      "name": "軸承",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One steel ball bearing with outer race, inner ring and visible balls, grease-darkened worn steel, strong circular silhouette. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "spring",
+      "name": "彈簧",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One heavy coiled compression spring, dark blued steel with small rust patches, diagonally posed, clear separated turns. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "rubber",
+      "name": "橡膠",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One rolled strip of thick salvaged black rubber with a short flat end, matte worn texture and slightly cracked edge, not a tire. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "plastic",
+      "name": "塑膠",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A small stack of salvaged rigid plastic sheets and a curved casing piece, faded ivory and muted blue-grey, scuffed edges, no metal or wires. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "cloth",
+      "name": "布料",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One folded bundle of coarse muted beige and olive fabric tied with thin twine, visible layered cloth edges and repaired wear. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "leather",
+      "name": "皮革",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One folded irregular tanned brown leather hide scrap, heavy supple creases and slightly frayed raw edges, no garment shape. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "glass",
+      "name": "玻璃",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: Three salvaged clear thick glass panes with rounded worn chipped edges stacked at different angles, slight dusty blue tint and readable highlights, no frame. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "chemicals",
+      "name": "化學品",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A small sealed industrial chemical bottle in amber glass with a plain dark screw cap and blank faded ivory label, beside a small sealed grey reagent tin; generic material sample, no hazard text. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "battery_cell",
+      "name": "電池芯",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One exposed industrial cylindrical rechargeable cell with dull bare metal jacket, insulated olive top and two short safe disconnected contact tabs, no printing, distinct from consumer batteries. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "precision_parts",
+      "name": "精密零件",
+      "section": 10,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: A compact coherent group of three precision-machined components: a small brass toothed spindle, a fine steel coupling and a milled metal block, clean exact surfaces with light age. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "cigarettes",
+      "name": "香菸",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One worn plain ivory cigarette pack opened slightly with two unlit cigarettes visible, muted brown paper seam, no lettering or logos. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "liquor",
+      "name": "酒",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One squat dark green liquor bottle filled with amber liquid, cork and plain weathered tan paper label, no branding or writing. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "coffee",
+      "name": "咖啡",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small open folded kraft paper coffee bag with a modest mound of dark roasted coffee beans visible at its mouth, intact edible trade goods. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "tea",
+      "name": "茶葉",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small open rectangular dull brass tea tin filled with dry curled dark green tea leaves, plain fitted lid leaning directly against the tin, no lettering. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "sugar",
+      "name": "糖",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One plain ivory paper bag folded open to show pale sugar cubes, two cubes close to its base, distinct from coarse salt pouch. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "spices",
+      "name": "香料",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One tied small ochre cloth spice pouch opened at its lip to reveal warm brown coarse spice flakes, a tiny wooden scoop secured into the fold, no bright saturated powders. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "old_world_canned_food",
+      "name": "舊世罐頭",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One unusual old-world oval food tin with a pull ring, faded dusty blue blank paper wrapper and aged patina, safely sealed, distinct from cylindrical common canned food. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "ammunition",
+      "name": "彈藥",
+      "section": 11,
+      "art_role": "category_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: Category illustration only: a compact plain worn olive ammunition carton partly open with several generic brass cartridges nested safely inside, no calibre markings, no firearm, no schematic. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "medicines",
+      "name": "藥物",
+      "section": 11,
+      "art_role": "category_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: Category illustration only: a coherent small assortment of common sealed medicines, one amber pill bottle, one foil tablet strip and one ivory ointment tube arranged as a single compact trade-goods cluster, blank packaging, generic ivory medical plus only. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "mechanical_parts",
+      "name": "機械零件",
+      "section": 11,
+      "art_role": "category_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: Category illustration only: a compact salvage assortment of a small gear, bearing, two bolts and a steel bracket, lightly worn mixed industrial metal, single tight coherent cluster, no large machine. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    },
+    {
+      "id": "seeds",
+      "name": "種子",
+      "section": 11,
+      "art_role": "item_illustration",
+      "prompt": "Use case: stylized-concept. Asset type: original Wasteland Chronicles Survivor PDA inventory illustration. Subject: One small open brown paper seed packet with a few dry edible crop seeds gathered at its mouth, blank unprinted packet, wholesome planting material. Style: realistic hand-painted game item with clearly readable silhouette, practical worn materials and restrained surface detail, matching weathered canvas/steel/leather common item artwork. Square 1024x1024 composition, entire object visible, centered, around 80 percent frame occupancy, three-quarter view, soft upper-left light. Low-saturation olive, brown, ivory, rust and steel palette with only material-appropriate subtle colour. Genuinely transparent background and alpha, no ground plane, no backdrop, no fake checkerboard, no cast shadow rectangle. No UI, borders, labels, readable words, numbers, brands, watermark, people, hands, mannequins, blood, neon or magical glow. Keep edges and silhouette clear at 32–48 px. Draw only this item or the specifically requested coherent group, no unrelated props. Framing priority: keep every part of the subject safely within the central 80 percent of the square, with at least 10 percent completely transparent margin on each edge. Do not crop any part.",
+      "status": "PLANNED"
+    }
+  ]
+}

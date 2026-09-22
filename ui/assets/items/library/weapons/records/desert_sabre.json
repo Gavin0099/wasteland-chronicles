@@ -1,0 +1,27 @@
+{
+  "id": "desert_sabre",
+  "name": "沙地彎刀",
+  "section": 1,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/desert_sabre.png",
+  "source_output": "exec-f9dd3ed3-314a-47c8-8fd4-46ebc82c7241.png",
+  "sha256": "ee47959a086d67ea943a8521d80b45ee39b662acf1c3073a713c83812fe201c8",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    48,
+    1222,
+    1198
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

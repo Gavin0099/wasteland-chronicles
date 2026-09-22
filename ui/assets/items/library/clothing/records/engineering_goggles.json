@@ -1,0 +1,27 @@
+{
+  "id": "engineering_goggles",
+  "name": "工程護目鏡",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/engineering_goggles.png",
+  "source_output": "exec-32e3e17f-ad9e-4e74-ae2e-295a7b92dfc8.png",
+  "sha256": "b570c3947970c68c3650bc05145c0aa6f932df7d7e77c17596127b97ca6f18ed",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1238,
+    1226
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

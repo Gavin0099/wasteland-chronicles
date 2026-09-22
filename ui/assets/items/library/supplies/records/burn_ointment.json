@@ -1,0 +1,27 @@
+{
+  "id": "burn_ointment",
+  "name": "燒傷藥膏",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/burn_ointment.png",
+  "source_output": "exec-0a7dbcb3-03a7-448c-af1c-979200f926ff.png",
+  "sha256": "c07af009ba840b85378f5de1dd0ec4a99df948b49e24f39b6df1e23af2fd3571",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    47,
+    21,
+    1226,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

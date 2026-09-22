@@ -1,0 +1,27 @@
+{
+  "id": "military_dog_tags",
+  "name": "軍人識別牌",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/military_dog_tags.png",
+  "source_output": "exec-1a9bc5b7-1b0c-412d-9cd9-6130a915dc79.png",
+  "sha256": "bbd380dc59c0b799dd3ef28cb287cd35577d308f7c6ccdd2c957ccb866904a80",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1240,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

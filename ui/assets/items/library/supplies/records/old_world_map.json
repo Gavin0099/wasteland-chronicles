@@ -1,0 +1,27 @@
+{
+  "id": "old_world_map",
+  "name": "舊世地圖",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/old_world_map.png",
+  "source_output": "exec-a2ea6838-f979-4df4-984e-cc75bd0b643a.png",
+  "sha256": "323a85f1d3fecfbd49944430c542d34ea2b8723329091ada6e3ec0276fe54429",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1230,
+    1222
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

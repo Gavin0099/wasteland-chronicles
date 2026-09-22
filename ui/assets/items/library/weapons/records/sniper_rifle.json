@@ -1,0 +1,27 @@
+{
+  "id": "sniper_rifle",
+  "name": "狙擊步槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/sniper_rifle.png",
+  "source_output": "exec-0f45d8f1-1eb5-468d-a5fb-96a4440a216e.png",
+  "sha256": "ec23c6bd701ffba5239da0932b924f679c1e330d40b225f2178a516750c59543",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    12,
+    52,
+    1242,
+    1198
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

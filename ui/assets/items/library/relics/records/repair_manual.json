@@ -1,0 +1,27 @@
+{
+  "id": "repair_manual",
+  "name": "維修手冊",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/repair_manual.png",
+  "source_output": "exec-eb55c8b5-03a2-4b66-b028-308856573934.png",
+  "sha256": "348e806abbf80a0bc048d825eb328f91e68634f1f2c61707dc12425bc83f436d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1230,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

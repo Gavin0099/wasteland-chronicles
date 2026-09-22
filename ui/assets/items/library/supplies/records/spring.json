@@ -1,0 +1,27 @@
+{
+  "id": "spring",
+  "name": "彈簧",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/spring.png",
+  "source_output": "exec-ab706da5-b4e7-4c85-9239-6e680b978f97.png",
+  "sha256": "789c92df1711def31454c74ed117d3a273b00312529a6e2c6e0caf841fa87621",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    31,
+    21,
+    1224,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

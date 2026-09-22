@@ -1,0 +1,27 @@
+{
+  "id": "heat_insulation_suit",
+  "name": "隔熱服",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/heat_insulation_suit.png",
+  "source_output": "exec-677712cd-4c99-4d1c-8d3d-68b891a412f7.png",
+  "sha256": "e8555f1ef798562b0d901bf5f0e9c399ca2451b49f0060f9bf586274c5975b43",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    0,
+    1202,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

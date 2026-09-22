@@ -1,0 +1,27 @@
+{
+  "id": "civilian_pistol",
+  "name": "民用手槍",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/civilian_pistol.png",
+  "source_output": "exec-b1c9ac11-7fe6-4d08-88df-16fdcd7ec81b.png",
+  "sha256": "ee22a7d27b67addbe7e6a4dce78c19988fb7e6a4c595e0f342f4650ff42e4599",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    39,
+    49,
+    1212,
+    1239
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

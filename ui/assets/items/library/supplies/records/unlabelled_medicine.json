@@ -1,0 +1,27 @@
+{
+  "id": "unlabelled_medicine",
+  "name": "未標示藥劑",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/unlabelled_medicine.png",
+  "source_output": "exec-f6fc10a0-0a8c-422e-828a-e8b89ea0c82b.png",
+  "sha256": "95595160a36bfc0f9d39c10cc0431d88a98c38dcd2a3a1bcc05f8d615a52a153",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    25,
+    20,
+    1236,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

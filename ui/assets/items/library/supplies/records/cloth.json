@@ -1,0 +1,27 @@
+{
+  "id": "cloth",
+  "name": "布料",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/cloth.png",
+  "source_output": "exec-9321132d-7314-43fe-85b3-39a58688ae5f.png",
+  "sha256": "08b4f44a8219ed15020f92b25700ad4e0d0f0ce34d12a9bc5bcfca707ffdbd9b",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1230,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

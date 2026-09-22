@@ -1,0 +1,27 @@
+{
+  "id": "snub_revolver",
+  "name": "短管左輪",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/snub_revolver.png",
+  "source_output": "exec-4e820fae-5644-456d-906c-32d28f3ebf8d.png",
+  "sha256": "2423f8c8535228d3de2ef1390642a7ae75774073f834f1a2d24bc90c4189117d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1225,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

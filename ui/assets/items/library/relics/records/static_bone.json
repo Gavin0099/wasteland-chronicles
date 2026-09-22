@@ -1,0 +1,27 @@
+{
+  "id": "static_bone",
+  "name": "靜電骨",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/static_bone.png",
+  "source_output": "exec-56b2bd4b-7f86-427c-8cd4-459dfe933a09.png",
+  "sha256": "e4f75af8d9edb729b3a21a3b2ccf782381dade99be349538367ab00c7f4b668d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    45,
+    20,
+    1242,
+    1234
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

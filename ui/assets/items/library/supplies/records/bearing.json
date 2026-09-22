@@ -1,0 +1,27 @@
+{
+  "id": "bearing",
+  "name": "軸承",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/bearing.png",
+  "source_output": "exec-03f7a180-99b5-4e15-8d93-f04acd41c5f3.png",
+  "sha256": "aa2fadf459fd586f5e5306d85bb4deade947d9a52b508dc376a76a1b4bf277e3",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1202,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

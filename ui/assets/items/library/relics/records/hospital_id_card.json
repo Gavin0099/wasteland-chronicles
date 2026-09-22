@@ -1,0 +1,27 @@
+{
+  "id": "hospital_id_card",
+  "name": "醫院識別卡",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/hospital_id_card.png",
+  "source_output": "exec-83704b3a-3129-4fe3-b973-12487792b4a8.png",
+  "sha256": "26012fea11505327f186947d9648e9ae0ef58666cf1369d7e994d246a292adfe",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    9,
+    1232,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

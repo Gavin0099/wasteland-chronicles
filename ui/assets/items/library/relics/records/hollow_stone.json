@@ -1,0 +1,27 @@
+{
+  "id": "hollow_stone",
+  "name": "空心石",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/hollow_stone.png",
+  "source_output": "exec-2236bfe5-0d0a-4039-9b15-df184503a9bd.png",
+  "sha256": "45fb303141f5223dca0051f03c3e5d32a09a741cc1ca9244fd2769e49ccd48c8",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1230,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

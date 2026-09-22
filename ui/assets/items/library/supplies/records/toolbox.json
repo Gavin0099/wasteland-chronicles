@@ -1,0 +1,27 @@
+{
+  "id": "toolbox",
+  "name": "工具箱",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/toolbox.png",
+  "source_output": "exec-ad971f8d-22ee-43b2-adf7-6832cfd11c7f.png",
+  "sha256": "dd57b0e9ddb1b56049422518836cb238582d04583a83b4be5aa4518858d6b54f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    8,
+    1223,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

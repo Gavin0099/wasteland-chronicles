@@ -1,0 +1,27 @@
+{
+  "id": "unknown_implant",
+  "name": "未知植入物",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/unknown_implant.png",
+  "source_output": "exec-7e57da9e-7073-47b4-b559-ba4d411ec05a.png",
+  "sha256": "4879423356d08a615004fdb8e493f1d316ab704666854e7875d618c405391f31",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    37,
+    57,
+    1189,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

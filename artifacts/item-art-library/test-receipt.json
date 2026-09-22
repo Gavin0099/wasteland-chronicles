@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "python artifacts/item-art-library/build_catalogue.py --require-complete",
+  "exit_code": 0,
+  "started_at": "2026-09-22T07:20:26Z",
+  "finished_at": "2026-09-22T07:20:30Z",
+  "runner": "governance_tools.test_evidence_receipt_writer",
+  "linked_commit": "38f2bad96b922554f809239048fa82e8dfd4506b",
+  "output_artifacts": [
+    "artifacts/item-art-library/test-receipt.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}

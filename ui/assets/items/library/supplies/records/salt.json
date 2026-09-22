@@ -1,0 +1,30 @@
+{
+  "id": "salt",
+  "name": "鹽",
+  "section": [
+    7,
+    11
+  ],
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/salt.png",
+  "source_output": "exec-3dbcb02b-ccd2-477c-9535-054f63da4bf4.png",
+  "sha256": "dade22e86e71be51042a5d9d1437b037f8974ebc7e56b50190a2ce79d465c10f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1230,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

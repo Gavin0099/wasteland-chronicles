@@ -1,0 +1,27 @@
+{
+  "id": "cigarettes",
+  "name": "香菸",
+  "section": 11,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/cigarettes.png",
+  "source_output": "exec-9de5f9e4-b961-4566-97f5-4462ccb93a84.png",
+  "sha256": "0477ca1e0a7ec118619774289e791e829afbea3a1adcb3cafacf7a007a91832e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    31,
+    39,
+    1200,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

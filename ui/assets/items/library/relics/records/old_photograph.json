@@ -1,0 +1,27 @@
+{
+  "id": "old_photograph",
+  "name": "老照片",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/old_photograph.png",
+  "source_output": "exec-29903383-f81a-4a59-8751-1b881448aad6.png",
+  "sha256": "9dab7b357da644ee251755179676383faef474a3f9d6848a6729d41aae09857e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1232,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

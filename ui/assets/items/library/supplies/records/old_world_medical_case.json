@@ -1,0 +1,27 @@
+{
+  "id": "old_world_medical_case",
+  "name": "舊世醫療箱",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/old_world_medical_case.png",
+  "source_output": "exec-bf5b75ef-a0cf-49ae-ba40-c3fdae7073b1.png",
+  "sha256": "c0812e7663e8fa9cbc98d05aca6d428e25648448d7a05da8c773d52ee79b1967",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1234,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

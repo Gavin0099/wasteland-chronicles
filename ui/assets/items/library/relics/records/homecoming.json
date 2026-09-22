@@ -1,0 +1,27 @@
+{
+  "id": "homecoming",
+  "name": "回家",
+  "section": 15,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/homecoming.png",
+  "source_output": "exec-2e883402-89ed-4db2-98d4-fe3520693946.png",
+  "sha256": "d2692f974aae41dd6121e5496aa1c91ee64609738ff93f974210c613106da14e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    27,
+    23,
+    1237,
+    1236
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

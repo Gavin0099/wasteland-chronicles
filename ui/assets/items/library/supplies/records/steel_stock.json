@@ -1,0 +1,27 @@
+{
+  "id": "steel_stock",
+  "name": "鋼材",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/steel_stock.png",
+  "source_output": "exec-135ff59d-fbca-4d8c-89cd-3785f53a3a29.png",
+  "sha256": "e0784f5c8e95fe78c082aaa7bc90c4225504c6498e82850811c28a4a36e28637",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    57,
+    37,
+    1223,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

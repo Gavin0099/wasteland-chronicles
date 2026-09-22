@@ -1,0 +1,27 @@
+{
+  "id": "muscle_stimulator",
+  "name": "肌纖維刺激器",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/muscle_stimulator.png",
+  "source_output": "exec-fd876fde-90ab-4b34-ba94-dfd660da3aa0.png",
+  "sha256": "299df23f35d950ab1628179bc943fc3da202d5a25161436c8b0ed2cb1a106b56",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    47,
+    15,
+    1212,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

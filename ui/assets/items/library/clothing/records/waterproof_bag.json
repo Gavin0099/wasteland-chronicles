@@ -1,0 +1,27 @@
+{
+  "id": "waterproof_bag",
+  "name": "防水袋",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/waterproof_bag.png",
+  "source_output": "exec-6be2c129-2a84-45a9-bf6f-405c9131799f.png",
+  "sha256": "09056c811ab24de7d70a2027b5750b43162644365557772495a04f964836d22e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    55,
+    21,
+    1224,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

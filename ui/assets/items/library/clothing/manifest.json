@@ -1,0 +1,709 @@
+{
+  "generator": "built-in image_gen",
+  "scope": "sections 5 and 6; original inventory artwork only",
+  "count": 26,
+  "assets": [
+    {
+      "id": "farm_clothes",
+      "name": "農務服",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/farm_clothes.png",
+      "source_output": "exec-5e8363f9-9680-4e8a-a09a-e9ee30cf5aaf.png",
+      "sha256": "e486838281db7640e508a73b7d42f46c7f3556289e06b62595bd072b3f238040",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        41,
+        2,
+        1200,
+        1237
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "worker_leather_jacket",
+      "name": "工人皮衣",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/worker_leather_jacket.png",
+      "source_output": "exec-e2cfd0fa-3cb2-4de2-a9f4-25e365550cad.png",
+      "sha256": "c7ef5f3e99a9501aacc10c30e2046af48e39ec10c52d63bd9b7f5326f767ac35",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "motorcycle_jacket",
+      "name": "摩托夾克",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/motorcycle_jacket.png",
+      "source_output": "exec-e3077a6c-ccdf-4893-897b-9357e4790011.png",
+      "sha256": "ee3dfdfc470042cdff8703a06b500b09cd77696eb434ff20f268bf3fe0fc6ee0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1200,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "stab_vest",
+      "name": "防刺背心",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/stab_vest.png",
+      "source_output": "exec-69a321bf-bf66-4192-be5b-26a6e1350f91.png",
+      "sha256": "5a42da42defc1e50e02b4907f7493601186539cfadfb2285c399acf7a75e70ee",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        39,
+        1200,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "police_ballistic_vest",
+      "name": "警用防彈衣",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/police_ballistic_vest.png",
+      "source_output": "exec-c5210c0d-53c8-4b1a-8a68-bfc6a1ad0ce3.png",
+      "sha256": "ef831dfda7e2535b1af6c490467dcc4261a3ceec75e1f22cc1742456e31cf030",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        44,
+        1208,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "scrap_iron_armor",
+      "name": "拼裝鐵甲",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/scrap_iron_armor.png",
+      "source_output": "exec-7133ee8f-3194-4d05-800e-b2fe59412fe4.png",
+      "sha256": "3f7b72eb3b670660f7f7b57fbc98179c44fa701cfec065b106b8d9e5e17730a1",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "car_panel_cuirass",
+      "name": "車板胸甲",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/car_panel_cuirass.png",
+      "source_output": "exec-d0a76e07-76af-4225-862a-8f5b66fe01f3.png",
+      "sha256": "e8c9a339d91635dad6d625f386c8dc192bbb11db06a3720efdeed127f456c474",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "old_world_military_armor",
+      "name": "舊世軍甲",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/old_world_military_armor.png",
+      "source_output": "exec-de02821b-0e8f-407c-9208-b604c6885ea4.png",
+      "sha256": "0090f5aa4001e3d631a4ba4f4c603a08734172c0b5a90b95affc4e2b0cc8fd21",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1219,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "hazmat_suit",
+      "name": "防化服",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/hazmat_suit.png",
+      "source_output": "exec-521b7c85-51a9-405e-93af-a8a767c4c4cb.png",
+      "sha256": "832467da4441c18337842db981fccad59e6b72c80aadf1915205f156fd11cc88",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        0,
+        1230,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "heat_insulation_suit",
+      "name": "隔熱服",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/heat_insulation_suit.png",
+      "source_output": "exec-677712cd-4c99-4d1c-8d3d-68b891a412f7.png",
+      "sha256": "e8555f1ef798562b0d901bf5f0e9c399ca2451b49f0060f9bf586274c5975b43",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        0,
+        1202,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "firefighter_suit",
+      "name": "防火服",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/firefighter_suit.png",
+      "source_output": "exec-5d726d0b-0907-4e1c-b1c2-1e4c574a93a0.png",
+      "sha256": "63bb5064d16e907259f376a8df39a0fa09e31bda51f1987ea7c3d5ae16b3e65d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        21,
+        1218,
+        1232
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "wilderness_cloak",
+      "name": "荒野斗篷",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/wilderness_cloak.png",
+      "source_output": "exec-94993e26-ee46-4c01-b054-b5528276ce36.png",
+      "sha256": "10465cb41219e3e106e9fca94436b74e4a5c6432d45e0c7c09cae9316789b204",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        41,
+        16,
+        1208,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "dust_mask",
+      "name": "沙塵面罩",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/dust_mask.png",
+      "source_output": "exec-773f99fa-8761-43eb-8db6-bb6a6a6af4c9.png",
+      "sha256": "b7da7bdba387325d942cb740de06b9361e80f8ab93c6ad9d4eca5d3a8d87e410",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        43,
+        1228,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "gas_mask",
+      "name": "防毒面具",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/gas_mask.png",
+      "source_output": "exec-07a538cf-45ba-4e74-85b3-c1a98b317634.png",
+      "sha256": "4a8135c39437ffa8a3589ca06158c4ccb588d5c92d801a893aa1fedacbc275fd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1222,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "engineering_goggles",
+      "name": "工程護目鏡",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/engineering_goggles.png",
+      "source_output": "exec-32e3e17f-ad9e-4e74-ae2e-295a7b92dfc8.png",
+      "sha256": "b570c3947970c68c3650bc05145c0aa6f932df7d7e77c17596127b97ca6f18ed",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1238,
+        1226
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "night_vision_goggles",
+      "name": "夜視鏡",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/night_vision_goggles.png",
+      "source_output": "exec-014681d9-c8c4-4b51-b88f-7d2ccaaa90b4.png",
+      "sha256": "4cd8c5fc00b13a21b8ba593d37b2735bb0161126df88c3d9c2cfe467adf48a9c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "tactical_helmet",
+      "name": "舊世戰術頭盔",
+      "section": 5,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/tactical_helmet.png",
+      "source_output": "exec-483d8109-3cc3-4258-a63b-1fd78e902579.png",
+      "sha256": "e400d322791de0231218039937c2d7259fdde1a76bbbf7af82c83570fd458fad",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1206,
+        1214
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "cloth_sack",
+      "name": "布袋",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/cloth_sack.png",
+      "source_output": "exec-11ce9df7-83b9-46c1-b2d0-dfdd9363c804.png",
+      "sha256": "b30979911fb06df2dc59b37cefae85ed9feccb4cf5c9764bbf2ce9ca8e1c342d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1236,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "hiking_backpack",
+      "name": "登山背包",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/hiking_backpack.png",
+      "source_output": "exec-e1e667ba-6175-4dcb-a4ac-1033e70b30f6.png",
+      "sha256": "055291d43f5b2bda78ba4611af10c038c1b594a384a6129b8fa95fc00703af0e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        33,
+        1236,
+        1231
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "military_backpack",
+      "name": "軍用背包",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/military_backpack.png",
+      "source_output": "exec-7c849c76-ad22-4fdd-a249-02670a2249b3.png",
+      "sha256": "effd115f600805ba4c51ef6c42f99c5c88f00a4618e8d47a3cf1939a55b8d9f9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1206,
+        1236
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "tool_belt",
+      "name": "工具腰帶",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/tool_belt.png",
+      "source_output": "exec-62907f63-80e1-4899-9fe1-ac000e832da3.png",
+      "sha256": "180a97adb19c4acf0ce58f919c5d696d8e11a89584e5f8023ee81fc105876b22",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1224,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "ammo_bandolier",
+      "name": "彈藥帶",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/ammo_bandolier.png",
+      "source_output": "exec-f0751eb8-f88c-4032-84dc-f9dc6f3c39a1.png",
+      "sha256": "953554976602837649e6eb7431a3f04f429468f61911facf931ef2ba8a8c42fc",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1230,
+        1200
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "medical_satchel",
+      "name": "醫療袋",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/medical_satchel.png",
+      "source_output": "exec-f591afcc-7087-4db3-ba26-9872b920b31e.png",
+      "sha256": "6a0d7994b5aa565b7c6bfe32e77a5a473a4744a1aabc9cc97703a7dae860efd8",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "waterskin",
+      "name": "水袋",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/waterskin.png",
+      "source_output": "exec-d79c00e7-72c2-4c4d-ac78-6ac0740e65f5.png",
+      "sha256": "52bfc0372a93fbbd5042cbdcc94a30e8c30b7f7292f2bda6cb7d07825f49dadd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1220,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "waterproof_bag",
+      "name": "防水袋",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/waterproof_bag.png",
+      "source_output": "exec-6be2c129-2a84-45a9-bf6f-405c9131799f.png",
+      "sha256": "09056c811ab24de7d70a2027b5750b43162644365557772495a04f964836d22e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        55,
+        21,
+        1224,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "sealed_cargo_crate",
+      "name": "密封貨箱",
+      "section": 6,
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/sealed_cargo_crate.png",
+      "source_output": "exec-d76b130b-70e4-45bb-ac55-2910eb0ddd50.png",
+      "sha256": "c1e5a736ad97bbd806e62391240f12a68e26f8b1b4e8f1aff589117af6163a69",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1208,
+        1214
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "generator": "built-in image_gen",
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    }
+  ]
+}

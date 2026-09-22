@@ -1,0 +1,27 @@
+{
+  "id": "screwdriver",
+  "name": "螺絲起子",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/screwdriver.png",
+  "source_output": "exec-71f4d7bc-28ca-4e2b-b4fd-dad8a579589f.png",
+  "sha256": "6ba80e8fa355b3431bb3e82a78e9ca8e2aea56358b9d47376255b4bfce8b04a1",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    41,
+    53,
+    1198,
+    1214
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "machine_pistol",
+  "name": "衝鋒手槍",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/machine_pistol.png",
+  "source_output": "exec-9703ffc7-6c40-4bb1-a324-d78304e8ed10.png",
+  "sha256": "a9b7ecc0a29d2f80a78d1d7b3761e321b43a9d06fe2f85ae528033a65c969a9b",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    17,
+    103,
+    1236,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

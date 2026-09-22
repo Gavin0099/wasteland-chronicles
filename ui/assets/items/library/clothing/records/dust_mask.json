@@ -1,0 +1,27 @@
+{
+  "id": "dust_mask",
+  "name": "沙塵面罩",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/dust_mask.png",
+  "source_output": "exec-773f99fa-8761-43eb-8db6-bb6a6a6af4c9.png",
+  "sha256": "b7da7bdba387325d942cb740de06b9361e80f8ab93c6ad9d4eca5d3a8d87e410",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    43,
+    1228,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

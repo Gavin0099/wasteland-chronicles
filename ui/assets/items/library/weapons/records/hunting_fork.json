@@ -1,0 +1,27 @@
+{
+  "id": "hunting_fork",
+  "name": "捕獸叉",
+  "section": 1,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/hunting_fork.png",
+  "source_output": "exec-3fe653b8-60db-4ec1-9547-08c68a537c99.png",
+  "sha256": "80821369c53aa6b70482fce0d63a1161bfb4f470b5e4bc036be38c2450568954",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    83,
+    19,
+    1237,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

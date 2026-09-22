@@ -1,0 +1,27 @@
+{
+  "id": "old_hunter_rifle",
+  "name": "老獵人的槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/old_hunter_rifle.png",
+  "source_output": "exec-a696c272-5639-4fc2-9b96-2e67c473c958.png",
+  "sha256": "d9a3c6333f79f28114986013aafbc8e1e45119e2f884a7023971de1acffdc9d3",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    26,
+    19,
+    1232,
+    1214
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

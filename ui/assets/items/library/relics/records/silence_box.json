@@ -1,0 +1,27 @@
+{
+  "id": "silence_box",
+  "name": "沉默盒",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/silence_box.png",
+  "source_output": "exec-8726245c-ec50-4b7e-b24f-d72afa40fd0a.png",
+  "sha256": "50d998e6e562bf7dfbd2b918b9b623fa5fea36994b02e60f881f7f1d78fb5e34",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    23,
+    1228,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

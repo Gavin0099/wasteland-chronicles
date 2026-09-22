@@ -1,0 +1,27 @@
+{
+  "id": "power_hammer",
+  "name": "動力錘",
+  "section": 1,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/power_hammer.png",
+  "source_output": "exec-5cbac7bd-f168-4b3b-b664-5de39cf1e52c.png",
+  "sha256": "6e3816bb3ae8dab30feaed2105799aa5abfe17f4dbe0a2967ed319d1070fc038",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    47,
+    1224,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

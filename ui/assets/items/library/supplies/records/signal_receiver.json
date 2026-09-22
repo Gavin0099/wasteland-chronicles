@@ -1,0 +1,27 @@
+{
+  "id": "signal_receiver",
+  "name": "訊號接收器",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/signal_receiver.png",
+  "source_output": "exec-a6d56231-6447-4c51-bc47-5ebee149b85a.png",
+  "sha256": "24a438868839302050d146d7f0cdb2f609fad435ca39ebcce7f7b67f5e3966b3",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    39,
+    21,
+    1222,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}
