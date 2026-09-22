@@ -1,0 +1,42 @@
+[
+  {
+    "path": "artifacts/world_snapshot.json",
+    "sha256": "b46cc312f1e337b0e5e64ec4278cfb6aa1f4392e1ae2739172adbc607072ef1a",
+    "bytes": 5966
+  },
+  {
+    "path": "artifacts/world_snapshot_s4b.json",
+    "sha256": "430092feff637b9d53ebcdea6273fa3dfad3221a733ce2bdc00917d028d136fb",
+    "bytes": 6091
+  },
+  {
+    "path": "artifacts/world_snapshot_s4c.json",
+    "sha256": "b8aa5007841b2d8b212f3c91025ed792bfa085c2483f5266a92765fdb3bb8d2e",
+    "bytes": 98228
+  },
+  {
+    "path": "artifacts/world_snapshot_s4c1.json",
+    "sha256": "ed7623766271c07ce68855f5aa006085081edf0d8f26c5e668230506634fe8d6",
+    "bytes": 153863
+  },
+  {
+    "path": "artifacts/world_snapshot_s4c2.json",
+    "sha256": "3e6063110377d53e2150611cdae51f8f286d9d5d440e83247e388c960fb89c31",
+    "bytes": 350300
+  },
+  {
+    "path": "artifacts/world_snapshot_s4d.json",
+    "sha256": "b9e01de14f358010fb31faa2e05ec4bce0f28b21a86a93bac8312f1c1d0e7bd2",
+    "bytes": 95915
+  },
+  {
+    "path": "artifacts/world_snapshot_s4e.json",
+    "sha256": "a3c4517734503ac0645e8742827f2c347f4ff51639599a8a59a38c713e4db47f",
+    "bytes": 95951
+  },
+  {
+    "path": "artifacts/world_snapshot_s4f1.json",
+    "sha256": "4c5bee8e0e478ce00bcb9ce18447af3bdb3f9e755e921920e541e784563dce84",
+    "bytes": 148620
+  }
+]

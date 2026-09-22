@@ -382,7 +382,9 @@ Owner 後續決定先完成全部候選物品圖片，再進入 ITEM-1 資料契
 完整圖庫的完成只代表美術覆蓋；不代表 185 件物品已能取得、裝備或使用。
 人物造型、服裝換裝層、武器手持姿勢與動畫不包含在這份物品插圖清單中。
 
-後續物品系統順序維持 Owner 建議：ITEM-1 資料契約 → ITEM-2 首批 12 件資料
-→ ITEM-3 Inventory 顯示 → ITEM-4 Equip / Use 最小流程
-→ ITEM-5 Encounter 使用物品 → ITEM-6 地區供需／商店。
+正式定義以 [ITEM-1 十二件資料契約](item-1-data-contract.md) 為準；
+它與本文件的 185 名稱候選庫分開，不會依圖片自動註冊物品。
+Owner 最新順序為 ITEM-1 十二件定義 → ITEM-2 Inventory instance／ownership
+→ ITEM-3 Equipment slots／equip authority → ITEM-4 Encounter 正式物品 loot
+→ C5 Equipment Progression；地區商店與其他內容另行切片。
 美術先完成不會替這些系統預先決定數值、動作權限或供需規則。

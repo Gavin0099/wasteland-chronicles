@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+    WASTELAND CHRONICLES - S5-A PLAYER AVATAR TEST SUITE                        
+================================================================================
+
+--- [GATE P1] Player Materialization & Demographic Conservation ---
+  Player materialized: Vagrant (id: npc:00000001, age: 27, origin: settlement:gray_valley)
+  Gray Valley population: 100 (anonymous: 99, named: 1)
+  Global life conservation: 300 == 300
+  Duplicate player materialization refused: PLAYER_ALREADY_EXISTS
+PASS GATE P1: Player Materialization & Demographic Conservation verified.
+
+--- [GATE P2] Unified Intent Authorization ---
+  Authorization refuses [out-of-space, empty-dest, same-dest, non-existent-dest]
+  Zero mutation on rejection: world hash unchanged
+  Valid WAIT and TRAVEL intents authorized successfully
+PASS GATE P2: Unified Intent Authorization verified.
+
+--- [GATE P3] Physical Movement via Existing Transaction (Axiom 9) ---
+  Double-travel while in transit correctly refused: INVALID_STATUS
+  Day 0 (Departure): Player in transit, party days_remaining=2
+  Day 1 (Mid-Route): Player still in transit, days_remaining=1 (no teleport)
+  Day 2 (Arrival): Axiom 9 strictly verified (Arrival 2 = Departure 0 + Route 3 - 1)
+  New Hope population: 120 -> 121 (+1 player)
+  Global life conservation intact: 300 == 300
+PASS GATE P3: Physical Movement via Existing Transaction verified.
+
+--- [GATE P4] Personal Inventory & Backpack Load Limits ---
+  Backpack consumption during transit: 10 -> 6 (consumed 1 water & 1 food daily)
+  Backpack load limits strictly enforced: max 20 units
+  Invariant validator catches capacity violations fail-closed
+PASS GATE P4: Personal Inventory & Backpack Load Limits verified.
+
+--- [GATE P5] Full Snapshot Save/Load Round-Trip & Determinism ---
+  Player avatar round-trips through Save/Load as a strict fixed point
+  Canonical JSON SHA-256 bitwise identical: 2186d54e2bc3dba70e735740e9271c3303a3f133e4078ee43227fe4a36ae7462
+PASS GATE P5: Full Snapshot Save/Load Round-Trip & Determinism verified.
+
+--- [GATE P6] Coexistence with NPC Ecosystem ---
+  Player and NPCs run side-by-side across 10 ticks with 0 invariant violations
+  Life conservation intact: 300 == 300
+PASS GATE P6: Coexistence with NPC Ecosystem verified.
+
+================================================================================
+ALL S5-A PLAYER AVATAR GATES (P1 ~ P6) PASSED CLEANLY!                          
+================================================================================

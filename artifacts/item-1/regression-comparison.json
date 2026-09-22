@@ -1,0 +1,1116 @@
+{
+  "status": "PASS",
+  "baseline_commit": "8d68bac",
+  "before_results": "artifacts/item-1/before/results.json",
+  "after_results": "artifacts/item-1/after/results.json",
+  "suite_count": 40,
+  "source_test_sha_unchanged_count": 40,
+  "before_sha_line_count": 48,
+  "after_sha_line_count": 48,
+  "snapshot_count": 8,
+  "known_shutdown_warning_suite_count": 8,
+  "warning_scope": "Existing Godot shutdown RID/CanvasItem/ObjectDB leak diagnostics are retained. This is not a leak-free claim.",
+  "defects": [],
+  "suites": [
+    {
+      "suite": "test_c0_c1_headless.gd",
+      "source_sha256": "be972e72cc203e0d7e2bc606630a15dccafb385423b95ac642aab7877e97efca",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "C0/C1 replay SHA-256: c1aa75ca07b6afbf99c6baad7b536235f52d1032196f059bf195ec8fccb57cb8"
+      ],
+      "after_sha_lines": [
+        "C0/C1 replay SHA-256: c1aa75ca07b6afbf99c6baad7b536235f52d1032196f059bf195ec8fccb57cb8"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "0a2d6e871a85ebe7201967c776c39c03feaa75eaa92cac560bace11515e03a85",
+      "after_log_sha256": "0a2d6e871a85ebe7201967c776c39c03feaa75eaa92cac560bace11515e03a85",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_c1_p0_rank_codec.gd",
+      "source_sha256": "81454d16e5daea0287326d5e043b6829513d2146498de5e4b1ddc17ec80274d8",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [],
+      "after_sha_lines": [],
+      "sha_lines_identical": true,
+      "before_log_sha256": "7c9cba7a76ce0f6a6ae182dac4ba94e8e2d35f533d9730f81b4dda47169d7520",
+      "after_log_sha256": "7c9cba7a76ce0f6a6ae182dac4ba94e8e2d35f533d9730f81b4dda47169d7520",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_character_creation_ui.gd",
+      "source_sha256": "21d0d07996489b4885d48c0d567908328b538d316ddd755f20c49fa3231a9f36",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "Character UI replay SHA-256: 0e33428e8d4d75b9a0d3ff6b99e6beb72b5ccca932f5fddc48c929c6d6b06d00"
+      ],
+      "after_sha_lines": [
+        "Character UI replay SHA-256: 0e33428e8d4d75b9a0d3ff6b99e6beb72b5ccca932f5fddc48c929c6d6b06d00"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "160e0b45262b21f7a9af0fcf357e95a80111fe731e89257586554d189bb09bc5",
+      "after_log_sha256": "160e0b45262b21f7a9af0fcf357e95a80111fe731e89257586554d189bb09bc5",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 63 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 63 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_determinism.gd",
+      "source_sha256": "4d5d870e7c13dea8e8d022cd23544a3ac9ef570ff0d58f446f50cf90bf33213e",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "Run A SHA-256: 8a52b0a92c93df8d8ecf79429bba7209d1a3a0c5306d21c366df08d3a9375ea6",
+        "Run B SHA-256: 8a52b0a92c93df8d8ecf79429bba7209d1a3a0c5306d21c366df08d3a9375ea6",
+        "PASS: Determinism & Replay Test (Identical SHA-256: 8a52b0a92c93df8d8ecf79429bba7209d1a3a0c5306d21c366df08d3a9375ea6)"
+      ],
+      "after_sha_lines": [
+        "Run A SHA-256: 8a52b0a92c93df8d8ecf79429bba7209d1a3a0c5306d21c366df08d3a9375ea6",
+        "Run B SHA-256: 8a52b0a92c93df8d8ecf79429bba7209d1a3a0c5306d21c366df08d3a9375ea6",
+        "PASS: Determinism & Replay Test (Identical SHA-256: 8a52b0a92c93df8d8ecf79429bba7209d1a3a0c5306d21c366df08d3a9375ea6)"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "aea6a07c3290dbc16d9f216bd0894791570639ebdf503b255b48609ea32f9136",
+      "after_log_sha256": "aea6a07c3290dbc16d9f216bd0894791570639ebdf503b255b48609ea32f9136",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_encounter_resolution_feedback.gd",
+      "source_sha256": "7a89323453d1794a993546fd911fcb9504dca745967e8ca425e77ec9be23ddc9",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "Replay SHA-256: de8491c401530874aa4ec535f087602305d1b96316543527b150a3abaa23596f"
+      ],
+      "after_sha_lines": [
+        "Replay SHA-256: de8491c401530874aa4ec535f087602305d1b96316543527b150a3abaa23596f"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "c02a9925645019bda54b9cac8d6555795b4cdcdbdc5876ebce88d24291709bac",
+      "after_log_sha256": "c02a9925645019bda54b9cac8d6555795b4cdcdbdc5876ebce88d24291709bac",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 56 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 56 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_field_combat.gd",
+      "source_sha256": "db2907c3501a95aeeae7fa1493a438b6b74d84385e53e2aa1d8647c02d0fef36",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "Field replay SHA-256: 4077195a038b6d5db19c9cb69905d10f1aa60228542cb0907f4688b3706c3d68"
+      ],
+      "after_sha_lines": [
+        "Field replay SHA-256: 4077195a038b6d5db19c9cb69905d10f1aa60228542cb0907f4688b3706c3d68"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "ef54253804c728dd1ff8c10c6da5182930a6baef99699c7e975e4a0e1b29f1f1",
+      "after_log_sha256": "ef54253804c728dd1ff8c10c6da5182930a6baef99699c7e975e4a0e1b29f1f1",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_field_combat_ui.gd",
+      "source_sha256": "154075b37e7b47663abf392b0160910b3de68b1b0feadee414d2e33b12ad4f65",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [],
+      "after_sha_lines": [],
+      "sha_lines_identical": true,
+      "before_log_sha256": "45c64be7015c852ba4c0f2df98beaf6dd37a430b710656306e6ff5be5a5c143e",
+      "after_log_sha256": "45c64be7015c852ba4c0f2df98beaf6dd37a430b710656306e6ff5be5a5c143e",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 15 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 68 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 15 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 68 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_invariants.gd",
+      "source_sha256": "d3a90d9862b28c98f3a3474d8c23be8a89d9ca19ab3a6b8b72d61f03741956f3",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [],
+      "after_sha_lines": [],
+      "sha_lines_identical": true,
+      "before_log_sha256": "6223e8e7f4aa13537a45fabfc569eca23dab7aa8034a170d604dba609ef6c2cf",
+      "after_log_sha256": "6223e8e7f4aa13537a45fabfc569eca23dab7aa8034a170d604dba609ef6c2cf",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_m0_baseline.gd",
+      "source_sha256": "4ae1790363d2fc1612dfa20e797831a27b88a20dd8ed4ec26422711e488ee7ca",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [],
+      "after_sha_lines": [],
+      "sha_lines_identical": true,
+      "before_log_sha256": "4f3d468c5595ab5482832fc97f0b77addbe31feb697c94881ac2c0f9120bd323",
+      "after_log_sha256": "4f3d468c5595ab5482832fc97f0b77addbe31feb697c94881ac2c0f9120bd323",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_m0_shock.gd",
+      "source_sha256": "185ddabdbe18eb14cf6e8d2e8bbc84fff87738fc0fdbcef85e3d0104b3d797f0",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "PASS B1: Shock Determinism (SHA-256: 687c94dfdf5f67d4f5a36a96ab383382ed63fc365ecec93764f7f2b680bd0148)"
+      ],
+      "after_sha_lines": [
+        "PASS B1: Shock Determinism (SHA-256: 687c94dfdf5f67d4f5a36a96ab383382ed63fc365ecec93764f7f2b680bd0148)"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "a9a4ce11d6a331a2fa14e3fccc0b4dd8ac48f5f587346d3f9de8f433765e1a78",
+      "after_log_sha256": "a9a4ce11d6a331a2fa14e3fccc0b4dd8ac48f5f587346d3f9de8f433765e1a78",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_npc_population_accounting.gd",
+      "source_sha256": "e9b38b5831409cc5236291d627e823565847e594c54f5838d6d60aff117f6b7c",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [],
+      "after_sha_lines": [],
+      "sha_lines_identical": true,
+      "before_log_sha256": "360f0ac88d9f1325206f6aa3835911684cc2a2199f80c55d8e1c19b7822e4ac5",
+      "after_log_sha256": "360f0ac88d9f1325206f6aa3835911684cc2a2199f80c55d8e1c19b7822e4ac5",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_pda_character_sheet.gd",
+      "source_sha256": "ec1efb98b3390847e9ede459f3f9ce5fb894b1033aa0acfc361b33b22f632c12",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "PDA read-only replay SHA-256: 4a2df3e435064628a6bf7c29103283a010a9a92703378d58ae232709cf767c66"
+      ],
+      "after_sha_lines": [
+        "PDA read-only replay SHA-256: 4a2df3e435064628a6bf7c29103283a010a9a92703378d58ae232709cf767c66"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "bc0e5d56c287ab2bbe476842462983714c9b6a68625b3f2da514b39e69dbc1f1",
+      "after_log_sha256": "bc0e5d56c287ab2bbe476842462983714c9b6a68625b3f2da514b39e69dbc1f1",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 62 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 62 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s1_stability.gd",
+      "source_sha256": "d691a5d08e48a68b4b5632efe51b55a7d83ebe4d179a22cb1f14628d18c15e47",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "Run 1 SHA-256 (Day 100): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c",
+        "Run 2 SHA-256 (Day 100): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c"
+      ],
+      "after_sha_lines": [
+        "Run 1 SHA-256 (Day 100): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c",
+        "Run 2 SHA-256 (Day 100): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "a73d71735e0d8112dc7a9508a0fa80a73f311f0c7d707821db27cf6bc3812ccb",
+      "after_log_sha256": "a73d71735e0d8112dc7a9508a0fa80a73f311f0c7d707821db27cf6bc3812ccb",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s2_recovery.gd",
+      "source_sha256": "a8f05911c197cbcea68d7d28ee3d2f020cdaf640f3b150690c98b9f42e026da1",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "PASS GATE 6: Determinism Replay Verified (World C SHA-256: b165791a856da0c52b142e40c9694ff8dce1ac825da01c77f26c7c9b30b6c72c)"
+      ],
+      "after_sha_lines": [
+        "PASS GATE 6: Determinism Replay Verified (World C SHA-256: b165791a856da0c52b142e40c9694ff8dce1ac825da01c77f26c7c9b30b6c72c)"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "de927b1d48520d6c0f15bbdb40d74f5e1334512bf0fb8b6d601d1589b6272247",
+      "after_log_sha256": "de927b1d48520d6c0f15bbdb40d74f5e1334512bf0fb8b6d601d1589b6272247",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s2_shock.gd",
+      "source_sha256": "ba1973e23d8f4a8e16e9b85360be39b7d7846c39019fc835d3ae9ff4b4be076c",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "PASS 1: Determinism Replay (World B SHA-256: dcd88ada3b30b4f425024e7170162eb23f82d597b6736f880b5aa23b3d21a34b)"
+      ],
+      "after_sha_lines": [
+        "PASS 1: Determinism Replay (World B SHA-256: dcd88ada3b30b4f425024e7170162eb23f82d597b6736f880b5aa23b3d21a34b)"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "62c76e2c18f5235b12ca3f34267ab84ac23a23edb3531621a00b45fb44f5c33a",
+      "after_log_sha256": "62c76e2c18f5235b12ca3f34267ab84ac23a23edb3531621a00b45fb44f5c33a",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s3_labor.gd",
+      "source_sha256": "3b17cb859cba20d8e4c9f574e4933a7943781691cea0191a5e7cf473e0eb2b11",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  World B Day 100 SHA-256 with Labor Feedback: 3dca554c1337582d6ca662ba4b82e6f855d43898b6775f91ac22af3024e265cd"
+      ],
+      "after_sha_lines": [
+        "  World B Day 100 SHA-256 with Labor Feedback: 3dca554c1337582d6ca662ba4b82e6f855d43898b6775f91ac22af3024e265cd"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "b557a6f7cc3e22b966f580035e5fa4801e4842cfe1841e20f8eb42a1caf70872",
+      "after_log_sha256": "b557a6f7cc3e22b966f580035e5fa4801e4842cfe1841e20f8eb42a1caf70872",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s3_metabolism.gd",
+      "source_sha256": "b6b24934f2dcea147329ab5115861956d0c541834c9c0ca06e028adede47ce34",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  SHA-256 (Day 100 with Population): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c"
+      ],
+      "after_sha_lines": [
+        "  SHA-256 (Day 100 with Population): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "be84942b4058315e63d9ec852ca369c2e5a9f8a37beab4d5e6d57ec362c3939c",
+      "after_log_sha256": "be84942b4058315e63d9ec852ca369c2e5a9f8a37beab4d5e6d57ec362c3939c",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s3_migration.gd",
+      "source_sha256": "31000568124cb8aadf3b1aa6523e6727c982f4296d97e632dd3ec06fb8cec95f",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  World B Day 100 SHA-256 with Refugee Migration: c11f8aba93c2f292bd669fc20e75c799bba76ed18707fb42d55b19364ae10a51"
+      ],
+      "after_sha_lines": [
+        "  World B Day 100 SHA-256 with Refugee Migration: c11f8aba93c2f292bd669fc20e75c799bba76ed18707fb42d55b19364ae10a51"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "fe487061c5933e0d4ef02cfb89b8c49ae1e3f2d3e6c87e5a173eff05843811fa",
+      "after_log_sha256": "fe487061c5933e0d4ef02cfb89b8c49ae1e3f2d3e6c87e5a173eff05843811fa",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s3_mortality.gd",
+      "source_sha256": "9475b169ea1f067b5830fda6b060b6560166977abcaaef7b22986222a7572f1f",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  World B Day 100 SHA-256 with Mortality: dcd88ada3b30b4f425024e7170162eb23f82d597b6736f880b5aa23b3d21a34b"
+      ],
+      "after_sha_lines": [
+        "  World B Day 100 SHA-256 with Mortality: dcd88ada3b30b4f425024e7170162eb23f82d597b6736f880b5aa23b3d21a34b"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "0c1db135025f034fbfd1f449410d321c85cd5eef5970a9294e66e2c5d1b896fd",
+      "after_log_sha256": "0c1db135025f034fbfd1f449410d321c85cd5eef5970a9294e66e2c5d1b896fd",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s3_pressure.gd",
+      "source_sha256": "f90a6816d7471d73c9963b64fe8e4359798eca12432920a2fd1759b71e04190a",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  SHA-256 (World B Day 100 with Pressure): 02bf095ccd4d353107cf9539b4803b26555d9acedf2ed07d5abcff1f197b0a01"
+      ],
+      "after_sha_lines": [
+        "  SHA-256 (World B Day 100 with Pressure): 02bf095ccd4d353107cf9539b4803b26555d9acedf2ed07d5abcff1f197b0a01"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "3d25651d2203f9d714a7dea69bef3269cc0bb62ba4d05865a85b3140d258fcb4",
+      "after_log_sha256": "3d25651d2203f9d714a7dea69bef3269cc0bb62ba4d05865a85b3140d258fcb4",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s3_security.gd",
+      "source_sha256": "b677e9c04bd57202119e19fa57841032d21f04f49f89b03b9e7ce40258307226",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  World B Day 100 SHA-256 with Full Security Ecosystem: 04885a088505660d4f77d196f9aac8175f967a0988899ecbd24289b759833618"
+      ],
+      "after_sha_lines": [
+        "  World B Day 100 SHA-256 with Full Security Ecosystem: 04885a088505660d4f77d196f9aac8175f967a0988899ecbd24289b759833618"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "9451ea7d48f48d5a22bcd72081f6aca13f4f2d97dcbc29bcabcb8a82899637f1",
+      "after_log_sha256": "9451ea7d48f48d5a22bcd72081f6aca13f4f2d97dcbc29bcabcb8a82899637f1",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_aptitude.gd",
+      "source_sha256": "30ea152e38e1b9d09150c08de6a293a895b59c551c8d099065fe0b9e27636b19",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "    c85311a485b26dbec245fd9fdb2857f900306f6acb8646a184397e3aad7f65e8"
+      ],
+      "after_sha_lines": [
+        "    c85311a485b26dbec245fd9fdb2857f900306f6acb8646a184397e3aad7f65e8"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "ba6c974f72f8a570f95cb7a8a7b3cda34a02f8ea6d3c22b64116115f033740a8",
+      "after_log_sha256": "ba6c974f72f8a570f95cb7a8a7b3cda34a02f8ea6d3c22b64116115f033740a8",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_c1_event_ledger.gd",
+      "source_sha256": "cd089d4a14762f67b420b126aa3c6f3e8fd34aa158c37ce8e09bb2c9f9c3e7c8",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Serialized ledger byte-identical: 46397bfb52927ab5c56888706413e129681bc4880ad2470195ab9ca2f9f21b71",
+        "    46397bfb52927ab5c56888706413e129681bc4880ad2470195ab9ca2f9f21b71"
+      ],
+      "after_sha_lines": [
+        "  Serialized ledger byte-identical: 46397bfb52927ab5c56888706413e129681bc4880ad2470195ab9ca2f9f21b71",
+        "    46397bfb52927ab5c56888706413e129681bc4880ad2470195ab9ca2f9f21b71"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "42f95a9c4d48b769911f735934a50d590d6042b107f94a40f6a611c7a2f23d1d",
+      "after_log_sha256": "42f95a9c4d48b769911f735934a50d590d6042b107f94a40f6a611c7a2f23d1d",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_c2_numeric.gd",
+      "source_sha256": "d9f429c99e78e94cb8a8511892a3ad7ff74aa8b2b474a7c0f46521f2fa2c85f7",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  save -> load -> save byte-identical, SHA-256 5b223dde4ded060f6d1e18e7c94a2cf96f5418c43ceff8adbcb45015e51d2db6",
+        "  Day 100 full canonical state SHA identical: 5b223dde4ded060f6d1e18e7c94a2cf96f5418c43ceff8adbcb45015e51d2db6",
+        "  Day 100 event ledger SHA identical  : 810be404c0f82d70d26a5098335e0673a42a25b52f2e3d05ddaf0a1de3d1d55a (314 events)",
+        "  Day 100 simulation projection SHA   : eac13ff4a9c967b1556432675541fa321b743c3c8252a254d25338db4746dfe7"
+      ],
+      "after_sha_lines": [
+        "  save -> load -> save byte-identical, SHA-256 5b223dde4ded060f6d1e18e7c94a2cf96f5418c43ceff8adbcb45015e51d2db6",
+        "  Day 100 full canonical state SHA identical: 5b223dde4ded060f6d1e18e7c94a2cf96f5418c43ceff8adbcb45015e51d2db6",
+        "  Day 100 event ledger SHA identical  : 810be404c0f82d70d26a5098335e0673a42a25b52f2e3d05ddaf0a1de3d1d55a (314 events)",
+        "  Day 100 simulation projection SHA   : eac13ff4a9c967b1556432675541fa321b743c3c8252a254d25338db4746dfe7"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "112c6a172162d27d190c92bd2899e972c3a8491fc977a274b1535517c5fda39e",
+      "after_log_sha256": "112c6a172162d27d190c92bd2899e972c3a8491fc977a274b1535517c5fda39e",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_f1_decisions.gd",
+      "source_sha256": "4607c4e9b4362f324175799fcbb387c72255fa1880fcb05b5bc78cb4bdd365cb",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Decision trail SHA: 9f51c43f835dda5a8249f75bbbd4a2f64186daaa76be89925cac1fa2dcb55291"
+      ],
+      "after_sha_lines": [
+        "  Decision trail SHA: 9f51c43f835dda5a8249f75bbbd4a2f64186daaa76be89925cac1fa2dcb55291"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "bc3b4b238bf7209835daea5ed5c2cae6b016973f886b03cf36bcc4239e0f7609",
+      "after_log_sha256": "bc3b4b238bf7209835daea5ed5c2cae6b016973f886b03cf36bcc4239e0f7609",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_f2_migration.gd",
+      "source_sha256": "bb293d5f7e27d7a75de10a7f2216f5bcc20b2fc0626c62b37f9478aa5bc03c5b",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Day 25 Canonical State SHA bitwise identical: 152dae812ddab6927543accdba1612c25d8760cac41f33272d221dc4ace3b763"
+      ],
+      "after_sha_lines": [
+        "  Day 25 Canonical State SHA bitwise identical: 152dae812ddab6927543accdba1612c25d8760cac41f33272d221dc4ace3b763"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "39d56609113463a126ae304ef4177ad2a981f5eda0b6a3150bf3580a2096013e",
+      "after_log_sha256": "39d56609113463a126ae304ef4177ad2a981f5eda0b6a3150bf3580a2096013e",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_f3_batch_determinism.gd",
+      "source_sha256": "84570fe26e9492484aefeda112f1ea572aaa72bdb946ad82e40a5bea3a92f066",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Final World Canonical SHA: e870e125749acc1390e8b51313d185c3d35dafbf96f60a93d19e91b0ea88c873 (bitwise identical)",
+        "  Decision Audit Trail SHA:  3fbb3a6723264ecfea1b7521de82fd3909562e32f67dd7b3495b6af45a474365 (bitwise identical)",
+        "  Canonical World State SHA:  5378637996ce8d07f36885b20b0766dad561761981e56994886561096001f5eb (bitwise identical)",
+        "  Decision Audit Trail SHA:   fcc356921e62f49e2236e510e4e6a8d895a76b0e9a550b29b0a0d12e45e023ed (bitwise identical)"
+      ],
+      "after_sha_lines": [
+        "  Final World Canonical SHA: e870e125749acc1390e8b51313d185c3d35dafbf96f60a93d19e91b0ea88c873 (bitwise identical)",
+        "  Decision Audit Trail SHA:  3fbb3a6723264ecfea1b7521de82fd3909562e32f67dd7b3495b6af45a474365 (bitwise identical)",
+        "  Canonical World State SHA:  5378637996ce8d07f36885b20b0766dad561761981e56994886561096001f5eb (bitwise identical)",
+        "  Decision Audit Trail SHA:   fcc356921e62f49e2236e510e4e6a8d895a76b0e9a550b29b0a0d12e45e023ed (bitwise identical)"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "094b7f93541e755ea06455d1b9c9c4b1a897266580bf58d4903c211b6a0bb5c0",
+      "after_log_sha256": "094b7f93541e755ea06455d1b9c9c4b1a897266580bf58d4903c211b6a0bb5c0",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_identity.gd",
+      "source_sha256": "51e701e005fd8075de09f58514a3cca8b62c36dc313472a432fb6f75de9d39ff",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Dual world SHA-256 bitwise identical: c0d5375f84ed079275333fe179f5d49258ef0123946cdc067271163e27ef9cff",
+        "  Original, Deserialized, and Duplicated worlds have 100% bitwise matching SHA-256: c0d5375f84ed079275333fe179f5d49258ef0123946cdc067271163e27ef9cff"
+      ],
+      "after_sha_lines": [
+        "  Dual world SHA-256 bitwise identical: c0d5375f84ed079275333fe179f5d49258ef0123946cdc067271163e27ef9cff",
+        "  Original, Deserialized, and Duplicated worlds have 100% bitwise matching SHA-256: c0d5375f84ed079275333fe179f5d49258ef0123946cdc067271163e27ef9cff"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "530ca35c702467e9a40f5a16c7ec93ca89f08a2f0ef3125aa2b4cd5303552431",
+      "after_log_sha256": "530ca35c702467e9a40f5a16c7ec93ca89f08a2f0ef3125aa2b4cd5303552431",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_life_state.gd",
+      "source_sha256": "cfc6bdbb4db92d6c1c43e646e04e2c19e98b39d66c8b996b03a512f8fd4e12b0",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Dual world SHA-256 bitwise identical: 85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047",
+        "  Serialization round-trip SHA-256 matches: 85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047"
+      ],
+      "after_sha_lines": [
+        "  Dual world SHA-256 bitwise identical: 85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047",
+        "  Serialization round-trip SHA-256 matches: 85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "9878841db7288bdf79a6979e7d51e81fc53ec3ba7aa801db61efa98901d4e58e",
+      "after_log_sha256": "9878841db7288bdf79a6979e7d51e81fc53ec3ba7aa801db61efa98901d4e58e",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_profile.gd",
+      "source_sha256": "d6f863f74bcb591aa4db1425989ef47b070673d16508538c1b776a0839dd7e1b",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "    a000ed660756c0539d45429d49bb4e9b0b856430e04c107787bdc586845c2c62",
+        "  Dual world SHA-256 bitwise identical: 5ca41b1bed020be39c3481b9cb65ddbeff982e68c5d219e1f100c56155df8f66",
+        "  Full-state round-trip SHA-256 matches (ledger of 48 events included): 5ca41b1bed020be39c3481b9cb65ddbeff982e68c5d219e1f100c56155df8f66"
+      ],
+      "after_sha_lines": [
+        "    a000ed660756c0539d45429d49bb4e9b0b856430e04c107787bdc586845c2c62",
+        "  Dual world SHA-256 bitwise identical: 5ca41b1bed020be39c3481b9cb65ddbeff982e68c5d219e1f100c56155df8f66",
+        "  Full-state round-trip SHA-256 matches (ledger of 48 events included): 5ca41b1bed020be39c3481b9cb65ddbeff982e68c5d219e1f100c56155df8f66"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "591f01739e3703c599dc3f3714a4b9257829ed8c0d7bc3c319e41fb9fbdc7d6f",
+      "after_log_sha256": "591f01739e3703c599dc3f3714a4b9257829ed8c0d7bc3c319e41fb9fbdc7d6f",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s4_traits.gd",
+      "source_sha256": "9d410c9c1490f9b018deab46d7a0558aa17e553a0272a646499b4472b609a949",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "    c85311a485b26dbec245fd9fdb2857f900306f6acb8646a184397e3aad7f65e8"
+      ],
+      "after_sha_lines": [
+        "    c85311a485b26dbec245fd9fdb2857f900306f6acb8646a184397e3aad7f65e8"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "f28e5014c4f4255f8ce658a60d7b512727ad396b0a23a2c01a66ab9c1bca0fd8",
+      "after_log_sha256": "f28e5014c4f4255f8ce658a60d7b512727ad396b0a23a2c01a66ab9c1bca0fd8",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_a2_ui_shell.gd",
+      "source_sha256": "d4546f26270f96d2cb2aa8e65a31c021dd6705f1de7be2741b0c9569172a4a75",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [],
+      "after_sha_lines": [],
+      "sha_lines_identical": true,
+      "before_log_sha256": "fb8aff263965ca7d407fc13902a96b8b53b3f9d92bf0ed3d4451e6651b507932",
+      "after_log_sha256": "fb8aff263965ca7d407fc13902a96b8b53b3f9d92bf0ed3d4451e6651b507932",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 14 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 70 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 14 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 70 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_a_player.gd",
+      "source_sha256": "fa6398dd629c0b317799e539264a31e52c8d4d3c065b872153170c5f989e359c",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Canonical JSON SHA-256 bitwise identical: 2186d54e2bc3dba70e735740e9271c3303a3f133e4078ee43227fe4a36ae7462"
+      ],
+      "after_sha_lines": [
+        "  Canonical JSON SHA-256 bitwise identical: 2186d54e2bc3dba70e735740e9271c3303a3f133e4078ee43227fe4a36ae7462"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "ee2b014d46200ea1a9b47f71222a83f6fc467aa18b81de50b68c7119e7c92749",
+      "after_log_sha256": "ee2b014d46200ea1a9b47f71222a83f6fc467aa18b81de50b68c7119e7c92749",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_b1_wait.gd",
+      "source_sha256": "4bbdbe929b2a4d01929f88c6058815662532dd571cdcac3135d8ec320f356c09",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Continuous vs Mid-Route Restored Day 9 Canonical SHA: 40f1b2185c5ef9aa06eed7c6403c87e82f6577acc268fe797cdd9e5626627041 (100% bitwise identical)"
+      ],
+      "after_sha_lines": [
+        "  Continuous vs Mid-Route Restored Day 9 Canonical SHA: 40f1b2185c5ef9aa06eed7c6403c87e82f6577acc268fe797cdd9e5626627041 (100% bitwise identical)"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "09188982345ac0fa396b65d66f6e1f8822ddec4e1177c98e22e4210e74f9ae98",
+      "after_log_sha256": "09188982345ac0fa396b65d66f6e1f8822ddec4e1177c98e22e4210e74f9ae98",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 12 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 10 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 14 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 77 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 12 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 10 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 14 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 77 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_b2_trade.gd",
+      "source_sha256": "c4f3eae494b34dd70808c1d4cfcc0d64a22d4964f094df18db325e9da15473e8",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Pre-tick restored world bitwise identical: 80a4a48c641819734c0cfb240de88a101a44c010dba8f4b7f29841eae23b884a",
+        "  Post-tick Day 1 simulation evolution bitwise identical: 03bd338f2d3ef1b89c3afc77805a25794802c040aa46fe4552cc421c51bdc02a"
+      ],
+      "after_sha_lines": [
+        "  Pre-tick restored world bitwise identical: 80a4a48c641819734c0cfb240de88a101a44c010dba8f4b7f29841eae23b884a",
+        "  Post-tick Day 1 simulation evolution bitwise identical: 03bd338f2d3ef1b89c3afc77805a25794802c040aa46fe4552cc421c51bdc02a"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "dfb70740373a43f6d68775cd3c531204ec67d15bba9720a4790c5ed4904ac9fe",
+      "after_log_sha256": "dfb70740373a43f6d68775cd3c531204ec67d15bba9720a4790c5ed4904ac9fe",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 56 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 56 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_b3_intervention.gd",
+      "source_sha256": "e2764b6aee9a8f421cadbd43ec81bdb81c44d317828798e97d19db5a32209c76",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Day 16 Canonical SHA-256 matches continuous run 100%: 05019b06dc9ceb93a7088a5f54d69de2b77b96a26cffd98a4d28ad1066830b0c"
+      ],
+      "after_sha_lines": [
+        "  Day 16 Canonical SHA-256 matches continuous run 100%: 05019b06dc9ceb93a7088a5f54d69de2b77b96a26cffd98a4d28ad1066830b0c"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "491dc7919e6e988a84214ff852bbe4b675a3fc3a900284686bb4eceb46aed9d9",
+      "after_log_sha256": "491dc7919e6e988a84214ff852bbe4b675a3fc3a900284686bb4eceb46aed9d9",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 56 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "after_shutdown_warnings": [
+        "ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.",
+        "WARNING: 7 RIDs of type \"CanvasItem\" were leaked.",
+        "WARNING: 56 ObjectDB instances were leaked at exit (run with `--verbose` for details)."
+      ],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_b41_reactive.gd",
+      "source_sha256": "760da830826ac388264a12fa2ee7198b81668cef46e894a500b6aef15fad91b1",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [],
+      "after_sha_lines": [],
+      "sha_lines_identical": true,
+      "before_log_sha256": "92f9fadfb838704a339b05f8d6c85b2e76ad43975eab2b323626771e077fe6c5",
+      "after_log_sha256": "92f9fadfb838704a339b05f8d6c85b2e76ad43975eab2b323626771e077fe6c5",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_b4_encounters.gd",
+      "source_sha256": "9e93fa02d2c44bffd7ee1acd0bc268306858bc9b4f3fa1e8e4679dd21a31d9a6",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Same answer on both sides -> identical worlds, SHA db98c0cc7684c7e8a3d23d82e8364e07bc5ae124bd8b25af03fcf8522570bf50"
+      ],
+      "after_sha_lines": [
+        "  Same answer on both sides -> identical worlds, SHA db98c0cc7684c7e8a3d23d82e8364e07bc5ae124bd8b25af03fcf8522570bf50"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "82f7d1d45013292719eab1410dd56fd738bce06a17017fc131ce89030705ba29",
+      "after_log_sha256": "82f7d1d45013292719eab1410dd56fd738bce06a17017fc131ce89030705ba29",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_b5_survival.gd",
+      "source_sha256": "33aba8e875f48f7568b29a2723d5fdbffa521f1ee6e8d995deec0fcedd315afa",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Six further days on both sides: identical worlds, SHA befd5a52f7585e2e95e665ebc9c0b4adc4473d455586cc1f85623f1e0b750a74"
+      ],
+      "after_sha_lines": [
+        "  Six further days on both sides: identical worlds, SHA befd5a52f7585e2e95e665ebc9c0b4adc4473d455586cc1f85623f1e0b750a74"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "ca1bc3d5510f2137556462f544ec551f893143bb6f3320d7b9f8769ba3f1a225",
+      "after_log_sha256": "ca1bc3d5510f2137556462f544ec551f893143bb6f3320d7b9f8769ba3f1a225",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    },
+    {
+      "suite": "test_s5_c2_authorization.gd",
+      "source_sha256": "11d5cad37631aca58c962c9139cab46de816b5256f190d4425cd6de38c7d9e5d",
+      "source_unchanged": true,
+      "before_exit": 0,
+      "after_exit": 0,
+      "before_sha_lines": [
+        "  Replay SHA-256 (MECHANIC / STRIP_PARTS): a318497336f5b10942cae6b6f037cc903235dfb15b9147c250c2f2c404150f0e"
+      ],
+      "after_sha_lines": [
+        "  Replay SHA-256 (MECHANIC / STRIP_PARTS): a318497336f5b10942cae6b6f037cc903235dfb15b9147c250c2f2c404150f0e"
+      ],
+      "sha_lines_identical": true,
+      "before_log_sha256": "10b3760b55c83edd1982a3bdefff7b93a799fbb3f3123c0e5786c69ef17c98df",
+      "after_log_sha256": "10b3760b55c83edd1982a3bdefff7b93a799fbb3f3123c0e5786c69ef17c98df",
+      "log_receipts_match": true,
+      "before_script_errors": [],
+      "after_script_errors": [],
+      "before_shutdown_warnings": [],
+      "after_shutdown_warnings": [],
+      "shutdown_warnings_identical": true,
+      "unexpected_diagnostics": []
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "artifacts/world_snapshot_s4e.json",
+      "before_emitted_sha256": "a6f58783422cffec728e5613b5b8870adb6f9aaf8b8c8dfdb96ecbdd5792bf03",
+      "after_emitted_sha256": "a6f58783422cffec728e5613b5b8870adb6f9aaf8b8c8dfdb96ecbdd5792bf03",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "a3c4517734503ac0645e8742827f2c347f4ff51639599a8a59a38c713e4db47f",
+      "restored_to_original_bytes": true
+    },
+    {
+      "path": "artifacts/world_snapshot_s4c1.json",
+      "before_emitted_sha256": "01a69b8d336f2221a9c9359dba52f26e03fc449cbdf85e61c6fe748c882cde40",
+      "after_emitted_sha256": "01a69b8d336f2221a9c9359dba52f26e03fc449cbdf85e61c6fe748c882cde40",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "ed7623766271c07ce68855f5aa006085081edf0d8f26c5e668230506634fe8d6",
+      "restored_to_original_bytes": true
+    },
+    {
+      "path": "artifacts/world_snapshot_s4c2.json",
+      "before_emitted_sha256": "5b223dde4ded060f6d1e18e7c94a2cf96f5418c43ceff8adbcb45015e51d2db6",
+      "after_emitted_sha256": "5b223dde4ded060f6d1e18e7c94a2cf96f5418c43ceff8adbcb45015e51d2db6",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "3e6063110377d53e2150611cdae51f8f286d9d5d440e83247e388c960fb89c31",
+      "restored_to_original_bytes": true
+    },
+    {
+      "path": "artifacts/world_snapshot_s4f1.json",
+      "before_emitted_sha256": "685024f274bd0715002b529d4ff05c07eea82a51f86bc8ac5a69b97b81f242e6",
+      "after_emitted_sha256": "685024f274bd0715002b529d4ff05c07eea82a51f86bc8ac5a69b97b81f242e6",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "4c5bee8e0e478ce00bcb9ce18447af3bdb3f9e755e921920e541e784563dce84",
+      "restored_to_original_bytes": true
+    },
+    {
+      "path": "artifacts/world_snapshot.json",
+      "before_emitted_sha256": "c0d5375f84ed079275333fe179f5d49258ef0123946cdc067271163e27ef9cff",
+      "after_emitted_sha256": "c0d5375f84ed079275333fe179f5d49258ef0123946cdc067271163e27ef9cff",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "b46cc312f1e337b0e5e64ec4278cfb6aa1f4392e1ae2739172adbc607072ef1a",
+      "restored_to_original_bytes": true
+    },
+    {
+      "path": "artifacts/world_snapshot_s4b.json",
+      "before_emitted_sha256": "85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047",
+      "after_emitted_sha256": "85cc6e2ff13025c4d1ef179bf11e2324af378dd9a7b2c5624ce5f0fa15530047",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "430092feff637b9d53ebcdea6273fa3dfad3221a733ce2bdc00917d028d136fb",
+      "restored_to_original_bytes": true
+    },
+    {
+      "path": "artifacts/world_snapshot_s4c.json",
+      "before_emitted_sha256": "5ca41b1bed020be39c3481b9cb65ddbeff982e68c5d219e1f100c56155df8f66",
+      "after_emitted_sha256": "5ca41b1bed020be39c3481b9cb65ddbeff982e68c5d219e1f100c56155df8f66",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "b8aa5007841b2d8b212f3c91025ed792bfa085c2483f5266a92765fdb3bb8d2e",
+      "restored_to_original_bytes": true
+    },
+    {
+      "path": "artifacts/world_snapshot_s4d.json",
+      "before_emitted_sha256": "b2e761794bd4c75480bd3f06db6deb3f107d62e20e169b7a18aa4b4097a097ae",
+      "after_emitted_sha256": "b2e761794bd4c75480bd3f06db6deb3f107d62e20e169b7a18aa4b4097a097ae",
+      "emitted_bytes_identical": true,
+      "emitted_receipts_match": true,
+      "originals_identical": true,
+      "current_sha256": "b9e01de14f358010fb31faa2e05ec4bce0f28b21a86a93bac8312f1c1d0e7bd2",
+      "restored_to_original_bytes": true
+    }
+  ]
+}

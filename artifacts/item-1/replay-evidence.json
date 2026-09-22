@@ -1,0 +1,103 @@
+{
+	"assertions": 1102,
+	"checkpoints": [
+		{
+			"definition_count": 12,
+			"permutations": 12,
+			"sha256": "b921c0b02f5be7a5aad40595d8ac91986614d4fccbfcb664808a8f96fa496f01",
+			"stage": "definition_fingerprint"
+		},
+		{
+			"day": 0,
+			"sha256_a": "31262e6483e25f326c6ae7d82b36e88c67cca07e7898db9ef1f02ee524630019",
+			"sha256_b": "31262e6483e25f326c6ae7d82b36e88c67cca07e7898db9ef1f02ee524630019",
+			"stage": "created"
+		},
+		{
+			"day": 0,
+			"sha256_a": "fa1542cb8e87928e386763f45685725ad664b6443af4b84e9558afb647fa1939",
+			"sha256_b": "fa1542cb8e87928e386763f45685725ad664b6443af4b84e9558afb647fa1939",
+			"stage": "traded_and_reloaded"
+		},
+		{
+			"day": 0,
+			"sha256_a": "9eca168623612c1b4f55e6953c1bcf9cd988bff14762247a93c7ddaaed9cc0ee",
+			"sha256_b": "9eca168623612c1b4f55e6953c1bcf9cd988bff14762247a93c7ddaaed9cc0ee",
+			"stage": "departed_at_wreck"
+		},
+		{
+			"day": 1,
+			"sha256_a": "b62b7454836bc22af5601dcc31f96d9a03c7d02f3eb91bd1b850c862cdbf9038",
+			"sha256_b": "b62b7454836bc22af5601dcc31f96d9a03c7d02f3eb91bd1b850c862cdbf9038",
+			"stage": "pending_receipt_reloaded"
+		},
+		{
+			"day": 2,
+			"sha256_a": "344171cbce76384357e38535c65f430a146da3e5839c600296cc3409ab59ddba",
+			"sha256_b": "344171cbce76384357e38535c65f430a146da3e5839c600296cc3409ab59ddba",
+			"stage": "journey_step_0"
+		},
+		{
+			"day": 3,
+			"sha256_a": "3da7d9ff1949092b885db6c914bfac817cbfa871a17766bac7205a5146f5c4f0",
+			"sha256_b": "3da7d9ff1949092b885db6c914bfac817cbfa871a17766bac7205a5146f5c4f0",
+			"stage": "journey_step_1"
+		},
+		{
+			"day": 5,
+			"sha256_a": "59ed47275657b8e66abe853fdfa538a32044da67d529c942e2f65e186e119663",
+			"sha256_b": "59ed47275657b8e66abe853fdfa538a32044da67d529c942e2f65e186e119663",
+			"stage": "journey_step_2"
+		},
+		{
+			"day": 1,
+			"sha256_a": "d687e914b3d97f1426e45e365c2c5b84459e34e31e0e4c3820f3f5bd95220385",
+			"sha256_b": "d687e914b3d97f1426e45e365c2c5b84459e34e31e0e4c3820f3f5bd95220385",
+			"stage": "deprivation_day_1"
+		},
+		{
+			"day": 2,
+			"sha256_a": "c4ddcb1811477ada80a712a59bff19a464e7a8acc35cf4320d52f48ed2f1bbc4",
+			"sha256_b": "c4ddcb1811477ada80a712a59bff19a464e7a8acc35cf4320d52f48ed2f1bbc4",
+			"stage": "deprivation_day_2"
+		},
+		{
+			"day": 3,
+			"sha256_a": "bdcd6391f2d2b4593334ff55909e56678d17bc39e14e399e91180b9d49e2528c",
+			"sha256_b": "bdcd6391f2d2b4593334ff55909e56678d17bc39e14e399e91180b9d49e2528c",
+			"stage": "deprivation_day_3"
+		},
+		{
+			"day": 4,
+			"sha256_a": "252191decb10e09c3ea61ce7954b598c89c6dedefe44adc10c8179e0e500f5b7",
+			"sha256_b": "252191decb10e09c3ea61ce7954b598c89c6dedefe44adc10c8179e0e500f5b7",
+			"stage": "deprivation_day_4"
+		},
+		{
+			"day": 5,
+			"sha256_a": "99d3c6c89d7d93a254d7bb414ee691b06e1f3614ff11f78d2888e9a12c7e3484",
+			"sha256_b": "99d3c6c89d7d93a254d7bb414ee691b06e1f3614ff11f78d2888e9a12c7e3484",
+			"stage": "deprivation_day_5"
+		},
+		{
+			"day": 6,
+			"sha256_a": "8025d20301561a39d35e1445dd5d66dfc9c653b0cf2d608fad33121690400fd7",
+			"sha256_b": "8025d20301561a39d35e1445dd5d66dfc9c653b0cf2d608fad33121690400fd7",
+			"stage": "deprivation_day_6"
+		},
+		{
+			"day": 7,
+			"sha256_a": "50f42527f2e4e66685167ffdc7ec0ac96dbb1c9121afd7385dbfd81bc28db7bc",
+			"sha256_b": "50f42527f2e4e66685167ffdc7ec0ac96dbb1c9121afd7385dbfd81bc28db7bc",
+			"stage": "deprivation_day_7"
+		},
+		{
+			"day": 7,
+			"sha256_a": "50f42527f2e4e66685167ffdc7ec0ac96dbb1c9121afd7385dbfd81bc28db7bc",
+			"sha256_b": "50f42527f2e4e66685167ffdc7ec0ac96dbb1c9121afd7385dbfd81bc28db7bc",
+			"stage": "death_reloaded_and_action_refused"
+		}
+	],
+	"failures": 0,
+	"suite": "ITEM-1"
+}

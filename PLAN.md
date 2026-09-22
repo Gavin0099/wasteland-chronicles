@@ -39,6 +39,8 @@
 - [ ] S5-C4.5 : Acquired Traits — real-life history creates opt-in candidates; 6 target identities, effects and tradeoffs required
 - [ ] S5-C5 : Equipment Progression — equipment enables previously unavailable actions and places
 - [x] Field Combat Lite — owner-authorized first example: 1v1 turn-based outskirts battle, crowbar equipment/cache, persistent HP/results, Passage of the Book visual direction. 40 suites pass; full C5 and C2-B remain open.
+- [x] ITEM-1 — original twelve definitions only: stable IDs, five categories, stack/gram semantics, explicit assets and tags. Detached lookup, atomic validation and canonical fingerprint; 41 suites pass, no world/persistence/UI behavior changes.
+- [ ] Item Content Design V0 — owner requested 185-name content pass, researched references, encounter library, usage/economy matrices, consistency review and first-30 shortlist. Design-only; no additional authoritative items or effects.
 - [ ] S5-C6 : Job Progression — natural capability requirements, not quest-level labels
 - [ ] S5-C7 : Capstone — advanced builds and rare items reconnect character growth to world consequences
 - [ ] World Expansion 3 -> 5 settlements — deferred; sparse roads/chokepoints retained, former S5-C0 identifier superseded
@@ -56,6 +58,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-22: **ITEM-1 completed; content research/design next** — fixed twelve minimal definitions, with integer grams kept separate from existing carrying units. Source factory remains the only authority; returned data is detached, unknown IDs and asset rebinding fail closed, candidate canonicalization cannot install data, saves contain no definitions. New suite passes 1,102 checks; 40 existing suites pass before/after with all 48 SHA output lines and 8 emitted snapshots identical. Independent review reports no actionable findings. Existing Field Combat Lite remains unchanged. Owner then requested a full 185-name design pass and encounter/world-use matrices informed by online wasteland-game/fiction and Passage of the Book references; these are design proposals, not runtime registration. No new images or future gameplay implementation in that content pass.
 
 - 2026-09-22: **Item World V0 full illustration library completed** — owner chose to finish the existing catalogue's pictures before ITEM-1. All 187 category rows / 185 distinct names now resolve to transparent original art: 16 reused images plus 169 new images (36 weapons, 26 clothing/carrying, 68 supplies/materials/trade, 39 relics/special/unique). Salt and batteries share images across categories; ammunition, medicines and mechanical parts retain category-illustration status. The twelve-item `38f2bad` baseline is unchanged. Exact prompts, source hashes and an art-only index live under `ui/assets/items/library/`; 22 actual Godot category sheets plus a cover live under `artifacts/item-art-library/`. Completion receipt and renderer pass; this does not register runtime items, change gameplay, or close C2-B/C5/ITEM-1–6. Next planned implementation remains ITEM-1 data contract, starting with the baseline twelve.
 

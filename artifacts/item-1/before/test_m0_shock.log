@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - M0-B SUPPLY SHOCK TEST SUITE                      
+================================================================================
+>>> [SHOCK INJECTED] Day 10: Caravan C001 destroyed by external shock!
+PASS B1: Shock Determinism (SHA-256: 687c94dfdf5f67d4f5a36a96ab383382ed63fc365ecec93764f7f2b680bd0148)
+PASS B2: Cargo Loss (cargo_before: 30 > 0, cargo_after: 0, zero leakage)
+PASS B3: No Phantom Arrival (Post-shock arrivals at Gray Valley == 0)
+PASS B4: Shortage Response (Monotonic water depletion to 0, price rise to cap)
+PASS B5: Control Isolation (Dry Well remains perfectly stable at 50 / $12.00)
+
+================================================================================
+B6: BASELINE VS COUNTERFACTUAL SUPPLY SHOCK COMPARISON TABLE
+================================================================================
+| Day | Baseline Water | Shock Water | Δ Water | Baseline Price | Shock Price | Δ Price |
+|----:|---------------:|------------:|--------:|---------------:|------------:|--------:|
+|   9 |             95 |          95 |      +0 | $        10.78 | $     10.78 | +0.00   |
+|  10 |             90 |          90 |      +0 | $        12.19 | $     12.19 | +0.00   |
+|  12 |             80 |          80 |      +0 | $        15.00 | $     15.00 | +0.00   |
+|  15 |             95 |          65 |     -30 | $        10.78 | $     19.22 | +8.44   |
+|  18 |             80 |          50 |     -30 | $        15.00 | $     23.44 | +8.44   |
+|  21 |             95 |          35 |     -60 | $        10.78 | $     27.66 | +16.88  |
+|  24 |             80 |          20 |     -60 | $        15.00 | $     31.88 | +16.88  |
+|  27 |             95 |           5 |     -90 | $        10.78 | $     36.09 | +25.31  |
+|  30 |             80 |           0 |     -80 | $        15.00 | $     37.50 | +22.50  |
+================================================================================
+ALL M0-B ACCEPTANCE CRITERIA (B1 - B6) PASSED!
+================================================================================

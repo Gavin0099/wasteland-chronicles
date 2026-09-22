@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+    WASTELAND CHRONICLES - S5-B1 TRAVEL + WAIT TEST SUITE                       
+================================================================================
+
+--- [GATE B1] WAIT Authorization ---
+  WAIT is a first-class PlayerIntent
+  Fail-closed authorization verified against invalid/deceased entities
+PASS GATE B1: WAIT Authorization verified.
+
+--- [GATE B2] Exactly One Tick & World Evolution ---
+  WAIT advanced world by exactly one tick: Day 0 -> Day 1
+  World evolved: Gray Valley water 80 -> 75, events logged: 2
+PASS GATE B2: Exactly One Tick & World Evolution verified.
+
+--- [GATE B3] Settled Wait (No Double-Metabolism) ---
+  3 Days settled in Gray Valley: Day 4
+  Backpack load strictly preserved: 10 / 20 (Water: 5, Food: 5)
+  Zero double-metabolism confirmed
+PASS GATE B3: Settled Wait (No Double-Metabolism) verified.
+
+--- [GATE B4] Transit Wait (Travel Progress + Personal Consumption) ---
+  Transit Wait 1 (Day 4->5): days_remaining 2, backpack water=4, food=4
+  Transit Wait 2 (Day 5->6): days_remaining 1, backpack water=3, food=3
+PASS GATE B4: Transit Wait verified.
+
+--- [GATE B5] Physical Arrival via WAIT (Axiom 9) ---
+  Player arrived at New Hope on Day 6 execution, settled at Day 7
+  Life conservation intact: 300 == 300
+  Post-arrival wait returned to settlement metabolism (backpack 3/3 preserved)
+PASS GATE B5: Physical Arrival via WAIT verified.
+
+--- [GATE B6] UI State & Mid-Route Save/Load Determinism ---
+  UI dynamic button text: [WAIT 1 DAY] <-> [CONTINUE — 1 DAY] verified
+  Continuous vs Mid-Route Restored Day 9 Canonical SHA: 40f1b2185c5ef9aa06eed7c6403c87e82f6577acc268fe797cdd9e5626627041 (100% bitwise identical)
+PASS GATE B6: UI State & Mid-Route Save-Load Determinism verified.
+
+================================================================================
+ALL S5-B1 TRAVEL + WAIT GATES (B1 ~ B6) PASSED CLEANLY!                         
+================================================================================
+ERROR: 12 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.
+ERROR: 10 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: 14 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+WARNING: 77 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

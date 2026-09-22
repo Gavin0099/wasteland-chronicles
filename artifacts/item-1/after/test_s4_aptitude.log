@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S4-E APTITUDE TEST SUITE (Fast Lane)              
+================================================================================
+
+--- [GATE E1] Closed Domain Set ---
+  Rejected out-of-domain values [-1, 5, 42, 9999]; world hash unchanged
+  Mara -> [1, 3] (SURVIVAL, TECHNICAL)
+PASS GATE E1: Closed Domain Set verified.
+
+--- [GATE E2] Profile Integrity ---
+  Unknown NPC rejected
+  NPC without a profile rejected: NO_PROFILE: NPC npc:00000004 has no profile; aptitudes are profile metadata
+  Post-mortem authoring rejected; pre-mortem COMBAT aptitude preserved after death
+PASS GATE E2: Profile Integrity verified.
+
+--- [GATE E3] Set Semantics ---
+  Duplicate rejected with zero mutation: DUPLICATE_APTITUDE: NPC npc:00000001 already has aptitude SURVIVAL
+  [SOCIAL, COMBAT, TRADE] and [TRADE, SOCIAL, COMBAT] produce the same world
+  Canonical (enum) order: [0, 2, 4]
+PASS GATE E3: Set Semantics verified.
+
+--- [GATE E4] Zero Gameplay Authority ---
+  TECHNICAL denied REPAIR; SURVIVAL denied SCAVENGE; all 6 attempts refused
+  Background, traits, life state and world hash all unchanged
+  No xp_multiplier / learning_rate / skill_bonus / skill_cap / growth_rate
+  / attribute_bonus / rating / stars in the schema or serialization
+PASS GATE E4: Zero Gameplay Authority verified.
+
+--- [GATE E5] Simulation Inertness (30-day counterfactual) ---
+  30 ticks, 6 aptitudes across 3 NPCs vs none -> identical projection SHA-256:
+    c85311a485b26dbec245fd9fdb2857f900306f6acb8646a184397e3aad7f65e8
+  Full-state hashes DO differ (aptitudes are present and persisted)
+  => The world records what Mara could learn easily; it changes nothing yet.
+PASS GATE E5: Simulation Inertness verified.
+
+--- [GATE E6] Persistence / Determinism ---
+  Round-trip SHA identical; all aptitudes and traits restored exactly
+  duplicate_state() deep-copies aptitudes
+  Negative tests: out-of-enum, duplicate and unordered aptitudes all detected
+  Exported artifacts/world_snapshot_s4e.json for independent validation.
+PASS GATE E6: Persistence / Determinism verified.
+
+================================================================================
+ALL S4-E APTITUDE GATES (E1 ~ E6) PASSED CLEANLY!
+================================================================================

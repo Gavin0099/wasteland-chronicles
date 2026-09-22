@@ -1,0 +1,4247 @@
+{
+	"active_encounter": {},
+	"caravans": {
+		"caravan:c_gray_dry": {
+			"capacity_total": 40,
+			"cargo": {
+				"food": 0,
+				"fuel": 0,
+				"scrap": 9,
+				"water": 0
+			},
+			"days_remaining": 3,
+			"destination_id": "settlement:dry_well",
+			"id": "caravan:c_gray_dry",
+			"is_active": true,
+			"is_destroyed": false,
+			"name": "礦山-油井商隊",
+			"origin_id": "settlement:gray_valley",
+			"route_days": 3
+		},
+		"caravan:c_hope_dry": {
+			"capacity_total": 40,
+			"cargo": {
+				"food": 17,
+				"fuel": 0,
+				"scrap": 6,
+				"water": 17
+			},
+			"days_remaining": 3,
+			"destination_id": "settlement:dry_well",
+			"id": "caravan:c_hope_dry",
+			"is_active": true,
+			"is_destroyed": false,
+			"name": "綠洲-油井商隊",
+			"origin_id": "settlement:new_hope",
+			"route_days": 3
+		},
+		"caravan:c_hope_gray": {
+			"capacity_total": 40,
+			"cargo": {
+				"food": 9,
+				"fuel": 6,
+				"scrap": 0,
+				"water": 25
+			},
+			"days_remaining": 3,
+			"destination_id": "settlement:gray_valley",
+			"id": "caravan:c_hope_gray",
+			"is_active": true,
+			"is_destroyed": false,
+			"name": "綠洲-灰谷商隊",
+			"origin_id": "settlement:new_hope",
+			"route_days": 3
+		}
+	},
+	"current_day": 30,
+	"decision_audit_trail": [
+		{
+			"committed_event_index": -1,
+			"day": 1,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 1.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 1,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 1.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 1,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 1.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 2,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 2.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 2,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 2.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 2,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 2.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 3,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 3.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 3,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 3.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 3,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 3.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 4,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 4.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 4,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 4.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 4,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 4.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 5,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 5.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 5,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 5.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 5,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 5.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 6,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 6.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 6,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 6.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 6,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 6.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 7,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 7.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 7,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 7.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 7,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 7.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 8,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 8.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 8,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 8.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 8,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 8.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 9,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 9.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 9,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 9.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 9,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 9.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 10,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 10.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 10,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 10.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 10,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 10.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 11,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 11.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 11,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 11.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 11,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 11.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 12,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 12.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 12,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 12.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 12,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 12.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 13,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 13.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 13,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 13.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 13,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 13.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 14,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 14.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 14,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 14.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 14,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 14.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 15,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 15.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 15,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 15.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 15,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 15.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 16,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 16.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 16,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 16.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 16,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 16.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 17,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 17.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 17,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 17.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 17,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 17.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 18,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 18.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 18,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 18.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 18,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 18.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 19,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 19.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 19,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 19.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 19,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 19.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 20,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 20.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 20,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 20.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 20,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 20.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 21,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 21.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 21,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 21.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 21,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 21.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 22,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 22.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 22,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 22.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 22,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 22.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 23,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 23.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 23,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 23.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 23,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 23.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 24,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 24.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 24,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 24.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 24,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 24.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 25,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 25.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 25,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 25.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 25,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 25.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 26,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 26.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 26,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 26.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 26,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 26.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 27,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 27.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 27,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 27.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 27,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 27.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 28,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 28.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 28,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 28.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 28,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 28.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 29,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 29.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 29,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 29.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 29,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 29.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 30,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000001",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 30.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000001",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 30,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000002",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 30.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000002",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		},
+		{
+			"committed_event_index": -1,
+			"day": 30,
+			"eligible_actions": [
+				"STAY"
+			],
+			"npc_id": "npc:00000003",
+			"observed_state": {
+				"candidate_destinations": [
+					{
+						"food_pressure": 0.0,
+						"route_days": 3.0,
+						"security": 100.0,
+						"settlement_id": "settlement:new_hope",
+						"water_pressure": 0.0
+					}
+				],
+				"current_settlement_id": "settlement:gray_valley",
+				"day": 30.0,
+				"food_pressure": 0.0,
+				"npc_id": "npc:00000003",
+				"security": 100.0,
+				"water_pressure": 0.0
+			},
+			"phase": "PHASE_1_5_NPC_DECISION",
+			"reason": "",
+			"result": 1,
+			"rule_invoked": "RULE_STAY_DEFAULT",
+			"selected_action": "STAY"
+		}
+	],
+	"event_count": 60,
+	"events": [
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 3,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 51.0,
+					"fuel": 115.0,
+					"scrap": 62.0,
+					"water": 51.0
+				},
+				"dest_water_after": 51.0,
+				"unloaded": {
+					"scrap": 15.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 3,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"fuel": 18.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 51.0,
+					"fuel": 97.0,
+					"scrap": 62.0,
+					"water": 51.0
+				},
+				"origin_water_after": 51.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 3,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 66.0,
+					"fuel": 97.0,
+					"scrap": 62.0,
+					"water": 69.0
+				},
+				"dest_water_after": 69.0,
+				"unloaded": {
+					"food": 15.0,
+					"water": 18.0
+				},
+				"unloaded_water": 18.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 3,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 18.0,
+					"scrap": 12.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 66.0,
+					"fuel": 79.0,
+					"scrap": 50.0,
+					"water": 69.0
+				},
+				"origin_water_after": 69.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 3,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 84.0,
+					"fuel": 34.0,
+					"scrap": 121.0,
+					"water": 90.0
+				},
+				"dest_water_after": 90.0,
+				"unloaded": {
+					"food": 10.0,
+					"water": 25.0
+				},
+				"unloaded_water": 25.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 3,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"scrap": 27.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 84.0,
+					"fuel": 34.0,
+					"scrap": 94.0,
+					"water": 90.0
+				},
+				"origin_water_after": 90.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 6,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 78.0,
+					"fuel": 46.0,
+					"scrap": 115.0,
+					"water": 75.0
+				},
+				"dest_water_after": 75.0,
+				"unloaded": {
+					"fuel": 18.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 6,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"fuel": 6.0,
+					"scrap": 9.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 78.0,
+					"fuel": 40.0,
+					"scrap": 106.0,
+					"water": 75.0
+				},
+				"origin_water_after": 75.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 6,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 110.0,
+					"fuel": 46.0,
+					"scrap": 54.0,
+					"water": 148.0
+				},
+				"dest_water_after": 148.0,
+				"unloaded": {
+					"fuel": 18.0,
+					"scrap": 12.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 6,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"food": 19.0,
+					"fuel": 5.0,
+					"water": 16.0
+				},
+				"loaded_water": 16.0,
+				"origin_inventory_after": {
+					"food": 91.0,
+					"fuel": 41.0,
+					"scrap": 54.0,
+					"water": 132.0
+				},
+				"origin_water_after": 132.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 6,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 91.0,
+					"fuel": 41.0,
+					"scrap": 81.0,
+					"water": 132.0
+				},
+				"dest_water_after": 132.0,
+				"unloaded": {
+					"scrap": 27.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 6,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"food": 11.0,
+					"fuel": 1.0,
+					"water": 28.0
+				},
+				"loaded_water": 28.0,
+				"origin_inventory_after": {
+					"food": 80.0,
+					"fuel": 40.0,
+					"scrap": 81.0,
+					"water": 104.0
+				},
+				"origin_water_after": 104.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 9,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 48.0,
+					"fuel": 115.0,
+					"scrap": 53.0,
+					"water": 51.0
+				},
+				"dest_water_after": 51.0,
+				"unloaded": {
+					"fuel": 6.0,
+					"scrap": 9.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 9,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"fuel": 18.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 48.0,
+					"fuel": 97.0,
+					"scrap": 53.0,
+					"water": 51.0
+				},
+				"origin_water_after": 51.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 9,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 67.0,
+					"fuel": 102.0,
+					"scrap": 53.0,
+					"water": 67.0
+				},
+				"dest_water_after": 67.0,
+				"unloaded": {
+					"food": 19.0,
+					"fuel": 5.0,
+					"water": 16.0
+				},
+				"unloaded_water": 16.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 9,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 18.0,
+					"scrap": 3.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 67.0,
+					"fuel": 84.0,
+					"scrap": 50.0,
+					"water": 67.0
+				},
+				"origin_water_after": 67.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 9,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 83.0,
+					"fuel": 35.0,
+					"scrap": 127.0,
+					"water": 88.0
+				},
+				"dest_water_after": 88.0,
+				"unloaded": {
+					"food": 11.0,
+					"fuel": 1.0,
+					"water": 28.0
+				},
+				"unloaded_water": 28.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 9,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"scrap": 18.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 83.0,
+					"fuel": 35.0,
+					"scrap": 109.0,
+					"water": 88.0
+				},
+				"origin_water_after": 88.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 12,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 77.0,
+					"fuel": 47.0,
+					"scrap": 130.0,
+					"water": 73.0
+				},
+				"dest_water_after": 73.0,
+				"unloaded": {
+					"fuel": 18.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 12,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"fuel": 1.0,
+					"scrap": 9.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 77.0,
+					"fuel": 46.0,
+					"scrap": 121.0,
+					"water": 73.0
+				},
+				"origin_water_after": 73.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 12,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 110.0,
+					"fuel": 46.0,
+					"scrap": 66.0,
+					"water": 152.0
+				},
+				"dest_water_after": 152.0,
+				"unloaded": {
+					"fuel": 18.0,
+					"scrap": 3.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 12,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"food": 17.0,
+					"fuel": 1.0,
+					"scrap": 5.0,
+					"water": 17.0
+				},
+				"loaded_water": 17.0,
+				"origin_inventory_after": {
+					"food": 93.0,
+					"fuel": 45.0,
+					"scrap": 61.0,
+					"water": 135.0
+				},
+				"origin_water_after": 135.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 12,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 93.0,
+					"fuel": 45.0,
+					"scrap": 79.0,
+					"water": 135.0
+				},
+				"dest_water_after": 135.0,
+				"unloaded": {
+					"scrap": 18.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 12,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"food": 11.0,
+					"fuel": 4.0,
+					"water": 26.0
+				},
+				"loaded_water": 26.0,
+				"origin_inventory_after": {
+					"food": 82.0,
+					"fuel": 41.0,
+					"scrap": 79.0,
+					"water": 109.0
+				},
+				"origin_water_after": 109.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 15,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 49.0,
+					"fuel": 115.0,
+					"scrap": 53.0,
+					"water": 49.0
+				},
+				"dest_water_after": 49.0,
+				"unloaded": {
+					"fuel": 1.0,
+					"scrap": 9.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 15,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"fuel": 12.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 49.0,
+					"fuel": 103.0,
+					"scrap": 53.0,
+					"water": 49.0
+				},
+				"origin_water_after": 49.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 15,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 66.0,
+					"fuel": 104.0,
+					"scrap": 58.0,
+					"water": 66.0
+				},
+				"dest_water_after": 66.0,
+				"unloaded": {
+					"food": 17.0,
+					"fuel": 1.0,
+					"scrap": 5.0,
+					"water": 17.0
+				},
+				"unloaded_water": 17.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 15,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 17.0,
+					"scrap": 8.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 66.0,
+					"fuel": 87.0,
+					"scrap": 50.0,
+					"water": 66.0
+				},
+				"origin_water_after": 66.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 15,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 82.0,
+					"fuel": 44.0,
+					"scrap": 142.0,
+					"water": 84.0
+				},
+				"dest_water_after": 84.0,
+				"unloaded": {
+					"food": 11.0,
+					"fuel": 4.0,
+					"water": 26.0
+				},
+				"unloaded_water": 26.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 15,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 4.0,
+					"scrap": 18.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 82.0,
+					"fuel": 40.0,
+					"scrap": 124.0,
+					"water": 84.0
+				},
+				"origin_water_after": 84.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 18,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 76.0,
+					"fuel": 46.0,
+					"scrap": 145.0,
+					"water": 69.0
+				},
+				"dest_water_after": 69.0,
+				"unloaded": {
+					"fuel": 12.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 18,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"scrap": 9.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 76.0,
+					"fuel": 46.0,
+					"scrap": 136.0,
+					"water": 69.0
+				},
+				"origin_water_after": 69.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 18,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 112.0,
+					"fuel": 46.0,
+					"scrap": 69.0,
+					"water": 157.0
+				},
+				"dest_water_after": 157.0,
+				"unloaded": {
+					"fuel": 17.0,
+					"scrap": 8.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 18,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"food": 17.0,
+					"scrap": 7.0,
+					"water": 16.0
+				},
+				"loaded_water": 16.0,
+				"origin_inventory_after": {
+					"food": 95.0,
+					"fuel": 46.0,
+					"scrap": 62.0,
+					"water": 141.0
+				},
+				"origin_water_after": 141.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 18,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 95.0,
+					"fuel": 50.0,
+					"scrap": 80.0,
+					"water": 141.0
+				},
+				"dest_water_after": 141.0,
+				"unloaded": {
+					"fuel": 4.0,
+					"scrap": 18.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 18,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"food": 10.0,
+					"fuel": 6.0,
+					"water": 24.0
+				},
+				"loaded_water": 24.0,
+				"origin_inventory_after": {
+					"food": 85.0,
+					"fuel": 44.0,
+					"scrap": 80.0,
+					"water": 117.0
+				},
+				"origin_water_after": 117.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 21,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 48.0,
+					"fuel": 117.0,
+					"scrap": 53.0,
+					"water": 48.0
+				},
+				"dest_water_after": 48.0,
+				"unloaded": {
+					"scrap": 9.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 21,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"fuel": 12.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 48.0,
+					"fuel": 105.0,
+					"scrap": 53.0,
+					"water": 48.0
+				},
+				"origin_water_after": 48.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 21,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 65.0,
+					"fuel": 105.0,
+					"scrap": 60.0,
+					"water": 64.0
+				},
+				"dest_water_after": 64.0,
+				"unloaded": {
+					"food": 17.0,
+					"scrap": 7.0,
+					"water": 16.0
+				},
+				"unloaded_water": 16.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 21,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 14.0,
+					"scrap": 10.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 65.0,
+					"fuel": 91.0,
+					"scrap": 50.0,
+					"water": 64.0
+				},
+				"origin_water_after": 64.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 21,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 80.0,
+					"fuel": 46.0,
+					"scrap": 157.0,
+					"water": 78.0
+				},
+				"dest_water_after": 78.0,
+				"unloaded": {
+					"food": 10.0,
+					"fuel": 6.0,
+					"water": 24.0
+				},
+				"unloaded_water": 24.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 21,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 6.0,
+					"scrap": 18.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 80.0,
+					"fuel": 40.0,
+					"scrap": 139.0,
+					"water": 78.0
+				},
+				"origin_water_after": 78.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 24,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 74.0,
+					"fuel": 46.0,
+					"scrap": 160.0,
+					"water": 63.0
+				},
+				"dest_water_after": 63.0,
+				"unloaded": {
+					"fuel": 12.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 24,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"scrap": 9.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 74.0,
+					"fuel": 46.0,
+					"scrap": 151.0,
+					"water": 63.0
+				},
+				"origin_water_after": 63.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 24,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 115.0,
+					"fuel": 46.0,
+					"scrap": 72.0,
+					"water": 165.0
+				},
+				"dest_water_after": 165.0,
+				"unloaded": {
+					"fuel": 14.0,
+					"scrap": 10.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 24,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"food": 16.0,
+					"scrap": 7.0,
+					"water": 17.0
+				},
+				"loaded_water": 17.0,
+				"origin_inventory_after": {
+					"food": 99.0,
+					"fuel": 46.0,
+					"scrap": 65.0,
+					"water": 148.0
+				},
+				"origin_water_after": 148.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 24,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 99.0,
+					"fuel": 52.0,
+					"scrap": 83.0,
+					"water": 148.0
+				},
+				"dest_water_after": 148.0,
+				"unloaded": {
+					"fuel": 6.0,
+					"scrap": 18.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 24,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"food": 10.0,
+					"fuel": 6.0,
+					"water": 24.0
+				},
+				"loaded_water": 24.0,
+				"origin_inventory_after": {
+					"food": 89.0,
+					"fuel": 46.0,
+					"scrap": 83.0,
+					"water": 124.0
+				},
+				"origin_water_after": 124.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 27,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 47.0,
+					"fuel": 121.0,
+					"scrap": 53.0,
+					"water": 46.0
+				},
+				"dest_water_after": 46.0,
+				"unloaded": {
+					"scrap": 9.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 27,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"fuel": 12.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 47.0,
+					"fuel": 109.0,
+					"scrap": 53.0,
+					"water": 46.0
+				},
+				"origin_water_after": 46.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 27,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 63.0,
+					"fuel": 109.0,
+					"scrap": 60.0,
+					"water": 63.0
+				},
+				"dest_water_after": 63.0,
+				"unloaded": {
+					"food": 16.0,
+					"scrap": 7.0,
+					"water": 17.0
+				},
+				"unloaded_water": 17.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 27,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 12.0,
+					"scrap": 10.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 63.0,
+					"fuel": 97.0,
+					"scrap": 50.0,
+					"water": 63.0
+				},
+				"origin_water_after": 63.0
+			},
+			"target_id": "settlement:dry_well",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 27,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 78.0,
+					"fuel": 46.0,
+					"scrap": 172.0,
+					"water": 72.0
+				},
+				"dest_water_after": 72.0,
+				"unloaded": {
+					"food": 10.0,
+					"fuel": 6.0,
+					"water": 24.0
+				},
+				"unloaded_water": 24.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 27,
+			"payload": {
+				"destination": "settlement:new_hope",
+				"loaded": {
+					"fuel": 6.0,
+					"scrap": 18.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 78.0,
+					"fuel": 40.0,
+					"scrap": 154.0,
+					"water": 72.0
+				},
+				"origin_water_after": 72.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 30,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 72.0,
+					"fuel": 46.0,
+					"scrap": 175.0,
+					"water": 57.0
+				},
+				"dest_water_after": 57.0,
+				"unloaded": {
+					"fuel": 12.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_gray_dry",
+			"day": 30,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"scrap": 9.0
+				},
+				"loaded_water": 0.0,
+				"origin_inventory_after": {
+					"food": 72.0,
+					"fuel": 46.0,
+					"scrap": 166.0,
+					"water": 57.0
+				},
+				"origin_water_after": 57.0
+			},
+			"target_id": "settlement:gray_valley",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 30,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 119.0,
+					"fuel": 46.0,
+					"scrap": 75.0,
+					"water": 172.0
+				},
+				"dest_water_after": 172.0,
+				"unloaded": {
+					"fuel": 12.0,
+					"scrap": 10.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_dry",
+			"day": 30,
+			"payload": {
+				"destination": "settlement:dry_well",
+				"loaded": {
+					"food": 17.0,
+					"scrap": 6.0,
+					"water": 17.0
+				},
+				"loaded_water": 17.0,
+				"origin_inventory_after": {
+					"food": 102.0,
+					"fuel": 46.0,
+					"scrap": 69.0,
+					"water": 155.0
+				},
+				"origin_water_after": 155.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 30,
+			"payload": {
+				"dest_inventory_after": {
+					"food": 102.0,
+					"fuel": 52.0,
+					"scrap": 87.0,
+					"water": 155.0
+				},
+				"dest_water_after": 155.0,
+				"unloaded": {
+					"fuel": 6.0,
+					"scrap": 18.0
+				},
+				"unloaded_water": 0.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_ARRIVED"
+		},
+		{
+			"actor_id": "caravan:c_hope_gray",
+			"day": 30,
+			"payload": {
+				"destination": "settlement:gray_valley",
+				"loaded": {
+					"food": 9.0,
+					"fuel": 6.0,
+					"water": 25.0
+				},
+				"loaded_water": 25.0,
+				"origin_inventory_after": {
+					"food": 93.0,
+					"fuel": 46.0,
+					"scrap": 87.0,
+					"water": 130.0
+				},
+				"origin_water_after": 130.0
+			},
+			"target_id": "settlement:new_hope",
+			"type": "CARAVAN_LOADED"
+		}
+	],
+	"field_schema_version": 1,
+	"field_state": {
+		"battle": {},
+		"enemy_hp": 8,
+		"next_id": 1,
+		"opened": false,
+		"receipt": -1
+	},
+	"next_npc_sequence": 4,
+	"npc_life_state_registry": {
+		"npc:00000001": {
+			"npc_id": "npc:00000001",
+			"population_container_id": "settlement:gray_valley",
+			"population_container_type": 0,
+			"status": 0
+		},
+		"npc:00000002": {
+			"npc_id": "npc:00000002",
+			"population_container_id": "settlement:gray_valley",
+			"population_container_type": 0,
+			"status": 0
+		},
+		"npc:00000003": {
+			"npc_id": "npc:00000003",
+			"population_container_id": "settlement:gray_valley",
+			"population_container_type": 0,
+			"status": 0
+		}
+	},
+	"npc_profile_registry": {
+		"npc:00000001": {
+			"aptitudes": [
+				1,
+				3
+			],
+			"background": 3,
+			"npc_id": "npc:00000001",
+			"traits": [
+				1
+			]
+		},
+		"npc:00000002": {
+			"aptitudes": [
+				0,
+				2,
+				4
+			],
+			"background": 3,
+			"npc_id": "npc:00000002",
+			"traits": [
+				1
+			]
+		},
+		"npc:00000003": {
+			"aptitudes": [
+				4
+			],
+			"background": 3,
+			"npc_id": "npc:00000003",
+			"traits": [
+				1
+			]
+		}
+	},
+	"npc_registry": {
+		"npc:00000001": {
+			"age_at_materialization": 28,
+			"id": "npc:00000001",
+			"name": "Mara",
+			"origin_settlement_id": "settlement:gray_valley"
+		},
+		"npc:00000002": {
+			"age_at_materialization": 29,
+			"id": "npc:00000002",
+			"name": "Joel",
+			"origin_settlement_id": "settlement:gray_valley"
+		},
+		"npc:00000003": {
+			"age_at_materialization": 30,
+			"id": "npc:00000003",
+			"name": "Tess",
+			"origin_settlement_id": "settlement:gray_valley"
+		}
+	},
+	"pending_encounter_result": -1,
+	"progression_schema_version": 1,
+	"refugees": {},
+	"settlements": {
+		"settlement:dry_well": {
+			"base_price_food": 15.0,
+			"base_price_fuel": 10.0,
+			"base_price_scrap": 14.0,
+			"base_price_water": 15.0,
+			"consumption": {
+				"food": 4,
+				"fuel": 3,
+				"scrap": 2,
+				"water": 4
+			},
+			"cumulative_deaths": 0,
+			"cumulative_disorder_loss": {},
+			"days_since_last_migration": 1029,
+			"disorder_loss_credits": {},
+			"food_exposure": 0.0,
+			"food_pressure": 0.0,
+			"id": "settlement:dry_well",
+			"inventory": {
+				"food": 54,
+				"fuel": 112,
+				"scrap": 47,
+				"water": 54
+			},
+			"maintenance_fuel": 3,
+			"maintenance_scrap": 2,
+			"market_cash": 500,
+			"metabolism_food_rate": 0.05,
+			"metabolism_water_rate": 0.05,
+			"name": "乾井 (Dry Well)",
+			"population": 80,
+			"price_food": 17.25,
+			"price_fuel": 8.2,
+			"price_scrap": 15.26,
+			"price_water": 17.25,
+			"production": {
+				"food": 1,
+				"fuel": 8,
+				"scrap": 1,
+				"water": 1
+			},
+			"production_credits": {
+				"food": 0.0,
+				"fuel": 0.0,
+				"scrap": 0.0,
+				"water": 0.0
+			},
+			"reference_population": 80,
+			"security": 100.0,
+			"target_food": 60,
+			"target_fuel": 100,
+			"target_scrap": 50,
+			"target_water": 60,
+			"water_exposure": 0.0,
+			"water_pressure": 0.0
+		},
+		"settlement:gray_valley": {
+			"base_price_food": 12.0,
+			"base_price_fuel": 20.0,
+			"base_price_scrap": 8.0,
+			"base_price_water": 15.0,
+			"consumption": {
+				"food": 4,
+				"fuel": 2,
+				"scrap": 4,
+				"water": 5
+			},
+			"cumulative_deaths": 0,
+			"cumulative_disorder_loss": {},
+			"days_since_last_migration": 1029,
+			"disorder_loss_credits": {},
+			"food_exposure": 0.0,
+			"food_pressure": 0.0,
+			"id": "settlement:gray_valley",
+			"inventory": {
+				"food": 72,
+				"fuel": 46,
+				"scrap": 166,
+				"water": 57
+			},
+			"maintenance_fuel": 2,
+			"maintenance_scrap": 4,
+			"market_cash": 500,
+			"metabolism_food_rate": 0.04,
+			"metabolism_water_rate": 0.05,
+			"name": "灰谷 (Gray Valley)",
+			"population": 100,
+			"price_food": 13.8,
+			"price_fuel": 15.5,
+			"price_scrap": 1.6,
+			"price_water": 21.46875,
+			"production": {
+				"food": 2,
+				"fuel": 0,
+				"scrap": 11,
+				"water": 0
+			},
+			"production_credits": {
+				"food": 0.0,
+				"scrap": 0.0
+			},
+			"reference_population": 100,
+			"security": 100.0,
+			"target_food": 80,
+			"target_fuel": 40,
+			"target_scrap": 100,
+			"target_water": 80,
+			"water_exposure": 0.0,
+			"water_pressure": 0.0
+		},
+		"settlement:new_hope": {
+			"base_price_food": 10.0,
+			"base_price_fuel": 20.0,
+			"base_price_scrap": 16.0,
+			"base_price_water": 8.0,
+			"consumption": {
+				"food": 4,
+				"fuel": 2,
+				"scrap": 4,
+				"water": 6
+			},
+			"cumulative_deaths": 0,
+			"cumulative_disorder_loss": {},
+			"days_since_last_migration": 1029,
+			"disorder_loss_credits": {},
+			"food_exposure": 0.0,
+			"food_pressure": 0.0,
+			"id": "settlement:new_hope",
+			"inventory": {
+				"food": 93,
+				"fuel": 46,
+				"scrap": 87,
+				"water": 130
+			},
+			"maintenance_fuel": 2,
+			"maintenance_scrap": 4,
+			"market_cash": 500,
+			"metabolism_food_rate": 0.0333333333333333,
+			"metabolism_water_rate": 0.05,
+			"name": "新希望 (New Hope)",
+			"population": 120,
+			"price_food": 5.875,
+			"price_fuel": 11.0,
+			"price_scrap": 5.2,
+			"price_water": 1.6,
+			"production": {
+				"food": 9,
+				"fuel": 0,
+				"scrap": 1,
+				"water": 14
+			},
+			"production_credits": {
+				"food": 0.0,
+				"scrap": 0.0,
+				"water": 0.0
+			},
+			"reference_population": 120,
+			"security": 100.0,
+			"target_food": 80,
+			"target_fuel": 40,
+			"target_scrap": 60,
+			"target_water": 100,
+			"water_exposure": 0.0,
+			"water_pressure": 0.0
+		}
+	},
+	"total_initial_population": 300
+}

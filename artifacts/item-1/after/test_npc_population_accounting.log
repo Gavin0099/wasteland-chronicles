@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+   WASTELAND CHRONICLES - LEVEL G1.5-A NPC AUTHORITY CONTRACT TEST SUITE        
+================================================================================
+
+--- [GATE GA1] Population Authority & Materialization Contract ---
+  Representational materialization verified: 50 Pop -> 1 Named + 49 Anonymous == 50 Total.
+  Capacity bound strictly enforced: Named (50) <= Settlement Population (50).
+PASS GATE GA1: Population Authority & Materialization Contract strictly verified.
+
+--- [GATE GA2] Deterministic ID Minting Protocol & Immutable Identity ---
+  Monotonic IDs: npc:00000001, npc:00000002 verified. ID decoupled from location/job/faction/party.
+PASS GATE GA2: Deterministic ID Minting Protocol & Immutable Identity verified.
+
+--- [GATE GA3] Single Population Membership Invariant ---
+  Dual membership properly caught: Living NPC npc:00000001 belongs to multiple containers simultaneously: ["settlement:gray_valley", "transit:refugee_wave_1"]
+  Zero membership properly caught: Living NPC npc:00000001 has zero population container (Floating/Dangling Entity)
+PASS GATE GA3: Single Population Membership Invariant strictly verified.
+
+--- [GATE GA4] Lifecycle Contract: Validate-Before-Commit Pattern ---
+  Precondition failure safely aborted: zero mutations applied, event ledger clean.
+  Validate-before-commit: Preconditions verified -> All states atomically mutated -> Event emitted.
+PASS GATE GA4: Lifecycle Contract: Validate-Before-Commit Pattern strictly verified.
+
+--- [GATE GA5] Slice-Scoped Action Space Authorization Contract ---
+  Slice boundaries enforced: S4-A empty; S4-F authorized actions pass; illegal actions fail closed.
+PASS GATE GA5: Slice-Scoped Action Space Authorization Contract strictly verified.
+
+--- [GATE GA6] Structured Decision Evidence Schema & Deterministic Replay ---
+  Evidence schema valid. Bitwise identical SHA-256 hash verified.
+PASS GATE GA6: Structured Decision Evidence Schema & Deterministic Replay verified.
+
+--- [GATE GA7] Unidirectional Authority & Committed Fact Ledger Contract ---
+  World event ledger strictly restricted to committed facts. Narrative flow unidirectional.
+PASS GATE GA7: Unidirectional Authority & Committed Fact Ledger Contract strictly verified.
+
+================================================================================
+ALL LEVEL G1.5-A NPC AUTHORITY CONTRACT GATES (GA1 ~ GA7) PASSED CLEANLY!
+================================================================================
