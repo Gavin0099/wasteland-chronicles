@@ -1331,8 +1331,20 @@ func _show_character() -> void:
 		return
 	var presentation = preload("res://ui/character_presentation.gd")
 	var dialog = preload("res://ui/components/character_sheet.gd").new()
+	var equip_action := func(item_id: String, slot: String):
+		var result := engine.commit_player_intent(world, PlayerIntent.create_equip_item(world.player.npc_id, StringName(item_id), slot))
+		if result.get("success", false):
+			dialog.queue_free()
+			refresh_ui()
+			call_deferred("_show_character")
+	var unequip_action := func(slot: String):
+		var result := engine.commit_player_intent(world, PlayerIntent.create_unequip_item(world.player.npc_id, slot))
+		if result.get("success", false):
+			dialog.queue_free()
+			refresh_ui()
+			call_deferred("_show_character")
 	add_child(dialog)
-	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player)
+	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action)
 	dialog.popup_centered()
 
 func _encounter_blocked_text(option: Dictionary) -> String:

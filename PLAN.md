@@ -51,6 +51,7 @@
 - [x] ITEM-10 — Deterministic regional item restock: only existing item market states restock by supply level; untouched settlements and old saves remain unchanged.
 - [x] ITEM-11 — Regional item price elasticity: stock shortage premiums and demand-based sell quotes, deterministic and save-stable; bargaining and caravan price effects deferred.
 - [x] ITEM-12 — Equipment combat bridge: equipped canonical melee items modify the existing Field Combat Lite attack authority; no durability, armor or weapon progression added.
+- [x] ITEM-13 — Equipment PDA actions: owned equippable items expose authority-backed equip/unequip controls and persist through the existing sheet/save boundary.
 - [ ] S5-C6 : Job Progression — natural capability requirements, not quest-level labels
 - [ ] S5-C7 : Capstone — advanced builds and rare items reconnect character growth to world consequences
 - [ ] World Expansion 3 -> 5 settlements — deferred; sparse roads/chokepoints retained, former S5-C0 identifier superseded
@@ -94,6 +95,8 @@
 - 2026-09-22: **ITEM-11 regional item price elasticity implemented** — item buy quotes now apply a bounded stock-shortage premium and sell quotes use regional demand levels; untouched market projections remain detached and aggregate resource pricing is unchanged. Focused assertions: 8; full regression remains required before closure.
 
 - 2026-09-22: **ITEM-12 equipment combat bridge implemented** — equipped main-hand knife/club/machete items now modify the existing Field Combat Lite attack authority, with save/load and UI weapon presentation covered; crowbar, unarmed combat and all other combat rules remain unchanged. Focused assertions: 10; full regression remains required before closure.
+
+- 2026-09-22: **ITEM-13 equipment PDA actions implemented** — the character sheet now exposes equip/unequip controls for owned slot-compatible items, routes them through new intents and an `EQUIPMENT_CHANGED` receipt, and refreshes after commit. Focused assertions: 10; full regression remains required before closure.
 
 - 2026-09-22: **ITEM-1 completed; content research/design next** — fixed twelve minimal definitions, with integer grams kept separate from existing carrying units. Source factory remains the only authority; returned data is detached, unknown IDs and asset rebinding fail closed, candidate canonicalization cannot install data, saves contain no definitions. New suite passes 1,102 checks; 40 existing suites pass before/after with all 48 SHA output lines and 8 emitted snapshots identical. Independent review reports no actionable findings. Existing Field Combat Lite remains unchanged. Owner then requested a full 185-name design pass and encounter/world-use matrices informed by online wasteland-game/fiction and Passage of the Book references; these are design proposals, not runtime registration. No new images or future gameplay implementation in that content pass.
 

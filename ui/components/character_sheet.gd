@@ -12,6 +12,8 @@ var equipment_labels: Dictionary = {}
 var capacity_label: Label
 var identity_label: Label
 var trait_label: Label
+var equipment_action: Callable
+var equipment_unequip_action: Callable
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -40,7 +42,9 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary) -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable()) -> void:
+	equipment_action = p_equipment_action
+	equipment_unequip_action = p_unequip_action
 	title = "人物與補給"
 	theme_type_variation = "PdaDialog"
 	ok_button_text = "返回旅程"
@@ -100,6 +104,14 @@ func setup(character: Dictionary, player: Dictionary) -> void:
 			var item_row_node := item_row(item_rows, item_id)
 			var item_label := label_in(item_row_node, "%s　×%d　%d g" % [resolved.definition.display_name_zh, int(entry.get("quantity", 0)), int(resolved.definition.base_weight) * int(entry.get("quantity", 0))])
 			item_labels[item_id] = item_label
+			if equipment_action.is_valid():
+				for slot in resolved.definition.equip_slots:
+					var equip_button := Button.new()
+					equip_button.text = "裝備%s" % _slot_name(String(slot))
+					equip_button.theme_type_variation = "PdaCommand"
+					equip_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+					equip_button.pressed.connect(func(): equipment_action.call(item_id, String(slot)))
+					item_row_node.add_child(equip_button)
 	label_in(left, "裝備", "PdaSection")
 	var equipped_rows := VBoxContainer.new()
 	equipped_rows.add_theme_constant_override("separation", Tokens.GAP)
@@ -115,6 +127,13 @@ func setup(character: Dictionary, player: Dictionary) -> void:
 		equipped_rows.add_child(equipped_row)
 		var equipment_label := label_in(equipped_row, "%s　%s" % [slot_names[slot], _item_display_name(equipped_id)])
 		equipment_labels[slot] = equipment_label
+		if not equipped_id.is_empty() and equipment_unequip_action.is_valid():
+			var unequip_button := Button.new()
+			unequip_button.text = "卸下"
+			unequip_button.theme_type_variation = "PdaCommand"
+			unequip_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+			unequip_button.pressed.connect(func(): equipment_unequip_action.call(slot))
+			equipped_row.add_child(unequip_button)
 	var right := panel_in(columns)
 	label_in(right, "能力", "PdaSection")
 	label_in(right, "0 外行 → 5 大師", "PdaMuted")
@@ -131,3 +150,6 @@ func _item_display_name(item_id: String) -> String:
 		return "空"
 	var resolved := ItemRegistry.resolve(item_id)
 	return String(resolved.definition.display_name_zh) if resolved.success else "未知物品"
+
+func _slot_name(slot: String) -> String:
+	return {"main_hand": "主手", "body": "身體", "back": "背包"}.get(slot, slot)

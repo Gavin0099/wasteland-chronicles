@@ -1583,6 +1583,44 @@ static func get_item_sell_quote(settlement: SettlementState, item_id: StringName
 		return 0
 	return ItemMarketState.sell_quote(item_id, settlement.id)
 
+func _authorize_equipment_intent(world: WorldState, intent: PlayerIntent, equipping: bool) -> String:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+	if ls == null or ls.status != NpcLifeState.Status.SETTLED:
+		return "INVALID_STATUS: Equipment can only change while settled"
+	var expected_size := 2 if equipping else 1
+	if typeof(intent.payload) != TYPE_DICTIONARY or intent.payload.size() != expected_size or typeof(intent.payload.get("slot", "")) != TYPE_STRING:
+		return "INVALID_EQUIPMENT_INTENT"
+	var candidate: RefCounted = world.player.equipment.duplicate_state()
+	if equipping:
+		if typeof(intent.payload.get("item_id", "")) != TYPE_STRING:
+			return "INVALID_EQUIPMENT_INTENT"
+		var result: Dictionary = candidate.equip(intent.payload.item_id, intent.payload.slot, world.player.item_inventory)
+		return "" if result.success else String(result.error)
+	var removed: Dictionary = candidate.unequip(intent.payload.slot)
+	return "" if removed.success else String(removed.error)
+
+func _commit_equipment_intent(world: WorldState, intent: PlayerIntent, equipping: bool, tick_events: Array[EventRecord]) -> Dictionary:
+	var equipment: RefCounted = world.player.equipment.duplicate_state()
+	var result: Dictionary
+	var action_name := "EQUIP" if equipping else "UNEQUIP"
+	if equipping:
+		result = equipment.equip(intent.payload.item_id, intent.payload.slot, world.player.item_inventory)
+	else:
+		result = equipment.unequip(intent.payload.slot)
+	if not result.success:
+		return {"success": false, "error": String(result.error)}
+	world.player.equipment = equipment
+	var payload := {
+		"action": action_name,
+		"slot": String(intent.payload.slot),
+		"item_id": String(result.item_id)
+	}
+	var event := EventRecord.new(world.current_day, "EQUIPMENT_CHANGED", intent.player_id, StringName("equipment"), payload)
+	if tick_events != null:
+		tick_events.append(event)
+	world.record_event(event)
+	return {"success": true, "action": action_name, "slot": result.slot, "item_id": result.item_id}
+
 func _item_market_view(settlement: SettlementState) -> RefCounted:
 	if settlement.item_market != null:
 		return settlement.item_market
@@ -2115,6 +2153,10 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	match intent.action:
 		PlayerIntent.Action.RESOLVE_ENCOUNTER:
 			return authorize_encounter_option(world, StringName(String(intent.payload.get("option_id", ""))))
+		PlayerIntent.Action.EQUIP_ITEM:
+			return _authorize_equipment_intent(world, intent, true)
+		PlayerIntent.Action.UNEQUIP_ITEM:
+			return _authorize_equipment_intent(world, intent, false)
 		PlayerIntent.Action.WAIT:
 			return ""
 		PlayerIntent.Action.TRAVEL:
@@ -2278,6 +2320,10 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			return _continue_after_encounter(world)
 		PlayerIntent.Action.RESOLVE_ENCOUNTER:
 			return commit_encounter_choice(world, StringName(String(intent.payload.get("option_id", ""))))
+		PlayerIntent.Action.EQUIP_ITEM:
+			return _commit_equipment_intent(world, intent, true, tick_events)
+		PlayerIntent.Action.UNEQUIP_ITEM:
+			return _commit_equipment_intent(world, intent, false, tick_events)
 
 		PlayerIntent.Action.WAIT:
 			var wait_evt := EventRecord.new(

@@ -25,9 +25,11 @@ enum Action {
 	RESOLVE_ENCOUNTER = 4,
 	CONTINUE_JOURNEY = 5,
 	FIELD_ACTION = 6,
+	EQUIP_ITEM = 7,
+	UNEQUIP_ITEM = 8,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -57,6 +59,8 @@ func _init(
 static func action_name(value: int) -> String:
 	match value:
 		Action.FIELD_ACTION: return "FIELD_ACTION"
+		Action.EQUIP_ITEM: return "EQUIP_ITEM"
+		Action.UNEQUIP_ITEM: return "UNEQUIP_ITEM"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
 		Action.BUY: return "BUY"
@@ -85,6 +89,12 @@ static func create_buy_item(p_player_id: StringName, p_item_id: StringName, p_qu
 
 static func create_sell_item(p_player_id: StringName, p_item_id: StringName, p_quantity: int) -> PlayerIntent:
 	return PlayerIntent.new(Action.SELL, p_player_id, &"", {}, &"", p_quantity, p_item_id)
+
+static func create_equip_item(p_player_id: StringName, p_item_id: StringName, slot: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.EQUIP_ITEM, p_player_id, &"", {"item_id": String(p_item_id), "slot": slot})
+
+static func create_unequip_item(p_player_id: StringName, slot: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.UNEQUIP_ITEM, p_player_id, &"", {"slot": slot})
 
 func to_dict() -> Dictionary:
 	var result := {
