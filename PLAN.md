@@ -49,6 +49,7 @@
 - [x] ITEM-8 — Item market transactions: lazy regional stock, item buy/sell intents, fixed base-value/spread quotes, strict persistence and atomic ownership checks; restocking and dynamic pricing deferred.
 - [x] ITEM-9 — Regional item market PDA presentation: collapsed Survivor PDA item shop with stock, supply/demand, owned count and authority-backed buy/sell controls.
 - [x] ITEM-10 — Deterministic regional item restock: only existing item market states restock by supply level; untouched settlements and old saves remain unchanged.
+- [x] ITEM-11 — Regional item price elasticity: stock shortage premiums and demand-based sell quotes, deterministic and save-stable; bargaining and caravan price effects deferred.
 - [ ] S5-C6 : Job Progression — natural capability requirements, not quest-level labels
 - [ ] S5-C7 : Capstone — advanced builds and rare items reconnect character growth to world consequences
 - [ ] World Expansion 3 -> 5 settlements — deferred; sparse roads/chokepoints retained, former S5-C0 identifier superseded
@@ -88,6 +89,8 @@
 - 2026-09-22: **ITEM-9 regional item market PDA presentation implemented** — the existing Survivor PDA marketplace now keeps the four aggregate resources compact and exposes a collapsed twelve-item section with regional stock, supply/demand labels, owned quantities and authority-backed item transactions. Projection remains detached and opening the section does not mutate untouched market state. Focused assertions: 11; full regression remains required before closure.
 
 - 2026-09-22: **ITEM-10 deterministic regional item restock implemented** — existing item market states replenish by supply level (daily high, every two days medium, every four days low), capped and ID-ordered; untouched settlements remain without item market state and aggregate resources are unchanged. Focused assertions: 10; full regression remains required before closure.
+
+- 2026-09-22: **ITEM-11 regional item price elasticity implemented** — item buy quotes now apply a bounded stock-shortage premium and sell quotes use regional demand levels; untouched market projections remain detached and aggregate resource pricing is unchanged. Focused assertions: 8; full regression remains required before closure.
 
 - 2026-09-22: **ITEM-1 completed; content research/design next** — fixed twelve minimal definitions, with integer grams kept separate from existing carrying units. Source factory remains the only authority; returned data is detached, unknown IDs and asset rebinding fail closed, candidate canonicalization cannot install data, saves contain no definitions. New suite passes 1,102 checks; 40 existing suites pass before/after with all 48 SHA output lines and 8 emitted snapshots identical. Independent review reports no actionable findings. Existing Field Combat Lite remains unchanged. Owner then requested a full 185-name design pass and encounter/world-use matrices informed by online wasteland-game/fiction and Passage of the Book references; these are design proposals, not runtime registration. No new images or future gameplay implementation in that content pass.
 

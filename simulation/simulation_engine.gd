@@ -1573,10 +1573,10 @@ static func get_sell_quote(settlement: SettlementState, commodity: StringName) -
 	var price := settlement.get_current_price(String(commodity))
 	return maxi(1, int(floor(price)))
 
-static func get_item_buy_quote(settlement: SettlementState, item_id: StringName) -> int:
+static func get_item_buy_quote(settlement: SettlementState, item_id: StringName, market: RefCounted = null) -> int:
 	if settlement == null:
 		return 0
-	return ItemMarketState.buy_quote(item_id, settlement.id)
+	return ItemMarketState.buy_quote(item_id, settlement.id, market)
 
 static func get_item_sell_quote(settlement: SettlementState, item_id: StringName) -> int:
 	if settlement == null:
@@ -1605,7 +1605,7 @@ func _authorize_item_trade(world: WorldState, settlement: SettlementState, inten
 			return "ITEM_NOT_SOLD_HERE: %s has no routine supply in %s" % [intent.item_id, settlement.id]
 		if market.quantity(intent.item_id) < intent.quantity:
 			return "INSUFFICIENT_ITEM_STOCK: %s has %d, requested %d" % [intent.item_id, market.quantity(intent.item_id), intent.quantity]
-		var quote := get_item_buy_quote(settlement, intent.item_id)
+		var quote := get_item_buy_quote(settlement, intent.item_id, market)
 		var total_cost := quote * intent.quantity
 		if world.player.money < total_cost:
 			return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [world.player.money, total_cost]
@@ -1630,7 +1630,7 @@ func _commit_item_trade(world: WorldState, intent: PlayerIntent, tick_events: Ar
 	var buying := intent.action == PlayerIntent.Action.BUY
 	var market: RefCounted = settlement.item_market.duplicate_state() if settlement.item_market != null else ItemMarketState.seeded_for(settlement.id)
 	var player_items: RefCounted = world.player.item_inventory.duplicate_state()
-	var quote := get_item_buy_quote(settlement, intent.item_id) if buying else get_item_sell_quote(settlement, intent.item_id)
+	var quote := get_item_buy_quote(settlement, intent.item_id, market) if buying else get_item_sell_quote(settlement, intent.item_id)
 	var total := quote * intent.quantity
 	if buying:
 		market.remove(String(intent.item_id), intent.quantity)

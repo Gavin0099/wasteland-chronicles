@@ -214,9 +214,9 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 				"demand": offer.demand,
 				"stock": market_view.quantity(item_id),
 				"owned": owned,
-				"quote_buy": ItemMarketState.buy_quote(item_id, s.id),
+				"quote_buy": ItemMarketState.buy_quote(item_id, s.id, market_view),
 				"quote_sell": sell_quote,
-				"can_buy": market_view.quantity(item_id) > 0 and world.player.money >= ItemMarketState.buy_quote(item_id, s.id),
+				"can_buy": market_view.quantity(item_id) > 0 and world.player.money >= ItemMarketState.buy_quote(item_id, s.id, market_view),
 				"can_sell": owned > 0 and sell_quote > 0 and s.market_cash >= sell_quote,
 			})
 

@@ -102,19 +102,24 @@ func to_dict() -> Dictionary:
 		entries.append({"item_id": item_id, "quantity": int(_stock[item_id])})
 	return {"items": entries}
 
-static func buy_quote(item_id: Variant, settlement_id: Variant) -> int:
+static func buy_quote(item_id: Variant, settlement_id: Variant, market: RefCounted = null) -> int:
 	var profile := Markets.profile_for(item_id, settlement_id)
 	if not profile.success or not profile.is_routinely_supplied:
 		return 0
 	var resolved := Registry.resolve(String(item_id))
-	return maxi(1, int(resolved.definition.base_value))
+	var base_value: int = int(resolved.definition.base_value)
+	var target: int = default_quantity(String(profile.supply))
+	var current: int = target if market == null else market.quantity(String(item_id))
+	var shortage_ratio: float = 0.0 if target <= 0 else clampf(float(target - current) / float(target), 0.0, 1.0)
+	return maxi(1, int(ceil(float(base_value) * (1.0 + shortage_ratio * 0.5))))
 
 static func sell_quote(item_id: Variant, settlement_id: Variant) -> int:
 	var profile := Markets.profile_for(item_id, settlement_id)
 	if not profile.success or profile.demand == "none":
 		return 0
 	var resolved := Registry.resolve(String(item_id))
-	return maxi(1, int(floor(float(resolved.definition.base_value) * 0.5)))
+	var demand_rate: float = float({"low": 0.4, "medium": 0.5, "high": 0.6}.get(profile.demand, 0.0))
+	return maxi(1, int(floor(float(resolved.definition.base_value) * float(demand_rate))))
 
 static func validate_serialized(data: Variant) -> String:
 	if typeof(data) != TYPE_DICTIONARY or data.size() != 1 or not data.has("items") or typeof(data.items) != TYPE_ARRAY:
