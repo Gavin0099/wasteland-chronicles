@@ -6,6 +6,7 @@ var field_state: Dictionary = Field.new_state()
 
 const Capability = preload("res://simulation/capability_profile.gd")
 const RankCodec = preload("res://simulation/rank_json_codec.gd")
+const ItemInventory = preload("res://simulation/item_inventory_state.gd")
 
 var current_day: int = 0
 var total_initial_population: int = -1
@@ -257,6 +258,10 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 	elif has_player_data and player_data.has("capability"):
 		return {"success": false, "world": null, "error": "MISSING_PROGRESSION_SCHEMA"}
 	if has_player_data:
+		if player_data.has("item_inventory"):
+			var item_inventory_error := ItemInventory.validate_serialized(player_data.item_inventory)
+			if item_inventory_error != "":
+				return {"success": false, "world": null, "error": item_inventory_error}
 		# Old profile loaders canonicalize metadata. Before migration, reject
 		# malformed values rather than repairing them into a different biography.
 		var profiles: Variant = data.get("npc_profile_registry")

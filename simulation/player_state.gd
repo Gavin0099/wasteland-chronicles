@@ -2,6 +2,7 @@ class_name PlayerState
 extends RefCounted
 
 const Capability = preload("res://simulation/capability_profile.gd")
+const ItemInventory = preload("res://simulation/item_inventory_state.gd")
 var capability: RefCounted
 const Field = preload("res://simulation/field_adventure.gd")
 var field_kit: Dictionary = Field.new_kit()
@@ -32,6 +33,7 @@ var field_kit: Dictionary = Field.new_kit()
 
 var npc_id: StringName = &""
 var inventory: ResourceState = null
+var item_inventory: RefCounted = null
 var capacity_total: int = 20
 var money: int = 50
 var water_pressure: float = 0.0
@@ -48,7 +50,17 @@ func _init(
 	capacity_total = p_capacity
 	money = p_money
 	inventory = ResourceState.new()
+	item_inventory = ItemInventory.new()
 	capability = Capability.legacy(npc_id) if npc_id != &"" else null
+
+func pickup_item(item_id: Variant, quantity: int = 1) -> Dictionary:
+	return item_inventory.pickup_item(item_id, quantity)
+
+func drop_item(item_id: Variant, quantity: int = 1) -> Dictionary:
+	return item_inventory.drop_item(item_id, quantity)
+
+func inspect_item(item_id: Variant) -> Dictionary:
+	return item_inventory.inspect_item(item_id)
 
 func get_total_inventory_load() -> int:
 	if inventory == null:
@@ -62,6 +74,8 @@ func duplicate_state() -> PlayerState:
 	var copy := PlayerState.new(npc_id, capacity_total, money)
 	if inventory != null:
 		copy.inventory = inventory.duplicate_state()
+	if item_inventory != null:
+		copy.item_inventory = item_inventory.duplicate_state()
 	copy.field_kit = field_kit.duplicate(true)
 	copy.water_pressure = water_pressure
 	copy.food_pressure = food_pressure
@@ -71,7 +85,7 @@ func duplicate_state() -> PlayerState:
 	return copy
 
 func to_dict() -> Dictionary:
-	return {
+	var result := {
 		"npc_id": String(npc_id),
 		"field_kit": field_kit.duplicate(true),
 		"capability": capability.to_dict() if capability != null else null,
@@ -83,6 +97,9 @@ func to_dict() -> Dictionary:
 		"water_exposure": NumericCanon.canonical_float(water_exposure),
 		"food_exposure": NumericCanon.canonical_float(food_exposure),
 	}
+	if item_inventory != null and not item_inventory.is_empty():
+		result["item_inventory"] = item_inventory.to_dict()
+	return result
 
 static func from_dict(data: Dictionary) -> PlayerState:
 	var nid := StringName(data.get("npc_id", ""))
@@ -99,6 +116,10 @@ static func from_dict(data: Dictionary) -> PlayerState:
 		p.inventory = ResourceState.from_dict(data["inventory"])
 	else:
 		p.inventory = ResourceState.new()
+	if data.has("item_inventory"):
+		p.item_inventory = ItemInventory.from_dict(data["item_inventory"])
+	else:
+		p.item_inventory = ItemInventory.new()
 
 	p.water_pressure = float(data.get("water_pressure", 0.0))
 	p.food_pressure = float(data.get("food_pressure", 0.0))
