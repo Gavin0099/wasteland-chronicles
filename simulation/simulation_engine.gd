@@ -324,6 +324,8 @@ func tick(world: WorldState) -> Array[EventRecord]:
 	for s_id in sorted_settlement_ids:
 		var settlement: SettlementState = world.settlements[s_id]
 		recalculate_prices(settlement)
+		if settlement.item_market != null:
+			settlement.item_market.restock_for(settlement.id, current_day)
 
 	# -------------------------------------------------------------
 	# 階段 4: 在途商隊與難民推進航程 (Caravan & Refugee Advances)

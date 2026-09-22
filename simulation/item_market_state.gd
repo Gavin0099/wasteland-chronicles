@@ -75,6 +75,25 @@ func duplicate_state() -> RefCounted:
 	copy._stock = _stock.duplicate(true)
 	return copy
 
+func restock_for(settlement_id: Variant, current_day: int) -> Array[Dictionary]:
+	var changes: Array[Dictionary] = []
+	var normalized := Markets.settlement_key(settlement_id)
+	if normalized.is_empty() or current_day <= 0:
+		return changes
+	var ids: Array = _stock.keys()
+	ids.sort()
+	for item_id in ids:
+		var profile := Markets.profile_for(String(item_id), normalized)
+		if not profile.success:
+			continue
+		var interval := _restock_interval(String(profile.supply))
+		if interval <= 0 or current_day % interval != 0 or quantity(item_id) >= MAX_STOCK:
+			continue
+		var before := quantity(item_id)
+		_stock[item_id] = mini(MAX_STOCK, before + 1)
+		changes.append({"item_id": String(item_id), "before": before, "after": quantity(item_id)})
+	return changes
+
 func to_dict() -> Dictionary:
 	var entries: Array = []
 	var ids: Array = _stock.keys()
@@ -133,6 +152,13 @@ static func _restore_quantity(value: Variant) -> Dictionary:
 	if absf(float(value)) > 9007199254740992.0:
 		return {"ok": false, "value": 0}
 	return {"ok": true, "value": int(value)}
+
+static func _restock_interval(supply: String) -> int:
+	match supply:
+		"high": return 1
+		"medium": return 2
+		"low": return 4
+		_: return 0
 
 func _failure(error: String) -> Dictionary:
 	return {"success": false, "error": error, "item_id": "", "quantity": 0}
