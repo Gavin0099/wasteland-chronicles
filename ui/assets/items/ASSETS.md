@@ -1,5 +1,11 @@
 # Common item artwork — first set
 
+The broader owner-directed candidate catalogue and proposed next art batches live
+in `docs/item-world-v0.md`. The water canteen, ration and scrap illustrations here
+represent existing aggregate resources, not separate container/food/material
+inventories. Regional sourcing and new item effects in that catalogue are future
+content directions, not mechanics enabled by these images.
+
 Six original transparent images generated on 2026-09-22 with the built-in
 `image_gen` tool. Exact prompts are in `prompts.json`. All files are the original
 tool outputs, copied into this repository with alpha preserved; no third-party
