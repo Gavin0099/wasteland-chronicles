@@ -1,6 +1,9 @@
 class_name PlayerUIProjection
 extends RefCounted
 
+const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
+const ItemMarketState = preload("res://simulation/item_market_state.gd")
+
 # ==============================================================================
 # S5-A.2: PLAYER UI PROJECTION (ISOLATION LAYER)
 # ==============================================================================
@@ -194,6 +197,28 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 	var s: SettlementState = world.get_settlement(ls.population_container_id)
 	if s == null:
 		return {}
+	var market_view: RefCounted = s.item_market if s.item_market != null else ItemMarketState.seeded_for(s.id)
+	var item_market_result := ItemMarketCatalogue.offers_for(s.id)
+	var item_offers: Array[Dictionary] = []
+	if item_market_result.success:
+		for offer in item_market_result.offers:
+			var item_id := String(offer.item_id)
+			var owned: int = world.player.item_inventory.quantity(item_id)
+			var sell_quote: int = ItemMarketState.sell_quote(item_id, s.id)
+			item_offers.append({
+				"item_id": item_id,
+				"display_name_zh": offer.display_name_zh,
+				"category": offer.category,
+				"asset_id": offer.asset_id,
+				"supply": offer.supply,
+				"demand": offer.demand,
+				"stock": market_view.quantity(item_id),
+				"owned": owned,
+				"quote_buy": ItemMarketState.buy_quote(item_id, s.id),
+				"quote_sell": sell_quote,
+				"can_buy": market_view.quantity(item_id) > 0 and world.player.money >= ItemMarketState.buy_quote(item_id, s.id),
+				"can_sell": owned > 0 and sell_quote > 0 and s.market_cash >= sell_quote,
+			})
 
 	# LIVE authoritative data for player's current location only
 	return {
@@ -220,6 +245,7 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 		"quote_sell_scrap": SimulationEngine.get_sell_quote(s, &"scrap"),
 		"quote_buy_fuel": SimulationEngine.get_buy_quote(s, &"fuel"),
 		"quote_sell_fuel": SimulationEngine.get_sell_quote(s, &"fuel"),
+		"item_market": item_offers,
 		"water_supply_status": _get_stock_status(s.inventory.water, s.target_water),
 		"food_supply_status": _get_stock_status(s.inventory.food, s.target_food),
 		"scrap_supply_status": _get_stock_status(s.inventory.scrap, s.target_scrap),

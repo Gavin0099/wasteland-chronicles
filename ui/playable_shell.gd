@@ -2,6 +2,7 @@ class_name PlayableShell
 extends Control
 
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+const Tokens = preload("res://ui/theme/pda_tokens.gd")
 
 # ==============================================================================
 # S5: PLAYABLE UI SHELL (SURVIVOR PDA FAST-LANE) — UX-P1
@@ -96,6 +97,11 @@ var lbl_inspection_details: Label
 
 var market_panel: VBoxContainer
 var market_trade_buttons: Dictionary = {}
+var item_market_toggle: Button
+var item_market_scroll: ScrollContainer
+var item_market_rows_box: VBoxContainer
+var item_market_rows: Dictionary = {}
+var item_market_trade_buttons: Dictionary = {}
 
 var field_button: Button
 var btn_wait: Button
@@ -417,6 +423,28 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					if lbl != null:
 						lbl.text = "%s: %d" % [res.capitalize(), stock]
 
+				if item_market_toggle != null:
+					item_market_toggle.visible = true
+				if item_market_scroll != null:
+					item_market_scroll.visible = item_market_toggle != null and item_market_toggle.button_pressed
+				var item_offers: Array = cs.get("item_market", [])
+				for offer in item_offers:
+					var item_id := String(offer.get("item_id", ""))
+					if not item_market_rows.has(item_id):
+						continue
+					var item_row: MarketRowView = item_market_rows[item_id]
+					var supply_word := _market_level_word(String(offer.get("supply", "")))
+					var demand_word := _market_level_word(String(offer.get("demand", "")))
+					item_row.update_row(
+						int(offer.get("stock", 0)),
+						int(offer.get("quote_buy", 0)),
+						int(offer.get("quote_sell", 0)),
+						int(offer.get("owned", 0)),
+						"供%s／需%s" % [supply_word, demand_word],
+						bool(offer.get("can_buy", false)),
+						bool(offer.get("can_sell", false))
+					)
+
 			if btn_travel != null:
 				btn_travel.visible = false
 				btn_travel.disabled = true
@@ -425,6 +453,10 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 			# Remote settlement view
 			if market_panel != null:
 				market_panel.visible = false
+			if item_market_scroll != null:
+				item_market_scroll.visible = false
+			if item_market_toggle != null:
+				item_market_toggle.visible = false
 			if lbl_warning_banner != null:
 				lbl_warning_banner.visible = false
 			if meters_container != null:
@@ -538,6 +570,14 @@ func _supply_word(status: String) -> String:
 		"CRITICAL": return "吃緊"
 	return "未知"
 
+func _market_level_word(level: String) -> String:
+	match level:
+		"high": return "高"
+		"medium": return "中"
+		"low": return "低"
+		"none": return "無"
+		_: return "?"
+
 func _security_word(security: float) -> String:
 	if security >= 80.0:
 		return "良好"
@@ -622,6 +662,26 @@ func on_sell_pressed(commodity: String, quantity: int = 1) -> Dictionary:
 		refresh_ui()
 
 	trade_triggered.emit("SELL", commodity, quantity, res)
+	return res
+
+func on_buy_item_pressed(item_id: String, quantity: int = 1) -> Dictionary:
+	if world == null or engine == null or world.player == null:
+		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+	var intent := PlayerIntent.create_buy_item(world.player.npc_id, StringName(item_id), quantity)
+	var res := engine.commit_player_intent(world, intent)
+	if res.get("success", false):
+		refresh_ui()
+	trade_triggered.emit("BUY", item_id, quantity, res)
+	return res
+
+func on_sell_item_pressed(item_id: String, quantity: int = 1) -> Dictionary:
+	if world == null or engine == null or world.player == null:
+		return {"success": false, "error": "NO_WORLD_OR_PLAYER"}
+	var intent := PlayerIntent.create_sell_item(world.player.npc_id, StringName(item_id), quantity)
+	var res := engine.commit_player_intent(world, intent)
+	if res.get("success", false):
+		refresh_ui()
+	trade_triggered.emit("SELL", item_id, quantity, res)
 	return res
 
 func advance_day() -> Dictionary:
@@ -966,6 +1026,36 @@ func _build_ui_layout_if_needed() -> void:
 		market_trade_buttons["buy_" + c["key"]] = row.btn_buy
 		market_trade_buttons["sell_" + c["key"]] = row.btn_sell
 		market_trade_buttons[c["key"] + "_label"] = row.lbl_stock
+
+	item_market_toggle = Button.new()
+	item_market_toggle.text = "物品商店／區域供需　▸"
+	item_market_toggle.toggle_mode = true
+	item_market_toggle.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	item_market_toggle.theme_type_variation = "PdaCommand"
+	item_market_toggle.toggled.connect(func(open: bool):
+		item_market_toggle.text = "物品商店／區域供需　%s" % ("▾" if open else "▸")
+		if item_market_scroll != null:
+			item_market_scroll.visible = open
+	)
+	market_panel.add_child(item_market_toggle)
+
+	item_market_scroll = ScrollContainer.new()
+	item_market_scroll.custom_minimum_size = Vector2(0, 220)
+	item_market_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	item_market_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	item_market_scroll.visible = false
+	market_panel.add_child(item_market_scroll)
+	item_market_rows_box = VBoxContainer.new()
+	item_market_rows_box.add_theme_constant_override("separation", 4)
+	item_market_rows_box.size_flags_horizontal = SIZE_EXPAND_FILL
+	item_market_scroll.add_child(item_market_rows_box)
+	for definition in ItemRegistry.all_definitions():
+		var item_id := String(definition.item_id)
+		var item_row := MarketRowView.new(item_id, String(definition.display_name_zh))
+		item_row.buy_requested.connect(func(key: String): on_buy_item_pressed(key, 1))
+		item_row.sell_requested.connect(func(key: String): on_sell_item_pressed(key, 1))
+		item_market_rows_box.add_child(item_row)
+		item_market_rows[item_id] = item_row
 
 	# 3. Bottom Split: Left Survival Resources (55%) vs Right Event Feed (45%)
 	var bottom_split := HBoxContainer.new()
