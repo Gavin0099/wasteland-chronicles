@@ -57,6 +57,8 @@
 
 ## Decision Log
 
+- 2026-09-22: **Twelve common item illustrations completed** — owner approved drawing the proposed second batch: rusty knife, hunting knife, rebar club, scrap machete, work clothes, desert robe, caravan coat, travel backpack, rope, flashlight, wrench and medkit. Original transparent PNGs, prompts and source hashes are retained under `ui/assets/items/candidates/`; four actual Godot review sheets include 32/48 px samples. Artwork only: no runtime catalogue registration, inventory, merchant, loot, equipment or simulation changes; no gameplay slice closure.
+
 - 2026-09-22: **Item World V0 owner direction** — preserve regional sourcing, everyday tools with useful alternatives, exploration finds, buyer-specific interest and objects with history. The owner's 15-category candidate catalogue is recorded in `docs/item-world-v0.md`, with existing six art/resource/equipment mappings separated from proposed content. Cross-category uses do not create duplicate items. Regional specialties are not current exclusive merchant inventories; unknown properties must retain explicit post-action receipts. Documentation/art planning only; no new mechanic, balance value or slice closure.
 
 - 2026-09-22: **Common item art first** — owner requested the most frequently used assets now. Generated water, food, scrap, fuel, caps and crowbar as six original transparent PNGs, reused through one UI component in personal supplies, market and supply chips. Field loot retains labeled actual quantities; the equipped battle crowbar now uses the same art. Presentation only: no item catalogue, prices, damage or simulation changes.

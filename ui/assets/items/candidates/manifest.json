@@ -1,0 +1,307 @@
+{
+  "generator": "built-in image_gen",
+  "original_outputs_preserved": true,
+  "scope": "12-item follow-up batch",
+  "assets": [
+    {
+      "id": "rusty_knife",
+      "name": "生鏽小刀",
+      "category": "weapons",
+      "file": "rusty_knife.png",
+      "sha256": "509a6c78892176cc336ab90c0c288d4eece3b4a0374f35b8b584c15c4abf70f3",
+      "source_output": "exec-b274d273-71df-491a-ac2d-993b3f7b576d.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        49,
+        53,
+        1206,
+        1238
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "hunting_knife",
+      "name": "獵刀",
+      "category": "weapons",
+      "file": "hunting_knife.png",
+      "sha256": "7371eb2da16e11feb0d3314851ececb7b38760e85ad15c7ff4db01e307b03680",
+      "source_output": "exec-cec814bf-1a8c-4719-b577-c675d3f84166.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        24,
+        33,
+        1236,
+        1223
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "rebar_club",
+      "name": "鋼筋棍",
+      "category": "weapons",
+      "file": "rebar_club.png",
+      "sha256": "978ee3294afb746a6a79721d57a916869904d39679f0644d2e7737e0b6aab006",
+      "source_output": "exec-32f8669f-aec7-48e2-8dae-6453ac0e315e.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        51,
+        39,
+        1222,
+        1198
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "scrap_machete",
+      "name": "廢鐵砍刀",
+      "category": "weapons",
+      "file": "scrap_machete.png",
+      "sha256": "ce65b46a0786ddcd8e24876cf792f144f442bf32010be7ab02420668b68a4b80",
+      "source_output": "exec-cd69ec9d-de85-4e90-954d-11b64a237fd7.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        17,
+        39,
+        1241,
+        1222
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "work_clothes",
+      "name": "舊工作服",
+      "category": "clothing",
+      "file": "work_clothes.png",
+      "sha256": "a7a2375be5531ea60aa31b2ed521e2d98f03c6e3c34f30b9c697fdd890cfd216",
+      "source_output": "exec-083f5070-3cdb-4277-a0b4-34286a206959.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        49,
+        17,
+        1200,
+        1254
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "desert_robe",
+      "name": "沙地長袍",
+      "category": "clothing",
+      "file": "desert_robe.png",
+      "sha256": "77982da57873fe8119b5e8672995dd4fc9895da5c012e58da8aba1aaaaf1b2f9",
+      "source_output": "exec-fc167dab-98fb-4c7d-9fd2-e301e7bf7f37.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        29,
+        0,
+        1226,
+        1254
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "caravan_coat",
+      "name": "商隊外套",
+      "category": "clothing",
+      "file": "caravan_coat.png",
+      "sha256": "d7179d9b135ed112c94c874a66f936f4a01dbf20977697cf745a34b2908c1be4",
+      "source_output": "exec-948e75f5-75b0-4539-8f79-12fa71aa4d1f.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        18,
+        1238,
+        1236
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "travel_backpack",
+      "name": "舊旅行包",
+      "category": "clothing",
+      "file": "travel_backpack.png",
+      "sha256": "2d8bbf710923f485c784e7d6fdd5cbbe93345b9cfcb328ec61839081fe6754c6",
+      "source_output": "exec-afae9465-6348-43d1-970a-fd62ef6dcef0.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        16,
+        1230,
+        1254
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "rope",
+      "name": "繩索",
+      "category": "tools",
+      "file": "rope.png",
+      "sha256": "a0a5b7e14c23af2a78442710c72d116876cb6587067e9b2232a85fce283e7138",
+      "source_output": "exec-cac47d9e-b667-4f6d-b5c2-adf942ea5438.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        21,
+        1208,
+        1227
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "flashlight",
+      "name": "手電筒",
+      "category": "tools",
+      "file": "flashlight.png",
+      "sha256": "04c6acff95bc6c87ae63248a20b2c8e146d6a518d0d19ec102b57fc3ee6a44b6",
+      "source_output": "exec-1c8dd76b-44cb-417e-a85c-9f001522e3a6.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        30,
+        60,
+        1226,
+        1193
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "wrench",
+      "name": "扳手",
+      "category": "tools",
+      "file": "wrench.png",
+      "sha256": "3711e89b47a34655063be837abf0d6f069fc844c783c2bd0f91eb65e3dd801bb",
+      "source_output": "exec-f49c2d63-8c8a-46d9-aa5a-59e59d297c34.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        37,
+        31,
+        1236,
+        1222
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    },
+    {
+      "id": "medkit",
+      "name": "急救包",
+      "category": "tools",
+      "file": "medkit.png",
+      "sha256": "1a3a5afe726203ac974d34fd3a00a8b952937d51b4a14321d13dd145ecfb7137",
+      "source_output": "exec-309a7a61-f0cc-448d-9b28-b6fa2d32724d.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        19,
+        1193,
+        1254
+      ],
+      "art_status": "GENERATED",
+      "gameplay_status": "NOT_IMPLEMENTED"
+    }
+  ]
+}

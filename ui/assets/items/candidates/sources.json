@@ -1,0 +1,50 @@
+{
+  "rusty_knife": {
+    "source_output": "exec-b274d273-71df-491a-ac2d-993b3f7b576d.png",
+    "sha256": "509a6c78892176cc336ab90c0c288d4eece3b4a0374f35b8b584c15c4abf70f3"
+  },
+  "hunting_knife": {
+    "source_output": "exec-cec814bf-1a8c-4719-b577-c675d3f84166.png",
+    "sha256": "7371eb2da16e11feb0d3314851ececb7b38760e85ad15c7ff4db01e307b03680"
+  },
+  "rebar_club": {
+    "source_output": "exec-32f8669f-aec7-48e2-8dae-6453ac0e315e.png",
+    "sha256": "978ee3294afb746a6a79721d57a916869904d39679f0644d2e7737e0b6aab006"
+  },
+  "scrap_machete": {
+    "source_output": "exec-cd69ec9d-de85-4e90-954d-11b64a237fd7.png",
+    "sha256": "ce65b46a0786ddcd8e24876cf792f144f442bf32010be7ab02420668b68a4b80"
+  },
+  "work_clothes": {
+    "source_output": "exec-083f5070-3cdb-4277-a0b4-34286a206959.png",
+    "sha256": "a7a2375be5531ea60aa31b2ed521e2d98f03c6e3c34f30b9c697fdd890cfd216"
+  },
+  "desert_robe": {
+    "source_output": "exec-fc167dab-98fb-4c7d-9fd2-e301e7bf7f37.png",
+    "sha256": "77982da57873fe8119b5e8672995dd4fc9895da5c012e58da8aba1aaaaf1b2f9"
+  },
+  "caravan_coat": {
+    "source_output": "exec-948e75f5-75b0-4539-8f79-12fa71aa4d1f.png",
+    "sha256": "d7179d9b135ed112c94c874a66f936f4a01dbf20977697cf745a34b2908c1be4"
+  },
+  "travel_backpack": {
+    "source_output": "exec-afae9465-6348-43d1-970a-fd62ef6dcef0.png",
+    "sha256": "2d8bbf710923f485c784e7d6fdd5cbbe93345b9cfcb328ec61839081fe6754c6"
+  },
+  "rope": {
+    "source_output": "exec-cac47d9e-b667-4f6d-b5c2-adf942ea5438.png",
+    "sha256": "a0a5b7e14c23af2a78442710c72d116876cb6587067e9b2232a85fce283e7138"
+  },
+  "flashlight": {
+    "source_output": "exec-1c8dd76b-44cb-417e-a85c-9f001522e3a6.png",
+    "sha256": "04c6acff95bc6c87ae63248a20b2c8e146d6a518d0d19ec102b57fc3ee6a44b6"
+  },
+  "wrench": {
+    "source_output": "exec-f49c2d63-8c8a-46d9-aa5a-59e59d297c34.png",
+    "sha256": "3711e89b47a34655063be837abf0d6f069fc844c783c2bd0f91eb65e3dd801bb"
+  },
+  "medkit": {
+    "source_output": "exec-309a7a61-f0cc-448d-9b28-b6fa2d32724d.png",
+    "sha256": "1a3a5afe726203ac974d34fd3a00a8b952937d51b4a14321d13dd145ecfb7137"
+  }
+}

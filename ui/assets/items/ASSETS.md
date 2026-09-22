@@ -6,6 +6,10 @@ represent existing aggregate resources, not separate container/food/material
 inventories. Regional sourcing and new item effects in that catalogue are future
 content directions, not mechanics enabled by these images.
 
+The follow-up twelve-item art set is documented in `candidates/ASSETS.md`, with
+separate original PNGs, prompts and preview sheets. Candidate artwork is not
+registered in the runtime item component until its corresponding gameplay exists.
+
 Six original transparent images generated on 2026-09-22 with the built-in
 `image_gen` tool. Exact prompts are in `prompts.json`. All files are the original
 tool outputs, copied into this repository with alpha preserved; no third-party
