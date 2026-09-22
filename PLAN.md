@@ -2,7 +2,7 @@
 <!-- governance-baseline: overridable -->
 <!-- baseline_version: 1.0.0 -->
 
-> **最後更新**: 2026-09-20
+> **最後更新**: 2026-09-22
 > **Owner**: Gavin0099
 > **Freshness**: Sprint (7d)
 
@@ -55,6 +55,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-22: **Owner authorized consistent UI, then item and combat work** — canonical skill is `wc-survivor-pda-design-system`, old v1 skill is a compatibility pointer. Shared Godot tokens/theme variations now drive character and supplies presentation; obsolete Trait copy and raw blocked tooltips corrected. 38 suites exit 0; screenshots at 1280×720 and 1152×648. No C2-B experience claim. Owner explicitly chose small turn-based combat (attack/defend/flee with both sides' state) for the next scoped gameplay implementation; not event-only resolution.
 
 - 2026-09-21: **C2 closure split into A (authority) and B (player experience)** — Owner ruling: green tests must never be mistaken for proven character differentiation. C2-A is verified by `tests/test_s5_c2_authorization.gd` (A1 unlocked-approach refusal, with hidden and greyed options sharing ONE refusal path so hiding is never the protection; A2 stale/swapped/absent capability fails closed while ungated options stay available; A3 one encounter → one receipt, consumed once; A4 encounter identity checked before capability; A5/A6 refused requirement and unaffordable cost both leave the world byte-identical; A7 20 build×encounter save/load pairs keep identical hashes, offers and verdicts; A8 different builds → different legal sets and outcomes, same build → identical world, replay SHA 48efa70f…685d8d). All 37 suites (36 existing + C2-A) exit 0 with no SCRIPT ERROR. C2-B remains untouched: nobody has played it. Skill-stage gap diagnosis recorded in `docs/c2-skill-stage-gap.md` against world facts only — SPEECH is the ONLY skill mountable now with zero new facts (ROADBLOCK asserts people who take a toll via the existing PAY transaction; usable colour is limited to `min_security`, and REFUGEE_COLUMN's natural Speech effect is informational and therefore blocked on the S7 knowledge boundary). FIREARMS needs a real firearm item (C5), ELECTRONICS needs a world fact that distinguishes electronic from mechanical (none exists), MELEE needs confrontation authority, MEDICINE needs injury authority. BARTER has an unused existing stage in the town market (real `base_price_*` fields, no skill effect today) — noted, not authorized. Per Owner: HYDRATE and STRIP_PARTS deliberately NOT changed (their 'efficiency only' reading may be legitimate and is a playtest question); GREEDY/TAKE_PACK recorded as PROVISIONAL debt rather than patched with an invented reputation system; no encounter gameplay modified, C3 not started, and no skill filled in just to balance the table. `tools/c2_build_comparison.gd` kept as a standing diagnostic: re-run it after every new encounter to see which build starves, which skill never gets a stage, and which build eats every solution. Local commits only, no push.
 

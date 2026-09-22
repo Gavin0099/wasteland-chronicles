@@ -1,0 +1,192 @@
+[
+  {
+    "suite": "test_c0_c1_headless.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_c1_p0_rank_codec.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_character_creation_ui.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_determinism.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_encounter_resolution_feedback.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_invariants.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_m0_baseline.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_m0_shock.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_npc_population_accounting.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_pda_character_sheet.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s1_stability.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s2_recovery.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s2_shock.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s3_labor.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s3_metabolism.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s3_migration.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s3_mortality.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s3_pressure.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s3_security.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_aptitude.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_c1_event_ledger.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_c2_numeric.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_f1_decisions.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_f2_migration.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_f3_batch_determinism.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_identity.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_life_state.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_profile.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s4_traits.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_a_player.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_a2_ui_shell.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_b1_wait.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_b2_trade.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_b3_intervention.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_b4_encounters.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_b41_reactive.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_b5_survival.gd",
+    "exit_code": 0,
+    "script_error": false
+  },
+  {
+    "suite": "test_s5_c2_authorization.gd",
+    "exit_code": 0,
+    "script_error": false
+  }
+]

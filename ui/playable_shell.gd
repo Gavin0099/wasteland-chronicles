@@ -647,7 +647,7 @@ func _build_ui_layout_if_needed() -> void:
 	app_frame.add_child(header)
 	header.add_child(top_status_bar)
 	var character_button := Button.new()
-	character_button.text = "角色 / 能力"
+	character_button.text = "人物 / 補給"
 	character_button.pressed.connect(_show_character)
 	header.add_child(character_button)
 
@@ -1099,7 +1099,7 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 		btn.custom_minimum_size = Vector2(0, 30)
 		btn.disabled = not bool(option.get("enabled", true))
 		if btn.disabled:
-			btn.tooltip_text = String(option.get("blocked_reason", ""))
+			btn.tooltip_text = _encounter_blocked_text(option)
 		var option_id := String(option.get("id", ""))
 		btn.pressed.connect(func(): on_encounter_option_pressed(option_id))
 		encounter_options_box.add_child(btn)
@@ -1213,31 +1213,16 @@ func _show_character() -> void:
 	if world == null or world.player == null:
 		return
 	var presentation = preload("res://ui/character_presentation.gd")
-	var dialog := AcceptDialog.new()
-	dialog.title = "角色 / 能力"
-	dialog.ok_button_text = "返回旅程"
-	var frame := StyleBoxFlat.new()
-	frame.bg_color = Color("1B1D22")
-	frame.border_color = Color("454A55")
-	frame.set_border_width_all(1)
-	frame.expand_margin_top = 32
-	frame.content_margin_top = 12
-	frame.content_margin_left = 12
-	frame.content_margin_right = 12
-	frame.content_margin_bottom = 12
-	dialog.add_theme_stylebox_override("embedded_border", frame)
-	dialog.add_theme_stylebox_override("panel", frame)
-	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(500, 460)
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	var text := Label.new()
-	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	text.size_flags_horizontal = SIZE_EXPAND_FILL
-	text.text = presentation.summary_text(presentation.project(world)) + "\n\n人物特質目前尚未影響遭遇選項。"
-	text.add_theme_constant_override("line_spacing", 2)
-	scroll.add_child(text)
-	dialog.add_child(scroll)
-	dialog.confirmed.connect(dialog.queue_free)
-	dialog.canceled.connect(dialog.queue_free)
+	var dialog = preload("res://ui/components/character_sheet.gd").new()
 	add_child(dialog)
+	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player)
 	dialog.popup_centered()
+
+func _encounter_blocked_text(option: Dictionary) -> String:
+	if bool(option.get("locked", false)):
+		return "目前能力未達需求：" + String(option.get("requirement_label", ""))
+	var reason := String(option.get("blocked_reason", ""))
+	for code in {"INSUFFICIENT_WATER": "水不足", "INSUFFICIENT_FOOD": "食物不足", "INSUFFICIENT_SCRAP": "廢料不足", "INSUFFICIENT_MONEY": "瓶蓋不足", "BACKPACK_FULL": "背包容量不足"}:
+		if reason.begins_with(code):
+			return {"INSUFFICIENT_WATER": "水不足", "INSUFFICIENT_FOOD": "食物不足", "INSUFFICIENT_SCRAP": "廢料不足", "INSUFFICIENT_MONEY": "瓶蓋不足", "BACKPACK_FULL": "背包容量不足"}[code]
+	return "目前無法採取這個做法，請查看需求與消耗。"

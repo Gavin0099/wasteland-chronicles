@@ -89,7 +89,7 @@ func build() -> void:
 		backgrounds.add_child(button)
 		background_buttons[id] = button
 	trait_count = label_in(fields, "人物特質  /  0–2 項", 18)
-	var note := label_in(fields, "目前記錄角色性格；尚未影響遭遇選項。", 14)
+	var note := label_in(fields, "部分特質會提供不同的遭遇處理方式。", 14)
 	note.add_theme_color_override("font_color", Color("96938B"))
 	var traits := GridContainer.new()
 	traits.columns = 2
