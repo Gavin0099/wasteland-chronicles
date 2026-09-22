@@ -45,6 +45,7 @@
 - [x] ITEM-4 — Formal encounter item loot: deterministic item channel in encounter receipts, item capacity/duplicate leftovers and result-panel feedback; equipment/use/trade effects deferred.
 - [x] ITEM-5 — Equipment slots: owned-item equip/unequip authority with strict slot/reference validation; no stat or combat effects.
 - [x] ITEM-6 — Item-gated encounter approaches: wrench and rope alternatives with commit-boundary ownership checks; reusable tools, no effects/durability.
+- [x] ITEM-7 — Regional item market catalogue: deterministic read-only supply/demand projection for the twelve canonical items; no shop stock, prices or buy/sell authority yet.
 - [ ] S5-C6 : Job Progression — natural capability requirements, not quest-level labels
 - [ ] S5-C7 : Capstone — advanced builds and rare items reconnect character growth to world consequences
 - [ ] World Expansion 3 -> 5 settlements — deferred; sparse roads/chokepoints retained, former S5-C0 identifier superseded
@@ -76,6 +77,8 @@
 - 2026-09-22: **ITEM-5 PDA presentation completed** — the read-only 人物與補給 sheet now shows owned item names/quantities/weights and equipped slot bindings using the Survivor PDA tokens and existing transparent art. Projection and icon lookup remain presentation-only; the 45-suite regression pass is green.
 
 - 2026-09-22: **ITEM-6 item-gated encounter approaches implemented** — held wrench opens wreck dismantling and held rope opens a no-cost rockslide route; both are visible as disabled commands when absent and rechecked at commit. Tools are reusable; no durability, repair, medical, combat or stat authority was introduced.
+
+- 2026-09-22: **ITEM-7 regional item market catalogue implemented** — added a data-driven, detached projection of each canonical item's three-settlement supply/demand profile with stable ordering, normalized settlement IDs and fail-closed unknown references. The projection is extensible through validated registry rows and deliberately creates no shop stock, prices, item transactions or aggregate-resource changes. Focused assertions: 20; full regression remains required before closure.
 
 - 2026-09-22: **ITEM-1 completed; content research/design next** — fixed twelve minimal definitions, with integer grams kept separate from existing carrying units. Source factory remains the only authority; returned data is detached, unknown IDs and asset rebinding fail closed, candidate canonicalization cannot install data, saves contain no definitions. New suite passes 1,102 checks; 40 existing suites pass before/after with all 48 SHA output lines and 8 emitted snapshots identical. Independent review reports no actionable findings. Existing Field Combat Lite remains unchanged. Owner then requested a full 185-name design pass and encounter/world-use matrices informed by online wasteland-game/fiction and Passage of the Book references; these are design proposals, not runtime registration. No new images or future gameplay implementation in that content pass.
 
