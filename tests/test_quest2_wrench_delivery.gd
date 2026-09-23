@@ -55,11 +55,15 @@ func _init() -> void:
 
 func run() -> void:
 	var definitions: Array = Quests.all_definitions()
-	check(definitions.size() == 1 and definitions[0].id == QUEST_ID, "one authored quest is registered")
+	check(definitions.size() == 2 and Quests.get_definition(QUEST_ID).success, "wrench quest remains registered beside second commission")
 	var world := fixture()
 	var baseline := world.to_canonical_json()
 	var projected: Array = PlayerUIProjection.project(world).quests
-	check(projected.size() == 1 and projected[0].status == "AVAILABLE", "local board shows available quest")
+	var wrench_available := false
+	for quest_row in projected:
+		if String(quest_row.id) == QUEST_ID and String(quest_row.status) == "AVAILABLE":
+			wrench_available = true
+	check(projected.size() == 2 and wrench_available, "local board shows original quest alongside second commission")
 	check(world.to_canonical_json() == baseline, "quest projection does not mutate world")
 	var remote := fixture("settlement:new_hope")
 	check(PlayerUIProjection.project(remote).quests.is_empty(), "remote board does not leak quest")
@@ -149,6 +153,11 @@ func run() -> void:
 	root.add_child(shell)
 	shell.setup(ui_world, engine)
 	check(shell.quest_panel.visible and shell.quest_button.text == "接受委託", "PDA presents local quest action")
+	for i in shell.quest_selector.item_count:
+		if String(shell.quest_selector.get_item_metadata(i)) == QUEST_ID:
+			shell.quest_selector.item_selected.emit(i)
+			break
+	check(shell.quest_id_shown == QUEST_ID, "PDA can select original wrench commission")
 	var ui_before := ui_world.to_canonical_json()
 	shell.refresh_ui()
 	check(ui_world.to_canonical_json() == ui_before, "opening quest PDA is read-only")

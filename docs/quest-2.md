@@ -18,7 +18,8 @@ confirmation after either action.
 The definition is authored in `simulation/quest_registry.gd`. Its item ID is
 the existing ITEM-1/2 `wrench`; the delivery consumes the player's physical
 item instance. Runtime state and rewards remain in the QUEST-1 engine. The
-catalogue contains **one** playable quest. The larger content-design library
+catalogue contained **one** playable quest at QUEST-2 closure. QUEST-3 adds a
+second independent commission and a selector; the larger content-design library
 remains editorial data and is not imported into gameplay. The present panel
 projects the first objective of each quest, so a later multi-objective quest
 needs a corresponding presentation slice before it is player-facing.

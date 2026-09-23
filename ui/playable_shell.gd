@@ -103,6 +103,7 @@ var item_market_rows_box: VBoxContainer
 var item_market_rows: Dictionary = {}
 var item_market_trade_buttons: Dictionary = {}
 var quest_panel: PanelContainer
+var quest_selector: OptionButton
 var quest_title: Label
 var quest_description: Label
 var quest_progress: Label
@@ -1108,6 +1109,12 @@ func _build_ui_layout_if_needed() -> void:
 	var quest_column := VBoxContainer.new()
 	quest_column.add_theme_constant_override("separation", Tokens.GAP)
 	quest_panel.add_child(quest_column)
+	quest_selector = OptionButton.new()
+	quest_selector.theme_type_variation = "PdaCommand"
+	quest_selector.focus_mode = Control.FOCUS_ALL
+	quest_selector.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	quest_selector.item_selected.connect(_on_quest_selected)
+	quest_column.add_child(quest_selector)
 	quest_title = Label.new()
 	quest_title.theme_type_variation = "PdaSection"
 	quest_column.add_child(quest_title)
@@ -1543,7 +1550,22 @@ func _render_quests(rows: Array) -> void:
 	quest_panel.visible = not rows.is_empty() and world.active_encounter == null and world.pending_encounter_result < 0 and world.field_state.battle.is_empty() and world.field_state.receipt < 0
 	if not quest_panel.visible:
 		return
-	var row: Dictionary = rows[0]
+	var selected_index := -1
+	for i in rows.size():
+		if String(rows[i].id) == quest_id_shown:
+			selected_index = i
+			break
+	if selected_index < 0:
+		selected_index = 0
+	quest_selector.clear()
+	for i in rows.size():
+		var option: Dictionary = rows[i]
+		var state_label: String = {"AVAILABLE": "可接", "ACTIVE": "進行中", "RESOLVED": "已完成", "EXPIRED": "已過期", "FAILED": "已失敗"}.get(String(option.status), "未開放")
+		quest_selector.add_item("委託 %d/%d · %s · %s" % [i + 1, rows.size(), state_label, String(option.title)])
+		quest_selector.set_item_metadata(i, String(option.id))
+	quest_selector.select(selected_index)
+	quest_selector.visible = rows.size() > 1
+	var row: Dictionary = rows[selected_index]
 	quest_id_shown = String(row.id)
 	quest_title.text = "委託 · %s" % String(row.title)
 	quest_description.text = String(row.description)
@@ -1560,13 +1582,24 @@ func _render_quests(rows: Array) -> void:
 	quest_button.visible = status in ["AVAILABLE", "ACTIVE"]
 	quest_button.disabled = not bool(row.can_act)
 
+func _on_quest_selected(index: int) -> void:
+	if quest_selector == null or index < 0 or index >= quest_selector.item_count:
+		return
+	quest_id_shown = String(quest_selector.get_item_metadata(index))
+	_render_quests(current_projection.get("quests", []))
+
 func _on_quest_pressed() -> void:
 	if world == null or world.player == null or quest_id_shown == "":
 		return
 	var rows: Array = current_projection.get("quests", [])
-	if rows.is_empty() or String(rows[0].id) != quest_id_shown:
+	var row: Dictionary = {}
+	for candidate in rows:
+		if String(candidate.id) == quest_id_shown:
+			row = candidate
+			break
+	if row.is_empty():
 		return
-	var accepting := String(rows[0].status) == "AVAILABLE"
+	var accepting := String(row.status) == "AVAILABLE"
 	var intent := PlayerIntent.create_accept_quest(world.player.npc_id, quest_id_shown) if accepting else PlayerIntent.create_turn_in_quest(world.player.npc_id, quest_id_shown)
 	var result: Dictionary = engine.commit_player_intent(world, intent)
 	if not result.success:
@@ -1582,10 +1615,10 @@ func _on_quest_pressed() -> void:
 		receipt.dialog_text = "委託已接受。第 %d 天截止。" % world.quest_state.get_quest(quest_id_shown).deadline_day
 	else:
 		var delivered: Array = result.get("delivered", [])
-		var delivered_text := "%s ×%d" % [String(rows[0].item_name), int(rows[0].required)]
+		var delivered_text := "%s ×%d" % [String(row.item_name), int(row.required)]
 		if not delivered.is_empty():
-			delivered_text = "%s ×%d" % [String(rows[0].item_name), int(delivered[0].quantity)]
-		receipt.dialog_text = "已交付%s。獲得 %d 瓶蓋、%d XP。" % [delivered_text, int(rows[0].reward_caps), int(rows[0].reward_xp)]
+			delivered_text = "%s ×%d" % [String(row.item_name), int(delivered[0].quantity)]
+		receipt.dialog_text = "已交付%s。獲得 %d 瓶蓋、%d XP。" % [delivered_text, int(row.reward_caps), int(row.reward_xp)]
 	receipt.ok_button_text = "繼續旅程"
 	receipt.confirmed.connect(receipt.queue_free)
 	receipt.canceled.connect(receipt.queue_free)
