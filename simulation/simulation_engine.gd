@@ -2205,6 +2205,11 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
+			if intent.payload.size() != 1 or typeof(intent.payload.get("quest_id")) != TYPE_STRING:
+				return "INVALID_QUEST_INTENT"
+			var quest_script = load("res://simulation/quest_engine.gd")
+			return quest_script.authorize_accept(world, String(intent.payload.quest_id)) if intent.action == PlayerIntent.Action.ACCEPT_QUEST else quest_script.authorize_turn_in(world, String(intent.payload.quest_id))
 		PlayerIntent.Action.RESOLVE_ENCOUNTER:
 			return authorize_encounter_option(world, StringName(String(intent.payload.get("option_id", ""))))
 		PlayerIntent.Action.EQUIP_ITEM:
@@ -2368,6 +2373,24 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
+			var quest_id := String(intent.payload.quest_id)
+			var quest_script = load("res://simulation/quest_engine.gd")
+			var accepting := intent.action == PlayerIntent.Action.ACCEPT_QUEST
+			var quest_result: Dictionary = quest_script.accept(world, quest_id) if accepting else quest_script.turn_in(world, quest_id)
+			if not quest_result.success:
+				return quest_result
+			var target: StringName = world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id
+			var event := EventRecord.new(world.current_day, "QUEST_ACCEPTED" if accepting else "QUEST_RESOLVED", intent.player_id, target, {
+				"quest_id": quest_id,
+				"deadline_day": world.quest_state.get_quest(quest_id).deadline_day if accepting else -1,
+				"delivered": [] if accepting else quest_result.delivered,
+				"rewards": [] if accepting else quest_result.rewards,
+			})
+			world.record_event(event)
+			if tick_events != null:
+				tick_events.append(event)
+			return quest_result
 		PlayerIntent.Action.FIELD_ACTION:
 			return WorldState.Field.commit(world, self, intent.payload)
 		PlayerIntent.Action.CONTINUE_JOURNEY:
