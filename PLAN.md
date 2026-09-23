@@ -2,7 +2,7 @@
 <!-- governance-baseline: overridable -->
 <!-- baseline_version: 1.0.0 -->
 
-> **最後更新**: 2026-09-22
+> **最後更新**: 2026-09-23
 > **Owner**: Gavin0099
 > **Freshness**: Sprint (7d)
 
@@ -60,6 +60,7 @@
 - [ ] CHAR-POINTS : Free point allocation — **DEFERRED / NEEDS DESIGN DECISION**. Would modify the frozen C0/C1 `Background package 2/1/1, no free points`. Owner position: growth should come from play (jobs, combat, training, events, equipment, injury), not from an opening optimisation pass that dilutes Background identity. Re-decide the growth model first, then unfreeze the contract separately. Do not implement in passing.
 - [x] ROAD-COMBAT : Bandit ambush on the road, reusing Field Combat Lite — highwayman handoff, non-lethal defeat aftermath, save compatibility and legacy combat non-regression verified.
 - [x] QUEST-1 : Quest foundation — validated definition contract, runtime state registry, deadline lifecycle, idempotent rewards, XP/currency authority boundary, migration and empty-world hash preservation.
+- [x] QUEST-2 : First playable town quest — Gray Valley notice board, buy an existing wrench, travel to Dry Well, deliver before the inclusive deadline, receive Caps/XP and a world flag. One authored quest only; broader quest library remains design content.
 - [ ] S5-B4.2 : Encounter Variety 4 -> 8-10 state-aware templates — after growth foundation
 - [ ] ★ FP2 : still finding new decisions after 20 minutes
 - [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
@@ -75,6 +76,7 @@
 
 ## Decision Log
 
+- 2026-09-23: **QUEST-2 first playable delivery implemented** — One Gray Valley notice-board commission uses the existing wrench market and Dry Well road. Accept/turn-in are player intents checked at commit; an eight-day inclusive deadline, physical item removal, 75 Caps, 25 XP, world flag and ledger receipt now form a full loop. The PDA shows one tracked quest and its first delivery objective without granting UI mutation authority. Focused test: 44 assertions; complete Godot regression: 58/58 exit 0; 1280×720 and 1152×648 renderer captures inspected. The 120 town-quest designs remain editorial, and multi-objective UI, branching outcomes, XP-to-rank conversion and repeatable jobs remain separate future work.
 - 2026-09-22: **CHAR-INFO implemented** — hand-play: "資訊也太少可以選了". A Background showed ten rank bars with no meaning attached and a Trait was a bare word whose explanation was hidden in a tooltip. Each Background now states its starting ranks, how it plays, which roadside approaches it can ALREADY take and, deliberately, which it cannot yet; each Trait states its description and either the exact approaches it alone opens or an honest admission that it has no mechanical effect yet (12 of 14 traits). Every effect is DERIVED from the encounter catalogue, which is the only place a requirement is declared, so the creation screen can never promise something the road does not honour. The derived text immediately reproduced the known C2 finding that CARAVAN_GUARD is the thinnest build. The preview also stopped printing seven identical "0 外行" rows that were pushing the meaningful content below the fold; every skill is still named. No change to the numeric model: the character UI replay SHA is byte-identical before and after, world state is untouched by browsing, and all four packages remain the frozen 2/1/1. New suite: 166 assertions; full regression 55/55 exit 0. Screenshot in `artifacts/char-info/`. `CHAR-POINTS` explicitly NOT implemented and recorded as deferred.
 - 2026-09-23: **QUEST-1 implemented** — quest definitions use stable IDs, typed objectives, list-based `{type, amount}` rewards and bounded world effects; runtime state is separate from authored content. Deadline checks run after daily survival, terminal rewards/effects are idempotent, XP changes do not alter skills or growth points, and malformed quest state/flags fail closed. Empty quest state is omitted so legacy world canonical hashes remain unchanged; populated saves carry schema v1 and migrate from absent quest data. Nine QUEST gates plus the full 57-suite regression are green. Real quest catalogue content, quest UI, acceptance controls and XP-to-growth conversion remain deferred.
 
