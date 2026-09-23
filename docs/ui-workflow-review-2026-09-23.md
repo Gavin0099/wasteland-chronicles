@@ -1,5 +1,7 @@
 # UI/UX review — 2026-09-23
 
+The fixed-column layout from this pass was superseded after the owner provided direct screenshots of *俠客遊：前途道標*. See [Windowed desktop UI pass](lunatic-desktop-ui.md) for the current screen structure. This file remains as the earlier usability audit.
+
 Scope: the current playable loop, from character creation through settlement work, travel encounters, local combat, character/supplies, and death. This is a presentation pass. It does not add quests, enemies, equipment effects, or world authority.
 
 | Surface | Review finding | Change in this pass |

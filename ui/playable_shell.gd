@@ -30,6 +30,8 @@ const WorldMapView = preload("res://ui/components/world_map_view.gd")
 const StatusBadge = preload("res://ui/components/status_badge.gd")
 const ResourceChip = preload("res://ui/components/resource_chip.gd")
 const MarketRowView = preload("res://ui/components/market_row_view.gd")
+const DesktopWindow = preload("res://ui/components/desktop_window.gd")
+const DesktopBackdrop = preload("res://ui/components/desktop_backdrop.gd")
 
 var world: WorldState = null
 var engine: SimulationEngine = null
@@ -133,6 +135,15 @@ var supply_alert: PanelContainer
 var lbl_supply_alert: Label
 var event_feed_container: VBoxContainer
 var feed_panel: PanelContainer
+var desktop_scene_window: DesktopWindow
+var desktop_details_window: DesktopWindow
+var desktop_scene_art: TextureRect
+var desktop_details_open := false
+var desktop_last_location := ""
+var desktop_back_button: Button
+var desktop_profile_name: Label
+var desktop_profile_vitals: Label
+var desktop_message: Label
 var map_node_buttons: Dictionary = {}
 
 func _init() -> void:
@@ -220,12 +231,17 @@ func _render_projection(proj: Dictionary) -> void:
 	if lbl_backpack_status != null:
 		lbl_backpack_status.text = "背包負重： %d / %d" % [bp.get("load", 0), bp.get("capacity", 20)]
 
+	var current_cont: String = p.get("current_container_id", "")
+	if not bool(p.get("is_in_transit", false)) and desktop_last_location != "" and desktop_last_location != current_cont and not desktop_last_location.begins_with("settlement:"):
+		desktop_details_open = false
+		selected_settlement_id = current_cont
+	desktop_last_location = current_cont
+
 	# 3. Tactical World Map View (_draw)
 	if world_map_view != null:
 		world_map_view.update_map_data(proj.get("destinations", []), p, selected_settlement_id)
 
 	# Map legacy buttons
-	var current_cont: String = p.get("current_container_id", "")
 	for node_id in map_node_buttons:
 		var btn: Button = map_node_buttons[node_id]
 		var clean_name: String = _get_settlement_name(node_id)
@@ -244,6 +260,7 @@ func _render_projection(proj: Dictionary) -> void:
 	_render_encounter(proj.get("active_encounter", {}), proj.get("encounter_result", {}))
 	_render_supply_warning(p)
 	_render_death(proj.get("death", {}))
+	_sync_desktop(proj)
 
 # How close the player is to dying of it, in whole days, using the same grace
 # the engine kills by. Returns -1 when this need is not currently a problem.
@@ -534,8 +551,8 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					var stock: int = cs.get(res, 0)
 					var player_has: int = bp.get(res, 0)
 
-					var buy_allowed := (stock >= 1 and player_money >= buy_q and bp_load < bp_cap)
-					var sell_allowed := (player_has >= 1 and market_cash >= sell_q)
+					var buy_allowed := (bool(p.get("is_alive", true)) and stock >= 1 and player_money >= buy_q and bp_load < bp_cap)
+					var sell_allowed := (bool(p.get("is_alive", true)) and player_has >= 1 and market_cash >= sell_q)
 
 					var trend_str := "—"
 					if res == "water" and w_stat == "CRITICAL":
@@ -749,12 +766,15 @@ func _get_settlement_name(settlement_id: String) -> String:
 
 func select_settlement(settlement_id: String) -> void:
 	selected_settlement_id = settlement_id
+	var current_id := String(current_projection.get("player", {}).get("current_container_id", ""))
+	desktop_details_open = settlement_id != current_id
 	if world_map_view != null:
 		world_map_view.selected_settlement_id = settlement_id
 		world_map_view.queue_redraw()
 	if current_projection.size() > 0:
 		_render_settlement_panel(current_projection)
 		_render_local_actions(current_projection)
+		_sync_desktop(current_projection)
 
 func _return_to_current_settlement() -> void:
 	var p: Dictionary = current_projection.get("player", {})
@@ -770,6 +790,8 @@ func _show_local_market() -> void:
 	if not location.begins_with("settlement:") or bool(p.get("is_in_transit", false)):
 		return
 	select_settlement(location)
+	desktop_details_open = true
+	_sync_desktop(current_projection)
 	quest_journal_open = false
 	_render_quests(current_projection.get("quests", []))
 	await get_tree().process_frame
@@ -1552,6 +1574,192 @@ func _build_ui_layout_if_needed() -> void:
 	event_feed_container = VBoxContainer.new()
 	event_feed_container.size_flags_horizontal = SIZE_EXPAND_FILL
 	scroll.add_child(event_feed_container)
+	_install_desktop_layout(app_frame, center_split, map_panel, right_workspace, bottom_split, res_vbox, map_vbox)
+
+func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContainer, map_panel: PanelContainer, right_workspace: VBoxContainer, bottom_split: HBoxContainer, res_vbox: VBoxContainer, map_vbox: VBoxContainer) -> void:
+	var backdrop := DesktopBackdrop.new()
+	backdrop.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	add_child(backdrop)
+	move_child(backdrop, 0)
+	app_frame.add_theme_constant_override("separation", 6)
+	app_frame.get_child(0).hide()
+	var toolbar := PanelContainer.new()
+	var toolbar_style := StyleBoxFlat.new()
+	toolbar_style.bg_color = Color("#DCDAD2")
+	toolbar_style.border_color = Color("#7E7E7C")
+	toolbar_style.set_border_width_all(1)
+	toolbar_style.content_margin_left = 6
+	toolbar_style.content_margin_right = 6
+	toolbar_style.content_margin_top = 3
+	toolbar_style.content_margin_bottom = 3
+	toolbar.add_theme_stylebox_override("panel", toolbar_style)
+	app_frame.add_child(toolbar)
+	app_frame.move_child(toolbar, 0)
+	var toolbar_row := HBoxContainer.new()
+	toolbar_row.add_theme_constant_override("separation", 4)
+	toolbar.add_child(toolbar_row)
+	for command in [{"label": "場景", "action": _show_desktop_scene}, {"label": "資訊", "action": _show_desktop_details}, {"label": "委託", "action": _on_quest_access_pressed}, {"label": "市場", "action": _show_local_market}, {"label": "人物", "action": _show_character}, {"label": "近郊", "action": _show_field}]:
+		var button := DesktopWindow.toolbar_button(command.label)
+		button.pressed.connect(command.action)
+		toolbar_row.add_child(button)
+	var toolbar_spacer := Control.new()
+	toolbar_spacer.size_flags_horizontal = SIZE_EXPAND_FILL
+	toolbar_row.add_child(toolbar_spacer)
+	var toolbar_title := Label.new()
+	toolbar_title.text = "荒原編年史"
+	toolbar_title.add_theme_color_override("font_color", Color("#20242C"))
+	toolbar_row.add_child(toolbar_title)
+	center_split.add_theme_constant_override("separation", 12)
+	var left := VBoxContainer.new()
+	left.size_flags_horizontal = SIZE_EXPAND_FILL
+	left.size_flags_vertical = SIZE_EXPAND_FILL
+	left.size_flags_stretch_ratio = 1.8
+	left.add_theme_constant_override("separation", 8)
+	center_split.add_child(left)
+	var side := VBoxContainer.new()
+	side.size_flags_horizontal = SIZE_EXPAND_FILL
+	side.size_flags_vertical = SIZE_EXPAND_FILL
+	side.size_flags_stretch_ratio = 0.95
+	side.add_theme_constant_override("separation", 8)
+	center_split.add_child(side)
+
+	desktop_scene_window = DesktopWindow.new("聚落場景")
+	desktop_scene_window.size_flags_vertical = SIZE_EXPAND_FILL
+	left.add_child(desktop_scene_window)
+	desktop_scene_art = TextureRect.new()
+	desktop_scene_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	desktop_scene_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	desktop_scene_art.custom_minimum_size.y = 180
+	desktop_scene_art.size_flags_vertical = SIZE_EXPAND_FILL
+	desktop_scene_window.body.add_child(desktop_scene_art)
+	local_action_panel.reparent(desktop_scene_window.body)
+
+	desktop_details_window = DesktopWindow.new("聚落與旅途")
+	desktop_details_window.size_flags_vertical = SIZE_EXPAND_FILL
+	desktop_details_window.visible = false
+	left.add_child(desktop_details_window)
+	desktop_back_button = Button.new()
+	desktop_back_button.text = "← 返回場景"
+	desktop_back_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	desktop_back_button.pressed.connect(_show_desktop_scene)
+	desktop_details_window.body.add_child(desktop_back_button)
+	right_workspace.reparent(desktop_details_window.body)
+	right_workspace.size_flags_vertical = SIZE_EXPAND_FILL
+	# The scene owns local commands; the detail window only displays the chosen task.
+
+	var message_window := DesktopWindow.new("訊息與隨身補給")
+	message_window.custom_minimum_size.y = 106
+	left.add_child(message_window)
+	bottom_split.reparent(message_window.body)
+	bottom_split.custom_minimum_size.y = 0
+	var old_supply_header := res_vbox.get_child(0)
+	res_vbox.remove_child(old_supply_header)
+	old_supply_header.queue_free()
+	desktop_message = Label.new()
+	desktop_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desktop_message.add_theme_color_override("font_color", Tokens.TEXT)
+	res_vbox.add_child(desktop_message)
+	res_vbox.move_child(desktop_message, 0)
+
+	var character_window := DesktopWindow.new("人物")
+	character_window.custom_minimum_size.y = 112
+	side.add_child(character_window)
+	var person_row := HBoxContainer.new()
+	person_row.add_theme_constant_override("separation", 12)
+	character_window.body.add_child(person_row)
+	var avatar := TextureRect.new()
+	avatar.custom_minimum_size = Vector2(64, 72)
+	avatar.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	avatar.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var avatar_image := Image.load_from_file(ProjectSettings.globalize_path("res://ui/assets/combat/drifter.png"))
+	if avatar_image != null:
+		avatar.texture = ImageTexture.create_from_image(avatar_image)
+	person_row.add_child(avatar)
+	var person_text := VBoxContainer.new()
+	person_text.size_flags_horizontal = SIZE_EXPAND_FILL
+	person_row.add_child(person_text)
+	desktop_profile_name = Label.new()
+	desktop_profile_name.theme_type_variation = "PdaSection"
+	desktop_profile_name.clip_text = true
+	person_text.add_child(desktop_profile_name)
+	desktop_profile_vitals = Label.new()
+	desktop_profile_vitals.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	person_text.add_child(desktop_profile_vitals)
+
+	var tools_window := DesktopWindow.new("工具")
+	side.add_child(tools_window)
+	var tool_row := HBoxContainer.new()
+	tool_row.add_theme_constant_override("separation", 4)
+	tools_window.body.add_child(tool_row)
+	for command in [{"label": "場景", "action": _show_desktop_scene}, {"label": "資料", "action": _show_desktop_details}, {"label": "人物", "action": _show_character}]:
+		var button := Button.new()
+		button.text = command.label
+		button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		button.size_flags_horizontal = SIZE_EXPAND_FILL
+		button.pressed.connect(command.action)
+		tool_row.add_child(button)
+	quest_access_button.reparent(tools_window.body)
+	quest_access_button.text = "委託"
+
+	var map_window := DesktopWindow.new("地圖")
+	map_window.size_flags_vertical = SIZE_EXPAND_FILL
+	side.add_child(map_window)
+	var old_map_header := map_vbox.get_child(0)
+	map_vbox.remove_child(old_map_header)
+	old_map_header.queue_free()
+	map_panel.reparent(map_window.body)
+	map_panel.size_flags_vertical = SIZE_EXPAND_FILL
+	world_map_view.custom_minimum_size = Vector2(300, 220)
+
+func _show_desktop_scene() -> void:
+	var location := String(current_projection.get("player", {}).get("current_container_id", ""))
+	if location.begins_with("settlement:") and not bool(current_projection.get("player", {}).get("is_in_transit", false)):
+		select_settlement(location)
+	quest_journal_open = false
+	_render_quests(current_projection.get("quests", []))
+	desktop_details_open = false
+	_sync_desktop(current_projection)
+
+func _show_desktop_details() -> void:
+	desktop_details_open = true
+	_sync_desktop(current_projection)
+
+func _sync_desktop(proj: Dictionary) -> void:
+	if desktop_scene_window == null:
+		return
+	var player: Dictionary = proj.get("player", {})
+	var current_id := String(player.get("current_container_id", ""))
+	var in_transit := bool(player.get("is_in_transit", false))
+	var encounter: Dictionary = proj.get("active_encounter", {})
+	var encounter_result: Dictionary = proj.get("encounter_result", {})
+	var active_encounter := not encounter.is_empty() or not encounter_result.is_empty()
+	var show_details := desktop_details_open or quest_journal_open or in_transit or active_encounter
+	desktop_scene_window.visible = not show_details
+	desktop_details_window.visible = show_details
+	if desktop_back_button != null:
+		desktop_back_button.visible = not quest_journal_open
+		desktop_back_button.disabled = in_transit or active_encounter
+		desktop_back_button.tooltip_text = "先完成旅程或路上事件。" if desktop_back_button.disabled else ""
+	if desktop_profile_name != null:
+		desktop_profile_name.text = String(player.get("name", "流浪者"))
+	if desktop_profile_vitals != null:
+		var health := int(player.get("health", 12))
+		desktop_profile_vitals.text = "生命 %d / 12\n第 %d 天 · %d 瓶蓋" % [health, int(proj.get("current_day", 0)), int(player.get("money", 0))]
+	if desktop_message != null:
+		if active_encounter:
+			desktop_message.text = "路上有事需要處理。選擇做法後，確認結果再繼續。"
+		elif in_transit:
+			desktop_message.text = "正在前往 %s；還有 %d 天路程。" % [_get_settlement_name(String(player.get("destination_id", ""))), int(player.get("days_remaining", 0))]
+		else:
+			desktop_message.text = "%s　·　%s" % [_get_settlement_name(current_id), _settlement_flavour(current_id)]
+	if current_id.begins_with("settlement:"):
+		desktop_scene_window.title_label.text = "%s｜聚落場景" % _get_settlement_name(current_id)
+		var scene_file: String = {"settlement:gray_valley": "gray_valley_scene.png", "settlement:dry_well": "dry_well_scene.png", "settlement:new_hope": "new_hope_scene.png"}.get(current_id, "")
+		if scene_file != "" and desktop_scene_art.get_meta("scene_file", "") != scene_file:
+			var img := Image.load_from_file(ProjectSettings.globalize_path("res://ui/assets/settlements/" + scene_file))
+			if img != null:
+				desktop_scene_art.texture = ImageTexture.create_from_image(img)
+				desktop_scene_art.set_meta("scene_file", scene_file)
 
 
 # ==============================================================================
@@ -1816,7 +2024,9 @@ func _render_quests(rows: Array) -> void:
 
 func _on_quest_access_pressed() -> void:
 	quest_journal_open = not quest_journal_open
+	desktop_details_open = quest_journal_open
 	_render_quests(current_projection.get("quests", []))
+	_sync_desktop(current_projection)
 	if quest_journal_open:
 		quest_close_button.grab_focus()
 	else:
@@ -1824,7 +2034,9 @@ func _on_quest_access_pressed() -> void:
 
 func _on_quest_close_pressed() -> void:
 	quest_journal_open = false
+	desktop_details_open = false
 	_render_quests(current_projection.get("quests", []))
+	_sync_desktop(current_projection)
 	quest_access_button.grab_focus()
 
 func _unhandled_key_input(event: InputEvent) -> void:
