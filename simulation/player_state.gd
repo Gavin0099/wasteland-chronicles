@@ -43,6 +43,10 @@ var food_pressure: float = 0.0
 var water_exposure: float = 0.0
 var food_exposure: float = 0.0
 
+# QUEST-1 Progression State (CHAR-PROG-1 owns spending logic)
+var xp: int = 0             # lifetime XP earned from quests and events
+var growth_points: int = 0  # spendable points: CHAR-PROG-1 converts XP -> growth_points
+
 func _init(
 	p_npc_id: StringName = &"",
 	p_capacity: int = 20,
@@ -93,6 +97,8 @@ func duplicate_state() -> PlayerState:
 	copy.water_exposure = water_exposure
 	copy.food_exposure = food_exposure
 	copy.capability = capability.duplicate_profile() if capability != null else null
+	copy.xp = xp
+	copy.growth_points = growth_points
 	return copy
 
 func to_dict() -> Dictionary:
@@ -112,6 +118,11 @@ func to_dict() -> Dictionary:
 		result["item_inventory"] = item_inventory.to_dict()
 	if equipment != null and not equipment.is_empty():
 		result["equipment"] = equipment.to_dict()
+	# Omit-if-zero: avoids touching existing save SHA when progression is unused
+	if xp > 0:
+		result["xp"] = xp
+	if growth_points > 0:
+		result["growth_points"] = growth_points
 	return result
 
 static func from_dict(data: Dictionary) -> PlayerState:
@@ -142,4 +153,7 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	p.food_pressure = float(data.get("food_pressure", 0.0))
 	p.water_exposure = float(data.get("water_exposure", 0.0))
 	p.food_exposure = float(data.get("food_exposure", 0.0))
+	# Graceful migration: old saves without xp/growth_points load as 0
+	p.xp = int(data.get("xp", 0))
+	p.growth_points = int(data.get("growth_points", 0))
 	return p

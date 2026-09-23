@@ -9,6 +9,7 @@ const RankCodec = preload("res://simulation/rank_json_codec.gd")
 const ItemInventory = preload("res://simulation/item_inventory_state.gd")
 const Equipment = preload("res://simulation/equipment_state.gd")
 const ItemMarket = preload("res://simulation/item_market_state.gd")
+const QuestStateReg = preload("res://simulation/quest_state_registry.gd")
 
 var current_day: int = 0
 var total_initial_population: int = -1
@@ -33,6 +34,12 @@ var active_encounter: TravelEncounterState = null
 # A receipt points to the committed ledger, never a second copy of the rewards.
 # -1 also preserves compatibility with saves made before result confirmation.
 var pending_encounter_result: int = -1
+
+# QUEST-1: Quest runtime state and world-effect flags.
+# quest_state is omitted from to_dict() when empty (same pattern as player/item_inventory)
+# so old saves produce byte-identical JSON — Gate 7.
+var quest_state: RefCounted = QuestStateReg.new()
+var quest_flags: Dictionary = {}  # Dictionary[String, bool] — set by quest world_effects
 
 func get_settlement(id: StringName) -> SettlementState:
 	return settlements.get(id, null)
@@ -125,6 +132,9 @@ func duplicate_state() -> WorldState:
 	copy.active_encounter = active_encounter.duplicate_state() if active_encounter != null else null
 	copy.pending_encounter_result = pending_encounter_result
 	copy.field_state = field_state.duplicate(true)
+	# QUEST-1
+	copy.quest_state = quest_state.duplicate_registry()
+	copy.quest_flags = quest_flags.duplicate(true)
 	return copy
 
 func to_dict() -> Dictionary:
@@ -183,6 +193,13 @@ func to_dict() -> Dictionary:
 	}
 	if player != null:
 		result["player"] = player.to_dict()
+	# Omit-if-empty: old saves without quest activity produce the same JSON bytes (Gate 7)
+	if not quest_state.is_empty():
+		result["quest_schema_version"] = 1
+		result["quest_state"] = quest_state.to_dict()
+	if not quest_flags.is_empty():
+		result["quest_schema_version"] = 1
+		result["quest_flags"] = quest_flags.duplicate(true)
 	return result
 
 # ==============================================================================
@@ -305,6 +322,24 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 					if not restored.ok or restored.value <= previous:
 						return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_TAGS"}
 					previous = restored.value
+
+	# QUEST-1: quest_schema_version validation (migration: absent = v1 empty state)
+	if data.has("quest_schema_version"):
+		var qv: Variant = data.quest_schema_version
+		if typeof(qv) not in [TYPE_INT, TYPE_FLOAT] or qv != 1:
+			return {"success": false, "world": null, "error": "UNSUPPORTED_QUEST_SCHEMA"}
+	# Validate quest_state dict shape before constructing
+	if data.has("quest_state"):
+		var qs_err := QuestStateReg.validate_dict(data["quest_state"])
+		if qs_err != "":
+			return {"success": false, "world": null, "error": qs_err}
+	if data.has("quest_flags"):
+		if typeof(data["quest_flags"]) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "QUEST_FLAGS_NOT_DICT"}
+		for flag in data["quest_flags"]:
+			if typeof(flag) != TYPE_STRING or flag.is_empty() or typeof(data["quest_flags"][flag]) != TYPE_BOOL:
+				return {"success": false, "world": null, "error": "QUEST_FLAGS_INVALID_ENTRY"}
+
 	var w := from_dict_unchecked(data)
 
 	# Rebuild the ledger from the events themselves, in serialized order.
@@ -404,6 +439,11 @@ static func from_dict_unchecked(data: Dictionary) -> WorldState:
 			w.refugees[StringName(r_id)] = RefugeePartyState.from_dict(r_data[r_id])
 	if data.has("player") and data["player"] != null and typeof(data["player"]) == TYPE_DICTIONARY:
 		w.player = PlayerState.from_dict(data["player"])
+	# QUEST-1: load quest runtime state (graceful migration — absent = empty registry)
+	if data.has("quest_state") and typeof(data["quest_state"]) == TYPE_DICTIONARY:
+		w.quest_state = QuestStateReg.from_dict(data["quest_state"])
+	if data.has("quest_flags") and typeof(data["quest_flags"]) == TYPE_DICTIONARY:
+		w.quest_flags = data["quest_flags"].duplicate(true)
 	return w
 
 func to_canonical_json() -> String:
@@ -430,4 +470,4 @@ func to_simulation_projection_dict() -> Dictionary:
 	return projection
 
 func to_simulation_projection_json() -> String:
-	return JSON.stringify(to_simulation_projection_dict(), "	", true)
+	return JSON.stringify(to_simulation_projection_dict(), "\t", true)

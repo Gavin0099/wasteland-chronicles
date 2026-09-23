@@ -261,7 +261,17 @@ static func validate_world_numerics(data: Dictionary) -> String:
 				if not r_age["ok"]:
 					return r_age["error"]
 
+	# QUEST-1: validate player progression int fields (xp, growth_points)
+	if data.has("player") and typeof(data["player"]) == TYPE_DICTIONARY:
+		var p_data: Dictionary = data["player"]
+		for prog_field in ["xp", "growth_points"]:
+			if p_data.has(prog_field):
+				var r_p := restore_int(p_data[prog_field], "player.%s" % prog_field, 0)
+				if not r_p["ok"]:
+					return r_p["error"]
+
 	return ""
+
 
 static func _validate_settlement(s: Variant, path: String) -> String:
 	if typeof(s) != TYPE_DICTIONARY:

@@ -513,6 +513,13 @@ func tick(world: WorldState) -> Array[EventRecord]:
 	process_player_daily_needs(world, current_day, tick_events)
 
 	# -------------------------------------------------------------
+	# 階段 5.45: Quest 截止日判定 (QUEST-1 Deadline Check)
+	# -------------------------------------------------------------
+	# After survival resolution (player may have died), before numeric commit.
+	# Transitions all ACTIVE quests past their deadline_day to EXPIRED.
+	load("res://simulation/quest_engine.gd").check_deadlines(world)
+
+	# -------------------------------------------------------------
 	# 階段 5.5: 正規數值提交 (S4-C.2 Canonical Numeric Commit)
 	# -------------------------------------------------------------
 	# The day's physics are finished; commit the authoritative state in the form
