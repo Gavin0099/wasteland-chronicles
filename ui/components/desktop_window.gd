@@ -56,9 +56,9 @@ func _init(title_text: String = "") -> void:
 	body.size_flags_vertical = SIZE_EXPAND_FILL
 	column.add_child(body)
 
-func enable_floating() -> void:
+func enable_floating(can_close: bool = true) -> void:
 	draggable = true
-	close_button.visible = true
+	close_button.visible = can_close
 	title_bar.mouse_default_cursor_shape = Control.CURSOR_MOVE
 
 func _on_title_input(event: InputEvent) -> void:
