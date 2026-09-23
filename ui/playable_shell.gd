@@ -103,6 +103,10 @@ var item_market_rows_box: VBoxContainer
 var item_market_rows: Dictionary = {}
 var item_market_trade_buttons: Dictionary = {}
 var quest_panel: PanelContainer
+var quest_access_button: Button
+var quest_close_button: Button
+var right_scroll: ScrollContainer
+var quest_journal_open: bool = false
 var quest_selector: OptionButton
 var quest_title: Label
 var quest_description: Label
@@ -118,6 +122,8 @@ var lbl_death_title: Label
 var lbl_death_body: Label
 var lbl_action_error: Label
 var lbl_supply_warning: Label
+var supply_alert: PanelContainer
+var lbl_supply_alert: Label
 var event_feed_container: VBoxContainer
 var map_node_buttons: Dictionary = {}
 
@@ -241,6 +247,21 @@ func _render_supply_warning(p: Dictionary) -> void:
 	var bp: Dictionary = p.get("backpack", {})
 	var water := int(bp.get("water", 0))
 	var food := int(bp.get("food", 0))
+	if supply_alert != null:
+		supply_alert.visible = water == 0 or food == 0
+		if supply_alert.visible:
+			var missing: PackedStringArray = []
+			var risks: PackedStringArray = []
+			if water == 0:
+				missing.append("水")
+				risks.append("缺水")
+			if food == 0:
+				missing.append("食物")
+				risks.append("飢餓")
+			if bool(p.get("is_in_transit", false)):
+				lbl_supply_alert.text = "⚠ 隨身補給耗盡：%s。後續行程可能累積%s風險。" % ["、".join(missing), "、".join(risks)]
+			else:
+				lbl_supply_alert.text = "⚠ 隨身補給耗盡：%s。請確認聚落供給，出發前備足補給。" % "、".join(missing)
 	var lines: PackedStringArray = []
 	var critical := false
 
@@ -254,7 +275,7 @@ func _render_supply_warning(p: Dictionary) -> void:
 		lines.append("⚠ 你已經在挨餓了。再撐約 %d 天就會餓死。" % f_left)
 
 	if not critical:
-		if water <= 2 or food <= 2:
+		if (water <= 2 or food <= 2) and water > 0 and food > 0:
 			lines.append("補給偏低：💧 %d　🍴 %d。路上每天各消耗 1。" % [water, food])
 
 	# Setting out with less water than the road is long is the decision this
@@ -307,6 +328,8 @@ func _render_death(death: Dictionary) -> void:
 			b.disabled = true
 	if lbl_supply_warning != null:
 		lbl_supply_warning.visible = false
+	if supply_alert != null:
+		supply_alert.visible = false
 
 func _render_settlement_panel(proj: Dictionary) -> void:
 	if lbl_settlement_title == null or lbl_settlement_details == null:
@@ -841,6 +864,16 @@ func _build_ui_layout_if_needed() -> void:
 	field_button.pressed.connect(_show_field)
 	header.add_child(field_button)
 
+	supply_alert = PanelContainer.new()
+	supply_alert.visible = false
+	supply_alert.theme_type_variation = "PdaPanel"
+	app_frame.add_child(supply_alert)
+	lbl_supply_alert = Label.new()
+	lbl_supply_alert.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl_supply_alert.add_theme_font_size_override("font_size", Tokens.SMALL)
+	lbl_supply_alert.add_theme_color_override("font_color", Tokens.TEXT)
+	supply_alert.add_child(lbl_supply_alert)
+
 	# The run is over. The engine refuses every intent from a dead player, so
 	# the screen has to say so; before this existed the buttons stayed lit and
 	# the game simply stopped responding.
@@ -922,12 +955,27 @@ func _build_ui_layout_if_needed() -> void:
 	# bottom row (supplies, radio, the WAIT button) was pushed off the screen
 	# and the market itself was clipped. Scrolling the column keeps every panel
 	# reachable at any window size instead of silently losing the ones below.
-	var right_scroll := ScrollContainer.new()
+	var right_workspace := VBoxContainer.new()
+	right_workspace.size_flags_horizontal = SIZE_EXPAND_FILL
+	right_workspace.size_flags_vertical = SIZE_EXPAND_FILL
+	right_workspace.size_flags_stretch_ratio = 1.0
+	right_workspace.add_theme_constant_override("separation", Tokens.GAP)
+	center_split.add_child(right_workspace)
+
+	quest_access_button = Button.new()
+	quest_access_button.theme_type_variation = "PdaCommand"
+	quest_access_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	quest_access_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	quest_access_button.clip_text = true
+	quest_access_button.focus_mode = Control.FOCUS_ALL
+	quest_access_button.pressed.connect(_on_quest_access_pressed)
+	right_workspace.add_child(quest_access_button)
+
+	right_scroll = ScrollContainer.new()
 	right_scroll.size_flags_horizontal = SIZE_EXPAND_FILL
 	right_scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	right_scroll.size_flags_stretch_ratio = 1.0
 	right_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	center_split.add_child(right_scroll)
+	right_workspace.add_child(right_scroll)
 
 	var right_col := VBoxContainer.new()
 	right_col.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -1104,26 +1152,48 @@ func _build_ui_layout_if_needed() -> void:
 
 	quest_panel = PanelContainer.new()
 	quest_panel.theme_type_variation = "PdaPanel"
-	right_col.add_child(quest_panel)
-	right_col.move_child(quest_panel, 0)
+	quest_panel.size_flags_vertical = SIZE_EXPAND_FILL
+	right_workspace.add_child(quest_panel)
 	var quest_column := VBoxContainer.new()
 	quest_column.add_theme_constant_override("separation", Tokens.GAP)
 	quest_panel.add_child(quest_column)
+	var quest_header := HBoxContainer.new()
+	quest_column.add_child(quest_header)
+	var quest_heading := Label.new()
+	quest_heading.text = "委託紀錄"
+	quest_heading.theme_type_variation = "PdaSection"
+	quest_heading.size_flags_horizontal = SIZE_EXPAND_FILL
+	quest_header.add_child(quest_heading)
+	quest_close_button = Button.new()
+	quest_close_button.text = "返回聚落"
+	quest_close_button.theme_type_variation = "PdaCommand"
+	quest_close_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	quest_close_button.pressed.connect(_on_quest_close_pressed)
+	quest_header.add_child(quest_close_button)
 	quest_selector = OptionButton.new()
 	quest_selector.theme_type_variation = "PdaCommand"
 	quest_selector.focus_mode = Control.FOCUS_ALL
 	quest_selector.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	quest_selector.item_selected.connect(_on_quest_selected)
 	quest_column.add_child(quest_selector)
+	var quest_scroll := ScrollContainer.new()
+	quest_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	quest_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	quest_column.add_child(quest_scroll)
+	var quest_details := VBoxContainer.new()
+	quest_details.size_flags_horizontal = SIZE_EXPAND_FILL
+	quest_details.add_theme_constant_override("separation", Tokens.GAP)
+	quest_scroll.add_child(quest_details)
 	quest_title = Label.new()
 	quest_title.theme_type_variation = "PdaSection"
-	quest_column.add_child(quest_title)
+	quest_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	quest_details.add_child(quest_title)
 	quest_description = Label.new()
 	quest_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	quest_column.add_child(quest_description)
+	quest_details.add_child(quest_description)
 	quest_progress = Label.new()
 	quest_progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	quest_column.add_child(quest_progress)
+	quest_details.add_child(quest_progress)
 	quest_button = Button.new()
 	quest_button.theme_type_variation = "PdaPrimary"
 	quest_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
@@ -1308,7 +1378,7 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_supply_warning = Label.new()
 	lbl_supply_warning.visible = false
 	lbl_supply_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	lbl_supply_warning.add_theme_font_size_override("font_size", 11)
+	lbl_supply_warning.add_theme_font_size_override("font_size", Tokens.SMALL)
 	res_vbox.add_child(lbl_supply_warning)
 
 	# A refused intent is a fact the player is entitled to. Silently dropping it
@@ -1547,9 +1617,20 @@ func _create_window_header(title_text: String, icon_str: String = "") -> PanelCo
 func _render_quests(rows: Array) -> void:
 	if quest_panel == null:
 		return
-	quest_panel.visible = not rows.is_empty() and world.active_encounter == null and world.pending_encounter_result < 0 and world.field_state.battle.is_empty() and world.field_state.receipt < 0
-	if not quest_panel.visible:
+	var can_show: bool = not rows.is_empty() and world.active_encounter == null and world.pending_encounter_result < 0 and world.field_state.battle.is_empty() and world.field_state.receipt < 0
+	if not can_show:
+		quest_journal_open = false
+	quest_access_button.visible = can_show
+	quest_panel.visible = can_show and quest_journal_open
+	right_scroll.visible = not quest_panel.visible
+	if not can_show:
 		return
+	var active_count := 0
+	for option in rows:
+		if String(option.status) == "ACTIVE":
+			active_count += 1
+	quest_access_button.text = "委託紀錄　進行中 %d／共 %d 件　%s" % [active_count, rows.size(), "返回聚落 ›" if quest_journal_open else "查看 ›"]
+	quest_access_button.tooltip_text = "查看所有委託、交付需求與完成紀錄。"
 	var selected_index := -1
 	for i in rows.size():
 		if String(rows[i].id) == quest_id_shown:
@@ -1571,16 +1652,38 @@ func _render_quests(rows: Array) -> void:
 	quest_description.text = String(row.description)
 	var status := String(row.status)
 	if status == "AVAILABLE":
-		quest_progress.text = "期限：接下後 %d 天　／　交付：%s ×%d → %s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.reward_caps), int(row.reward_xp)]
+		quest_progress.text = "期限：接下後 %d 天\n交付：%s ×%d → %s\n目前持有：%d／%d；接受後仍需自行取得物品。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
 		quest_button.text = "接受委託"
 	elif status == "ACTIVE":
-		quest_progress.text = "進行中 · 第 %d 天截止\n交付：%s ×%d → %s（持有 %d）\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.reward_caps), int(row.reward_xp)]
+		quest_progress.text = "進行中 · 第 %d 天截止\n交付：%s ×%d → %s\n目前持有：%d／%d；需自行取得物品後前往交付。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
 		quest_button.text = "交付物品"
 	else:
-		quest_progress.text = {"RESOLVED": "已完成", "EXPIRED": "已過期", "FAILED": "已失敗"}.get(status, "目前不可接")
+		if status == "RESOLVED":
+			quest_progress.text = "已完成 · 已交付 %s ×%d → %s\n獲得：%d 瓶蓋、%d XP" % [String(row.item_name), int(row.required), String(row.target), int(row.reward_caps), int(row.reward_xp)]
+		else:
+			quest_progress.text = {"EXPIRED": "已過期 · 未交付", "FAILED": "已失敗 · 未交付"}.get(status, "目前不可接")
 		quest_button.text = "委託已結束"
 	quest_button.visible = status in ["AVAILABLE", "ACTIVE"]
 	quest_button.disabled = not bool(row.can_act)
+	quest_button.tooltip_text = "需要持有足量物品、抵達交付地點，且仍在期限內。" if status == "ACTIVE" and quest_button.disabled else ""
+
+func _on_quest_access_pressed() -> void:
+	quest_journal_open = not quest_journal_open
+	_render_quests(current_projection.get("quests", []))
+	if quest_journal_open:
+		quest_close_button.grab_focus()
+	else:
+		quest_access_button.grab_focus()
+
+func _on_quest_close_pressed() -> void:
+	quest_journal_open = false
+	_render_quests(current_projection.get("quests", []))
+	quest_access_button.grab_focus()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if quest_journal_open and event.is_action_pressed("ui_cancel"):
+		_on_quest_close_pressed()
+		get_viewport().set_input_as_handled()
 
 func _on_quest_selected(index: int) -> void:
 	if quest_selector == null or index < 0 or index >= quest_selector.item_count:

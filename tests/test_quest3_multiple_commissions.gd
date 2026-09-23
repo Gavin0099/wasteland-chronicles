@@ -63,6 +63,28 @@ func run() -> void:
 	var shell := PlayableShell.new()
 	root.add_child(shell)
 	shell.setup(world, engine)
+	check(shell.quest_access_button.visible and not shell.quest_panel.visible, "journal has a persistent entry outside the settlement scroll")
+	shell.quest_access_button.pressed.emit()
+	check(shell.quest_panel.visible and not shell.right_scroll.visible, "opening the journal gives the quest its own right-side view")
+	shell.quest_close_button.pressed.emit()
+	check(not shell.quest_panel.visible and shell.right_scroll.visible and shell.quest_access_button.visible, "closing journal restores settlement and keeps quest access")
+	await process_frame
+	shell.right_scroll.scroll_vertical = 180
+	await process_frame
+	var scrolled_position := shell.right_scroll.scroll_vertical
+	shell.quest_access_button.pressed.emit()
+	check(shell.quest_title.is_visible_in_tree() and shell.quest_button.is_visible_in_tree(), "quest title and action remain visible regardless of settlement scroll position")
+	shell.quest_close_button.pressed.emit()
+	check(scrolled_position > 0 and shell.right_scroll.scroll_vertical == scrolled_position, "journal does not reset the settlement and market reading position")
+	shell.quest_access_button.pressed.emit()
+	var cancel := InputEventKey.new()
+	cancel.keycode = KEY_ESCAPE
+	cancel.pressed = true
+	Input.parse_input_event(cancel)
+	await process_frame
+	check(not shell.quest_panel.visible and shell.right_scroll.visible, "Escape closes journal and restores settlement")
+	shell.quest_access_button.pressed.emit()
+	check(world.to_canonical_json() == before_projection, "opening and closing journal cannot mutate world")
 	check(shell.quest_selector.visible and shell.quest_selector.item_count == 2, "PDA exposes two selectable commissions")
 	check(shell.quest_selector.focus_mode == Control.FOCUS_ALL, "commission selector is keyboard focusable")
 	var rope_index := -1
@@ -97,6 +119,8 @@ func run() -> void:
 	var before_xp := world.player.xp
 	var completed := engine.commit_player_intent(world, PlayerIntent.create_turn_in_quest(world.player.npc_id, ROPE_ID))
 	check(completed.success and not world.player.item_inventory.contains("rope"), "rope turn-in transfers exactly one physical item")
+	shell.refresh_ui()
+	check(shell.quest_panel.visible and shell.quest_progress.text.contains("已完成 · 已交付 繩索 ×1") and shell.quest_progress.text.contains("65 瓶蓋、20 XP"), "completed commission remains readable after receipt closes")
 	check(world.player.money == before_caps + 65 and world.player.xp == before_xp + 20, "rope rewards are exactly once and separate from skill ranks")
 	check(world.quest_flags.get("dry_well_rope_delivered", false) and not world.quest_flags.get("dry_well_wrench_delivered", false), "rope sets only its own world fact")
 	check(world.event_log.back().type == "QUEST_RESOLVED" and world.event_log.back().payload.quest_id == ROPE_ID, "ledger identifies correct commission")
@@ -137,6 +161,13 @@ func run() -> void:
 	for i in range(5):
 		engine.commit_player_intent(expiring, PlayerIntent.create_wait(expiring.player.npc_id))
 	check(expiring.quest_state.get_quest(ROPE_ID).status == &"EXPIRED" and not expiring.quest_flags.has("dry_well_rope_delivered"), "rope promise expires without fake delivery")
+	var warning := fixture()
+	warning.player.inventory.water = 0
+	warning.player.inventory.food = 0
+	shell.setup(warning, engine)
+	var warning_json := warning.to_canonical_json()
+	check(shell.supply_alert.visible and shell.lbl_supply_alert.text.contains("水、食物"), "zero water and food appear in persistent top warning")
+	check(warning.to_canonical_json() == warning_json, "supply warning projection cannot mutate world")
 	shell.queue_free()
 	await process_frame
 	print("QUEST-3 multiple commissions: ", "PASS" if failures == 0 else "FAIL", "; assertions=", assertions, "; failures=", failures)
