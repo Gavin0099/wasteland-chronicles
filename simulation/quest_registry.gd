@@ -5,7 +5,7 @@ extends RefCounted
 # QUEST-1B: QUEST REGISTRY
 # ==============================================================================
 # Static registry of QuestDefinitions — the authored catalog.
-# QUEST-1 ships with an EMPTY catalog. Real quests are added in QUEST-2.
+# QUEST-2 adds one authored delivery quest to the QUEST-1 foundation.
 #
 # Pattern mirrors ItemRegistry: static methods only, definitions validated on
 # read, fail-closed on any malformed entry.
@@ -13,9 +13,23 @@ extends RefCounted
 
 const Definition = preload("res://simulation/quest_definition.gd")
 
-# ── Internal catalog (EMPTY in QUEST-1; QUEST-2 will fill this) ───────────────
+# ── Internal catalog ──────────────────────────────────────────────────────────
 static func _catalog() -> Array:
-	return []
+	return [{
+		"id": "gray_valley_wrench_run",
+		"title_zh": "送一把扳手到乾井",
+		"description_zh": "灰谷的商路告示板有人託付：乾井水泵工棚缺一把可調扳手。帶著扳手到乾井交付；路上仍要自己準備水糧。",
+		"settlement_id": "gray_valley",
+		"issuer_npc_id": "",
+		"availability": {"required_day": 0, "required_flags": []},
+		"deadline_days": 8,
+		"objectives": [{"id": "deliver_wrench", "type": "DELIVER_ITEM", "item_id": "wrench", "quantity": 1, "settlement_id": "dry_well"}],
+		"outcomes": {
+			"resolved": {"rewards": [{"type": "CURRENCY", "amount": 75}, {"type": "XP", "amount": 25}], "world_effects": [{"type": "SET_FLAG", "flag": "dry_well_wrench_delivered"}]},
+			"failed": {"rewards": [], "world_effects": []},
+			"expired": {"rewards": [], "world_effects": []},
+		},
+	}]
 
 # ── Public API ────────────────────────────────────────────────────────────────
 

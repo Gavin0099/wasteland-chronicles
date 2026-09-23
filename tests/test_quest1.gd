@@ -45,6 +45,8 @@ func fresh_world() -> WorldState:
 func _test_definition(overrides: Dictionary = {}) -> Dictionary:
 	var defn := {
 		"id": "test_quest",
+		"title_zh": "測試委託",
+		"description_zh": "供契約測試使用的委託。",
 		"settlement_id": "new_hope",
 		"issuer_npc_id": "",
 		"availability": { "required_day": 0, "required_flags": [] },

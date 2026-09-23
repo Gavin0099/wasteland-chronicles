@@ -102,6 +102,12 @@ var item_market_scroll: ScrollContainer
 var item_market_rows_box: VBoxContainer
 var item_market_rows: Dictionary = {}
 var item_market_trade_buttons: Dictionary = {}
+var quest_panel: PanelContainer
+var quest_title: Label
+var quest_description: Label
+var quest_progress: Label
+var quest_button: Button
+var quest_id_shown: String = ""
 
 var field_button: Button
 var btn_wait: Button
@@ -213,6 +219,7 @@ func _render_projection(proj: Dictionary) -> void:
 
 	# 4. Settlement Panel & Dedicated Transit Itinerary
 	_render_settlement_panel(proj)
+	_render_quests(proj.get("quests", []))
 
 	# 5. Event Feed
 	_render_event_feed(proj.get("events", []))
@@ -1094,6 +1101,29 @@ func _build_ui_layout_if_needed() -> void:
 	btn_travel.pressed.connect(func(): on_travel_pressed())
 	s_vbox.add_child(btn_travel)
 
+	quest_panel = PanelContainer.new()
+	quest_panel.theme_type_variation = "PdaPanel"
+	right_col.add_child(quest_panel)
+	right_col.move_child(quest_panel, 0)
+	var quest_column := VBoxContainer.new()
+	quest_column.add_theme_constant_override("separation", Tokens.GAP)
+	quest_panel.add_child(quest_column)
+	quest_title = Label.new()
+	quest_title.theme_type_variation = "PdaSection"
+	quest_column.add_child(quest_title)
+	quest_description = Label.new()
+	quest_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	quest_column.add_child(quest_description)
+	quest_progress = Label.new()
+	quest_progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	quest_column.add_child(quest_progress)
+	quest_button = Button.new()
+	quest_button.theme_type_variation = "PdaPrimary"
+	quest_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	quest_button.pressed.connect(_on_quest_pressed)
+	quest_column.add_child(quest_button)
+	quest_panel.visible = false
+
 	# ==========================================================================
 	# TRAVEL ENCOUNTER PANEL (Active only while the road is asking something)
 	# ==========================================================================
@@ -1506,6 +1536,61 @@ func _create_window_header(title_text: String, icon_str: String = "") -> PanelCo
 	hbox.add_child(controls_lbl)
 
 	return header_panel
+
+func _render_quests(rows: Array) -> void:
+	if quest_panel == null:
+		return
+	quest_panel.visible = not rows.is_empty() and world.active_encounter == null and world.pending_encounter_result < 0 and world.field_state.battle.is_empty() and world.field_state.receipt < 0
+	if not quest_panel.visible:
+		return
+	var row: Dictionary = rows[0]
+	quest_id_shown = String(row.id)
+	quest_title.text = "委託 · %s" % String(row.title)
+	quest_description.text = String(row.description)
+	var status := String(row.status)
+	if status == "AVAILABLE":
+		quest_progress.text = "期限：接下後 %d 天　／　交付：%s ×%d → %s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.reward_caps), int(row.reward_xp)]
+		quest_button.text = "接受委託"
+	elif status == "ACTIVE":
+		quest_progress.text = "進行中 · 第 %d 天截止\n交付：%s ×%d → %s（持有 %d）\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.reward_caps), int(row.reward_xp)]
+		quest_button.text = "交付物品"
+	else:
+		quest_progress.text = {"RESOLVED": "已完成", "EXPIRED": "已過期", "FAILED": "已失敗"}.get(status, "目前不可接")
+		quest_button.text = "委託已結束"
+	quest_button.visible = status in ["AVAILABLE", "ACTIVE"]
+	quest_button.disabled = not bool(row.can_act)
+
+func _on_quest_pressed() -> void:
+	if world == null or world.player == null or quest_id_shown == "":
+		return
+	var rows: Array = current_projection.get("quests", [])
+	if rows.is_empty() or String(rows[0].id) != quest_id_shown:
+		return
+	var accepting := String(rows[0].status) == "AVAILABLE"
+	var intent := PlayerIntent.create_accept_quest(world.player.npc_id, quest_id_shown) if accepting else PlayerIntent.create_turn_in_quest(world.player.npc_id, quest_id_shown)
+	var result: Dictionary = engine.commit_player_intent(world, intent)
+	if not result.success:
+		if lbl_action_error != null:
+			lbl_action_error.text = "委託狀態已變更，請查看目前位置、持有物品與期限。"
+		refresh_ui()
+		return
+	refresh_ui()
+	var receipt := AcceptDialog.new()
+	receipt.theme_type_variation = "PdaDialog"
+	receipt.title = "委託結果"
+	if accepting:
+		receipt.dialog_text = "委託已接受。第 %d 天截止。" % world.quest_state.get_quest(quest_id_shown).deadline_day
+	else:
+		var delivered: Array = result.get("delivered", [])
+		var delivered_text := "%s ×%d" % [String(rows[0].item_name), int(rows[0].required)]
+		if not delivered.is_empty():
+			delivered_text = "%s ×%d" % [String(rows[0].item_name), int(delivered[0].quantity)]
+		receipt.dialog_text = "已交付%s。獲得 %d 瓶蓋、%d XP。" % [delivered_text, int(rows[0].reward_caps), int(rows[0].reward_xp)]
+	receipt.ok_button_text = "繼續旅程"
+	receipt.confirmed.connect(receipt.queue_free)
+	receipt.canceled.connect(receipt.queue_free)
+	add_child(receipt)
+	receipt.popup_centered()
 
 func _show_character() -> void:
 	if world == null or world.player == null:

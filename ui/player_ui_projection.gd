@@ -3,6 +3,9 @@ extends RefCounted
 
 const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
 const ItemMarketState = preload("res://simulation/item_market_state.gd")
+const QuestRegistry = preload("res://simulation/quest_registry.gd")
+const QuestEngine = preload("res://simulation/quest_engine.gd")
+const ItemRegistry = preload("res://simulation/item_registry.gd")
 
 # ==============================================================================
 # S5-A.2: PLAYER UI PROJECTION (ISOLATION LAYER)
@@ -31,8 +34,50 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"active_encounter": _project_encounter(world),
 		"encounter_result": _project_encounter_result(world),
 		"death": _project_death(world),
+		"quests": _project_quests(world),
 	}
 	return proj
+
+static func _project_quests(world: WorldState) -> Array:
+	var rows: Array = []
+	if world.player == null:
+		return rows
+	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if life == null or not life.is_alive():
+		return rows
+	for definition in QuestRegistry.all_definitions():
+		var quest_id := String(definition.id)
+		var state = world.quest_state.get_quest(quest_id)
+		var status := String(state.status) if state != null else String(QuestEngine.evaluate_availability(world, quest_id))
+		var at_issuer := life.status == NpcLifeState.Status.SETTLED and String(life.population_container_id) == "settlement:" + String(definition.settlement_id)
+		if state == null and not at_issuer:
+			continue
+		if state == null and status != "AVAILABLE":
+			continue
+		var objective: Dictionary = definition.objectives[0]
+		var item_id := String(objective.get("item_id", ""))
+		var item_result: Dictionary = ItemRegistry.resolve(item_id) if item_id != "" else {"success": false}
+		var item_name := String(item_result.definition.display_name_zh) if item_result.success else "物品"
+		var target := _settlement_name("settlement:" + String(objective.get("settlement_id", definition.settlement_id)))
+		var required := int(objective.get("quantity", 0))
+		var held: int = world.player.item_inventory.quantity(item_id) if item_id != "" else 0
+		var action := PlayerIntent.create_accept_quest(world.player.npc_id, quest_id) if status == "AVAILABLE" else PlayerIntent.create_turn_in_quest(world.player.npc_id, quest_id)
+		var can_act := status in ["AVAILABLE", "ACTIVE"] and SimulationEngine.new().authorize_player_intent(world, action) == ""
+		var reward_caps := 0
+		var reward_xp := 0
+		for reward in definition.outcomes.resolved.rewards:
+			if String(reward.type) == "CURRENCY":
+				reward_caps += int(reward.amount)
+			elif String(reward.type) == "XP":
+				reward_xp += int(reward.amount)
+		rows.append({
+			"id": quest_id, "title": String(definition.title_zh), "description": String(definition.description_zh),
+			"status": status, "deadline_day": state.deadline_day if state != null else -1,
+			"deadline_days": int(definition.deadline_days), "target": target, "item_name": item_name,
+			"required": required, "held": held, "can_act": can_act,
+			"reward_caps": reward_caps, "reward_xp": reward_xp,
+		})
+	return rows
 
 # The end of a run is a world fact, not a side effect of a panel. The engine
 # already refuses every intent from a dead player; until this existed the UI had

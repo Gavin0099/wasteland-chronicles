@@ -17,8 +17,8 @@ outcomes with list-based rewards:
 
 Supported objective types are `HAVE_ITEM`, `DELIVER_ITEM`, `WORLD_FLAG`, and
 `VISIT_LOCATION`. Supported rewards are `XP` and `CURRENCY`; the only world
-effect is `SET_FLAG`. The authored catalogue is intentionally empty until the
-next quest-content slice.
+effect is `SET_FLAG`. QUEST-1 shipped with an empty catalogue; QUEST-2 adds
+the first playable entry, described in `docs/quest-2.md`.
 
 The lifecycle is `LOCKED → AVAILABLE → ACTIVE → RESOLVED`, with explicit
 `FAILED` and `EXPIRED` terminals. Deadlines are inclusive: a quest accepted on
@@ -39,6 +39,5 @@ Evidence:
   non-regression, and progression-authority separation.
 - Full Godot suite: 57/57 tests pass after QUEST-1 integration.
 
-Deferred to later slices: real quest catalogue entries, quest UI, acceptance
-controls, item delivery mutation, branching outcomes, faction/reputation,
+Still deferred after QUEST-2: branching outcomes, faction/reputation,
 repeatability, and XP-to-growth conversion.

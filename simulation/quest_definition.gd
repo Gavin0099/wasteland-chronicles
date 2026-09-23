@@ -53,6 +53,9 @@ static func validate_definition(raw: Variant) -> String:
 	# ── Identity ──────────────────────────────────────────────────────────────
 	if not _stable_id(raw.get("id")):
 		return "QUEST_DEF_INVALID_ID"
+	for label_field in ["title_zh", "description_zh"]:
+		if typeof(raw.get(label_field)) != TYPE_STRING or String(raw[label_field]).strip_edges().is_empty():
+			return "QUEST_DEF_INVALID_%s" % label_field.to_upper()
 	if not _stable_id(raw.get("settlement_id")):
 		return "QUEST_DEF_INVALID_SETTLEMENT_ID"
 	# issuer_npc_id may be empty string (anonymous issuer), but must be a string

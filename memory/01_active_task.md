@@ -17,3 +17,5 @@
 - Content Design V0 complete: 185/480/120/150 design-only libraries, research, matrices and extensible packs verified; 30/15/9/10 implementation proposal only; no runtime changes or push. <!-- memory_record_projection:active-task-summary:649a8e82bebb912b22c0144fba50e41ae49a4f887e9065eb418f5cb5dd4e1657 -->
 
 - ITEM-2 canonical 12-item registry implemented and pushed at 9d77758; 74 focused assertions plus 42/42 full Godot suites PASS; next ITEM-3 Inventory Minimum. <!-- memory_record_projection:active-task-summary:5f273e80ccd06a03f1ce2f99c494441dd65103257faea45b96e4444efd67ee5d -->
+
+- QUEST-2 first playable Gray Valley wrench delivery implemented in 4d6395d; 58/58 suites pass and independent review has no P0/P1; PR gates pending. <!-- memory_record_projection:active-task-summary:46a0791a977423a23aefdccc193fad88edc8a75da1c8206973b533c9ba3906ec -->

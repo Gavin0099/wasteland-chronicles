@@ -37,6 +37,62 @@ extends RefCounted
 const Registry = preload("res://simulation/quest_registry.gd")
 const QState   = preload("res://simulation/quest_state.gd")
 
+static func _settled_at(world: WorldState, settlement_id: String) -> bool:
+	if world.player == null:
+		return false
+	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	return life != null and life.status == NpcLifeState.Status.SETTLED and String(life.population_container_id) == "settlement:" + settlement_id
+
+static func authorize_accept(world: WorldState, quest_id: String) -> String:
+	var found: Dictionary = Registry.get_definition(quest_id)
+	if not found.success:
+		return "QUEST_NOT_FOUND"
+	var definition: Dictionary = found.definition
+	if not _settled_at(world, String(definition.settlement_id)):
+		return "QUEST_ISSUER_NOT_HERE"
+	var existing = world.quest_state.get_quest(quest_id)
+	if existing != null and existing.status != &"AVAILABLE":
+		return "ILLEGAL_QUEST_TRANSITION"
+	if evaluate_availability(world, quest_id) != &"AVAILABLE":
+		return "QUEST_NOT_AVAILABLE"
+	return ""
+
+static func authorize_turn_in(world: WorldState, quest_id: String) -> String:
+	var found: Dictionary = Registry.get_definition(quest_id)
+	if not found.success:
+		return "QUEST_NOT_FOUND"
+	var qs = world.quest_state.get_quest(quest_id)
+	if qs == null or qs.status != &"ACTIVE" or qs.reward_granted:
+		return "ILLEGAL_QUEST_TRANSITION"
+	if world.current_day > qs.deadline_day:
+		return "QUEST_DEADLINE_PASSED"
+	for objective in found.definition.objectives:
+		if String(objective.type) == "DELIVER_ITEM" and not _settled_at(world, String(objective.settlement_id)):
+			return "QUEST_DELIVERY_LOCATION_REQUIRED"
+		if not _objective_satisfied(world, objective):
+			return "QUEST_OBJECTIVE_NOT_MET"
+	return ""
+
+static func turn_in(world: WorldState, quest_id: String) -> Dictionary:
+	var error := authorize_turn_in(world, quest_id)
+	if error != "":
+		return _fail(error)
+	var definition: Dictionary = Registry.get_definition(quest_id).definition
+	var inventory = world.player.item_inventory.duplicate_state()
+	var delivered: Array = []
+	for objective in definition.objectives:
+		if String(objective.type) != "DELIVER_ITEM":
+			continue
+		var removed: Dictionary = inventory.remove_item(String(objective.item_id), int(objective.quantity))
+		if not removed.success:
+			return _fail(String(removed.error))
+		delivered.append({"item_id": String(objective.item_id), "quantity": int(objective.quantity)})
+	world.player.item_inventory = inventory
+	var result := resolve(world, quest_id)
+	if not result.success:
+		return result
+	return {"success": true, "error": "", "delivered": delivered, "rewards": definition.outcomes.resolved.rewards.duplicate(true)}
+
 # ── Availability ──────────────────────────────────────────────────────────────
 
 # Read-only query: returns &"AVAILABLE" or &"LOCKED".
@@ -68,6 +124,9 @@ static func accept(world: WorldState, quest_id: String) -> Dictionary:
 	if not result.success:
 		return _fail("QUEST_NOT_FOUND: %s" % quest_id)
 	var defn: Dictionary = result.definition
+	var auth_error := authorize_accept(world, quest_id)
+	if auth_error != "":
+		return _fail(auth_error)
 
 	# Resolve current status: if no state yet, derive from availability
 	var current_status: StringName
@@ -111,8 +170,6 @@ static func _objective_satisfied(world: WorldState, obj: Dictionary) -> bool:
 			var inspect: Dictionary = world.player.item_inventory.inspect_item(obj.get("item_id", ""))
 			return inspect.success and inspect.get("quantity", 0) >= int(obj.get("quantity", 1))
 		&"DELIVER_ITEM":
-			# v1: treated as HAVE_ITEM — player holds the items.
-			# QUEST-2 can extend with delivery location checks.
 			if world.player == null:
 				return false
 			var inspect: Dictionary = world.player.item_inventory.inspect_item(obj.get("item_id", ""))
