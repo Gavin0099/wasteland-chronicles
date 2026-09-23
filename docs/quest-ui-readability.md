@@ -10,4 +10,4 @@
 
 此修正只讀既有 `PlayerUIProjection`，委託接受與交付仍走既有 Intent；沒有新增物品來源、任務後果或世界經濟連動。這是改版後的新 UI 手玩版本，不能和先前版本混作同一組「任務是否令人期待世界回應」的體驗量測。
 
-驗證畫面：`artifacts/quest-ui-readability/` 的聚落、已捲至市集、進行中委託及完成／零補給畫面，各有 1280×720 與 1152×648 版本。可檢查任務按鈕、買賣鈕、底部等待鍵和頂部警示均仍在畫面內。Godot 渲染擷取腳本：`tools/capture_quest_ui_readability.gd`。
+驗證畫面：`artifacts/quest-ui-readability/` 的聚落、已捲至市集、進行中委託、完成／零補給，以及「水 0、食物 1」混合補給畫面，各有 1280×720 與 1152×648 版本。可檢查任務按鈕、買賣鈕、底部等待鍵和頂部警示均仍在畫面內；混合補給時也保留「食物 1 偏低」的獨立提示。Godot 渲染擷取腳本：`tools/capture_quest_ui_readability.gd`。

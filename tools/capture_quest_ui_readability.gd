@@ -93,6 +93,12 @@ func capture() -> void:
 		if not await _save_view(shell, size, "completed_zero_supply"):
 			quit(1)
 			return
+	world.player.inventory.food = 1
+	shell.refresh_ui()
+	for size in [Vector2i(1280, 720), Vector2i(1152, 648)]:
+		if not await _save_view(shell, size, "zero_water_low_food"):
+			quit(1)
+			return
 	shell.queue_free()
 	await process_frame
 	quit(0)

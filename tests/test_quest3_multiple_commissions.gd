@@ -168,6 +168,11 @@ func run() -> void:
 	var warning_json := warning.to_canonical_json()
 	check(shell.supply_alert.visible and shell.lbl_supply_alert.text.contains("水、食物"), "zero water and food appear in persistent top warning")
 	check(warning.to_canonical_json() == warning_json, "supply warning projection cannot mutate world")
+	warning.player.inventory.food = 1
+	shell.refresh_ui()
+	var mixed_warning_json := warning.to_canonical_json()
+	check(shell.supply_alert.visible and shell.lbl_supply_alert.text.contains("水") and shell.lbl_supply_warning.visible and shell.lbl_supply_warning.text.contains("食物 1"), "zero water never suppresses the independent low-food warning")
+	check(warning.to_canonical_json() == mixed_warning_json, "mixed-supply warnings remain read-only")
 	shell.queue_free()
 	await process_frame
 	print("QUEST-3 multiple commissions: ", "PASS" if failures == 0 else "FAIL", "; assertions=", assertions, "; failures=", failures)

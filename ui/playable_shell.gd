@@ -274,9 +274,13 @@ func _render_supply_warning(p: Dictionary) -> void:
 		critical = true
 		lines.append("⚠ 你已經在挨餓了。再撐約 %d 天就會餓死。" % f_left)
 
-	if not critical:
-		if (water <= 2 or food <= 2) and water > 0 and food > 0:
-			lines.append("補給偏低：💧 %d　🍴 %d。路上每天各消耗 1。" % [water, food])
+	var low_supplies: PackedStringArray = []
+	if water > 0 and water <= 2:
+		low_supplies.append("水 %d" % water)
+	if food > 0 and food <= 2:
+		low_supplies.append("食物 %d" % food)
+	if not low_supplies.is_empty():
+		lines.append("隨身補給偏低：%s。路上每天各消耗 1。" % "、".join(low_supplies))
 
 	# Setting out with less water than the road is long is the decision this
 	# warning exists for. Stated before departure, never after.
