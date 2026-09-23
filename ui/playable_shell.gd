@@ -1741,8 +1741,11 @@ func _layout_desktop_details() -> void:
 	if available.x < 1.0 or available.y < 1.0:
 		return
 	var window_size := Vector2(minf(680.0, maxf(500.0, available.x * 0.38)), minf(620.0, maxf(360.0, available.y - 190.0)))
-	window_size.x = minf(window_size.x, available.x - 16.0)
-	window_size.y = minf(window_size.y, available.y - 64.0)
+	# Encounter action text can make the window wider than the requested size.
+	# Place it using the actual minimum so narrow viewports keep every choice visible.
+	var content_minimum := desktop_details_window.get_combined_minimum_size()
+	window_size.x = minf(maxf(window_size.x, content_minimum.x), available.x - 16.0)
+	window_size.y = minf(maxf(window_size.y, content_minimum.y), available.y - 64.0)
 	desktop_details_window.size = window_size
 	var initial := Vector2(available.x - window_size.x - 12.0, minf(205.0, available.y - window_size.y - 12.0))
 	if not desktop_details_window.has_meta("placed"):
