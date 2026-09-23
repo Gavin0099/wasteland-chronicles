@@ -51,10 +51,10 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	get_ok_button().custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	get_ok_button().theme_type_variation = "PdaPrimary"
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(816, 500)
+	scroll.custom_minimum_size = Vector2(420, 470)
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
-	var columns := HBoxContainer.new()
+	var columns := VBoxContainer.new()
 	columns.add_theme_constant_override("separation", Tokens.PAD)
 	columns.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(columns)

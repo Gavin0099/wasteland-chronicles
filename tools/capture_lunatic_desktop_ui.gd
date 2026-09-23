@@ -59,6 +59,14 @@ func capture() -> void:
 		if not await _save_view(size, "gray_valley_local"):
 			quit(1)
 			return
+		shell._show_character()
+		if not await _save_view(size, "gray_valley_character"):
+			quit(1)
+			return
+		for child in shell.get_children():
+			if child is AcceptDialog and child.title == "人物與補給":
+				child.queue_free()
+		await process_frame
 		shell.select_settlement("settlement:new_hope")
 		if not await _save_view(size, "gray_valley_inspecting_remote"):
 			quit(1)

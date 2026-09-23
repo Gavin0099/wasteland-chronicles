@@ -37,6 +37,39 @@ func _init() -> void:
 	var shell := PlayableShell.new()
 	root.add_child(shell)
 	shell.setup(world, engine)
+	# Information is an independent desktop window: opening it must leave the
+	# settlement scene visible and must not commit any world action.
+	var before_information: String = world.to_canonical_json().sha256_text()
+	if not shell.desktop_scene_window.visible or shell.desktop_details_window.visible:
+		print("FAIL UI desktop: initial scene/window state is wrong")
+		quit(1)
+		return
+	shell._show_desktop_details()
+	if not shell.desktop_scene_window.visible or not shell.desktop_details_window.visible or not shell.desktop_details_window.draggable:
+		print("FAIL UI desktop: information replaced the scene or cannot be moved")
+		quit(1)
+		return
+	var original_window_position: Vector2 = shell.desktop_details_window.position
+	var drag_down := InputEventMouseButton.new()
+	drag_down.button_index = MOUSE_BUTTON_LEFT
+	drag_down.pressed = true
+	shell.desktop_details_window.title_bar.gui_input.emit(drag_down)
+	var drag_motion := InputEventMouseMotion.new()
+	drag_motion.relative = Vector2(-40, 10)
+	shell.desktop_details_window.title_bar.gui_input.emit(drag_motion)
+	var drag_up := InputEventMouseButton.new()
+	drag_up.button_index = MOUSE_BUTTON_LEFT
+	drag_up.pressed = false
+	shell.desktop_details_window.title_bar.gui_input.emit(drag_up)
+	if shell.desktop_details_window.position == original_window_position or shell.desktop_details_window.dragging:
+		print("FAIL UI desktop: title bar did not move/release the independent window")
+		quit(1)
+		return
+	shell.desktop_details_window.close_requested.emit()
+	if not shell.desktop_scene_window.visible or shell.desktop_details_window.visible or world.to_canonical_json().sha256_text() != before_information:
+		print("FAIL UI desktop: closing information changed the scene or world")
+		quit(1)
+		return
 
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE UI1] World Visibility ---")

@@ -137,6 +137,7 @@ var event_feed_container: VBoxContainer
 var feed_panel: PanelContainer
 var desktop_scene_window: DesktopWindow
 var desktop_details_window: DesktopWindow
+var desktop_window_layer: Control
 var desktop_scene_art: TextureRect
 var desktop_details_open := false
 var desktop_last_location := ""
@@ -1634,18 +1635,27 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	desktop_scene_window.body.add_child(desktop_scene_art)
 	local_action_panel.reparent(desktop_scene_window.body)
 
+	desktop_window_layer = Control.new()
+	desktop_window_layer.name = "FloatingWindows"
+	desktop_window_layer.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	desktop_window_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(desktop_window_layer)
+	desktop_window_layer.resized.connect(_layout_desktop_details)
 	desktop_details_window = DesktopWindow.new("聚落與旅途")
-	desktop_details_window.size_flags_vertical = SIZE_EXPAND_FILL
+	desktop_details_window.name = "InformationWindow"
 	desktop_details_window.visible = false
-	left.add_child(desktop_details_window)
+	desktop_details_window.enable_floating()
+	desktop_details_window.close_requested.connect(_show_desktop_scene)
+	desktop_window_layer.add_child(desktop_details_window)
 	desktop_back_button = Button.new()
-	desktop_back_button.text = "← 返回場景"
+	desktop_back_button.text = "關閉資訊視窗"
 	desktop_back_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	desktop_back_button.pressed.connect(_show_desktop_scene)
 	desktop_details_window.body.add_child(desktop_back_button)
 	right_workspace.reparent(desktop_details_window.body)
 	right_workspace.size_flags_vertical = SIZE_EXPAND_FILL
-	# The scene owns local commands; the detail window only displays the chosen task.
+	# Information is an independent desktop window. The scene remains mounted.
+	_layout_desktop_details()
 
 	var message_window := DesktopWindow.new("訊息與隨身補給")
 	message_window.custom_minimum_size.y = 106
@@ -1724,6 +1734,25 @@ func _show_desktop_details() -> void:
 	desktop_details_open = true
 	_sync_desktop(current_projection)
 
+func _layout_desktop_details() -> void:
+	if desktop_details_window == null or desktop_window_layer == null:
+		return
+	var available := desktop_window_layer.size
+	if available.x < 1.0 or available.y < 1.0:
+		return
+	var window_size := Vector2(minf(680.0, maxf(500.0, available.x * 0.38)), minf(620.0, maxf(360.0, available.y - 190.0)))
+	window_size.x = minf(window_size.x, available.x - 16.0)
+	window_size.y = minf(window_size.y, available.y - 64.0)
+	desktop_details_window.size = window_size
+	var initial := Vector2(available.x - window_size.x - 12.0, minf(205.0, available.y - window_size.y - 12.0))
+	if not desktop_details_window.has_meta("placed"):
+		desktop_details_window.position = initial
+		desktop_details_window.set_meta("placed", true)
+	else:
+		desktop_details_window.position = Vector2(
+			clampf(desktop_details_window.position.x, 0.0, maxf(0.0, available.x - window_size.x)),
+			clampf(desktop_details_window.position.y, 48.0, maxf(48.0, available.y - window_size.y)))
+
 func _sync_desktop(proj: Dictionary) -> void:
 	if desktop_scene_window == null:
 		return
@@ -1734,10 +1763,14 @@ func _sync_desktop(proj: Dictionary) -> void:
 	var encounter_result: Dictionary = proj.get("encounter_result", {})
 	var active_encounter := not encounter.is_empty() or not encounter_result.is_empty()
 	var show_details := desktop_details_open or quest_journal_open or in_transit or active_encounter
-	desktop_scene_window.visible = not show_details
+	desktop_scene_window.visible = true
 	desktop_details_window.visible = show_details
+	desktop_details_window.close_button.disabled = in_transit or active_encounter
+	desktop_details_window.close_button.tooltip_text = "先完成旅程或路上事件。" if desktop_details_window.close_button.disabled else "關閉視窗"
+	if show_details:
+		_layout_desktop_details()
 	if desktop_back_button != null:
-		desktop_back_button.visible = not quest_journal_open
+		desktop_back_button.visible = false
 		desktop_back_button.disabled = in_transit or active_encounter
 		desktop_back_button.tooltip_text = "先完成旅程或路上事件。" if desktop_back_button.disabled else ""
 	if desktop_profile_name != null:
@@ -2043,6 +2076,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if quest_journal_open and event.is_action_pressed("ui_cancel"):
 		_on_quest_close_pressed()
 		get_viewport().set_input_as_handled()
+	elif desktop_details_window != null and desktop_details_window.visible and event.is_action_pressed("ui_cancel"):
+		var player: Dictionary = current_projection.get("player", {})
+		if not bool(player.get("is_in_transit", false)) and current_projection.get("active_encounter", {}).is_empty() and current_projection.get("encounter_result", {}).is_empty():
+			_show_desktop_scene()
+			get_viewport().set_input_as_handled()
 
 func _on_quest_selected(index: int) -> void:
 	if quest_selector == null or index < 0 or index >= quest_selector.item_count:
@@ -2106,7 +2144,10 @@ func _show_character() -> void:
 			call_deferred("_show_character")
 	add_child(dialog)
 	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action)
-	dialog.popup_centered()
+	var viewport_size := get_viewport_rect().size
+	var sheet_size := Vector2i(mini(460, int(viewport_size.x) - 24), mini(560, int(viewport_size.y) - 72))
+	var sheet_position := Vector2i(int(viewport_size.x) - sheet_size.x - 12, 56)
+	dialog.popup(Rect2i(sheet_position, sheet_size))
 
 func _encounter_blocked_text(option: Dictionary) -> String:
 	if bool(option.get("locked", false)):

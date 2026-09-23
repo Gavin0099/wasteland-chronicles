@@ -2,7 +2,7 @@
 <!-- governance-baseline: overridable -->
 <!-- baseline_version: 1.0.0 -->
 
-> **最後更新**: 2026-09-23
+> **最後更新**: 2026-09-24
 > **Owner**: Gavin0099
 > **Freshness**: Sprint (7d)
 
@@ -64,6 +64,7 @@
 - [x] QUEST-3 : Two simultaneous commissions — a separate rope delivery with its own deadline, item transfer, rewards and world flag; PDA selection keeps both available without importing the editorial quest library.
 - [x] QUEST-UI : Owner playtest readability repair — fixed quest-journal entry and dedicated detail view, persistent completion summary, contextual zero-supply alert, and compact two-line market rows. UI only; QUEST-W1 world response remains unstarted.
 - [x] UI-LOCAL : Owner playtest location/action repair — location and available activity stay visible while inspecting another town; local market has a direct shortcut; combat entry names Gray Valley; quest counts distinguish available, active and completed; empty remote market container and misleading town art are removed. UI only; new combat sites and repeatable commissions remain unstarted.
+- [x] UI-WINDOW : Owner screenshot correction — settlement scene remains visible while information, market or quest content opens in a movable, closable desktop window; character/supplies opens as a narrow right-hand window. UI-only; character creation authority unchanged.
 - [ ] S5-B4.2 : Encounter Variety 4 -> 8-10 state-aware templates — after growth foundation
 - [ ] ★ FP2 : still finding new decisions after 20 minutes
 - [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
@@ -78,6 +79,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-24: **Owner screenshots corrected the Lunatic Dawn desktop interpretation** — previous information navigation hid the entire scene, whereas the reference keeps the scene window mounted and opens smaller independent windows. Information/market/quest now occupy a movable, closable right-hand window without replacing the scene. Character/supplies opens at the right instead of centered. The existing creation form remains functional but is still a full-page layout, not a compact map-backed character generator. C0 creation authority and gameplay were not changed. All 59 Godot suites passed before the final title-drag regression refinement; the focused UI suite passed after it. Renderer captures at 1280×720 and 1152×648 were inspected.
 
 - 2026-09-23: **Owner playtest exposed hidden local actions** — At Dry Well, selecting remote New Hope made the right pane look empty because the market child was hidden while its parent frame remained visible. The only combat entry was a disabled header button labeled ambiguously outside Gray Valley. Made the current location and local battle availability a stable top action card, reduced the map share, added a return-to-current-town control and local-market shortcut, and made commission counts and zero-availability explicit. Remote intel now keeps its travel command in view without showing Gray Valley's illustration as another town. This follows the original *Lunatic Dawn: Passage of the Book* pattern of distinct scene/map/work views while retaining the Survivor PDA style. All 59 Godot suites exit 0; actual 1280×720 and 1152×648 screens were captured and inspected. No combat, quest, economy or world authority changed; the two authored commissions remain one-time.
 - 2026-09-23: **Owner playtest prompted QUEST-UI readability repair** — The completed rope quest left only a partial "已完成" line in the shared right scroll, while zero supplies had a small lower warning. A fixed journal entry now opens a dedicated right-hand quest view and returns to the previous settlement/market scroll position; terminal quests retain delivered item and reward. Zero carried water/food is called out above the map with settlement/transit-appropriate copy. Market rows use two lines so 1152×648 keeps a legible map and trade controls. No quest, item, survival or world authority changed. Existing 59-suite regression passed; focused QUEST-2/3 suites and 1280×720/1152×648 real-renderer captures verified the new UI; independent read-only review found no P0/P1. This is a new hand-play version, not evidence that quests now affect the world.

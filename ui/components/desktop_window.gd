@@ -1,8 +1,14 @@
 class_name DesktopWindow
 extends PanelContainer
 
+signal close_requested
+
 var body: VBoxContainer
 var title_label: Label
+var close_button: Button
+var title_bar: PanelContainer
+var draggable := false
+var dragging := false
 
 func _init(title_text: String = "") -> void:
 	var frame := StyleBoxFlat.new()
@@ -17,25 +23,55 @@ func _init(title_text: String = "") -> void:
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 4)
 	add_child(column)
-	var title := PanelContainer.new()
+	title_bar = PanelContainer.new()
 	var title_style := StyleBoxFlat.new()
 	title_style.bg_color = Color("#496AA8")
 	title_style.content_margin_left = 8
 	title_style.content_margin_right = 8
 	title_style.content_margin_top = 4
 	title_style.content_margin_bottom = 4
-	title.add_theme_stylebox_override("panel", title_style)
-	column.add_child(title)
+	title_bar.add_theme_stylebox_override("panel", title_style)
+	column.add_child(title_bar)
+	var title_row := HBoxContainer.new()
+	title_row.mouse_filter = Control.MOUSE_FILTER_PASS
+	title_bar.add_child(title_row)
 	title_label = Label.new()
 	title_label.text = title_text
 	title_label.add_theme_color_override("font_color", Color.WHITE)
 	title_label.add_theme_font_size_override("font_size", 14)
-	title.add_child(title_label)
+	title_label.size_flags_horizontal = SIZE_EXPAND_FILL
+	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_row.add_child(title_label)
+	close_button = Button.new()
+	close_button.text = "×"
+	close_button.tooltip_text = "關閉視窗"
+	close_button.custom_minimum_size = Vector2(32, 28)
+	close_button.visible = false
+	close_button.pressed.connect(func(): close_requested.emit())
+	title_row.add_child(close_button)
+	title_bar.gui_input.connect(_on_title_input)
 	body = VBoxContainer.new()
 	body.add_theme_constant_override("separation", 4)
 	body.size_flags_horizontal = SIZE_EXPAND_FILL
 	body.size_flags_vertical = SIZE_EXPAND_FILL
 	column.add_child(body)
+
+func enable_floating() -> void:
+	draggable = true
+	close_button.visible = true
+	title_bar.mouse_default_cursor_shape = Control.CURSOR_MOVE
+
+func _on_title_input(event: InputEvent) -> void:
+	if not draggable:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		dragging = event.pressed
+	elif event is InputEventMouseMotion and dragging:
+		var desired: Vector2 = position + (event as InputEventMouseMotion).relative
+		var bounds: Vector2 = (get_parent() as Control).size
+		position = Vector2(
+			clampf(desired.x, 0.0, maxf(0.0, bounds.x - size.x)),
+			clampf(desired.y, 48.0, maxf(48.0, bounds.y - size.y)))
 
 static func toolbar_button(label: String) -> Button:
 	var button := Button.new()
