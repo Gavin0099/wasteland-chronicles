@@ -5,7 +5,7 @@ extends RefCounted
 # QUEST-1B: QUEST REGISTRY
 # ==============================================================================
 # Static registry of QuestDefinitions — the authored catalog.
-# QUEST-2 adds one authored delivery quest to the QUEST-1 foundation.
+# QUEST-2/3 add bounded authored delivery quests to the QUEST-1 foundation.
 #
 # Pattern mirrors ItemRegistry: static methods only, definitions validated on
 # read, fail-closed on any malformed entry.
@@ -26,6 +26,20 @@ static func _catalog() -> Array:
 		"objectives": [{"id": "deliver_wrench", "type": "DELIVER_ITEM", "item_id": "wrench", "quantity": 1, "settlement_id": "dry_well"}],
 		"outcomes": {
 			"resolved": {"rewards": [{"type": "CURRENCY", "amount": 75}, {"type": "XP", "amount": 25}], "world_effects": [{"type": "SET_FLAG", "flag": "dry_well_wrench_delivered"}]},
+			"failed": {"rewards": [], "world_effects": []},
+			"expired": {"rewards": [], "world_effects": []},
+		},
+	}, {
+		"id": "gray_valley_rope_run",
+		"title_zh": "送一條繩索到乾井",
+		"description_zh": "灰谷的商路告示板列出乾井的求貨單：帶一條繩索到乾井交付。繩索也是荒野工具，交出去後就不能再用它處理路上的狀況。",
+		"settlement_id": "gray_valley",
+		"issuer_npc_id": "",
+		"availability": {"required_day": 0, "required_flags": []},
+		"deadline_days": 5,
+		"objectives": [{"id": "deliver_rope", "type": "DELIVER_ITEM", "item_id": "rope", "quantity": 1, "settlement_id": "dry_well"}],
+		"outcomes": {
+			"resolved": {"rewards": [{"type": "CURRENCY", "amount": 65}, {"type": "XP", "amount": 20}], "world_effects": [{"type": "SET_FLAG", "flag": "dry_well_rope_delivered"}]},
 			"failed": {"rewards": [], "world_effects": []},
 			"expired": {"rewards": [], "world_effects": []},
 		},
