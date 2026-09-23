@@ -21,3 +21,5 @@
 - QUEST-2 first playable Gray Valley wrench delivery implemented in 4d6395d; 58/58 suites pass and independent review has no P0/P1; PR gates pending. <!-- memory_record_projection:active-task-summary:46a0791a977423a23aefdccc193fad88edc8a75da1c8206973b533c9ba3906ec -->
 
 - QUEST-3 implemented and locally verified in 7cce3d2; PR review and merge pending. C2-B playtest/C3 growth remain open. <!-- memory_record_projection:active-task-summary:3a743c33632b98d243341fc452bc272015ab92724f801d8467d5cdd4cd407d5d -->
+
+- QUEST-UI implementation pushed; PR/current-head checks pending. QUEST-W1 world-response hypothesis remains unimplemented and owner hand-play remains open. <!-- memory_record_projection:active-task-summary:01666e14fe0432ddc7554b18723c24c04bc383d357d42f4c36872e72f4fa3c46 -->
