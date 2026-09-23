@@ -126,7 +126,21 @@ func _init() -> void:
 
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE UI3] Travel Interaction ---")
+	if not shell.lbl_local_context.text.contains("灰谷") or shell.field_button.disabled or not shell.quest_access_button.text.contains("可接 2"):
+		print("FAIL UI3: Gray Valley must expose its location, local combat entry, and two available commissions")
+		quit(1)
+		return
 	# Select New Hope on map
+	shell.select_settlement("settlement:new_hope")
+	if not shell.btn_return_local.visible or not shell.lbl_local_context.text.contains("灰谷") or shell.market_panel.get_parent().visible:
+		print("FAIL UI3: inspecting a remote town obscured the player's actual location")
+		quit(1)
+		return
+	shell._return_to_current_settlement()
+	if shell.selected_settlement_id != "settlement:gray_valley" or shell.btn_return_local.visible or not shell.market_panel.get_parent().visible:
+		print("FAIL UI3: return-to-current-town did not restore the local view")
+		quit(1)
+		return
 	shell.select_settlement("settlement:new_hope")
 	var travel_btn: Button = shell.btn_travel
 	if travel_btn == null or not travel_btn.visible or travel_btn.disabled:
@@ -170,6 +184,10 @@ func _init() -> void:
 	var arrived_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if arrived_ls.population_container_id != &"settlement:new_hope":
 		print("FAIL UI3: player did not end up at New Hope: %s" % arrived_ls.population_container_id)
+		quit(1)
+		return
+	if not shell.field_button.disabled or not shell.quest_access_button.text.contains("可接 0") or not shell.lbl_local_context.text.contains("新希望"):
+		print("FAIL UI3: new location did not disclose local activity availability")
 		quit(1)
 		return
 

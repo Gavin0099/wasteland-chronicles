@@ -104,6 +104,11 @@ var item_market_rows: Dictionary = {}
 var item_market_trade_buttons: Dictionary = {}
 var quest_panel: PanelContainer
 var quest_access_button: Button
+var local_action_panel: PanelContainer
+var lbl_local_context: Label
+var lbl_local_hint: Label
+var btn_return_local: Button
+var btn_local_market: Button
 var quest_close_button: Button
 var right_scroll: ScrollContainer
 var quest_journal_open: bool = false
@@ -163,7 +168,9 @@ func _render_projection(proj: Dictionary) -> void:
 	var p: Dictionary = proj.get("player", {})
 	var bp: Dictionary = p.get("backpack", {})
 	if field_button != null:
-		field_button.disabled = world.field_state.receipt < 0 and (p.get("status") != "SETTLED" or p.get("current_container_id") != "settlement:gray_valley")
+		var field_in_progress: bool = not world.field_state.battle.is_empty() or world.field_state.receipt >= 0
+		field_button.disabled = not field_in_progress and (p.get("status") != "SETTLED" or p.get("current_container_id") != "settlement:gray_valley")
+		field_button.text = "灰谷近郊／戰鬥" if not field_button.disabled else "近郊戰鬥需到灰谷"
 		field_button.tooltip_text = "需停留在灰谷才能進入附近補給棚。" if field_button.disabled else "灰谷近郊：準備裝備與回合制戰鬥"
 
 	# 1. Top Status Bar
@@ -227,6 +234,7 @@ func _render_projection(proj: Dictionary) -> void:
 	# 4. Settlement Panel & Dedicated Transit Itinerary
 	_render_settlement_panel(proj)
 	_render_quests(proj.get("quests", []))
+	_render_local_actions(proj)
 
 	# 5. Event Feed
 	_render_event_feed(proj.get("events", []))
@@ -444,11 +452,10 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 				status_badge.set_badge("即時連線", StatusBadge.Variant.LIVE)
 
 			if settlement_banner_rect != null:
-				settlement_banner_rect.visible = true
-				if selected_settlement_id == "settlement:gray_valley":
-					settlement_banner_rect.modulate = Color(1.0, 1.0, 1.0, 1.0)
-				else:
-					settlement_banner_rect.modulate = Color(0.35, 0.35, 0.4, 0.7)
+				# The only authored town illustration depicts Gray Valley. Do not
+				# present it as another settlement or spend room on a false view.
+				settlement_banner_rect.visible = selected_settlement_id == "settlement:gray_valley"
+				settlement_banner_rect.modulate = Color.WHITE
 
 			# Warning Banner
 			if lbl_warning_banner != null:
@@ -590,8 +597,7 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 				status_badge.set_badge("遠端情報", StatusBadge.Variant.REMOTE)
 
 			if settlement_banner_rect != null:
-				settlement_banner_rect.visible = true
-				settlement_banner_rect.modulate = Color(0.35, 0.35, 0.4, 0.7)
+				settlement_banner_rect.visible = false
 
 			var dest_info: Dictionary = {}
 			for d in proj.get("destinations", []):
@@ -609,19 +615,24 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 			lbl_settlement_details.text = (
 				"路線狀態：已知通行路徑\n" +
 				"地表行軍距離：約 %d 天步程\n" +
-				"\n" +
-				"(遠端情報受限：詳細庫存、供水壓力與市場行情由 S7 迷霧遮蔽)"
+				"遠端情報有限；抵達後可查看倉儲與市場行情。"
 			) % [route_days]
 
 			if btn_travel != null:
 				btn_travel.visible = true
 				btn_travel.disabled = false
-				btn_travel.text = "[ 前往 %s （%d 天路程） ]" % [sel_name, route_days]
+				btn_travel.text = "前往 %s · %d 天" % [sel_name, route_days]
 
 		if btn_wait != null:
 			btn_wait.text = "[ 原地等待 1 天 ]"
 			btn_wait.disabled = false
 			btn_wait.visible = true
+	# Map selection can change the inspected town without a world refresh. Keep
+	# the market frame in sync here as well as during encounter rendering.
+	if market_panel != null and market_panel.get_parent() != null:
+		var active_encounter: Dictionary = proj.get("active_encounter", {})
+		var encounter_receipt: Dictionary = proj.get("encounter_result", {})
+		market_panel.get_parent().visible = market_panel.visible and active_encounter.is_empty() and encounter_receipt.is_empty()
 
 func _render_event_feed(events: Array) -> void:
 	if event_feed_container == null:
@@ -734,6 +745,56 @@ func select_settlement(settlement_id: String) -> void:
 		world_map_view.queue_redraw()
 	if current_projection.size() > 0:
 		_render_settlement_panel(current_projection)
+		_render_local_actions(current_projection)
+
+func _return_to_current_settlement() -> void:
+	var p: Dictionary = current_projection.get("player", {})
+	var location := String(p.get("current_container_id", ""))
+	if location.begins_with("settlement:") and not bool(p.get("is_in_transit", false)):
+		select_settlement(location)
+		if quest_access_button.is_inside_tree() and quest_access_button.visible:
+			quest_access_button.grab_focus()
+
+func _show_local_market() -> void:
+	var p: Dictionary = current_projection.get("player", {})
+	var location := String(p.get("current_container_id", ""))
+	if not location.begins_with("settlement:") or bool(p.get("is_in_transit", false)):
+		return
+	select_settlement(location)
+	quest_journal_open = false
+	_render_quests(current_projection.get("quests", []))
+	await get_tree().process_frame
+	if is_instance_valid(right_scroll) and right_scroll.visible and is_instance_valid(market_panel) and market_panel.get_parent().visible:
+		var market_top: float = market_panel.get_parent().global_position.y - right_scroll.global_position.y + right_scroll.scroll_vertical
+		right_scroll.scroll_vertical = int(market_top)
+
+func _render_local_actions(proj: Dictionary) -> void:
+	if local_action_panel == null:
+		return
+	var p: Dictionary = proj.get("player", {})
+	var in_transit := bool(p.get("is_in_transit", false))
+	var location := String(p.get("current_container_id", ""))
+	var encounter: Dictionary = proj.get("active_encounter", {})
+	var encounter_result: Dictionary = proj.get("encounter_result", {})
+	var encounter_active := not encounter.is_empty() or not encounter_result.is_empty()
+	local_action_panel.visible = not encounter_active
+	if in_transit:
+		lbl_local_context.text = "目前：旅途中"
+		lbl_local_hint.text = "抵達聚落後可查看當地委託與可探索地點。"
+		btn_return_local.visible = false
+		btn_local_market.visible = false
+		return
+	lbl_local_context.text = "目前：%s" % _get_settlement_name(location)
+	btn_return_local.visible = selected_settlement_id != location
+	btn_local_market.visible = true
+	var available := 0
+	for row in proj.get("quests", []):
+		if String(row.status) == "AVAILABLE":
+			available += 1
+	if location == "settlement:gray_valley":
+		lbl_local_hint.text = "此地可接委託 %d 件。近郊補給棚可查看裝備；戰鬥依現場狀態開啟。" % available
+	else:
+		lbl_local_hint.text = "此地目前可接委託 %d 件。近郊補給棚位於灰谷。" % available
 
 # Every refusal the engine issues has to reach the player. The authority still
 # decides; this only stops the screen from pretending nothing was asked.
@@ -863,10 +924,6 @@ func _build_ui_layout_if_needed() -> void:
 	character_button.text = "人物 / 補給"
 	character_button.pressed.connect(_show_character)
 	header.add_child(character_button)
-	field_button = Button.new()
-	field_button.text = "郊外 / 裝備"
-	field_button.pressed.connect(_show_field)
-	header.add_child(field_button)
 
 	supply_alert = PanelContainer.new()
 	supply_alert.visible = false
@@ -919,7 +976,8 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_hud_backpack = Label.new()
 	lbl_hud_commodities = Label.new()
 
-	# 2. Main Center Split: Left Sector Map (55%) vs Right Settlement/Itinerary (45%)
+	# Keep the map available for travel, but give the place and its actions the
+	# larger reading area. The selected map node is not necessarily where I am.
 	var center_split := HBoxContainer.new()
 	center_split.size_flags_vertical = SIZE_EXPAND_FILL
 	center_split.add_theme_constant_override("separation", 8)
@@ -928,7 +986,7 @@ func _build_ui_layout_if_needed() -> void:
 	# --- Left: Tactical World Map Panel ---
 	var map_panel := PanelContainer.new()
 	map_panel.size_flags_horizontal = SIZE_EXPAND_FILL
-	map_panel.size_flags_stretch_ratio = 1.15
+	map_panel.size_flags_stretch_ratio = 0.85
 	center_split.add_child(map_panel)
 
 	var map_vbox := VBoxContainer.new()
@@ -962,9 +1020,45 @@ func _build_ui_layout_if_needed() -> void:
 	var right_workspace := VBoxContainer.new()
 	right_workspace.size_flags_horizontal = SIZE_EXPAND_FILL
 	right_workspace.size_flags_vertical = SIZE_EXPAND_FILL
-	right_workspace.size_flags_stretch_ratio = 1.0
+	right_workspace.size_flags_stretch_ratio = 1.45
 	right_workspace.add_theme_constant_override("separation", Tokens.GAP)
 	center_split.add_child(right_workspace)
+
+	local_action_panel = PanelContainer.new()
+	local_action_panel.theme_type_variation = "PdaPanel"
+	right_workspace.add_child(local_action_panel)
+	var local_column := VBoxContainer.new()
+	local_column.add_theme_constant_override("separation", 4)
+	local_action_panel.add_child(local_column)
+	var local_row := HBoxContainer.new()
+	local_row.add_theme_constant_override("separation", Tokens.GAP)
+	local_column.add_child(local_row)
+	lbl_local_context = Label.new()
+	lbl_local_context.theme_type_variation = "PdaSection"
+	lbl_local_context.size_flags_horizontal = SIZE_EXPAND_FILL
+	lbl_local_context.clip_text = true
+	local_row.add_child(lbl_local_context)
+	btn_return_local = Button.new()
+	btn_return_local.text = "查看所在地"
+	btn_return_local.theme_type_variation = "PdaCommand"
+	btn_return_local.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	btn_return_local.pressed.connect(_return_to_current_settlement)
+	local_row.add_child(btn_return_local)
+	btn_local_market = Button.new()
+	btn_local_market.text = "本地市場"
+	btn_local_market.theme_type_variation = "PdaCommand"
+	btn_local_market.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	btn_local_market.pressed.connect(_show_local_market)
+	local_row.add_child(btn_local_market)
+	field_button = Button.new()
+	field_button.theme_type_variation = "PdaCommand"
+	field_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	field_button.pressed.connect(_show_field)
+	local_row.add_child(field_button)
+	lbl_local_hint = Label.new()
+	lbl_local_hint.theme_type_variation = "PdaMuted"
+	lbl_local_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	local_column.add_child(lbl_local_hint)
 
 	quest_access_button = Button.new()
 	quest_access_button.theme_type_variation = "PdaCommand"
@@ -1149,7 +1243,9 @@ func _build_ui_layout_if_needed() -> void:
 
 	# Travel Action Button (When remote)
 	btn_travel = Button.new()
-	btn_travel.text = "TRAVEL"
+	btn_travel.text = "前往"
+	btn_travel.theme_type_variation = "PdaPrimary"
+	btn_travel.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	btn_travel.visible = false
 	btn_travel.pressed.connect(func(): on_travel_pressed())
 	s_vbox.add_child(btn_travel)
@@ -1436,7 +1532,9 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 	if s_panel != null and active:
 		s_panel.visible = false
 	if market_panel != null and market_panel.get_parent() != null:
-		market_panel.get_parent().visible = not active
+		# Hide the container too. Leaving an empty market frame visible for a
+		# remote town made half of the detail pane look like missing content.
+		market_panel.get_parent().visible = not active and market_panel.visible
 	if btn_wait != null:
 		btn_wait.visible = not active
 	if active:
@@ -1621,7 +1719,7 @@ func _create_window_header(title_text: String, icon_str: String = "") -> PanelCo
 func _render_quests(rows: Array) -> void:
 	if quest_panel == null:
 		return
-	var can_show: bool = not rows.is_empty() and world.active_encounter == null and world.pending_encounter_result < 0 and world.field_state.battle.is_empty() and world.field_state.receipt < 0
+	var can_show: bool = world.active_encounter == null and world.pending_encounter_result < 0 and world.field_state.battle.is_empty() and world.field_state.receipt < 0
 	if not can_show:
 		quest_journal_open = false
 	quest_access_button.visible = can_show
@@ -1629,12 +1727,28 @@ func _render_quests(rows: Array) -> void:
 	right_scroll.visible = not quest_panel.visible
 	if not can_show:
 		return
+	var available_count := 0
 	var active_count := 0
+	var completed_count := 0
+	var other_ended_count := 0
 	for option in rows:
-		if String(option.status) == "ACTIVE":
-			active_count += 1
-	quest_access_button.text = "委託紀錄　進行中 %d／共 %d 件　%s" % [active_count, rows.size(), "返回聚落 ›" if quest_journal_open else "查看 ›"]
-	quest_access_button.tooltip_text = "查看所有委託、交付需求與完成紀錄。"
+		match String(option.status):
+			"AVAILABLE": available_count += 1
+			"ACTIVE": active_count += 1
+			"RESOLVED": completed_count += 1
+			_: other_ended_count += 1
+	var other_ended_label := "　未完成 %d" % other_ended_count if other_ended_count > 0 else ""
+	quest_access_button.text = "委託　可接 %d　進行中 %d　已完成 %d%s　%s" % [available_count, active_count, completed_count, other_ended_label, "返回聚落 ›" if quest_journal_open else "查看 ›"]
+	quest_access_button.tooltip_text = "查看當地可接委託，以及已接受委託的進度和紀錄。"
+	if rows.is_empty():
+		quest_id_shown = ""
+		quest_selector.clear()
+		quest_selector.visible = false
+		quest_title.text = "此地目前沒有可接的委託"
+		quest_description.text = "委託告示板只顯示當地工作；其他聚落的工作需要親自到當地查看。"
+		quest_progress.text = "已接下的委託與完成紀錄也會列在這裡。"
+		quest_button.visible = false
+		return
 	var selected_index := -1
 	for i in rows.size():
 		if String(rows[i].id) == quest_id_shown:
