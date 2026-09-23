@@ -243,7 +243,7 @@ func submit() -> Dictionary:
 		"age": age, "background_id": background_id, "trait_ids": selected_traits.duplicate()}))
 	if not result.success:
 		error_label.show()
-		error_label.text = "無法建立角色，請檢查姓名、非負整數年齡、背景與特質。\n" + result.error
+		error_label.text = "無法建立角色。請檢查姓名、年齡、背景與特質選擇。"
 		return result
 	committed = true
 	submit_button.disabled = true

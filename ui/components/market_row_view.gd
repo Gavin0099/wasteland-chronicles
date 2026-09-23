@@ -99,12 +99,16 @@ func _init(p_key: String = "water", p_display_name: String = "WATER") -> void:
 
 	# Action Buttons
 	btn_buy = Button.new()
-	btn_buy.text = "[ 買入 1 ]"
+	btn_buy.text = "買 1"
+	btn_buy.theme_type_variation = "PdaCommand"
+	btn_buy.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	btn_buy.pressed.connect(func(): buy_requested.emit(commodity_key))
 	transaction.add_child(btn_buy)
 
 	btn_sell = Button.new()
-	btn_sell.text = "[ 賣出 1 ]"
+	btn_sell.text = "賣 1"
+	btn_sell.theme_type_variation = "PdaCommand"
+	btn_sell.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	btn_sell.pressed.connect(func(): sell_requested.emit(commodity_key))
 	transaction.add_child(btn_sell)
 

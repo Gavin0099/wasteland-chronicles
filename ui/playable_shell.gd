@@ -35,7 +35,7 @@ var world: WorldState = null
 var engine: SimulationEngine = null
 var current_projection: Dictionary = {}
 var selected_settlement_id: String = "settlement:gray_valley"
-var debug_world_feed_enabled: bool = true
+var debug_world_feed_enabled: bool = false
 
 # Components
 var top_status_bar: TopStatusBar
@@ -78,6 +78,8 @@ var lbl_settlement_condition: Label
 var lbl_settlement_details: Label
 var lbl_warning_banner: Label
 var settlement_banner_rect: TextureRect
+var settlement_detail_toggle: Button
+var settlement_detail_body: VBoxContainer
 var pb_water: ProgressBar
 var pb_food: ProgressBar
 var pb_security: ProgressBar
@@ -130,6 +132,7 @@ var lbl_supply_warning: Label
 var supply_alert: PanelContainer
 var lbl_supply_alert: Label
 var event_feed_container: VBoxContainer
+var feed_panel: PanelContainer
 var map_node_buttons: Dictionary = {}
 
 func _init() -> void:
@@ -170,7 +173,7 @@ func _render_projection(proj: Dictionary) -> void:
 	if field_button != null:
 		var field_in_progress: bool = not world.field_state.battle.is_empty() or world.field_state.receipt >= 0
 		field_button.disabled = not field_in_progress and (p.get("status") != "SETTLED" or p.get("current_container_id") != "settlement:gray_valley")
-		field_button.text = "灰谷近郊／戰鬥" if not field_button.disabled else "近郊戰鬥需到灰谷"
+		field_button.text = "探索灰谷近郊" if not field_button.disabled else "近郊探索（灰谷）"
 		field_button.tooltip_text = "需停留在灰谷才能進入附近補給棚。" if field_button.disabled else "灰谷近郊：準備裝備與回合制戰鬥"
 
 	# 1. Top Status Bar
@@ -435,6 +438,10 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 			inspection_subcard.visible = false
 		if s_panel != null:
 			s_panel.visible = true
+		if settlement_detail_body != null:
+			settlement_detail_body.visible = not is_current or settlement_detail_toggle.button_pressed
+		if settlement_detail_toggle != null:
+			settlement_detail_toggle.visible = is_current
 
 		var sel_name := _get_settlement_name(selected_settlement_id)
 
@@ -543,14 +550,14 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					var b_buy: Button = market_trade_buttons.get("buy_" + res, null)
 					if b_buy != null:
 						b_buy.disabled = not buy_allowed
-						b_buy.text = "BUY ($%d)" % buy_q
+						b_buy.text = "買 1（%d）" % buy_q
 					var b_sell: Button = market_trade_buttons.get("sell_" + res, null)
 					if b_sell != null:
 						b_sell.disabled = not sell_allowed
-						b_sell.text = "SELL ($%d)" % sell_q
+						b_sell.text = "賣 1（%d）" % sell_q
 					var lbl: Label = market_trade_buttons.get(res + "_label", null)
 					if lbl != null:
-						lbl.text = "%s: %d" % [res.capitalize(), stock]
+						lbl.text = "庫存：%d" % stock
 
 				if item_market_toggle != null:
 					item_market_toggle.visible = true
@@ -637,6 +644,8 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 func _render_event_feed(events: Array) -> void:
 	if event_feed_container == null:
 		return
+	if feed_panel != null:
+		feed_panel.visible = debug_world_feed_enabled and not events.is_empty()
 
 	for child in event_feed_container.get_children():
 		event_feed_container.remove_child(child)
@@ -817,7 +826,7 @@ func _action_error_text(raw: String) -> String:
 		"ENCOUNTER_RESULT_PENDING": return "先確認上一個結算結果。"
 		"ALREADY_AT_DESTINATION": return "你已經在這裡了。"
 		"INVALID_DESTINATION": return "沒有通往那裡的已知路線。"
-	return "動作無法執行：%s" % raw
+	return "目前無法執行這項動作。請確認位置、補給與尚未處理的事件。"
 
 func on_travel_pressed() -> Dictionary:
 	if world == null or engine == null or world.player == null:
@@ -976,8 +985,8 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_hud_backpack = Label.new()
 	lbl_hud_commodities = Label.new()
 
-	# Keep the map available for travel, but give the place and its actions the
-	# larger reading area. The selected map node is not necessarily where I am.
+	# The current place and its available actions lead the reading order. The map
+	# remains the route selector, not the largest surface on every screen.
 	var center_split := HBoxContainer.new()
 	center_split.size_flags_vertical = SIZE_EXPAND_FILL
 	center_split.add_theme_constant_override("separation", 8)
@@ -986,7 +995,7 @@ func _build_ui_layout_if_needed() -> void:
 	# --- Left: Tactical World Map Panel ---
 	var map_panel := PanelContainer.new()
 	map_panel.size_flags_horizontal = SIZE_EXPAND_FILL
-	map_panel.size_flags_stretch_ratio = 0.85
+	map_panel.size_flags_stretch_ratio = 0.8
 	center_split.add_child(map_panel)
 
 	var map_vbox := VBoxContainer.new()
@@ -1020,9 +1029,10 @@ func _build_ui_layout_if_needed() -> void:
 	var right_workspace := VBoxContainer.new()
 	right_workspace.size_flags_horizontal = SIZE_EXPAND_FILL
 	right_workspace.size_flags_vertical = SIZE_EXPAND_FILL
-	right_workspace.size_flags_stretch_ratio = 1.45
+	right_workspace.size_flags_stretch_ratio = 1.6
 	right_workspace.add_theme_constant_override("separation", Tokens.GAP)
 	center_split.add_child(right_workspace)
+	center_split.move_child(right_workspace, 0)
 
 	local_action_panel = PanelContainer.new()
 	local_action_panel.theme_type_variation = "PdaPanel"
@@ -1044,17 +1054,29 @@ func _build_ui_layout_if_needed() -> void:
 	btn_return_local.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	btn_return_local.pressed.connect(_return_to_current_settlement)
 	local_row.add_child(btn_return_local)
+	var action_row := HBoxContainer.new()
+	action_row.add_theme_constant_override("separation", Tokens.GAP)
+	local_column.add_child(action_row)
 	btn_local_market = Button.new()
 	btn_local_market.text = "本地市場"
 	btn_local_market.theme_type_variation = "PdaCommand"
 	btn_local_market.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	btn_local_market.size_flags_horizontal = SIZE_EXPAND_FILL
 	btn_local_market.pressed.connect(_show_local_market)
-	local_row.add_child(btn_local_market)
+	action_row.add_child(btn_local_market)
 	field_button = Button.new()
 	field_button.theme_type_variation = "PdaCommand"
 	field_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	field_button.size_flags_horizontal = SIZE_EXPAND_FILL
 	field_button.pressed.connect(_show_field)
-	local_row.add_child(field_button)
+	action_row.add_child(field_button)
+	btn_wait = Button.new()
+	btn_wait.text = "[ 原地等待 1 天 ]"
+	btn_wait.theme_type_variation = "PdaCommand"
+	btn_wait.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	btn_wait.size_flags_horizontal = SIZE_EXPAND_FILL
+	btn_wait.pressed.connect(func(): on_wait_pressed())
+	action_row.add_child(btn_wait)
 	lbl_local_hint = Label.new()
 	lbl_local_hint.theme_type_variation = "PdaMuted"
 	lbl_local_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1165,7 +1187,7 @@ func _build_ui_layout_if_needed() -> void:
 
 	# Settlement Banner
 	settlement_banner_rect = TextureRect.new()
-	settlement_banner_rect.custom_minimum_size = Vector2(0, 88)
+	settlement_banner_rect.custom_minimum_size = Vector2(0, 64)
 	settlement_banner_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	var banner_global := ProjectSettings.globalize_path("res://ui/assets/gray_valley_banner.jpg")
 	if FileAccess.file_exists(banner_global):
@@ -1250,6 +1272,26 @@ func _build_ui_layout_if_needed() -> void:
 	btn_travel.pressed.connect(func(): on_travel_pressed())
 	s_vbox.add_child(btn_travel)
 
+	settlement_detail_toggle = Button.new()
+	settlement_detail_toggle.text = "查看聚落數據 ▸"
+	settlement_detail_toggle.toggle_mode = true
+	settlement_detail_toggle.theme_type_variation = "PdaCommand"
+	settlement_detail_toggle.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	settlement_detail_toggle.toggled.connect(func(open: bool):
+		settlement_detail_toggle.text = "收起聚落數據 ▾" if open else "查看聚落數據 ▸"
+		if settlement_detail_body != null:
+			settlement_detail_body.visible = open
+	)
+	s_vbox.add_child(settlement_detail_toggle)
+	settlement_detail_body = VBoxContainer.new()
+	settlement_detail_body.add_theme_constant_override("separation", Tokens.GAP)
+	settlement_detail_body.visible = false
+	s_vbox.add_child(settlement_detail_body)
+	for detail in [settlement_banner_rect, lbl_settlement_condition, meters_container, lbl_settlement_details]:
+		detail.reparent(settlement_detail_body)
+	s_vbox.move_child(settlement_detail_toggle, 4)
+	s_vbox.move_child(settlement_detail_body, 5)
+
 	quest_panel = PanelContainer.new()
 	quest_panel.theme_type_variation = "PdaPanel"
 	quest_panel.size_flags_vertical = SIZE_EXPAND_FILL
@@ -1322,8 +1364,9 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_encounter_route.add_theme_font_size_override("font_size", 11)
 	encounter_vbox.add_child(lbl_encounter_route)
 
-	# Reserved for encounter scene art (see note in the slice write-up).
+	# Hide the reserved art slot until a real encounter illustration exists.
 	var art_placeholder := PanelContainer.new()
+	art_placeholder.visible = false
 	art_placeholder.custom_minimum_size = Vector2(0, 96)
 	var art_style := StyleBoxFlat.new()
 	art_style.bg_color = Color("#141A24")
@@ -1423,7 +1466,7 @@ func _build_ui_layout_if_needed() -> void:
 
 	# 3. Bottom Split: Left Survival Resources (55%) vs Right Event Feed (45%)
 	var bottom_split := HBoxContainer.new()
-	bottom_split.custom_minimum_size = Vector2(0, 140)
+	bottom_split.custom_minimum_size = Vector2(0, 92)
 	bottom_split.add_theme_constant_override("separation", 8)
 	app_frame.add_child(bottom_split)
 
@@ -1437,7 +1480,7 @@ func _build_ui_layout_if_needed() -> void:
 	res_vbox.add_theme_constant_override("separation", 6)
 	res_panel.add_child(res_vbox)
 
-	res_vbox.add_child(_create_window_header("生存裝備 SURVIVAL GEAR", "🎒"))
+	res_vbox.add_child(_create_window_header("隨身補給", "🎒"))
 
 	var chips_hbox := HBoxContainer.new()
 	chips_hbox.add_theme_constant_override("separation", 6)
@@ -1490,15 +1533,8 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_action_error.add_theme_font_size_override("font_size", 11)
 	res_vbox.add_child(lbl_action_error)
 
-	# Action Dock: WAIT button
-	btn_wait = Button.new()
-	btn_wait.text = "[ 原地等待 1 天 ]"
-	btn_wait.custom_minimum_size = Vector2(0, 32)
-	btn_wait.pressed.connect(func(): on_wait_pressed())
-	res_vbox.add_child(btn_wait)
-
-	# Bottom Right: Debug World Feed / Radio Log
-	var feed_panel := PanelContainer.new()
+	# Debug history is optional; an empty log does not reserve half the screen.
+	feed_panel = PanelContainer.new()
 	feed_panel.size_flags_horizontal = SIZE_EXPAND_FILL
 	feed_panel.size_flags_stretch_ratio = 1.0
 	bottom_split.add_child(feed_panel)
@@ -1507,7 +1543,7 @@ func _build_ui_layout_if_needed() -> void:
 	feed_vbox.add_theme_constant_override("separation", 4)
 	feed_panel.add_child(feed_vbox)
 
-	feed_vbox.add_child(_create_window_header("荒土電台 WASTELAND RADIO", "📻"))
+	feed_vbox.add_child(_create_window_header("世界紀錄（開發資訊）", "📻"))
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = SIZE_EXPAND_FILL
@@ -1528,7 +1564,7 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 	var resolved := not result.is_empty()
 	var active: bool = not enc.is_empty() or resolved
 	encounter_panel.visible = active
-	encounter_art.visible = not resolved
+	encounter_art.visible = false
 	if s_panel != null and active:
 		s_panel.visible = false
 	if market_panel != null and market_panel.get_parent() != null:
@@ -1580,7 +1616,7 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 			btn.add_theme_color_override("font_hover_color", Color("#E5BC4A"))
 		else:
 			btn.text = "%s　—　%s" % [String(option.get("label", "")), String(option.get("detail", ""))]
-		btn.custom_minimum_size = Vector2(0, 30)
+		btn.custom_minimum_size = Vector2(0, Tokens.COMMAND_HEIGHT)
 		btn.disabled = not bool(option.get("enabled", true))
 		if btn.disabled:
 			btn.tooltip_text = _encounter_blocked_text(option)
@@ -1686,8 +1722,8 @@ func on_encounter_option_pressed(option_id: String) -> Dictionary:
 func _create_window_header(title_text: String, icon_str: String = "") -> PanelContainer:
 	var header_panel := PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#1D2533") # Distressed industrial slate-blue
-	style.border_color = Color("#344158")
+	style.bg_color = Tokens.ELEVATED
+	style.border_color = Tokens.BORDER
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(2)
 	style.content_margin_left = 8
@@ -1703,16 +1739,9 @@ func _create_window_header(title_text: String, icon_str: String = "") -> PanelCo
 	var lbl := Label.new()
 	lbl.text = ("%s %s" % [icon_str, title_text]).strip_edges()
 	lbl.add_theme_color_override("font_color", Color("#D8D3C8"))
-	lbl.add_theme_font_size_override("font_size", 12)
+	lbl.add_theme_font_size_override("font_size", Tokens.SMALL)
 	lbl.size_flags_horizontal = SIZE_EXPAND_FILL
 	hbox.add_child(lbl)
-
-	# Retro decorative window controls
-	var controls_lbl := Label.new()
-	controls_lbl.text = "— □ ✕"
-	controls_lbl.add_theme_color_override("font_color", Color("#6C7A9C"))
-	controls_lbl.add_theme_font_size_override("font_size", 11)
-	hbox.add_child(controls_lbl)
 
 	return header_panel
 
