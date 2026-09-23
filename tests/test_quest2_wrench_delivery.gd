@@ -152,7 +152,9 @@ func run() -> void:
 	var shell := PlayableShell.new()
 	root.add_child(shell)
 	shell.setup(ui_world, engine)
-	check(shell.quest_panel.visible and shell.quest_button.text == "接受委託", "PDA presents local quest action")
+	check(shell.quest_access_button.visible and not shell.quest_panel.visible, "PDA keeps the commission journal accessible without occupying settlement view")
+	shell.quest_access_button.pressed.emit()
+	check(shell.quest_panel.visible and shell.quest_button.text == "接受委託", "opening journal presents local quest action")
 	for i in shell.quest_selector.item_count:
 		if String(shell.quest_selector.get_item_metadata(i)) == QUEST_ID:
 			shell.quest_selector.item_selected.emit(i)
