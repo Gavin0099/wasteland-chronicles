@@ -3,6 +3,8 @@ extends Control
 signal journey_requested
 const Intent = preload("res://simulation/character_creation_intent.gd")
 const Presentation = preload("res://ui/character_presentation.gd")
+const DesktopWindow = preload("res://ui/components/desktop_window.gd")
+const Tokens = preload("res://ui/theme/pda_tokens.gd")
 var world: WorldState
 var engine: SimulationEngine
 var name_input: LineEdit
@@ -22,6 +24,9 @@ var form: VBoxContainer
 var summary: VBoxContainer
 var summary_label: Label
 var committed := false
+var creation_window: DesktopWindow
+var choices_scroll: ScrollContainer
+var preview_scroll: ScrollContainer
 
 func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	world = p_world
@@ -36,33 +41,51 @@ func label_in(parent: Node, text: String, font_size: int = 16) -> Label:
 	return label
 
 func build() -> void:
-	var backdrop := ColorRect.new()
-	backdrop.color = Color("121316")
+	var backdrop := TextureRect.new()
+	var map_image := Image.load_from_file(ProjectSettings.globalize_path("res://ui/assets/wasteland_map_bg.jpg"))
+	if map_image != null:
+		backdrop.texture = ImageTexture.create_from_image(map_image)
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	backdrop.modulate = Color(0.53, 0.52, 0.49)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	backdrop.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	add_child(backdrop)
+	creation_window = DesktopWindow.new("荒原編年史｜建立角色")
+	creation_window.name = "CharacterCreationWindow"
+	creation_window.enable_floating(false)
+	add_child(creation_window)
+	resized.connect(_layout_creation_window)
 	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	margin.size_flags_horizontal = SIZE_EXPAND_FILL
+	margin.size_flags_vertical = SIZE_EXPAND_FILL
 	for side in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 24)
-	add_child(margin)
+		margin.add_theme_constant_override("margin_" + side, 12)
+	creation_window.body.add_child(margin)
+	var pages := VBoxContainer.new()
+	pages.size_flags_horizontal = SIZE_EXPAND_FILL
+	pages.size_flags_vertical = SIZE_EXPAND_FILL
+	margin.add_child(pages)
 	form = VBoxContainer.new()
-	form.add_theme_constant_override("separation", 12)
-	margin.add_child(form)
-	label_in(form, "荒原編年史  /  建立角色", 24)
-	label_in(form, "你從哪裡來，決定最初會做什麼。之後的故事，由旅途留下。", 16)
-	var scroll := ScrollContainer.new()
-	scroll.size_flags_vertical = SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	form.add_child(scroll)
+	form.size_flags_vertical = SIZE_EXPAND_FILL
+	form.add_theme_constant_override("separation", 8)
+	pages.add_child(form)
+	label_in(form, "你從哪裡來，決定最初會做什麼。", 16)
 	var columns := HBoxContainer.new()
 	columns.size_flags_horizontal = SIZE_EXPAND_FILL
-	columns.add_theme_constant_override("separation", 24)
-	scroll.add_child(columns)
+	columns.size_flags_vertical = SIZE_EXPAND_FILL
+	columns.add_theme_constant_override("separation", 16)
+	form.add_child(columns)
+	choices_scroll = ScrollContainer.new()
+	choices_scroll.size_flags_horizontal = SIZE_EXPAND_FILL
+	choices_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	choices_scroll.size_flags_stretch_ratio = 1.35
+	choices_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	columns.add_child(choices_scroll)
 	var fields := VBoxContainer.new()
 	fields.size_flags_horizontal = SIZE_EXPAND_FILL
-	fields.size_flags_stretch_ratio = 1.35
 	fields.add_theme_constant_override("separation", 8)
-	columns.add_child(fields)
+	choices_scroll.add_child(fields)
 	var identity := HBoxContainer.new()
 	fields.add_child(identity)
 	label_in(identity, "姓名")
@@ -95,7 +118,7 @@ func build() -> void:
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.add_theme_color_override("font_color", Color("96938B"))
 	var traits := GridContainer.new()
-	traits.columns = 2
+	traits.columns = 1
 	traits.add_theme_constant_override("h_separation", 16)
 	fields.add_child(traits)
 	# CHAR-INFO: a trait used to be a bare word with the explanation buried in a
@@ -121,16 +144,21 @@ func build() -> void:
 
 		var blurb := Label.new()
 		blurb.text = "　　%s" % Presentation.TRAITS[id][1]
-		blurb.add_theme_font_size_override("font_size", 12)
-		blurb.add_theme_color_override("font_color", Color("8B877E"))
+		blurb.add_theme_font_size_override("font_size", Tokens.SMALL)
+		blurb.add_theme_color_override("font_color", Tokens.SECONDARY)
 		blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		blurb.size_flags_horizontal = SIZE_EXPAND_FILL
 		cell.add_child(blurb)
 		trait_buttons[id] = button
+	preview_scroll = ScrollContainer.new()
+	preview_scroll.size_flags_horizontal = SIZE_EXPAND_FILL
+	preview_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	preview_scroll.size_flags_stretch_ratio = 1.2
+	preview_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	columns.add_child(preview_scroll)
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = SIZE_EXPAND_FILL
-	panel.size_flags_stretch_ratio = 1.2
-	columns.add_child(panel)
+	preview_scroll.add_child(panel)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
 	panel.add_child(box)
@@ -169,9 +197,9 @@ func build() -> void:
 	form.add_child(submit_button)
 	summary = VBoxContainer.new()
 	summary.add_theme_constant_override("separation", 12)
-	summary.size_flags_horizontal = SIZE_SHRINK_CENTER
-	summary.custom_minimum_size.x = 640
-	margin.add_child(summary)
+	summary.size_flags_horizontal = SIZE_EXPAND_FILL
+	summary.size_flags_vertical = SIZE_EXPAND_FILL
+	pages.add_child(summary)
 	summary.hide()
 	label_in(summary, "角色已建立", 24)
 	var summary_scroll := ScrollContainer.new()
@@ -189,6 +217,20 @@ func build() -> void:
 	enter_button.pressed.connect(func(): journey_requested.emit())
 	summary.add_child(enter_button)
 	select_background(background_id)
+	_layout_creation_window()
+
+func _layout_creation_window(recenter: bool = false) -> void:
+	if creation_window == null or size.x < 1.0 or size.y < 1.0:
+		return
+	var window_size := Vector2(minf(600.0 if committed else 820.0, size.x - 64.0), minf(440.0 if committed else 550.0, size.y - 48.0))
+	creation_window.size = window_size
+	if recenter or not creation_window.has_meta("placed"):
+		creation_window.position = (size - window_size) * 0.5
+		creation_window.set_meta("placed", true)
+	else:
+		creation_window.position = Vector2(
+			clampf(creation_window.position.x, 0.0, maxf(0.0, size.x - window_size.x)),
+			clampf(creation_window.position.y, 0.0, maxf(0.0, size.y - window_size.y)))
 
 func select_background(id: String) -> void:
 	if committed:
@@ -243,12 +285,13 @@ func submit() -> Dictionary:
 		"age": age, "background_id": background_id, "trait_ids": selected_traits.duplicate()}))
 	if not result.success:
 		error_label.show()
-		error_label.text = "無法建立角色，請檢查姓名、非負整數年齡、背景與特質。\n" + result.error
+		error_label.text = "無法建立角色。請檢查姓名、年齡、背景與特質選擇。"
 		return result
 	committed = true
 	submit_button.disabled = true
 	summary_label.text = Presentation.creation_summary(Presentation.project(world))
 	form.hide()
 	summary.show()
+	_layout_creation_window(true)
 	enter_button.grab_focus()
 	return result

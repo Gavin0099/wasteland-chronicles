@@ -4,6 +4,8 @@ signal closed
 signal world_changed
 const Field = preload("res://simulation/field_adventure.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+const DesktopWindow = preload("res://ui/components/desktop_window.gd")
+const DesktopBackdrop = preload("res://ui/components/desktop_backdrop.gd")
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Stage = preload("res://ui/components/battle_stage.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
@@ -22,6 +24,7 @@ var close_button: Button
 var buttons: Dictionary = {}
 var busy := false
 var reduce_motion: CheckBox
+var battle_map_label: Label
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -81,7 +84,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	receipt_items = VBoxContainer.new()
 	receipt_items.add_theme_constant_override("separation", Tokens.GAP)
 	info.add_child(receipt_items)
-	label_in(root, "攻擊、防禦與逃跑逐回合結算；休養才會經過一天。", "PdaMuted")
+	var note_label := label_in(root, "攻擊、防禦與逃跑逐回合結算；休養才會經過一天。", "PdaMuted")
 	actions_box = GridContainer.new()
 	actions_box.columns = 3
 	actions_box.add_theme_constant_override("h_separation", Tokens.GAP)
@@ -89,7 +92,80 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	root.add_child(actions_box)
 	error_label = label_in(root, "")
 	error_label.hide()
+	_install_desktop_layout(root, heading, body, stage, status_label, log_label, receipt_items, actions_box, error_label, note_label)
 	refresh()
+
+func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_body: HBoxContainer, battle_stage: Control, status: Label, log: Label, receipts: VBoxContainer, actions: GridContainer, errors: Label, note: Label) -> void:
+	var backdrop := DesktopBackdrop.new()
+	backdrop.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	add_child(backdrop)
+	move_child(backdrop, 1)
+	var toolbar := PanelContainer.new()
+	var toolbar_style := StyleBoxFlat.new()
+	toolbar_style.bg_color = Color("#DCDAD2")
+	toolbar_style.border_color = Color("#7E7E7C")
+	toolbar_style.set_border_width_all(1)
+	toolbar_style.content_margin_left = 8
+	toolbar_style.content_margin_right = 8
+	toolbar_style.content_margin_top = 4
+	toolbar_style.content_margin_bottom = 4
+	toolbar.add_theme_stylebox_override("panel", toolbar_style)
+	root.add_child(toolbar)
+	root.move_child(toolbar, 0)
+	heading.reparent(toolbar)
+	heading_label.add_theme_color_override("font_color", Color("#20242C"))
+	var columns := HBoxContainer.new()
+	columns.size_flags_vertical = SIZE_EXPAND_FILL
+	columns.add_theme_constant_override("separation", 12)
+	root.add_child(columns)
+	root.move_child(columns, 1)
+	var main := VBoxContainer.new()
+	main.size_flags_horizontal = SIZE_EXPAND_FILL
+	main.size_flags_vertical = SIZE_EXPAND_FILL
+	main.size_flags_stretch_ratio = 1.8
+	main.add_theme_constant_override("separation", 8)
+	columns.add_child(main)
+	var side := VBoxContainer.new()
+	side.size_flags_horizontal = SIZE_EXPAND_FILL
+	side.size_flags_vertical = SIZE_EXPAND_FILL
+	side.size_flags_stretch_ratio = 0.9
+	side.add_theme_constant_override("separation", 8)
+	columns.add_child(side)
+	var scene_window := DesktopWindow.new("戰鬥場景")
+	scene_window.size_flags_vertical = SIZE_EXPAND_FILL
+	main.add_child(scene_window)
+	battle_stage.reparent(scene_window.body)
+	var message_window := DesktopWindow.new("戰鬥訊息")
+	message_window.custom_minimum_size.y = 112
+	main.add_child(message_window)
+	var message_scroll := ScrollContainer.new()
+	message_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	message_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	message_window.body.add_child(message_scroll)
+	var message_lines := VBoxContainer.new()
+	message_lines.size_flags_horizontal = SIZE_EXPAND_FILL
+	message_scroll.add_child(message_lines)
+	log.reparent(message_lines)
+	receipts.reparent(message_lines)
+	errors.reparent(message_window.body)
+	note.reparent(message_window.body)
+	var person_window := DesktopWindow.new("人物與對手")
+	side.add_child(person_window)
+	status.reparent(person_window.body)
+	var tools_window := DesktopWindow.new("戰鬥指令")
+	side.add_child(tools_window)
+	actions.reparent(tools_window.body)
+	actions.columns = 1
+	var map_window := DesktopWindow.new("交戰位置")
+	map_window.size_flags_vertical = SIZE_EXPAND_FILL
+	side.add_child(map_window)
+	battle_map_label = Label.new()
+	battle_map_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	battle_map_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	battle_map_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	battle_map_label.size_flags_vertical = SIZE_EXPAND_FILL
+	map_window.body.add_child(battle_map_label)
+	old_body.queue_free()
 
 func close() -> void:
 	if busy or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
@@ -173,7 +249,9 @@ func refresh() -> void:
 				weapon = String(resolved.definition.display_name_zh)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
 	var enemy_name := "荒原劫匪" if is_road else "野犬"
-	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n\n武器　%s\n負重　%d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.capacity_total]
+	if battle_map_label != null:
+		battle_map_label.text = "交戰示意\n你　↔　%s" % enemy_name
+	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n武器　%s　·　負重 %d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.capacity_total]
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:
@@ -200,7 +278,7 @@ func refresh() -> void:
 		add_action("CONFIRM", "確認結果並返回" if is_road else "確認結果")
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
-		status_label.text += "\n\n第 %d 回合 · 你的行動" % turn
+		status_label.text += "\n第 %d 回合 · 你的行動" % turn
 		var damage := Field.enemy_damage(turn)
 		if is_road:
 			log_label.text = "荒原劫匪準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["狠毒猛擊" if damage == 4 else "揮砍", damage]

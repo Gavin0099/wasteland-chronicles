@@ -11,8 +11,10 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 
 func screen() -> Control:
+	root.size = Vector2i(1152, 648)
 	var ui := Screen.new()
 	root.add_child(ui)
+	ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ui.setup(S1WorldData.create_s1_world(), engine)
 	ui.name_input.text = "吳某某"
 	return ui
@@ -23,6 +25,10 @@ func _init() -> void:
 func run() -> void:
 	var ui := screen()
 	var baseline: String = ui.world.to_canonical_json()
+	check(ui.creation_window.visible and ui.creation_window.draggable and not ui.creation_window.close_button.visible, "creation opens as a movable window that cannot be abandoned before a character exists")
+	check(ui.creation_window.size.x < ui.size.x and ui.creation_window.size.y < ui.size.y, "creation window leaves the map backdrop visible")
+	check(ui.choices_scroll != ui.preview_scroll and ui.choices_scroll.is_ancestor_of(ui.trait_buttons.CAUTIOUS) and ui.preview_scroll.is_ancestor_of(ui.preview), "traits and capability preview have independent scroll areas")
+	check(ui.submit_button.is_visible_in_tree(), "creation action remains visible outside the scrolling choices")
 	# Independent owner-approved package fixtures, including zero-rank skills.
 	var expected := {
 		"CARAVAN_GUARD": {"FIREARMS": 2, "MELEE": 1, "SURVIVAL": 1},
@@ -80,6 +86,7 @@ func run() -> void:
 		var sequence: int = ui.world.next_npc_sequence
 		ui.submit_button.pressed.emit()
 		check(ui.committed and ui.summary.visible and not ui.form.visible, "0/1/2 traits create then stop at summary")
+		check(ui.creation_window.size.x <= 600.0 and ui.enter_button.is_visible_in_tree(), "committed summary becomes a compact confirmation window")
 		check(ui.world.get_settlement(&"settlement:gray_valley").population == population, "creation cannot increase population")
 		check(ui.world.npc_registry.get_named_count_at(&"settlement:gray_valley") == named + 1 and ui.world.next_npc_sequence == sequence + 1, "exactly one existing resident is named")
 		check("吳某某" in ui.summary_label.text and "廢墟拾荒者" in ui.summary_label.text and "搜刮" in ui.summary_label.text, "summary projects committed identity and skills")

@@ -239,6 +239,7 @@ static func _project_player(world: WorldState) -> Dictionary:
 		"npc_id": String(p.npc_id),
 		"name": p_name,
 		"money": p.money,
+		"health": p.field_kit.hp if p.field_kit != null else 12,
 		"status": status_str,
 		"is_in_transit": is_in_transit,
 		"location_display": location_display,
