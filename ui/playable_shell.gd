@@ -2260,6 +2260,8 @@ func _on_quest_pressed() -> void:
 	receipt.title = "委託結果"
 	if accepting:
 		receipt.dialog_text = "委託已接受。第 %d 天截止。" % world.quest_state.get_quest(quest_id_shown).deadline_day
+	elif bool(row.get("is_survey", false)):
+		receipt.dialog_text = "北線路況已向乾井回報；軍用背包仍由你持有。獲得 %d 瓶蓋、%d XP。" % [int(row.reward_caps), int(row.reward_xp)]
 	else:
 		var delivered: Array = result.get("delivered", [])
 		var delivered_text := "%s ×%d" % [String(row.item_name), int(row.required)]

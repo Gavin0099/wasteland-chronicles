@@ -95,8 +95,34 @@ func run() -> void:
 		var world: WorldState = world_variant
 		check(load("res://simulation/quest_engine.gd").evaluate_objectives(world, QUEST_ID), "post-acceptance arrival satisfies visit objective")
 		var before_money := world.player.money
-		var result := engine.commit_player_intent(world, PlayerIntent.create_turn_in_quest(world.player.npc_id, QUEST_ID))
-		check(result.success and result.delivered.is_empty(), "report resolves without consuming backpack")
+		if world == first:
+			var report_shell := PlayableShell.new()
+			root.add_child(report_shell)
+			report_shell.setup(world, engine)
+			report_shell.quest_access_button.pressed.emit()
+			check(report_shell.quest_button.visible and not report_shell.quest_button.disabled, "completed survey has an enabled report command")
+			report_shell.quest_button.pressed.emit()
+			var receipt_text := ""
+			for child in report_shell.get_children():
+				if child is AcceptDialog and child.title == "委託結果":
+					receipt_text = child.dialog_text
+			check(receipt_text.contains("軍用背包仍由你持有") and not receipt_text.contains("已交付"), "report receipt describes retained gear truthfully")
+			if "--capture" in OS.get_cmdline_user_args():
+				var report_folder := OS.get_user_data_dir().path_join("captures/wprog-4")
+				DirAccess.make_dir_recursive_absolute(report_folder)
+				for viewport_size in [Vector2i(1280, 720), Vector2i(1152, 648)]:
+					root.size = viewport_size
+					for frame in range(8):
+						await process_frame
+					var report_path := report_folder.path_join("survey_report_%dx%d.png" % [viewport_size.x, viewport_size.y])
+					check(root.get_texture().get_image().save_png(report_path) == OK, "real renderer captures survey report receipt")
+					print("CAPTURED " + report_path)
+			report_shell.queue_free()
+			await process_frame
+		else:
+			var result := engine.commit_player_intent(world, PlayerIntent.create_turn_in_quest(world.player.npc_id, QUEST_ID))
+			check(result.success and result.delivered.is_empty(), "report resolves without consuming backpack")
+		check(world.player.item_inventory.quantity("military_backpack") == 1, "report keeps the military backpack")
 		check(world.player.money == before_money + 150 and world.quest_flags.get("dry_well_north_surveyed", false), "reward and report flag commit once")
 		check(world.quest_state.get_quest(QUEST_ID).status == &"RESOLVED", "quest closes after return")
 		var final_json := world.to_canonical_json()
