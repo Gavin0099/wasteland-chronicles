@@ -304,10 +304,15 @@ func _init() -> void:
 	# independent pre-C3 combat fixture: HP,
 	# enemy state, inventory, death and time must still match byte for byte.
 	var legacy_projection: Dictionary = la.to_dict()
+	check(la.player.xp == 15, "first field victory grants the new experiential XP award")
+	legacy_projection.player.erase("xp")
 	legacy_projection.player.capability.skill_ranks.MELEE = w_leg.player.capability.get_skill_rank("MELEE").rank
 	legacy_projection.player.capability.erase("skill_practice")
 	legacy_projection.player.capability.erase("skill_growth_schema_version")
 	for event in legacy_projection.events:
+		if event.type == "FIELD_RESULT":
+			event.payload.erase("xp_source")
+			event.payload.erase("xp_gained")
 		if event.type == "FIELD_TURN" or (event.type == "FIELD_ACTION" and event.payload.get("command") == "CRAFT"):
 			event.payload.erase("skill_practice")
 	var leg_sha := JSON.stringify(legacy_projection, "\t", true).sha256_text()
