@@ -31,9 +31,10 @@ var battle_map_label: Label
 func practice_text(practice: Dictionary) -> String:
 	if practice.is_empty():
 		return ""
+	var skill_name: String = Presentation.SKILL_NAMES.get(String(practice.skill_id), String(practice.skill_id))
 	if practice.rank_up:
-		return "近戰能力提升：%d %s" % [int(practice.to_rank), Presentation.RANK_NAMES[int(practice.to_rank)]]
-	return "近戰練習 +1（%d/%d）" % [int(practice.points), int(practice.required)]
+		return "%s能力提升：%d %s" % [skill_name, int(practice.to_rank), Presentation.RANK_NAMES[int(practice.to_rank)]]
+	return "%s練習 +1（%d/%d）" % [skill_name, int(practice.points), int(practice.required)]
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -358,6 +359,10 @@ func perform(payload: Dictionary) -> void:
 	busy = false
 	close_button.disabled = false
 	refresh()
+	var practice: Dictionary = result.get("skill_practice", {})
+	if result.success and not practice.is_empty():
+		growth_notice_label.text = practice_text(practice)
+		growth_notice_label.visible = true
 	if not buttons.is_empty():
 		for button in buttons.values():
 			if not button.disabled:
