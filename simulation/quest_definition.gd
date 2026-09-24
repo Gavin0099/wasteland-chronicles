@@ -15,6 +15,13 @@ extends RefCounted
 #   DELIVER_ITEM   — player delivers item_id to settlement_id (quantity)
 #   WORLD_FLAG     — world.quest_flags[flag_name] == true
 #   VISIT_LOCATION — player has visited settlement_id (checked via event log)
+#   DELIVER_RESOURCE — player hands over aggregate cargo (water/food/scrap/fuel)
+#                      at settlement_id. The cargo leaves the pack; it does NOT
+#                      enter the settlement's inventory. The world's response to
+#                      player action is QUEST-W1 and is deliberately not here.
+#   WIN_ROAD_COMBAT  — player won a road battle on origin_id->destination_id
+#                      AFTER accepting, proven by a committed FIELD_RESULT.
+#                      Paying the bandits off or running away does not count.
 #
 # OUTCOME KEYS: resolved | failed | expired
 #
@@ -30,8 +37,11 @@ extends RefCounted
 #     { "type": "CURRENCY", "amount": 50 },
 #   ]
 #
-# Deferred: PAUSED, ABANDONED, HIDDEN, REPEATABLE, COOLDOWN, kill-count,
-#           escort, branching dialogue, faction reputation, skill checks.
+# Deferred: PAUSED, ABANDONED, HIDDEN, escort, branching dialogue,
+#           faction reputation, skill checks.
+# FUN-1 supplies repeatability a different way: instead of a REPEATABLE flag on
+# one definition, the job board GENERATES fresh definitions from world state on
+# a rotating window, so the same livelihood keeps producing new contracts.
 # ==============================================================================
 
 const VALID_OBJECTIVE_TYPES: Array[StringName] = [
@@ -39,7 +49,15 @@ const VALID_OBJECTIVE_TYPES: Array[StringName] = [
 	&"DELIVER_ITEM",
 	&"WORLD_FLAG",
 	&"VISIT_LOCATION",
+	# FUN-1. Aggregate survival cargo is not an item, so a town that has run
+	# short of water could never post work about it with DELIVER_ITEM alone.
+	&"DELIVER_RESOURCE",
+	# FUN-1. The first objective that is satisfied by something the player DID
+	# rather than something they carry, checked against committed FIELD_RESULT
+	# receipts on the named road.
+	&"WIN_ROAD_COMBAT",
 ]
+const VALID_OBJECTIVE_RESOURCES: Array[String] = ["water", "food", "scrap", "fuel"]
 
 const VALID_OUTCOME_KEYS: Array[String] = ["resolved", "failed", "expired"]
 const VALID_REWARD_TYPES: Array[StringName] = [&"XP", &"CURRENCY"]
@@ -140,6 +158,24 @@ static func _validate_objective(obj: Variant, seen: Dictionary) -> String:
 		&"VISIT_LOCATION":
 			if not _stable_id(obj.get("settlement_id")):
 				return "QUEST_OBJ_INVALID_SETTLEMENT_ID"
+		&"DELIVER_RESOURCE":
+			var resource: Variant = obj.get("resource")
+			if typeof(resource) != TYPE_STRING or not VALID_OBJECTIVE_RESOURCES.has(resource):
+				return "QUEST_OBJ_INVALID_RESOURCE"
+			var rqty: Variant = obj.get("quantity")
+			if typeof(rqty) not in [TYPE_INT, TYPE_FLOAT] or rqty != floor(float(rqty)) or int(rqty) < 1:
+				return "QUEST_OBJ_INVALID_QUANTITY"
+			if not _stable_id(obj.get("settlement_id")):
+				return "QUEST_OBJ_INVALID_SETTLEMENT_ID"
+		&"WIN_ROAD_COMBAT":
+			for endpoint in ["origin_id", "destination_id"]:
+				if not _stable_id(obj.get(endpoint)):
+					return "QUEST_OBJ_INVALID_SETTLEMENT_ID"
+			if String(obj.get("origin_id")) == String(obj.get("destination_id")):
+				return "QUEST_OBJ_INVALID_ROUTE"
+			var wqty: Variant = obj.get("quantity")
+			if typeof(wqty) not in [TYPE_INT, TYPE_FLOAT] or wqty != floor(float(wqty)) or int(wqty) < 1:
+				return "QUEST_OBJ_INVALID_QUANTITY"
 	return ""
 
 static func _validate_outcome(out: Variant) -> String:

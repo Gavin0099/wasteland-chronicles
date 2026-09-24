@@ -2199,14 +2199,26 @@ func _render_quests(rows: Array) -> void:
 	for i in rows.size():
 		var option: Dictionary = rows[i]
 		var state_label: String = {"AVAILABLE": "可接", "ACTIVE": "進行中", "RESOLVED": "已完成", "EXPIRED": "已過期", "FAILED": "已失敗"}.get(String(option.status), "未開放")
-		quest_selector.add_item("委託 %d/%d · %s · %s" % [i + 1, rows.size(), state_label, String(option.title)])
+		# FUN-1: without the kind and the danger on the row itself, three very
+		# different jobs read as three identical tickets.
+		var kind_label: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞"}.get(String(option.get("archetype", "")), "委託")
+		var stars := String(option.get("risk_stars", ""))
+		quest_selector.add_item("%s %d/%d · %s%s · %s" % [
+			kind_label, i + 1, rows.size(), state_label,
+			"　" + stars if stars != "" else "", String(option.title)])
 		quest_selector.set_item_metadata(i, String(option.id))
 	quest_selector.select(selected_index)
 	quest_selector.visible = rows.size() > 1
 	var row: Dictionary = rows[selected_index]
 	quest_id_shown = String(row.id)
-	quest_title.text = "委託 · %s" % String(row.title)
+	var row_kind: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞"}.get(String(row.get("archetype", "")), "委託")
+	var row_stars := String(row.get("risk_stars", ""))
+	quest_title.text = "%s · %s%s" % [row_kind, String(row.title), "　危險 " + row_stars if row_stars != "" else ""]
 	quest_description.text = String(row.description)
+	# What THIS character can read off the board. Perks and earned identities
+	# stop being a one-off encounter button and become how this person works.
+	for line in row.get("intel", []):
+		quest_description.text += "\n\n" + String(line)
 	var status := String(row.status)
 	if bool(row.get("is_survey", false)):
 		var survey_step := "接案後抵達新希望，再返回乾井回報。"
@@ -2221,8 +2233,23 @@ func _render_quests(rows: Array) -> void:
 		else:
 			quest_progress.text = {"EXPIRED": "已過期 · 未完成測繪", "FAILED": "已失敗 · 未完成測繪"}.get(status, "目前不可接")
 		quest_button.text = "回報測繪" if status == "ACTIVE" else "接受委託"
+	elif String(row.get("objective_type", "")) == "WIN_ROAD_COMBAT":
+		var cleared: bool = int(row.held) >= 1
+		if status == "AVAILABLE":
+			quest_progress.text = "期限：接下後 %d 天\n目標：在往%s的路上打贏一場劫匪伏擊\n付錢打發或掉頭逃跑都不算。路程約 %d 天。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.target), int(row.get("route_days", 2)), int(row.reward_caps), int(row.reward_xp)]
+			quest_button.text = "接下懸賞"
+		elif status == "ACTIVE":
+			quest_progress.text = "進行中 · 第 %d 天截止\n目標：在往%s的路上打贏一場劫匪伏擊\n目前：%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.target), "已達成，回來領賞" if cleared else "尚未打贏", int(row.reward_caps), int(row.reward_xp)]
+			quest_button.text = "領取賞金"
+		elif status == "RESOLVED":
+			quest_progress.text = "已完成 · 往%s的路已清過一次\n獲得：%d 瓶蓋、%d XP" % [String(row.target), int(row.reward_caps), int(row.reward_xp)]
+			quest_button.text = "委託已結束"
+		else:
+			quest_progress.text = {"EXPIRED": "已過期 · 未完成清剿", "FAILED": "已失敗 · 未完成清剿"}.get(status, "目前不可接")
+			quest_button.text = "委託已結束"
 	elif status == "AVAILABLE":
-		quest_progress.text = "期限：接下後 %d 天\n交付：%s ×%d → %s\n目前持有：%d／%d；接受後仍需自行取得物品。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
+		var carry_note: String = "從背包的散裝補給中交付，交出去之後你自己路上就少了那一份。" if String(row.get("objective_type", "")) == "DELIVER_RESOURCE" else "接受後仍需自行取得物品。"
+		quest_progress.text = "期限：接下後 %d 天\n交付：%s ×%d → %s\n目前持有：%d／%d；%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), carry_note, int(row.reward_caps), int(row.reward_xp)]
 		quest_button.text = "接受委託"
 	elif status == "ACTIVE":
 		quest_progress.text = "進行中 · 第 %d 天截止\n交付：%s ×%d → %s\n目前持有：%d／%d；需自行取得物品後前往交付。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]

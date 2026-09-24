@@ -41,6 +41,11 @@ var pending_encounter_result: int = -1
 # so old saves produce byte-identical JSON — Gate 7.
 var quest_state: RefCounted = QuestStateReg.new()
 var quest_flags: Dictionary = {}  # Dictionary[String, bool] — set by quest world_effects
+# FUN-1: the definition of every job the player has ACCEPTED from a board.
+# The board itself is recomputed from today's facts and is never stored, so a
+# town that stops being short cannot retroactively cancel work already taken.
+# Once accepted, this committed copy is the only truth about that contract.
+var accepted_jobs: Dictionary = {}  # Dictionary[String, Dictionary] — quest_id -> definition
 
 func get_settlement(id: StringName) -> SettlementState:
 	return settlements.get(id, null)
@@ -136,6 +141,7 @@ func duplicate_state() -> WorldState:
 	# QUEST-1
 	copy.quest_state = quest_state.duplicate_registry()
 	copy.quest_flags = quest_flags.duplicate(true)
+	copy.accepted_jobs = accepted_jobs.duplicate(true)
 	return copy
 
 func to_dict() -> Dictionary:
@@ -201,6 +207,9 @@ func to_dict() -> Dictionary:
 	if not quest_flags.is_empty():
 		result["quest_schema_version"] = 1
 		result["quest_flags"] = quest_flags.duplicate(true)
+	if not accepted_jobs.is_empty():
+		result["quest_schema_version"] = 1
+		result["accepted_jobs"] = accepted_jobs.duplicate(true)
 	return result
 
 # ==============================================================================
@@ -357,6 +366,21 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		for flag in data["quest_flags"]:
 			if typeof(flag) != TYPE_STRING or flag.is_empty() or typeof(data["quest_flags"][flag]) != TYPE_BOOL:
 				return {"success": false, "world": null, "error": "QUEST_FLAGS_INVALID_ENTRY"}
+	# FUN-1: an accepted job is a committed contract, so a malformed one must
+	# fail the load rather than silently becoming unfulfillable.
+	if data.has("accepted_jobs"):
+		if typeof(data["accepted_jobs"]) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "ACCEPTED_JOBS_NOT_DICT"}
+		const JobDefinition = preload("res://simulation/quest_definition.gd")
+		for job_id in data["accepted_jobs"]:
+			if typeof(job_id) != TYPE_STRING or not job_id.begins_with("job_"):
+				return {"success": false, "world": null, "error": "ACCEPTED_JOB_INVALID_ID"}
+			var raw: Variant = data["accepted_jobs"][job_id]
+			if typeof(raw) != TYPE_DICTIONARY or String(raw.get("id", "")) != job_id:
+				return {"success": false, "world": null, "error": "ACCEPTED_JOB_ID_MISMATCH"}
+			var job_err := JobDefinition.validate_definition(raw)
+			if job_err != "":
+				return {"success": false, "world": null, "error": "ACCEPTED_JOB_" + job_err}
 
 	var w := from_dict_unchecked(data)
 
@@ -467,6 +491,8 @@ static func from_dict_unchecked(data: Dictionary) -> WorldState:
 		w.quest_state = QuestStateReg.from_dict(data["quest_state"])
 	if data.has("quest_flags") and typeof(data["quest_flags"]) == TYPE_DICTIONARY:
 		w.quest_flags = data["quest_flags"].duplicate(true)
+	if data.has("accepted_jobs") and typeof(data["accepted_jobs"]) == TYPE_DICTIONARY:
+		w.accepted_jobs = data["accepted_jobs"].duplicate(true)
 	return w
 
 func to_canonical_json() -> String:

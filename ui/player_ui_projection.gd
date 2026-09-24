@@ -39,6 +39,9 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 	}
 	return proj
 
+const JobBoard = preload("res://simulation/job_board.gd")
+const RESOURCE_LABELS := {"water": "水", "food": "食物", "scrap": "廢料", "fuel": "燃料"}
+
 static func _project_quests(world: WorldState) -> Array:
 	var rows: Array = []
 	if world.player == null:
@@ -46,7 +49,23 @@ static func _project_quests(world: WorldState) -> Array:
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if life == null or not life.is_alive():
 		return rows
-	for definition in QuestRegistry.all_definitions():
+	# FUN-1: the board is part of the same list. Authored content first, then
+	# contracts already taken (their committed copy, never today's board), then
+	# whatever this settlement is posting right now.
+	var sources: Array = []
+	for authored in QuestRegistry.all_definitions():
+		sources.append({"definition": authored, "extras": {}})
+	for job_id in world.accepted_jobs:
+		sources.append({"definition": world.accepted_jobs[job_id], "extras": {}})
+	if life.status == NpcLifeState.Status.SETTLED:
+		for entry in JobBoard.postings(world, life.population_container_id):
+			if world.accepted_jobs.has(String(entry.definition.id)):
+				continue
+			sources.append({"definition": entry.definition, "extras": entry})
+
+	for source in sources:
+		var definition: Dictionary = source.definition
+		var extras: Dictionary = source.extras
 		var quest_id := String(definition.id)
 		var state = world.quest_state.get_quest(quest_id)
 		var status := String(state.status) if state != null else String(QuestEngine.evaluate_availability(world, quest_id))
@@ -57,12 +76,23 @@ static func _project_quests(world: WorldState) -> Array:
 			continue
 		var objective: Dictionary = definition.objectives[0]
 		var is_survey: bool = definition.objectives.any(func(obj: Dictionary) -> bool: return String(obj.type) == "VISIT_LOCATION")
+		var objective_type := String(objective.get("type", ""))
 		var item_id := String(objective.get("item_id", ""))
 		var item_result: Dictionary = ItemRegistry.resolve(item_id) if item_id != "" else {"success": false}
 		var item_name := String(item_result.definition.display_name_zh) if item_result.success else "物品"
 		var target := _settlement_name("settlement:" + String(objective.get("settlement_id", definition.settlement_id)))
 		var required := int(objective.get("quantity", 0))
 		var held: int = world.player.item_inventory.quantity(item_id) if item_id != "" else 0
+		# FUN-1 objectives count different things, so the progress line has to
+		# read the right one rather than reporting "0 / 5 物品" for water.
+		if objective_type == "DELIVER_RESOURCE":
+			var resource := String(objective.get("resource", ""))
+			item_name = RESOURCE_LABELS.get(resource, resource)
+			held = int(world.player.inventory.get_amount(resource)) if world.player.inventory != null else 0
+		elif objective_type == "WIN_ROAD_COMBAT":
+			item_name = "擊退劫匪"
+			target = _settlement_name("settlement:" + String(objective.get("destination_id", "")))
+			held = 1 if QuestEngine.evaluate_objectives(world, quest_id) else 0
 		var action := PlayerIntent.create_accept_quest(world.player.npc_id, quest_id) if status == "AVAILABLE" else PlayerIntent.create_turn_in_quest(world.player.npc_id, quest_id)
 		var can_act := status in ["AVAILABLE", "ACTIVE"] and SimulationEngine.new().authorize_player_intent(world, action) == ""
 		var reward_caps := 0
@@ -80,6 +110,13 @@ static func _project_quests(world: WorldState) -> Array:
 			"is_survey": is_survey,
 			"required_equipped_item": String(definition.availability.get("required_equipped_item_id", "")),
 			"reward_caps": reward_caps, "reward_xp": reward_xp,
+			"objective_type": objective_type,
+			"archetype": String(extras.get("archetype", "")),
+			"risk": int(extras.get("risk", 0)),
+			"risk_stars": JobBoard.RISK_STARS.get(int(extras.get("risk", 0)), ""),
+			"route_days": int(extras.get("route_days", 0)),
+			"urgent": bool(extras.get("urgent", false)),
+			"intel": JobBoard.intel_for(world, extras) if not extras.is_empty() else [],
 		})
 	return rows
 

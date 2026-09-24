@@ -64,7 +64,11 @@ func run() -> void:
 		var world: WorldState = world_variant
 		var before := world.to_canonical_json()
 		var rows: Array = PlayerUIProjection.project(world).quests
-		check(rows.size() == 1 and rows[0].id == QUEST_ID and rows[0].status == "LOCKED" and not rows[0].can_act, "local board shows a readable locked higher-tier contract")
+		var contract := {}
+		for row in rows:
+			if String(row.id) == QUEST_ID:
+				contract = row
+		check(not contract.is_empty() and contract.status == "LOCKED" and not contract.can_act, "local board shows a readable locked higher-tier contract")
 		check(world.to_canonical_json() == before, "locked projection is read-only")
 		check(not engine.commit_player_intent(world, PlayerIntent.create_accept_quest(world.player.npc_id, QUEST_ID)).success and world.to_canonical_json() == before, "accept without equipment fails atomically")
 		check(world.player.pickup_item("military_backpack").success, "rare item enters inventory in earned-gear fixture")
