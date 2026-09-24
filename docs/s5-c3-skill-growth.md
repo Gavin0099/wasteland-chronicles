@@ -10,6 +10,7 @@ free skill point allocation is introduced.
 | BARTER | Buy or sell a commodity or item in a settlement; roadside haggling or column trade |
 | MELEE | Land an attack in an existing field/road battle |
 | MECHANICS | Assemble the one-time crowbar from three scrap; strip a wreck or use a wrench on it |
+| MEDICINE | Use an owned first-aid kit to recover actual missing HP outside combat |
 | SCAVENGING | Search a wreck or take the quick-pick approach |
 | STEALTH | Slip past a roadblock |
 | SURVIVAL | Detour/scout/use a rope at a rockslide, or hydrate a traveller |
@@ -30,8 +31,8 @@ transactions and combat turn logs show the immediate outcome. A future-dated
 practice record is invalid at the world boundary.
 
 This does not declare all ten skills trainable. FIREARMS lacks firearm attacks,
-ELECTRONICS lacks electronic equipment, MEDICINE lacks a medical action, and
-SPEECH lacks a speech action. STEALTH and MECHANICS currently require a starting
+ELECTRONICS lacks electronic equipment, and SPEECH lacks a speech action.
+STEALTH still requires a starting
 rank or an item-supported approach. Those gaps need an actual playable action,
 not an invisible timer or invented background bonus. C3 stays open until the
 coverage and pacing are evaluated as a complete progression system.
@@ -85,5 +86,26 @@ receipt corruption, UI feedback, dual-track world SHA-256 and invariants. Real
 1280×720 and 1152×648 renderer captures confirm the feedback is visible with
 unclipped actions and a stable command area; opening the screen does not
 change the world snapshot. The action
-still exists only once per character; it does not solve training for the four
-skills with no supported action or establish long-run pacing.
+still exists only once per character; it does not establish long-run pacing.
+
+## Field treatment as a Medicine source
+
+The existing first-aid kit now has an actual use while the player is settled,
+injured and outside combat. One kit restores up to four missing HP immediately;
+it does not advance the day. A successful treatment awards at most one MEDICINE
+practice point per world day. Full health, no kit, battle, or pending result
+refuses the action before a kit or practice is consumed. The item is bought
+through the existing market, remains an ordinary inventory item until use, and
+is removed by the item inventory authority. A second treatment on the same day
+still heals and spends a kit but grants no extra practice. There is no new
+injury/disease authority or automatic HP/skill bonus from owning a kit.
+
+`tests/test_s5_c3_field_treatment.gd` covers real field damage, kit purchase,
+healing and consumption, same-day practice cap, next-day rank-up, denied-action
+atomicity, save/load and malformed treatment receipts, dual-track world SHA-256
+and global invariants. Both required Godot renderer sizes show the actual HP
+and practice result without hiding the command area. C3 remains open for the
+three unsupported skills, beginner Stealth access, and long-run pacing.
+The current player-facing treatment entry is the Gray Valley outskirts screen;
+other settlements still need a general inventory-use entry despite the
+settled-player authority allowing treatment there.

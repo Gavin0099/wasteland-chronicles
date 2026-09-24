@@ -8,7 +8,7 @@ const MAX_HP := 12
 const ENEMY_HP := 8
 const BANDIT_HP := 8
 const KIT_WEIGHT := 2
-const COMMANDS := ["CRAFT", "EQUIP", "UNEQUIP", "START", "ATTACK", "DEFEND", "FLEE", "OPEN", "REST", "CONFIRM"]
+const COMMANDS := ["CRAFT", "EQUIP", "UNEQUIP", "START", "ATTACK", "DEFEND", "FLEE", "OPEN", "REST", "TREAT", "CONFIRM"]
 
 static func new_kit() -> Dictionary:
 	return {"hp": MAX_HP, "crowbar": false, "equipped": false}
@@ -71,12 +71,16 @@ static func validate_wire(data: Dictionary) -> String:
 		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT", "FIELD_ACTION"]:
 			continue
 		var event_payload: Variant = raw_event.get("payload", {})
+		if raw_event.type == "FIELD_ACTION" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "TREAT" and (event_payload.get("item_id") != "first_aid_kit" or not integer(event_payload.get("healed"), 1, 4)):
+			return "INVALID_FIELD_TREATMENT_RECEIPT"
 		if typeof(event_payload) != TYPE_DICTIONARY or not event_payload.has("skill_practice"):
 			continue
-		var expected_skill := "MECHANICS" if raw_event.type == "FIELD_ACTION" else "MELEE"
+		var expected_skill := ("MEDICINE" if event_payload.get("command") == "TREAT" else "MECHANICS") if raw_event.type == "FIELD_ACTION" else "MELEE"
 		if not Capability.valid_practice_award(event_payload.skill_practice, expected_skill):
 			return "INVALID_FIELD_PRACTICE_RECEIPT"
-		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") != "CRAFT":
+		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") not in ["CRAFT", "TREAT"]:
+			return "INVALID_FIELD_PRACTICE_ACTION"
+		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") == "TREAT" and (event_payload.get("item_id") != "first_aid_kit" or not integer(event_payload.get("healed"), 1, 4)):
 			return "INVALID_FIELD_PRACTICE_ACTION"
 		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") != "ATTACK" or not integer(event_payload.get("dealt"), 1, ENEMY_HP)):
 			return "INVALID_FIELD_PRACTICE_TURN"
@@ -210,6 +214,11 @@ static func authorize(world, payload: Dictionary) -> String:
 		"REST":
 			if player.field_kit.hp >= MAX_HP:
 				return "HEALTH_FULL"
+		"TREAT":
+			if player.field_kit.hp >= MAX_HP:
+				return "HEALTH_FULL"
+			if not player.item_inventory.contains("first_aid_kit"):
+				return "NEED_FIRST_AID_KIT"
 	return ""
 
 static func attack_damage(world) -> int:
@@ -283,6 +292,20 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			engine.tick(world)
 			if world.npc_life_state_registry.get_life_state(player.npc_id).is_alive():
 				player.field_kit.hp = mini(MAX_HP, player.field_kit.hp + 4)
+		"TREAT":
+			var removed: Dictionary = player.item_inventory.remove_item("first_aid_kit", 1)
+			if not removed.success:
+				return String(removed.error)
+			var healed: int = mini(4, MAX_HP - player.field_kit.hp)
+			player.field_kit.hp += healed
+			action_payload["item_id"] = "first_aid_kit"
+			action_payload["healed"] = healed
+			if player.capability != null:
+				var growth: Dictionary = player.capability.grant_practice("MEDICINE", world.current_day)
+				if growth.get("awarded", false):
+					action_payload["skill_practice"] = {"skill_id": "MEDICINE", "rank_up": growth.rank_up,
+						"from_rank": growth.from_rank, "to_rank": growth.to_rank,
+						"points": growth.points, "required": growth.required}
 		"OPEN":
 			var gains = {}
 			var left = {}
@@ -388,7 +411,10 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					battle.turn += 1
 			world.record_event(EventRecord.new(world.current_day, "FIELD_ACTION", player.npc_id, container_id, {"command": command}))
 			return ""
-	world.record_event(EventRecord.new(world.current_day, "FIELD_ACTION", player.npc_id, StringName(HOME), action_payload))
+	var action_target := StringName(HOME)
+	if command == "TREAT":
+		action_target = world.npc_life_state_registry.get_life_state(player.npc_id).population_container_id
+	world.record_event(EventRecord.new(world.current_day, "FIELD_ACTION", player.npc_id, action_target, action_payload))
 	return ""
 
 static func commit(world, engine, payload: Dictionary) -> Dictionary:
