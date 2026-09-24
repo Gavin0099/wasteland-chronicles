@@ -102,6 +102,7 @@ var lbl_inspection_details: Label
 
 var market_panel: VBoxContainer
 var market_practice_label: Label
+var market_practice_context := ""
 var market_trade_buttons: Dictionary = {}
 var item_market_toggle: Button
 var item_market_scroll: ScrollContainer
@@ -174,6 +175,8 @@ func refresh_ui() -> void:
 		return
 
 	current_projection = PlayerUIProjection.project(world, debug_world_feed_enabled)
+	if market_practice_label != null and market_practice_context != String(current_projection.get("player", {}).get("current_container_id", "")):
+		market_practice_label.visible = false
 	_render_projection(current_projection)
 	ui_refreshed.emit(current_projection)
 
@@ -792,6 +795,8 @@ func _show_local_market() -> void:
 	var location := String(p.get("current_container_id", ""))
 	if not location.begins_with("settlement:") or bool(p.get("is_in_transit", false)):
 		return
+	if market_practice_label != null:
+		market_practice_label.visible = false
 	select_settlement(location)
 	desktop_details_open = true
 	_sync_desktop(current_projection)
@@ -937,6 +942,7 @@ func _show_trade_practice(result: Dictionary) -> void:
 	market_practice_label.visible = not practice.is_empty()
 	if practice.is_empty():
 		return
+	market_practice_context = String(current_projection.get("player", {}).get("current_container_id", ""))
 	market_practice_label.text = "交易能力提升：%d %s" % [int(practice.to_rank),
 		CharacterPresentation.RANK_NAMES[int(practice.to_rank)]] if practice.rank_up else \
 		"交易練習 +1（%d/%d）" % [int(practice.points), int(practice.required)]

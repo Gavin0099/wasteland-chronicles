@@ -367,31 +367,7 @@ static func valid_resolution(data: Dictionary) -> bool:
 	return true
 
 static func valid_practice_receipt(value: Variant, encounter_type: StringName, option_id: StringName) -> bool:
-	if typeof(value) != TYPE_DICTIONARY or value.size() != 6:
-		return false
-	for field in ["skill_id", "rank_up", "from_rank", "to_rank", "points", "required"]:
-		if not value.has(field):
-			return false
-	if typeof(value.skill_id) != TYPE_STRING or value.skill_id not in Capability.SKILLS or value.skill_id != practice_skill(encounter_type, option_id):
-		return false
-	if typeof(value.rank_up) != TYPE_BOOL:
-		return false
-	for field in ["from_rank", "to_rank", "points", "required"]:
-		var number: Variant = value[field]
-		if typeof(number) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(number)) or float(number) != floor(float(number)):
-			return false
-	var from_rank: int = int(value.from_rank)
-	var to_rank: int = int(value.to_rank)
-	if from_rank < 0 or from_rank >= 5 or to_rank < 0 or to_rank > 5:
-		return false
-	if to_rank != from_rank + (1 if value.rank_up else 0):
-		return false
-	var expected_required: int = Capability.PRACTICE_TO_ADVANCE[to_rank] if to_rank < 5 else 0
-	if int(value.required) != expected_required:
-		return false
-	if value.rank_up:
-		return int(value.points) == 0
-	return int(value.points) > 0 and int(value.points) < expected_required
+	return Capability.valid_practice_award(value, practice_skill(encounter_type, option_id))
 
 static func valid_item_quantities(value: Variant) -> bool:
 	if typeof(value) != TYPE_DICTIONARY:

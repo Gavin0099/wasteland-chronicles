@@ -41,3 +41,21 @@ market transactions and combat turns, anti-repeat, authorization refusal,
 optional save fields, malformed records, rank cap, full-world two-track replay
 SHA-256, and global invariants. Full-suite status is recorded in the delivery
 report, not presumed from this focused suite.
+
+## Feedback and saved-receipt integrity
+
+The follow-up C3 feedback slice keeps a market practice notice tied to the
+settlement where its trade occurred. Opening the market again or leaving that
+settlement clears the old notice. A finishing combat blow copies its actual
+practice award into the persistent `FIELD_RESULT` receipt, where the result
+screen shows it above the scrollable outcome text. Saved `FIELD_TURN` and
+`FIELD_RESULT` awards use the same strict receipt validator as encounters;
+invalid awards, practice on a defensive turn, and practice on a non-victory
+result fail load before the player-facing view renders.
+
+`tests/test_s5_c3_feedback_integrity.gd` covers real trade, travel, combat,
+save/load rejection and acceptance, full-world dual-track SHA-256 replay and
+global invariants. Its renderer capture at 1152×648 verifies that a finishing
+blow's practice notice is visible in the result screen. This resolves feedback
+and data-integrity gaps; it does not close the remaining C3 source-coverage or
+pacing decisions.
