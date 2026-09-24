@@ -1,0 +1,27 @@
+{
+  "id": "car_panel_cleaver",
+  "name": "車板刀",
+  "section": 1,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/car_panel_cleaver.png",
+  "source_output": "exec-0d491e26-c6eb-46f1-a586-e7df85faed95.png",
+  "sha256": "accffc20858093c3ce1fdeaed917b2f1a32d42a1055eef8f1dd554b2ad95224c",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    16,
+    30,
+    1238,
+    1223
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

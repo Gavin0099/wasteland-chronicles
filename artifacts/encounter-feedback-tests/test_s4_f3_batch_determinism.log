@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+    WASTELAND CHRONICLES - S4-F3 MULTI-NPC BATCH DETERMINISM
+================================================================================
+
+--- [GATE F3-1] Shared Snapshot ---
+  Day 1: 5 NPCs made decisions in the same phase
+  All 5 NPCs observed the exact same snapshot (no mutation interleaving)
+PASS GATE F3-1: Shared Snapshot verified.
+
+--- [GATE F3-2] Canonical Evaluation Order ---
+  Checked 1 multi-decision days: evaluation order is strictly lexicographic
+  Committed events in ledger preserve strict canonical actor order
+PASS GATE F3-2: Canonical Evaluation Order verified.
+
+--- [GATE F3-3] Insertion Independence ---
+  3 worlds with Forward, Reversed, and Shuffled registry insertion orders:
+  Final World Canonical SHA: 7f222583677b7845e52ce0c2cb354331ebe6b750477e160eede54ef37f4310c9 (bitwise identical)
+  Decision Audit Trail SHA:  3fbb3a6723264ecfea1b7521de82fd3909562e32f67dd7b3495b6af45a474365 (bitwise identical)
+PASS GATE F3-3: Insertion Independence verified.
+
+--- [GATE F3-4] Multi-Intent Revalidation (Case B: Intent Contention) ---
+  Case B Contention tested across 5 replays:
+  npc:00000001 -> COMMITTED (pop 12 -> 11)
+  npc:00000002 -> COMMITTED (pop 11 -> 10)
+  npc:00000003 -> REJECTED (PRECONDITION_CHANGED: origin population at floor 10)
+  Event ledger: 0 migration events for rejected NPC
+  Canonical commit order guaranteed exact same winners & losers on every replay
+PASS GATE F3-4: Multi-Intent Revalidation verified.
+
+--- [GATE F3-5] Population & Transit Conservation (Case A: All 5 Succeed) ---
+  Day 13: All 5 named NPCs departed together
+  All 5 named NPCs are IN_TRANSIT inside party refugee:named_d13_gray_valley_to_new_hope
+  Expected arrival day: Day 15
+  Day 15: All 5 named NPCs arrived at New Hope
+  Life conservation intact: 300 == 300
+PASS GATE F3-5: Population & Transit Conservation verified.
+
+--- [GATE F3-6] Replay & Mid-Cycle Save/Load Equivalence ---
+  Continuous vs Interrupted (Save/Load at Day 14) running to Day 30:
+  Canonical World State SHA:  f3637379a35d5f6d90e5c2693f7825ff35d433268ee68ded8dddb1991e3495a2 (bitwise identical)
+  Decision Audit Trail SHA:   fcc356921e62f49e2236e510e4e6a8d895a76b0e9a550b29b0a0d12e45e023ed (bitwise identical)
+PASS GATE F3-6: Replay & Mid-Cycle Save/Load Equivalence verified.
+
+================================================================================
+ALL S4-F3 MULTI-NPC BATCH DETERMINISM GATES (F3-1 ~ F3-6) PASSED CLEANLY!
+================================================================================

@@ -1,0 +1,27 @@
+{
+  "id": "surgical_kit",
+  "name": "手術包",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/surgical_kit.png",
+  "source_output": "exec-276bb2fc-9379-4ea1-b3ae-c6e2220510da.png",
+  "sha256": "c34c3de9e30770dbf68d5abba3720e153dc2a7f8150db9cdbd68204324031b21",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1222,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "aluminum_stock",
+  "name": "鋁材",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/aluminum_stock.png",
+  "source_output": "exec-179b14df-7987-4a76-be6d-f7bccde01798.png",
+  "sha256": "4047a8427f9208d122119a12eefc231a06821a6b0ca5697ebebc496ced0c5591",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    94,
+    52,
+    1198,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

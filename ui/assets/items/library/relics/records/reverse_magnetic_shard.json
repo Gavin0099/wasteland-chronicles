@@ -1,0 +1,27 @@
+{
+  "id": "reverse_magnetic_shard",
+  "name": "逆磁片",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/reverse_magnetic_shard.png",
+  "source_output": "exec-44dea69a-5699-451f-8aa6-aba4a3a5296f.png",
+  "sha256": "81a57347b6d7f64f9be86a53c27efa3dd06add302b2fe7e84bd3594c3d3bb6d5",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1230,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

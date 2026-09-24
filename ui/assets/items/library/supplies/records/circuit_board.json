@@ -1,0 +1,27 @@
+{
+  "id": "circuit_board",
+  "name": "電路板",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/circuit_board.png",
+  "source_output": "exec-ffe81435-1e1e-4684-8924-7881e74e9d7b.png",
+  "sha256": "884ae2d47dafa66b9ce16681f5e074d6d60f6085b41d216312330e7904b3b451",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1232,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

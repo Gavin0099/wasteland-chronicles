@@ -7,7 +7,7 @@ extends SceneTree
 #   E2: Choice Authority       (options go through intents, never straight to world)
 #   E3: Time Cost              (a day spent is a real day, and it costs supplies)
 #   E4: Resource Conservation  (every loot, payment and scrap has a source)
-#   E5: Resume Travel          (after answering, the journey continues by itself)
+#   E5: Resume Travel          (only after confirming the result, travel resumes)
 #   E6: Save/Load              (a paused encounter survives a save unchanged)
 #
 # THE MOMENT THIS SLICE EXISTS FOR:
@@ -167,7 +167,7 @@ func _init() -> void:
 		var day4: int = w4.current_day
 		engine.commit_player_intent(w4, PlayerIntent.create_resolve_encounter(w4.player.npc_id, &"DETOUR"))
 		var total_days: int = w4.current_day - day4
-		if total_days < remaining4 + 1:
+		if total_days != 1 or party4.days_remaining != remaining4:
 			print("FAIL E3: a detour made the journey SHORTER (%d days for %d remaining + 1)" % [
 				total_days, remaining4])
 			quit(1)
@@ -228,15 +228,13 @@ func _init() -> void:
 			print("FAIL E4: giving water was refused: %s" % give_res.get("error", ""))
 			quit(1)
 			return
-		# The raw inventory delta is NOT 1: resolving resumes the journey, and
-		# the following travel days drink too. What must balance is the recorded
-		# spend against the gift itself.
+		# The receipt pauses travel: only the gift is consumed before confirmation.
 		var given: Dictionary = give_res.get("spent", {})
 		if int(given.get("water", 0)) != 1:
 			print("FAIL E4: the gift was not recorded as 1 water: %s" % given)
 			quit(1)
 			return
-		if w7.player.inventory.water > water_b - 1:
+		if w7.player.inventory.water != water_b - 1:
 			print("FAIL E4: giving water cost nothing (%d -> %d)!" % [
 				water_b, w7.player.inventory.water])
 			quit(1)
@@ -303,6 +301,10 @@ func _init() -> void:
 			print("FAIL E5: could not resolve encounter: %s" % r.get("error", ""))
 			quit(1)
 			return
+		if w8.pending_encounter_result < 0:
+			quit(1)
+			return
+		engine.commit_player_intent(w8, PlayerIntent.create_continue_journey(w8.player.npc_id, w8.pending_encounter_result))
 		answered += 1
 	if answered == 0:
 		print("FAIL E5: no encounter to resume from - the gate would be vacuous!")
@@ -314,8 +316,8 @@ func _init() -> void:
 			ls8.status, ls8.population_container_id])
 		quit(1)
 		return
-	print("  Answered %d encounter(s), then the journey carried on to New Hope by itself" % answered)
-	print("  Arrived on day %d with no further prompting" % w8.current_day)
+	print("  Answered %d encounter(s), confirmed results, then the journey carried on to New Hope" % answered)
+	print("  Arrived on day %d after explicit result confirmation" % w8.current_day)
 	print("PASS GATE E5: Resume Travel verified.")
 
 	# --------------------------------------------------------------------------
@@ -328,7 +330,7 @@ func _init() -> void:
 		quit(1)
 		return
 
-	var wb := WorldState.from_dict(JSON.parse_string(JSON.stringify(wa.to_dict())))
+	var wb := WorldState.from_json(JSON.stringify(wa.to_dict()))
 	if wb == null:
 		print("FAIL E6: loader refused a snapshot paused on an encounter!")
 		quit(1)
@@ -348,11 +350,15 @@ func _init() -> void:
 	var choice := StringName(String(opts_a[opts_a.size() - 1]["id"]))
 	engine.commit_player_intent(wa, PlayerIntent.create_resolve_encounter(wa.player.npc_id, choice))
 	engine.commit_player_intent(wb, PlayerIntent.create_resolve_encounter(wb.player.npc_id, choice))
+	engine.commit_player_intent(wa, PlayerIntent.create_continue_journey(wa.player.npc_id, wa.pending_encounter_result))
+	engine.commit_player_intent(wb, PlayerIntent.create_continue_journey(wb.player.npc_id, wb.pending_encounter_result))
 	while wa.active_encounter != null:
 		var o := TravelEncounter.options(wa.active_encounter.encounter_type)
 		var c := StringName(String(o[o.size() - 1]["id"]))
 		engine.commit_player_intent(wa, PlayerIntent.create_resolve_encounter(wa.player.npc_id, c))
 		engine.commit_player_intent(wb, PlayerIntent.create_resolve_encounter(wb.player.npc_id, c))
+		engine.commit_player_intent(wa, PlayerIntent.create_continue_journey(wa.player.npc_id, wa.pending_encounter_result))
+		engine.commit_player_intent(wb, PlayerIntent.create_continue_journey(wb.player.npc_id, wb.pending_encounter_result))
 
 	var sha_a := wa.to_canonical_json().sha256_text()
 	var sha_b := wb.to_canonical_json().sha256_text()
@@ -400,6 +406,7 @@ func travel_until_encounter(engine: SimulationEngine, w: WorldState, first_dest:
 			var opts := TravelEncounter.options(w.active_encounter.encounter_type)
 			var cheapest := StringName(String(opts[opts.size() - 1]["id"]))
 			engine.commit_player_intent(w, PlayerIntent.create_resolve_encounter(w.player.npc_id, cheapest))
+			engine.commit_player_intent(w, PlayerIntent.create_continue_journey(w.player.npc_id, w.pending_encounter_result))
 			continue
 		# Top the traveller up so the search is about encounters, not starvation.
 		w.player.inventory.set_amount("water", 10)

@@ -1,0 +1,27 @@
+{
+  "id": "music_player",
+  "name": "音樂播放器",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/music_player.png",
+  "source_output": "exec-4d43912e-df77-4478-8684-e3832aa8e6d4.png",
+  "sha256": "8c668760c9f457ae21ee1e6a07c90cc300ce6555c05839766de9e4d9c8f29485",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    109,
+    1193,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

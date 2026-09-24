@@ -1,0 +1,27 @@
+{
+  "id": "multimeter",
+  "name": "萬用電表",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/multimeter.png",
+  "source_output": "exec-86402896-8610-477d-9726-332b75953a4c.png",
+  "sha256": "005450628872b13b667c2da1814d6639db23ad26698aa7e60d8a01ecc1202ad1",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1230,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,6 +1,16 @@
 class_name WorldState
 extends RefCounted
 
+const Field = preload("res://simulation/field_adventure.gd")
+var field_state: Dictionary = Field.new_state()
+
+const Capability = preload("res://simulation/capability_profile.gd")
+const RankCodec = preload("res://simulation/rank_json_codec.gd")
+const ItemInventory = preload("res://simulation/item_inventory_state.gd")
+const Equipment = preload("res://simulation/equipment_state.gd")
+const ItemMarket = preload("res://simulation/item_market_state.gd")
+const QuestStateReg = preload("res://simulation/quest_state_registry.gd")
+
 var current_day: int = 0
 var total_initial_population: int = -1
 var next_npc_sequence: int = 1
@@ -21,6 +31,15 @@ var decision_audit_trail: Array[NpcDecisionEvidence] = []
 
 # S5-B4: the encounter currently halting the player's journey, or null.
 var active_encounter: TravelEncounterState = null
+# A receipt points to the committed ledger, never a second copy of the rewards.
+# -1 also preserves compatibility with saves made before result confirmation.
+var pending_encounter_result: int = -1
+
+# QUEST-1: Quest runtime state and world-effect flags.
+# quest_state is omitted from to_dict() when empty (same pattern as player/item_inventory)
+# so old saves produce byte-identical JSON — Gate 7.
+var quest_state: RefCounted = QuestStateReg.new()
+var quest_flags: Dictionary = {}  # Dictionary[String, bool] — set by quest world_effects
 
 func get_settlement(id: StringName) -> SettlementState:
 	return settlements.get(id, null)
@@ -110,6 +129,12 @@ func duplicate_state() -> WorldState:
 		copy.decision_audit_trail.append((ev as NpcDecisionEvidence).duplicate_evidence())
 	if player != null:
 		copy.player = player.duplicate_state()
+	copy.active_encounter = active_encounter.duplicate_state() if active_encounter != null else null
+	copy.pending_encounter_result = pending_encounter_result
+	copy.field_state = field_state.duplicate(true)
+	# QUEST-1
+	copy.quest_state = quest_state.duplicate_registry()
+	copy.quest_flags = quest_flags.duplicate(true)
 	return copy
 
 func to_dict() -> Dictionary:
@@ -145,6 +170,9 @@ func to_dict() -> Dictionary:
 		decisions_arr.append((ev as NpcDecisionEvidence).to_dict())
 
 	var result := {
+		"progression_schema_version": 1,
+		"field_schema_version": 1,
+		"field_state": field_state.duplicate(true),
 		"current_day": current_day,
 		"total_initial_population": total_initial_population,
 		"next_npc_sequence": next_npc_sequence,
@@ -160,10 +188,18 @@ func to_dict() -> Dictionary:
 		"event_count": events_arr.size(),
 		"events": events_arr,
 		"decision_audit_trail": decisions_arr,
-		"active_encounter": active_encounter.to_dict() if active_encounter != null else {}
+		"active_encounter": active_encounter.to_dict() if active_encounter != null else {},
+		"pending_encounter_result": pending_encounter_result,
 	}
 	if player != null:
 		result["player"] = player.to_dict()
+	# Omit-if-empty: old saves without quest activity produce the same JSON bytes (Gate 7)
+	if not quest_state.is_empty():
+		result["quest_schema_version"] = 1
+		result["quest_state"] = quest_state.to_dict()
+	if not quest_flags.is_empty():
+		result["quest_schema_version"] = 1
+		result["quest_flags"] = quest_flags.duplicate(true)
 	return result
 
 # ==============================================================================
@@ -182,6 +218,9 @@ func to_dict() -> Dictionary:
 # quietly loads as "nothing ever happened" is more dangerous than a world that
 # refuses to load at all, because the first one lies and the second one stops.
 static func from_dict_checked(data: Dictionary) -> Dictionary:
+	var field_error := Field.validate_wire(data)
+	if field_error != "":
+		return {"success": false, "world": null, "error": field_error}
 	# The events key is MANDATORY. A pre-S4-C.1 snapshot carrying
 	# "event_count": 20 with no ledger would otherwise silently reconstruct a
 	# world in which nothing has ever happened.
@@ -193,6 +232,17 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		}
 	if typeof(data["events"]) != TYPE_ARRAY:
 		return {"success": false, "world": null, "error": "LEDGER_MALFORMED: 'events' is not an array"}
+	if data.has("settlements"):
+		if typeof(data.settlements) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "INVALID_SETTLEMENTS"}
+		for settlement_id in data.settlements:
+			var raw_settlement: Variant = data.settlements[settlement_id]
+			if typeof(raw_settlement) != TYPE_DICTIONARY:
+				return {"success": false, "world": null, "error": "INVALID_SETTLEMENT_STATE"}
+			if raw_settlement.has("item_market"):
+				var item_market_error := ItemMarket.validate_serialized(raw_settlement.item_market)
+				if item_market_error != "":
+					return {"success": false, "world": null, "error": item_market_error}
 
 	var events_data: Array = data["events"]
 
@@ -218,6 +268,77 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		var err := EventRecord.validate_dict(events_data[i], i)
 		if err != "":
 			return {"success": false, "world": null, "error": "LEDGER_MALFORMED: %s" % err}
+
+	# Missing version + missing capability is the explicit pre-C1 migration.
+	# A versioned partial profile is corruption, never a migration fallback.
+	var player_data: Variant = data.get("player")
+	var has_player_data := typeof(player_data) == TYPE_DICTIONARY
+	if player_data != null and not has_player_data:
+		return {"success": false, "world": null, "error": "INVALID_PLAYER_PROFILE"}
+	if data.has("progression_schema_version"):
+		var version: Variant = data.progression_schema_version
+		if typeof(version) not in [TYPE_INT, TYPE_FLOAT] or version != 1:
+			return {"success": false, "world": null, "error": "UNSUPPORTED_PROGRESSION_SCHEMA"}
+		if has_player_data:
+			var capability_error := Capability.validate(player_data.get("capability"))
+			if capability_error != "":
+				return {"success": false, "world": null, "error": capability_error}
+			if player_data.capability.npc_id != player_data.get("npc_id"):
+				return {"success": false, "world": null, "error": "CAPABILITY_OWNER_MISMATCH"}
+	elif has_player_data and player_data.has("capability"):
+		return {"success": false, "world": null, "error": "MISSING_PROGRESSION_SCHEMA"}
+	if has_player_data:
+		if player_data.has("item_inventory"):
+			var item_inventory_error := ItemInventory.validate_serialized(player_data.item_inventory)
+			if item_inventory_error != "":
+				return {"success": false, "world": null, "error": item_inventory_error}
+		if player_data.has("equipment"):
+			var item_inventory_data: Variant = player_data.get("item_inventory", {"items": []})
+			var checked_inventory := ItemInventory.from_dict_checked(item_inventory_data)
+			if not checked_inventory.success:
+				return {"success": false, "world": null, "error": checked_inventory.error}
+			var equipment_error := Equipment.validate_serialized(player_data.equipment, checked_inventory.inventory)
+			if equipment_error != "":
+				return {"success": false, "world": null, "error": equipment_error}
+		# Old profile loaders canonicalize metadata. Before migration, reject
+		# malformed values rather than repairing them into a different biography.
+		var profiles: Variant = data.get("npc_profile_registry")
+		if typeof(profiles) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "MISSING_PROFILE_REGISTRY"}
+		for owner in profiles:
+			var biography: Variant = profiles[owner]
+			if typeof(biography) != TYPE_DICTIONARY or biography.get("npc_id") != owner:
+				return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_OWNER"}
+			var background := NumericCanon.restore_int(biography.get("background"), "background", 0, 3)
+			if not background.ok:
+				return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_BACKGROUND"}
+			for field in ["traits", "aptitudes"]:
+				var tags: Variant = biography.get(field, [])
+				if typeof(tags) != TYPE_ARRAY:
+					return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_TAGS"}
+				var previous := -1
+				for tag in tags:
+					var restored := NumericCanon.restore_int(tag, field, 0, 5 if field == "traits" else 4)
+					if not restored.ok or restored.value <= previous:
+						return {"success": false, "world": null, "error": "INVALID_BIOGRAPHY_TAGS"}
+					previous = restored.value
+
+	# QUEST-1: quest_schema_version validation (migration: absent = v1 empty state)
+	if data.has("quest_schema_version"):
+		var qv: Variant = data.quest_schema_version
+		if typeof(qv) not in [TYPE_INT, TYPE_FLOAT] or qv != 1:
+			return {"success": false, "world": null, "error": "UNSUPPORTED_QUEST_SCHEMA"}
+	# Validate quest_state dict shape before constructing
+	if data.has("quest_state"):
+		var qs_err := QuestStateReg.validate_dict(data["quest_state"])
+		if qs_err != "":
+			return {"success": false, "world": null, "error": qs_err}
+	if data.has("quest_flags"):
+		if typeof(data["quest_flags"]) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "QUEST_FLAGS_NOT_DICT"}
+		for flag in data["quest_flags"]:
+			if typeof(flag) != TYPE_STRING or flag.is_empty() or typeof(data["quest_flags"][flag]) != TYPE_BOOL:
+				return {"success": false, "world": null, "error": "QUEST_FLAGS_INVALID_ENTRY"}
 
 	var w := from_dict_unchecked(data)
 
@@ -245,7 +366,43 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 				return {"success": false, "world": null, "error": "ENCOUNTER_MALFORMED: unknown encounter type '%s'" % enc.encounter_type}
 			w.active_encounter = enc
 
-	return {"success": true, "world": w, "error": ""}
+	if data.has("field_state"):
+		w.field_state = Field.normalize_state(data.field_state)
+	var field_world_error := Field.validate_world(w)
+	if field_world_error != "":
+		return {"success": false, "world": null, "error": field_world_error}
+	var receipt: Variant = data.get("pending_encounter_result", -1)
+	if typeof(receipt) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(receipt)) or float(receipt) != floor(float(receipt)) or float(receipt) < -1 or float(receipt) >= w.event_log.size():
+		return {"success": false, "world": null, "error": "ENCOUNTER_RESULT_MALFORMED: invalid ledger reference"}
+	w.pending_encounter_result = int(receipt)
+	if w.pending_encounter_result >= 0:
+		var evt := w.event_log[w.pending_encounter_result]
+		if w.active_encounter != null or w.player == null or evt.actor_id != w.player.npc_id or evt.type != "TRAVEL_ENCOUNTER_RESOLVED" or not TravelEncounter.valid_resolution(evt.payload):
+			return {"success": false, "world": null, "error": "ENCOUNTER_RESULT_MALFORMED: invalid receipt"}
+	if w.player != null:
+		var owner_id := w.player.npc_id
+		if not w.npc_registry.has_npc(owner_id) or not w.npc_life_state_registry.has_life_state(owner_id) or not w.npc_profile_registry.has_profile(owner_id):
+			return {"success": false, "world": null, "error": "INVALID_CAPABILITY_OWNER_REFERENCE"}
+		var capability_data: Dictionary = w.player.capability.to_dict()
+		if capability_data.creation_origin == "CHARACTER_CREATION" and capability_data.background_id != NpcProfile.background_name(w.npc_profile_registry.get_profile(owner_id).background):
+			return {"success": false, "world": null, "error": "CAPABILITY_BACKGROUND_MISMATCH"}
+		var world_error := SimulationEngine.new().validate_invariants(w)
+		if world_error != "":
+			return {"success": false, "world": null, "error": world_error}
+	return {"success": true, "world": w, "error": "", "migrated": not data.has("progression_schema_version")}
+
+# Raw saves must enter here, before Godot erases rank-token spelling.
+static func from_json_checked(raw: String) -> Dictionary:
+	var decoded := RankCodec.decode(raw)
+	if not decoded.success:
+		return {"success": false, "world": null, "error": decoded.error}
+	return from_dict_checked(decoded.data)
+
+static func from_json(raw: String) -> WorldState:
+	var result := from_json_checked(raw)
+	if not result.success:
+		push_error("WorldState.from_json refused snapshot: %s" % result.error)
+	return result.world
 
 # Thin wrapper: returns the world, or null when the snapshot is refused.
 static func from_dict(data: Dictionary) -> WorldState:
@@ -282,6 +439,11 @@ static func from_dict_unchecked(data: Dictionary) -> WorldState:
 			w.refugees[StringName(r_id)] = RefugeePartyState.from_dict(r_data[r_id])
 	if data.has("player") and data["player"] != null and typeof(data["player"]) == TYPE_DICTIONARY:
 		w.player = PlayerState.from_dict(data["player"])
+	# QUEST-1: load quest runtime state (graceful migration — absent = empty registry)
+	if data.has("quest_state") and typeof(data["quest_state"]) == TYPE_DICTIONARY:
+		w.quest_state = QuestStateReg.from_dict(data["quest_state"])
+	if data.has("quest_flags") and typeof(data["quest_flags"]) == TYPE_DICTIONARY:
+		w.quest_flags = data["quest_flags"].duplicate(true)
 	return w
 
 func to_canonical_json() -> String:
@@ -308,4 +470,4 @@ func to_simulation_projection_dict() -> Dictionary:
 	return projection
 
 func to_simulation_projection_json() -> String:
-	return JSON.stringify(to_simulation_projection_dict(), "	", true)
+	return JSON.stringify(to_simulation_projection_dict(), "\t", true)

@@ -1,0 +1,27 @@
+{
+  "id": "black_box_memory",
+  "name": "黑盒記憶體",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/black_box_memory.png",
+  "source_output": "exec-201f2685-9584-4a6f-9816-8d8f13ea2c92.png",
+  "sha256": "2439e4cb1f19c6ddeddcb3d41945297d6d026fa9dacc4dd4a60a5ea9d81f12e9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    59,
+    15,
+    1216,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

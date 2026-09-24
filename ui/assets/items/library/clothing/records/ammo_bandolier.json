@@ -1,0 +1,27 @@
+{
+  "id": "ammo_bandolier",
+  "name": "彈藥帶",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/ammo_bandolier.png",
+  "source_output": "exec-f0751eb8-f88c-4032-84dc-f9dc6f3c39a1.png",
+  "sha256": "953554976602837649e6eb7431a3f04f429468f61911facf931ef2ba8a8c42fc",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1230,
+    1200
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

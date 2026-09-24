@@ -1,0 +1,27 @@
+{
+  "id": "car_panel_cuirass",
+  "name": "車板胸甲",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/car_panel_cuirass.png",
+  "source_output": "exec-d0a76e07-76af-4225-862a-8f5b66fe01f3.png",
+  "sha256": "e8c9a339d91635dad6d625f386c8dc192bbb11db06a3720efdeed127f456c474",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1240,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

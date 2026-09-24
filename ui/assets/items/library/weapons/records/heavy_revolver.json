@@ -1,0 +1,27 @@
+{
+  "id": "heavy_revolver",
+  "name": "大口徑左輪",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/heavy_revolver.png",
+  "source_output": "exec-67b7149d-d0a2-4e4c-87d9-3b35132629c3.png",
+  "sha256": "18eea96c6cdb645c781931be0c30c918c30ab00d8f4b5f046d4522126b9295da",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1254,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

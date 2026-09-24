@@ -1,0 +1,27 @@
+{
+  "id": "copper_wire",
+  "name": "銅線",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/copper_wire.png",
+  "source_output": "exec-c3f75d1a-dc71-458b-9b92-3d5cf56f4fba.png",
+  "sha256": "a26f043281bdb7cf43fcbac78144b49160ae1368ca146566ef421d0192ed31bd",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1224,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "tool_belt",
+  "name": "工具腰帶",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/tool_belt.png",
+  "source_output": "exec-62907f63-80e1-4899-9fe1-ac000e832da3.png",
+  "sha256": "180a97adb19c4acf0ce58f919c5d696d8e11a89584e5f8023ee81fc105876b22",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1224,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

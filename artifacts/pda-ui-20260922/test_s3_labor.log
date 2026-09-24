@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S3-E LABOR FEEDBACK TEST SUITE
+================================================================================
+
+--- [GATE E1] Baseline Equivalence ---
+  Across 30 baseline days, all settlements inventories are 100% identical.
+PASS GATE E1: Baseline Equivalence verified.
+
+--- [GATE E2] Population Sensitivity ---
+  Gray Valley Pop 50 / RefPop 100 (Labor Factor 0.5): 10 Days Scrap = 55 (Exact 55)
+PASS GATE E2: Population Sensitivity verified.
+
+--- [GATE E3] Capacity Ceiling ---
+  New Hope Pop 200 / RefPop 120: 10 Days Water = 140 (Cap 140), Food = 90 (Cap 90)
+PASS GATE E3: Capacity Ceiling strictly enforced (No infinite scaling).
+
+--- [GATE E4] Zero Population Output Collapse ---
+  Abandoned Gray Valley (Pop 0): 10 Days Scrap = 0
+PASS GATE E4: Zero Population Output Collapse verified.
+
+--- [GATE E5] Deterministic Fractional Credit Accumulator ---
+  Pop 9 (0.99 scrap/day): 100 Days Scrap = 99 (Exact 99) | Remainder Credit: 0.0000
+PASS GATE E5: Deterministic Fractional Credit Accumulator verified.
+
+--- [GATE E6] Regional Supply Chain Ripple ---
+  Day 100 Gray Valley Population: Labor World = 9 | No-Labor World = 9
+  Day 100 Gray Valley Scrap Stock: Labor World = 98 vs No-Labor World = 557
+  Day 100 New Hope Scrap Stock: Labor World = 1 vs No-Labor World = 1
+  Day 100 New Hope Scrap Price: Labor World = $39.60 vs No-Labor World = $39.60
+PASS GATE E6: Regional Supply Chain Ripple verified (Population collapse backfires on industry).
+
+--- [GATE E7] Full Invariant & Regression Verification ---
+  World B Day 100 SHA-256 with Labor Feedback: 9a695527ac591617ad24fbd55b304d2a0d15a27b7c23273acd8e582ea4073160
+PASS GATE E7: Full Invariant & Determinism Replay verified.
+
+================================================================================
+ALL S3-E ACCEPTANCE GATES (E1 ~ E7) PASSED!
+================================================================================

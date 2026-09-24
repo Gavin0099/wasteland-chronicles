@@ -1,0 +1,2451 @@
+[
+  {
+    "hook_id": "hook_new_hope_001",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "水務保管人",
+    "public_need_zh": "追回借出扳手並分清供水與農務的領用時段。",
+    "private_stake_zh": "怕漏記借具被當成私用公物，不願先答應修好水泵。",
+    "leverage_zh": "能提供當前借具簿與有權查驗的設備位置。",
+    "limit_zh": "不能因職務控制玩家飲水或認定陌生人偷工具。",
+    "group_ids": [
+      "nh_water_stewards"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『水務保管人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_wrench",
+      "content_rope"
+    ],
+    "encounter_refs": [
+      "town_001",
+      "npc_001"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_002",
+        "tension_zh": "種庫也要同一套工具，兩份已承諾時間互相衝突。",
+        "cooperation_zh": "共同核對領用簿可少做一次重複交接。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "借具尚未歸還且本次輪值仍由其負責。",
+      "without_player_zh": "若原借用人先歸還，關閉催還需求；若交班，只把已核對資料移交實際接班者。"
+    },
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_002",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "種庫照管人",
+    "public_need_zh": "固定破角種箱並保留批次標記再分送。",
+    "private_stake_zh": "不願把分發延誤算在新住民頭上，也怕失去種子出處。",
+    "leverage_zh": "持有當前封條清單，能批準有限外觀查驗。",
+    "limit_zh": "不能憑目視保證發芽，也不能重複交付同一批種子。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『種庫照管人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_rope",
+      "content_seeds",
+      "content_waterproof_bag"
+    ],
+    "encounter_refs": [
+      "town_002",
+      "npc_002"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_001",
+        "tension_zh": "想先用工具修箱，水務卻有在先領用承諾。",
+        "cooperation_zh": "交換可驗證時段能讓兩邊各保住必要工作。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "待分箱仍在庫內且沒有其他人完成同一修補。",
+      "without_player_zh": "若箱已由另一工人妥善處理，取消借繩工作；原分發依有效承諾繼續，不等玩家。"
+    },
+    "dependencies": [
+      "cargo",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_003",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "診療所收貨人",
+    "public_need_zh": "補驗急救包外包與交付清單空格。",
+    "private_stake_zh": "擔心簽下未見內容害後續缺料者找錯責任人。",
+    "leverage_zh": "可安排原送貨人與可查的簽領紀錄。",
+    "limit_zh": "無資格憑封面替未知藥作安全認證。",
+    "group_ids": [
+      "nh_clinic"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『診療所收貨人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_first_aid_kit",
+      "content_medical_manual"
+    ],
+    "encounter_refs": [
+      "town_003",
+      "npc_003"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_018",
+        "tension_zh": "外營用品聯絡人急需放貨，不願等完整清單。",
+        "cooperation_zh": "先分出可驗與未驗項目可讓有限的實物先依法交接。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "封閉用品尚待驗收且現任保管者同意查驗。",
+      "without_player_zh": "若正本送達就改成核對工作；若已合法退貨，原驗收請求失效，不再憑空補一箱。"
+    },
+    "dependencies": [
+      "cargo",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_004",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "灌溉時段抄錄人",
+    "public_need_zh": "把兩隊各自記的開閘時刻對上可共同見證的交班點。",
+    "private_stake_zh": "自己的時計會漂移，不想以不準時間懲罰鄰田。",
+    "leverage_zh": "能出示不同版本的手寫值班條。",
+    "limit_zh": "沒有權限改世界日數或強迫停水。",
+    "group_ids": [
+      "nh_water_stewards",
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『灌溉時段抄錄人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_old_world_watch",
+      "content_paper_journal"
+    ],
+    "encounter_refs": [
+      "npc_001",
+      "npc_020"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_001",
+        "tension_zh": "保管人要求按舊簿辦，抄錄人認為時刻來源未校準。",
+        "cooperation_zh": "共同保留原始記錄可避免互相推責。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "兩份當日紀錄仍可查且尚未裁定交班爭議。",
+      "without_player_zh": "若雙方已共同完成下一次交班，新工作改為補記；不改寫過去已發生的供水。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_005",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "井繩檢查工",
+    "public_need_zh": "先辨認井架繩索的借用人與可見磨損，再提維護安排。",
+    "private_stake_zh": "怕原主臨行要收繩，自己卻被要求保證井架全天可用。",
+    "leverage_zh": "熟悉目前可合法接近的綁點與交班人。",
+    "limit_zh": "目視不能認證全部承重，不得私扣借物。",
+    "group_ids": [
+      "nh_water_stewards"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『井繩檢查工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_rope",
+      "content_engineering_goggles"
+    ],
+    "encounter_refs": [
+      "npc_019",
+      "npc_016"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_001",
+        "tension_zh": "保管人想留下繩，檢查工堅持到期先詢問原主。",
+        "cooperation_zh": "把用途與歸還時間寫清可減少臨時停工。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "該繩仍在井架且有合法檢查窗口。",
+      "without_player_zh": "若繩已按約歸還，改為尋替代方案；不能自動從公庫生出新繩。"
+    },
+    "dependencies": [
+      "cargo",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_006",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "排水溝清理人",
+    "public_need_zh": "只清理已確認的表層落葉，避免碰到未知管線。",
+    "private_stake_zh": "想證明普通清溝工作也值得付工錢，不願冒險挖深。",
+    "leverage_zh": "可指出可見堵塞位置與上次處理範圍。",
+    "limit_zh": "無權挖鄰田或宣布舊管線安全。",
+    "group_ids": [
+      "nh_water_stewards",
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『排水溝清理人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_entrenching_shovel",
+      "content_geological_survey_map"
+    ],
+    "encounter_refs": [
+      "npc_016"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_004",
+        "tension_zh": "抄錄人想趕在輪灌前完工，清理人只答應有限範圍。",
+        "cooperation_zh": "公開已完成與未處理段落能合理排下一班。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "表面堵塞仍存在且管理者允許進入。",
+      "without_player_zh": "若其他人先清完，按實際範圍驗收並關閉；不製造新的堵塞等玩家。"
+    },
+    "dependencies": [
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_007",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "領水見證人",
+    "public_need_zh": "讓新來者能看懂現行領水順序與已有承諾。",
+    "private_stake_zh": "擔心自己的親友被誤認插隊，不願代填未到場人。",
+    "leverage_zh": "能提供當日排隊記錄和見證者。",
+    "limit_zh": "不能額外生成水、名額或給朋友免排權。",
+    "group_ids": [
+      "nh_water_stewards",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『領水見證人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_water",
+      "content_paper_journal"
+    ],
+    "encounter_refs": [
+      "npc_019",
+      "npc_021"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_010",
+        "tension_zh": "新住民聯絡人要求快速照顧急件，見證人怕破壞原順序。",
+        "cooperation_zh": "先辨明實際已到與未到的人可減少雙重登記。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "當前隊伍尚在且名額仍由現任管理者核對。",
+      "without_player_zh": "若隊伍已散或輪值結束，改查交接記錄；不召回離開的居民。"
+    },
+    "dependencies": [
+      "cargo",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_008",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "糧袋秤重人",
+    "public_need_zh": "在交貨前分清包材重量與實際可驗的貨物份額。",
+    "private_stake_zh": "自己曾忘記記空袋重量，不想讓搬運人承擔猜測損耗。",
+    "leverage_zh": "可以出示原秤具與尚未拆散的貨袋。",
+    "limit_zh": "不能自創公升公斤與既有 food 總量的換算。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『糧袋秤重人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_cloth_sack",
+      "content_food"
+    ],
+    "encounter_refs": [
+      "npc_018",
+      "npc_023"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_002",
+        "tension_zh": "種庫想先分貨，秤重人要求保留至少一組原始記錄。",
+        "cooperation_zh": "共同逐袋簽領可使批次流向可追溯。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "同批貨仍未結算且有見證稱量條件。",
+      "without_player_zh": "若買賣已正式完成，只能保存後續勘誤，不追回已消耗食物或改歷史數量。"
+    },
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_009",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "還種批次核對人",
+    "public_need_zh": "分開居民歸還的不同批次種子，不用相似外觀當成同種。",
+    "private_stake_zh": "怕被說刻意刁難回收少的家庭。",
+    "leverage_zh": "掌握借出與歸還日期的文書副本。",
+    "limit_zh": "不能因還種不足直接發明偷竊或農業失敗。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『還種批次核對人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_seeds",
+      "content_planting_manual"
+    ],
+    "encounter_refs": [
+      "npc_014",
+      "npc_030"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_002",
+        "tension_zh": "照管人想快點重新分裝，核對人要求先保留來源袋。",
+        "cooperation_zh": "共同建立批次代號能減少混種疑問。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "歸還袋尚未混合且原領種紀錄可查。",
+      "without_player_zh": "若原主撤回交還，停止驗收；若已依法混袋，坦承來源無法完全還原。"
+    },
+    "dependencies": [
+      "cargo",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_010",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "新住民聯絡人",
+    "public_need_zh": "把取水、短工與借用品的實際窗口說清楚。",
+    "private_stake_zh": "不願為得到幫助替新來者編造身分或悲劇。",
+    "leverage_zh": "能聯繫已同意分享經驗的在場居民。",
+    "limit_zh": "不代表所有新來者，也無權增加聚落人口。",
+    "group_ids": [
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『新住民聯絡人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_identity_document",
+      "content_waterskin"
+    ],
+    "encounter_refs": [
+      "npc_026",
+      "npc_024"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_007",
+        "tension_zh": "對急需援助者想加快服務，見證人要遵守已有承諾。",
+        "cooperation_zh": "共同分辨緊急需求與缺失文書可找到合法安排。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "有已存在的在場居民自願提出需求。",
+      "without_player_zh": "若對方自行找到工作或按正式遷徙離開，更新聯絡狀態，不把玩家未幫忙當死亡原因。"
+    },
+    "dependencies": [
+      "camping",
+      "cargo",
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_011",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "菜圃繫繩幫工",
+    "public_need_zh": "用安全可握的工具或徒手解結整理攀架。",
+    "private_stake_zh": "自己的獵刀是借來的，怕留下便無法按時歸還。",
+    "leverage_zh": "知道哪些結可鬆開，能提供當次工作驗收範圍。",
+    "limit_zh": "不承諾處理食物，不私自拿走玩家刀具。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『菜圃繫繩幫工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_rusted_knife",
+      "content_hunting_knife",
+      "content_rope"
+    ],
+    "encounter_refs": [
+      "npc_011"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_012",
+        "tension_zh": "獵具保管人重視刀口保存，幫工只想快速解完繫繩。",
+        "cooperation_zh": "先挑可徒手解的段落可減少借刀時間。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "攀架尚未整理且雇主允許進場。",
+      "without_player_zh": "若其他短工已解完結，本次工作結束；刀具按實際借用紀錄歸還。"
+    },
+    "dependencies": [
+      "equipment",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_012",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "獵具保管人",
+    "public_need_zh": "保留獵刀缺口的來源記號，再決定可否磨修。",
+    "private_stake_zh": "擔心好心磨刀反而抹掉家族寄物特徵。",
+    "leverage_zh": "保存前次交接時的刀柄與刀口描述。",
+    "limit_zh": "沒有權利把有紀念意義的借物當一般庫存出售。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『獵具保管人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_hunting_knife",
+      "content_leather"
+    ],
+    "encounter_refs": [
+      "npc_012"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_011",
+        "tension_zh": "幫工需要立即可用的刀，保管人不願犧牲辨識特徵。",
+        "cooperation_zh": "提供另一件合法工具能讓寄物保持完整。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原刀尚在且所有人仍同意討論維修。",
+      "without_player_zh": "若原主領回，停止代理維修；不為玩家重新造一把同名紀念刀。"
+    },
+    "dependencies": [
+      "equipment",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_013",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "棚邊圍籬住戶",
+    "public_need_zh": "先確認哪些枝條支撐圍籬，再準許清理。",
+    "private_stake_zh": "怕菜圃擴張吃掉自己的出入口，卻也需要排水通暢。",
+    "leverage_zh": "知道圍籬上次補修位置與可見界標。",
+    "limit_zh": "私人說法不是土地權威，不能直接封路。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『棚邊圍籬住戶』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_scrap_machete",
+      "content_rope"
+    ],
+    "encounter_refs": [
+      "npc_013",
+      "npc_020"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_006",
+        "tension_zh": "清理人想去掉枝葉，住戶希望先有替代支撐。",
+        "cooperation_zh": "共同標出不影響通路的處理範圍。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "枝條與界標仍在，雙方尚未同意施工。",
+      "without_player_zh": "若管理者已有可核實裁定，按新條件重驗；沒有裁定就保留爭議，不強行拆牆。"
+    },
+    "dependencies": [
+      "equipment",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_014",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "儲種外觀整理人",
+    "public_need_zh": "把未知種粒先編號與分袋，不急著取好聽名字。",
+    "private_stake_zh": "想做出可靠記錄，怕自己的猜測被商人當認證。",
+    "leverage_zh": "能提供可比較外觀與原袋位置。",
+    "limit_zh": "不能憑種植背景宣告可食、耐旱或高產。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『儲種外觀整理人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_planting_manual",
+      "content_gray_seed",
+      "content_cloth_sack"
+    ],
+    "encounter_refs": [
+      "npc_014",
+      "npc_027"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_009",
+        "tension_zh": "批次核對人看重交付日期，整理人關心袋內已混的外觀差異。",
+        "cooperation_zh": "兩份資訊並列能保留不確定性。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "未知種粒仍封存且有合法查驗同意。",
+      "without_player_zh": "若專業鑑定已完成，改用正式結果；若樣本消耗，不生成替代樣本補研究。"
+    },
+    "dependencies": [
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_015",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "醃藏工作承接人",
+    "public_need_zh": "為當次保存工作找有限鹽料並確認誰先到期。",
+    "private_stake_zh": "怕每次急件都要讓給出價較高的外來買家。",
+    "leverage_zh": "能列出已有食物與工作窗口，不只是泛稱需求高。",
+    "limit_zh": "沒有權利把鹽直接換成永久食物保存效果。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『醃藏工作承接人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_salt",
+      "content_canned_food"
+    ],
+    "encounter_refs": [
+      "npc_017"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_034",
+        "tension_zh": "商販想把鹽帶去外地，承接人想保住本地已約定份額。",
+        "cooperation_zh": "公開現有承諾可讓剩餘批次合法交易。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "當次食物與委託仍存在，鹽尚未另行售出。",
+      "without_player_zh": "若來源已合法賣出，重新報缺額或終止；不虛構另一車鹽填補。"
+    },
+    "dependencies": [
+      "cooking",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_016",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "食物箱保管人",
+    "public_need_zh": "確認不冷的冰是否能與食物接觸，先把未知樣本分開。",
+    "private_stake_zh": "想少浪費食物，但不願承擔未驗證冷藏的保證。",
+    "leverage_zh": "有可提供對照的空箱與現有食物紀錄。",
+    "limit_zh": "不能由降溫現象判斷可食性或保存期限。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『食物箱保管人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_uncold_ice",
+      "content_waterproof_bag"
+    ],
+    "encounter_refs": [
+      "anomaly_002"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_015",
+        "tension_zh": "醃藏人想等可靠方法，保管人急於試試新樣本。",
+        "cooperation_zh": "先做與食品分離的有限觀察可降低爭議。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "樣本仍在且管理者同意隔離測試。",
+      "without_player_zh": "若已有正式安全結果，重新評估；若樣本被交走，試驗邀請關閉而非免費複製。"
+    },
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_017",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "舊衣裁補人",
+    "public_need_zh": "替舊工作服補口袋，保留原領用標記。",
+    "private_stake_zh": "希望裁補被看成正式勞動，而非用剩布就不必付工錢。",
+    "leverage_zh": "掌握可見縫線與能完成的小修範圍。",
+    "limit_zh": "不能替身份不明的人編造工作資格。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『舊衣裁補人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_work_clothes",
+      "content_cloth"
+    ],
+    "encounter_refs": [
+      "npc_004",
+      "npc_024"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_010",
+        "tension_zh": "聯絡人想先支援新來者，裁補人有在先承諾的衣物。",
+        "cooperation_zh": "可分出急需遮蔽的小修與可等待的大修。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "衣物仍由合法持有人委託且材料可確認。",
+      "without_player_zh": "若物主先取回，取消後續工作；未完工只如實交接，不自動扣聲望。"
+    },
+    "dependencies": [
+      "camping",
+      "cargo",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_018",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "外營用品聯絡人",
+    "public_need_zh": "先送出已點驗的繃帶與日用品，未驗貨另等正本。",
+    "private_stake_zh": "自己的親人也在外營，不願讓私情變成插隊理由。",
+    "leverage_zh": "知道哪幾份領取要求已被正式接受。",
+    "limit_zh": "不代表每個病人，不能憑急迫故事跳過物資守恆。",
+    "group_ids": [
+      "nh_clinic",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『外營用品聯絡人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_bandage",
+      "content_medical_satchel",
+      "content_first_aid_kit"
+    ],
+    "encounter_refs": [
+      "npc_003",
+      "npc_024"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_003",
+        "tension_zh": "收貨人不願簽未知空格，聯絡人希望可驗部分先走。",
+        "cooperation_zh": "分批點交能保留核帳與有限援助兩個目標。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "外營需求由已存在人口提出且尚未被滿足。",
+      "without_player_zh": "若需求者正式離開、拒收或已有補給，關閉對應份額，不因等待玩家製造病情惡化。"
+    },
+    "dependencies": [
+      "camping",
+      "cargo",
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_019",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "診療文獻整理人",
+    "public_need_zh": "標出醫療手冊缺頁與仍可讀章節，避免整本被误用。",
+    "private_stake_zh": "不想讓整理工作被誤稱為自己能行醫。",
+    "leverage_zh": "可安排與合格照護者共同查詢。",
+    "limit_zh": "不開處方，不從讀書產生MEDICINE rank。",
+    "group_ids": [
+      "nh_clinic"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『診療文獻整理人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_medical_manual",
+      "content_military_medical_chip"
+    ],
+    "encounter_refs": [
+      "npc_022",
+      "npc_015"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_003",
+        "tension_zh": "收貨人要快速查用品名，整理人需要先分版本。",
+        "cooperation_zh": "清楚索引能減少重複問錯箱號。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "手冊仍可合法查閱，版本尚未完整核對。",
+      "without_player_zh": "若另一份同版索引到來，改做校對；原缺頁與來源仍保留，不靜默補成完整書。"
+    },
+    "dependencies": [
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_020",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "封條比對助手",
+    "public_need_zh": "比較診療貨箱重貼封條與運送者說明。",
+    "private_stake_zh": "怕被當成故意刁難送貨人的人。",
+    "leverage_zh": "保留收貨時可見封條與箱面記錄。",
+    "limit_zh": "不能從重貼封條直接判斷藥物失效或遭竊。",
+    "group_ids": [
+      "nh_clinic"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『封條比對助手』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_hospital_id_card",
+      "content_old_world_medical_case"
+    ],
+    "encounter_refs": [
+      "npc_015"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_018",
+        "tension_zh": "聯絡人急著放貨，助手希望未驗部分先封存。",
+        "cooperation_zh": "一起找原送貨人點交比互相指控更可核實。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "同一貨箱尚未拆散且能找到合法保管者。",
+      "without_player_zh": "若貨已正式退回，停止現地查驗；只保留已見證的運送紀錄。"
+    },
+    "dependencies": [
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_021",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "帳篷借用登記人",
+    "public_need_zh": "把收容處帳篷借用與歸還對上實際人員。",
+    "private_stake_zh": "怕遺失記錄讓已離開的人背永久借物債。",
+    "leverage_zh": "有現行借用簿與管理者同意的查閱權。",
+    "limit_zh": "不能創造床位、治療量或自動安置新人口。",
+    "group_ids": [
+      "nh_newcomers",
+      "nh_clinic"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『帳篷借用登記人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_tent",
+      "content_sleeping_bag"
+    ],
+    "encounter_refs": [
+      "npc_024",
+      "npc_029"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_018",
+        "tension_zh": "用品聯絡人想先發再補記，登記人重視可追蹤交接。",
+        "cooperation_zh": "先記最少必要資訊可兼顧急需與所有權。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "收容用品仍屬待借或待還狀態。",
+      "without_player_zh": "若原借用人依正式遷徙離開，轉成可查的未還紀錄，不把離開當偷竊。"
+    },
+    "dependencies": [
+      "camping",
+      "cargo",
+      "equipment",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_022",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "私人照片保管人",
+    "public_need_zh": "找能核對老照片地點的人，不願照片被當地契。",
+    "private_stake_zh": "照片對家族有意義，怕被研究者買走後再看不到。",
+    "leverage_zh": "可同意有限複看或提供背面字樣。",
+    "limit_zh": "不能用相似臉孔建立親屬或新NPC。",
+    "group_ids": [
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『私人照片保管人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_old_photograph",
+      "content_camera"
+    ],
+    "encounter_refs": [
+      "npc_020"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_025",
+        "tension_zh": "地址登記人只接受可核實資料，保管人更相信長輩記憶。",
+        "cooperation_zh": "把記憶與文書並列可找可查的路段。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原照尚在且持有人同意查看外觀。",
+      "without_player_zh": "若持有人撤回同意，停止複製與公開；已有合法筆記保留來源和限制。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_023",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "口述聲音記錄者",
+    "public_need_zh": "保存地方錄音但先問被提及者是否同意公開。",
+    "private_stake_zh": "想留下自己的工作成果，也不願失去鄰里信任。",
+    "leverage_zh": "能指出原錄音與後來抄寫版本的差別。",
+    "limit_zh": "不能把錄音內容全部當真或自动提升全城士氣。",
+    "group_ids": [
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『口述聲音記錄者』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_music_player",
+      "content_vinyl_record"
+    ],
+    "encounter_refs": [
+      "npc_028"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_022",
+        "tension_zh": "照片保管人希望記憶完整公開，記錄者重視隱私同意。",
+        "cooperation_zh": "共同標示可分享範圍能保住原物與關係。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原媒體可合法播放且相關持有人尚願協商。",
+      "without_player_zh": "若同意撤回，公開活動取消；不自行把聲音刪出世界歷史或制造新證詞。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_024",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "寄物箱看守人",
+    "public_need_zh": "核對兩只相似寄物箱，避免把藥品與衣物交錯。",
+    "private_stake_zh": "曾因口頭代領出錯，不想再替沒到場的人簽字。",
+    "leverage_zh": "可查目前寄物牌與實際到場人。",
+    "limit_zh": "不擅自開封、不認定所有領物者都有騙意。",
+    "group_ids": [
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『寄物箱看守人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_sealed_cargo_crate",
+      "content_travel_backpack"
+    ],
+    "encounter_refs": [
+      "npc_018",
+      "npc_026"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_010",
+        "tension_zh": "聯絡人希望代辦，看守人需要原主明確授權。",
+        "cooperation_zh": "建立可驗的代領說明可減少奔波。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "寄物仍在且尚未有完整交付。",
+      "without_player_zh": "若原主已合法領走，同號詢問只查紀錄；不生成第二箱滿足後來者。"
+    },
+    "dependencies": [
+      "cargo",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_025",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "地址沿革登記人",
+    "public_need_zh": "把舊街名與現行地標分開保存，協助查詢信件。",
+    "private_stake_zh": "怕一筆誤認讓普通居民被指成欠債者。",
+    "leverage_zh": "能提供已核實的地址改名記錄。",
+    "limit_zh": "地址相同不證明人相同，不額外創造人口。",
+    "group_ids": [
+      "nh_newcomers",
+      "nh_water_stewards"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『地址沿革登記人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_identity_document",
+      "content_unsent_letter"
+    ],
+    "encounter_refs": [
+      "npc_026",
+      "npc_020"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_022",
+        "tension_zh": "照片保管人偏重家族說法，登記人要求另一項證據。",
+        "cooperation_zh": "交叉比對可縮小範圍而不用猜結論。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "查詢人有合法理由且相關紀錄仍可讀。",
+      "without_player_zh": "若收件人確已依世界紀錄離開，轉向已知後續地址或明確查無，不復活或召回。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_026",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "農務短工招呼人",
+    "public_need_zh": "向臨時工說清驗收範圍與真正能支付的物資。",
+    "private_stake_zh": "不想為雇主承諾自己沒有的咖啡或好裝備。",
+    "leverage_zh": "能看當日待完成工作與雇主同意的報酬清單。",
+    "limit_zh": "不能只因招呼就自動雇用玩家或扣工錢。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『農務短工招呼人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_coffee",
+      "content_food",
+      "content_entrenching_shovel"
+    ],
+    "encounter_refs": [
+      "npc_023",
+      "npc_011"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_027",
+        "tension_zh": "工錢見證人要求先寫清楚，招呼人想快找到幫手。",
+        "cooperation_zh": "簡短清單可讓雙方知道哪些結果能驗收。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "工作仍空缺且雇主物資能確認。",
+      "without_player_zh": "若另一工人已接下或完成，關閉邀請；報酬不足就重談或撤回，不憑空補獎勵。"
+    },
+    "dependencies": [
+      "equipment",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_027",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工錢見證人",
+    "public_need_zh": "區分已承諾工錢與另談的奢侈品交換。",
+    "private_stake_zh": "自己收過不需要的代用品，對模糊『等值』承諾敏感。",
+    "leverage_zh": "能保留兩方自願確認的條款副本。",
+    "limit_zh": "不能替任何人制定全城價格或强迫收物。",
+    "group_ids": [
+      "nh_newcomers",
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『工錢見證人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_coffee",
+      "content_tea",
+      "content_food"
+    ],
+    "encounter_refs": [
+      "npc_023"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_026",
+        "tension_zh": "招呼人想口頭先開工，見證人希望先列出驗收與對價。",
+        "cooperation_zh": "已確認短條款可以保留工作進度與公平退出。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "雙方尚未完成報酬交付且同意見證。",
+      "without_player_zh": "若已有合法結算，只處理可證實勘誤；不因事後不喜歡報酬就倒帶交易。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_028",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "獵物皮張交接人",
+    "public_need_zh": "把皮革材料和家族烙記的公開用途分開談。",
+    "private_stake_zh": "怕自己的來源被收藏者拿來冒充地方身份。",
+    "leverage_zh": "可出示合法取得與寄放說明。",
+    "limit_zh": "不授權買家用皮張代表整個獵戶群體。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『獵物皮張交接人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_leather",
+      "content_hunting_knife"
+    ],
+    "encounter_refs": [
+      "npc_025"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_012",
+        "tension_zh": "獵具保管人願留歷史特徵，交接人希望材料仍能日常使用。",
+        "cooperation_zh": "事先列出保留區域可避免不可逆毀損爭議。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "皮張仍未切裁，相關持有人可同意。",
+      "without_player_zh": "若已合法裁切，記錄失去哪些特徵，不重新生成完整原皮。"
+    },
+    "dependencies": [
+      "crafting",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_029",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "遠行背包借用人",
+    "public_need_zh": "安排採集與遠行兩次工作的背包使用順序。",
+    "private_stake_zh": "怕照顧家人需求就永遠失去自己的旅行機會。",
+    "leverage_zh": "知道自己能接受的最晚出發與要攜物品。",
+    "limit_zh": "不得讓同一背包同時留在家又在路上。",
+    "group_ids": [
+      "nh_newcomers",
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『遠行背包借用人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_hiking_backpack",
+      "content_travel_backpack"
+    ],
+    "encounter_refs": [
+      "npc_029"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_021",
+        "tension_zh": "借用登記人要準時歸還，遠行者希望保留延後回程彈性。",
+        "cooperation_zh": "限定借期與替代物可使承諾可實行。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "兩次旅程尚未開始且包的所有權清楚。",
+      "without_player_zh": "若其中一程已實際出發，依真正位置調整可用性，不把包瞬移回聚落。"
+    },
+    "dependencies": [
+      "cargo",
+      "equipment",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_030",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "濾水器維護人",
+    "public_need_zh": "說清濾水器適用與保養缺項，避免所有髒水都被當可喝。",
+    "private_stake_zh": "怕拒絕背書被認為故意保留好水。",
+    "leverage_zh": "可提供現有濾材標示與已做的維護紀錄。",
+    "limit_zh": "沒有權限用機器名稱替水質鑑定。",
+    "group_ids": [
+      "nh_water_stewards"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『濾水器維護人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_water_filter",
+      "content_purification_tablets",
+      "content_clean_water"
+    ],
+    "encounter_refs": [
+      "npc_021"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_001",
+        "tension_zh": "保管人面臨取水壓力，維護人不肯超出已驗證範圍。",
+        "cooperation_zh": "把立即可交付淨水與待驗處理分開。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "裝置仍在且標示可合法查閱。",
+      "without_player_zh": "若濾材或檢測條件不足，維護邀請改為找資料；不為推進事件偷偷產水。"
+    },
+    "dependencies": [
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_031",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "防雨包裝短工",
+    "public_need_zh": "在雨前為已分裝貨物加上可追蹤包材。",
+    "private_stake_zh": "想按完成袋數領工錢，怕事後被算成所有貨物的保險人。",
+    "leverage_zh": "能逐包標記自己的處理範圍。",
+    "limit_zh": "防水袋不是無限深水防護，不保證整批貨零損。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『防雨包裝短工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_waterproof_bag",
+      "content_cloth_sack"
+    ],
+    "encounter_refs": [
+      "npc_030",
+      "npc_002"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_002",
+        "tension_zh": "照管人希望所有箱都包好，短工只能承諾現有材料可做部分。",
+        "cooperation_zh": "先處理已確定出庫批次可讓有限材料有用。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "貨物尚未出庫，包材與截止條件明確。",
+      "without_player_zh": "若雨已開始或貨已出發，重驗可接範圍，不補寫已完成包裝。"
+    },
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_032",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "種子傳言澄清者",
+    "public_need_zh": "要求販售灰種的人說明哪些效果有實際試種證據。",
+    "private_stake_zh": "想保护家人的田，也怕被當成排斥新作物。",
+    "leverage_zh": "可連繫願意公開紀錄的本地試種人。",
+    "limit_zh": "不因傳言誇張就宣布樣本有毒或捏造犯罪。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『種子傳言澄清者』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_gray_seed",
+      "content_planting_manual"
+    ],
+    "encounter_refs": [
+      "npc_027",
+      "anomaly_032"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_014",
+        "tension_zh": "外觀整理人只想保留未知，澄清者想直接阻止宣傳。",
+        "cooperation_zh": "共同提供已知與待驗清單比武斷禁令可靠。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "傳言仍在流通且有願意對話的現存賣方。",
+      "without_player_zh": "若交易已依法結束，轉成自願資訊補充；不倒帶交付或自動毀掉作物。"
+    },
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_033",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "地質圖保管學徒",
+    "public_need_zh": "找出地圖座標基準與現地地標的對應。",
+    "private_stake_zh": "想證明自己會做調查，但不願保證挖哪裡都有水。",
+    "leverage_zh": "知道圖上可讀的鑽孔號與缺角位置。",
+    "limit_zh": "舊圖不是當前地下資源，不能增加泉眼。",
+    "group_ids": [
+      "nh_water_stewards",
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『地質圖保管學徒』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_geological_survey_map",
+      "content_compass"
+    ],
+    "encounter_refs": [
+      "npc_016",
+      "npc_020"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_006",
+        "tension_zh": "清溝人只問眼前管路，學徒希望調查更大範圍。",
+        "cooperation_zh": "先核對一個可見地標能服務有限施工需求。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "圖仍可借閱且現場有合法進入條件。",
+      "without_player_zh": "若另一調查已確認基準，改為校對；若地標消失，保留未知而不虛構座標。"
+    },
+    "dependencies": [
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-METRO",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_034",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "小額鹽料商販",
+    "public_need_zh": "按已有承諾分配有限鹽，避免一位買家包下未屬於他的份額。",
+    "private_stake_zh": "需要跑商維生，但不想失去本地熟客信任。",
+    "leverage_zh": "可以出示可售與已承諾的分列庫存。",
+    "limit_zh": "不能把高需求直接當成固定暴利倍率。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『小額鹽料商販』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_salt",
+      "content_spices"
+    ],
+    "encounter_refs": [
+      "npc_017"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_015",
+        "tension_zh": "醃藏人優先本地工作，商販有外地訂單。",
+        "cooperation_zh": "清楚分開剩餘可售份額能保住两種生計。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "鹽還在合法庫存且未完成其他交付。",
+      "without_player_zh": "若另一買家先按約成交，縮減可售量；未買者不自動蒙受災難。"
+    },
+    "dependencies": [
+      "cooking",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_035",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "舊書搬運者",
+    "public_need_zh": "把醫療與農業手冊分開裝運，保留版本與頁面狀態。",
+    "private_stake_zh": "怕途中受潮被責怪原本就缺頁的書。",
+    "leverage_zh": "有出發前的外觀清單與交接對象。",
+    "limit_zh": "不能憑搬書給玩家技能，不能複制整庫書。",
+    "group_ids": [
+      "nh_clinic",
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『舊書搬運者』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_medical_manual",
+      "content_planting_manual",
+      "content_waterproof_bag"
+    ],
+    "encounter_refs": [
+      "npc_022",
+      "npc_030"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_019",
+        "tension_zh": "文獻整理人想多看一天，搬運者要趕實際出發班次。",
+        "cooperation_zh": "先記錄版本可讓收件端接著校對。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "书仍在本地且運送尚未正式開始。",
+      "without_player_zh": "若班次出發，邀請終止；不得把書留在原處同時當作送達。"
+    },
+    "dependencies": [
+      "cargo",
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_036",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "新到者的寄信幫手",
+    "public_need_zh": "替不熟地址的人查詢信封外面的兩個地名。",
+    "private_stake_zh": "想幫忙卻不願替人讀私人信件。",
+    "leverage_zh": "可介紹有權查閱的地址登記處。",
+    "limit_zh": "不因信裡有人名就生成收件者。",
+    "group_ids": [
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『新到者的寄信幫手』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_unsent_letter",
+      "content_identity_document"
+    ],
+    "encounter_refs": [
+      "npc_010",
+      "npc_026"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_025",
+        "tension_zh": "地址登記人要更多證據，幫手怕詢問太久錯過返程信差。",
+        "cooperation_zh": "先核對外封可以保住隐私並縮小路線。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "信尚未交付且寄件權利人允許查詢。",
+      "without_player_zh": "若其他信差已接走，這裡改查運送紀錄，不提供第二封原信。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_037",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "烹煮排班助手",
+    "public_need_zh": "讓有限燃料與食材的使用時段對上實際工作。",
+    "private_stake_zh": "不想自己的用餐被誤當額外偷吃。",
+    "leverage_zh": "知道已登記的輪值和實際有的鍋具位置。",
+    "limit_zh": "不能直接提升食品產出或取消每日食物消耗。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『烹煮排班助手』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_fuel_can",
+      "content_canned_food",
+      "content_lighter"
+    ],
+    "encounter_refs": [
+      "npc_017",
+      "npc_023"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_015",
+        "tension_zh": "醃藏工作者想多占準備空間，助手要保住已排的煮食時間。",
+        "cooperation_zh": "把準備與加熱分開可減少空間衝突。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "當次烹煮尚未開始且合法物資可確認。",
+      "without_player_zh": "若食材已用於其他已授權工作，重排或取消，不補出免費一餐。"
+    },
+    "dependencies": [
+      "cooking",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_038",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "日常罐頭收購者",
+    "public_need_zh": "確認罐頭來源與包裝狀態，只收自己能合法保存的數量。",
+    "private_stake_zh": "不願被比作只看外盒漂亮的古董買家。",
+    "leverage_zh": "可說清現有儲存空間與實際需求。",
+    "limit_zh": "不替食品安全做肉眼保證，不無限收同款。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『日常罐頭收購者』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_canned_food",
+      "content_old_world_canned_food"
+    ],
+    "encounter_refs": [
+      "npc_018",
+      "npc_017"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_008",
+        "tension_zh": "秤重人要逐批留紀錄，收購者想一次驗完。",
+        "cooperation_zh": "共同按批交付可使有問題的部分不混入正常貨。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "有可售實物且收購空間尚可確認。",
+      "without_player_zh": "若需求已被其他貨滿足，縮小收購窗口，不能變成永遠可套現商店。"
+    },
+    "dependencies": [
+      "cargo",
+      "cooking",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_039",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "拒收空瓶的取水幫工",
+    "public_need_zh": "區分居民交來的空水壺與實際已交水份額。",
+    "private_stake_zh": "怕大家把容器漂亮程度當優先資格。",
+    "leverage_zh": "能展示目前容器和飲水分開的點交簿。",
+    "limit_zh": "不得把水壺本身換算成固定water單位。",
+    "group_ids": [
+      "nh_water_stewards",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『拒收空瓶的取水幫工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_water",
+      "content_clean_water"
+    ],
+    "encounter_refs": [
+      "npc_019",
+      "npc_021"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_007",
+        "tension_zh": "見證人看隊伍順序，幫工還要檢查交付是否真有水。",
+        "cooperation_zh": "同一張單分列容器與內容可避免重算。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "取水交接尚未完成，雙方同意點看。",
+      "without_player_zh": "若交付已完成就保留原憑證；後來空瓶不得再領同一份水。"
+    },
+    "dependencies": [
+      "cargo",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_040",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "舊泵聲音記錄者",
+    "public_need_zh": "把設備異音與鳴石觀察分開，避免聽錯就停公共泵。",
+    "private_stake_zh": "想證明記錄有用，卻怕被追究不必要停機。",
+    "leverage_zh": "能提供噪音出現時刻與可比較位置。",
+    "limit_zh": "不因錄音或奇物聲響直接判定機械故障。",
+    "group_ids": [
+      "nh_water_stewards"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『舊泵聲音記錄者』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_humming_stone",
+      "content_music_player"
+    ],
+    "encounter_refs": [
+      "anomaly_015",
+      "npc_028"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_030",
+        "tension_zh": "維護人要求直接量測，記錄者希望声音也被保留。",
+        "cooperation_zh": "兩類資料可互相指向需要查驗的部位。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "設備仍有可合法觀察窗口，樣本未轉走。",
+      "without_player_zh": "若正常輪值停機已過，等下一實際窗口；不為玩家強制改供水。"
+    },
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROADSIDE",
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_041",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "藥品清單抄寫人",
+    "public_need_zh": "把外盒可讀名稱抄清，未知縮寫留白給有資格者查。",
+    "private_stake_zh": "字寫得好不代表懂醫療，不想因代抄被當醫師。",
+    "leverage_zh": "能保留原字樣與抄本對照。",
+    "limit_zh": "沒有處方、治療或鑑定權。",
+    "group_ids": [
+      "nh_clinic",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『藥品清單抄寫人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_medical_manual",
+      "content_paper_journal"
+    ],
+    "encounter_refs": [
+      "npc_003",
+      "npc_022"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_019",
+        "tension_zh": "文獻整理人要查版本，抄寫人想先把可見字交差。",
+        "cooperation_zh": "清楚標明未識字樣能讓後續不靠猜測。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "合法查阅同意有效且原包裝仍可見。",
+      "without_player_zh": "若原件已送走，不能憑記憶補齊字；可改為核對收到的新版本。"
+    },
+    "dependencies": [
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_042",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "收容處睡袋看守人",
+    "public_need_zh": "知道哪個睡袋實际借出、哪個仍在庫內。",
+    "private_stake_zh": "不願對急需休息的人逼問多餘私事。",
+    "leverage_zh": "能提供最小必要的借還紀錄。",
+    "limit_zh": "不得讓同一睡袋同時保護多人，不能以布料治病。",
+    "group_ids": [
+      "nh_newcomers",
+      "nh_clinic"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『收容處睡袋看守人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_sleeping_bag",
+      "content_medical_satchel"
+    ],
+    "encounter_refs": [
+      "npc_024"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_021",
+        "tension_zh": "帳篷登記人要完整資料，看守人只想收必要資訊。",
+        "cooperation_zh": "共用最少欄位能保住隐私與可追蹤性。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "收容用品尚有待交接事項。",
+      "without_player_zh": "若床位使用者正式離開，按實際歸還更新；未歸還是待查，不自動判偷竊。"
+    },
+    "dependencies": [
+      "camping",
+      "cargo",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_043",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "農具換手介紹人",
+    "public_need_zh": "介紹想出售伐木斧的人和确有工具需求的人見面。",
+    "private_stake_zh": "靠介紹維生，不想用誇大功能促成一次買賣就失信。",
+    "leverage_zh": "知道有限、已同意公開的需求清單。",
+    "limit_zh": "不能保證斧頭同時適合所有砍伐、戰鬥和施工。",
+    "group_ids": [
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『農具換手介紹人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_wood_axe",
+      "content_entrenching_shovel"
+    ],
+    "encounter_refs": [
+      "npc_013",
+      "npc_016"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_011",
+        "tension_zh": "幫工只需解繩，介紹人容易推薦過大的工具。",
+        "cooperation_zh": "先問工作範圍可以避免不必要購買。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "雙方都有現存實物與未滿足需求。",
+      "without_player_zh": "若買家已找到替代工具，介紹邀請關閉；不強行創造需求維持收入。"
+    },
+    "dependencies": [
+      "equipment",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_044",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "文書保存紙套看守人",
+    "public_need_zh": "把老照片、日記與寄信分開，不讓私人文件成公開公告。",
+    "private_stake_zh": "某頁提到自己家，擔心因保管職責被懷疑偷偷删改。",
+    "leverage_zh": "可提供封存清單和誰曾合法查閱的紀錄。",
+    "limit_zh": "無權靠保管身份決定內容真偽或刪世界歷史。",
+    "group_ids": [
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『文書保存紙套看守人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_old_photograph",
+      "content_paper_journal",
+      "content_unsent_letter"
+    ],
+    "encounter_refs": [
+      "npc_020",
+      "npc_028"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_023",
+        "tension_zh": "錄音記錄者希望保留可公開材料，看守人較保守。",
+        "cooperation_zh": "每份物件有單獨同意範圍可減少一刀切。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原主同意保管且尚未決定歸還或公開。",
+      "without_player_zh": "若原主依法收回，只保留合法交接紀錄，不複製秘密副本給玩家。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_045",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "井邊熱心勸買者",
+    "public_need_zh": "想說服居民購買濾水器，但必須說清已知適用範圍。",
+    "private_stake_zh": "曾被裝備救過急，容易把一次有效當成全部有效。",
+    "leverage_zh": "能介紹自己那次有資料支持的使用情境。",
+    "limit_zh": "個人經驗不構成水質認證或永遠安全。",
+    "group_ids": [
+      "nh_water_stewards",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『井邊熱心勸買者』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_water_filter",
+      "content_purification_tablets"
+    ],
+    "encounter_refs": [
+      "npc_021"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_030",
+        "tension_zh": "維護人覺得宣傳過頭，勸買者覺得太保守會失去機會。",
+        "cooperation_zh": "共同整理具體適用條件可保留有用經驗。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "宣傳仍在進行且本人願意接受查證。",
+      "without_player_zh": "若正式測試否定某用途，更新說明；不製造對立陣營或自動扣道德值。"
+    },
+    "dependencies": [
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_046",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "節水菜圃試驗人",
+    "public_need_zh": "在有限地塊試記種植手冊條件，不挪全城飲水。",
+    "private_stake_zh": "希望有自己的新方法，又怕失敗讓家人失去配水。",
+    "leverage_zh": "可展示試驗範圍與經管理者同意的水源。",
+    "limit_zh": "不保證產量，不能先把未發芽種子算成糧食。",
+    "group_ids": [
+      "nh_growers",
+      "nh_water_stewards"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『節水菜圃試驗人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_planting_manual",
+      "content_seeds",
+      "content_water"
+    ],
+    "encounter_refs": [
+      "npc_014",
+      "npc_027"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_001",
+        "tension_zh": "水務保管人要保住飲水承諾，試驗人想延長觀察。",
+        "cooperation_zh": "限定小範圍和可停止條件能讓雙方接受。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "有已同意的地塊與合法有限物資。",
+      "without_player_zh": "若水源約定終止或試驗完成，停止新增投入；不因玩家缺席自動毀掉作物。"
+    },
+    "dependencies": [
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_047",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "外地茶葉寄賣人",
+    "public_need_zh": "為一小批茶找真正願意交換的人，不把它當普通糧食。",
+    "private_stake_zh": "想帶一點家鄉味留下，怕全部賣完再也找不到。",
+    "leverage_zh": "能限定可售份額並保留私人部分。",
+    "limit_zh": "不能用奢侈品代替已承諾的工錢而不經對方同意。",
+    "group_ids": [
+      "nh_newcomers",
+      "nh_growers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『外地茶葉寄賣人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_tea",
+      "content_coffee"
+    ],
+    "encounter_refs": [
+      "npc_023"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_027",
+        "tension_zh": "工錢見證人拒絕模糊等值，寄賣人希望有彈性。",
+        "cooperation_zh": "把私人交換與雇主報酬分開可同時成立。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "寄賣物仍在且原主尚願售出指定份額。",
+      "without_player_zh": "若原主撤回未承諾部分，取消新詢價；已合法成交部分不倒帶。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_048",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "家用繩結教學人",
+    "public_need_zh": "教一次能看清的簡單解結與固定方法，不代替工程安全認證。",
+    "private_stake_zh": "怕學生把家庭用法搬到井架重載上。",
+    "leverage_zh": "能用自己的繩索做不承重的示範。",
+    "limit_zh": "示範不增加技能rank，不能保證攀爬或救援安全。",
+    "group_ids": [
+      "nh_growers",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『家用繩結教學人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_rope",
+      "content_tool_belt"
+    ],
+    "encounter_refs": [
+      "npc_011",
+      "npc_013"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_005",
+        "tension_zh": "井繩檢查工反對把演示當承重證書。",
+        "cooperation_zh": "清楚限定使用範圍可讓日常技巧仍有價值。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "有自願參與者與安全演示場所。",
+      "without_player_zh": "若教學時段已結束，可等實際下次安排；不提供永久等待玩家的課堂。"
+    },
+    "dependencies": [
+      "equipment",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_049",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "留存普通物件的人",
+    "public_need_zh": "替將遠行的人保管一件沒有市價意義的私人舊物。",
+    "private_stake_zh": "自己也有沒能歸還的照片，不想輕易承諾一定重逢。",
+    "leverage_zh": "可提供清楚寄物條款與見證者。",
+    "limit_zh": "不得承諾亡者復活或讓存物變成自動繼承。",
+    "group_ids": [
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『留存普通物件的人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_old_photograph",
+      "content_old_world_watch"
+    ],
+    "encounter_refs": [
+      "npc_020",
+      "npc_029"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_024",
+        "tension_zh": "寄物箱看守人重視可查編號，保管人更在乎私人故事。",
+        "cooperation_zh": "物件和故事分層記錄可兼顧追溯與尊重。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "物主仍存活且自願留下有限寄物。",
+      "without_player_zh": "若物主依正式生命狀態死亡，只依未來合法處置規則保持待處理，不自動給下一角色。"
+    },
+    "dependencies": [
+      "cargo",
+      "equipment",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_new_hope_050",
+    "town_id": "new_hope",
+    "status": "DESIGN_ONLY",
+    "role_zh": "公共借物規則整理人",
+    "public_need_zh": "把扳手、繩索、醫療袋等不同用品的借用條款分開。",
+    "private_stake_zh": "不想讓新規則變成限制新來者的一道門檻。",
+    "leverage_zh": "能收集各保管者已同意公開的現行作法。",
+    "limit_zh": "無權一句話改所有庫存、任命守衛或建立新派系。",
+    "group_ids": [
+      "nh_water_stewards",
+      "nh_growers",
+      "nh_clinic",
+      "nh_newcomers"
+    ],
+    "binding_zh": "未來從新希望當前在場且存活的人口中，確認有意願承擔『公共借物規則整理人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_wrench",
+      "content_rope",
+      "content_medical_satchel"
+    ],
+    "encounter_refs": [
+      "npc_001",
+      "npc_002",
+      "npc_003"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_new_hope_010",
+        "tension_zh": "聯絡人怕規則太複雜，整理人怕只靠口頭造成重複交付。",
+        "cooperation_zh": "先用三種常見交接做清楚範例可以共同檢查。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "各保管人仍願參與，至少一筆真實借用需求存在。",
+      "without_player_zh": "若部分角色撤回，不把規則強加全城；只保留已有同意與明確缺口。"
+    },
+    "dependencies": [
+      "cargo",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  }
+]

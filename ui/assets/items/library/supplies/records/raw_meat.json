@@ -1,0 +1,27 @@
+{
+  "id": "raw_meat",
+  "name": "生肉",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/raw_meat.png",
+  "source_output": "exec-9c0fdd77-70ef-4c98-b379-a657f9c36970.png",
+  "sha256": "19f7f40ef8ec7d51a536f6c821de39a0ed398f17f5c82062f22a69266ffadcb0",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1234,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

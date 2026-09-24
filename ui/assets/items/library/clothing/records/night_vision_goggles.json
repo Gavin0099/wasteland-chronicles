@@ -1,0 +1,27 @@
+{
+  "id": "night_vision_goggles",
+  "name": "夜視鏡",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/night_vision_goggles.png",
+  "source_output": "exec-014681d9-c8c4-4b51-b88f-7d2ccaaa90b4.png",
+  "sha256": "4cd8c5fc00b13a21b8ba593d37b2735bb0161126df88c3d9c2cfe467adf48a9c",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1238,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

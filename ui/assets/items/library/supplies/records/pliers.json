@@ -1,0 +1,27 @@
+{
+  "id": "pliers",
+  "name": "鉗子",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/pliers.png",
+  "source_output": "exec-164cc5af-3f10-4405-bc5f-36affbe1af86.png",
+  "sha256": "ade6c5a9a842fc990b338c87f23a04e053f00a75c39515147dfe4220b70999e5",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    57,
+    51,
+    1232,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

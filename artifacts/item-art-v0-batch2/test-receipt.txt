@@ -1,0 +1,2 @@
+PASS: 12 original RGBA assets; SHA-256 and transparent/opaque pixels verified.
+No images, gameplay state, production catalogue or simulation code were modified by this check.

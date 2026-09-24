@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+--- Running M0-A Baseline Economy Test ---
+  [Day 3] Caravan C001 arrived at Gray Valley! Unloaded 30 water.
+  [Day 9] Caravan C001 arrived at Gray Valley! Unloaded 30 water.
+  [Day 15] Caravan C001 arrived at Gray Valley! Unloaded 30 water.
+  [Day 21] Caravan C001 arrived at Gray Valley! Unloaded 30 water.
+  [Day 27] Caravan C001 arrived at Gray Valley! Unloaded 30 water.
+  Gray Valley water min: 70, max: 95
+  Caravan arrivals at Gray Valley: 5
+PASS: M0-A Baseline Economy Test (All checks passed)

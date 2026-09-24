@@ -1,0 +1,27 @@
+{
+  "id": "sleeping_bag",
+  "name": "睡袋",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/sleeping_bag.png",
+  "source_output": "exec-f42abbe8-0384-48ed-ad44-bee245af666f.png",
+  "sha256": "57f58450ea8e5fc93cf92c8815f03f05a4322fbf8c7d30ddd77f33240e57582b",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    48,
+    1218,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

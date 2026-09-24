@@ -1,0 +1,59 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+     WASTELAND CHRONICLES - S4-C.2 SNAPSHOT NUMERIC CANONICALITY SUITE
+================================================================================
+
+--- [GATE N2] Schema-aware Type Restoration ---
+  44 int-domain and 42 float-domain values restored with declared types and exact values
+  cumulative_disorder_loss restored as int (ACCOUNTING STATE), not widened to float
+PASS GATE N2: Schema-aware Type Restoration verified.
+
+--- [GATE N3] Authoritative Float Canonicality ---
+  All 44 committed authoritative floats are already persistence-canonical
+  Committed value == loaded value for every authoritative float (no save-time repair)
+  Serializer contains no snapped() calls: to_dict() records, it does not repair
+PASS GATE N3: Authoritative Float Canonicality verified.
+
+--- [GATE N1] Full Snapshot Fixed Point ---
+  Day 100 world with economy, pressure, migration, mortality, labor, security,
+  NPC identity/life state/profile and a 314-event ledger:
+  save -> load -> save byte-identical, SHA-256 c27c8a63e3549a782cfc4804e2c3e83bbc09ba1648760a7d37316cdf0fd40b88
+  Second cycle identical as well
+PASS GATE N1: Full Snapshot Fixed Point verified.
+
+--- [GATE N4] Interrupted vs Uninterrupted Continuation ---
+  Day 51 (first day after load) identical to the uninterrupted Day 51
+  Day 100 full canonical state SHA identical: c27c8a63e3549a782cfc4804e2c3e83bbc09ba1648760a7d37316cdf0fd40b88
+  Day 100 event ledger SHA identical  : 810be404c0f82d70d26a5098335e0673a42a25b52f2e3d05ddaf0a1de3d1d55a (314 events)
+  Day 100 simulation projection SHA   : fe3bfda8852725674201051359a433e67689025122fff1a667cd283f849301f1
+  => Save/Load is a transparent boundary: it no longer changes the world's future.
+PASS GATE N4: Interrupted vs Uninterrupted Continuation verified.
+
+--- [GATE N5] Malformed Numeric Fail-Closed ---
+  refused: int field receives a fractional value      -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: int field receives NaN                     -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: int field receives Inf                     -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: int field receives -Inf                    -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: non-negative int field receives a negative -> INVALID_DOMAIN_NUMERIC_RANGE
+  refused: int field beyond the safe integer range    -> INVALID_DOMAIN_NUMERIC_RANGE
+  refused: int field receives a string                -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: float field receives NaN                   -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: float field receives Inf                   -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: float field receives a string              -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: accounting dict element fractional         -> INVALID_DOMAIN_NUMERIC_TYPE
+  refused: accounting dict element negative           -> INVALID_DOMAIN_NUMERIC_RANGE
+  accepted: integral float 31.0 -> int 31 (finite + integral + safe + in range)
+  3.7 is never silently truncated to 3; it is refused
+PASS GATE N5: Malformed Numeric Fail-Closed verified.
+
+--- [GATE N6] Codec Corpus + Independent Verification ---
+  Codec corpus: 17/17 probes satisfy canonical(canonical(x)) == canonical(x)
+  (Godot 4.7.2-stable (official) — re-run this corpus FIRST on any engine upgrade)
+  Engine invariants PASS on both the uninterrupted and the reloaded world
+  Exported artifacts/world_snapshot_s4c2.json for independent validation.
+PASS GATE N6: Codec Corpus + Independent Verification verified.
+
+================================================================================
+ALL S4-C.2 HARD GATES (N1 ~ N6) PASSED CLEANLY!
+================================================================================

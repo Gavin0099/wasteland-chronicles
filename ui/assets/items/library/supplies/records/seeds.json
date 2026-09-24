@@ -1,0 +1,27 @@
+{
+  "id": "seeds",
+  "name": "種子",
+  "section": 11,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/seeds.png",
+  "source_output": "exec-b5167cf3-d4dc-4dc0-8449-0a4da7afed8f.png",
+  "sha256": "40532c4dc6c199c7f9e6628fd0bcca5171f7b20469252dfdb9ee5ec70535a586",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    21,
+    1224,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

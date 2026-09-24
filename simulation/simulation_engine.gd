@@ -2,6 +2,9 @@ class_name SimulationEngine
 extends RefCounted
 
 const COMMODITIES: Array[String] = ["water", "food", "scrap", "fuel"]
+const ItemRegistry = preload("res://simulation/item_registry.gd")
+const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
+const ItemMarketState = preload("res://simulation/item_market_state.gd")
 
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
@@ -321,6 +324,8 @@ func tick(world: WorldState) -> Array[EventRecord]:
 	for s_id in sorted_settlement_ids:
 		var settlement: SettlementState = world.settlements[s_id]
 		recalculate_prices(settlement)
+		if settlement.item_market != null:
+			settlement.item_market.restock_for(settlement.id, current_day)
 
 	# -------------------------------------------------------------
 	# 階段 4: 在途商隊與難民推進航程 (Caravan & Refugee Advances)
@@ -506,6 +511,13 @@ func tick(world: WorldState) -> Array[EventRecord]:
 	# 階段 5.4: 玩家化身生理需求處理 (S5-A Player Personal Needs)
 	# -------------------------------------------------------------
 	process_player_daily_needs(world, current_day, tick_events)
+
+	# -------------------------------------------------------------
+	# 階段 5.45: Quest 截止日判定 (QUEST-1 Deadline Check)
+	# -------------------------------------------------------------
+	# After survival resolution (player may have died), before numeric commit.
+	# Transitions all ACTIVE quests past their deadline_day to EXPIRED.
+	load("res://simulation/quest_engine.gd").check_deadlines(world)
 
 	# -------------------------------------------------------------
 	# 階段 5.5: 正規數值提交 (S4-C.2 Canonical Numeric Commit)
@@ -1047,6 +1059,21 @@ func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -
 	return ""
 
 func validate_invariants(world: WorldState) -> String:
+	var field_error := WorldState.Field.validate_world(world)
+	if field_error != "":
+		return field_error
+	if world.player != null:
+		if world.player.capability == null:
+			return "MISSING_CAPABILITY_PROFILE"
+		var capability_data: Dictionary = world.player.capability.to_dict()
+		var capability_error: String = PlayerState.Capability.validate(capability_data)
+		if capability_error != "":
+			return capability_error
+		if capability_data.npc_id != String(world.player.npc_id):
+			return "CAPABILITY_OWNER_MISMATCH"
+		for skill_id in capability_data.get("skill_practice", {}):
+			if int(capability_data.skill_practice[skill_id].last_day) > world.current_day:
+				return "PRACTICE_DAY_IN_FUTURE"
 	for s_id in world.settlements:
 		var s: SettlementState = world.settlements[s_id]
 		for res in COMMODITIES:
@@ -1279,9 +1306,9 @@ func validate_invariants(world: WorldState) -> String:
 		if p.capacity_total <= 0:
 			return "S5-A: Player has non-positive capacity: %d" % p.capacity_total
 		if p.inventory != null:
-			if p.get_total_inventory_load() > p.capacity_total:
+			if p.get_total_inventory_load() > p.get_effective_capacity():
 				return "S5-A: Player inventory exceeds capacity (%d > %d)" % [
-					p.get_total_inventory_load(), p.capacity_total
+					p.get_total_inventory_load(), p.get_effective_capacity()
 				]
 			for res in COMMODITIES:
 				if p.inventory.get_amount(res) < 0:
@@ -1432,6 +1459,59 @@ func _check_player_mortality(world: WorldState, p: PlayerState, ls: NpcLifeState
 		tick_events.append(death_evt)
 	world.record_event(death_evt)
 
+# C0 headless entry point. Stage the existing materialization lifecycle on a
+# private copy; a rejected operation never allocates IDs or writes real history.
+func commit_character_creation(world: WorldState, intent: RefCounted) -> Dictionary:
+	const CreationIntent = preload("res://simulation/character_creation_intent.gd")
+	const Catalogue = preload("res://simulation/background_catalogue.gd")
+	if not intent is CreationIntent:
+		return {"success": false, "error": "INVALID_CREATION_INTENT"}
+	var input: Dictionary = intent.to_dict()
+	if input.size() != 5:
+		return {"success": false, "error": "INVALID_CREATION_FIELDS"}
+	for field in ["source_settlement_id", "character_name", "background_id", "trait_ids", "age"]:
+		if not input.has(field):
+			return {"success": false, "error": "MISSING_CREATION_FIELD: " + field}
+	if typeof(input.source_settlement_id) != TYPE_STRING or typeof(input.character_name) != TYPE_STRING or input.character_name.strip_edges().is_empty() or typeof(input.age) != TYPE_INT or input.age < 0:
+		return {"success": false, "error": "INVALID_CREATION_IDENTITY"}
+	if world.player != null:
+		return {"success": false, "error": "PLAYER_ALREADY_EXISTS"}
+	var package: Dictionary = Catalogue.resolve(input.background_id)
+	if not package.success:
+		return package
+	var trait_error: String = PlayerState.Capability.validate_traits(input.trait_ids)
+	if trait_error != "":
+		return {"success": false, "error": trait_error}
+	var existing_error := validate_invariants(world)
+	if existing_error != "":
+		return {"success": false, "error": existing_error}
+	var staged := world.duplicate_state()
+	var result := materialize_player(staged, StringName(input.source_settlement_id), input.character_name, input.age, package.background)
+	if not result.success:
+		return result
+	var profile_result: Dictionary = PlayerState.Capability.from_dict_checked({
+		"npc_id": String(staged.player.npc_id), "creation_origin": "CHARACTER_CREATION",
+		"background_id": input.background_id, "package_version": package.version,
+		"skill_ranks": package.ranks, "selected_creation_traits": input.trait_ids,
+	})
+	if not profile_result.success:
+		return {"success": false, "error": profile_result.error}
+	staged.player.capability = profile_result.profile
+	staged.record_event(EventRecord.new(staged.current_day, "CHARACTER_CREATED", staged.player.npc_id, StringName(input.source_settlement_id), {
+		"background_id": input.background_id, "package_version": package.version,
+		"selected_creation_traits": profile_result.profile.to_dict().selected_creation_traits,
+	}))
+	var error := validate_invariants(staged)
+	if error != "":
+		return {"success": false, "error": error}
+	world.npc_registry = staged.npc_registry
+	world.npc_life_state_registry = staged.npc_life_state_registry
+	world.npc_profile_registry = staged.npc_profile_registry
+	world.next_npc_sequence = staged.next_npc_sequence
+	world.player = staged.player
+	world.event_log = staged.event_log
+	return {"success": true, "npc_id": world.player.npc_id, "player": world.player, "error": ""}
+
 func materialize_player(
 	world: WorldState,
 	settlement_id: StringName,
@@ -1502,6 +1582,157 @@ static func get_sell_quote(settlement: SettlementState, commodity: StringName) -
 		return 1
 	var price := settlement.get_current_price(String(commodity))
 	return maxi(1, int(floor(price)))
+
+static func get_item_buy_quote(settlement: SettlementState, item_id: StringName, market: RefCounted = null) -> int:
+	if settlement == null:
+		return 0
+	return ItemMarketState.buy_quote(item_id, settlement.id, market)
+
+static func get_item_sell_quote(settlement: SettlementState, item_id: StringName) -> int:
+	if settlement == null:
+		return 0
+	return ItemMarketState.sell_quote(item_id, settlement.id)
+
+func _authorize_equipment_intent(world: WorldState, intent: PlayerIntent, equipping: bool) -> String:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+	if ls == null or ls.status != NpcLifeState.Status.SETTLED:
+		return "INVALID_STATUS: Equipment can only change while settled"
+	var expected_size := 2 if equipping else 1
+	if typeof(intent.payload) != TYPE_DICTIONARY or intent.payload.size() != expected_size or typeof(intent.payload.get("slot", "")) != TYPE_STRING:
+		return "INVALID_EQUIPMENT_INTENT"
+	var candidate: RefCounted = world.player.equipment.duplicate_state()
+	if equipping:
+		if typeof(intent.payload.get("item_id", "")) != TYPE_STRING:
+			return "INVALID_EQUIPMENT_INTENT"
+		var result: Dictionary = candidate.equip(intent.payload.item_id, intent.payload.slot, world.player.item_inventory)
+		return "" if result.success else String(result.error)
+	var removed: Dictionary = candidate.unequip(intent.payload.slot)
+	if not removed.success:
+		return String(removed.error)
+	if intent.payload.slot == "back" and world.player.equipment.equipped_item("back") == "travel_backpack":
+		if world.player.get_total_inventory_load() > world.player.capacity_total:
+			return "INSUFFICIENT_CAPACITY: Cargo load %d exceeds base capacity %d" % [
+				world.player.get_total_inventory_load(), world.player.capacity_total
+			]
+	return ""
+
+func _commit_equipment_intent(world: WorldState, intent: PlayerIntent, equipping: bool, tick_events: Array[EventRecord]) -> Dictionary:
+	var equipment: RefCounted = world.player.equipment.duplicate_state()
+	var result: Dictionary
+	var action_name := "EQUIP" if equipping else "UNEQUIP"
+	if equipping:
+		result = equipment.equip(intent.payload.item_id, intent.payload.slot, world.player.item_inventory)
+	else:
+		result = equipment.unequip(intent.payload.slot)
+	if not result.success:
+		return {"success": false, "error": String(result.error)}
+	world.player.equipment = equipment
+	var payload := {
+		"action": action_name,
+		"slot": String(intent.payload.slot),
+		"item_id": String(result.item_id)
+	}
+	var event := EventRecord.new(world.current_day, "EQUIPMENT_CHANGED", intent.player_id, StringName("equipment"), payload)
+	if tick_events != null:
+		tick_events.append(event)
+	world.record_event(event)
+	return {"success": true, "action": action_name, "slot": result.slot, "item_id": result.item_id}
+
+func _item_market_view(settlement: SettlementState) -> RefCounted:
+	if settlement.item_market != null:
+		return settlement.item_market
+	return ItemMarketState.seeded_for(settlement.id)
+
+func _authorize_item_trade(world: WorldState, settlement: SettlementState, intent: PlayerIntent, buying: bool) -> String:
+	if intent.commodity != &"":
+		return "INVALID_ITEM_TRADE: item trade cannot also carry an aggregate commodity"
+	if intent.quantity <= 0:
+		return "INVALID_QUANTITY: Quantity must be positive, got %d" % intent.quantity
+	var resolved := ItemRegistry.resolve(String(intent.item_id))
+	if not resolved.success:
+		return "UNKNOWN_ITEM_ID: Item '%s' is not registered" % intent.item_id
+	var profile := ItemMarketCatalogue.profile_for(intent.item_id, settlement.id)
+	if not profile.success:
+		return "INVALID_ITEM_MARKET: %s" % profile.error
+	var market := _item_market_view(settlement)
+	if buying:
+		if not profile.is_routinely_supplied:
+			return "ITEM_NOT_SOLD_HERE: %s has no routine supply in %s" % [intent.item_id, settlement.id]
+		if market.quantity(intent.item_id) < intent.quantity:
+			return "INSUFFICIENT_ITEM_STOCK: %s has %d, requested %d" % [intent.item_id, market.quantity(intent.item_id), intent.quantity]
+		var quote := get_item_buy_quote(settlement, intent.item_id, market)
+		var total_cost := quote * intent.quantity
+		if world.player.money < total_cost:
+			return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [world.player.money, total_cost]
+		var candidate: RefCounted = world.player.item_inventory.duplicate_state()
+		var pickup: Dictionary = candidate.pickup_item(String(intent.item_id), intent.quantity)
+		if not pickup.success:
+			return String(pickup.error)
+		return ""
+	if profile.demand == "none":
+		return "ITEM_NOT_BOUGHT_HERE: %s has no demand in %s" % [intent.item_id, settlement.id]
+	if not world.player.item_inventory.contains(String(intent.item_id), intent.quantity):
+		return "INSUFFICIENT_PLAYER_ITEM: Player does not hold %d of %s" % [intent.quantity, intent.item_id]
+	var sell_quote := get_item_sell_quote(settlement, intent.item_id)
+	var total_revenue := sell_quote * intent.quantity
+	if settlement.market_cash < total_revenue:
+		return "INSUFFICIENT_MARKET_CASH: Settlement %s has %d caps, required %d" % [settlement.id, settlement.market_cash, total_revenue]
+	return ""
+
+func _commit_item_trade(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord]) -> Dictionary:
+	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
+	var settlement: SettlementState = world.get_settlement(ls.population_container_id)
+	var buying := intent.action == PlayerIntent.Action.BUY
+	var market: RefCounted = settlement.item_market.duplicate_state() if settlement.item_market != null else ItemMarketState.seeded_for(settlement.id)
+	var player_items: RefCounted = world.player.item_inventory.duplicate_state()
+	var quote := get_item_buy_quote(settlement, intent.item_id, market) if buying else get_item_sell_quote(settlement, intent.item_id)
+	var total := quote * intent.quantity
+	if buying:
+		market.remove(String(intent.item_id), intent.quantity)
+		player_items.pickup_item(String(intent.item_id), intent.quantity)
+		settlement.market_cash += total
+		world.player.money -= total
+	else:
+		player_items.drop_item(String(intent.item_id), intent.quantity)
+		market.add(String(intent.item_id), intent.quantity)
+		settlement.market_cash -= total
+		world.player.money += total
+	settlement.item_market = market
+	world.player.item_inventory = player_items
+	var action_name := "BUY" if buying else "SELL"
+	var practice := _practice_after_action(world, "BARTER")
+	var trade_payload := {
+		"action": action_name, "item_id": String(intent.item_id), "quantity": intent.quantity,
+		"unit_price": quote, "total_amount": total,
+		"market_stock": market.quantity(intent.item_id),
+		"settlement_cash": settlement.market_cash, "player_money": world.player.money,
+	}
+	if not practice.is_empty():
+		trade_payload["skill_practice"] = practice
+	var evt := EventRecord.new(
+		world.current_day,
+		"ITEM_TRADE_COMPLETED",
+		intent.player_id,
+		settlement.id,
+		trade_payload
+	)
+	if tick_events != null:
+		tick_events.append(evt)
+	world.record_event(evt)
+	var result := trade_payload.duplicate(true)
+	result["success"] = true
+	return result
+
+func _practice_after_action(world: WorldState, skill_id: String, action_day: int = -1) -> Dictionary:
+	if world.player == null or world.player.capability == null:
+		return {}
+	var practice: Dictionary = world.player.capability.grant_practice(skill_id,
+		world.current_day if action_day < 0 else action_day)
+	if not practice.get("awarded", false):
+		return {}
+	return {"skill_id": skill_id, "rank_up": practice.rank_up,
+		"from_rank": practice.from_rank, "to_rank": practice.to_rank,
+		"points": practice.points, "required": practice.required}
 
 # ==============================================================================
 # S5-B4.1: WHAT IS ACTUALLY HAPPENING ON THIS ROAD
@@ -1668,13 +1899,45 @@ func _spend_extra_travel_day(world: WorldState, player_id: StringName) -> void:
 
 # What an encounter option costs, checked before anything is committed.
 func authorize_encounter_option(world: WorldState, option_id: StringName) -> String:
+	if world.pending_encounter_result >= 0:
+		return "ENCOUNTER_RESULT_PENDING: confirm the previous result first"
 	var enc := world.active_encounter
 	if enc == null:
 		return "NO_ACTIVE_ENCOUNTER: there is nothing on the road to answer"
-	if not TravelEncounter.has_option(enc.encounter_type, option_id):
+	if not TravelEncounter.has_option(enc.encounter_type, option_id, enc.context):
 		return "INVALID_OPTION: %s is not an option for %s" % [option_id, enc.encounter_type]
 
 	var p: PlayerState = world.player
+	var practice_skill: String = TravelEncounter.practice_skill(enc.encounter_type, option_id)
+	if practice_skill != "" and p.capability != null:
+		var practice_check: Dictionary = p.capability.get_practice_progress(practice_skill)
+		if not practice_check.success:
+			return "CAPABILITY_CHECK_FAILED: %s" % practice_check.error
+		if world.current_day < 0:
+			return "INVALID_PRACTICE_DAY: encounter day must be nonnegative"
+
+	# S5-C2: an approach the character cannot take is refused HERE, at the
+	# commit boundary, not merely hidden by the UI. The projection filters the
+	# same catalogue with the same evaluator, so the two agree; but a replayed
+	# intent, an old save or a UI that has drifted still cannot buy an approach
+	# this character does not have.
+	var requirements := TravelEncounter.option_requirements(enc.encounter_type, option_id)
+	if not requirements.is_empty():
+		if p.capability == null:
+			return "CAPABILITY_UNAVAILABLE: %s requires a capability profile" % option_id
+		var check: Dictionary = p.capability.meets_requirements(requirements)
+		if not check.success:
+			return "CAPABILITY_CHECK_FAILED: %s" % check.error
+		if not check.met:
+			return "CAPABILITY_NOT_MET: %s requires %s" % [
+				option_id, TravelEncounter.option_requirement_label(enc.encounter_type, option_id)
+			]
+	var required_item := TravelEncounter.option_item_requirement(enc.encounter_type, option_id)
+	if required_item != "" and not p.inspect_item(required_item).success:
+		return "ITEM_NOT_HELD: %s requires %s" % [
+			option_id, TravelEncounter.option_requirement_label(enc.encounter_type, option_id)
+		]
+
 	match option_id:
 		&"CLEAR":
 			if p.inventory.get_amount("scrap") < 1:
@@ -1682,15 +1945,40 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		&"PAY":
 			if p.money < ROADBLOCK_TOLL_CAPS:
 				return "INSUFFICIENT_FUNDS: the toll is %d caps" % ROADBLOCK_TOLL_CAPS
+		&"PERSUADE":
+			if p.money < ROADBLOCK_TOLL_CAPS:
+				return "INSUFFICIENT_FUNDS: the toll is %d caps" % ROADBLOCK_TOLL_CAPS
+		&"HAGGLE":
+			if p.money < TravelEncounter.HAGGLED_TOLL_CAPS:
+				return "INSUFFICIENT_FUNDS: even the haggled toll is %d caps" % TravelEncounter.HAGGLED_TOLL_CAPS
 		&"GIVE_WATER":
+			if p.inventory.get_amount("water") < 1:
+				return "INSUFFICIENT_WATER: you have none to give"
+		&"HYDRATE":
 			if p.inventory.get_amount("water") < 1:
 				return "INSUFFICIENT_WATER: you have none to give"
 		&"SHARE_FOOD":
 			if p.inventory.get_amount("food") < 1:
 				return "INSUFFICIENT_FOOD: you have nothing to share"
+		&"TRADE_COLUMN":
+			if p.money < TravelEncounter.COLUMN_TRADE_CAPS:
+				return "INSUFFICIENT_FUNDS: they want %d caps" % TravelEncounter.COLUMN_TRADE_CAPS
+		&"FIGHT":
+			if not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
+				return "FIELD_BATTLE_CONFLICT: field battle or receipt is already pending"
+			if p.field_kit == null or p.field_kit.get("hp", 0) <= 0:
+				return "PLAYER_UNABLE_TO_FIGHT: player has no health"
+		&"BRIBE":
+			if p.money < TravelEncounter.BANDIT_BRIBE_CAPS:
+				return "INSUFFICIENT_FUNDS: the bandits demand %d caps" % TravelEncounter.BANDIT_BRIBE_CAPS
+		&"PARLEY":
+			if p.money < TravelEncounter.BANDIT_BRIBE_CAPS:
+				return "INSUFFICIENT_FUNDS: the bandits demand %d caps" % TravelEncounter.BANDIT_BRIBE_CAPS
+		&"FLEE_ROAD":
+			pass
 	return ""
 
-# Apply the chosen option atomically, record it, then let the journey resume.
+# Apply the choice and its time cost atomically, then wait for receipt confirmation.
 func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictionary:
 	var auth := authorize_encounter_option(world, option_id)
 	if auth != "":
@@ -1699,16 +1987,60 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var enc := world.active_encounter
 	var p: PlayerState = world.player
 	var encounter_type := enc.encounter_type
+
+	if option_id == &"FIGHT":
+		var origin_str: String = String(enc.origin_id)
+		var dest_str: String = String(enc.destination_id)
+		var travel_idx: int = enc.travel_day_index
+		world.active_encounter = null
+		world.pending_encounter_result = -1
+		var battle_info: Dictionary = WorldState.Field.begin_road_battle(world, {
+			"encounter_type": "BANDIT_AMBUSH",
+			"origin": origin_str,
+			"destination": dest_str,
+			"travel_day_index": travel_idx,
+		})
+		world.record_event(EventRecord.new(
+			world.current_day,
+			"ROAD_COMBAT_BEGAN",
+			p.npc_id,
+			StringName(dest_str),
+			{
+				"encounter_type": "BANDIT_AMBUSH",
+				"battle_id": battle_info.id,
+				"origin": origin_str,
+			"destination": dest_str,
+			"travel_day_index": travel_idx,
+			}
+		))
+		return {
+			"success": true,
+			"action": "START_ROAD_COMBAT",
+			"battle_id": battle_info.id,
+			"current_day": world.current_day,
+		}
 	var gained: Dictionary = {}
 	var spent: Dictionary = {}
 	var extra_day := false
+	var offered: Dictionary = {}
+	var offered_items: Dictionary = {}
+	var gained_items: Dictionary = {}
+	var items_left_behind: Dictionary = {}
+	var inventory_before := {}
+	var day_before := world.current_day
+	var persuasion_success := false
+	var stealth_success := false
+	for commodity in COMMODITIES:
+		inventory_before[commodity] = p.inventory.get_amount(commodity)
 
 	match option_id:
 		&"SEARCH":
 			# What is under this particular truck. Capped by what you can carry;
 			# the ledger records what was really taken, not what was on offer.
-			gained = _give_player_goods(p, TravelEncounter.wreck_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
+			offered = TravelEncounter.wreck_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
 			extra_day = true
 		&"CLEAR":
 			p.inventory.add_amount("scrap", -1)
@@ -1716,68 +2048,198 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"PAY":
 			p.money -= ROADBLOCK_TOLL_CAPS
 			spent["caps"] = ROADBLOCK_TOLL_CAPS
+		&"PERSUADE":
+			persuasion_success = TravelEncounter.check_persuasion_success(
+				enc.encounter_type, enc.origin_id, enc.destination_id, enc.day, enc.travel_day_index,
+				p.capability.get_rank("SPEECH"), enc.context)
+			var cost: int = TravelEncounter.ROADBLOCK_PERSUADED_CAPS if persuasion_success else ROADBLOCK_TOLL_CAPS
+			p.money -= cost
+			spent["caps"] = cost
 		&"GIVE_WATER":
 			p.inventory.add_amount("water", -1)
 			spent["water"] = 1
-			gained = _give_player_goods(p, TravelEncounter.traveller_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
+			offered = TravelEncounter.traveller_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 		&"DETOUR":
 			extra_day = true
 		&"SHARE_FOOD":
 			p.inventory.add_amount("food", -1)
 			spent["food"] = 1
-			gained = _give_player_goods(p, TravelEncounter.refugee_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index))
+			offered = TravelEncounter.refugee_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 		&"LEAVE":
 			pass
 
-	var evt := EventRecord.new(
-		world.current_day,
-		"TRAVEL_ENCOUNTER_RESOLVED",
-		p.npc_id,
-		enc.destination_id,
-		{
-			"encounter_type": String(encounter_type),
-			"option": String(option_id),
-			"gained": gained,
-			"spent": spent,
-			"cost_extra_day": extra_day,
-		}
-	)
-	world.record_event(evt)
+		# ── S5-C2 capability approaches ──────────────────────────────────────
+		# Each one is the same road answered by a different person. They move
+		# existing resources and existing days only; none of them creates a
+		# world fact the simulation could not already state.
+		&"STRIP_PARTS":
+			offered = TravelEncounter.strip_parts_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+			extra_day = true
+		&"USE_WRENCH":
+			offered = TravelEncounter.strip_parts_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+			extra_day = true
+		&"QUICK_PICK":
+			# The capability bought is the DAY, not the loot: no tick happens.
+			offered = TravelEncounter.quick_pick_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+			offered_items = TravelEncounter.wreck_item_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+		&"SCOUT_PATH":
+			pass
+		&"FORCE_THROUGH":
+			# Stated before the choice and taken from what is actually in the
+			# pack, so the receipt can never claim you dropped something you
+			# never carried. Carrying nothing costs nothing.
+			for commodity in TravelEncounter.FORCE_THROUGH_LOSS_PRIORITY:
+				if p.inventory.get_amount(commodity) >= 1:
+					_take_from_player(p, {commodity: 1})
+					break
+		&"USE_ROPE":
+			pass
+		&"HAGGLE":
+			p.money -= TravelEncounter.HAGGLED_TOLL_CAPS
+			spent["caps"] = TravelEncounter.HAGGLED_TOLL_CAPS
+		&"SLIP_PAST":
+			stealth_success = TravelEncounter.check_stealth_success(
+				enc.encounter_type, enc.origin_id, enc.destination_id, enc.day, enc.travel_day_index,
+				p.capability.get_rank("STEALTH"), enc.context)
+			extra_day = true
+		&"HYDRATE":
+			p.inventory.add_amount("water", -1)
+			spent["water"] = 1
+			offered = TravelEncounter.hydrate_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+		&"TAKE_PACK":
+			offered = TravelEncounter.take_pack_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+		&"TRADE_COLUMN":
+			p.money -= TravelEncounter.COLUMN_TRADE_CAPS
+			spent["caps"] = TravelEncounter.COLUMN_TRADE_CAPS
+			offered = TravelEncounter.column_trade_yield(
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+		&"BRIBE":
+			p.money -= TravelEncounter.BANDIT_BRIBE_CAPS
+			spent["caps"] = TravelEncounter.BANDIT_BRIBE_CAPS
+		&"PARLEY":
+			persuasion_success = TravelEncounter.check_persuasion_success(
+				enc.encounter_type, enc.origin_id, enc.destination_id, enc.day, enc.travel_day_index,
+				p.capability.get_rank("SPEECH"), enc.context)
+			var cost: int = TravelEncounter.BANDIT_PERSUADED_CAPS if persuasion_success else TravelEncounter.BANDIT_BRIBE_CAPS
+			p.money -= cost
+			spent["caps"] = cost
+		&"FLEE_ROAD":
+			extra_day = true
 
-	# Clear the encounter BEFORE any further time passes, otherwise the extra
-	# day would immediately halt on the encounter it just resolved.
+	gained = _give_player_goods(p, offered)
+	for item_id in offered_items:
+		var requested_items: int = int(offered_items[item_id])
+		var item_result := p.pickup_item(item_id, requested_items)
+		if item_result.success:
+			gained_items[item_id] = requested_items
+		else:
+			items_left_behind[item_id] = requested_items
+	var left_behind := {}
+	for commodity in offered:
+		var amount := int(offered[commodity]) - int(gained.get(commodity, 0))
+		if amount > 0:
+			left_behind[commodity] = amount
+
 	world.active_encounter = null
-
 	if extra_day:
 		_spend_extra_travel_day(world, p.npc_id)
 
-	# Resume the journey unless the road has already killed us.
-	var days_travelled := 0
-	var arrived := false
-	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(p.npc_id)
-	if ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.IN_TRANSIT:
-		var party: RefugeePartyState = world.get_refugee_party(ls.population_container_id)
-		var remaining := party.days_remaining if party != null else 0
-		var resume := advance_player_travel(world, p.npc_id, remaining)
-		days_travelled = resume["days_travelled"]
-		arrived = resume["arrived"]
-	else:
-		arrived = ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.SETTLED
+	var ls_after := world.npc_life_state_registry.get_life_state(p.npc_id)
+	var player_alive: bool = ls_after != null and ls_after.is_alive()
+	if not player_alive:
+		stealth_success = false
 
-	return {
-		"success": true,
-		"action": "RESOLVE_ENCOUNTER",
-		"encounter_type": String(encounter_type),
-		"option": String(option_id),
-		"gained": gained,
-		"spent": spent,
-		"cost_extra_day": extra_day,
-		"days_travelled": days_travelled,
-		"arrived": arrived,
-		"current_day": world.current_day,
+	# Measure actual consumption, including the extra day's metabolism. No
+	# subsequent travel has happened yet, and missing rations are not fake losses.
+	for commodity in COMMODITIES:
+		var consumed := int(inventory_before[commodity]) + int(gained.get(commodity, 0)) - p.inventory.get_amount(commodity)
+		if consumed > 0:
+			spent[commodity] = consumed
+	var receipt := {
+		"encounter_type": String(encounter_type), "option": String(option_id),
+		"gained": gained, "spent": spent, "left_behind": left_behind,
+		"cost_extra_day": extra_day, "elapsed_days": world.current_day - day_before,
+		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
+	var skill_id: String = TravelEncounter.practice_skill(encounter_type, option_id)
+	if not player_alive:
+		skill_id = ""
+	elif option_id in [&"PERSUADE", &"PARLEY"] and not persuasion_success:
+		skill_id = ""
+	elif option_id == &"SLIP_PAST" and not stealth_success:
+		skill_id = ""
+	if skill_id != "":
+		var practice := _practice_after_action(world, skill_id, day_before)
+		if not practice.is_empty():
+			receipt["skill_practice"] = practice
+	if option_id in [&"PERSUADE", &"PARLEY"]:
+		receipt["persuasion_success"] = persuasion_success
+	if option_id == &"SLIP_PAST":
+		receipt["stealth_success"] = stealth_success
+		if not stealth_success and player_alive:
+			var resume_context: Dictionary = enc.context.duplicate(true)
+			resume_context["stealth_failed"] = true
+			receipt["resume_encounter"] = {
+				"encounter_type": String(enc.encounter_type),
+				"day": world.current_day,
+				"origin_id": String(enc.origin_id),
+				"destination_id": String(enc.destination_id),
+				"travel_day_index": enc.travel_day_index,
+				"context": resume_context,
+			}
+	if not gained_items.is_empty() or not items_left_behind.is_empty():
+		receipt["items_gained"] = gained_items
+		receipt["items_left_behind"] = items_left_behind
+	world.record_event(EventRecord.new(world.current_day, "TRAVEL_ENCOUNTER_RESOLVED", p.npc_id, enc.destination_id, receipt))
+	world.pending_encounter_result = world.event_log.size() - 1
+	var result := receipt.duplicate(true)
+	result.merge({"success": true, "action": "RESOLVE_ENCOUNTER", "days_travelled": 0,
+		"arrived": false, "current_day": world.current_day})
+	return result
+
+# Confirmation consumes the receipt exactly once, then resumes existing travel.
+func _continue_after_encounter(world: WorldState) -> Dictionary:
+	var receipt_index := world.pending_encounter_result
+	world.pending_encounter_result = -1
+	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	var result := {"days_travelled": 0, "arrived": false}
+	if ls != null and ls.is_alive():
+		var last_event: EventRecord = world.event_log[receipt_index] if receipt_index >= 0 and receipt_index < world.event_log.size() else null
+		var resume_enc: Dictionary = last_event.payload.get("resume_encounter", {}) if last_event != null and typeof(last_event.payload) == TYPE_DICTIONARY else {}
+		if not resume_enc.is_empty():
+			world.active_encounter = TravelEncounterState.from_dict(resume_enc)
+			result["resumed_encounter"] = true
+		elif ls.status == NpcLifeState.Status.IN_TRANSIT:
+			var party := world.get_refugee_party(ls.population_container_id)
+			result = advance_player_travel(world, world.player.npc_id, party.days_remaining)
+		else:
+			result["arrived"] = ls.status == NpcLifeState.Status.SETTLED
+	result.merge({"success": true, "action": "CONTINUE_JOURNEY", "current_day": world.current_day})
+	return result
+
+# Take goods off the player, limited by what is actually in the pack. Returns
+# what was really taken; the end-of-commit inventory comparison then reports it
+# as spent, so there is only one place that decides what a loss looks like.
+func _take_from_player(p: PlayerState, goods: Dictionary) -> Dictionary:
+	var taken: Dictionary = {}
+	for key in goods:
+		var actual: int = clampi(int(goods[key]), 0, p.inventory.get_amount(String(key)))
+		if actual > 0:
+			p.inventory.add_amount(String(key), -actual)
+			taken[key] = actual
+	return taken
 
 # Hand goods to the player, limited by what the backpack can hold. Returns what
 # was actually received.
@@ -1785,7 +2247,7 @@ func _give_player_goods(p: PlayerState, goods: Dictionary) -> Dictionary:
 	var received: Dictionary = {}
 	for key in goods:
 		var wanted: int = int(goods[key])
-		var room: int = p.capacity_total - p.get_total_inventory_load()
+		var room: int = p.get_effective_capacity() - p.get_total_inventory_load()
 		var actual: int = clampi(wanted, 0, maxi(room, 0))
 		if actual > 0:
 			p.inventory.add_amount(String(key), actual)
@@ -1802,6 +2264,20 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	if not PlayerIntent.is_authorized_action(intent.action):
 		return "UNAUTHORIZED_ACTION: %s is outside the S5-B2 closed action space" % PlayerIntent.action_name(intent.action)
 
+	if intent.action == PlayerIntent.Action.FIELD_ACTION:
+		return WorldState.Field.authorize(world, intent.payload)
+	if not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
+		return "FIELD_ACTIVITY_PENDING"
+
+	# A dead player may dismiss a fatal receipt, but cannot resume travelling.
+	if intent.action == PlayerIntent.Action.CONTINUE_JOURNEY:
+		var receipt: Variant = intent.payload.get("result_index", -1)
+		if typeof(receipt) not in [TYPE_INT, TYPE_FLOAT] or receipt != world.pending_encounter_result or world.pending_encounter_result < 0:
+			return "NO_MATCHING_ENCOUNTER_RESULT: receipt is absent or already confirmed"
+		return ""
+	if world.pending_encounter_result >= 0:
+		return "ENCOUNTER_RESULT_PENDING: confirm the result before acting"
+
 	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 	if ls == null or not ls.is_alive():
 		return "DECEASED_OR_NO_LIFE_STATE: Player is not alive or has no life state"
@@ -1811,8 +2287,17 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
+			if intent.payload.size() != 1 or typeof(intent.payload.get("quest_id")) != TYPE_STRING:
+				return "INVALID_QUEST_INTENT"
+			var quest_script = load("res://simulation/quest_engine.gd")
+			return quest_script.authorize_accept(world, String(intent.payload.quest_id)) if intent.action == PlayerIntent.Action.ACCEPT_QUEST else quest_script.authorize_turn_in(world, String(intent.payload.quest_id))
 		PlayerIntent.Action.RESOLVE_ENCOUNTER:
 			return authorize_encounter_option(world, StringName(String(intent.payload.get("option_id", ""))))
+		PlayerIntent.Action.EQUIP_ITEM:
+			return _authorize_equipment_intent(world, intent, true)
+		PlayerIntent.Action.UNEQUIP_ITEM:
+			return _authorize_equipment_intent(world, intent, false)
 		PlayerIntent.Action.WAIT:
 			return ""
 		PlayerIntent.Action.TRAVEL:
@@ -1838,6 +2323,8 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			if settlement == null:
 				return "INVALID_SETTLEMENT: Origin settlement %s does not exist" % ls.population_container_id
+			if intent.item_id != &"":
+				return _authorize_item_trade(world, settlement, intent, true)
 			var comm_str := String(intent.commodity)
 			if not comm_str in COMMODITIES:
 				return "INVALID_COMMODITY: Commodity '%s' is not in %s" % [comm_str, COMMODITIES]
@@ -1856,7 +2343,7 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 				]
 			if not world.player.has_cargo_capacity(intent.quantity):
 				return "INSUFFICIENT_CAPACITY: Player carrying %d/%d, cannot fit %d" % [
-					world.player.get_total_inventory_load(), world.player.capacity_total, intent.quantity
+					world.player.get_total_inventory_load(), world.player.get_effective_capacity(), intent.quantity
 				]
 			return ""
 		PlayerIntent.Action.SELL:
@@ -1865,6 +2352,8 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			if settlement == null:
 				return "INVALID_SETTLEMENT: Origin settlement %s does not exist" % ls.population_container_id
+			if intent.item_id != &"":
+				return _authorize_item_trade(world, settlement, intent, false)
 			var comm_str := String(intent.commodity)
 			if not comm_str in COMMODITIES:
 				return "INVALID_COMMODITY: Commodity '%s' is not in %s" % [comm_str, COMMODITIES]
@@ -1940,7 +2429,7 @@ func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: A
 func advance_player_travel(world: WorldState, player_id: StringName, route_days: int) -> Dictionary:
 	var days_travelled := 0
 	var max_days := route_days + TRAVEL_SAFETY_MARGIN_DAYS
-	while days_travelled < max_days:
+	while days_travelled < max_days and not is_player_travel_interrupted(world, player_id):
 		tick(world)
 		days_travelled += 1
 		var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(player_id)
@@ -1958,7 +2447,7 @@ func advance_player_travel(world: WorldState, player_id: StringName, route_days:
 
 # A journey halts while an encounter is waiting for an answer.
 func is_player_travel_interrupted(world: WorldState, _player_id: StringName) -> bool:
-	return world.active_encounter != null
+	return world.active_encounter != null or world.pending_encounter_result >= 0 or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0
 
 func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
 	var auth_err := authorize_player_intent(world, intent)
@@ -1966,8 +2455,34 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
+			var quest_id := String(intent.payload.quest_id)
+			var quest_script = load("res://simulation/quest_engine.gd")
+			var accepting := intent.action == PlayerIntent.Action.ACCEPT_QUEST
+			var quest_result: Dictionary = quest_script.accept(world, quest_id) if accepting else quest_script.turn_in(world, quest_id)
+			if not quest_result.success:
+				return quest_result
+			var target: StringName = world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id
+			var event := EventRecord.new(world.current_day, "QUEST_ACCEPTED" if accepting else "QUEST_RESOLVED", intent.player_id, target, {
+				"quest_id": quest_id,
+				"deadline_day": world.quest_state.get_quest(quest_id).deadline_day if accepting else -1,
+				"delivered": [] if accepting else quest_result.delivered,
+				"rewards": [] if accepting else quest_result.rewards,
+			})
+			world.record_event(event)
+			if tick_events != null:
+				tick_events.append(event)
+			return quest_result
+		PlayerIntent.Action.FIELD_ACTION:
+			return WorldState.Field.commit(world, self, intent.payload)
+		PlayerIntent.Action.CONTINUE_JOURNEY:
+			return _continue_after_encounter(world)
 		PlayerIntent.Action.RESOLVE_ENCOUNTER:
 			return commit_encounter_choice(world, StringName(String(intent.payload.get("option_id", ""))))
+		PlayerIntent.Action.EQUIP_ITEM:
+			return _commit_equipment_intent(world, intent, true, tick_events)
+		PlayerIntent.Action.UNEQUIP_ITEM:
+			return _commit_equipment_intent(world, intent, false, tick_events)
 
 		PlayerIntent.Action.WAIT:
 			var wait_evt := EventRecord.new(
@@ -1997,6 +2512,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			return begin_res
 
 		PlayerIntent.Action.BUY:
+			if intent.item_id != &"":
+				return _commit_item_trade(world, intent, tick_events)
 			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			var comm_str := String(intent.commodity)
@@ -2007,38 +2524,33 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			settlement.market_cash += total_cost
 			world.player.inventory.add_amount(comm_str, intent.quantity)
 			world.player.money -= total_cost
+			var buy_practice := _practice_after_action(world, "BARTER")
 
+			var buy_payload := {
+				"action": "BUY", "commodity": comm_str, "quantity": intent.quantity,
+				"unit_price": quote, "total_amount": total_cost,
+				"settlement_cash": settlement.market_cash, "player_money": world.player.money,
+			}
+			if not buy_practice.is_empty():
+				buy_payload["skill_practice"] = buy_practice
 			var trade_evt := EventRecord.new(
 				world.current_day,
 				"TRADE_COMPLETED",
 				intent.player_id,
 				settlement.id,
-				{
-					"action": "BUY",
-					"commodity": comm_str,
-					"quantity": intent.quantity,
-					"unit_price": quote,
-					"total_amount": total_cost,
-					"settlement_cash": settlement.market_cash,
-					"player_money": world.player.money
-				}
+				buy_payload
 			)
 			if tick_events != null:
 				tick_events.append(trade_evt)
 			world.record_event(trade_evt)
 
-			return {
-				"success": true,
-				"action": "BUY",
-				"commodity": comm_str,
-				"quantity": intent.quantity,
-				"unit_price": quote,
-				"total_amount": total_cost,
-				"settlement_cash": settlement.market_cash,
-				"player_money": world.player.money
-			}
+			var buy_result := buy_payload.duplicate(true)
+			buy_result["success"] = true
+			return buy_result
 
 		PlayerIntent.Action.SELL:
+			if intent.item_id != &"":
+				return _commit_item_trade(world, intent, tick_events)
 			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			var comm_str := String(intent.commodity)
@@ -2049,36 +2561,29 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			world.player.money += total_revenue
 			settlement.inventory.add_amount(comm_str, intent.quantity)
 			settlement.market_cash -= total_revenue
+			var sell_practice := _practice_after_action(world, "BARTER")
 
+			var sell_payload := {
+				"action": "SELL", "commodity": comm_str, "quantity": intent.quantity,
+				"unit_price": quote, "total_amount": total_revenue,
+				"settlement_cash": settlement.market_cash, "player_money": world.player.money,
+			}
+			if not sell_practice.is_empty():
+				sell_payload["skill_practice"] = sell_practice
 			var trade_evt := EventRecord.new(
 				world.current_day,
 				"TRADE_COMPLETED",
 				intent.player_id,
 				settlement.id,
-				{
-					"action": "SELL",
-					"commodity": comm_str,
-					"quantity": intent.quantity,
-					"unit_price": quote,
-					"total_amount": total_revenue,
-					"settlement_cash": settlement.market_cash,
-					"player_money": world.player.money
-				}
+				sell_payload
 			)
 			if tick_events != null:
 				tick_events.append(trade_evt)
 			world.record_event(trade_evt)
 
-			return {
-				"success": true,
-				"action": "SELL",
-				"commodity": comm_str,
-				"quantity": intent.quantity,
-				"unit_price": quote,
-				"total_amount": total_revenue,
-				"settlement_cash": settlement.market_cash,
-				"player_money": world.player.money
-			}
+			var sell_result := sell_payload.duplicate(true)
+			sell_result["success"] = true
+			return sell_result
 
 	return {"success": false, "error": "UNREACHABLE"}
 
@@ -2099,4 +2604,14 @@ func execute_player_sell(world: WorldState, commodity: StringName, quantity: int
 		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
 	var intent := PlayerIntent.create_sell(world.player.npc_id, commodity, quantity)
 	return commit_player_intent(world, intent)
+
+func execute_player_buy_item(world: WorldState, item_id: StringName, quantity: int = 1) -> Dictionary:
+	if world == null or world.player == null:
+		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
+	return commit_player_intent(world, PlayerIntent.create_buy_item(world.player.npc_id, item_id, quantity))
+
+func execute_player_sell_item(world: WorldState, item_id: StringName, quantity: int = 1) -> Dictionary:
+	if world == null or world.player == null:
+		return {"success": false, "error": "NO_PLAYER: World does not have an active player"}
+	return commit_player_intent(world, PlayerIntent.create_sell_item(world.player.npc_id, item_id, quantity))
 

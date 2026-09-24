@@ -1,0 +1,3829 @@
+[
+  {
+    "content_id": "content_black_box_memory",
+    "name_zh": "黑盒記憶體",
+    "art_file": "ui/assets/items/library/relics/black_box_memory.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "incident_recording_module",
+    "proposed_weight_g": 360,
+    "proposed_base_value_caps": 450,
+    "value_rationale_zh": "完整事件序列對相關調查者有價值；記錄可能無關、缺失或不可讀，不能保證藏有高價秘密。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "data",
+      "incident"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "recover_readable_log",
+      "verify_sequence",
+      "submit_evidence"
+    ],
+    "origin_tags": [
+      "crashed_service_vehicle",
+      "control_room",
+      "sealed_recorder_case"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "補給事故牽涉當地供給時才有委託需求。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "設備事故調查較可能找到讀取能力。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "運輸與燃料事故的當事人可能需要可驗證記錄。"
+      }
+    },
+    "loot_sources": [
+      "crashed_service_vehicle",
+      "control_room",
+      "sealed_recorder_case"
+    ],
+    "description_zh": "外殼焦黑，固定螺絲旁卻有一圈被新近擦亮的金屬。",
+    "known_description_zh": "像事故記錄單元，外部編號可讀；尚不知道何時停止記錄。",
+    "identified_description_zh": "可核對讀得出的時間序列與校驗標記；最後一段缺失就是缺失，不用敘事填入兇手。",
+    "world_notes_zh": "候選用途是釐清運輸事故與設備停機原因；公開、交還或封存可能有不同關係後果。",
+    "hooks": [
+      {
+        "situation_zh": "運輸車沉沒後，兩個聚落互相指控未按時出發。",
+        "use_zh": "讀取可驗證時間點，分開記錄已知與空白區。",
+        "cost_or_limit_zh": "需讀取工具與現場資料；時鐘可能需校準，不能單靠一串數字定罪。"
+      },
+      {
+        "situation_zh": "設備管理者要求先銷毀記錄再交出零件。",
+        "use_zh": "選擇保留完整證據、尋找合法查驗人或放棄交易。",
+        "cost_or_limit_zh": "保留會佔運輸重量並放棄當次交易，關係變動需正式後果權威。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "identification",
+      "knowledge",
+      "jobs",
+      "reputation",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_black_water_drop",
+    "name_zh": "黑色水滴",
+    "art_file": "ui/assets/items/library/relics/black_water_drop.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "suspended_dark_liquid",
+    "proposed_weight_g": 90,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "未知液滴沒有通用售價；只記錄研究者是否願意在封存條件下接收。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "liquid",
+      "unknown"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "seal_sample",
+      "observe_volume",
+      "compare_container"
+    ],
+    "origin_tags": [
+      "anomalous_seep",
+      "sealed_vial",
+      "abandoned_lab"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "供水者會關心污染風險，通常只願協助隔離而非購買。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "材料研究者可能接收有清楚來源的封存樣本。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "煉製研究者對流動特性有興趣，但不當可燃料收購。"
+      }
+    },
+    "loot_sources": [
+      "anomalous_seep",
+      "sealed_vial",
+      "abandoned_lab"
+    ],
+    "description_zh": "瓶內的黑點像液體，傾斜時卻比瓶身慢了一拍。",
+    "known_description_zh": "短時間觀察未見體積改變；不知道成分、毒性或是否可與水混合。",
+    "identified_description_zh": "可測得在特定容器裡的流動與揮發行為；結果不證明長期不蒸發，更不代表可飲用。",
+    "world_notes_zh": "候選以樣本保管與觀察為主，不能轉成無限水源、燃料或出售循環。",
+    "hooks": [
+      {
+        "situation_zh": "一條排水渠旁發現相同黑點，居民擔心混入井水。",
+        "use_zh": "保持樣本密封並標記發現位置供正式檢驗。",
+        "cost_or_limit_zh": "需容器與運送時間；不能用肉眼檢查宣告水源安全或有毒。"
+      },
+      {
+        "situation_zh": "買家要求倒入自己的空瓶，卻不提供來源簽收。",
+        "use_zh": "協商保留原容器或拒絕交接。",
+        "cost_or_limit_zh": "轉瓶可能失去比較條件；交付必須記錄物件與保管責任。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "hazards",
+      "knowledge",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_camera",
+    "name_zh": "相機",
+    "art_file": "ui/assets/items/library/relics/camera.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "TOOL",
+    "subtype": "film_camera",
+    "proposed_weight_g": 720,
+    "proposed_base_value_caps": 140,
+    "value_rationale_zh": "完整光學與機械部件可供使用或研究；底片與沖洗供應未建立，不能把機身視為無限拍照器。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "optics",
+      "evidence"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "inspect",
+      "document_scene",
+      "compare_image"
+    ],
+    "origin_tags": [
+      "old_homes",
+      "survey_case",
+      "estate_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "low",
+        "reason_zh": "一般農戶少有成像耗材，僅偶有家庭照片保存委託。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "調查者或光學工匠可能收購完整機身。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "運輸紀錄人有保存事故現場的理由，但沒有穩定底片來源。"
+      }
+    },
+    "loot_sources": [
+      "old_homes",
+      "survey_case",
+      "estate_locker"
+    ],
+    "description_zh": "鏡頭蓋內黏著一張手寫清單，最後一項只剩半個字。",
+    "known_description_zh": "能看見取景器與捲片旋鈕；不知道快門或內部底片是否完好。",
+    "identified_description_zh": "這是使用底片的機身，快門可測但成像仍需相容底片與沖洗；取景器只可作有限目視觀察。",
+    "world_notes_zh": "候選定位是證據記錄與地方影像交易；需要另定有限耗材，不能憑照片敘事回溯生成世界事實。",
+    "hooks": [
+      {
+        "situation_zh": "舊水塔裂縫是否擴大引起爭議。",
+        "use_zh": "在建立相容耗材規則後，用同一視角記錄兩次檢查。",
+        "cost_or_limit_zh": "需有限底片、兩次到訪與沖洗；單張影像不能直接判定結構安全。"
+      },
+      {
+        "situation_zh": "旅館展板上一張相片的取景角度指向被填平的巷口。",
+        "use_zh": "比較取景器視線與地物，尋找拍攝位置。",
+        "cost_or_limit_zh": "必須實地觀察；找出位置只得到調查線索，沒有直接開門或出土獎勵。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_glass",
+        "content_spring",
+        "content_precision_parts"
+      ],
+      "note_zh": "只能由適當工具校正或更換機械件，不能用普通玻璃宣稱恢復精密鏡片品質。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_glass",
+        "content_spring"
+      ],
+      "note_zh": "僅分離可確認的玻璃與彈簧；拆解會破壞完整機身用途。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "exploration",
+      "knowledge",
+      "jobs",
+      "regional_trade",
+      "repair",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P01"
+    ]
+  },
+  {
+    "content_id": "content_company_keycard",
+    "name_zh": "公司門禁卡",
+    "art_file": "ui/assets/items/library/relics/company_keycard.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "site_access_card",
+    "proposed_weight_g": 12,
+    "proposed_base_value_caps": 80,
+    "value_rationale_zh": "估值來自特定設施的調查需求；卡號失效或讀取器不相容時不具一般通行價值。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "access",
+      "electronics"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "read_identifier",
+      "compare_access_log",
+      "present_card"
+    ],
+    "origin_tags": [
+      "company_office",
+      "maintenance_locker",
+      "lost_luggage"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "多數農業場所沒有相容讀取器，僅有調查委託需求。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "舊工業維護設施與識別檔案較相關。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "燃料設施可能尋找特定公司序號，必須先查型號。"
+      }
+    },
+    "loot_sources": [
+      "company_office",
+      "maintenance_locker",
+      "lost_luggage"
+    ],
+    "description_zh": "磨白的塑膠卡只剩一條藍線，掛孔處刻了簡單的扳手圖案。",
+    "known_description_zh": "有公司標誌與序號；不知道它對應哪扇門，也不知道能否讀取。",
+    "identified_description_zh": "卡號屬於某類維護人員識別格式；需查驗設施、讀取器與授權紀錄後才能判斷是否適用。",
+    "world_notes_zh": "通行是設施狀態與授權共同決定，卡片不通吃所有電子門，也不代表取得物資所有權。",
+    "hooks": [
+      {
+        "situation_zh": "泵站側門留下卡槽，主門外有居民封條。",
+        "use_zh": "先讀取卡號並和舊值班表比對，確定可能的維修入口。",
+        "cost_or_limit_zh": "需電子讀取設備、時間與現任管理者同意；不能以舊卡繞過現行所有權。"
+      },
+      {
+        "situation_zh": "遺跡內一扇門有電，另一扇只有空卡框。",
+        "use_zh": "在確認相容性後嘗試有電的讀取器，記錄明確成功或拒絕。",
+        "cost_or_limit_zh": "卡片不供電，不消除門後危險；失敗不能扣掉虛構開鎖耗材。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "identification",
+      "exploration",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "WG-04"
+    ]
+  },
+  {
+    "content_id": "content_data_disk",
+    "name_zh": "資料磁碟",
+    "art_file": "ui/assets/items/library/relics/data_disk.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "archival_storage_disk",
+    "proposed_weight_g": 90,
+    "proposed_base_value_caps": 120,
+    "value_rationale_zh": "估值按可讀介面與保存條件提出；未知內容不按寶藏價出售，讀取結果可能只是日常紀錄。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "data",
+      "fragile"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "inspect_format",
+      "read_archive",
+      "make_verified_copy"
+    ],
+    "origin_tags": [
+      "office_archive",
+      "sealed_terminal_case",
+      "research_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "供水與農業歷史紀錄可能有用，但缺少常備讀取設備。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "電子工坊或紀錄者較可能處理相容介面。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "煉製批次與運輸紀錄有特定查詢需求。"
+      }
+    },
+    "loot_sources": [
+      "office_archive",
+      "sealed_terminal_case",
+      "research_locker"
+    ],
+    "description_zh": "防塵盒上的清單還在，勾選記號停在倒數第二行。",
+    "known_description_zh": "有連接端與封條，無法從外殼確定內容或是否完整。",
+    "identified_description_zh": "相容讀取設備可檢查資料區與校驗狀態；實際能讀出的檔案才列入已知內容，損壞區保持缺失。",
+    "world_notes_zh": "候選用途是有出處的設備日誌、運輸表或普通文檔；不給每片磁碟保證藏有新配方。",
+    "hooks": [
+      {
+        "situation_zh": "兩份裝運清單對同一批燃料寫了不同目的地。",
+        "use_zh": "讀取可驗證的磁碟記錄，比較日期與簽領編號。",
+        "cost_or_limit_zh": "需相容終端與閱讀時間；沒有資料就記錄缺失，不自動判定詐欺。"
+      },
+      {
+        "situation_zh": "調查者要帶走唯一存檔，地方保管者希望留下證據。",
+        "use_zh": "在有空白媒體與校驗流程時製作一份可核對副本。",
+        "cost_or_limit_zh": "副本需有限媒體且權利人同意；複製不產生可無限賣出的稀有原件。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "knowledge",
+      "identification",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "content_id": "content_geological_survey_map",
+    "name_zh": "地質調查圖",
+    "art_file": "ui/assets/items/library/relics/geological_survey_map.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "survey_document",
+    "proposed_weight_g": 180,
+    "proposed_base_value_caps": 190,
+    "value_rationale_zh": "位置與比例尺仍可對照的圖有調查價值，但地質標記不是可立即收取的資源。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "map",
+      "geology"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_strata",
+      "locate_survey_point",
+      "annotate_uncertainty"
+    ],
+    "origin_tags": [
+      "survey_office",
+      "field_case",
+      "geological_archive"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "井址調查與坡地用水可能需要舊鑽孔資料。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "材料來源調查者關心特定岩層而非整張圖。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "尋找舊井與穩定道路基底有具體需求。"
+      }
+    },
+    "loot_sources": [
+      "survey_office",
+      "field_case",
+      "geological_archive"
+    ],
+    "description_zh": "地圖邊框剪掉一角，保留下來的方格上擠滿了三種顏色的筆記。",
+    "known_description_zh": "有等高線、鑽孔號與舊路標；日期、座標基準和現況尚待核對。",
+    "identified_description_zh": "可辨識調查範圍與採樣位置，部分標記只是推測層；需現地比對後才能建立候選位置。",
+    "world_notes_zh": "候選內容是把風險變得更可問，而非生成礦脈、泉眼或採集量；地貌也可能已變。",
+    "hooks": [
+      {
+        "situation_zh": "乾井附近兩個候選井址的傳言相互矛盾。",
+        "use_zh": "對照舊鑽孔位置，先找可核對的實體標記。",
+        "cost_or_limit_zh": "需實地行走與導航能力；舊孔位不保證有水，不直接改供水。"
+      },
+      {
+        "situation_zh": "灰谷商隊想跨過新塌坡節省路程。",
+        "use_zh": "將圖上的坡層資訊與現場裂縫比較，提出調查範圍。",
+        "cost_or_limit_zh": "地圖可能過期；只能指出疑點，安全通行仍需現況與路線權威。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "navigation",
+      "exploration",
+      "hazards",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "LD-P01"
+    ]
+  },
+  {
+    "content_id": "content_gray_seed",
+    "name_zh": "灰種",
+    "art_file": "ui/assets/items/library/relics/gray_seed.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "unclassified_seed",
+    "proposed_weight_g": 8,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "沒有普通種子的確定農業價值；只有願意隔離試驗的研究者或種子保管者表達需求。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "seed",
+      "biological"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ],
+    "actions": [
+      "document_seed",
+      "keep_quarantined",
+      "plan_controlled_trial"
+    ],
+    "origin_tags": [
+      "sealed_botanical_case",
+      "anomalous_garden",
+      "soil_sample_box"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "種子保管者可能願意提供隔離試驗，需求以不危及現有作物為前提。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "工業聚落多半只能協助保存與轉運。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "耐旱傳聞可能吸引買家，但無試驗不能保證沙地可種。"
+      }
+    },
+    "loot_sources": [
+      "sealed_botanical_case",
+      "anomalous_garden",
+      "soil_sample_box"
+    ],
+    "description_zh": "灰色外皮像沾了細粉，用布擦拭後仍沒有露出別的顏色。",
+    "known_description_zh": "外形像種子，未知是否有生命、能否發芽或接觸農田是否安全。",
+    "identified_description_zh": "可記錄外觀和封存條件；鑑定到植物類型也不等於知道產量、可食性或擴散風險。",
+    "world_notes_zh": "候選長期目標是有限、隔離的觀察，絕不直接成為永久增產道具或會自行擴散的世界事件。",
+    "hooks": [
+      {
+        "situation_zh": "農戶想把灰種混進下一批普通播種。",
+        "use_zh": "提出單獨容器試驗，將普通種子保留給正常種植。",
+        "cost_or_limit_zh": "需專用容器、水與多日觀察；不保證發芽，試驗不能污染正常田區。"
+      },
+      {
+        "situation_zh": "商人稱這是能免灌溉的作物，要求立即交易。",
+        "use_zh": "索取來源與試種紀錄，或保持封存等待辨識。",
+        "cost_or_limit_zh": "查證可能錯過當次交易；未證實的宣稱不進物品效果欄。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "hazards",
+      "knowledge",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_heat_core",
+    "name_zh": "熱核",
+    "art_file": "ui/assets/items/library/relics/heat_core.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "persistent_warm_object",
+    "proposed_weight_g": 1150,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "不按永續能源估值；熱工與烹煮設備研究者可能以測試條件提出交付協議。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "thermal",
+      "core"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ],
+    "actions": [
+      "measure_heat",
+      "isolate_container",
+      "plan_test_load"
+    ],
+    "origin_tags": [
+      "sealed_thermal_chamber",
+      "anomalous_boiler_case",
+      "survey_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "食品保存或烹煮工作可能提出研究需求，需先驗證接觸安全。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "熱工工坊可能具備量測與隔離空間。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "煉製地對熱源有興趣，也需避免與燃料混放。"
+      }
+    },
+    "loot_sources": [
+      "sealed_thermal_chamber",
+      "anomalous_boiler_case",
+      "survey_locker"
+    ],
+    "description_zh": "粗糙外殼附近的霧氣總先散開，找不到可開關的地方。",
+    "known_description_zh": "近處可量到持續溫熱；不知道可持續多久、是否會升溫或釋出其他物質。",
+    "identified_description_zh": "可在隔離條件下記錄溫度與時間；尚未驗證為可接觸食物的熱源，也不等於可驅動機械。",
+    "world_notes_zh": "候選用途有研究與有條件的保溫方向，重量與隔離運輸是負擔；不能生成無限燃料。",
+    "hooks": [
+      {
+        "situation_zh": "商隊想把熱核塞入裝有食物的保溫袋。",
+        "use_zh": "先要求隔離量測與獨立保管，再決定是否能使用。",
+        "cost_or_limit_zh": "需容器、重量與等待時間；不直接替全隊提供保溫。"
+      },
+      {
+        "situation_zh": "工坊提出將熱核接到一個不完整的蒸汽裝置。",
+        "use_zh": "提供測試負載方案或保留樣本拒絕破壞性嘗試。",
+        "cost_or_limit_zh": "需設備、專門技術與明確風險權威；發熱不保證足夠功率或安全壓力。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "hazards",
+      "cargo",
+      "knowledge",
+      "electronics",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-03"
+    ]
+  },
+  {
+    "content_id": "content_hollow_stone",
+    "name_zh": "空心石",
+    "art_file": "ui/assets/items/library/relics/hollow_stone.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "low_mass_mineral",
+    "proposed_weight_g": 65,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "沒有普遍市場估價；材料研究者與運輸工匠可能對量測結果提出特定委託。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "mineral",
+      "mass"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_mass",
+      "secure_sample",
+      "inspect_structure"
+    ],
+    "origin_tags": [
+      "rockfall_pocket",
+      "anomalous_quarry",
+      "survey_case"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "農業工作沒有直接材料用途，除非有具體調查委託。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "材料工匠可能想確認是否為空腔或特殊結構。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "運輸者可能對輕質材料有興趣，但需強度證據。"
+      }
+    },
+    "loot_sources": [
+      "rockfall_pocket",
+      "anomalous_quarry",
+      "survey_case"
+    ],
+    "description_zh": "表面像密實石料，拿起時卻讓人錯估手中的重量。",
+    "known_description_zh": "相同大小的普通石塊較重；不知道裡面是否真的空心。",
+    "identified_description_zh": "可比對質量與體積，但空腔、結構強度與成因需另外檢查；重量小不等於能承重或漂浮。",
+    "world_notes_zh": "候選價值來自不尋常材料，而非取消所有貨物重量的魔法背包。",
+    "hooks": [
+      {
+        "situation_zh": "礦坑秤臺把這塊石頭誤記成少交貨。",
+        "use_zh": "用已校準的秤與普通樣本做對照，保留稱量紀錄。",
+        "cost_or_limit_zh": "需要可靠量具與雙方見證；一次秤量不解釋成因。"
+      },
+      {
+        "situation_zh": "工匠想把石塊切開作展示。",
+        "use_zh": "選擇保持原樣繼續量測，或先安排無損檢查。",
+        "cost_or_limit_zh": "切開可能破壞唯一樣本；沒有正式檢查規則時不承諾內部結構。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "knowledge",
+      "exploration",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_homecoming",
+    "name_zh": "回家",
+    "art_file": "ui/assets/items/library/relics/homecoming.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "WEAPON",
+    "subtype": "named_hunting_rifle",
+    "proposed_weight_g": 3400,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "特定尋物者可能提出交付條件，沒有全世界一致售價；槍的歷史比型號稀有度更重要。",
+    "rarity": "unique",
+    "tags": [
+      "unique",
+      "rifle",
+      "personal"
+    ],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_repair_marks",
+      "trace_route",
+      "return_rifle"
+    ],
+    "origin_tags": [
+      "documented_personal_transfer",
+      "abandoned_named_cache"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "特定獵戶或失物委託人可能認得木托修補。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "舊修理工若已有相關人物紀錄，可能辨認工法。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "一般商人只見到舊獵槍，私人來歷未必形成需求。"
+      }
+    },
+    "loot_sources": [
+      "documented_personal_transfer",
+      "abandoned_named_cache"
+    ],
+    "description_zh": "木托補過一道長裂痕，補片上用小字刻著一個方向。",
+    "known_description_zh": "是使用多年的獵槍，能看見補片與刻字；前主人的去向仍是傳聞。",
+    "identified_description_zh": "可核對工匠補修記號與已存在的委託紀錄；刻字不是自動定位器，機械狀態需另檢。",
+    "world_notes_zh": "候選故事圍繞失聯獵人的行程與熟人記憶；不保證持槍後每個居民都認得，也不生成前主人。",
+    "hooks": [
+      {
+        "situation_zh": "新希望的修理簿留下與木托補片相同的尺寸。",
+        "use_zh": "比對紀錄，找出最後一次可證實的維修時間。",
+        "cost_or_limit_zh": "需取得查簿同意；紀錄只證明維修，不證明前主人的當前位置。"
+      },
+      {
+        "situation_zh": "一名旅人希望借槍護送補給，另有人正在尋找失物。",
+        "use_zh": "決定是否暫借、保留查證或安排當面交接。",
+        "cost_or_limit_zh": "需正式所有權與歸還條件；戰鬥另需裝備/彈藥權威，不能複製第二把槍。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_precision_parts",
+        "content_spring"
+      ],
+      "note_zh": "由適配工匠修理機械，保留木托補片的來源特徵。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_scrap_iron",
+        "content_spring"
+      ],
+      "note_zh": "拆解不可逆地失去完整遺物；回收只作符號關係，不設套利產量。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "equipment",
+      "combat_extension",
+      "identification",
+      "knowledge",
+      "npc_relationship",
+      "jobs",
+      "regional_trade",
+      "repair",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_hospital_id_card",
+    "name_zh": "醫院識別卡",
+    "art_file": "ui/assets/items/library/relics/hospital_id_card.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "medical_staff_identifier",
+    "proposed_weight_g": 15,
+    "proposed_base_value_caps": 60,
+    "value_rationale_zh": "價值在醫療設施查檔與來源核對，不是偽造專業資格或現成的救治權限。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "identity",
+      "medical"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_staff_record",
+      "trace_store_room",
+      "return_identifier"
+    ],
+    "origin_tags": [
+      "clinic_archive",
+      "staff_locker",
+      "personal_effects"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "地方診療工作可能需要追溯舊庫房與採購紀錄。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "舊職員檔案與工傷紀錄可能相關。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "運藥委託會在意來源核實，但不承認過期牌證為醫師資格。"
+      }
+    },
+    "loot_sources": [
+      "clinic_archive",
+      "staff_locker",
+      "personal_effects"
+    ],
+    "description_zh": "掛繩洗得褪色，照片旁邊貼著一小片補過的透明膠。",
+    "known_description_zh": "能看見部門縮寫與人名，可能是職員識別物；現行有效性未知。",
+    "identified_description_zh": "可與舊醫院排班與領料紀錄比對，但不證明現任持有者懂醫療，也不保證附帶電子門禁。",
+    "world_notes_zh": "候選內容是藥品出處與失物查證，避免把醫院標誌變成通用治療選項。",
+    "hooks": [
+      {
+        "situation_zh": "一批未標示藥箱只留下領料人縮寫。",
+        "use_zh": "比對識別卡與庫房簽領記錄，找出待核驗批次。",
+        "cost_or_limit_zh": "仍需藥物鑑定與醫療權威；核對姓名不能讓未知藥安全可用。"
+      },
+      {
+        "situation_zh": "居民想找回曾在舊診所工作之人的物件。",
+        "use_zh": "以照片與部門紀錄查證後歸還。",
+        "cost_or_limit_zh": "需得到持有人同意並完成查證；不因相片相似建立新NPC。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "identification",
+      "npc_relationship",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "content_id": "content_humming_stone",
+    "name_zh": "鳴石",
+    "art_file": "ui/assets/items/library/relics/humming_stone.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "electrically_responsive_mineral",
+    "proposed_weight_g": 380,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "沒有通用售價；灰谷電子研究者關心可重複聲響，其他買家需求取決於可驗證用途。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "sound",
+      "electricity"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_hum",
+      "isolate_from_power",
+      "record_response"
+    ],
+    "origin_tags": [
+      "substation_rubble",
+      "anomalous_rock_pocket",
+      "sealed_sample_box"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "水閘設備有異音時才可能找研究協助。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "電子研究者願意接收有設備對照紀錄的樣本。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "燃料站操作員可能對設備異常提示感興趣，但需先查干擾。"
+      }
+    },
+    "loot_sources": [
+      "substation_rubble",
+      "anomalous_rock_pocket",
+      "sealed_sample_box"
+    ],
+    "description_zh": "靠近某些舊電器時，它的細聲會從低鳴變成短促顫音。",
+    "known_description_zh": "曾在帶電設備附近出聲，但尚未排除震動或其他干擾。",
+    "identified_description_zh": "對照測試可記錄與特定通電狀態的關聯；不能因此宣稱能定位所有電線或保證無害。",
+    "world_notes_zh": "候選先用於調查線索，驗證後才可能有特定測試用途；不取代萬用電表所有功能。",
+    "hooks": [
+      {
+        "situation_zh": "變電棚斷電後仍聽到低鳴，居民以為有機器偷開。",
+        "use_zh": "依次隔離設備，比對石頭聲響與可測電源。",
+        "cost_or_limit_zh": "需安全隔離與時間；聲響不能單獨證明有人偷用能源。"
+      },
+      {
+        "situation_zh": "商人想把鳴石當尋寶器宣傳。",
+        "use_zh": "提供已驗證範圍或拒絕誇大用途的交易。",
+        "cost_or_limit_zh": "較窄的說明可能降低買家興趣；未證實能力不寫入使用選項。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "identification",
+      "hazards",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_identity_document",
+    "name_zh": "身分證件",
+    "art_file": "ui/assets/items/library/relics/identity_document.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "civil_identity_paper",
+    "proposed_weight_g": 25,
+    "proposed_base_value_caps": 35,
+    "value_rationale_zh": "估值只反映保存與查證工作；證件不作可自由販售的現行通行權。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "identity",
+      "evidence"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "verify_record",
+      "compare_signature",
+      "return_document"
+    ],
+    "origin_tags": [
+      "personal_effects",
+      "office_archive",
+      "lost_luggage"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "安置與尋親工作可能需要查證舊住址，證件本身沒有供給功能。"
+      },
+      "gray_valley": {
+        "supply": "medium",
+        "demand": "medium",
+        "reason_zh": "舊工務檔案較多，登記員可能協助核對編號。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "low",
+        "reason_zh": "商隊較重現行見證，不把過期證件當保證書。"
+      }
+    },
+    "loot_sources": [
+      "personal_effects",
+      "office_archive",
+      "lost_luggage"
+    ],
+    "description_zh": "塑封邊緣重新燙過，照片下方的舊住址仍未被刮掉。",
+    "known_description_zh": "能看見姓名、照片與局部編號；有效期限和現行承認範圍都未知。",
+    "identified_description_zh": "這是舊制度留下的身分紀錄，可與其他檔案比對；持有者不是自動成為文件所指的人。",
+    "world_notes_zh": "候選任務由已有的人口代表提出尋物或查檔；不能用證件為世界生成另一個具名個體。",
+    "hooks": [
+      {
+        "situation_zh": "寄存櫃領取人姓名相同，簽字卻不同。",
+        "use_zh": "提供證件作交叉查證材料。",
+        "cost_or_limit_zh": "需核對獨立紀錄與持有人同意；證件不直接打開寄存櫃。"
+      },
+      {
+        "situation_zh": "收容點只有一筆模糊的舊住址。",
+        "use_zh": "比對文件地址與既有住民紀錄，縮小查詢範圍。",
+        "cost_or_limit_zh": "耗費查檔時間；沒有匹配就明確記錄未找到，不生成家屬。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "knowledge",
+      "npc_relationship",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "content_id": "content_last_round",
+    "name_zh": "最後一發",
+    "art_file": "ui/assets/items/library/relics/last_round.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "WEAPON",
+    "subtype": "named_revolver",
+    "proposed_weight_g": 1020,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "唯一物件不設普遍售價；需要查明來源、持有權與特定買家目的後才談交付。",
+    "rarity": "unique",
+    "tags": [
+      "unique",
+      "firearm",
+      "provenance"
+    ],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "inspect_inscription",
+      "trace_ownership",
+      "entrust_revolver"
+    ],
+    "origin_tags": [
+      "named_estate_locker",
+      "documented_personal_transfer"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "只有與刻名或遺物交還有關的人可能提出請求。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "工匠可能願意檢驗機械，收藏者也需先看出處。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "護送往事中的特定關係人可能尋找此槍，並非固定高價收購。"
+      }
+    },
+    "loot_sources": [
+      "named_estate_locker",
+      "documented_personal_transfer"
+    ],
+    "description_zh": "彈巢旁刻了六個名字，其中一個字曾被反覆描深。",
+    "known_description_zh": "是一把老式左輪，刻名可讀；不知道刻名者與槍的歷史，也未確認機械安全。",
+    "identified_description_zh": "可確認口徑與機械狀態，名字只在獨立紀錄核對後才成為已知人物關係；不因名稱保證最後一發更強。",
+    "world_notes_zh": "候選定位是有歷史的普通武器，唯一性由實例與來源決定；不從隨機箱子重複掉落。",
+    "hooks": [
+      {
+        "situation_zh": "酒館有人認得其中一個刻名，卻說另一個名字被拼錯。",
+        "use_zh": "帶槍與獨立文書核對，查清刻字的先後。",
+        "cost_or_limit_zh": "需尋訪時間與當事人同意；認得一個名字不證明擁有此槍。"
+      },
+      {
+        "situation_zh": "護衛需要臨時武器，遺物保管人不願再讓它開火。",
+        "use_zh": "選擇保留為證物或在合法所有權下另行使用。",
+        "cost_or_limit_zh": "戰鬥用途需裝備、彈藥與機械檢查規則；使用可能影響保存承諾，沒有傳說傷害加成。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_spring",
+        "content_precision_parts"
+      ],
+      "note_zh": "僅檢修可識別的機械件並保留刻字；修理不增加傳說屬性。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_scrap_iron",
+        "content_spring"
+      ],
+      "note_zh": "拆解會永久失去完整武器與遺物用途，須有明確毀損確認；不會產出另一把最後一發。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "equipment",
+      "combat_extension",
+      "identification",
+      "npc_relationship",
+      "reputation",
+      "regional_trade",
+      "repair",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "content_id": "content_medical_manual",
+    "name_zh": "醫療手冊",
+    "art_file": "ui/assets/items/library/relics/medical_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "clinical_reference",
+    "proposed_weight_g": 850,
+    "proposed_base_value_caps": 180,
+    "value_rationale_zh": "完整且可辨識版本的參考資料對合格照護者有用；不能把讀物視作藥物或即時醫療能力。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "medical",
+      "written"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ],
+    "actions": [
+      "check_reference",
+      "compare_supply_list",
+      "consult_with_medic"
+    ],
+    "origin_tags": [
+      "clinic_archive",
+      "training_room",
+      "medical_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "地方照護者缺少可核對的參考資料。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "工傷照護與藥品整理可能需要特定章節。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "長途醫療補給工作可能需要清楚版本與適用範圍。"
+      }
+    },
+    "loot_sources": [
+      "clinic_archive",
+      "training_room",
+      "medical_locker"
+    ],
+    "description_zh": "書頁間夾著數張不一致的領料表，封底留下反覆消毒的水痕。",
+    "known_description_zh": "可見症狀表、圖示與筆記，不知道哪些內容已過時或不適合目前環境。",
+    "identified_description_zh": "可辨識編纂目的及附錄缺失；具體照護需要專業判斷、用品與正式傷病規則。",
+    "world_notes_zh": "候選用途聚焦查證、整理用品與協助診療工作，不在描述裡寫治療量或確診結果。",
+    "hooks": [
+      {
+        "situation_zh": "診所收到一批外盒縮寫難辨的舊用品。",
+        "use_zh": "和照護者一起核對手冊的用品索引，分出需要另查的項目。",
+        "cost_or_limit_zh": "需要專業者與時間；紙上對照不能證明藥物未變質。"
+      },
+      {
+        "situation_zh": "商隊準備運送醫療箱卻漏列基本耗材。",
+        "use_zh": "依委託用途比對清單，指出缺項給雇主決定。",
+        "cost_or_limit_zh": "只完成清單工作，不生成耗材；療效與補給交付需別的系統。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "identification",
+      "injury",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "content_id": "content_memory_core",
+    "name_zh": "記憶核心",
+    "art_file": "ui/assets/items/library/relics/memory_core.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "archival_computing_core",
+    "proposed_weight_g": 480,
+    "proposed_base_value_caps": 680,
+    "value_rationale_zh": "完整接口與可驗證資料區有研究價值；未知檔案內容不預先估為萬用知識寶庫。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "data",
+      "computing"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "inspect_bus",
+      "read_verified_blocks",
+      "compare_archive"
+    ],
+    "origin_tags": [
+      "sealed_server_case",
+      "research_archive",
+      "decommissioned_control_room"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "公共設備調查有可能需要舊資料，但無常備讀取設備。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "電子研究與控制設備維護對相容核心有需求。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "燃料批次與管線資料若可讀才有特定用途。"
+      }
+    },
+    "loot_sources": [
+      "sealed_server_case",
+      "research_archive",
+      "decommissioned_control_room"
+    ],
+    "description_zh": "冷卻片間塞著一小張紙，上面只有一個被反覆圈起的編號。",
+    "known_description_zh": "核心未供電，編號與接頭能看見，資料是否仍在無法確定。",
+    "identified_description_zh": "它保存設備資料而非可直接轉給人的完整記憶；能讀到的區塊與錯誤區必須分開。",
+    "world_notes_zh": "候選內容可以通向設備史、研究紀錄或殘缺維修圖；不給讀取者即時技能加成。",
+    "hooks": [
+      {
+        "situation_zh": "控制室終端只報出一個缺失的設備編號。",
+        "use_zh": "對照核心可讀索引，找到對應機型的文檔名稱。",
+        "cost_or_limit_zh": "需相容總線與讀取時間；查到名稱不等於取得完整修復步驟。"
+      },
+      {
+        "situation_zh": "兩位買家分別要資料與硬體。",
+        "use_zh": "先確認可合法備份的區塊，再決定核心去向。",
+        "cost_or_limit_zh": "備份需要媒體、驗證與所有人同意；不能把複製當成無限複製獨特物。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "knowledge",
+      "identification",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-03"
+    ]
+  },
+  {
+    "content_id": "content_military_dog_tags",
+    "name_zh": "軍人識別牌",
+    "art_file": "ui/assets/items/library/relics/military_dog_tags.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "service_identification",
+    "proposed_weight_g": 45,
+    "proposed_base_value_caps": 40,
+    "value_rationale_zh": "金屬本身不值高價，價值取決於可查證的服役紀錄或收回遺物的特定委託。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "identity",
+      "metal"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "read_service_mark",
+      "return_effects",
+      "compare_roster"
+    ],
+    "origin_tags": [
+      "old_checkpoint",
+      "personal_effects",
+      "military_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "特定家庭可能希望收回已查證的遺物。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "檔案整理者可能把牌號與工業守備紀錄對照。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "舊井守備故事與退伍旅人可能形成具名委託，非普遍收購。"
+      }
+    },
+    "loot_sources": [
+      "old_checkpoint",
+      "personal_effects",
+      "military_locker"
+    ],
+    "description_zh": "兩片牌子的磨損程度不同，中間的鏈節像被人換成了細鐵絲。",
+    "known_description_zh": "有編號與血型字樣，沒有足以確認現任持有人身分的證據。",
+    "identified_description_zh": "編號格式可對應某批舊紀錄；仍須核對名冊，不能由識別牌推定死亡或軍事權限。",
+    "world_notes_zh": "候選定位為遺物交還與舊哨站調查，不做軍階裝備加成或免費守衛通行。",
+    "hooks": [
+      {
+        "situation_zh": "舊哨站名冊缺了一頁，箱中卻有一塊識別牌。",
+        "use_zh": "將牌號與不同日期的值班紀錄交叉核對。",
+        "cost_or_limit_zh": "需要名冊或見證者，只有識別牌不宣布某人曾在場。"
+      },
+      {
+        "situation_zh": "路邊紀念牌上有相同編號。",
+        "use_zh": "查證後將遺物交還給管理紀念地的人。",
+        "cost_or_limit_zh": "需放棄原物；回報可以是歷史資訊，不保證金錢或好感獎勵。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_scrap_iron"
+      ],
+      "note_zh": "熔解會永久失去牌號與交還用途；材料產量待拆解契約，不當高收益來源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "knowledge",
+      "npc_relationship",
+      "jobs",
+      "regional_trade",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "content_id": "content_military_manual",
+    "name_zh": "軍用手冊",
+    "art_file": "ui/assets/items/library/relics/military_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "field_procedure_reference",
+    "proposed_weight_g": 540,
+    "proposed_base_value_caps": 110,
+    "value_rationale_zh": "價值在可理解的程序與舊地圖註記；年代過舊或器材不同時不能直接套用戰術。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "doctrine",
+      "written"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "combat"
+    ],
+    "actions": [
+      "study_signals",
+      "compare_position_plan",
+      "reference_evacuation"
+    ],
+    "origin_tags": [
+      "old_checkpoint",
+      "training_store",
+      "military_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "low",
+        "reason_zh": "地方守衛只需要少數交通與撤離章節。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "舊哨站調查者可能需要識讀標記。"
+      },
+      "dry_well": {
+        "supply": "medium",
+        "demand": "high",
+        "reason_zh": "商隊護衛對溝通與護送程序有具體需求。"
+      }
+    },
+    "loot_sources": [
+      "old_checkpoint",
+      "training_store",
+      "military_locker"
+    ],
+    "description_zh": "封面的隊號被塗掉，撤離章節卻被人用布條特別標了出來。",
+    "known_description_zh": "有隊形、信號與路障草圖；不知道是否符合目前道路或武器。",
+    "identified_description_zh": "是特定組織的野外程序參考，能協助解讀標記；不授予軍階、武器所有權或戰鬥熟練。",
+    "world_notes_zh": "候選用途可包括避免誤會與撤離，保留非殺傷解法；實際戰術效益另待combat_extension。",
+    "hooks": [
+      {
+        "situation_zh": "廢檢查站地面上的標記被誤認為安全通道。",
+        "use_zh": "比對手冊符號，提出需要另查的禁行區。",
+        "cost_or_limit_zh": "標記可能過期，仍須實地確認；讀懂符號不會清除危險。"
+      },
+      {
+        "situation_zh": "兩支護送隊的手勢互相衝突。",
+        "use_zh": "安排共同參考的一套撤離信號並演練。",
+        "cost_or_limit_zh": "需雙方同意與演練時間；不直接增加命中或保證戰鬥勝利。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "jobs",
+      "npc_relationship",
+      "combat_extension",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "content_id": "content_military_medical_chip",
+    "name_zh": "軍醫資料晶片",
+    "art_file": "ui/assets/items/library/relics/military_medical_chip.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "medical_archive_chip",
+    "proposed_weight_g": 30,
+    "proposed_base_value_caps": 500,
+    "value_rationale_zh": "資料可能幫助專業人員理解舊醫療流程；不保證包含當前需要的處置或相容器材。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "medical",
+      "data"
+    ],
+    "roles": [
+      "survival",
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "verify_protocol",
+      "compare_triage_record",
+      "consult_specialist"
+    ],
+    "origin_tags": [
+      "field_hospital_terminal",
+      "medical_archive",
+      "sealed_case"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "診療資料保存委託可能需要可核對版本。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "讀取設備較可能找到，但專業解讀仍需醫療協作。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "長途醫療後勤可能對分流紀錄有研究需求。"
+      }
+    },
+    "loot_sources": [
+      "field_hospital_terminal",
+      "medical_archive",
+      "sealed_case"
+    ],
+    "description_zh": "防塵帽上畫著三個小點，盒內說明卻只有兩種狀態。",
+    "known_description_zh": "標籤涉及醫療分流，未知內容和版本不能直接用來救治。",
+    "identified_description_zh": "可辨識資料適用的舊設備與流程版本；實際醫療判斷仍需合格人員和傷病規則。",
+    "world_notes_zh": "候選價值來自版本查證、找設備與研究工作；不設『吃掉晶片就會醫術』。",
+    "hooks": [
+      {
+        "situation_zh": "舊野戰診所的標籤顏色與地方現行標準相反。",
+        "use_zh": "讀取晶片中的版本註記，指出不應混用的標準。",
+        "cost_or_limit_zh": "需終端與醫療專業；不能照字面把顏色直接當成傷勢判定。"
+      },
+      {
+        "situation_zh": "藥箱交付人想證明運送內容符合舊清單。",
+        "use_zh": "比對資料版本、箱號與實物標記。",
+        "cost_or_limit_zh": "需人工清點，物品保存狀態另驗；文件不能替不存在的用品背書。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "knowledge",
+      "injury",
+      "identification",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "content_id": "content_muscle_stimulator",
+    "name_zh": "肌纖維刺激器",
+    "art_file": "ui/assets/items/library/relics/muscle_stimulator.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "TOOL",
+    "subtype": "rehabilitation_device",
+    "proposed_weight_g": 950,
+    "proposed_base_value_caps": 560,
+    "value_rationale_zh": "完整設備可供研究或專業復健用途；不按力量增幅定價，也不保證適合健康人使用。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "medical",
+      "powered"
+    ],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ],
+    "actions": [
+      "inspect_output",
+      "compare_protocol",
+      "seek_clinical_test"
+    ],
+    "origin_tags": [
+      "rehabilitation_room",
+      "medical_store",
+      "research_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "若有復健需求與合格人員才可能需要設備。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "電子維修與醫療研究可分工檢查，但不能代替臨床判斷。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "運輸負擔高，缺乏相容配件時買家很少。"
+      }
+    },
+    "loot_sources": [
+      "rehabilitation_room",
+      "medical_store",
+      "research_locker"
+    ],
+    "description_zh": "旋鈕刻度保留著手工畫的停止線，電極包卻早已不在盒內。",
+    "known_description_zh": "像是接觸式醫療裝置，知道需要電源與外接部件，尚未驗證輸出。",
+    "identified_description_zh": "這類設備用於受控條件下的肌肉刺激；缺少適配部件或專業監督時不能把它當力量增強器。",
+    "world_notes_zh": "候選長期用途需接正式傷病與復健設計；機器圖片不產生人體效果。",
+    "hooks": [
+      {
+        "situation_zh": "舊診療室留下設備記錄，未註明最後一次校驗。",
+        "use_zh": "先在測試負載上檢查輸出是否可控。",
+        "cost_or_limit_zh": "需專業測試台與時間；禁止直接拿角色身體試機。"
+      },
+      {
+        "situation_zh": "照護者想接收設備，商人只願收外殼零件。",
+        "use_zh": "選擇完整交付供評估，或保留等待配件線索。",
+        "cost_or_limit_zh": "搬運佔重量；交付不即時治癒NPC，也不直接提升角色力量。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_copper_wire",
+        "content_precision_parts"
+      ],
+      "note_zh": "只能修復外部連接與可校驗機械件；醫療輸出校準需要專業規則，不能保證治療用途。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_copper_wire",
+        "content_circuit_board"
+      ],
+      "note_zh": "拆解後不再是完整刺激器；不提供可直接再次組裝的完整替代裝置。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "injury",
+      "repair",
+      "jobs",
+      "regional_trade",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_music_player",
+    "name_zh": "音樂播放器",
+    "art_file": "ui/assets/items/library/relics/music_player.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "TOOL",
+    "subtype": "portable_audio_player",
+    "proposed_weight_g": 260,
+    "proposed_base_value_caps": 70,
+    "value_rationale_zh": "可播放且介面相容的機器才有使用價值；沒有電源與媒體時只是待檢舊物。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "audio",
+      "battery_device"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ],
+    "actions": [
+      "test_playback",
+      "share_recording",
+      "trace_voice"
+    ],
+    "origin_tags": [
+      "old_homes",
+      "lost_luggage",
+      "workshop_drawer"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "公共休息處可能想保留歌聲或口述故事，需要可用電源。"
+      },
+      "gray_valley": {
+        "supply": "medium",
+        "demand": "medium",
+        "reason_zh": "拆件者與電子維修者可能有零星舊機身。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "low",
+        "reason_zh": "長途運輸偏重實用品，只有特定旅人尋找聲音紀錄。"
+      }
+    },
+    "loot_sources": [
+      "old_homes",
+      "lost_luggage",
+      "workshop_drawer"
+    ],
+    "description_zh": "播放鍵磨得發亮，其餘按鍵還能摸到模壓字的凹槽。",
+    "known_description_zh": "有耳機孔與電池艙，螢幕不亮；內部可能有資料但尚未讀取。",
+    "identified_description_zh": "可用相容電源檢測播放電路；媒體內容與來源仍須逐項確認，裝置不保證藏有重要情報。",
+    "world_notes_zh": "候選用途是留下地方聲音與私人記憶；娛樂或求證可有價值，但不自動改善全城士氣。",
+    "hooks": [
+      {
+        "situation_zh": "交班錄音只剩一段被雜訊蓋住的地點名稱。",
+        "use_zh": "用相容播放器反覆比對音節，記錄可辨讀的部分。",
+        "cost_or_limit_zh": "消耗檢測時間與相容電源；聽不清的字必須保留未知，不補出假座標。"
+      },
+      {
+        "situation_zh": "一位旅人認得機身上的家庭貼紙。",
+        "use_zh": "讓對方聽到經同意公開的錄音片段，協助查證來源。",
+        "cost_or_limit_zh": "需要持有人同意；分享內容可能洩露私人資訊，不能自動解鎖信任。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_circuit_board",
+        "content_copper_wire",
+        "content_battery_cell"
+      ],
+      "note_zh": "先確認介面與電壓；換件不會恢復已失去的錄音。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_circuit_board",
+        "content_copper_wire",
+        "content_plastic"
+      ],
+      "note_zh": "媒體與電路分開處理；拆解前必須告知可能喪失播放能力。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-03"
+    ]
+  },
+  {
+    "content_id": "content_neural_reflex_module",
+    "name_zh": "神經反射模組",
+    "art_file": "ui/assets/items/library/relics/neural_reflex_module.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "sensor_interface_module",
+    "proposed_weight_g": 160,
+    "proposed_base_value_caps": 750,
+    "value_rationale_zh": "估值反映完整介面與研究價值，並非按保證的反應增益計價；安裝風險未平衡。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "neural",
+      "interface"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "combat"
+    ],
+    "actions": [
+      "inspect_interface",
+      "run_external_diagnostic",
+      "seek_specialist"
+    ],
+    "origin_tags": [
+      "sealed_research_case",
+      "rehabilitation_lab",
+      "prototype_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "一般居民沒有適配設備；有醫療研究委託時才有需求。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "電子研究者可能需要完整接點與來源紀錄。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "外來收購者可能找特定型號，不能代表當地常備庫存。"
+      }
+    },
+    "loot_sources": [
+      "sealed_research_case",
+      "rehabilitation_lab",
+      "prototype_locker"
+    ],
+    "description_zh": "外殼邊緣有一排接點，其中一個被刻意封住。",
+    "known_description_zh": "標籤提到反應測試，但無法知道受試者條件與實際功能。",
+    "identified_description_zh": "可檢查它接收外部感測訊號的介面；神經適配與長期影響仍未知，不能自行接入人體。",
+    "world_notes_zh": "候選成長路線先經外接測試與專家判讀，是否可安裝及效果另由未來規則決定。",
+    "hooks": [
+      {
+        "situation_zh": "研究站的外接測試座仍留下相同介面。",
+        "use_zh": "在隔離測試台讀取模組回應，確認是否能通訊。",
+        "cost_or_limit_zh": "需相容電源、專門操作與時間；通訊成功不證明可安全植入。"
+      },
+      {
+        "situation_zh": "買家要拆開外殼取走一片基板。",
+        "use_zh": "決定保留完整模組供後續診斷，或交給有資格的研究者。",
+        "cost_or_limit_zh": "交付會放棄同一模組的其他去向；拆解前要明示會失去完整性。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "identification",
+      "injury",
+      "equipment",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_number_sixty_three",
+    "name_zh": "六十三號",
+    "art_file": "ui/assets/items/library/relics/number_sixty_three.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "TOOL",
+    "subtype": "numbered_service_wrench",
+    "proposed_weight_g": 860,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "價值取決於與特定舊設備匹配的幾何與維修紀錄，不是通用高階工具等級。",
+    "rarity": "unique",
+    "tags": [
+      "unique",
+      "tool",
+      "industrial"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_service_stamp",
+      "operate_matching_fastener",
+      "entrust_tool"
+    ],
+    "origin_tags": [
+      "numbered_factory_tool_locker",
+      "documented_personal_transfer"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "沒有相容設備時只是一件難用的老工具，可能協助轉交。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "相關工廠的調查者可能尋找這把有記錄的工具。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "若燃料設備沿用相同固定件才有特定需求，不能憑工業標籤通用。"
+      }
+    },
+    "loot_sources": [
+      "numbered_factory_tool_locker",
+      "documented_personal_transfer"
+    ],
+    "description_zh": "柄上敲著六十三，鉗口內側另有一個不太規則的缺口。",
+    "known_description_zh": "形狀像維修扳手，缺口可能是損壞也可能為特定接頭加工；尚未核對。",
+    "identified_description_zh": "可確認鉗口尺寸與匹配的舊固定件；只有明確適配部位可嘗試操作，無泛用開門能力。",
+    "world_notes_zh": "候選長期目標是回到曾看見的特殊維修口；來源與唯一所有權必須保留，不常規補貨。",
+    "hooks": [
+      {
+        "situation_zh": "灰谷舊廠維修蓋上的螺帽有非標準缺口。",
+        "use_zh": "先量測比對，確認後用六十三號轉動相容固定件。",
+        "cost_or_limit_zh": "需安全停機與MECHANICS相關操作；匹配工具不消除內部危險或授予所有權。"
+      },
+      {
+        "situation_zh": "工匠要求磨平鉗口，好把它當普通扳手使用。",
+        "use_zh": "保留原形等待專用設備線索，或選擇不可逆改造。",
+        "cost_or_limit_zh": "改造會失去原有匹配用途；不能同時保有兩種形狀或生成另一把工具。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_steel_stock"
+      ],
+      "note_zh": "只允許經量測的柄部補修；磨改鉗口是改造並可能失去匹配用途，不是假裝恢復原樣。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_scrap_iron"
+      ],
+      "note_zh": "熔解會失去編號與特殊鉗口，不能從廢鐵重新產出唯一原物。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "exploration",
+      "repair",
+      "crafting",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "LD-P01"
+    ]
+  },
+  {
+    "content_id": "content_old_photograph",
+    "name_zh": "老照片",
+    "art_file": "ui/assets/items/library/relics/old_photograph.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "photographic_print",
+    "proposed_weight_g": 15,
+    "proposed_base_value_caps": 20,
+    "value_rationale_zh": "一般相片交易價低；家族或調查需求另議，不能把私人意義換算為普遍高價。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "image",
+      "personal"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_landmark",
+      "seek_owner",
+      "preserve_image"
+    ],
+    "origin_tags": [
+      "old_homes",
+      "personal_effects",
+      "archive_folder"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "medium",
+        "demand": "low",
+        "reason_zh": "居民家藏可能流出，但只對相關的人有明確需求。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "地方紀錄者可能收集工業聚落變遷影像。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "舊井與商路地景可能幫助比對歷史位置。"
+      }
+    },
+    "loot_sources": [
+      "old_homes",
+      "personal_effects",
+      "archive_folder"
+    ],
+    "description_zh": "人群站在一口新井旁，畫面邊緣有人把臉轉向了別處。",
+    "known_description_zh": "井旁有不完整招牌與山形，背面寫了名字；拍攝年代與地點尚未核實。",
+    "identified_description_zh": "可辨認的地物與手寫內容列為線索；相似外貌不能證明親屬、身分或所有權。",
+    "world_notes_zh": "候選內容重點是世界曾經怎麼使用某處，以及誰仍記得；相片不授予新人口或必然存在的家屬。",
+    "hooks": [
+      {
+        "situation_zh": "新井選址者想確認照片中的舊排水溝走向。",
+        "use_zh": "比對山形與尚存牆角，提出調查位置。",
+        "cost_or_limit_zh": "需實地核對；相片不能證明地下水量或保證安全鑽探。"
+      },
+      {
+        "situation_zh": "旅人說照片上的名字與自己的寄存單相同。",
+        "use_zh": "安排查證或將複製筆記交給地方記錄者。",
+        "cost_or_limit_zh": "需尊重持有人意願；不能只憑姓名就交出原照或建立親屬關係。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "exploration",
+      "npc_relationship",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "content_id": "content_old_world_tactical_chip",
+    "name_zh": "舊世戰術晶片",
+    "art_file": "ui/assets/items/library/relics/old_world_tactical_chip.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "training_data_chip",
+    "proposed_weight_g": 35,
+    "proposed_base_value_caps": 420,
+    "value_rationale_zh": "估值來自可讀的訓練資料；不能以未實作的永久戰力加成作保證。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "training",
+      "data"
+    ],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "verify_simulation_format",
+      "review_scenario",
+      "compare_doctrine"
+    ],
+    "origin_tags": [
+      "training_terminal",
+      "military_archive",
+      "sealed_case"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "地方守衛可能只對可讀的撤離演練有興趣。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "舊終端工坊可處理格式，但通常沒有完整模擬設備。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "護送訓練委託可能需要可對照的行動紀錄。"
+      }
+    },
+    "loot_sources": [
+      "training_terminal",
+      "military_archive",
+      "sealed_case"
+    ],
+    "description_zh": "晶片殼上有一道深刮痕，旁邊的版本貼紙仍黏得很牢。",
+    "known_description_zh": "標記像演訓資料，沒有相容終端便不知道內容。",
+    "identified_description_zh": "可載入特定模擬格式的舊演訓紀錄；和現今武器、地形是否適用需另外判讀。",
+    "world_notes_zh": "候選用途是訓練工作、舊設施調查與戰術理解；持有資料不等於學會技能。",
+    "hooks": [
+      {
+        "situation_zh": "護送隊爭論一段演訓是否適用狹窄山口。",
+        "use_zh": "讀取場景限制，指出哪些條件與現場不符。",
+        "cost_or_limit_zh": "需相容終端、閱讀與討論時間；不直接提高隊伍命中或替玩家選戰術。"
+      },
+      {
+        "situation_zh": "軍事倉庫的演訓編號與晶片版本吻合。",
+        "use_zh": "用資料索引縮小需要檢查的訓練室。",
+        "cost_or_limit_zh": "只是地點線索；進入與取物仍需現場許可和探索規則。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "knowledge",
+      "combat_extension",
+      "skills_growth",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_old_world_watch",
+    "name_zh": "舊世界手錶",
+    "art_file": "ui/assets/items/library/relics/old_world_watch.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "TOOL",
+    "subtype": "mechanical_timepiece",
+    "proposed_weight_g": 110,
+    "proposed_base_value_caps": 90,
+    "value_rationale_zh": "價值來自可校時的機芯與可辨讀刻字；停擺或來源不明時不能直接套用此估值。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "clockwork",
+      "personal"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ],
+    "actions": [
+      "inspect",
+      "synchronize",
+      "return_to_owner"
+    ],
+    "origin_tags": [
+      "old_homes",
+      "locker",
+      "personal_effects"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "水閘輪值者可能需要可校準的時計；本地不能穩定製作機芯。"
+      },
+      "gray_valley": {
+        "supply": "medium",
+        "demand": "high",
+        "reason_zh": "修表與精密拆件的候選工匠需要可修機芯，會先辨別是否缺件。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "車隊交班可能需要計時，但只在有排班工作時形成需求。"
+      }
+    },
+    "loot_sources": [
+      "old_homes",
+      "locker",
+      "personal_effects"
+    ],
+    "description_zh": "錶帶換過三次，背蓋仍留著一圈比手腕細得多的磨痕。",
+    "known_description_zh": "指針偶爾前進，背面有兩個縮寫；不知道它是否走得準。",
+    "identified_description_zh": "機芯可手動上鍊，日常走時會漂移；背蓋刻字是持有人標記，並非通行資格。",
+    "world_notes_zh": "候選來源是舊屋抽屜或私人寄存物；校時與尋找失主是兩條獨立用途，沒有自動導航效果。",
+    "hooks": [
+      {
+        "situation_zh": "兩隊工人互相指責提早關閉灌溉閘。",
+        "use_zh": "借出經校時的手錶，讓雙方在一次輪值中記錄開關時刻。",
+        "cost_or_limit_zh": "必須先取得雙方同意並留錶一個輪值；僅提供紀錄，不自動裁定誰說謊。"
+      },
+      {
+        "situation_zh": "商隊失物單上的錶帶補線與此錶相同。",
+        "use_zh": "帶著手錶查證刻字與領取人身分。",
+        "cost_or_limit_zh": "需跑一趟交會地點；查證前不能因圖樣相似就轉移所有權。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_precision_parts",
+        "content_spring",
+        "content_glass"
+      ],
+      "note_zh": "更換損壞機件或錶面，須有能辨識機芯的工匠；刻字與走時紀錄不能靠換件生成。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_spring",
+        "content_precision_parts"
+      ],
+      "note_zh": "拆解會失去完整時計與尋主證物，只保留經確認可用的零件，無固定回收比率。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "jobs",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-02"
+    ]
+  },
+  {
+    "content_id": "content_paper_journal",
+    "name_zh": "紙本日記",
+    "art_file": "ui/assets/items/library/relics/paper_journal.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "personal_written_record",
+    "proposed_weight_g": 320,
+    "proposed_base_value_caps": 45,
+    "value_rationale_zh": "一般日記沒有固定寶藏價，估值僅作保存與有需求者交付的參考。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "written",
+      "personal"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "read_entries",
+      "compare_route",
+      "return_journal"
+    ],
+    "origin_tags": [
+      "personal_effects",
+      "old_homes",
+      "field_camp"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "medium",
+        "demand": "medium",
+        "reason_zh": "居民可能尋找種植、取水或家族紀錄。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "設備維護手記與工人日記偶有調查價值。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "商路記錄與失聯車隊行程可能受到委託人關注。"
+      }
+    },
+    "loot_sources": [
+      "personal_effects",
+      "old_homes",
+      "field_camp"
+    ],
+    "description_zh": "有幾頁被整齊割去，後面的字卻寫得比前面更仔細。",
+    "known_description_zh": "可讀到日期與行程片段，作者身分和描述真偽尚未核實。",
+    "identified_description_zh": "紙張與筆跡可分出原記錄和後加註；內容是作者觀察，不等於現今地圖或世界事實。",
+    "world_notes_zh": "日記可保存失敗嘗試與普通生活；不要求最後一頁總有遺產或秘密入口。",
+    "hooks": [
+      {
+        "situation_zh": "旅程記錄提到一處如今找不到的路標。",
+        "use_zh": "用相鄰地物核對筆記，提出需要探查的路段。",
+        "cost_or_limit_zh": "路況可能已改變；需花一次實地調查，不能直接提供安全捷徑。"
+      },
+      {
+        "situation_zh": "失物主人不願公開日記，調查者卻想讀。",
+        "use_zh": "選擇封存交還或取得同意後只抄必要段落。",
+        "cost_or_limit_zh": "交還會放棄後續自行閱讀；未獲同意公開的社交後果需另定權威。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "content_id": "content_planting_manual",
+    "name_zh": "種植手冊",
+    "art_file": "ui/assets/items/library/relics/planting_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "agricultural_reference",
+    "proposed_weight_g": 620,
+    "proposed_base_value_caps": 140,
+    "value_rationale_zh": "適合本地作物與土壤條件的章節有價值；異地氣候與不明種子不能照書保證收成。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "agriculture",
+      "written"
+    ],
+    "roles": [
+      "survival",
+      "trade",
+      "explore"
+    ],
+    "actions": [
+      "compare_crop_notes",
+      "identify_storage_needs",
+      "plan_trial_plot"
+    ],
+    "origin_tags": [
+      "farmhouse_shelf",
+      "agricultural_office",
+      "seed_store"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "medium",
+        "demand": "high",
+        "reason_zh": "農戶與種子保管者關心本地適用版本，也可能交換試驗註記。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "工業聚落的小菜圃可能需要儲種與輪作知識。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "節水栽培的特定章節可能有需求，但不是燃料地的固定商品。"
+      }
+    },
+    "loot_sources": [
+      "farmhouse_shelf",
+      "agricultural_office",
+      "seed_store"
+    ],
+    "description_zh": "封底折成一個小袋，裡面的種粒已經碎成深色的粉。",
+    "known_description_zh": "可見播種、儲藏和輪作圖表，作者註記的氣候與現在未必相同。",
+    "identified_description_zh": "可區分一般栽培知識與地方試驗紀錄；實際成活率仍需作物、用水與土壤資料。",
+    "world_notes_zh": "候選內容讓文獻支持小規模試驗和農業工作，不用一次交書永久倍增全城糧食。",
+    "hooks": [
+      {
+        "situation_zh": "新希望發現一包來源不明的種子。",
+        "use_zh": "比對儲藏與外觀記錄，制定小塊試種方案。",
+        "cost_or_limit_zh": "需留出土地、水與觀察時間；不把外觀相似等同鑑定成功。"
+      },
+      {
+        "situation_zh": "乾井居民想把所有水一次投入新菜圃。",
+        "use_zh": "對照書中的條件限制，提出分批觀察與保留飲水的方案。",
+        "cost_or_limit_zh": "只提供計畫依據；實際耕作、用水與產量需另定世界規則。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "identification",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-03"
+    ]
+  },
+  {
+    "content_id": "content_precision_engineering_manual",
+    "name_zh": "精密工程手冊",
+    "art_file": "ui/assets/items/library/relics/precision_engineering_manual.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "precision_calibration_reference",
+    "proposed_weight_g": 980,
+    "proposed_base_value_caps": 360,
+    "value_rationale_zh": "特定公差表與量測方法對具備工具的人有用；沒有量具時不會自動得到精密加工能力。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "technical",
+      "calibration"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "read_tolerance_table",
+      "plan_measurement",
+      "compare_fixture"
+    ],
+    "origin_tags": [
+      "metrology_room",
+      "engineering_archive",
+      "precision_workshop"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "水泵與農機只有特定部件需要高精度量測。"
+      },
+      "gray_valley": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "工坊可能尋找校準依據，但是否有相容治具決定用途。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "燃料泵密封與量測工作可能需要專門資料。"
+      }
+    },
+    "loot_sources": [
+      "metrology_room",
+      "engineering_archive",
+      "precision_workshop"
+    ],
+    "description_zh": "表格旁有一行細字提醒先量溫度，後面的測試頁保存得格外乾淨。",
+    "known_description_zh": "可見公差、治具和校準圖，缺少實物量具不能照表直接完工。",
+    "identified_description_zh": "可辨識參考標準與允許偏差；操作仍需相容量具、材料、技術能力與檢驗。",
+    "world_notes_zh": "候選定位是高階維修的知識門檻，讓低階手冊保留日常故障用途而非被全面淘汰。",
+    "hooks": [
+      {
+        "situation_zh": "乾井兩個替換泵件外形相同卻不能互換。",
+        "use_zh": "比對公差表，列出需要量測的尺寸。",
+        "cost_or_limit_zh": "需適合量具與技術；手冊不把普通廢鐵直接變成精密零件。"
+      },
+      {
+        "situation_zh": "灰谷工坊的量具沒有校準紀錄。",
+        "use_zh": "依手冊規劃比對流程並尋找可用參考件。",
+        "cost_or_limit_zh": "需要參考件與停工時間；不能用待校準量具證明自己準確。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "repair",
+      "crafting",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_repair_manual",
+    "name_zh": "維修手冊",
+    "art_file": "ui/assets/items/library/relics/repair_manual.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "machine_service_manual",
+    "proposed_weight_g": 650,
+    "proposed_base_value_caps": 150,
+    "value_rationale_zh": "有型號索引、完整故障表的手冊對使用相同設備的人有價值；不適配的版本較難出售。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "technical",
+      "written"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "identify_model",
+      "compare_fault_steps",
+      "reference_procedure"
+    ],
+    "origin_tags": [
+      "workshop_shelf",
+      "maintenance_office",
+      "service_vehicle"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "泵、農具等設備若型號相容便有需求，當地印製來源稀少。"
+      },
+      "gray_valley": {
+        "supply": "medium",
+        "demand": "high",
+        "reason_zh": "工坊保存與交換型號資料，也可能已有重複版本。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "high",
+        "reason_zh": "燃料輸送設備的停機成本使相容手冊有價值。"
+      }
+    },
+    "loot_sources": [
+      "workshop_shelf",
+      "maintenance_office",
+      "service_vehicle"
+    ],
+    "description_zh": "最常翻的頁緣沾滿指印，工具清單上卻有兩項被鉛筆劃掉。",
+    "known_description_zh": "封面能辨識設備系列，內頁有油污與缺角；不確定是否符合眼前機器。",
+    "identified_description_zh": "可按型號與版本查找檢查順序；手冊提供知識，操作仍需技術能力、工具與安全停機。",
+    "world_notes_zh": "候選維修用途先限定一組設備，避免成為所有機械的通用解答或一次性技能加點書。",
+    "hooks": [
+      {
+        "situation_zh": "新希望水泵發出異音，操作員準備直接拆開。",
+        "use_zh": "先比對型號與故障表，指出需要觀察的部位。",
+        "cost_or_limit_zh": "需停機檢查時間與MECHANICS相關解讀能力；查表本身不完成修理。"
+      },
+      {
+        "situation_zh": "灰谷買家只缺手冊中的接線附頁。",
+        "use_zh": "在確認版本相同後提供閱讀或抄錄安排。",
+        "cost_or_limit_zh": "需持有人同意與抄錄時間；缺頁不能憑敘事補出，原本完整性仍有價值。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "repair",
+      "jobs",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "content_id": "content_reverse_magnetic_shard",
+    "name_zh": "逆磁片",
+    "art_file": "ui/assets/items/library/relics/reverse_magnetic_shard.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "metal_repelling_fragment",
+    "proposed_weight_g": 260,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "沒有標準價格；只有願意測試特定金屬反應的工匠或研究者提出需求。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "magnetism",
+      "fragment"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "test_sample_response",
+      "isolate_from_tools",
+      "seek_metallurgist"
+    ],
+    "origin_tags": [
+      "anomalous_machine_ruin",
+      "sealed_sample_box",
+      "fallen_pylon"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "農具使用者沒有未經測試樣本的直接需求。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "金屬工坊對不同材料的反應有實驗需求。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "運輸機件研究可能有興趣，但需與羅盤及零件分開保管。"
+      }
+    },
+    "loot_sources": [
+      "anomalous_machine_ruin",
+      "sealed_sample_box",
+      "fallen_pylon"
+    ],
+    "description_zh": "薄片邊緣缺了一角，旁邊散落的鐵屑像被人刻意推開。",
+    "known_description_zh": "一小塊測試金屬曾向外移動；反應範圍、金屬種類與力度未知。",
+    "identified_description_zh": "可用已知材料測定有限距離內的反應；不能保證推開所有金屬、阻擋子彈或移動重門。",
+    "world_notes_zh": "候選用途是材料辨識與受控機構研究，不是全用途磁力工具或護甲加成。",
+    "hooks": [
+      {
+        "situation_zh": "修理台上的墊片總是滑離同一角落。",
+        "use_zh": "隔離薄片並用已知金屬樣本做對照。",
+        "cost_or_limit_zh": "需清空操作台與時間，不能在仍運作的設備上冒然測試。"
+      },
+      {
+        "situation_zh": "商隊想把薄片放進裝滿零件的工具箱。",
+        "use_zh": "提出分箱保管，避免未查明的相互影響。",
+        "cost_or_limit_zh": "需額外容器與負重安排；分箱不代表已證明全部運輸安全。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "electronics",
+      "hazards",
+      "cargo",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_shadowless_glass",
+    "name_zh": "無影玻璃",
+    "art_file": "ui/assets/items/library/relics/shadowless_glass.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "unusual_optical_plate",
+    "proposed_weight_g": 340,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "沒有一般玻璃的通用估價；光學研究者可能因可重複現象願意接收。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "optics",
+      "glass"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_lighting",
+      "mark_edges",
+      "inspect_refraction"
+    ],
+    "origin_tags": [
+      "optics_lab",
+      "anomalous_window_frame",
+      "sealed_crate"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "一般窗戶需求偏重耐用，特殊樣本沒有直接民生用途。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "光學與照明研究者會在意原片邊緣與來源。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "地景測量委託可能願意研究光線現象，但不常備進貨。"
+      }
+    },
+    "loot_sources": [
+      "optics_lab",
+      "anomalous_window_frame",
+      "sealed_crate"
+    ],
+    "description_zh": "把它靠在牆前，牆上的暗痕卻不像它的輪廓。",
+    "known_description_zh": "在一種光線角度下看不到預期影子，其他角度尚未比較。",
+    "identified_description_zh": "可記錄特定光源與角度的透射現象；不證明穿過它的人會隱形，也不能假定不會割傷。",
+    "world_notes_zh": "候選以觀察、標記與運送易碎物為核心；名稱是地方俗稱，不是免疫偵測的規則。",
+    "hooks": [
+      {
+        "situation_zh": "廢樓窗框裡看似空著，布條卻被割開。",
+        "use_zh": "先用可見標記圈出玻璃邊緣再安排取下。",
+        "cost_or_limit_zh": "需保護包材與拆卸時間；接觸傷害須有正式hazards/injury規則。"
+      },
+      {
+        "situation_zh": "研究者想測試它能否遮住路標燈。",
+        "use_zh": "在封閉測試區比較不同角度的照明。",
+        "cost_or_limit_zh": "需光源與時間，不能拿公共路標直接實驗或宣稱永久隱蔽。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "lighting",
+      "hazards",
+      "injury",
+      "cargo",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_silence_box",
+    "name_zh": "沉默盒",
+    "art_file": "ui/assets/items/library/relics/silence_box.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "radio_interference_object",
+    "proposed_weight_g": 620,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "只有明確通訊研究或隔離需求，不以尚未驗證的隱匿能力出售；普遍價格保持未知。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "radio",
+      "interference"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "map_interference",
+      "isolate_from_radio",
+      "seek_signal_specialist"
+    ],
+    "origin_tags": [
+      "abandoned_relay",
+      "sealed_electronics_case",
+      "anomalous_control_room"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "供水值班若靠無線電聯絡，會關注干擾來源而非希望擁有干擾器。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "訊號維修者可能願意建立測試紀錄。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "商隊聯絡站有隔離與查明問題的動機，但不代表可常規交易。"
+      }
+    },
+    "loot_sources": [
+      "abandoned_relay",
+      "sealed_electronics_case",
+      "anomalous_control_room"
+    ],
+    "description_zh": "沒有旋鈕的方盒一靠近桌邊，旁邊收音機的聲音便斷成幾截。",
+    "known_description_zh": "一部收音機曾在附近失去清楚訊號；不知道受影響頻段、範圍或原因。",
+    "identified_description_zh": "可比對不同距離、頻段與設備的干擾；不能假定遮蔽所有通訊，更不能讓持有者無法被發現。",
+    "world_notes_zh": "候選價值同時包含調查與不方便：運送它可能需要避開己方聯絡設備。",
+    "hooks": [
+      {
+        "situation_zh": "灰谷聯絡桌在同一時段反覆失去聲音。",
+        "use_zh": "移開樣本並比較距離，找出是否與盒子相關。",
+        "cost_or_limit_zh": "需協調測試時段與備用聯絡方式；一次恢復不能證明全部問題解決。"
+      },
+      {
+        "situation_zh": "買家要求把盒子帶到正在值班的商隊電臺展示。",
+        "use_zh": "改約封閉場地測試或拒絕干擾公共聯絡。",
+        "cost_or_limit_zh": "需另找地點與時間；不以神祕能力直接切斷NPC通信狀態。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "identification",
+      "hazards",
+      "cargo",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "content_id": "content_static_bone",
+    "name_zh": "靜電骨",
+    "art_file": "ui/assets/items/library/relics/static_bone.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "charge_accumulating_fragment",
+    "proposed_weight_g": 190,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "只有特定靜電研究需求，未驗證能量輸出前不按電池或發電設備計價。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "charge",
+      "fragment"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "isolate_charge",
+      "compare_dry_conditions",
+      "transfer_to_specialist"
+    ],
+    "origin_tags": [
+      "dry_channel",
+      "anomalous_scrap_nest",
+      "sample_locker"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "一般工作缺少用途，保管者更在意避免接觸易燃物。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "電學工匠可能願做受控對照。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "燃料場所會要求隔離，有安全研究需求但不當常備貨物。"
+      }
+    },
+    "loot_sources": [
+      "dry_channel",
+      "anomalous_scrap_nest",
+      "sample_locker"
+    ],
+    "description_zh": "骨狀碎片上常黏著細小灰塵，隔著布也能聽見輕微劈啪聲。",
+    "known_description_zh": "靠近輕薄材料時有吸附現象，不知道是不是普通靜電或其他原因。",
+    "identified_description_zh": "可記錄濕度、接觸材料與累積電荷的關係；目前不證明可持續供電或安全接觸燃料。",
+    "world_notes_zh": "候選可形成保存與運輸難題，不能成為無限電池或沒有代價的電擊武器。",
+    "hooks": [
+      {
+        "situation_zh": "樣本箱靠近燃料裝卸處時出現劈啪聲。",
+        "use_zh": "先把樣本移至核準的隔離區，再安排檢驗。",
+        "cost_or_limit_zh": "需要保管人同意與搬運距離；是否著火不能由敘事擲一個未定義風險。"
+      },
+      {
+        "situation_zh": "工匠提出用它直接替收音機充電。",
+        "use_zh": "要求先量測輸出與穩定性，或保持封存。",
+        "cost_or_limit_zh": "需測量設備與時間；微弱電荷不等同相容電源。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "electronics",
+      "identification",
+      "hazards",
+      "cargo",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_uncold_ice",
+    "name_zh": "不冷的冰",
+    "art_file": "ui/assets/items/library/relics/uncold_ice.png",
+    "art_sections": [
+      14
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "persistent_cold_object",
+    "proposed_weight_g": 420,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "沒有穩定價格；灰谷熱工研究者或乾井冷藏委託人可能提出有條件的收受意願。",
+    "rarity": "rare",
+    "tags": [
+      "anomaly",
+      "thermal",
+      "unknown"
+    ],
+    "roles": [
+      "explore",
+      "trade",
+      "survival"
+    ],
+    "actions": [
+      "observe_temperature",
+      "isolate_sample",
+      "seek_researcher"
+    ],
+    "origin_tags": [
+      "sealed_cold_room",
+      "anomalous_drain",
+      "mineral_case"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "食物保管者可能想了解降溫現象，需先驗證食物接觸安全。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "熱工研究者對隔離測試有具體需求。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "高溫運輸工作可能願意資助測試，不能假定已有冷鏈市場。"
+      }
+    },
+    "loot_sources": [
+      "sealed_cold_room",
+      "anomalous_drain",
+      "mineral_case"
+    ],
+    "description_zh": "一塊像透明冰的物件，包裹它的布卻沒有濕。",
+    "known_description_zh": "附近溫度計讀數會下降，外形暫未改變；名字只是發現者的綽號。",
+    "identified_description_zh": "隔離測試可記錄特定距離與時間下的降溫現象；持續時間、可否接觸食物和材料成分仍未確認。",
+    "world_notes_zh": "候選用途是受控降溫研究，不是永動冰箱或保證保存所有食品的背包增益。",
+    "hooks": [
+      {
+        "situation_zh": "舊冷庫的溫度紀錄與設備斷電時間不符。",
+        "use_zh": "隔離物件並做同時段對照觀察。",
+        "cost_or_limit_zh": "需量測器材與停留時間；只報讀數，不能據此宣布可食用或無害。"
+      },
+      {
+        "situation_zh": "保管人想把未知物直接放進公共水槽。",
+        "use_zh": "提出先封閉容器測試，保留水槽供水。",
+        "cost_or_limit_zh": "需容器與研究時間；拒絕直接使用不會獲得即時冷藏效果。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "hazards",
+      "exploration",
+      "knowledge",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_unknown_implant",
+    "name_zh": "未知植入物",
+    "art_file": "ui/assets/items/library/relics/unknown_implant.png",
+    "art_sections": [
+      13
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "unclassified_medical_hardware",
+    "proposed_weight_g": 75,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "用途、適配條件與危害未知，不提出普遍售價；僅有具體研究委託人可表達收受意願。",
+    "rarity": "rare",
+    "tags": [
+      "old_world",
+      "unknown",
+      "implant"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "document_shell",
+      "seek_identification",
+      "keep_sealed"
+    ],
+    "origin_tags": [
+      "sealed_medical_case",
+      "research_locker",
+      "contaminated_archive"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "地方照護者可能願意協助轉介，沒有直接使用需求。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "特定電子與醫療研究者願意檢查完整封裝，需先談保存條件。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "外來收藏者可能詢問，但其說法不能作安全性證據。"
+      }
+    },
+    "loot_sources": [
+      "sealed_medical_case",
+      "research_locker",
+      "contaminated_archive"
+    ],
+    "description_zh": "透明盒裡的金屬片像一片折起的葉，封條沒有常見醫療標記。",
+    "known_description_zh": "只能看到外形與少量接點，不知道應放在哪裡或是否接觸過人體。",
+    "identified_description_zh": "初步檢查可分類材料與接口；即使識別型號，安全性、適配與是否可安裝仍需專門驗證。",
+    "world_notes_zh": "候選劇情從拒絕自行安裝開始也成立；保留、交付研究或封存都比隨機永久加點更合理。",
+    "hooks": [
+      {
+        "situation_zh": "商人宣稱裝上就能改善反應，卻說不出型號。",
+        "use_zh": "選擇查驗封條與紀錄，或將物件保持封存。",
+        "cost_or_limit_zh": "查證需時間與專家，沒有資料就不提供安裝選項。"
+      },
+      {
+        "situation_zh": "研究者願意接收，但要求保留完整包裝與發現地點。",
+        "use_zh": "提供來源紀錄並協商交付或暫借。",
+        "cost_or_limit_zh": "交付需明確所有權與歸還條件；拆封可能使原本證據失去價值。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "electronics",
+      "injury",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "WG-06"
+    ]
+  },
+  {
+    "content_id": "content_unsent_letter",
+    "name_zh": "沒有寄出的信",
+    "art_file": "ui/assets/items/library/relics/unsent_letter.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "unique_private_letter",
+    "proposed_weight_g": 18,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "不設一般市場價格；可能有送達委託報酬，但報酬是工作條件，不是信件內在售價。",
+    "rarity": "unique",
+    "tags": [
+      "unique",
+      "written",
+      "personal"
+    ],
+    "roles": [
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "verify_addressee",
+      "deliver_unopened",
+      "preserve_letter"
+    ],
+    "origin_tags": [
+      "documented_personal_effects",
+      "lost_post_bag"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "若住民紀錄匹配地址，可能提供轉交或查詢。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "舊地址的工務紀錄可能提供去向線索，不代表當地買信。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "商隊郵袋與旅人見證可能協助轉送，並非一般貨物需求。"
+      }
+    },
+    "loot_sources": [
+      "documented_personal_effects",
+      "lost_post_bag"
+    ],
+    "description_zh": "封口只黏了一半，寄件人把收件地址寫了兩遍，又劃去其中一行。",
+    "known_description_zh": "外封能讀到姓名與兩個地址；信未寄出，不知道收件人是否仍在原處。",
+    "identified_description_zh": "可核對書寫時期與地址沿革；信內資訊只有合法拆閱或收件者自願分享後才可知。",
+    "world_notes_zh": "候選故事允許送達、退回、查無此人或封存；不能為保證結局臨時生成收件者或復活死者。",
+    "hooks": [
+      {
+        "situation_zh": "信封上的舊街名已改，兩處住址都有人聲稱知道。",
+        "use_zh": "查閱已有住民與地址紀錄，選擇可核驗的下一站。",
+        "cost_or_limit_zh": "需旅程與查詢時間；查無此人就是有效結果，不生成新人口。"
+      },
+      {
+        "situation_zh": "一位願意帶路的人要求先看完整信件。",
+        "use_zh": "選擇保持封口並另找查詢途徑，或在權利人許可下分享必要資訊。",
+        "cost_or_limit_zh": "不拆信可能增加路程；拆閱不能沒有代價地同時保有『未拆封』狀態。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "knowledge",
+      "npc_relationship",
+      "jobs",
+      "reputation",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02"
+    ]
+  },
+  {
+    "content_id": "content_vinyl_record",
+    "name_zh": "黑膠唱片",
+    "art_file": "ui/assets/items/library/relics/vinyl_record.png",
+    "art_sections": [
+      12
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "MISC",
+    "subtype": "audio_record",
+    "proposed_weight_g": 220,
+    "proposed_base_value_caps": 60,
+    "value_rationale_zh": "內容、保存狀況與特定收藏需求形成價值；沒有唱機也不產生播放功能。",
+    "rarity": "uncommon",
+    "tags": [
+      "old_world",
+      "music",
+      "fragile"
+    ],
+    "roles": [
+      "trade",
+      "explore"
+    ],
+    "actions": [
+      "inspect_label",
+      "compare_catalogue",
+      "offer_collection"
+    ],
+    "origin_tags": [
+      "old_homes",
+      "broadcasting_store",
+      "estate_box"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "有休息室或收藏活動時才有需求，農業生產不直接消耗唱片。"
+      },
+      "gray_valley": {
+        "supply": "medium",
+        "demand": "low",
+        "reason_zh": "舊媒體較易從工業區住家回收，但能播放的設備較少。"
+      },
+      "dry_well": {
+        "supply": "low",
+        "demand": "medium",
+        "reason_zh": "外地商隊收藏者可能找指定編號，不無限收購同款。"
+      }
+    },
+    "loot_sources": [
+      "old_homes",
+      "broadcasting_store",
+      "estate_box"
+    ],
+    "description_zh": "紙套角落註明一場取消的演出，日期被另一種墨水改過。",
+    "known_description_zh": "唱片有刮痕，標籤可讀一半；未確認能否完整播放。",
+    "identified_description_zh": "可辨識發行編號與曲目順序；是否跳針需用相容唱機測試，紙套筆記另有私人來源。",
+    "world_notes_zh": "候選來源是廣播站存櫃與居民家藏，不把所有唱片壓成相同的高價古董。",
+    "hooks": [
+      {
+        "situation_zh": "旅館老闆找不到一套地方歌謠的最後一面。",
+        "use_zh": "比對編號後提出交換或出借。",
+        "cost_or_limit_zh": "只有缺少的版本才有此用途；需承擔運送脆弱唱片的負擔。"
+      },
+      {
+        "situation_zh": "地下廣播室的目錄與唱片紙套記載不同日期。",
+        "use_zh": "比對印刷與後加筆記，尋找搬遷時間線。",
+        "cost_or_limit_zh": "需讀得到的目錄與調查時間；日期矛盾只是線索，不直接決定人物生死。"
+      }
+    ],
+    "repair": {
+      "possible": false,
+      "inputs": [],
+      "note_zh": "目前沒有足以重建原物的工法；整理外觀不等於恢復功能。"
+    },
+    "salvage": {
+      "possible": false,
+      "outputs": [],
+      "note_zh": "不提出拆解產物；必須先確認材料與保存需求，不能當作可再生資源。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "identification",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-02"
+    ]
+  },
+  {
+    "content_id": "content_well_guardian",
+    "name_zh": "守井人",
+    "art_file": "ui/assets/items/library/relics/well_guardian.png",
+    "art_sections": [
+      15
+    ],
+    "art_role": "item_illustration",
+    "runtime_item_id": null,
+    "status": "DESIGN_ONLY",
+    "category": "WEAPON",
+    "subtype": "named_watch_rifle",
+    "proposed_weight_g": 3900,
+    "proposed_base_value_caps": null,
+    "value_rationale_zh": "對乾井特定保管人具有地方歷史價值；外地沒有保證高價，且須先確認持有權。",
+    "rarity": "unique",
+    "tags": [
+      "unique",
+      "rifle",
+      "settlement_history"
+    ],
+    "roles": [
+      "combat",
+      "explore",
+      "trade"
+    ],
+    "actions": [
+      "compare_watch_record",
+      "return_to_custodian",
+      "inspect_mechanism"
+    ],
+    "origin_tags": [
+      "dry_well_historical_lockbox",
+      "documented_personal_transfer"
+    ],
+    "markets": {
+      "new_hope": {
+        "supply": "none",
+        "demand": "low",
+        "reason_zh": "外地居民通常不認得地方標記，除非已有相關委託。"
+      },
+      "gray_valley": {
+        "supply": "none",
+        "demand": "medium",
+        "reason_zh": "工匠可檢查機械，但不能替乾井裁定歷史所有權。"
+      },
+      "dry_well": {
+        "supply": "none",
+        "demand": "high",
+        "reason_zh": "地方保管者與相關住民可能想查明去向；需求不是常態商店收購價。"
+      }
+    },
+    "loot_sources": [
+      "dry_well_historical_lockbox",
+      "documented_personal_transfer"
+    ],
+    "description_zh": "槍帶內側繡著一道水位線，鐵件的刮痕被多年擦拭磨圓了。",
+    "known_description_zh": "是舊步槍，水位線標記與一些乾井舊用品相似；傳說尚未核實。",
+    "identified_description_zh": "可用守井值班紀錄與保管印記確認來歷；這不授予守井職權，戰鬥性能依機械狀態另定。",
+    "world_notes_zh": "候選去向可以是歸還公共收藏、合法保管或調查失竊，不能讓持有者自動控制井與居民。",
+    "hooks": [
+      {
+        "situation_zh": "乾井新任值班者看到水位線繡記，懷疑它從公物箱流出。",
+        "use_zh": "先核對保管紀錄再討論歸還或合法借用。",
+        "cost_or_limit_zh": "需查證時間與現任保管權；持槍不代表任命玩家為守衛。"
+      },
+      {
+        "situation_zh": "商隊願用普通步槍交換，地方紀錄者則希望保留原物。",
+        "use_zh": "在所有權清楚後選擇交換、保管或歸還。",
+        "cost_or_limit_zh": "每條去向只移轉同一實例；交換不保留原槍，也不額外獲得地方職權。"
+      }
+    ],
+    "repair": {
+      "possible": true,
+      "inputs": [
+        "content_spring",
+        "content_precision_parts"
+      ],
+      "note_zh": "僅檢修機械，保留槍帶與保管標記；是否射擊與文物保存承諾另定。"
+    },
+    "salvage": {
+      "possible": true,
+      "outputs": [
+        "content_scrap_iron",
+        "content_spring"
+      ],
+      "note_zh": "拆解永久失去完整地方遺物；必須先明示後果與權利人同意。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "equipment",
+      "combat_extension",
+      "identification",
+      "npc_relationship",
+      "reputation",
+      "jobs",
+      "regional_trade",
+      "repair",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-02"
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "id": "data_disk",
+  "name": "資料磁碟",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/data_disk.png",
+  "source_output": "exec-be746c79-2738-4a01-bbd4-29aee1e5cbf2.png",
+  "sha256": "dccd17d71e7135f717f7beb5397b2b4cd956f97afe31d5ec5b94ddb84ef6bc78",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1194,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S3-D MORTALITY TEST SUITE
+================================================================================
+
+--- [GATE D1] No Instant Death on First Unmet Day ---
+  Day 42 (First Water Shortage): Exposure = 0.60, Cumulative Deaths = 0
+PASS GATE D1: No Instant Death on first unmet day verified.
+
+--- [GATE D2] Duration Matters & Grace Period ---
+  Through Day 47 (Water Exposure <= 6.0 Grace Days): Cumulative Deaths = 0
+PASS GATE D2: Duration Matters (Grace period protects transient shortages).
+
+--- [GATE D3] Migration First Precedence ---
+  Day 44 Migration Wave 1 Departed | Deaths at Departure: 0 (Flight strictly preceded death)
+PASS GATE D3: Migration First precedence strictly verified.
+
+--- [GATE D4] Migration Floor != Immortality Floor ---
+  Day 100 Gray Valley Population: 9 (< 10 migration floor) | Cumulative Deaths: 44
+PASS GATE D4: Migration Floor != Immortality Floor verified (remaining population can die).
+
+--- [GATE D5] Population Accounting Invariant Verification ---
+  100-Day Population Equation strictly held on EVERY tick: Living (256) + Transit (0) + Deaths (44) == 300
+PASS GATE D5: Population Accounting Invariant verified.
+
+--- [GATE D6] Immediate Recovery Stops Mortality ---
+  Day 62 Evening Arrival (Axiom 9 Verified)
+  Day 63 Water Unmet = 0 while Exposure = High | Deaths: 31
+  Day 100 Post-Recovery Deaths: 31 (Zero new deaths after recovery!)
+PASS GATE D6: Immediate Recovery Stops Mortality strictly verified.
+
+--- [GATE D7] Determinism Replay & Invariants ---
+  World B Day 100 SHA-256 with Mortality: dcd88ada3b30b4f425024e7170162eb23f82d597b6736f880b5aa23b3d21a34b
+PASS GATE D7: Bitwise Determinism Replay verified.
+
+================================================================================
+ALL S3-D ACCEPTANCE GATES (D1 ~ D7) PASSED!
+================================================================================

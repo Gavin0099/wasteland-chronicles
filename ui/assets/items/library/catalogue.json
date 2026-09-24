@@ -1,0 +1,5054 @@
+{
+  "scope": "Item World V0 inventory artwork; not a runtime item registry",
+  "source": "docs/item-world-v0.md",
+  "catalogue_rows": 187,
+  "unique_names": 185,
+  "existing_art": 16,
+  "new_generated": 169,
+  "pending": 0,
+  "sections": [
+    {
+      "id": 1,
+      "name": "近戰武器"
+    },
+    {
+      "id": 2,
+      "name": "手槍與輕型槍械"
+    },
+    {
+      "id": 3,
+      "name": "步槍／獵槍"
+    },
+    {
+      "id": 4,
+      "name": "散彈／重武器"
+    },
+    {
+      "id": 5,
+      "name": "防具／服裝"
+    },
+    {
+      "id": 6,
+      "name": "背包／攜行裝備"
+    },
+    {
+      "id": 7,
+      "name": "生存用品"
+    },
+    {
+      "id": 8,
+      "name": "醫療用品"
+    },
+    {
+      "id": 9,
+      "name": "工具"
+    },
+    {
+      "id": 10,
+      "name": "材料／廢料"
+    },
+    {
+      "id": 11,
+      "name": "貿易品"
+    },
+    {
+      "id": 12,
+      "name": "舊世物品"
+    },
+    {
+      "id": 13,
+      "name": "特殊成長物品"
+    },
+    {
+      "id": 14,
+      "name": "奇物／異常物"
+    },
+    {
+      "id": 15,
+      "name": "獨特／傳說物品"
+    }
+  ],
+  "items": [
+    {
+      "name": "生鏽小刀",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/rusty_knife.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "509a6c78892176cc336ab90c0c288d4eece3b4a0374f35b8b584c15c4abf70f3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        53,
+        1206,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "獵刀",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/hunting_knife.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "7371eb2da16e11feb0d3314851ececb7b38760e85ad15c7ff4db01e307b03680",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        24,
+        33,
+        1236,
+        1223
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "工兵鏟",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/entrenching_shovel.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "36a2edd1ba65963b9030826b9874cf66e5bdfe4e9aa4a16190343bbedb808fa0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        39,
+        29,
+        1216,
+        1222
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-02b7198f-5030-4469-93d1-0a3a71a48719.png"
+    },
+    {
+      "name": "撬棍",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/crowbar.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/prompts.json",
+      "sha256": "a946f26ee52724e9fdeaf116fce43e4dd3eb01a3acd14682ea3cb55354fcf204",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        28,
+        38,
+        1232,
+        1209
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "鋼筋棍",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/rebar_club.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "978ee3294afb746a6a79721d57a916869904d39679f0644d2e7737e0b6aab006",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        51,
+        39,
+        1222,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "消防斧",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/fire_axe.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "1a26908de97f1446e48840f68bf86c0d57bdce735f7944b074dcc4257ba02913",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        21,
+        1222,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6cf47d40-8d64-47c9-94fd-cb4562e52d52.png"
+    },
+    {
+      "name": "伐木斧",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/wood_axe.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "8fe32c222e1e46b1b38eab81803492cdccb8585ed33fd61e6c850a4708d0ce74",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        21,
+        39,
+        1230,
+        1236
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-1a79854b-08f2-4e67-ae24-168a3fbbf638.png"
+    },
+    {
+      "name": "廢鐵砍刀",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/scrap_machete.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "ce65b46a0786ddcd8e24876cf792f144f442bf32010be7ab02420668b68a4b80",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        17,
+        39,
+        1241,
+        1222
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "車板刀",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/car_panel_cleaver.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "accffc20858093c3ce1fdeaed917b2f1a32d42a1055eef8f1dd554b2ad95224c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        16,
+        30,
+        1238,
+        1223
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-0d491e26-c6eb-46f1-a586-e7df85faed95.png"
+    },
+    {
+      "name": "沙地彎刀",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/desert_sabre.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "ee47959a086d67ea943a8521d80b45ee39b662acf1c3073a713c83812fe201c8",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        48,
+        1222,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-f9dd3ed3-314a-47c8-8fd4-46ebc82c7241.png"
+    },
+    {
+      "name": "長矛",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/spear.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "142f68e02f477f70bcd10ea9a6b10eb437c2a3a0a77f1ee9a266f31834b6385c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1226,
+        1229
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6b27e649-aced-4b14-b963-d0314355f213.png"
+    },
+    {
+      "name": "商隊槍",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/caravan_polearm.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "ce267568b2d5de35153d4bb8e22e7e90f70bb4e29ce6eab348d20cbb702af449",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        35,
+        1230,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-31cea153-b211-4eec-92ba-7965e40a6a1d.png"
+    },
+    {
+      "name": "捕獸叉",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/hunting_fork.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "80821369c53aa6b70482fce0d63a1161bfb4f470b5e4bc036be38c2450568954",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        83,
+        19,
+        1237,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-3fe653b8-60db-4ec1-9547-08c68a537c99.png"
+    },
+    {
+      "name": "電擊棒",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/stun_baton.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "29a0e7cb19961e54d8e55c1f4a570bf86bcb5f4184ec34d68185108e7a64578c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        34,
+        1228,
+        1224
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-03320266-4b8e-4e7d-a483-7342e08bf0e3.png"
+    },
+    {
+      "name": "動力錘",
+      "sections": [
+        1
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/power_hammer.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "6e3816bb3ae8dab30feaed2105799aa5abfe17f4dbe0a2967ed319d1070fc038",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        47,
+        1224,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5cbac7bd-f168-4b3b-b664-5de39cf1e52c.png"
+    },
+    {
+      "name": "老式左輪",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/old_revolver.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "a8e4e6d91d655887ae866b8030f563ebe3f0de5fb41c668b1fa8d03bd575b953",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        21,
+        1235,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-07a9b1b4-1352-4efa-9577-8951c163fd22.png"
+    },
+    {
+      "name": "民用手槍",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/civilian_pistol.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "ee22a7d27b67addbe7e6a4dce78c19988fb7e6a4c595e0f342f4650ff42e4599",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        39,
+        49,
+        1212,
+        1239
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b1c9ac11-7fe6-4d08-88df-16fdcd7ec81b.png"
+    },
+    {
+      "name": "警用手槍",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/police_pistol.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "694dd4e5d8ea90938ea53d85b4334f000dab334d7593c378899a146b123444be",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        30,
+        53,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-8b2fbee5-3e4e-434f-b4e7-ca581d3bfe2c.png"
+    },
+    {
+      "name": "土製手槍",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/improvised_pistol.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "1cf111e56891d9c8adaafddf9971e057b4100846cc775c19f50cd544dcc1216e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        15,
+        19,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-0552bdbc-19a4-410b-a6f8-0f2dd847bfd9.png"
+    },
+    {
+      "name": "短管左輪",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/snub_revolver.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "2423f8c8535228d3de2ef1390642a7ae75774073f834f1a2d24bc90c4189117d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1225,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-4e820fae-5644-456d-906c-32d28f3ebf8d.png"
+    },
+    {
+      "name": "大口徑左輪",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/heavy_revolver.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "18eea96c6cdb645c781931be0c30c918c30ab00d8f4b5f046d4522126b9295da",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1254,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-67b7149d-d0a2-4e4c-87d9-3b35132629c3.png"
+    },
+    {
+      "name": "衝鋒手槍",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/machine_pistol.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "a9b7ecc0a29d2f80a78d1d7b3761e321b43a9d06fe2f85ae528033a65c969a9b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        17,
+        103,
+        1236,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-9703ffc7-6c40-4bb1-a324-d78304e8ed10.png"
+    },
+    {
+      "name": "舊世衝鋒槍",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/old_smg.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "e50cd92bd5903444bd4469d9e46892014a438923f2f659e17600dc388e319cfa",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1241,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-bf2b7deb-2fa5-49a4-b815-6a8270903cdf.png"
+    },
+    {
+      "name": "商隊護衛槍",
+      "sections": [
+        2
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/caravan_smg.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "695f72dbbff7f0dc1cea711ece834947dab807e85f2f69662fee42535481a5b7",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1238,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-0b5cd51d-6bb0-4215-8bb0-da889a7a4397.png"
+    },
+    {
+      "name": "單發獵槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/single_shot_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "431534bfc758b6f41240776fb9349e7c9d603a393158357b348ae7d08c950ecd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        30,
+        49,
+        1237,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-44fe006d-cc21-40e3-81b5-8d09715bea95.png"
+    },
+    {
+      "name": "栓動步槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/bolt_action_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "6ec2943a1075f4507f0bda53fef9bed453e2b25670ea3f803d807734e21af686",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        53,
+        1225,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-e644b160-8325-4432-a356-7605b4013044.png"
+    },
+    {
+      "name": "商隊步槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/caravan_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "d038225081b9e4f46454bd2ea730514ab3fe1fea6b830bb98b569a78ad88b355",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        14,
+        53,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b9a66e61-236a-442d-82dc-8e816bbf3cc2.png"
+    },
+    {
+      "name": "半自動步槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/semi_auto_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "ebf804a7aaeeb307891400b69c9a7a300344fb5cd51ed14429652bcbd46db870",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        17,
+        49,
+        1236,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-05744f8b-fb69-4c9a-8ae9-470341e3b9c6.png"
+    },
+    {
+      "name": "軍用突擊步槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/assault_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "6f34c6524ec1ec642d148e87b7edceef227944e91d1ae19ffa9ed2630da776c8",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        13,
+        53,
+        1246,
+        1231
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-dae01f53-5e0c-4209-b193-67442e400ebe.png"
+    },
+    {
+      "name": "廢土拼裝步槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/scrap_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "3f31933ecff954e463638df8ab4e4d80d9408420fb0345920ea4296c802c6323",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        18,
+        9,
+        1236,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d2214a74-c60b-4c55-8475-f860c2adfc71.png"
+    },
+    {
+      "name": "沙暴步槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/sandstorm_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "cfd6167a2b535f1bb56bec007d11742bd8896ffd8bef4bc22192ab2611cbc35d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        22,
+        53,
+        1236,
+        1237
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-84d0a180-9e8c-4da8-8b3e-82d9aee467d0.png"
+    },
+    {
+      "name": "狙擊步槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/sniper_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "ec23c6bd701ffba5239da0932b924f679c1e330d40b225f2178a516750c59543",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        12,
+        52,
+        1242,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-0f45d8f1-1eb5-468d-a5fb-96a4440a216e.png"
+    },
+    {
+      "name": "老獵人的槍",
+      "sections": [
+        3
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/old_hunter_rifle.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "d9a3c6333f79f28114986013aafbc8e1e45119e2f884a7023971de1acffdc9d3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        26,
+        19,
+        1232,
+        1214
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-a696c272-5639-4fc2-9b96-2e67c473c958.png"
+    },
+    {
+      "name": "單管散彈槍",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/single_shot_shotgun.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "a3149fde31736ea106c84602e0dcf3e43983c095931f571097cd20c7c8493036",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        37,
+        49,
+        1227,
+        1222
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b249afc1-70b0-464b-8ef7-d035c55cc35f.png"
+    },
+    {
+      "name": "雙管散彈槍",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/double_barrel_shotgun.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "a7761f993644f59d43c5bfb8917bba3939e7bf6bf2f5837755061025f82701d9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1240,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b9516f66-90b7-429e-8612-28a62dac2084.png"
+    },
+    {
+      "name": "泵動散彈槍",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/pump_shotgun.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "584d808a3fd08df5ad98b2207d0802c3f436db75bf0486239ba38642aecdeb9c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        23,
+        53,
+        1236,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-92cf5dfa-0dd0-4252-b425-8d4408f169b6.png"
+    },
+    {
+      "name": "工業釘槍",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/industrial_nailgun.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "e96971446cf03dfe1eefd5099d6b4185a2407591a122bdd590afdc4a32d948f0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        80,
+        1224,
+        1222
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5c1b882e-d1ec-4e8b-adb7-af70d5a301ed.png"
+    },
+    {
+      "name": "信號槍",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/flare_pistol.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "a689fb1dd2d040041f3e30459266343473b549efebdfcfdc8be06c885ce6ae10",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        25,
+        19,
+        1237,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-eff8afcb-3f25-46a2-832f-e5c10fb2015a.png"
+    },
+    {
+      "name": "榴彈發射器",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/grenade_launcher.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "614fd7426d8dc814f0ab75cb2d235c6827368891fd2d92f599317e05bf3049d5",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        29,
+        21,
+        1234,
+        1224
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-645c0b0e-3d36-4ba8-ac98-3e99284215d6.png"
+    },
+    {
+      "name": "輕機槍",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/light_machine_gun.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "a6d7d6c5ff05a2e7479f4a65134e03e1c559b354e2f7cbbb573032b00687a8b6",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        17,
+        21,
+        1243,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-641b8fb0-c6f7-4acf-8949-37d651ddc18c.png"
+    },
+    {
+      "name": "火焰噴射器",
+      "sections": [
+        4
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/weapons/flamethrower.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/weapons/prompts.json",
+      "sha256": "a1e26917fc9bcfc6e4063be0752083ef70b7ef4437323cd5c4265d4b27d8798f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-10c2b6b9-1e41-4c22-ad5b-6a0737e39293.png"
+    },
+    {
+      "name": "舊工作服",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/work_clothes.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "a7a2375be5531ea60aa31b2ed521e2d98f03c6e3c34f30b9c697fdd890cfd216",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        17,
+        1200,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "農務服",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/farm_clothes.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "e486838281db7640e508a73b7d42f46c7f3556289e06b62595bd072b3f238040",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        41,
+        2,
+        1200,
+        1237
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5e8363f9-9680-4e8a-a09a-e9ee30cf5aaf.png"
+    },
+    {
+      "name": "沙地長袍",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/desert_robe.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "77982da57873fe8119b5e8672995dd4fc9895da5c012e58da8aba1aaaaf1b2f9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        29,
+        0,
+        1226,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "商隊外套",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/caravan_coat.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "d7179d9b135ed112c94c874a66f936f4a01dbf20977697cf745a34b2908c1be4",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        18,
+        1238,
+        1236
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "工人皮衣",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/worker_leather_jacket.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "c7ef5f3e99a9501aacc10c30e2046af48e39ec10c52d63bd9b7f5326f767ac35",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-e2cfd0fa-3cb2-4de2-a9f4-25e365550cad.png"
+    },
+    {
+      "name": "摩托夾克",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/motorcycle_jacket.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "ee3dfdfc470042cdff8703a06b500b09cd77696eb434ff20f268bf3fe0fc6ee0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1200,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-e3077a6c-ccdf-4893-897b-9357e4790011.png"
+    },
+    {
+      "name": "防刺背心",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/stab_vest.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "5a42da42defc1e50e02b4907f7493601186539cfadfb2285c399acf7a75e70ee",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        39,
+        1200,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-69a321bf-bf66-4192-be5b-26a6e1350f91.png"
+    },
+    {
+      "name": "警用防彈衣",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/police_ballistic_vest.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "ef831dfda7e2535b1af6c490467dcc4261a3ceec75e1f22cc1742456e31cf030",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        44,
+        1208,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-c5210c0d-53c8-4b1a-8a68-bfc6a1ad0ce3.png"
+    },
+    {
+      "name": "拼裝鐵甲",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/scrap_iron_armor.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "3f7b72eb3b670660f7f7b57fbc98179c44fa701cfec065b106b8d9e5e17730a1",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-7133ee8f-3194-4d05-800e-b2fe59412fe4.png"
+    },
+    {
+      "name": "車板胸甲",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/car_panel_cuirass.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "e8c9a339d91635dad6d625f386c8dc192bbb11db06a3720efdeed127f456c474",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d0a76e07-76af-4225-862a-8f5b66fe01f3.png"
+    },
+    {
+      "name": "舊世軍甲",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/old_world_military_armor.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "0090f5aa4001e3d631a4ba4f4c603a08734172c0b5a90b95affc4e2b0cc8fd21",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1219,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-de02821b-0e8f-407c-9208-b604c6885ea4.png"
+    },
+    {
+      "name": "防化服",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/hazmat_suit.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "832467da4441c18337842db981fccad59e6b72c80aadf1915205f156fd11cc88",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        0,
+        1230,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-521b7c85-51a9-405e-93af-a8a767c4c4cb.png"
+    },
+    {
+      "name": "隔熱服",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/heat_insulation_suit.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "e8555f1ef798562b0d901bf5f0e9c399ca2451b49f0060f9bf586274c5975b43",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        0,
+        1202,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-677712cd-4c99-4d1c-8d3d-68b891a412f7.png"
+    },
+    {
+      "name": "防火服",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/firefighter_suit.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "63bb5064d16e907259f376a8df39a0fa09e31bda51f1987ea7c3d5ae16b3e65d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        21,
+        1218,
+        1232
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5d726d0b-0907-4e1c-b1c2-1e4c574a93a0.png"
+    },
+    {
+      "name": "荒野斗篷",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/wilderness_cloak.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "10465cb41219e3e106e9fca94436b74e4a5c6432d45e0c7c09cae9316789b204",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        41,
+        16,
+        1208,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-94993e26-ee46-4c01-b054-b5528276ce36.png"
+    },
+    {
+      "name": "沙塵面罩",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/dust_mask.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "b7da7bdba387325d942cb740de06b9361e80f8ab93c6ad9d4eca5d3a8d87e410",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        43,
+        1228,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-773f99fa-8761-43eb-8db6-bb6a6a6af4c9.png"
+    },
+    {
+      "name": "防毒面具",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/gas_mask.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "4a8135c39437ffa8a3589ca06158c4ccb588d5c92d801a893aa1fedacbc275fd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1222,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-07a538cf-45ba-4e74-85b3-c1a98b317634.png"
+    },
+    {
+      "name": "工程護目鏡",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/engineering_goggles.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "b570c3947970c68c3650bc05145c0aa6f932df7d7e77c17596127b97ca6f18ed",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1238,
+        1226
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-32e3e17f-ad9e-4e74-ae2e-295a7b92dfc8.png"
+    },
+    {
+      "name": "夜視鏡",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/night_vision_goggles.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "4cd8c5fc00b13a21b8ba593d37b2735bb0161126df88c3d9c2cfe467adf48a9c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-014681d9-c8c4-4b51-b88f-7d2ccaaa90b4.png"
+    },
+    {
+      "name": "舊世戰術頭盔",
+      "sections": [
+        5
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/tactical_helmet.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "e400d322791de0231218039937c2d7259fdde1a76bbbf7af82c83570fd458fad",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1206,
+        1214
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-483d8109-3cc3-4258-a63b-1fd78e902579.png"
+    },
+    {
+      "name": "布袋",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/cloth_sack.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "b30979911fb06df2dc59b37cefae85ed9feccb4cf5c9764bbf2ce9ca8e1c342d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1236,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-11ce9df7-83b9-46c1-b2d0-dfdd9363c804.png"
+    },
+    {
+      "name": "舊旅行包",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/travel_backpack.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "2d8bbf710923f485c784e7d6fdd5cbbe93345b9cfcb328ec61839081fe6754c6",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        16,
+        1230,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "登山背包",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/hiking_backpack.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "055291d43f5b2bda78ba4611af10c038c1b594a384a6129b8fa95fc00703af0e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        33,
+        1236,
+        1231
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-e1e667ba-6175-4dcb-a4ac-1033e70b30f6.png"
+    },
+    {
+      "name": "軍用背包",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/military_backpack.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "effd115f600805ba4c51ef6c42f99c5c88f00a4618e8d47a3cf1939a55b8d9f9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1206,
+        1236
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-7c849c76-ad22-4fdd-a249-02670a2249b3.png"
+    },
+    {
+      "name": "工具腰帶",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/tool_belt.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "180a97adb19c4acf0ce58f919c5d696d8e11a89584e5f8023ee81fc105876b22",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1224,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-62907f63-80e1-4899-9fe1-ac000e832da3.png"
+    },
+    {
+      "name": "彈藥帶",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/ammo_bandolier.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "953554976602837649e6eb7431a3f04f429468f61911facf931ef2ba8a8c42fc",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1230,
+        1200
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-f0751eb8-f88c-4032-84dc-f9dc6f3c39a1.png"
+    },
+    {
+      "name": "醫療袋",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/medical_satchel.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "6a0d7994b5aa565b7c6bfe32e77a5a473a4744a1aabc9cc97703a7dae860efd8",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-f591afcc-7087-4db3-ba26-9872b920b31e.png"
+    },
+    {
+      "name": "水袋",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/waterskin.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "52bfc0372a93fbbd5042cbdcc94a30e8c30b7f7292f2bda6cb7d07825f49dadd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1220,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d79c00e7-72c2-4c4d-ac78-6ac0740e65f5.png"
+    },
+    {
+      "name": "防水袋",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/waterproof_bag.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "09056c811ab24de7d70a2027b5750b43162644365557772495a04f964836d22e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        55,
+        21,
+        1224,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6be2c129-2a84-45a9-bf6f-405c9131799f.png"
+    },
+    {
+      "name": "密封貨箱",
+      "sections": [
+        6
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/clothing/sealed_cargo_crate.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/clothing/prompts.json",
+      "sha256": "c1e5a736ad97bbd806e62391240f12a68e26f8b1b4e8f1aff589117af6163a69",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1208,
+        1214
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d76b130b-70e4-45bb-ac55-2910eb0ddd50.png"
+    },
+    {
+      "name": "淨水",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/clean_water.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "d39ce193dd02cb940e0cff797a7d8a6ae7c402193d350757d0ace63651e27421",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1222,
+        1240
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-ca6dcd6f-178e-47c7-af00-cc31e77f6905.png"
+    },
+    {
+      "name": "污水",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/dirty_water.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "7a9e1766b2ff81e59d46afbef5e638c91c29e9bf6fabd8ee5553500b72f5a67f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        13,
+        1224,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-edf8bcab-c055-40d1-9945-7a2b39a75f2f.png"
+    },
+    {
+      "name": "水壺",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/water.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/prompts.json",
+      "sha256": "6d489dcbaafb19404e103c5cf062dcb10c80b91b123132f7ad7ede3f570001cd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        17,
+        1236,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "淨水錠",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/purification_tablets.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "d3f8f1bc5dc4d619d1d6a4970754934d6ce71130951c55e8e421c38c955bcd6b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1248,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-707a369a-0177-42ad-a615-9150167aafe0.png"
+    },
+    {
+      "name": "濾水器",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/water_filter.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "9f4a9c0d328d3fa91fb8a3531d40bd543424562d26e25cad40b6c1900d4db84f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1218,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d795db72-ef83-4980-a4f8-6853c1d88dea.png"
+    },
+    {
+      "name": "乾糧",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/food.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/prompts.json",
+      "sha256": "97168198e1eb24ee312d196d56d02d314379cd0748f4ed9bc62554eb459467c0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        42,
+        17,
+        1228,
+        1182
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "肉乾",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/jerky.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "417c5dc1ff1f846a9109d44a69b524fcada3665e9336bf9b265850f169ae1b6b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1244,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-0f991a54-615c-49d1-876f-ecc943387fcc.png"
+    },
+    {
+      "name": "罐頭",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/canned_food.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "aad6958a7bc11488b19d5715f8e15d07e6de0b53e1e6106a3b69ee391d5c9926",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        53,
+        1222,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-a458178f-ddf3-47d3-a3cf-d5f7f97f22f1.png"
+    },
+    {
+      "name": "野菜",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/wild_greens.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "089a44073167dd745eeb19c4bb25878fc367cfeb72f9191a5b04085b6867c9b9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        39,
+        1142,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-2a373c3d-2105-46c4-9fe8-9909f725510f.png"
+    },
+    {
+      "name": "生肉",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/raw_meat.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "19f7f40ef8ec7d51a536f6c821de39a0ed398f17f5c82062f22a69266ffadcb0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-9c0fdd77-70ef-4c98-b379-a657f9c36970.png"
+    },
+    {
+      "name": "鹽",
+      "sections": [
+        7,
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/salt.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "dade22e86e71be51042a5d9d1437b037f8974ebc7e56b50190a2ce79d465c10f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1230,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-3dbcb02b-ccd2-477c-9535-054f63da4bf4.png"
+    },
+    {
+      "name": "火柴",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/matches.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "06e866db669c71e806f77f89dfbc926542b2ec6f1dd8ba0b2c2ca8f4823083e7",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1230,
+        1222
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b4d09506-ae90-406b-bd50-2d978b29d335.png"
+    },
+    {
+      "name": "打火機",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/lighter.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "1ad8a020de4e272dfc1f0ec95a440a30f8cedfa004603f8096fc795983d90566",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1200,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-0a40ad86-48c5-4286-86cf-cc50dbade99e.png"
+    },
+    {
+      "name": "燃料罐",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/fuel_can.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "58b8f443d22e52f286f57c0a3757ea0743b09aa058f224ea058c15f642e6d014",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        37,
+        19,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-bced5e7e-2025-488a-92bd-2c076dee8d3f.png"
+    },
+    {
+      "name": "睡袋",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/sleeping_bag.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "57f58450ea8e5fc93cf92c8815f03f05a4322fbf8c7d30ddd77f33240e57582b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        48,
+        1218,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-f42abbe8-0384-48ed-ad44-bee245af666f.png"
+    },
+    {
+      "name": "帳篷",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/tent.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "5ebb1e4d15e270e1cd799df43994ebb260434783493ad2677c7e6b8335b27fd9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        19,
+        1234,
+        1226
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b9937a29-b00b-4c8e-b943-eb0a84a9b2a4.png"
+    },
+    {
+      "name": "繩索",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/rope.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "a0a5b7e14c23af2a78442710c72d116876cb6587067e9b2232a85fce283e7138",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1208,
+        1227
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "手電筒",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/flashlight.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "04c6acff95bc6c87ae63248a20b2c8e146d6a518d0d19ec102b57fc3ee6a44b6",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        30,
+        60,
+        1226,
+        1193
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "電池",
+      "sections": [
+        7,
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/battery.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "b811f994bb8a5e241b215125cb7d5530680f492411324e65ad413c7fe9037127",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1222,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-1941bc29-a1aa-49a1-aa1c-e592b8fe126f.png"
+    },
+    {
+      "name": "油燈",
+      "sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/oil_lamp.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "eee8721c7ed4c388a9a1e2776f8a5f7adea9850891fc0a8ac90e99863abb485b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        39,
+        14,
+        1236,
+        1232
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-44798f3c-407b-46e1-9701-77bb371ac2c6.png"
+    },
+    {
+      "name": "繃帶",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/bandage.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "2cd660f8d1ffc4c5d429eec5580678dae67b1d45bdcf4557985fed628ff5be49",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1192,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-57e2e6e8-0560-4d84-98ba-dfa33db98c6a.png"
+    },
+    {
+      "name": "消毒水",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/disinfectant.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "3653eb64888dd5a45e2563c21910ddf8fc37d5a183f5e85de32ae7d38b30cf86",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        25,
+        20,
+        1230,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-81533ab6-cdac-4bd5-84cd-7b8ab731ac18.png"
+    },
+    {
+      "name": "止痛藥",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/painkillers.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "9c20191e4e710ee86a2bf096482a2068ea6de2844102090bf31dfa3101b7af15",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        43,
+        53,
+        1253,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-e3a61ca1-5f13-4d7d-863a-c835d5fe86b7.png"
+    },
+    {
+      "name": "抗生素",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/antibiotics.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "19fbc6923741b13e172f201d307cff276177c1380767c59abd550f50c68537f3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1230,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-7a5a4067-fa19-4e20-8c67-1abdaf10fc33.png"
+    },
+    {
+      "name": "急救包",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/medkit.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "1a3a5afe726203ac974d34fd3a00a8b952937d51b4a14321d13dd145ecfb7137",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1193,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "手術包",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/surgical_kit.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "c34c3de9e30770dbf68d5abba3720e153dc2a7f8150db9cdbd68204324031b21",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1222,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-276bb2fc-9379-4ea1-b3ae-c6e2220510da.png"
+    },
+    {
+      "name": "腎上腺素",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/adrenaline.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "574c3c2ae23cb7f2a0eb213f4e8d111a5e1b05143d2a91004ca3b5fd2d0ef94e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        41,
+        21,
+        1218,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-bb86b9a0-6cde-42d8-bc2a-8c2eba47c45a.png"
+    },
+    {
+      "name": "抗輻射藥",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/anti_radiation_medicine.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "639de43d600f20c78ea1f5765c19434a174aaab830b911518d8089d54af120f9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1200,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-ac2aebbe-efda-4aec-87f7-c4fa20e7e680.png"
+    },
+    {
+      "name": "解毒劑",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/antidote.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "8a9cb93081ae17666aa8b873903bf22d8dbe1681a8db841e8b24a34af8330d06",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        25,
+        21,
+        1240,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6eebfbfc-0de8-49d9-8275-16a40ecfbd67.png"
+    },
+    {
+      "name": "燒傷藥膏",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/burn_ointment.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "c07af009ba840b85378f5de1dd0ec4a99df948b49e24f39b6df1e23af2fd3571",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        47,
+        21,
+        1226,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-0a7dbcb3-03a7-448c-af1c-979200f926ff.png"
+    },
+    {
+      "name": "舊世醫療箱",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/old_world_medical_case.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "c0812e7663e8fa9cbc98d05aca6d428e25648448d7a05da8c773d52ee79b1967",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-bf5b75ef-a0cf-49ae-ba40-c3fdae7073b1.png"
+    },
+    {
+      "name": "未標示藥劑",
+      "sections": [
+        8
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/unlabelled_medicine.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "95595160a36bfc0f9d39c10cc0431d88a98c38dcd2a3a1bcc05f8d615a52a153",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        25,
+        20,
+        1236,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-f6fc10a0-0a8c-422e-828a-e8b89ea0c82b.png"
+    },
+    {
+      "name": "扳手",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/candidates/wrench.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/candidates/prompts.json",
+      "sha256": "3711e89b47a34655063be837abf0d6f069fc844c783c2bd0f91eb65e3dd801bb",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        37,
+        31,
+        1236,
+        1222
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "螺絲起子",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/screwdriver.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "6ba80e8fa355b3431bb3e82a78e9ca8e2aea56358b9d47376255b4bfce8b04a1",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        41,
+        53,
+        1198,
+        1214
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-71f4d7bc-28ca-4e2b-b4fd-dad8a579589f.png"
+    },
+    {
+      "name": "鉗子",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/pliers.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "ade6c5a9a842fc990b338c87f23a04e053f00a75c39515147dfe4220b70999e5",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        57,
+        51,
+        1232,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-164cc5af-3f10-4405-bc5f-36affbe1af86.png"
+    },
+    {
+      "name": "工具箱",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/toolbox.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "dd57b0e9ddb1b56049422518836cb238582d04583a83b4be5aa4518858d6b54f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        8,
+        1223,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-ad971f8d-22ee-43b2-adf7-6832cfd11c7f.png"
+    },
+    {
+      "name": "焊接工具",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/welding_tools.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "42c89bb3c88ade742a40a5899553027a202309e0442bcaccb1d01f1fb7a1a14d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        23,
+        1232,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-e3ccab4d-74cc-4e8e-9687-3eb555a9aac1.png"
+    },
+    {
+      "name": "萬用電表",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/multimeter.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "005450628872b13b667c2da1814d6639db23ad26698aa7e60d8a01ecc1202ad1",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1230,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-86402896-8610-477d-9726-332b75953a4c.png"
+    },
+    {
+      "name": "手搖發電機",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/hand_crank_generator.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "cef0bb0e12498db3e60dfff93e266785198fedefe36117493f757be492d970d1",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-ae3a54bf-d11a-4053-9892-2a4ae9f48e40.png"
+    },
+    {
+      "name": "千斤頂",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/jack.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "953bd8d0c89a1e04a67ef7bb4fe3f710810442479a7891ef41bd04be049454fc",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1239,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-638086fb-6a67-4d6f-88fe-dda8ab2722ff.png"
+    },
+    {
+      "name": "金屬探測器",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/metal_detector.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "c5f5d1a2b581fa5f24f9667074c3292636a7821a90a269c2d0e17f9240f08b12",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        63,
+        50,
+        1206,
+        1221
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6c6e0060-97f5-4b86-bcc4-510002c4a63a.png"
+    },
+    {
+      "name": "望遠鏡",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/binoculars.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "355b39258a5d12d4b3eecf72921a12cd5e9b8f73ddea35259cd0fcdcf52580ed",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-7e47f0f3-f181-4698-9598-f30e40609c07.png"
+    },
+    {
+      "name": "指南針",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/compass.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "d37c7d6f6dbe24206c4fefb6472c5e8e9c7b7ee02c80f926962d5cb2dd041d64",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1236,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-9ffa5088-2d7a-4b33-b1b7-9885e3b8b4b2.png"
+    },
+    {
+      "name": "舊世地圖",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/old_world_map.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "323a85f1d3fecfbd49944430c542d34ea2b8723329091ada6e3ec0276fe54429",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1230,
+        1222
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-a2ea6838-f979-4df4-984e-cc75bd0b643a.png"
+    },
+    {
+      "name": "無線電",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/radio.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "b6083616e035d3a0ae83b53dbdc2106479d975cd81581f6415a1dea0a55f8879",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        21,
+        1198,
+        1210
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-7c3c5808-b1ab-4070-8f12-103d49a77013.png"
+    },
+    {
+      "name": "訊號接收器",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/signal_receiver.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "24a438868839302050d146d7f0cdb2f609fad435ca39ebcce7f7b67f5e3966b3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        39,
+        21,
+        1222,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-a6d56231-6447-4c51-bc47-5ebee149b85a.png"
+    },
+    {
+      "name": "開鎖工具",
+      "sections": [
+        9
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/lockpick_set.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "1479d071b00d0613013b0cfc8f110c0c7c13bd30a53cfeb0a977deeb9c9885d0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        9,
+        1234,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6da111e5-acbe-4834-80f8-a186483f9194.png"
+    },
+    {
+      "name": "廢鐵",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/scrap_iron.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "6d684fdb00e352aa9b9834f202d8d85eb6ee8f6a32ce0ab4c92890d783fd09b5",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        9,
+        1226,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-cc4bcdac-cb1b-4c76-b4c8-794cd55ae546.png"
+    },
+    {
+      "name": "鋼材",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/steel_stock.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "e0784f5c8e95fe78c082aaa7bc90c4225504c6498e82850811c28a4a36e28637",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        57,
+        37,
+        1223,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-135ff59d-fbca-4d8c-89cd-3785f53a3a29.png"
+    },
+    {
+      "name": "鋁材",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/aluminum_stock.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "4047a8427f9208d122119a12eefc231a06821a6b0ca5697ebebc496ced0c5591",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        94,
+        52,
+        1198,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-179b14df-7987-4a76-be6d-f7bccde01798.png"
+    },
+    {
+      "name": "銅線",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/copper_wire.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "a26f043281bdb7cf43fcbac78144b49160ae1368ca146566ef421d0192ed31bd",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1224,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-c3f75d1a-dc71-458b-9b92-3d5cf56f4fba.png"
+    },
+    {
+      "name": "電路板",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/circuit_board.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "884ae2d47dafa66b9ce16681f5e074d6d60f6085b41d216312330e7904b3b451",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1232,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-ffe81435-1e1e-4684-8924-7881e74e9d7b.png"
+    },
+    {
+      "name": "齒輪",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/gear.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "f70c3d464b1616894a8b6bd1954ee225c2747e41355c19c7ed7fa35a21f47e6e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1232,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-ebd967f4-38a0-4c58-8711-bdfacf93cb0a.png"
+    },
+    {
+      "name": "軸承",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/bearing.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "aa2fadf459fd586f5e5306d85bb4deade947d9a52b508dc376a76a1b4bf277e3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1202,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-03f7a180-99b5-4e15-8d93-f04acd41c5f3.png"
+    },
+    {
+      "name": "彈簧",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/spring.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "789c92df1711def31454c74ed117d3a273b00312529a6e2c6e0caf841fa87621",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        31,
+        21,
+        1224,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-ab706da5-b4e7-4c85-9239-6e680b978f97.png"
+    },
+    {
+      "name": "橡膠",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/rubber.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "969859d116ad23dfb8aa71efe6845fbc94420bf4e6cba9a6264bef7204d6a69a",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        7,
+        1222,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-aea8885c-77fa-426d-bbd7-e99e66241bcd.png"
+    },
+    {
+      "name": "塑膠",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/plastic.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "0dc04ebf7c652c2fff6222c620c53fdde6bde468da9121b42942b04628a4142c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        35,
+        1194,
+        1210
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-053613e7-5f61-419d-9e8f-de778a5493a4.png"
+    },
+    {
+      "name": "布料",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/cloth.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "08b4f44a8219ed15020f92b25700ad4e0d0f0ce34d12a9bc5bcfca707ffdbd9b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1230,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-9321132d-7314-43fe-85b3-39a58688ae5f.png"
+    },
+    {
+      "name": "皮革",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/leather.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "a32a9fa2c140284935440df6f2e6e9b0428b4175e6e02105a1dd390541d6b6ee",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        9,
+        1194,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b841ff3d-cc71-4793-aa85-667f2ce261de.png"
+    },
+    {
+      "name": "玻璃",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/glass.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "9d1161e52df1e9bab7576364c09cb47e4cb2f40b8571b612ab7d2615564a624c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        21,
+        1202,
+        1226
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5f334bec-b403-43f9-9c29-084d1090b0d2.png"
+    },
+    {
+      "name": "化學品",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/chemicals.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "7f51c3fb2043245df9f732b9d9aa765e0409031457c2000ab6a43097859dd02e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1253,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-30aefde0-a01d-4206-a4b9-c1e67cfd4ccb.png"
+    },
+    {
+      "name": "電池芯",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/battery_cell.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "87fc7933f9272ecc08360432cdb2fe15220227ad38f55711af21f5f653571f7f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        23,
+        1200,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-760cc153-0933-4c6c-ac43-460ead576fc1.png"
+    },
+    {
+      "name": "精密零件",
+      "sections": [
+        10
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/precision_parts.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "b6e11ce11e1aff25b76d4c49fd6454dcf002e5c05a64d433f3d1e5e9dd4a3e51",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1200,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-77f8fe16-7e93-437b-9820-973231e3b937.png"
+    },
+    {
+      "name": "香菸",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/cigarettes.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "0477ca1e0a7ec118619774289e791e829afbea3a1adcb3cafacf7a007a91832e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        31,
+        39,
+        1200,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-9de5f9e4-b961-4566-97f5-4462ccb93a84.png"
+    },
+    {
+      "name": "酒",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/liquor.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "a8b4e82d84e68fb7750e17645396d6b40777974475ba48ac5f64edf3d4223876",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1196,
+        1190
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-bf521773-5a4f-409c-943f-1dc1c31acc89.png"
+    },
+    {
+      "name": "咖啡",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/coffee.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "386262a986e07bb2c1c80edfb021257ec52d54f31e6046e7654e4dd7e4e79ecc",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        41,
+        101,
+        1236,
+        1236
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5c66aedf-946a-4986-8932-c09ebc162124.png"
+    },
+    {
+      "name": "茶葉",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/tea.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "f5a505f15dfa5235fdd03b79d5b1e9f9cba294b609eaf30174b376641e4c840f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1218,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-4098dc91-85fc-4521-897e-03815e978b06.png"
+    },
+    {
+      "name": "糖",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/sugar.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "e03512c3421868af8f4a9c58d35205a348cc02decbf91a30b55e6bf625a157d2",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-db06cd37-4b3e-4f37-ba09-2d06806ecc30.png"
+    },
+    {
+      "name": "香料",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/spices.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "5f6005732114b6df667c7e0dedcb490ed1785f8076bb01fb8fed64e0bc6558c9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-73e9a12c-a6b5-433e-8b62-6bccb458ec90.png"
+    },
+    {
+      "name": "舊世罐頭",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/old_world_canned_food.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "2489e5feee58cd4ff44d9095a74fef77532753541597bdd2bdf30dd36bf33018",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        27,
+        21,
+        1234,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-fa24f36f-1223-43c5-bcc0-2d5a79dd14fa.png"
+    },
+    {
+      "name": "彈藥",
+      "sections": [
+        11
+      ],
+      "art_role": "category_illustration",
+      "file": "ui/assets/items/library/supplies/ammunition.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "ff3348791bd3ad24c46653e678916a5d4e17ec5923863d8efe9e5f655d7524ca",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        33,
+        21,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-3d8278e4-d485-420a-9bb7-60c889ffb77c.png"
+    },
+    {
+      "name": "藥物",
+      "sections": [
+        11
+      ],
+      "art_role": "category_illustration",
+      "file": "ui/assets/items/library/supplies/medicines.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "01d8ce952a3937363f7a3e426dd6c1a39d9517a7ba258913fce3f4dd8a352931",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        25,
+        1224,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-a5590aa9-6755-4597-8d6f-0d4c6a0f9562.png"
+    },
+    {
+      "name": "機械零件",
+      "sections": [
+        11
+      ],
+      "art_role": "category_illustration",
+      "file": "ui/assets/items/library/supplies/mechanical_parts.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "9187afda0f200f741e19ddd2a4be93cbb5051bc3aa2ed7f3e2c663b921d656e4",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1232,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-055e1c31-07e8-4e90-ae7a-3ae2071d1dc2.png"
+    },
+    {
+      "name": "種子",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/supplies/seeds.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/supplies/prompts.json",
+      "sha256": "40532c4dc6c199c7f9e6628fd0bcca5171f7b20469252dfdb9ee5ec70535a586",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        21,
+        1224,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b5167cf3-d4dc-4dc0-8449-0a4da7afed8f.png"
+    },
+    {
+      "name": "燃料",
+      "sections": [
+        11
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/fuel.png",
+      "status": "EXISTING_ART",
+      "prompt_file": "ui/assets/items/prompts.json",
+      "sha256": "40618bd93d19fd67bff4086fad7a6adf6b32df61630e66e1d896b167fc557f73",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        24,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "舊世界手錶",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/old_world_watch.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "bd0372debe4aa2867601f861aefa5d04411218a5b2f74854aaf5ffe0d0af8ab0",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        23,
+        1202,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-9223d0aa-322f-4636-a035-04a4805c1dfa.png"
+    },
+    {
+      "name": "相機",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/camera.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "75a7b56a4cf6ea0ce796f94109626f94bc602a36f934d946fcad3e96d8f5955b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        3,
+        1218,
+        1214
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-9bdbd5e8-4d55-49b0-94fc-d13949eadc67.png"
+    },
+    {
+      "name": "音樂播放器",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/music_player.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "8c668760c9f457ae21ee1e6a07c90cc300ce6555c05839766de9e4d9c8f29485",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        109,
+        1193,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-4d43912e-df77-4478-8684-e3832aa8e6d4.png"
+    },
+    {
+      "name": "黑膠唱片",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/vinyl_record.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "8be4aee66a078c5bdf64e5253e3ee4fd9521ad9e2fa1cab2b64440abc294bc50",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        31,
+        21,
+        1225,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d20997bc-3e6c-4215-a95b-c62c5e13269c.png"
+    },
+    {
+      "name": "老照片",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/old_photograph.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "9dab7b357da644ee251755179676383faef474a3f9d6848a6729d41aae09857e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1232,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-29903383-f81a-4a59-8751-1b881448aad6.png"
+    },
+    {
+      "name": "身分證件",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/identity_document.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "6046c426437b13c1211aa64c6924323352a3c6136b7580a61cea920052be783d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        57,
+        1200,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-dff1e276-4e71-4f77-b72b-84832b019efd.png"
+    },
+    {
+      "name": "軍人識別牌",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/military_dog_tags.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "bbd380dc59c0b799dd3ef28cb287cd35577d308f7c6ccdd2c957ccb866904a80",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1240,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-1a9bc5b7-1b0c-412d-9cd9-6130a915dc79.png"
+    },
+    {
+      "name": "公司門禁卡",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/company_keycard.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "d5805b97546d048edb2ee41e62ce9b96f227bc9dcfd83e1f27ea27ee18558966",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1253,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-1e7a701f-78b0-4155-82f1-678c884a6b02.png"
+    },
+    {
+      "name": "醫院識別卡",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/hospital_id_card.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "26012fea11505327f186947d9648e9ae0ef58666cf1369d7e994d246a292adfe",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        9,
+        1232,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-83704b3a-3129-4fe3-b973-12487792b4a8.png"
+    },
+    {
+      "name": "資料磁碟",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/data_disk.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "dccd17d71e7135f717f7beb5397b2b4cd956f97afe31d5ec5b94ddb84ef6bc78",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1194,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-be746c79-2738-4a01-bbd4-29aee1e5cbf2.png"
+    },
+    {
+      "name": "紙本日記",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/paper_journal.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "85a7882468f2f74f4a38bea66378f55b639c342bd050f65aa222a27c831f8a47",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        45,
+        1222,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5eeab4a2-e45b-45f7-b92c-e2719bf95f8e.png"
+    },
+    {
+      "name": "維修手冊",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/repair_manual.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "348e806abbf80a0bc048d825eb328f91e68634f1f2c61707dc12425bc83f436d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1230,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-eb55c8b5-03a2-4b66-b028-308856573934.png"
+    },
+    {
+      "name": "醫療手冊",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/medical_manual.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "7af2b4de7b2f14439a05cdea81f86772264c8e8680b87157348138c994ccab35",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        33,
+        1227,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-558e4211-4a6b-421d-94d1-5f297c6381e9.png"
+    },
+    {
+      "name": "軍用手冊",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/military_manual.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "11e0a668a40318530ec31166d3a62b9c7466b6989a20662d5d86b9d84f56824e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1238,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d1dd7ed3-1181-4595-a52f-7ec5fa91715a.png"
+    },
+    {
+      "name": "種植手冊",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/planting_manual.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "e1ad4dba36a501955891e173a0f48457a1f60afef563daeb98fbb6709b2f62ca",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        45,
+        1216,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-86dfbd51-91f1-4d3c-acd2-f063ae8a8b7a.png"
+    },
+    {
+      "name": "地質調查圖",
+      "sections": [
+        12
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/geological_survey_map.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "4dd63ab61bc1ac5e2bbe7a201b441a111d113c52fe1e96a6675557455ca96fb7",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        0,
+        1222,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-40a9c3cf-5057-4fa7-915d-e90a924c3277.png"
+    },
+    {
+      "name": "神經反射模組",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/neural_reflex_module.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "87fc5134d5e600fcce9e9b9ed5222bddf9a50affcbb3a6ab560bedee22269276",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        52,
+        1206,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-7abe2376-b7c1-43de-b598-77b45d9a22e3.png"
+    },
+    {
+      "name": "舊世戰術晶片",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/old_world_tactical_chip.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "5495110cb2c785809e5b904911dc711bb8cd6ea06bc28b4a9dff962d15c4e073",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        43,
+        77,
+        1206,
+        1198
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-5842cb29-7e8f-48b9-b08a-1c1bebb5713e.png"
+    },
+    {
+      "name": "肌纖維刺激器",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/muscle_stimulator.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "299df23f35d950ab1628179bc943fc3da202d5a25161436c8b0ed2cb1a106b56",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        47,
+        15,
+        1212,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-fd876fde-90ab-4b34-ba94-dfd660da3aa0.png"
+    },
+    {
+      "name": "記憶核心",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/memory_core.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "60bbe27f4054ca1b68cd89eaf593db996a640a4da63765dd2f544799d27a8c9f",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1200,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-faefa85d-30b2-4fe1-9bdb-234fe0f77e2e.png"
+    },
+    {
+      "name": "軍醫資料晶片",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/military_medical_chip.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "c6a205f715e56b005ae8ea0f877605bb37c28f3a2bee2169c5e9cc0e0ce00c05",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        49,
+        54,
+        1192,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-629054af-8c36-43aa-8d71-965c324f92d4.png"
+    },
+    {
+      "name": "精密工程手冊",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/precision_engineering_manual.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "2efcad0e7bb635450c39607e4288b3b82969b0a98dba6a485508975fad1eae84",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        49,
+        1224,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-be5ac44c-cbea-4e08-a81a-18475fcc3b98.png"
+    },
+    {
+      "name": "未知植入物",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/unknown_implant.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "4879423356d08a615004fdb8e493f1d316ab704666854e7875d618c405391f31",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        37,
+        57,
+        1189,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-7e57da9e-7073-47b4-b559-ba4d411ec05a.png"
+    },
+    {
+      "name": "黑盒記憶體",
+      "sections": [
+        13
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/black_box_memory.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "2439e4cb1f19c6ddeddcb3d41945297d6d026fa9dacc4dd4a60a5ea9d81f12e9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        59,
+        15,
+        1216,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-201f2685-9584-4a6f-9816-8d8f13ea2c92.png"
+    },
+    {
+      "name": "不冷的冰",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/uncold_ice.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "fc51378f8f31c3fc11da618fdb46e236db1c16eabfceb62fe6497ed4cdc9f072",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        47,
+        1206,
+        1206
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6948d01b-76db-4c36-9ea4-17ef0ecfbe08.png"
+    },
+    {
+      "name": "黑色水滴",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/black_water_drop.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "dd6277e6e2d9f44550cc4cc16b841203e8014f85b0b61d287051ba623392d83b",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        63,
+        35,
+        1199,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-be2607b0-601f-4bd8-8efb-4b42a2c12b72.png"
+    },
+    {
+      "name": "空心石",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/hollow_stone.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "45fb303141f5223dca0051f03c3e5d32a09a741cc1ca9244fd2769e49ccd48c8",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1230,
+        1230
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-2236bfe5-0d0a-4039-9b15-df184503a9bd.png"
+    },
+    {
+      "name": "鳴石",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/humming_stone.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "e4efbeff78fc706e2953e868a310a99e191be71850febea1975d2f4fc154497e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1224,
+        1238
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-90f963ea-8ab2-400f-bf98-27e81886e372.png"
+    },
+    {
+      "name": "靜電骨",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/static_bone.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "e4f75af8d9edb729b3a21a3b2ccf782381dade99be349538367ab00c7f4b668d",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        45,
+        20,
+        1242,
+        1234
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-56b2bd4b-7f86-427c-8cd4-459dfe933a09.png"
+    },
+    {
+      "name": "逆磁片",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/reverse_magnetic_shard.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "81a57347b6d7f64f9be86a53c27efa3dd06add302b2fe7e84bd3594c3d3bb6d5",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        20,
+        1230,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-44dea69a-5699-451f-8aa6-aba4a3a5296f.png"
+    },
+    {
+      "name": "無影玻璃",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/shadowless_glass.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "b8f143171c9c7061f3d3e3f8db41e319d36ad11eaea12cb3985d6338944a07a4",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        57,
+        48,
+        1186,
+        1210
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-d7da1e6c-872b-4efa-a74e-7a27033c3537.png"
+    },
+    {
+      "name": "灰種",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/gray_seed.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "4b7d5b651e14c6eea1ddf5c4435b7ab177e942d9e1802cf60b0c0ff0804b26e3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        3,
+        1234,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-6290ecc5-1f7d-4c8b-8600-01e9d2e02b22.png"
+    },
+    {
+      "name": "熱核",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/heat_core.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "72d4de6072255022f753f32631c040a14ea64b2a85fe39d9308abb84954223f9",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        19,
+        1234,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-68aaad8c-9749-4ae9-8b7c-9b02b97d244d.png"
+    },
+    {
+      "name": "沉默盒",
+      "sections": [
+        14
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/silence_box.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "50d998e6e562bf7dfbd2b918b9b623fa5fea36994b02e60f881f7f1d78fb5e34",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        23,
+        1228,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-8726245c-ec50-4b7e-b24f-d72afa40fd0a.png"
+    },
+    {
+      "name": "最後一發",
+      "sections": [
+        15
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/last_round.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "67740beaebbad5f4773088851cd194f5218e90211ffa7cc5f9f9de9b80862728",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        15,
+        21,
+        1238,
+        1206
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-38b9cd99-ba5b-4c70-ad2f-f8ca87b16845.png"
+    },
+    {
+      "name": "回家",
+      "sections": [
+        15
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/homecoming.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "d2692f974aae41dd6121e5496aa1c91ee64609738ff93f974210c613106da14e",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        27,
+        23,
+        1237,
+        1236
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-2e883402-89ed-4db2-98d4-fe3520693946.png"
+    },
+    {
+      "name": "六十三號",
+      "sections": [
+        15
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/number_sixty_three.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "c5be1a3a43d7d0a8c003a622fe6c38f0c9b27351880df561dea2160bc32714b3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        21,
+        1241,
+        1223
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-b992ac31-3415-4358-9e3c-9a96911212df.png"
+    },
+    {
+      "name": "守井人",
+      "sections": [
+        15
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/well_guardian.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "bd3e6ac9397caaafabdb6b71626af107a732fab856e8f6b12c9978135b9871ab",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        20,
+        19,
+        1237,
+        1228
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-aa49cfc4-741f-4c38-90f4-aeb81deeca3f.png"
+    },
+    {
+      "name": "沒有寄出的信",
+      "sections": [
+        15
+      ],
+      "art_role": "item_illustration",
+      "file": "ui/assets/items/library/relics/unsent_letter.png",
+      "status": "GENERATED",
+      "prompt_file": "ui/assets/items/library/relics/prompts.json",
+      "sha256": "e0c5a6b28b774ecb498e71616bb2d2a4d7882cae2785d91af416163735674876",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_bounds": [
+        0,
+        8,
+        1218,
+        1254
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "source_output": "exec-c4951ec0-9b7d-46eb-8706-df5d191eaab2.png"
+    }
+  ]
+}

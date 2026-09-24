@@ -179,7 +179,7 @@ func _init() -> void:
 		quit(1)
 		return
 
-	var restored := WorldState.from_dict(JSON.parse_string(JSON.stringify(w5.to_dict())))
+	var restored := WorldState.from_json(JSON.stringify(w5.to_dict()))
 	if restored == null or restored.active_encounter == null:
 		print("FAIL R5: the paused encounter did not survive the save!")
 		quit(1)

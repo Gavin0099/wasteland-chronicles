@@ -1,0 +1,27 @@
+{
+  "id": "scrap_iron_armor",
+  "name": "拼裝鐵甲",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/scrap_iron_armor.png",
+  "source_output": "exec-7133ee8f-3194-4d05-800e-b2fe59412fe4.png",
+  "sha256": "3f7b72eb3b670660f7f7b57fbc98179c44fa701cfec065b106b8d9e5e17730a1",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1234,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

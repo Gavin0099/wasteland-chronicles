@@ -1,0 +1,27 @@
+{
+  "id": "gas_mask",
+  "name": "防毒面具",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/gas_mask.png",
+  "source_output": "exec-07a538cf-45ba-4e74-85b3-c1a98b317634.png",
+  "sha256": "4a8135c39437ffa8a3589ca06158c4ccb588d5c92d801a893aa1fedacbc275fd",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1222,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

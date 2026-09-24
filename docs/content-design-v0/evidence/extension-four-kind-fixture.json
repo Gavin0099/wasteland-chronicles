@@ -1,0 +1,312 @@
+{
+  "format": "wc-content-extension",
+  "schema_version": 1,
+  "pack_id": "independent_review",
+  "pack_version": 1,
+  "base_library": "content-design-v0",
+  "requires_packs": [],
+  "status": "DESIGN_ONLY",
+  "items": [
+    {
+      "content_id": "pack_independent_review__item__marked_rope",
+      "name_zh": "驗證用有記號繩索",
+      "art_file": "ui/assets/items/candidates/rope.png",
+      "art_sections": [
+        7
+      ],
+      "art_role": "item_illustration",
+      "runtime_item_id": null,
+      "status": "DESIGN_ONLY",
+      "category": "TOOL",
+      "subtype": "utility_rope",
+      "proposed_weight_g": 2500,
+      "proposed_base_value_caps": 30,
+      "value_rationale_zh": "30 Caps 反映多次使用的固定用途，但不保證可承受任何重量。",
+      "rarity": "common",
+      "tags": [
+        "rope",
+        "travel"
+      ],
+      "roles": [
+        "explore",
+        "survival"
+      ],
+      "actions": [
+        "secure_cargo",
+        "lower_bundle",
+        "anchor_line"
+      ],
+      "origin_tags": [
+        "caravan",
+        "settlement_workshop"
+      ],
+      "loot_sources": [
+        "cargo_store",
+        "bridge_maintenance_box"
+      ],
+      "description_zh": "獨立檢查fixture；借用既有繩索圖，沒有新增遊戲物品。",
+      "known_description_zh": "保持 ITEM-1 的二千五百克；沒有先假定長度或承重等級。",
+      "identified_description_zh": "檢查磨損、長度與固定點後，才能選擇對應的牽引或固定方案。",
+      "world_notes_zh": "斷橋邊的繩索可能要留給後來者，救人和回收自用有不同代價。",
+      "markets": {
+        "new_hope": {
+          "supply": "medium",
+          "demand": "medium",
+          "reason_zh": "農務搬運會綁束物資。"
+        },
+        "gray_valley": {
+          "supply": "high",
+          "demand": "medium",
+          "reason_zh": "工地有舊繩供應，但承載狀況需查。"
+        },
+        "dry_well": {
+          "supply": "medium",
+          "demand": "high",
+          "reason_zh": "長途貨箱固定與道路救援需求多。"
+        }
+      },
+      "hooks": [
+        {
+          "situation_zh": "貨箱固定帶斷裂，下一段路坡度很大。",
+          "use_zh": "用檢查過的繩索重新固定貨箱。",
+          "cost_or_limit_zh": "部分繩長會被佔用；固定不等於車體能承受所有重量。"
+        },
+        {
+          "situation_zh": "橋下有一只工具袋卡在矮台上。",
+          "use_zh": "在確認固定點後用繩索吊回工具袋。",
+          "cost_or_limit_zh": "先確認距離與重量，若必須剪斷或留下繩段要明示失去部分物品。"
+        }
+      ],
+      "repair": {
+        "possible": true,
+        "inputs": [
+          "content_cloth"
+        ],
+        "note_zh": "僅修護繩端標記；承載纖維損壞不能靠包布恢復，應縮短用途或判廢。"
+      },
+      "salvage": {
+        "possible": false,
+        "outputs": [],
+        "note_zh": "本稿不設這項處理；使用、檢驗或交付不返還完整替代品。"
+      },
+      "dependencies": [
+        "cargo",
+        "exploration",
+        "hazards",
+        "item_ownership",
+        "repair"
+      ],
+      "inspiration_refs": [
+        "WG-01",
+        "LD-P01"
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounter_id": "pack_independent_review__encounter__rope_return",
+      "category": "npc",
+      "status": "DESIGN_ONLY",
+      "title_zh": "獨立驗證：有記號繩的交還",
+      "context_zh": "這是檢查擴充引用的fixture，沒有註冊新遭遇。",
+      "location_tags": [
+        "dry_well",
+        "existing_population_candidate"
+      ],
+      "trigger": {
+        "basis": "PROPOSED_WORLD_FACT",
+        "condition_zh": "僅在對應職責已有可綁定的存活人口成員、需求仍有效且當事人同意接觸時提供；乾井一名工人希望把借來繩索永久留在井架，原主隔日要遠行。"
+      },
+      "primary_axis": "survival",
+      "choices": [
+        {
+          "label_zh": "以自有繩索替換",
+          "required_items": [
+            "pack_independent_review__item__marked_rope"
+          ],
+          "consumed_items": [
+            "content_rope"
+          ],
+          "required_skill": null,
+          "cost_zh": "交付繩索1捆，花1天；固定位置仍需安全檢查。",
+          "outcome_zh": "繩索−1；原借物可以按正式歸還程序返回原主。",
+          "rewards": []
+        },
+        {
+          "label_zh": "找出不需留繩的工作安排",
+          "required_items": [],
+          "consumed_items": [],
+          "required_skill": {
+            "skill": "SURVIVAL",
+            "rank": 2
+          },
+          "cost_zh": "SURVIVAL 2，花1天和工人比較可行方法，未驗證前不拆繩。",
+          "outcome_zh": "提出替代候選，不能保證井架承重或工作完成。",
+          "rewards": []
+        },
+        {
+          "label_zh": "尊重原歸還日期",
+          "required_items": [],
+          "consumed_items": [],
+          "required_skill": null,
+          "cost_zh": "零消耗，不承諾替代物。",
+          "outcome_zh": "原主仍有按約領回的權利，工人另找方案。",
+          "rewards": []
+        }
+      ],
+      "followup_zh": "留置工具也是物件移轉，不能一邊綁在井架一邊在玩家背包。",
+      "dependencies": [
+        "cargo",
+        "hazards",
+        "item_ownership",
+        "jobs",
+        "knowledge",
+        "npc_relationship",
+        "reputation"
+      ],
+      "inspiration_refs": [
+        "WG-01",
+        "FICTION-ROAD"
+      ]
+    }
+  ],
+  "quests": [
+    {
+      "quest_id": "pack_independent_review__quest__return_marked_rope",
+      "town_id": "dry_well",
+      "status": "DESIGN_ONLY",
+      "kind": "economy",
+      "title_zh": "獨立驗證：交還有記號的繩",
+      "premise_zh": "只驗證四種新增記錄可在同包與基準人物之間形成型別正確的引用，不是交付內容。",
+      "issuer_hook_id": "pack_independent_review__person__rope_owner",
+      "stakeholder_hook_ids": [
+        "hook_dry_well_002",
+        "hook_dry_well_004"
+      ],
+      "trigger": {
+        "basis": "PROPOSED_WORLD_FACT",
+        "condition_zh": "燃料核帳員的同日正式存量快照為8個既有抽象fuel單位，紙帳寫10；已查明同一筆2單位出貨被重複抄入。兩張簽收原件仍在，鹽1份已由核帳員保留作報酬。未知的是哪位抄寫者經手，不把錯帳當偷竊。 接受與提交時重驗現物、授權及當事人可用狀態；本段不宣稱已在世界發生。"
+      },
+      "deadline": {
+        "kind": "relative_days",
+        "days": 3,
+        "expiry_zh": "3天核帳窗口結束，或原件已被正式接管時停止接受新協助；已完成交割不能重算。",
+        "without_player_zh": "若核帳員或另一名受託者先完成核對，依真實完成記錄關閉；沒有他人處理就保留待核帳，燃料仍按正式庫存運作。"
+      },
+      "approaches": [
+        {
+          "label_zh": "指出重複序號並由核帳員當場簽認",
+          "required_items": [],
+          "consumed_items": [],
+          "required_skill": {
+            "skill": "BARTER",
+            "rank": 1
+          },
+          "cost_zh": "0天；需BARTER 1，原件、快照和簽署者同時在場。",
+          "outcome_zh": "紙帳由10更正為8，取得核帳員的鹽1份；世界fuel數量完全不改。",
+          "rewards": [
+            {
+              "content_id": "content_salt",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "label_zh": "逐張重列已有出入帳",
+          "required_items": [],
+          "consumed_items": [],
+          "required_skill": null,
+          "cost_zh": "1天；不需要自備道具，兩份原件由核帳員提供查閱。",
+          "outcome_zh": "把同筆交割只計一次，由核帳員簽認紙帳8；取得同一份鹽報酬。",
+          "rewards": [
+            {
+              "content_id": "content_salt",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "label_zh": "暫不承接",
+          "required_items": [],
+          "consumed_items": [],
+          "required_skill": null,
+          "cost_zh": "0天；不領取委託物或消耗用品。",
+          "outcome_zh": "此角色沒有承諾履約，世界依原有事實繼續，委託人可另作安排。",
+          "rewards": []
+        }
+      ],
+      "encounter_refs": [
+        "pack_independent_review__encounter__rope_return"
+      ],
+      "world_effect_proposals": [
+        {
+          "target_zh": "乾井紙本核帳記錄與預留報酬",
+          "change_zh": "登記重複序號及唯一更正記錄；鹽由核帳員轉給履約者一次。",
+          "authority_needed_zh": "未來jobs證據驗收與item ownership；現有fuel快照只讀，紙帳屬新委託證據資料。",
+          "derivation_boundary_zh": "只提交上述已驗證事實。價格、庫存需求、商隊行程與人口反應由各自既有或未來權威推導，不直接給百分比加成、生成角色或改寫死亡／離境。"
+        }
+      ],
+      "followup_zh": "可延伸到ruin_093的桶秤工作；第一任務不要求校秤、修理或把空罐換成fuel。",
+      "dependencies": [
+        "item_ownership",
+        "jobs",
+        "knowledge",
+        "npc_relationship",
+        "regional_trade"
+      ],
+      "inspiration_refs": [
+        "WG-02",
+        "WG-03"
+      ]
+    }
+  ],
+  "npc_hooks": [
+    {
+      "hook_id": "pack_independent_review__person__rope_owner",
+      "town_id": "dry_well",
+      "status": "DESIGN_ONLY",
+      "role_zh": "獨立驗證：繩索原主候選",
+      "public_need_zh": "在到期前通知井口需要歸還私人繩。",
+      "private_stake_zh": "自己也要裝貨，不想因取回私物被罵自私。",
+      "leverage_zh": "有真實借條與另一項已同意用途。",
+      "limit_zh": "不能擅自拆正在使用的承重構件造成危險。",
+      "group_ids": [
+        "dw_well_queue",
+        "dw_outer_camps"
+      ],
+      "binding_zh": "未來從乾井當前在場且存活的人口中，確認有意願承擔『井架繩索原主』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+      "item_refs": [
+        "pack_independent_review__item__marked_rope"
+      ],
+      "encounter_refs": [
+        "pack_independent_review__encounter__rope_return"
+      ],
+      "relationships": [
+        {
+          "target_hook_id": "hook_dry_well_003",
+          "tension_zh": "輪值人想延長遮布用途，原主已有在先出發承諾。",
+          "cooperation_zh": "先協商安全交還時間與真實替代物。"
+        }
+      ],
+      "availability": {
+        "condition_zh": "原繩仍在且借期尚待結清。",
+        "without_player_zh": "若已有合法替代，正常交還；若未解決，只保留待協商，不用敘事自動斷繩。"
+      },
+      "dependencies": [
+        "cargo",
+        "hazards",
+        "item_ownership",
+        "jobs",
+        "knowledge",
+        "npc_relationship",
+        "reputation"
+      ],
+      "inspiration_refs": [
+        "FICTION-ROAD",
+        "LD-P02",
+        "WG-01",
+        "WG-04"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 extends SceneTree
 
+const Tokens = preload("res://ui/theme/pda_tokens.gd")
+
 # ==============================================================================
 # SURVIVOR PDA THEME BUILDER
 # ==============================================================================
@@ -11,19 +13,19 @@ func _init() -> void:
 	var theme := Theme.new()
 
 	# --- Color Tokens ---
-	var c_base := Color("#121316")        # surface/base
-	var c_panel := Color("#1B1D22")       # surface/panel
-	var c_elevated := Color("#22252B")    # surface/elevated
-	var c_border := Color("#2A2D35")      # border/default
-	var c_border_strong := Color("#454A55") # border/strong
-	var c_border_amber := Color("#D9822B") # border/accent (amber)
+	var c_base := Tokens.BASE        # surface/base
+	var c_panel := Tokens.PANEL       # surface/panel
+	var c_elevated := Tokens.ELEVATED    # surface/elevated
+	var c_border := Tokens.BORDER      # border/default
+	var c_border_strong := Tokens.BORDER_STRONG # border/strong
+	var c_border_amber := Tokens.AMBER # border/accent (amber)
 
-	var c_text_primary := Color("#D8D3C8") # dirty ivory
-	var c_text_secondary := Color("#96938B") # metadata
-	var c_text_dim := Color("#686A70")     # dim
-	var c_accent_amber := Color("#D9822B") # primary interactive highlight
-	var c_critical_red := Color("#A8382B") # status/critical
-	var c_live_green := Color("#39D353")   # status/live
+	var c_text_primary := Tokens.TEXT # dirty ivory
+	var c_text_secondary := Tokens.SECONDARY # metadata
+	var c_text_dim := Tokens.DIM     # dim
+	var c_accent_amber := Tokens.AMBER # primary interactive highlight
+	var c_critical_red := Tokens.CRITICAL # status/critical
+	var c_live_green := Tokens.LIVE   # status/live
 
 	# --- PanelContainer ---
 	var panel_style := StyleBoxFlat.new()
@@ -114,6 +116,34 @@ func _init() -> void:
 	pb_fill.bg_color = c_accent_amber
 	pb_fill.set_corner_radius_all(1)
 	theme.set_stylebox("fill", "ProgressBar", pb_fill)
+
+	# Shared semantic variants used by new screens; legacy base controls stay stable.
+	for variant in ["PdaTitle", "PdaSection", "PdaMuted"]:
+		theme.set_type_variation(variant, "Label")
+	theme.set_font_size("font_size", "PdaTitle", Tokens.TITLE)
+	theme.set_font_size("font_size", "PdaSection", Tokens.SECTION)
+	theme.set_color("font_color", "PdaSection", Tokens.AMBER)
+	theme.set_font_size("font_size", "PdaMuted", Tokens.SMALL)
+	theme.set_color("font_color", "PdaMuted", Tokens.SECONDARY)
+	theme.set_type_variation("PdaPanel", "PanelContainer")
+	var padded: StyleBoxFlat = panel_style.duplicate()
+	padded.content_margin_left = Tokens.PAD
+	padded.content_margin_right = Tokens.PAD
+	padded.content_margin_top = Tokens.PAD
+	padded.content_margin_bottom = Tokens.PAD
+	theme.set_stylebox("panel", "PdaPanel", padded)
+	theme.set_type_variation("PdaCommand", "Button")
+	theme.set_color("font_disabled_color", "PdaCommand", Tokens.SECONDARY)
+	theme.set_type_variation("PdaPrimary", "PdaCommand")
+	var primary: StyleBoxFlat = btn_normal.duplicate()
+	primary.border_color = Tokens.AMBER
+	theme.set_stylebox("normal", "PdaPrimary", primary)
+	theme.set_type_variation("PdaDialog", "AcceptDialog")
+	var frame: StyleBoxFlat = padded.duplicate()
+	frame.border_color = Tokens.BORDER_STRONG
+	frame.expand_margin_top = 32
+	theme.set_stylebox("panel", "PdaDialog", frame)
+	theme.set_stylebox("embedded_border", "PdaDialog", frame)
 
 	# Ensure directory exists
 	DirAccess.make_dir_recursive_absolute("res://ui/theme")

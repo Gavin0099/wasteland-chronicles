@@ -1,0 +1,27 @@
+{
+  "id": "unsent_letter",
+  "name": "沒有寄出的信",
+  "section": 15,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/unsent_letter.png",
+  "source_output": "exec-c4951ec0-9b7d-46eb-8706-df5d191eaab2.png",
+  "sha256": "e0c5a6b28b774ecb498e71616bb2d2a4d7882cae2785d91af416163735674876",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    8,
+    1218,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

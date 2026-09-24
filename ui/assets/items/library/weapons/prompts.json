@@ -1,0 +1,222 @@
+{
+  "generator": "built-in image_gen",
+  "scope": "Item World V0 remaining weapon art; no gameplay activation",
+  "jobs": [
+    {
+      "id": "entrenching_shovel",
+      "name": "工兵鏟",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A compact folding military entrenching shovel, worn olive metal spade with one serrated edge, short hinged steel shaft, D-shaped grip; fully unfolded single tool."
+    },
+    {
+      "id": "fire_axe",
+      "name": "消防斧",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A fire-service axe, chipped muted red broad steel head with short rear pick and long dark ash wooden handle, complete diagonal silhouette."
+    },
+    {
+      "id": "wood_axe",
+      "name": "伐木斧",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A working forestry axe, simple dark forged wedge head with wide polished edge, curved pale ash handle with weathered grain, no paint or rear pick."
+    },
+    {
+      "id": "car_panel_cleaver",
+      "name": "車板刀",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A heavy broad salvaged vehicle-panel cleaver, rectangular blunt-backed steel blade with faded ochre car paint, riveted reinforcement strip, thick black rubber wrapped handle."
+    },
+    {
+      "id": "desert_sabre",
+      "name": "沙地彎刀",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A slender single edged curved desert sabre, weathered satin steel with raised tip, small brass guard and tightly wrapped sand canvas grip."
+    },
+    {
+      "id": "spear",
+      "name": "長矛",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete simple hunting spear, broad leaf shaped steel point and long weathered wooden shaft, leather lashing, no tassels."
+    },
+    {
+      "id": "caravan_polearm",
+      "name": "商隊槍",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete caravan guard pole-spear, long reinforced timber shaft with metal ferrules, short stout triangular spearhead and small side hook, utilitarian travel-worn weapon. This is a polearm, never a firearm."
+    },
+    {
+      "id": "hunting_fork",
+      "name": "捕獸叉",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete rugged two-pronged hunting fork, widely spaced tapered iron tines with small stop bar on a long dark wood haft."
+    },
+    {
+      "id": "stun_baton",
+      "name": "電擊棒",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A compact old security stun baton, black ribbed rubber grip, dull steel electrode tip, recessed unlit switch, chipped olive body, no sparks or glowing effects."
+    },
+    {
+      "id": "power_hammer",
+      "name": "動力錘",
+      "section": 1,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete heavy industrial powered hammer, squared steel hammer head with contained hydraulic cylinder and braided cable along a thick short double grip haft, muted industrial ochre chipped casing, plausible weight, no magic glow."
+    },
+    {
+      "id": "old_revolver",
+      "name": "老式左輪",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete old utilitarian six-chamber revolver, medium barrel, pitted blued steel and plain dark walnut grips; broadside three-quarter view."
+    },
+    {
+      "id": "civilian_pistol",
+      "name": "民用手槍",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A compact simple civilian semiautomatic pistol, smooth blued steel slide, slim walnut grip panels, small simple sights and rounded trigger guard, generic unbranded design."
+    },
+    {
+      "id": "police_pistol",
+      "name": "警用手槍",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A full-size old police semiautomatic pistol, square matte steel slide, textured black polymer grip and low profile sights, scuffed but maintained, generic unbranded."
+    },
+    {
+      "id": "improvised_pistol",
+      "name": "土製手槍",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A crude single-shot improvised pistol made of a short thick steel tube and folded receiver, uneven visible welds and square wooden grip; complete exterior only, no internal diagrams."
+    },
+    {
+      "id": "snub_revolver",
+      "name": "短管左輪",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A compact snub-nosed revolver with very short barrel, rounded dark rubber grip and dull grey steel cylinder, slightly worn."
+    },
+    {
+      "id": "heavy_revolver",
+      "name": "大口徑左輪",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A large-framed desert revolver with wide heavy barrel, broad cylinder and sand cloth wrapped grip, worn dark steel, visually heavier than ordinary revolver."
+    },
+    {
+      "id": "machine_pistol",
+      "name": "衝鋒手槍",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A compact boxy old automatic pistol with a noticeably extended straight magazine beneath grip and skeletal folded shoulder support; plain worn gunmetal, generic design."
+    },
+    {
+      "id": "old_smg",
+      "name": "舊世衝鋒槍",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A compact old-world submachine gun, tubular receiver, short perforated barrel shroud, straight box magazine and thin wire shoulder stock, aged blued steel."
+    },
+    {
+      "id": "caravan_smg",
+      "name": "商隊護衛槍",
+      "section": 2,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A practical compact caravan guard submachine gun, short barrel, closed compact receiver, curved magazine and solid weathered wood shoulder stock, canvas foregrip wrap, restrained steel."
+    },
+    {
+      "id": "single_shot_rifle",
+      "name": "單發獵槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete single-shot hunting rifle, slim long barrel, break-action breech, simple honey-brown wooden stock and forearm, iron sights, no scope, no magazine, distinct from a shotgun."
+    },
+    {
+      "id": "bolt_action_rifle",
+      "name": "栓動步槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete old bolt-action rifle, clearly visible bolt handle, long barrel and dark walnut full stock, plain metal sights, no scope."
+    },
+    {
+      "id": "caravan_rifle",
+      "name": "商隊步槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A compact utilitarian caravan rifle with a simple steel receiver, medium barrel, short box magazine, dark wooden buttstock and foregrip, cloth repair around butt, no scope."
+    },
+    {
+      "id": "semi_auto_rifle",
+      "name": "半自動步槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete old-world semi-automatic sporting rifle, conventional wooden stock, smooth narrow steel barrel and low detachable magazine, squared receiver, no optic."
+    },
+    {
+      "id": "assault_rifle",
+      "name": "軍用突擊步槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete generic old military assault rifle, matte olive polymer furniture, curved dark metal magazine, steel barrel, simple iron sights, worn fixed shoulder stock, no brand or flags."
+    },
+    {
+      "id": "scrap_rifle",
+      "name": "廢土拼裝步槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete wasteland rifle built from visibly mismatched salvaged metal housings, plain short box magazine, roughly cut wood butt, wire-tied foregrip and exposed welded exterior seams; no blueprint or internals."
+    },
+    {
+      "id": "sandstorm_rifle",
+      "name": "沙暴步槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete desert rifle with enclosed smooth dust-shielded receiver, tan canvas-wrapped fore-end, sand-colored stock and short magazine, dark steel barrel, practical sealed-looking exterior."
+    },
+    {
+      "id": "sniper_rifle",
+      "name": "狙擊步槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete old long-barrel precision rifle with a simple optical scope, bolt handle, weathered olive solid stock and slim folded bipod along barrel, no laser or modern tactical excess."
+    },
+    {
+      "id": "old_hunter_rifle",
+      "name": "老獵人的槍",
+      "section": 3,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A cherished old hunting rifle with worn walnut stock, a carefully repaired stock crack secured by two brass staples, faded moss cloth sling loop and modest small scope; distinctive lovingly maintained heirloom."
+    },
+    {
+      "id": "single_shot_shotgun",
+      "name": "單管散彈槍",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete single-barrel break-action shotgun with broad simple muzzle, short thick barrel and worn plain wooden shoulder stock, no optic or magazine."
+    },
+    {
+      "id": "double_barrel_shotgun",
+      "name": "雙管散彈槍",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete side-by-side double-barrel shotgun, twin broad muzzles clearly visible, short blued steel barrels, dark walnut stock and fore-end, hinge breech."
+    },
+    {
+      "id": "pump_shotgun",
+      "name": "泵動散彈槍",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete old pump-action shotgun, ribbed wooden sliding fore-end, underbarrel magazine tube and dark wood buttstock, rubbed blued steel barrel."
+    },
+    {
+      "id": "industrial_nailgun",
+      "name": "工業釘槍",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A portable heavy industrial nail gun, scuffed mustard metal housing, black handle, angled fastener magazine and short blunt safety nose; no bullets, not a firearm."
+    },
+    {
+      "id": "flare_pistol",
+      "name": "信號槍",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A chunky single-shot break-open flare pistol, faded orange-red barrel housing, short broad muzzle and textured dark grip, utilitarian maritime survival tool."
+    },
+    {
+      "id": "grenade_launcher",
+      "name": "榴彈發射器",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete old single-shot break-action launcher with very short wide barrel, plain steel hinge receiver, stubby wooden shoulder stock and handguard, aged olive metal exterior, no ammunition displayed."
+    },
+    {
+      "id": "light_machine_gun",
+      "name": "輕機槍",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A complete old light machine gun, long dark barrel with ventilated shroud, folded bipod and rectangular attached ammunition box, worn fixed olive shoulder stock, generic exterior product art."
+    },
+    {
+      "id": "flamethrower",
+      "name": "火焰噴射器",
+      "section": 4,
+      "prompt": "Use case: stylized-concept. Asset: original Wasteland Chronicles inventory illustration matching the existing Survivor PDA item art. Realistic hand-painted game prop, clear bold silhouette, worn steel/wood/canvas, muted olive/brown/ivory/rust, soft upper-left light. One complete object in three-quarter broadside view, centered diagonally if long, 80–88% of a square 1024x1024 canvas, margins on all sides. Genuinely transparent alpha background; no floor, external shadow, scene, frame, UI, letters, numbers, logo, brand or watermark. No person, hands, gore, ammunition diagrams, exploded view or extra props. Preserve readable edges at small sizes. Subject: A single complete old industrial-style flamethrower equipment assembly: twin dull olive back tanks joined to one short heavy nozzle wand by a tightly coiled black hose, chipped steel harness; compact grouped silhouette, unlit, no flames."
+    }
+  ]
+}

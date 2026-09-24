@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+    WASTELAND CHRONICLES - S4-F2 AUTONOMOUS MIGRATION TEST SUITE
+================================================================================
+
+--- [GATE F2-1] Crisis to Migration Decision Chain ---
+  Day 13: Crisis escalated, Mara autonomously chose MIGRATE
+  Target destination: settlement:new_hope (route_days=3)
+  Audit evidence: rule=RULE_SEVERE_LOCAL_DEPRIVATION, result=COMMITTED, event_index=25
+PASS GATE F2-1: Crisis to Migration Decision Chain verified.
+
+--- [GATE F2-2] Atomic Departure & Mid-Route Physical State ---
+  Day 13 (Departure Day): days_remaining=2 (route_days=3)
+  Day 14 (Mid-Route): Mara is IN_TRANSIT, days_remaining=1 (no teleport)
+  New Hope population before arrival: 120
+PASS GATE F2-2: Atomic Departure & Mid-Route Physical State verified.
+
+--- [GATE F2-3] Axiom 9 Physical Arrival & Settlement Integration ---
+  Axiom 9 Formula: Arrival Day = 13 + 3 - 1 = 15
+  Day 15: Mara arrived at New Hope (container: settlement:new_hope)
+  New Hope population: 120 -> 131 (+1 for Mara)
+  Committed ledger event NAMED_MIGRATION_COMPLETED verified
+PASS GATE F2-3: Axiom 9 Physical Arrival & Settlement Integration verified.
+
+--- [GATE F2-4] Mid-Route Save/Load Persistence Equivalence ---
+  Uninterrupted World A: Mara arrived on Day 15
+  World B: Pausing at Day 13 (Mara is IN_TRANSIT)
+  Restored World B: Mara is IN_TRANSIT, party=refugee:named_d13_gray_valley_to_new_hope, days_remaining=2
+  Arrival day matches exactly: Day 15
+  Day 25 Canonical State SHA bitwise identical: ac28eff1ee7ab0da2c708e1f391df7db36ca3e61f2f706618662587acecead21
+  Uninterrupted == Interrupted (SAVE/LOAD mid-route produced 0 drift)
+PASS GATE F2-4: Mid-Route Save/Load Persistence Equivalence verified.
+
+--- [GATE F2-5] Post-Arrival Continuity & Stability ---
+  Mara origin_settlement_id: settlement:gray_valley (permanent identity)
+  Mara current container:    settlement:new_hope (current whereabouts)
+  Post-arrival STAY decisions: 20 (stable residence at New Hope)
+PASS GATE F2-5: Post-Arrival Continuity & Stability verified.
+
+--- [GATE F2-6] Global Invariants & Life Conservation ---
+  Final accounted: living(300) + deaths(0) == initial(300)
+  Engine validate_invariants PASS
+PASS GATE F2-6: Global Invariants & Life Conservation verified.
+
+================================================================================
+ALL S4-F2 AUTONOMOUS MIGRATION GATES (F2-1 ~ F2-6) PASSED CLEANLY!
+================================================================================

@@ -1,0 +1,27 @@
+{
+  "id": "flare_pistol",
+  "name": "信號槍",
+  "section": 4,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/flare_pistol.png",
+  "source_output": "exec-eff8afcb-3f25-46a2-832f-e5c10fb2015a.png",
+  "sha256": "a689fb1dd2d040041f3e30459266343473b549efebdfcfdc8be06c885ce6ae10",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    25,
+    19,
+    1237,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

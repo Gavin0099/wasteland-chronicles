@@ -1,0 +1,27 @@
+{
+  "id": "vinyl_record",
+  "name": "黑膠唱片",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/vinyl_record.png",
+  "source_output": "exec-d20997bc-3e6c-4215-a95b-c62c5e13269c.png",
+  "sha256": "8be4aee66a078c5bdf64e5253e3ee4fd9521ad9e2fa1cab2b64440abc294bc50",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    31,
+    21,
+    1225,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

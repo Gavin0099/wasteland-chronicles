@@ -1,0 +1,27 @@
+{
+  "id": "radio",
+  "name": "無線電",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/radio.png",
+  "source_output": "exec-7c3c5808-b1ab-4070-8f12-103d49a77013.png",
+  "sha256": "b6083616e035d3a0ae83b53dbdc2106479d975cd81581f6415a1dea0a55f8879",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    21,
+    1198,
+    1210
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

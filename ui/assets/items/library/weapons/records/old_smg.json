@@ -1,0 +1,27 @@
+{
+  "id": "old_smg",
+  "name": "舊世衝鋒槍",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/old_smg.png",
+  "source_output": "exec-bf2b7deb-2fa5-49a4-b815-6a8270903cdf.png",
+  "sha256": "e50cd92bd5903444bd4469d9e46892014a438923f2f659e17600dc388e319cfa",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1241,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

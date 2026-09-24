@@ -1,0 +1,3266 @@
+[
+  {
+    "encounter_id": "ruin_051",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "測風桿倒向院內",
+    "context_zh": "氣象站的倒桿擋住院內小徑，記錄紙仍在玻璃盒裡。",
+    "location_tags": [
+      "ruins",
+      "weather_station"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "氣象站的倒桿擋住院內小徑，記錄紙仍在玻璃盒裡。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "讀取倒桿前最後紀錄",
+        "required_items": [
+          "content_binoculars"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，只取可見讀數。",
+        "outcome_zh": "得到過去風況，不作未來天氣預報。",
+        "rewards": []
+      },
+      {
+        "label_zh": "標出繞行範圍",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，不切割承力線。",
+        "outcome_zh": "記錄一條待驗證的小院避障路徑。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "路徑資料只涵蓋院子，不能減少整條旅行路線天數。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_052",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "洗滌槽底的金屬屑",
+    "context_zh": "工廠清洗槽已乾，底部金屬屑混有來源不明的沉積物。",
+    "location_tags": [
+      "ruins",
+      "wash_bay"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工廠清洗槽已乾，底部金屬屑混有來源不明的沉積物。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "辨認乾淨邊緣的可回收片",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天；須先有合格危害評估，不以面罩替代。",
+        "outcome_zh": "若確認回收許可和安全，取得廢鐵1份。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "保留樣本位置通知處理者",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，不帶走未知殘留物。",
+        "outcome_zh": "提供沉積範圍和標牌照片需求，沒有材料收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "未通過危害檢查的回收選項不可提供。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-06"
+    ]
+  },
+  {
+    "encounter_id": "ruin_053",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "保險櫃旁的複印名冊",
+    "context_zh": "檔案所保險櫃關著，外面的複印名冊卻列出了其中檔案的受託人。",
+    "location_tags": [
+      "ruins",
+      "records_vault"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "檔案所保險櫃關著，外面的複印名冊卻列出了其中檔案的受託人。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "先找有權開櫃的人",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天整理受託線索。",
+        "outcome_zh": "形成請求閱覽的名單，不獲取櫃內物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "從公開副本提取所需資訊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，未列內容仍未知。",
+        "outcome_zh": "完成一份有限索引，可避免不必要開鎖。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "開鎖能力不等於所有權；此事件可全程不開櫃。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_054",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "樂器箱當成的隔板",
+    "context_zh": "舊劇院有人用樂器箱堵住漏風門，箱面仍有巡演路線。",
+    "location_tags": [
+      "ruins",
+      "theatre"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊劇院有人用樂器箱堵住漏風門，箱面仍有巡演路線。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "以自有布料替換擋風位置",
+        "required_items": [
+          "content_cloth"
+        ],
+        "consumed_items": [
+          "content_cloth"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布料1份，耗時1天，需使用者同意。",
+        "outcome_zh": "保留箱面路線可讀性，不保證帳棚級保暖。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先抄路線，維持原防風安排",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，不拆動住處。",
+        "outcome_zh": "取得歷史演出路線，實際道路仍待驗證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "藝術史線索不必換成戰鬥增益，防風效果需正式環境模型。",
+    "dependencies": [
+      "camping",
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "ruin_055",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "通風井上的兩種記號",
+    "context_zh": "地下商場一處通風井同時有維修編號與近來畫的警告，含義不一致。",
+    "location_tags": [
+      "ruins",
+      "vent_shaft"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "地下商場一處通風井同時有維修編號與近來畫的警告，含義不一致。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "尋找警告的近期來源",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，在井外核對消息。",
+        "outcome_zh": "分開舊維修用途和新風險，不能因此判定可進入。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用地圖核對井口位置",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，不下井。",
+        "outcome_zh": "得到可能相連區段，空氣與結構狀況仍未知。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "需要防護裝備與空氣事實的入口保留為後續探索。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_056",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "仍在歸還的借書箱",
+    "context_zh": "圖書館門口封著，但側門借書箱裡有一本近日包好的歸還書。",
+    "location_tags": [
+      "ruins",
+      "library_return"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "圖書館門口封著，但側門借書箱裡有一本近日包好的歸還書。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "替保管人登記外包裝資訊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，不拆私人附箋。",
+        "outcome_zh": "保存歸還來源與收件線索，書仍在原保管流程。",
+        "rewards": []
+      },
+      {
+        "label_zh": "詢問能否借閱而非取走",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，需找到有權保管者。",
+        "outcome_zh": "若雙方同意，建立有期限借閱提案，不授予技能。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "借閱狀態與永久物品所有權需分開。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_057",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被焊成桌腳的路標",
+    "context_zh": "廢修理棚桌腳是一塊舊路標，上半部還能看見路名。",
+    "location_tags": [
+      "ruins",
+      "road_shop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "廢修理棚桌腳是一塊舊路標，上半部還能看見路名。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "不拆桌子先讀剩餘路名",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，缺字保持未知。",
+        "outcome_zh": "得到一段不完整路線索引。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交材料請桌主預留替換工作",
+        "required_items": [
+          "content_steel_stock"
+        ],
+        "consumed_items": [
+          "content_steel_stock"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付鋼材1份須等替換方案和主人同意；耗時1天。",
+        "outcome_zh": "鋼材移交桌主作待用材料，桌和路標保持原位；修復完成前沒有路標交付。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若替換不可行則不提交鋼材消耗；後續以同一份待用鋼材修復，不能再扣第二份或讓桌和路標同時存在原位。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "navigation",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "ruin_058",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "錄音室的最後一面磁帶",
+    "context_zh": "廣播樓錄音室留有一份音訊目錄，最後一段被標註『只交給本人』。",
+    "location_tags": [
+      "ruins",
+      "recording_booth"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "廣播樓錄音室留有一份音訊目錄，最後一段被標註『只交給本人』。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "核對收件授權再處理",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，只讀外部目錄。",
+        "outcome_zh": "保留私人資訊邊界，找到可尋訪的收件線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "測試自己的播放器相容性",
+        "required_items": [
+          "content_music_player"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，須合格電源，不播放私人段落。",
+        "outcome_zh": "辨認媒體格式是否可讀，不直接取得內容。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "音訊不能憑敘事生成存活人物或新的歷史事實。",
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_059",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "鐘錶店的停走樣本",
+    "context_zh": "舊鐘錶店把數只停走的錶分成不同故障樣本，店主是否仍在附近未知。",
+    "location_tags": [
+      "ruins",
+      "watch_shop"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊鐘錶店把數只停走的錶分成不同故障樣本，店主是否仍在附近未知。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "比較樣本標籤而不拆錶",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，技能不足的故障仍待專家。",
+        "outcome_zh": "整理可詢價的故障類型，不提高物品品質。",
+        "rewards": []
+      },
+      {
+        "label_zh": "追查寄修憑單",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，不把寄修品當無主物。",
+        "outcome_zh": "取得返還或代保管的線索。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "獨特歷史可影響特定買家意願，不能自動套用稀有度溢價。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_060",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "玻璃瓶牆的回音",
+    "context_zh": "廢餐館用空玻璃瓶封一段牆，取走瓶子可能露出居民的儲物間。",
+    "location_tags": [
+      "ruins",
+      "bottle_wall"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "廢餐館用空玻璃瓶封一段牆，取走瓶子可能露出居民的儲物間。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "取得同意後拆最外層鬆動瓶",
+        "required_items": [
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，需結構安全與主人同意。",
+        "outcome_zh": "取得玻璃1份，其他瓶牆保留。",
+        "rewards": [
+          {
+            "content_id": "content_glass",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "詢問另一側空間用途",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，不打洞窺看。",
+        "outcome_zh": "知道是否有公共通路可用，私人空間仍受保護。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "不能以搜刮權限覆蓋居住或保管權。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_061",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "地窖裡的搬運工",
+    "context_zh": "一名已綁定的灰谷搬運工困在矮地窖，出口木梯斷裂；上方有已驗證安全的吊繩點。",
+    "location_tags": [
+      "ruins",
+      "cellar_rescue"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名已綁定的灰谷搬運工困在矮地窖，出口木梯斷裂；上方有已驗證安全的吊繩點。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "架設繩索協助攀出",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天；本人能自行攀援且繩長足夠才提供選項。",
+        "outcome_zh": "搬運工回到地面，繩索收回，未憑空治癒可能傷勢。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拆下已鬆脫的外側門板作通道",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天；須預先驗證此板不承重且後方可安全通行。",
+        "outcome_zh": "打通側口，搬運工步行離開，門板不再封閉。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若本人狀態或結構改變，重新驗證而非固定時間後宣告死亡。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_062",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "可交割的廢銅架",
+    "context_zh": "拆解場已授權回收一座停用線架，清點有銅線2份；運走前只能選擇一種拆運方式。",
+    "location_tags": [
+      "ruins",
+      "wire_rack"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場已授權回收一座停用線架，清點有銅線2份；運走前只能選擇一種拆運方式。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "逐段拆下保留絕緣層",
+        "required_items": [
+          "content_pliers"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天，確認斷電與現物數量。",
+        "outcome_zh": "取得銅線2份，架上對應線材移除。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "先取可徒手卸下的一卷",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，放棄本次其餘拆解授權。",
+        "outcome_zh": "取得銅線1份，剩餘1份留給原保管人安排。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "兩選項共享同一庫存，後續返回不得重置已移轉份數。",
+    "dependencies": [
+      "cargo",
+      "disassembly",
+      "exploration",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_063",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "急雨前的紙箱車",
+    "context_zh": "一名現有檔案保管人的手車陷在舊館門槽，車上文件即將暴露在已確認來臨的雨中。",
+    "location_tags": [
+      "ruins",
+      "archive_cart"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "一名現有檔案保管人的手車陷在舊館門槽，車上文件即將暴露在已確認來臨的雨中。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "以防水袋先護住最下層文件",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天；防水袋暫借保管人，返還需交接。",
+        "outcome_zh": "該層文件移入袋中，車仍待拖離。",
+        "rewards": []
+      },
+      {
+        "label_zh": "撬離卡住車輪的鬆木楔",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，確認車重與站位安全。",
+        "outcome_zh": "車可由原主人推入屋簷，木楔被移除。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若雨先到，按實際受潮事實變更工作，不自動銷毀全部檔案。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_064",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "警備亭的兩方領取人",
+    "context_zh": "舊警備亭一箱物資有兩方同時領取；已綁定的兩人各持不同交接日期的憑據。",
+    "location_tags": [
+      "ruins",
+      "guard_kiosk"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊警備亭一箱物資有兩方同時領取；已綁定的兩人各持不同交接日期的憑據。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "暫由共同認可的第三方封存",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，兩方都同意才移轉保管。",
+        "outcome_zh": "箱子移至單一保管位置，所有權爭議仍待裁定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "按實物批號核對較新交接",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，需雙方允許查看外標。",
+        "outcome_zh": "若批號對應明確，箱子交給有效憑據持有人；不給玩家獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "無共同同意則保持原保管狀態，不能由玩家敘事強行判定歸屬。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_065",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "車庫裡的封閉追逐",
+    "context_zh": "兩名已綁定角色在車庫對峙：看守主張對方擅取貨物，攜貨者要求查憑單，雙方尚未攻擊。",
+    "location_tags": [
+      "ruins",
+      "garage_standoff"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩名已綁定角色在車庫對峙：看守主張對方擅取貨物，攜貨者要求查憑單，雙方尚未攻擊。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "主持停手核對貨單",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，需雙方願意暫停追逐。",
+        "outcome_zh": "把爭議轉交憑單核驗，不預設誰有罪。",
+        "rewards": []
+      },
+      {
+        "label_zh": "站在出口守住隔離線",
+        "required_items": [
+          "content_rebar_club"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MELEE",
+          "rank": 2
+        },
+        "cost_zh": "進入未來對峙流程，可能承擔受傷風險；沒有預定勝負。",
+        "outcome_zh": "交由戰鬥／對峙權威決定能否阻止當前攻擊，並記錄實際後果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "第二路明確延後至 combat_extension；不能把能力合格當成勝利。",
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "ruin_066",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "舊工衣的公用領用架",
+    "context_zh": "工房保管者同意清出3件已驗證可穿的工衣，但規定每位領用人最多取1件。",
+    "location_tags": [
+      "ruins",
+      "workwear_rack"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工房保管者同意清出3件已驗證可穿的工衣，但規定每位領用人最多取1件。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "登記領取一件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，需確認本角色尚未領取。",
+        "outcome_zh": "取得舊工作服1件，公共架庫存減1。",
+        "rewards": [
+          {
+            "content_id": "content_work_clothes",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "替保管人把衣物送往指定領用點",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天搬運，不取得衣物所有權。",
+        "outcome_zh": "3件衣物移到已指定單一收貨點，原架清空。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "新持有人仍須領用紀錄；不能兩路同時保留同一批衣物。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "ruin_067",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "有編號的備用齒輪",
+    "context_zh": "灰谷技工已授權玩家到停用機房取回標記齒輪，旁邊另有可分配的軸承1份。",
+    "location_tags": [
+      "ruins",
+      "spare_gear_room"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "灰谷技工已授權玩家到停用機房取回標記齒輪，旁邊另有可分配的軸承1份。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "按編號取回齒輪",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天；齒輪屬委託貨物，不可出售。",
+        "outcome_zh": "齒輪移到任務保管狀態，驗收後領取現有軸承1份。",
+        "rewards": [
+          {
+            "content_id": "content_bearing",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "請技工改為現地核對",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天安排會合，取決於技工實際可用時間。",
+        "outcome_zh": "避免帶錯型號，但本次不取得軸承報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "任務貨物與報酬分開，技工離開或現物不存在便不能接受。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "ruin_068",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "掉入乾溝的種子袋",
+    "context_zh": "新希望的種子袋落在已測定安全的乾溝台階，袋主在場且只需找回這一袋。",
+    "location_tags": [
+      "ruins",
+      "dry_ditch"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "新希望的種子袋落在已測定安全的乾溝台階，袋主在場且只需找回這一袋。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "繫繩下放袋主取回",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，需袋主同意且繩索固定可靠。",
+        "outcome_zh": "原種子袋回到袋主手中，沒有複製成玩家種子。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用自己的種子先補上對方缺口",
+        "required_items": [
+          "content_seeds"
+        ],
+        "consumed_items": [
+          "content_seeds"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付種子1份；落袋仍在溝中並保留原所有權。",
+        "outcome_zh": "袋主可帶替代種子離開，不宣稱品種完全相同或必定成活。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "品種相容性與作物結果另驗，不能交易後抹去失物所有權。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "ruin_069",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "拆解台的兩種成果",
+    "context_zh": "已授權拆解的一具失效機械只足以保全主彈簧或拆成廢鐵，選擇互斥。",
+    "location_tags": [
+      "ruins",
+      "scrap_bench"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "已授權拆解的一具失效機械只足以保全主彈簧或拆成廢鐵，選擇互斥。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "保留主彈簧",
+        "required_items": [
+          "content_toolbox"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天，先解除已驗證的儲能風險。",
+        "outcome_zh": "取得彈簧1份，其餘殘件留原場。",
+        "rewards": [
+          {
+            "content_id": "content_spring",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "按核准流程拆成低階材料",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，不能再回收完整彈簧。",
+        "outcome_zh": "取得廢鐵2份，同具機械記為已拆解。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "拆解輸出來自有限機械，不是配方可無限製造的工具。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_070",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "曬場的破底布袋",
+    "context_zh": "遺跡曬場現有工人的布袋底破了，1份鹽正漏在乾淨托盤上，剩餘仍可收回。",
+    "location_tags": [
+      "ruins",
+      "drying_yard"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "遺跡曬場現有工人的布袋底破了，1份鹽正漏在乾淨托盤上，剩餘仍可收回。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "交出布袋協助重新裝載",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付布袋1個，耗時1天；原破袋留給主人。",
+        "outcome_zh": "可回收鹽移入新袋歸原主，沒有額外鹽收益。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用自有容器暫借托運",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，舊旅行包借出期間不可同時運自己貨物。",
+        "outcome_zh": "將鹽送到原主指定近處，驗收後還包。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "食用衛生由現物狀況決定，落地污染份額不得自動恢復。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "ruin_071",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "堵住檔案室的鐵櫃",
+    "context_zh": "檔案室門被倒櫃擋住，已確認無人受困且側窗可安全交接文件。",
+    "location_tags": [
+      "ruins",
+      "blocked_archive"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "檔案室門被倒櫃擋住，已確認無人受困且側窗可安全交接文件。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "利用側窗先交出急用文件",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，需館方明確指出文件位置與接收者。",
+        "outcome_zh": "指定文件移到館員手上，門仍被擋住。",
+        "rewards": []
+      },
+      {
+        "label_zh": "以合格千斤頂移開鐵櫃",
+        "required_items": [
+          "content_jack"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天，需核對荷載、支承與工作區。",
+        "outcome_zh": "恢復此門通道，不延伸為整座建築安全。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "通道改變須空間事實權威；工具不合格時不能選擇。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "knowledge",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_072",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "燃料庫的空桶份額",
+    "context_zh": "乾井收貨人已驗收遺跡裡3只空桶，玩家可領1只空燃料罐作搬運報酬。",
+    "location_tags": [
+      "ruins",
+      "empty_drum_store"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "乾井收貨人已驗收遺跡裡3只空桶，玩家可領1只空燃料罐作搬運報酬。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "把空桶搬到指定交接點",
+        "required_items": [
+          "content_tool_belt"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時2天，需合適搬運安排；不處理殘留危險物。",
+        "outcome_zh": "3只空桶移交後，取得燃料罐1個，內容物為空。",
+        "rewards": [
+          {
+            "content_id": "content_fuel_can",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "安排收貨人派合適載具",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天完成條件核對，不搬桶也不領罐。",
+        "outcome_zh": "形成待排程的交接工作，是否派車依實際可用運力。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "燃料罐不是現有抽象燃料1單位，空桶也不能無中生油。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "ruin_073",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "倒棚下的可用帳篷",
+    "context_zh": "公共救助庫授權取出倒棚下唯一一頂完整帳篷，棚架已檢定無繼續坍塌風險。",
+    "location_tags": [
+      "ruins",
+      "relief_shed"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "公共救助庫授權取出倒棚下唯一一頂完整帳篷，棚架已檢定無繼續坍塌風險。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "拆鬆外層壓條後領用",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時2天，需救助庫尚未分配此帳篷。",
+        "outcome_zh": "取得帳篷1頂，領用登記移除庫內現物。",
+        "rewards": [
+          {
+            "content_id": "content_tent",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "先讓更急用的現有家庭領取",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天協助交接，需實際接收家庭存在。",
+        "outcome_zh": "帳篷轉交指定家庭，玩家不獲得另一頂。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "家庭對應既有人口；不以慈悲選項自動生成聲望或新居民。",
+    "dependencies": [
+      "camping",
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_074",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "地鐵門前的攔路犬",
+    "context_zh": "廢站通道有已辨認的護物犬，主人在另一側呼喚；尚未發生攻擊。",
+    "location_tags": [
+      "ruins",
+      "subway_gate"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "廢站通道有已辨認的護物犬，主人在另一側呼喚；尚未發生攻擊。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "與主人約定牽離後再通過",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，需主人在場且可安全牽離。",
+        "outcome_zh": "通道於犬離開後開放，本次不搶取看守物資。",
+        "rewards": []
+      },
+      {
+        "label_zh": "持長矛守距離撤到外門",
+        "required_items": [
+          "content_spear"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MELEE",
+          "rank": 2
+        },
+        "cost_zh": "交由未來對峙流程處理風險，沒有保證無傷。",
+        "outcome_zh": "以撤離為目的處理接觸，不預設擊殺或掉落。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "犬隻存在與行為需未來生物facts；未建立前整件不投放。",
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-METRO",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_075",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "清潔站剩下的肥皂箱",
+    "context_zh": "社區清潔站保管者有一箱標記錯誤的用品，需要分出可確認的布料與不可辨識化學品。",
+    "location_tags": [
+      "ruins",
+      "cleaning_station"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "社區清潔站保管者有一箱標記錯誤的用品，需要分出可確認的布料與不可辨識化學品。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "只清點明確可辨認的布料",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，不開啟任何未知液體容器。",
+        "outcome_zh": "清點工作驗收後取得布料1份，來自保管者核准份額。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "安排未知品送專業鑑定",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，保持原容器，不自行試用。",
+        "outcome_zh": "未知品進入封存待運清單，本次無材料報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "標題的肥皂箱是場景包裝，不新增未列入目錄的物品authority。",
+    "dependencies": [
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_076",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "實驗桌上可拆的儀表",
+    "context_zh": "已授權的停用實驗台有一個完整萬用電表與一塊可拆電路板，但保管人只允許帶走一項。",
+    "location_tags": [
+      "ruins",
+      "lab_bench"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "已授權的停用實驗台有一個完整萬用電表與一塊可拆電路板，但保管人只允許帶走一項。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "領走已完成外觀驗收的電表",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，量測精度仍待後續校驗。",
+        "outcome_zh": "取得萬用電表1台；電路板留台上。",
+        "rewards": [
+          {
+            "content_id": "content_multimeter",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "拆下指定電路板",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天，先驗證斷電和元件狀況。",
+        "outcome_zh": "取得電路板1份；電表留原處，不能再領。",
+        "rewards": [
+          {
+            "content_id": "content_circuit_board",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "工具取得只解鎖後續相容性檢查，不保證所有電子維修成功。",
+    "dependencies": [
+      "disassembly",
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_077",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "磚牆上的尋物約定",
+    "context_zh": "現有居民留下有效尋物委託：找回舊屋桌下的一封私人信，屋內通路已確認安全。",
+    "location_tags": [
+      "ruins",
+      "letter_house"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "現有居民留下有效尋物委託：找回舊屋桌下的一封私人信，屋內通路已確認安全。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "按約定原封送還",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，不讀信；委託人仍可收件才提交。",
+        "outcome_zh": "信件移回原主，按約定取得其現有罐頭1罐。",
+        "rewards": [
+          {
+            "content_id": "content_canned_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "請委託人到門口自行辨認",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天安排，需本人可到場。",
+        "outcome_zh": "本人收回信件，玩家放棄搬運報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "信是任務現物而非無限產生的故事token，原主離開後需重新安排。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "encounter_id": "ruin_078",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩組拆牆工的交界",
+    "context_zh": "兩組既有工班的拆除授權在一面共用牆重疊，一方已放好工具，牆尚未拆。",
+    "location_tags": [
+      "ruins",
+      "shared_wall"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "兩組既有工班的拆除授權在一面共用牆重疊，一方已放好工具，牆尚未拆。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "先封存爭議範圍等圖面核對",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，需兩方同意暫停該牆施工。",
+        "outcome_zh": "只暫停有爭議的一面牆，其他合法工作仍可繼續。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在已發生推擠時隔開工具區",
+        "required_items": [
+          "content_stab_vest"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MELEE",
+          "rank": 2
+        },
+        "cost_zh": "進入未來非致命對峙流程；防護與風險由正式規則驗證。",
+        "outcome_zh": "嘗試讓人離開危險拆除點，不直接裁定土地歸屬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若尚無推擠第二選項不可開放；戰鬥結果不能代替契約證據。",
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "ruin_079",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "可回收的橡膠緩衝墊",
+    "context_zh": "倉庫保管者准許回收已拆卸的緩衝墊，完整段可得橡膠2份，搬運空間有限。",
+    "location_tags": [
+      "ruins",
+      "loading_buffer"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "倉庫保管者准許回收已拆卸的緩衝墊，完整段可得橡膠2份，搬運空間有限。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "整段保留後搬運",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時2天，需要核准貨位，不把背包當無限容器。",
+        "outcome_zh": "取得橡膠2份，原墊被移出。",
+        "rewards": [
+          {
+            "content_id": "content_rubber",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "只裁下已鬆脫的一段",
+        "required_items": [
+          "content_hunting_knife"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，放棄此委託剩餘領用份額。",
+        "outcome_zh": "取得橡膠1份，餘料留倉庫。",
+        "rewards": [
+          {
+            "content_id": "content_rubber",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "刀具是裁切前提，不轉化為隱藏戰鬥傷害或耐久扣點。",
+    "dependencies": [
+      "cargo",
+      "disassembly",
+      "exploration",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_080",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "臨時宿屋的最後一張床",
+    "context_zh": "遺跡宿屋有一張可用床位，兩名現有旅人都有理由優先使用，值班者請玩家協調。",
+    "location_tags": [
+      "ruins",
+      "temporary_hostel"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "遺跡宿屋有一張可用床位，兩名現有旅人都有理由優先使用，值班者請玩家協調。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "提供自己的睡袋作第二個休息方案",
+        "required_items": [
+          "content_sleeping_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "睡袋暫借1夜，玩家這夜不能同時使用它。",
+        "outcome_zh": "一人使用床，另一人自願用睡袋；不保證療傷。",
+        "rewards": []
+      },
+      {
+        "label_zh": "排定雙方同意的分時休息",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天協調，雙方都接受才執行。",
+        "outcome_zh": "床位仍只有一張，形成可核對的輪替時段。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若身體狀況有特殊需求需醫療權威，不能靠對話自動治好。",
+    "dependencies": [
+      "camping",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_081",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被貨物擋住的集水槽",
+    "context_zh": "社區使用的舊集水槽被兩只屬於商隊的空箱擋住，箱主已同意移動但要求保持箱體完整。",
+    "location_tags": [
+      "ruins",
+      "rain_channel"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "社區使用的舊集水槽被兩只屬於商隊的空箱擋住，箱主已同意移動但要求保持箱體完整。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "捆好後搬往核准位置",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，需合格搬運人力與繩索。",
+        "outcome_zh": "兩只空箱移位，槽口恢復可用；水量按實際降水決定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調商隊自行搬箱",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天排程，商隊未實際完成前槽口仍被擋住。",
+        "outcome_zh": "建立有指定接收位置的搬運約定，玩家不代替搬運結果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "疏通是空間狀態改變，不直接加水庫存或固定產量。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "water_treatment"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_082",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "倒在桌下的照明架",
+    "context_zh": "現有搜救隊已確認修理室安全，桌下卡住一台可用手電筒；領用權授予協助者。",
+    "location_tags": [
+      "ruins",
+      "lamp_workroom"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "現有搜救隊已確認修理室安全，桌下卡住一台可用手電筒；領用權授予協助者。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "卸掉可拆支架取出燈",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，電池另算，不啟用照明。",
+        "outcome_zh": "取得手電筒1支，支架留現場。",
+        "rewards": [
+          {
+            "content_id": "content_flashlight",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "以自有手電筒完成本次照明任務",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，需已驗證可用電源；不領桌下的燈。",
+        "outcome_zh": "隊伍完成指定房間的照明工作，架下物仍留原位。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "沒有電池權威前不能假稱無限照明；燈具和供能分開。",
+    "dependencies": [
+      "cargo",
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "lighting"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "ruin_083",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被誤封的避雨廊",
+    "context_zh": "修繕員把兩端廊門都封了，其中一端其實是居民同意保留的公共避雨口。",
+    "location_tags": [
+      "ruins",
+      "covered_walk"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "修繕員把兩端廊門都封了，其中一端其實是居民同意保留的公共避雨口。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "按核准圖拆回一端封板",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，確認封板不承重。",
+        "outcome_zh": "恢復指定避雨入口；另一端仍封閉。",
+        "rewards": []
+      },
+      {
+        "label_zh": "和住戶協商暫用旁邊門廊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，對方可拒絕且不轉移房屋所有權。",
+        "outcome_zh": "形成當次降雨期間的臨時通行許可。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "許可有期限和範圍，不能永久解鎖整棟私人建築。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_084",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "食物箱與證物袋",
+    "context_zh": "現有調查者把一只食物箱列為證物，原主人擔心保存時間，雙方同意先做有見證的清點。",
+    "location_tags": [
+      "ruins",
+      "evidence_store"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "現有調查者把一只食物箱列為證物，原主人擔心保存時間，雙方同意先做有見證的清點。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "協助逐件核對後交還非爭議部分",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，只有調查者解除保管的部分能交還。",
+        "outcome_zh": "已解除部分回原主，其餘留單一證物保管處。",
+        "rewards": []
+      },
+      {
+        "label_zh": "提供一份自己的乾糧維持等待",
+        "required_items": [
+          "content_food"
+        ],
+        "consumed_items": [
+          "content_food"
+        ],
+        "required_skill": null,
+        "cost_zh": "交出乾糧1份，需原主人同意收下。",
+        "outcome_zh": "完成一份食物轉移，證物保管不受贈禮影響。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "援助不買斷裁定；調查結果也不由原主人貧困程度決定。",
+    "dependencies": [
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_085",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "商場扶梯旁的陡台",
+    "context_zh": "舊商場扶梯不能使用，平行的維修台階通向有授權回收物的樓層。",
+    "location_tags": [
+      "ruins",
+      "mall_escalator"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊商場扶梯不能使用，平行的維修台階通向有授權回收物的樓層。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "檢查後架設可撤回的扶繩",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，需已確認台階與固定點安全。",
+        "outcome_zh": "提供本次人員步行通過方案，不能運超重貨物。",
+        "rewards": []
+      },
+      {
+        "label_zh": "改走較遠的服務走廊",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時2天，走廊須已有可靠通行資料。",
+        "outcome_zh": "抵達同一樓層，保留繩索且不修復扶梯。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "這是現地探索時間，不私改既有聚落間旅行公式。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "navigation"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_086",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "一袋能辨認的鈕扣",
+    "context_zh": "服裝倉保管者准許清理一只雜料盒，盒裡有可回收布料與帶名字的鈕扣袋。",
+    "location_tags": [
+      "ruins",
+      "garment_store"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "服裝倉保管者准許清理一只雜料盒，盒裡有可回收布料與帶名字的鈕扣袋。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "領走核准的布料份額",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，帶名字的袋子保持原位。",
+        "outcome_zh": "取得布料2份，盒內相應布料減少。",
+        "rewards": [
+          {
+            "content_id": "content_cloth",
+            "quantity": 2
+          }
+        ]
+      },
+      {
+        "label_zh": "把姓名袋送到既有失物窗口",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，需保管者授權移交。",
+        "outcome_zh": "姓名袋進入失物保管，不領布料報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "鈕扣袋作任務現物有獨立保管記錄，不替185庫增加新定義。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_087",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "銅線工與夜間守衛",
+    "context_zh": "舊變電站的授權回收工被值班守衛攔住，證件有效時間和夜班名單不同步。",
+    "location_tags": [
+      "ruins",
+      "substation_gate"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "舊變電站的授權回收工被值班守衛攔住，證件有效時間和夜班名單不同步。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "等待白班核對授權",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，回收工作暫不開始。",
+        "outcome_zh": "把爭議送有效保管者查證，守衛不因此失職或消失。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在對方已動武時護送回收工撤離",
+        "required_items": [
+          "content_caravan_coat"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "進入未來對峙流程；裝備、敵我狀態與逃離成本另判。",
+        "outcome_zh": "嘗試把現有人員帶出衝突區，不取得站內銅線。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "裝備只是提案所需準備，不能把外套寫成防彈；沒有動武事實不開戰。",
+    "dependencies": [
+      "combat_extension",
+      "electronics",
+      "equipment",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "ruin_088",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "漏水書庫的高層架",
+    "context_zh": "檔案保管者有3包文件需要離開漏水位置，高層架安全但缺少搬運包裝。",
+    "location_tags": [
+      "ruins",
+      "wet_archive"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "檔案保管者有3包文件需要離開漏水位置，高層架安全但缺少搬運包裝。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "提供防水袋封存最重要一包",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [
+          "content_waterproof_bag"
+        ],
+        "required_skill": null,
+        "cost_zh": "防水袋移交保管者，耗時1天；另兩包仍待處理。",
+        "outcome_zh": "指定文件包轉為防水保管，玩家失去該袋。",
+        "rewards": []
+      },
+      {
+        "label_zh": "分批搬到已驗證乾燥的高架",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時2天，需同意重新安排架位。",
+        "outcome_zh": "3包文件移離濕區，不修復漏水屋頂。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "若漏水事實先變化則重排工作，不能假定拖延必毀全部知識。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_089",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "斷帶貨箱的最後一段路",
+    "context_zh": "乾井商隊排程人的一只已驗收乾貨箱綁帶斷了，返程信差的收貨點在同一遺跡院落；排程人已保留現有鹽1份支付搬運，箱重與既有人力已核對。",
+    "location_tags": [
+      "ruins",
+      "courtyard_cargo"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "乾井商隊排程人的一只已驗收乾貨箱綁帶斷了，返程信差的收貨點在同一遺跡院落；排程人已保留現有鹽1份支付搬運，箱重與既有人力已核對。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "用繩索重新固定後送達",
+        "required_items": [
+          "content_rope"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，確認貨重及搬運人力；繩索送達後取回。",
+        "outcome_zh": "貨箱移交收貨人，取得鹽1份。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "拆成核准的小批次搬運",
+        "required_items": [
+          "content_cloth_sack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時2天，須箱主同意開箱與清點。",
+        "outcome_zh": "同批貨物全部送達，取得同一份鹽報酬。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "兩方案共享一次性報酬，不按往返次數重複發鹽。與quest_dry_well_002綁定時，貨箱、發案人、收件人與預留鹽共用同一工作識別；本事件的交割回執即為任務完成依據，任務層不得再次發鹽。若沒有同一有效綁定，不能把兩份提案投放成同一批現物的兩筆工作。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_090",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "矮牆後的夜間求助",
+    "context_zh": "遺跡營地的現有旅人忘了取回床位標記，守夜者拒絕讓他翻牆，雙方可對話。",
+    "location_tags": [
+      "ruins",
+      "camp_wall"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "遺跡營地的現有旅人忘了取回床位標記，守夜者拒絕讓他翻牆，雙方可對話。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "請守夜者核對白天登記",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，須登記存在且本人相符。",
+        "outcome_zh": "若核對相符旅人從門進入，不創造額外床位。",
+        "rewards": []
+      },
+      {
+        "label_zh": "讓旅人暫借自己的帳篷",
+        "required_items": [
+          "content_tent"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "帳篷借出1夜，玩家同夜不能在兩處使用。",
+        "outcome_zh": "旅人在外側核准營位休息，床位爭議延後核對。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "不以幫助陌生人直接授予Acquired Trait。",
+    "dependencies": [
+      "camping",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_091",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "可拆與不可拆的控制盒",
+    "context_zh": "工業遺跡同架兩只盒子，一只已授權拆卸，另一只是仍供附近居民使用的控制器。",
+    "location_tags": [
+      "ruins",
+      "control_rack"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "工業遺跡同架兩只盒子，一只已授權拆卸，另一只是仍供附近居民使用的控制器。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "按現地標籤拆卸停用盒",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天；須再次驗證斷電和線路隔離。",
+        "outcome_zh": "取得電路板1份，使用中的控制器不受改動。",
+        "rewards": [
+          {
+            "content_id": "content_circuit_board",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "帶保管人確認標籤後再安排",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，本次不拆卸。",
+        "outcome_zh": "消除兩盒身分混淆，留待有合格工具時回收。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "標籤若互換或不明，拆解路徑失效；不能以技能猜測後提交。",
+    "dependencies": [
+      "disassembly",
+      "electronics",
+      "exploration",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "ruin_092",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "缺少提把的醫療箱",
+    "context_zh": "診療所收貨人授權取回遺跡裡一只已驗收急救包，外運箱提把斷了但內容封裝完整。",
+    "location_tags": [
+      "ruins",
+      "clinic_cache"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "診療所收貨人授權取回遺跡裡一只已驗收急救包，外運箱提把斷了但內容封裝完整。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "用旅行包移送封裝",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，需保留封條與交接來源。",
+        "outcome_zh": "急救包交到收貨人，玩家取得其現有繃帶1份作報酬。",
+        "rewards": [
+          {
+            "content_id": "content_bandage",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "請收貨人改派適合載具",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天完成保管安排，不發搬運報酬。",
+        "outcome_zh": "醫療包原地封存到實際接貨，不宣稱病人因此痊癒。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "藥材品質驗收與醫療效果不同；急救包不直接補HP。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "injury",
+      "item_ownership",
+      "jobs"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-ROAD"
+    ]
+  },
+  {
+    "encounter_id": "ruin_093",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "井房裡的舊桶秤",
+    "context_zh": "乾井井口輪值人與燃料核帳員已同意兩種安排：將停用桶秤移到核准檢修點，或把已有桌凳移到側廊作臨時核帳處。秤基座有可拆定位片，人力、支承與空間已驗；輪值人預留布袋1個，只支付完成搬秤。",
+    "location_tags": [
+      "ruins",
+      "well_scale"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "乾井井口輪值人與燃料核帳員已同意兩種安排：將停用桶秤移到核准檢修點，或把已有桌凳移到側廊作臨時核帳處。秤基座有可拆定位片，人力、支承與空間已驗；輪值人預留布袋1個，只支付完成搬秤。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "卸下定位片保留整台秤",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天，需扳手與MECHANICS 2，提交前重驗荷載與拆卸授權。",
+        "outcome_zh": "整台秤移到核准檢修點，取得輪值人的布袋1個；秤後續才校驗。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "在已同意的側廊布置核帳桌",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，不需自備物品或再談判，輪值人提供已有桌凳，保持取水通道。",
+        "outcome_zh": "核帳工作移到側廊，秤仍原位且不能稱量交易，本路不領搬秤報酬。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "秤值不直接改fuel價格。與quest_dry_well_003綁定時共用同一桶秤、桌凳、許可和預留布袋；本事件交割回執結清任務，任務不得重發布袋或再記一次搬移。quest_dry_well_001只把此處列為後續工作線索，並不要求做這項工程才能更正紙帳。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "encounter_id": "ruin_094",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "被拆走半截的門牌",
+    "context_zh": "失物庫的半截門牌出現在另一間宿屋，兩處保管者都願配合找出送錯的包裹。",
+    "location_tags": [
+      "ruins",
+      "mislabelled_store"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "失物庫的半截門牌出現在另一間宿屋，兩處保管者都願配合找出送錯的包裹。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "核對包裹外標後交換正確位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "耗時1天，雙方都驗收移交，保持封裝。",
+        "outcome_zh": "兩件已存在包裹各歸正確收貨點，無玩家loot。",
+        "rewards": []
+      },
+      {
+        "label_zh": "邀兩位收貨人現場辨認",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "耗時2天排程，需兩人實際可到場。",
+        "outcome_zh": "由收貨人親自接收，減少玩家代保管責任。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "不能每次走入遺跡又生成一對送錯包裹。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "LD-P01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_095",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "可拆木箱的封存費",
+    "context_zh": "回收站同意把一只無主且已完成公告的木箱拆除，但其中夾層仍有一份需要保存的紙本日記。",
+    "location_tags": [
+      "ruins",
+      "released_crate"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "回收站同意把一只無主且已完成公告的木箱拆除，但其中夾層仍有一份需要保存的紙本日記。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "保全夾層日記後移交檔案員",
+        "required_items": [
+          "content_screwdriver"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時2天，日記保管權歸檔案窗口。",
+        "outcome_zh": "日記完成移交，玩家獲核准塑膠1份作工時報酬。",
+        "rewards": [
+          {
+            "content_id": "content_plastic",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "先封存整箱等待家屬線索",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天整理可見資訊，不取材料報酬。",
+        "outcome_zh": "箱子保留完整，新的查詢期限由保管人明定。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "公告程序是提案前提；不能僅憑無人在場就宣告無主。",
+    "dependencies": [
+      "disassembly",
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "encounter_id": "ruin_096",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "遺跡外的贓物喊話",
+    "context_zh": "玩家路過時，現有攤主指控另一名現有角色攜帶失物，唯一證據是相似外觀，尚無攻擊。",
+    "location_tags": [
+      "ruins",
+      "ruin_stall"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "玩家路過時，現有攤主指控另一名現有角色攜帶失物，唯一證據是相似外觀，尚無攻擊。"
+    },
+    "primary_axis": "combat",
+    "choices": [
+      {
+        "label_zh": "要求比對可核實標記",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，雙方同意才檢視，不沒收現物。",
+        "outcome_zh": "相符與不符證據被記錄，外觀相似不等於定罪。",
+        "rewards": []
+      },
+      {
+        "label_zh": "在實際暴力發生時掩護被攻擊者撤離",
+        "required_items": [
+          "content_stab_vest"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "進入未來戰鬥逃離流程，裝備與風險重新驗證。",
+        "outcome_zh": "處理當前攻擊而非判定失物所有權，沒有固定獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "因角色換裝或證據改變重驗事件，不能借TRAIT判有罪。",
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-04",
+      "WG-02"
+    ]
+  },
+  {
+    "encounter_id": "ruin_097",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "乾貨櫃後的通氣縫",
+    "context_zh": "共用乾貨庫的通氣縫被居民新放的布包擋住，保管者提出兩種可接受改法。",
+    "location_tags": [
+      "ruins",
+      "dry_store_air"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "共用乾貨庫的通氣縫被居民新放的布包擋住，保管者提出兩種可接受改法。"
+    },
+    "primary_axis": "survival",
+    "choices": [
+      {
+        "label_zh": "把布包送到核准替代架位",
+        "required_items": [
+          "content_travel_backpack"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "耗時1天，須重新清點並由主人簽收。",
+        "outcome_zh": "通氣縫不再被包擋住，實際保存條件仍待觀察。",
+        "rewards": []
+      },
+      {
+        "label_zh": "暫借工具腰帶掛住主人隨身用品",
+        "required_items": [
+          "content_tool_belt"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "工具腰帶借出1天，玩家同時不能使用其掛位。",
+        "outcome_zh": "部分用品離地，布包可移開一段空間；不增加永久容量。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "通風改善不能直接改食物腐敗率，需後續保存mechanic。",
+    "dependencies": [
+      "camping",
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "encounter_id": "ruin_098",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "兩個出口的一份地圖",
+    "context_zh": "探索隊完成一段遺跡通路勘驗，只剩一份可讀原圖；兩組既有旅人各要走不同出口。",
+    "location_tags": [
+      "ruins",
+      "survey_exit"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "探索隊完成一段遺跡通路勘驗，只剩一份可讀原圖；兩組既有旅人各要走不同出口。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "耗時重繪已核對部分",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SURVIVAL",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天，僅記錄親自驗證的路段。",
+        "outcome_zh": "第二組取得明確標示範圍的路線記錄，原圖仍歸保管人。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協商共同行至已確認分岔",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天排程，兩組仍可拒絕同行。",
+        "outcome_zh": "若同意，共享本段導路；分岔後未驗證區仍不可宣稱安全。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "文字副本只複製資訊，不複製獨特原圖物品或解鎖全世界。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-METRO"
+    ]
+  },
+  {
+    "encounter_id": "ruin_099",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "最後一份可分配零件",
+    "context_zh": "遺跡回收站僅有精密零件1份，修抽水設備與修醫療設備的兩份委託都申請它。",
+    "location_tags": [
+      "ruins",
+      "parts_allocation"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "遺跡回收站僅有精密零件1份，修抽水設備與修醫療設備的兩份委託都申請它。"
+    },
+    "primary_axis": "trade",
+    "choices": [
+      {
+        "label_zh": "核對哪份工作已具備其餘條件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "耗時1天，由有權分配者依公開條件決定。",
+        "outcome_zh": "零件交給當前可開工且獲批准的一方，另一需求仍記錄。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交出自己的精密零件補足另一份",
+        "required_items": [
+          "content_precision_parts"
+        ],
+        "consumed_items": [
+          "content_precision_parts"
+        ],
+        "required_skill": null,
+        "cost_zh": "交付精密零件1份，需兩工作確實規格相容。",
+        "outcome_zh": "兩份各移交1份零件，仍不宣稱兩套設備已修復。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "零件移轉與修復是兩次不同提交，不能直接兌換產水或療效。",
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "encounter_id": "ruin_100",
+    "category": "ruins",
+    "status": "DESIGN_ONLY",
+    "title_zh": "拆除前的最後一扇門",
+    "context_zh": "有合法保管授權的遺跡將結束本輪回收，仍有一間房未開；一名現有舊員工說另有側門。",
+    "location_tags": [
+      "ruins",
+      "last_room"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "有合法保管授權的遺跡將結束本輪回收，仍有一間房未開；一名現有舊員工說另有側門。"
+    },
+    "primary_axis": "explore",
+    "choices": [
+      {
+        "label_zh": "請舊員工帶往已確認安全側門",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "耗時2天，需本人同意且路線仍存在。",
+        "outcome_zh": "取得一次受限進入許可，房內所有權與收穫另行確認。",
+        "rewards": []
+      },
+      {
+        "label_zh": "依核准程序卸下失效門鎖",
+        "required_items": [
+          "content_toolbox"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 3
+        },
+        "cost_zh": "耗時1天，需門框安全且保管者明確授權。",
+        "outcome_zh": "主門恢復本次可開啟狀態，不能保證內有珍寶。",
+        "rewards": []
+      },
+      {
+        "label_zh": "記下位置後離開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "不交出物品，不承接此處工作。",
+        "outcome_zh": "保留位置線索，本次不取得物品，也不處理現場問題。",
+        "rewards": []
+      }
+    ],
+    "followup_zh": "窗口依實際封場事實關閉，不因未完成就憑空拆樓或殺死員工。",
+    "dependencies": [
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "navigation",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "WG-04"
+    ]
+  }
+]

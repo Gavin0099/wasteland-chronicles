@@ -1,0 +1,27 @@
+{
+  "id": "memory_core",
+  "name": "記憶核心",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/memory_core.png",
+  "source_output": "exec-faefa85d-30b2-4fe1-9bdb-234fe0f77e2e.png",
+  "sha256": "60bbe27f4054ca1b68cd89eaf593db996a640a4da63765dd2f544799d27a8c9f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1200,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

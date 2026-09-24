@@ -1,0 +1,27 @@
+{
+  "id": "assault_rifle",
+  "name": "軍用突擊步槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/assault_rifle.png",
+  "source_output": "exec-dae01f53-5e0c-4209-b193-67442e400ebe.png",
+  "sha256": "6f34c6524ec1ec642d148e87b7edceef227944e91d1ae19ffa9ed2630da776c8",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    13,
+    53,
+    1246,
+    1231
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

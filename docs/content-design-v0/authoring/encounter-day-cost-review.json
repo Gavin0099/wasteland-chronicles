@@ -1,0 +1,1396 @@
+{
+  "status": "DESIGN_ONLY_EDITORIAL_FIX",
+  "changed_choices": 198,
+  "zero_day_choices": 135,
+  "one_day_choices": 63,
+  "rule": "No rounding of 0.5; reviewed work/wait versus onsite interaction. No world time code changed.",
+  "repeatability_boundary": "Every grant and handover still needs actual finite stock, custody and one operation receipt before implementation.",
+  "choices": [
+    {
+      "encounter_id": "npc_001",
+      "choice_index": 0,
+      "label_zh": "把自己的扳手暫借水務",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_002",
+      "choice_index": 0,
+      "label_zh": "留下繩索固定外箱",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_002",
+      "choice_index": 1,
+      "label_zh": "先分清可交付的箱子",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_003",
+      "choice_index": 0,
+      "label_zh": "比對外包與交貨紀錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_004",
+      "choice_index": 0,
+      "label_zh": "比對工作服補線",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_005",
+      "choice_index": 0,
+      "label_zh": "把手電筒留給這次檢查",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_005",
+      "choice_index": 1,
+      "label_zh": "把可搬泵件移到採光處",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_006",
+      "choice_index": 0,
+      "label_zh": "拿出成形物作比較",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_006",
+      "choice_index": 1,
+      "label_zh": "協商暫緩這批結算",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_007",
+      "choice_index": 0,
+      "label_zh": "比對旅行包修補處",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_008",
+      "choice_index": 0,
+      "label_zh": "對照衣內私人記號",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_008",
+      "choice_index": 1,
+      "label_zh": "按已有交貨時間排序",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_009",
+      "choice_index": 0,
+      "label_zh": "短借自己的沙地長袍",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_009",
+      "choice_index": 1,
+      "label_zh": "先搬登記板到背風處",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_009",
+      "choice_index": 2,
+      "label_zh": "等板面清理後再登記",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_010",
+      "choice_index": 0,
+      "label_zh": "交出原信委託查詢",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_010",
+      "choice_index": 1,
+      "label_zh": "只查外封地址沿革",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_011",
+      "choice_index": 0,
+      "label_zh": "留下生鏽小刀作待檢工具",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_012",
+      "choice_index": 0,
+      "label_zh": "保留記號只檢查其他部位",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_012",
+      "choice_index": 1,
+      "label_zh": "向原主確認這次用途",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_013",
+      "choice_index": 0,
+      "label_zh": "先標示可以動的枝段",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_013",
+      "choice_index": 1,
+      "label_zh": "另找繫固位置",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_014",
+      "choice_index": 0,
+      "label_zh": "查種植手冊索引",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_014",
+      "choice_index": 2,
+      "label_zh": "只用批次代號稱呼",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_015",
+      "choice_index": 0,
+      "label_zh": "對照醫院識別卡的部門資料",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_017",
+      "choice_index": 1,
+      "label_zh": "協商分批領取",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_018",
+      "choice_index": 0,
+      "label_zh": "先以自己的乾糧補交急件",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_018",
+      "choice_index": 2,
+      "label_zh": "只回報看見的標記",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_019",
+      "choice_index": 0,
+      "label_zh": "留下自有水袋並簽領",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_020",
+      "choice_index": 1,
+      "label_zh": "找兩方都同意的記錄者",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_021",
+      "choice_index": 0,
+      "label_zh": "查適用標示與維護紀錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_021",
+      "choice_index": 1,
+      "label_zh": "交付已知來源飲水應急",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_023",
+      "choice_index": 0,
+      "label_zh": "提出有限咖啡交換",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_023",
+      "choice_index": 1,
+      "label_zh": "把工作報酬與私人物品交易分開",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_024",
+      "choice_index": 0,
+      "label_zh": "捐出自有帳篷",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_025",
+      "choice_index": 0,
+      "label_zh": "只談材料用途",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_025",
+      "choice_index": 1,
+      "label_zh": "替雙方保存原樣記錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_026",
+      "choice_index": 0,
+      "label_zh": "只登記待查文件",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_027",
+      "choice_index": 1,
+      "label_zh": "要求商人說明已驗證內容",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_028",
+      "choice_index": 1,
+      "label_zh": "只抄非私人設備聲音",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_029",
+      "choice_index": 0,
+      "label_zh": "提供自己的登山背包交換保管",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_029",
+      "choice_index": 1,
+      "label_zh": "比較兩次旅程的實際需求",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_030",
+      "choice_index": 0,
+      "label_zh": "提供防水袋暫存已分裝批次",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_030",
+      "choice_index": 1,
+      "label_zh": "核對已承諾的領取順序",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_030",
+      "choice_index": 2,
+      "label_zh": "讓出自己未承諾的空檔",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_031",
+      "choice_index": 1,
+      "label_zh": "先追回原領用簽名",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_032",
+      "choice_index": 0,
+      "label_zh": "補一份自己的銅線",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_033",
+      "choice_index": 0,
+      "label_zh": "記錄刻名後議定補修範圍",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_033",
+      "choice_index": 1,
+      "label_zh": "提供獨立包覆材料",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_034",
+      "choice_index": 0,
+      "label_zh": "以精密工程手冊說明用途",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_034",
+      "choice_index": 1,
+      "label_zh": "改談保留參考件的部分交易",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_036",
+      "choice_index": 0,
+      "label_zh": "安排在場聆聽",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_036",
+      "choice_index": 1,
+      "label_zh": "提出只查標籤的交換",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_037",
+      "choice_index": 0,
+      "label_zh": "提供分開保管的貨箱",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_037",
+      "choice_index": 1,
+      "label_zh": "先查外殼與來源標示",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_038",
+      "choice_index": 1,
+      "label_zh": "以普通扳手滿足眼前工作",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_039",
+      "choice_index": 1,
+      "label_zh": "改用可共同見證的交班信號",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_040",
+      "choice_index": 1,
+      "label_zh": "允許當事人共同說明",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_041",
+      "choice_index": 0,
+      "label_zh": "依交付前紀錄核對",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_041",
+      "choice_index": 1,
+      "label_zh": "提供可供檢驗的替換料",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_042",
+      "choice_index": 1,
+      "label_zh": "請管理者提供合法探查區",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_043",
+      "choice_index": 0,
+      "label_zh": "檢查外殼與可讀標示",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_044",
+      "choice_index": 0,
+      "label_zh": "補交銅線給原委託",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_044",
+      "choice_index": 1,
+      "label_zh": "協商急修的可拆分部分",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_045",
+      "choice_index": 0,
+      "label_zh": "比對可見舊痕",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_046",
+      "choice_index": 0,
+      "label_zh": "只記錄獲準的工作欄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_047",
+      "choice_index": 0,
+      "label_zh": "分開記錄口述與錄音",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_048",
+      "choice_index": 1,
+      "label_zh": "協商完整移轉但保留查詢權",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_049",
+      "choice_index": 0,
+      "label_zh": "要求提供可核對來源",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_050",
+      "choice_index": 0,
+      "label_zh": "詢問真正需要的規格",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_051",
+      "choice_index": 0,
+      "label_zh": "從安全距離要求收刀再談",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_051",
+      "choice_index": 1,
+      "label_zh": "把可核對的付款簿交給值班者",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_051",
+      "choice_index": 2,
+      "label_zh": "離开近處並通報既有值班人",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_052",
+      "choice_index": 1,
+      "label_zh": "查上次完整交接",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_052",
+      "choice_index": 2,
+      "label_zh": "建議爭議期間保持封存",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_053",
+      "choice_index": 1,
+      "label_zh": "以自有彈簧補足一份約定",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_054",
+      "choice_index": 0,
+      "label_zh": "先向所有人確認新用途",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_054",
+      "choice_index": 1,
+      "label_zh": "用繩索做暫時標定",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_055",
+      "choice_index": 0,
+      "label_zh": "提出先查接口的付費診斷",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_056",
+      "choice_index": 1,
+      "label_zh": "先凍結仍未交付的兩張領條",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_057",
+      "choice_index": 0,
+      "label_zh": "把自有扳手賣給有明確用途的一方",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_057",
+      "choice_index": 1,
+      "label_zh": "協商短時借用後歸還",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_058",
+      "choice_index": 0,
+      "label_zh": "保留原標記再議補修",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_058",
+      "choice_index": 1,
+      "label_zh": "提供同意使用的新布",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_059",
+      "choice_index": 0,
+      "label_zh": "交出確實存在的繃帶",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_059",
+      "choice_index": 1,
+      "label_zh": "把容器與內容清單分列",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_060",
+      "choice_index": 1,
+      "label_zh": "安排當面歸還查驗",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_061",
+      "choice_index": 0,
+      "label_zh": "只記錄他能證實的五個",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_063",
+      "choice_index": 0,
+      "label_zh": "先核對護送條件",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_063",
+      "choice_index": 1,
+      "label_zh": "改提非戰鬥的物資護送工作",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_064",
+      "choice_index": 0,
+      "label_zh": "逐條註明資料日期",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_065",
+      "choice_index": 0,
+      "label_zh": "先驗空袋可見接縫",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_065",
+      "choice_index": 1,
+      "label_zh": "以自有淨水補一份急需",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_066",
+      "choice_index": 0,
+      "label_zh": "加交自己的一份肉乾",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_066",
+      "choice_index": 1,
+      "label_zh": "把已承諾的份額列出",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_067",
+      "choice_index": 0,
+      "label_zh": "以自有繩索替換",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_068",
+      "choice_index": 0,
+      "label_zh": "核對無線電已存紀錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_070",
+      "choice_index": 0,
+      "label_zh": "補一個自有電池",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_070",
+      "choice_index": 1,
+      "label_zh": "改成白天完成交接",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_071",
+      "choice_index": 1,
+      "label_zh": "幫忙安排水務查詢",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_072",
+      "choice_index": 0,
+      "label_zh": "分清產地標記與當前許可",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_073",
+      "choice_index": 0,
+      "label_zh": "在不同位置重新比對",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "npc_074",
+      "choice_index": 0,
+      "label_zh": "指出兩件用品的不同用途",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_074",
+      "choice_index": 1,
+      "label_zh": "把自己的沙塵面罩交給新手",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_075",
+      "choice_index": 0,
+      "label_zh": "補上一份自己的急救包",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_075",
+      "choice_index": 1,
+      "label_zh": "協商取用位置與責任",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_076",
+      "choice_index": 0,
+      "label_zh": "提出白天抄帳安排",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_076",
+      "choice_index": 1,
+      "label_zh": "交付自己的燃料支援一方",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_077",
+      "choice_index": 0,
+      "label_zh": "要求標明舊用途",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_077",
+      "choice_index": 1,
+      "label_zh": "改作有清楚標示的非飲用容器",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_078",
+      "choice_index": 0,
+      "label_zh": "先查徽章是否只是私人紀念",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_078",
+      "choice_index": 1,
+      "label_zh": "談衣物與紀念物分開保管",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_079",
+      "choice_index": 0,
+      "label_zh": "提供防水袋並登記借用",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_080",
+      "choice_index": 0,
+      "label_zh": "依已知期限核對需求",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "npc_080",
+      "choice_index": 1,
+      "label_zh": "放棄自己的候選貨箱預約",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_001",
+      "choice_index": 0,
+      "label_zh": "隔離觀察布面",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_001",
+      "choice_index": 1,
+      "label_zh": "查冷庫停機紀錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_002",
+      "choice_index": 0,
+      "label_zh": "提供獨立試驗袋",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_002",
+      "choice_index": 1,
+      "label_zh": "先找食物保管人討論",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_003",
+      "choice_index": 0,
+      "label_zh": "改成限時研究交付",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_004",
+      "choice_index": 0,
+      "label_zh": "檢查容器差異",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_004",
+      "choice_index": 1,
+      "label_zh": "交出等厚玻璃樣片",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_004",
+      "choice_index": 2,
+      "label_zh": "只抄下現有數據",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_005",
+      "choice_index": 0,
+      "label_zh": "封存並標記來源",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_005",
+      "choice_index": 1,
+      "label_zh": "追查瓶子的搬運紀錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_005",
+      "choice_index": 2,
+      "label_zh": "通報保管人後離開",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_006",
+      "choice_index": 0,
+      "label_zh": "堅持連原瓶交付",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_006",
+      "choice_index": 1,
+      "label_zh": "改交有保管規則的研究者",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_007",
+      "choice_index": 0,
+      "label_zh": "先檢查秤的紀錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_007",
+      "choice_index": 1,
+      "label_zh": "請兩位保管人共同見證",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_008",
+      "choice_index": 0,
+      "label_zh": "分別記錄位置",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_008",
+      "choice_index": 1,
+      "label_zh": "找容器標籤",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_009",
+      "choice_index": 0,
+      "label_zh": "更正物件分類",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_009",
+      "choice_index": 1,
+      "label_zh": "提供獨立稱量參考",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_009",
+      "choice_index": 3,
+      "label_zh": "接收獨立樣本作送驗",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_010",
+      "choice_index": 0,
+      "label_zh": "安排無損觀察",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_010",
+      "choice_index": 1,
+      "label_zh": "以普通玻璃示範記錄流程",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_011",
+      "choice_index": 0,
+      "label_zh": "用繩索先固定空包測試",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_012",
+      "choice_index": 0,
+      "label_zh": "改用軟包材",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_013",
+      "choice_index": 0,
+      "label_zh": "量測可接近的外部回路",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_013",
+      "choice_index": 1,
+      "label_zh": "移遠樣本作對照",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_013",
+      "choice_index": 2,
+      "label_zh": "退出棚外等待",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_013",
+      "choice_index": 3,
+      "label_zh": "接下隔離送驗委託",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_014",
+      "choice_index": 0,
+      "label_zh": "只同意出售已知描述",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_014",
+      "choice_index": 1,
+      "label_zh": "公開要求對照測試",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_015",
+      "choice_index": 1,
+      "label_zh": "搬至隔壁測試桌",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_016",
+      "choice_index": 0,
+      "label_zh": "安排先後借用",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_016",
+      "choice_index": 1,
+      "label_zh": "只交付給其中一方",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_017",
+      "choice_index": 0,
+      "label_zh": "先隔離裝卸區",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_017",
+      "choice_index": 1,
+      "label_zh": "交出專用箱收存",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_018",
+      "choice_index": 0,
+      "label_zh": "先量測外部輸出",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_018",
+      "choice_index": 1,
+      "label_zh": "改用已知電池",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_018",
+      "choice_index": 2,
+      "label_zh": "勸學徒先停止接線",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_019",
+      "choice_index": 0,
+      "label_zh": "保持兩次條件紀錄",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_020",
+      "choice_index": 0,
+      "label_zh": "拒絕人體測試並量測",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_020",
+      "choice_index": 1,
+      "label_zh": "交由保管者封存",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_021",
+      "choice_index": 0,
+      "label_zh": "分離不同材質樣本",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_021",
+      "choice_index": 1,
+      "label_zh": "移走逆磁片檢查桌面",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_021",
+      "choice_index": 2,
+      "label_zh": "停用該角落",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_021",
+      "choice_index": 3,
+      "label_zh": "接收可移動的試驗片",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_022",
+      "choice_index": 0,
+      "label_zh": "分開再核對路標",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_022",
+      "choice_index": 1,
+      "label_zh": "改用地圖與可見山形",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_023",
+      "choice_index": 0,
+      "label_zh": "要求只做低能量材料測試",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_023",
+      "choice_index": 1,
+      "label_zh": "撤回自己的樣本",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_024",
+      "choice_index": 0,
+      "label_zh": "提供非金屬包層",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_024",
+      "choice_index": 1,
+      "label_zh": "不入櫃，限定觀察區",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_025",
+      "choice_index": 0,
+      "label_zh": "標記邊界再繞過",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_025",
+      "choice_index": 1,
+      "label_zh": "從另一角度照明",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_026",
+      "choice_index": 0,
+      "label_zh": "提供獨立照明",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_026",
+      "choice_index": 1,
+      "label_zh": "協商閉站後觀察",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_027",
+      "choice_index": 0,
+      "label_zh": "共同核對可見邊界",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_027",
+      "choice_index": 1,
+      "label_zh": "交出封箱前的記錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_028",
+      "choice_index": 0,
+      "label_zh": "展示已知角度條件",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_028",
+      "choice_index": 1,
+      "label_zh": "送交光學研究委託",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_029",
+      "choice_index": 0,
+      "label_zh": "分袋標記",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_029",
+      "choice_index": 1,
+      "label_zh": "比對來源簿",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_029",
+      "choice_index": 3,
+      "label_zh": "領取一粒封存送驗",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_030",
+      "choice_index": 1,
+      "label_zh": "詢問搬盆者",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_031",
+      "choice_index": 0,
+      "label_zh": "保留完整外觀記錄",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_031",
+      "choice_index": 1,
+      "label_zh": "交給隔離試種方",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_032",
+      "choice_index": 0,
+      "label_zh": "將種子與糧債分列",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_032",
+      "choice_index": 1,
+      "label_zh": "只談樣本研究交付",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_033",
+      "choice_index": 0,
+      "label_zh": "隔開食物與樣本",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_033",
+      "choice_index": 1,
+      "label_zh": "記錄箱外溫度趨勢",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_034",
+      "choice_index": 0,
+      "label_zh": "協調清出隔離位置",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_034",
+      "choice_index": 1,
+      "label_zh": "提供隔熱裝備供專人評估",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_035",
+      "choice_index": 1,
+      "label_zh": "只交樣本不承擔產能保證",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_036",
+      "choice_index": 0,
+      "label_zh": "借出普通睡袋",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_036",
+      "choice_index": 1,
+      "label_zh": "讓熱核保持隔離觀察",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_037",
+      "choice_index": 1,
+      "label_zh": "把盒子移回保管區",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_037",
+      "choice_index": 2,
+      "label_zh": "先用跑腿傳達交班",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_037",
+      "choice_index": 3,
+      "label_zh": "帶往離站測試點",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_038",
+      "choice_index": 0,
+      "label_zh": "改約離站測試",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_038",
+      "choice_index": 1,
+      "label_zh": "提供只含已知結果的紀錄",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_039",
+      "choice_index": 0,
+      "label_zh": "核對兩份時間線",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_039",
+      "choice_index": 1,
+      "label_zh": "派送可驗證的查詢信",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    },
+    {
+      "encounter_id": "anomaly_040",
+      "choice_index": 0,
+      "label_zh": "指出可見視線與哨位",
+      "proposed_days": 1,
+      "classification": "work_or_wait"
+    },
+    {
+      "encounter_id": "anomaly_040",
+      "choice_index": 1,
+      "label_zh": "改走公開查驗程序",
+      "proposed_days": 0,
+      "classification": "onsite_read_talk_or_handover"
+    }
+  ]
+}

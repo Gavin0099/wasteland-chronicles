@@ -1,0 +1,27 @@
+{
+  "id": "planting_manual",
+  "name": "種植手冊",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/planting_manual.png",
+  "source_output": "exec-86dfbd51-91f1-4d3c-acd2-f063ae8a8b7a.png",
+  "sha256": "e1ad4dba36a501955891e173a0f48457a1f60afef563daeb98fbb6709b2f62ca",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    45,
+    1216,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

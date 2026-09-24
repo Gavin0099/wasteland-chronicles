@@ -1,0 +1,27 @@
+{
+  "id": "antibiotics",
+  "name": "抗生素",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/antibiotics.png",
+  "source_output": "exec-7a5a4067-fa19-4e20-8c67-1abdaf10fc33.png",
+  "sha256": "19fbc6923741b13e172f201d307cff276177c1380767c59abd550f50c68537f3",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1230,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

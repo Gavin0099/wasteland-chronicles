@@ -1,0 +1,27 @@
+{
+  "id": "tent",
+  "name": "帳篷",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/tent.png",
+  "source_output": "exec-b9937a29-b00b-4c8e-b943-eb0a84a9b2a4.png",
+  "sha256": "5ebb1e4d15e270e1cd799df43994ebb260434783493ad2677c7e6b8335b27fd9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    19,
+    1234,
+    1226
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -28,11 +28,11 @@ func _init() -> void:
 	add_theme_stylebox_override("panel", style)
 
 	var hbox := HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 24)
+	hbox.add_theme_constant_override("separation", 12)
 	add_child(hbox)
 
 	var logo_lbl := Label.new()
-	logo_lbl.text = "荒原編年史  WASTELAND CHRONICLES"
+	logo_lbl.text = "荒原編年史"
 	logo_lbl.add_theme_color_override("font_color", Color("#D8D3C8"))
 	logo_lbl.add_theme_font_size_override("font_size", 13)
 	hbox.add_child(logo_lbl)
@@ -70,11 +70,6 @@ func _init() -> void:
 	spacer.size_flags_horizontal = SIZE_EXPAND_FILL
 	hbox.add_child(spacer)
 
-	var slogan := Label.new()
-	slogan.text = "仍有路可走..."
-	slogan.add_theme_color_override("font_color", Color("#686A70"))
-	slogan.add_theme_font_size_override("font_size", 11)
-	hbox.add_child(slogan)
 
 func _add_vsep(parent: HBoxContainer) -> void:
 	var sep := VSeparator.new()
@@ -83,7 +78,7 @@ func _add_vsep(parent: HBoxContainer) -> void:
 
 func update_status(day: int, identity_name: String, money: int, load_val: int, cap_val: int) -> void:
 	if lbl_day != null:
-		lbl_day.text = "第 %d 天 DAY %d" % [day, day]
+		lbl_day.text = "第 %d 天" % day
 	if lbl_identity != null:
 		var zh_id := "流浪者"
 		if identity_name == "Vagrant" or identity_name == "Drifter":
@@ -92,6 +87,6 @@ func update_status(day: int, identity_name: String, money: int, load_val: int, c
 			zh_id = identity_name
 		lbl_identity.text = zh_id
 	if lbl_money != null:
-		lbl_money.text = "$%d CAPS" % money
+		lbl_money.text = "%d 瓶蓋" % money
 	if lbl_backpack != null:
 		lbl_backpack.text = "負重 %d / %d" % [load_val, cap_val]

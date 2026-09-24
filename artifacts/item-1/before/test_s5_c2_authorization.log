@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+      WASTELAND CHRONICLES - S5-C2-A AUTHORITY / SAFETY SUITE                   
+================================================================================
+
+--- [GATE A1] An approach the character has not unlocked is refused ---
+  Capability, knowledge and trait gates all enforced at the commit boundary
+
+--- [GATE A2] A choice held over from a capability you no longer have ---
+  Stale, swapped and absent capabilities all fail closed
+
+--- [GATE A3] Double resolution, and answering an empty road ---
+  One encounter, one resolution, one receipt, consumed once
+
+--- [GATE A4] An option that does not belong to this encounter ---
+  Encounter identity is checked before capability
+
+--- [GATE A5] A refused requirement changes nothing ---
+  Eight refused approaches, eight identical world hashes
+
+--- [GATE A6] A capability you have but cannot afford changes nothing ---
+  Capability passes, resources refuse, and nothing moves
+
+--- [GATE A7] Eligibility survives save / load, option for option ---
+  20 build/encounter pairs: identical hashes, identical offers, identical verdicts
+
+--- [GATE A8] Different build -> different legal set, different consequence ---
+  Builds diverge from each other and replay identically to themselves
+  Replay SHA-256 (MECHANIC / STRIP_PARTS): a318497336f5b10942cae6b6f037cc903235dfb15b9147c250c2f2c404150f0e
+
+================================================================================
+ALL S5-C2-A AUTHORITY GATES (A1 ~ A8) PASSED CLEANLY!
+  This proves the boundary is safe. It does NOT prove C2 is fun:
+  C2-B Player Experience still needs four Backgrounds played by hand.
+================================================================================

@@ -1,0 +1,27 @@
+{
+  "id": "scrap_rifle",
+  "name": "廢土拼裝步槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/scrap_rifle.png",
+  "source_output": "exec-d2214a74-c60b-4c55-8475-f860c2adfc71.png",
+  "sha256": "3f31933ecff954e463638df8ab4e4d80d9408420fb0345920ea4296c802c6323",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    18,
+    9,
+    1236,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

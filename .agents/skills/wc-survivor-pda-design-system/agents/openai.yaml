@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wasteland Survivor PDA"
+  short_description: "Consistent Godot UI for Wasteland Chronicles"
+  default_prompt: "Use $wc-survivor-pda-design-system to build and verify this Wasteland Chronicles screen."

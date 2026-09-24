@@ -1,0 +1,27 @@
+{
+  "id": "old_world_military_armor",
+  "name": "舊世軍甲",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/old_world_military_armor.png",
+  "source_output": "exec-de02821b-0e8f-407c-9208-b604c6885ea4.png",
+  "sha256": "0090f5aa4001e3d631a4ba4f4c603a08734172c0b5a90b95affc4e2b0cc8fd21",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1219,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "bolt_action_rifle",
+  "name": "栓動步槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/bolt_action_rifle.png",
+  "source_output": "exec-e644b160-8325-4432-a356-7605b4013044.png",
+  "sha256": "6ec2943a1075f4507f0bda53fef9bed453e2b25670ea3f803d807734e21af686",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    53,
+    1225,
+    1198
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

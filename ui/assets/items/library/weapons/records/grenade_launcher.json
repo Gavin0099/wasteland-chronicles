@@ -1,0 +1,27 @@
+{
+  "id": "grenade_launcher",
+  "name": "榴彈發射器",
+  "section": 4,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/grenade_launcher.png",
+  "source_output": "exec-645c0b0e-3d36-4ba8-ac98-3e99284215d6.png",
+  "sha256": "614fd7426d8dc814f0ab75cb2d235c6827368891fd2d92f599317e05bf3049d5",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    29,
+    21,
+    1234,
+    1224
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

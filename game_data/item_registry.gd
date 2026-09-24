@@ -1,0 +1,30 @@
+extends RefCounted
+
+## ITEM-2 canonical twelve-item metadata. This is a detached authored source;
+## actions, slots, markets and condition fields are metadata until their
+## gameplay authorities are implemented by later slices.
+static func rows() -> Array:
+	return [
+		_row("rusted_knife", "生鏽小刀", "WEAPON", "utility_blade", 250, 18, false, 1, ["main_hand"], ["cut_rope", "scrape_label", "defend"], ["blade", "tool", "corroded"], ["settlement_households", "abandoned_homes"], ["kitchen_drawer", "discarded_travel_kit"], {"new_hope": "high", "gray_valley": "high", "dry_well": "medium"}, {"new_hope": "medium", "gray_valley": "low", "dry_well": "medium"}, "刀尖早已缺了一角，木柄刻著一排難以辨認的姓氏。", "item_rusted_knife"),
+		_row("hunting_knife", "獵刀", "WEAPON", "hunting_blade", 400, 72, false, 1, ["main_hand"], ["dress_game", "cut_brush", "inspect_hide"], ["blade", "hunting", "sheath"], ["new_hope", "hunters"], ["hunting_lodge", "hunter_tool_roll"], {"new_hope": "medium", "gray_valley": "low", "dry_well": "low"}, {"new_hope": "high", "gray_valley": "medium", "dry_well": "medium"}, "磨薄的刃口旁留著深色水痕，皮鞘反覆補過線。", "item_hunting_knife"),
+		_row("rebar_club", "鋼筋棍", "WEAPON", "improvised_club", 1800, 22, false, 1, ["main_hand"], ["brace_panel", "drive_stake", "defend"], ["blunt", "rebar", "improvised"], ["gray_valley", "construction_ruins"], ["collapsed_slab", "salvage_heap"], {"new_hope": "medium", "gray_valley": "high", "dry_well": "low"}, {"new_hope": "low", "gray_valley": "low", "dry_well": "medium"}, "一截混凝土鋼筋，握端留下被敲平的切口。", "item_rebar_club"),
+		_row("scrap_machete", "廢鐵砍刀", "WEAPON", "salvage_machete", 1200, 48, false, 1, ["main_hand"], ["clear_brush", "cut_binding"], ["blade", "brush_cutting", "salvage_made"], ["gray_valley", "local_smiths"], ["smith_workbench", "scavenger_pack"], {"new_hope": "medium", "gray_valley": "high", "dry_well": "medium"}, {"new_hope": "high", "gray_valley": "medium", "dry_well": "low"}, "刀背保留著原鋼板的折線，刃口卻磨得整齊。", "item_scrap_machete"),
+		_row("work_clothes", "舊工作服", "APPAREL", "workwear", 1200, 28, false, 1, ["body"], ["wear_workwear", "inspect_name_patch"], ["cloth", "workwear", "pockets"], ["gray_valley", "settlements"], ["worker_locker", "secondhand_clothing_stall"], {"new_hope": "medium", "gray_valley": "high", "dry_well": "medium"}, {"new_hope": "medium", "gray_valley": "high", "dry_well": "low"}, "袖口補丁壓著補丁，胸前名牌只剩一個姓。", "item_work_clothes"),
+		_row("desert_robe", "沙地長袍", "APPAREL", "desert_wrap", 900, 55, false, 1, ["body"], ["wrap_against_dust", "shade_supplies"], ["cloth", "desert", "loose_layers"], ["dry_well", "desert_households"], ["desert_clothing_stall", "caravan_spare_bundle"], {"new_hope": "low", "gray_valley": "medium", "dry_well": "high"}, {"new_hope": "low", "gray_valley": "medium", "dry_well": "high"}, "寬鬆布層在腰間束起，褪色邊緣補著另一種織法。", "item_desert_robe"),
+		_row("caravan_coat", "商隊外套", "APPAREL", "travel_coat", 1500, 85, false, 1, ["body"], ["wear_travel_coat", "inspect_route_patch"], ["coat", "caravan", "reinforced"], ["caravan_tailors", "route_settlements"], ["caravan_lost_property", "travelling_tailor"], {"new_hope": "medium", "gray_valley": "medium", "dry_well": "medium"}, {"new_hope": "medium", "gray_valley": "high", "dry_well": "high"}, "肩頭的舊路線章被拆掉，只留下較淺的一圈布色。", "item_caravan_coat"),
+		_row("travel_backpack", "舊旅行包", "CONTAINER", "travel_pack", 1100, 60, false, 1, ["back"], ["pack_trip_supplies", "inspect_straps"], ["backpack", "cloth", "repaired"], ["settlement_tailors", "caravan_routes"], ["secondhand_pack_stall", "traveller_storage"], {"new_hope": "medium", "gray_valley": "high", "dry_well": "medium"}, {"new_hope": "high", "gray_valley": "high", "dry_well": "high"}, "兩條肩帶磨成不同顏色，背面縫著三層補丁。", "item_travel_backpack"),
+		_row("rope", "繩索", "TOOL", "utility_rope", 2500, 30, false, 1, [], ["secure_cargo", "lower_bundle", "anchor_line"], ["rope", "travel"], ["caravan", "settlement_workshop"], ["cargo_store", "bridge_maintenance_box"], {"new_hope": "medium", "gray_valley": "high", "dry_well": "medium"}, {"new_hope": "medium", "gray_valley": "medium", "dry_well": "high"}, "粗繩盤成一圈，繩端包著便於辨認的布條。", "item_rope"),
+		_row("flashlight", "手電筒", "TOOL", "handheld_light", 400, 35, false, 1, [], ["illuminate", "signal", "inspect"], ["lighting", "electric"], ["gray_valley", "old_world_home"], ["maintenance_box", "household_drawer"], {"new_hope": "medium", "gray_valley": "high", "dry_well": "low"}, {"new_hope": "medium", "gray_valley": "high", "dry_well": "high"}, "磨花的燈罩旁刻著前任使用者的值班號碼。", "item_flashlight"),
+		_row("wrench", "扳手", "TOOL", "adjustable_wrench", 700, 25, false, 1, [], ["turn_fastener", "hold_joint", "lend"], ["hand_tool", "metal"], ["gray_valley", "industrial_ruin"], ["maintenance_box", "pump_shed"], {"new_hope": "medium", "gray_valley": "high", "dry_well": "low"}, {"new_hope": "medium", "gray_valley": "medium", "dry_well": "high"}, "可調開口的扳手，握柄沾著擦不掉的機油。", "item_wrench"),
+		_row("first_aid_kit", "急救包", "CONSUMABLE", "field_medical_kit", 800, 55, true, 20, [], ["offer_field_aid", "donate", "check_contents"], ["medical"], ["settlement_clinic", "caravan"], ["emergency_cabinet", "caravan_medical_bag"], {"new_hope": "medium", "gray_valley": "medium", "dry_well": "low"}, {"new_hope": "medium", "gray_valley": "high", "dry_well": "high"}, "耐磨小包以分格收好未拆封的急救耗材。", "item_first_aid_kit"),
+	]
+
+static func _row(id: String, label: String, category: String, subtype: String, weight: int, value: int, stackable: bool, max_stack: int, slots: Array, actions: Array, tags: Array, origins: Array, loot: Array, supply: Dictionary, demand: Dictionary, description: String, asset: String) -> Dictionary:
+	return {
+		"item_id": id, "display_name_zh": label, "category": category, "subtype": subtype,
+		"base_weight": weight, "base_value": value, "stackable": stackable, "max_stack": max_stack,
+		"condition": null, "max_condition": null, "equip_slots": slots, "actions": actions,
+		"tags": tags, "origin_tags": origins, "loot_sources": loot,
+		"settlement_supply": supply, "settlement_demand": demand,
+		"description_zh": description, "asset_id": asset
+	}

@@ -158,7 +158,7 @@ func _init() -> void:
 
 	var rich := build_world(100)
 	var json_a := JSON.stringify(rich.to_dict(), "\t", true)
-	var l1 := WorldState.from_dict(JSON.parse_string(json_a))
+	var l1 := WorldState.from_json(json_a)
 	if l1 == null:
 		print("FAIL N1: loader refused the snapshot!")
 		quit(1)
@@ -182,7 +182,7 @@ func _init() -> void:
 	print("  save -> load -> save byte-identical, SHA-256 %s" % json_a.sha256_text())
 
 	# A second cycle must also hold (idempotence, not luck).
-	var l2 := WorldState.from_dict(JSON.parse_string(json_b))
+	var l2 := WorldState.from_json(json_b)
 	if JSON.stringify(l2.to_dict(), "\t", true) != json_a:
 		print("FAIL N1: second save/load cycle diverged!")
 		quit(1)
@@ -406,7 +406,7 @@ func ledger_of(w: WorldState) -> Array:
 	return out
 
 func roundtrip(w: WorldState) -> WorldState:
-	return WorldState.from_dict(JSON.parse_string(JSON.stringify(w.to_dict())))
+	return WorldState.from_json(JSON.stringify(w.to_dict()))
 
 func build_world(days: int) -> WorldState:
 	var w := S1WorldData.create_s1_world()

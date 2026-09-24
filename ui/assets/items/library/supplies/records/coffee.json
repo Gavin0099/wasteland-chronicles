@@ -1,0 +1,27 @@
+{
+  "id": "coffee",
+  "name": "咖啡",
+  "section": 11,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/coffee.png",
+  "source_output": "exec-5c66aedf-946a-4986-8932-c09ebc162124.png",
+  "sha256": "386262a986e07bb2c1c80edfb021257ec52d54f31e6046e7654e4dd7e4e79ecc",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    41,
+    101,
+    1236,
+    1236
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

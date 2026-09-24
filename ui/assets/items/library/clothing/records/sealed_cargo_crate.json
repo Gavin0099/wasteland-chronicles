@@ -1,0 +1,27 @@
+{
+  "id": "sealed_cargo_crate",
+  "name": "密封貨箱",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/sealed_cargo_crate.png",
+  "source_output": "exec-d76b130b-70e4-45bb-ac55-2910eb0ddd50.png",
+  "sha256": "c1e5a736ad97bbd806e62391240f12a68e26f8b1b4e8f1aff589117af6163a69",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1208,
+    1214
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

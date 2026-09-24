@@ -1,0 +1,27 @@
+{
+  "id": "military_medical_chip",
+  "name": "軍醫資料晶片",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/military_medical_chip.png",
+  "source_output": "exec-629054af-8c36-43aa-8d71-965c324f92d4.png",
+  "sha256": "c6a205f715e56b005ae8ea0f877605bb37c28f3a2bee2169c5e9cc0e0ce00c05",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    54,
+    1192,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

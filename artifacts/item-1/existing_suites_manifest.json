@@ -1,0 +1,245 @@
+{
+  "source_commit": "8d68bac",
+  "godot": {
+    "path": "C:\\Users\\daish\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\Godot_v4.7.2-stable_win64_console.exe",
+    "bytes": 198152,
+    "sha256": "c8f0a6bc45a19b33541501e57f6f7cd972ab18453743266339d495cbbe846643"
+  },
+  "argv_prefix": [
+    "--headless",
+    "--path",
+    "D:\\wasteland-chronicles",
+    "--script"
+  ],
+  "child_environment_keys": [
+    "APPDATA",
+    "HOMEDRIVE",
+    "HOMEPATH",
+    "LOCALAPPDATA",
+    "NUMBER_OF_PROCESSORS",
+    "PROCESSOR_ARCHITECTURE",
+    "SystemRoot",
+    "TEMP",
+    "TMP",
+    "USERPROFILE",
+    "WINDIR"
+  ],
+  "suites": [
+    {
+      "path": "tests/test_c0_c1_headless.gd",
+      "sha256": "be972e72cc203e0d7e2bc606630a15dccafb385423b95ac642aab7877e97efca",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_c1_p0_rank_codec.gd",
+      "sha256": "81454d16e5daea0287326d5e043b6829513d2146498de5e4b1ddc17ec80274d8",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_character_creation_ui.gd",
+      "sha256": "21d0d07996489b4885d48c0d567908328b538d316ddd755f20c49fa3231a9f36",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_determinism.gd",
+      "sha256": "4d5d870e7c13dea8e8d022cd23544a3ac9ef570ff0d58f446f50cf90bf33213e",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_encounter_resolution_feedback.gd",
+      "sha256": "7a89323453d1794a993546fd911fcb9504dca745967e8ca425e77ec9be23ddc9",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_field_combat.gd",
+      "sha256": "db2907c3501a95aeeae7fa1493a438b6b74d84385e53e2aa1d8647c02d0fef36",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_field_combat_ui.gd",
+      "sha256": "154075b37e7b47663abf392b0160910b3de68b1b0feadee414d2e33b12ad4f65",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_invariants.gd",
+      "sha256": "d3a90d9862b28c98f3a3474d8c23be8a89d9ca19ab3a6b8b72d61f03741956f3",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_m0_baseline.gd",
+      "sha256": "4ae1790363d2fc1612dfa20e797831a27b88a20dd8ed4ec26422711e488ee7ca",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_m0_shock.gd",
+      "sha256": "185ddabdbe18eb14cf6e8d2e8bbc84fff87738fc0fdbcef85e3d0104b3d797f0",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_npc_population_accounting.gd",
+      "sha256": "e9b38b5831409cc5236291d627e823565847e594c54f5838d6d60aff117f6b7c",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_pda_character_sheet.gd",
+      "sha256": "ec1efb98b3390847e9ede459f3f9ce5fb894b1033aa0acfc361b33b22f632c12",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s1_stability.gd",
+      "sha256": "d691a5d08e48a68b4b5632efe51b55a7d83ebe4d179a22cb1f14628d18c15e47",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s2_recovery.gd",
+      "sha256": "a8f05911c197cbcea68d7d28ee3d2f020cdaf640f3b150690c98b9f42e026da1",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s2_shock.gd",
+      "sha256": "ba1973e23d8f4a8e16e9b85360be39b7d7846c39019fc835d3ae9ff4b4be076c",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s3_labor.gd",
+      "sha256": "3b17cb859cba20d8e4c9f574e4933a7943781691cea0191a5e7cf473e0eb2b11",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s3_metabolism.gd",
+      "sha256": "b6b24934f2dcea147329ab5115861956d0c541834c9c0ca06e028adede47ce34",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s3_migration.gd",
+      "sha256": "31000568124cb8aadf3b1aa6523e6727c982f4296d97e632dd3ec06fb8cec95f",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s3_mortality.gd",
+      "sha256": "9475b169ea1f067b5830fda6b060b6560166977abcaaef7b22986222a7572f1f",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s3_pressure.gd",
+      "sha256": "f90a6816d7471d73c9963b64fe8e4359798eca12432920a2fd1759b71e04190a",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s3_security.gd",
+      "sha256": "b677e9c04bd57202119e19fa57841032d21f04f49f89b03b9e7ce40258307226",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s4_aptitude.gd",
+      "sha256": "30ea152e38e1b9d09150c08de6a293a895b59c551c8d099065fe0b9e27636b19",
+      "historical_writes": [
+        "artifacts/world_snapshot_s4e.json"
+      ]
+    },
+    {
+      "path": "tests/test_s4_c1_event_ledger.gd",
+      "sha256": "cd089d4a14762f67b420b126aa3c6f3e8fd34aa158c37ce8e09bb2c9f9c3e7c8",
+      "historical_writes": [
+        "artifacts/world_snapshot_s4c1.json"
+      ]
+    },
+    {
+      "path": "tests/test_s4_c2_numeric.gd",
+      "sha256": "d9f429c99e78e94cb8a8511892a3ad7ff74aa8b2b474a7c0f46521f2fa2c85f7",
+      "historical_writes": [
+        "artifacts/world_snapshot_s4c2.json"
+      ]
+    },
+    {
+      "path": "tests/test_s4_f1_decisions.gd",
+      "sha256": "4607c4e9b4362f324175799fcbb387c72255fa1880fcb05b5bc78cb4bdd365cb",
+      "historical_writes": [
+        "artifacts/world_snapshot_s4f1.json"
+      ]
+    },
+    {
+      "path": "tests/test_s4_f2_migration.gd",
+      "sha256": "bb293d5f7e27d7a75de10a7f2216f5bcc20b2fc0626c62b37f9478aa5bc03c5b",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s4_f3_batch_determinism.gd",
+      "sha256": "84570fe26e9492484aefeda112f1ea572aaa72bdb946ad82e40a5bea3a92f066",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s4_identity.gd",
+      "sha256": "51e701e005fd8075de09f58514a3cca8b62c36dc313472a432fb6f75de9d39ff",
+      "historical_writes": [
+        "artifacts/world_snapshot.json"
+      ]
+    },
+    {
+      "path": "tests/test_s4_life_state.gd",
+      "sha256": "cfc6bdbb4db92d6c1c43e646e04e2c19e98b39d66c8b996b03a512f8fd4e12b0",
+      "historical_writes": [
+        "artifacts/world_snapshot_s4b.json"
+      ]
+    },
+    {
+      "path": "tests/test_s4_profile.gd",
+      "sha256": "d6f863f74bcb591aa4db1425989ef47b070673d16508538c1b776a0839dd7e1b",
+      "historical_writes": [
+        "artifacts/world_snapshot_s4c.json"
+      ]
+    },
+    {
+      "path": "tests/test_s4_traits.gd",
+      "sha256": "9d410c9c1490f9b018deab46d7a0558aa17e553a0272a646499b4472b609a949",
+      "historical_writes": [
+        "artifacts/world_snapshot_s4d.json"
+      ]
+    },
+    {
+      "path": "tests/test_s5_a2_ui_shell.gd",
+      "sha256": "d4546f26270f96d2cb2aa8e65a31c021dd6705f1de7be2741b0c9569172a4a75",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_a_player.gd",
+      "sha256": "fa6398dd629c0b317799e539264a31e52c8d4d3c065b872153170c5f989e359c",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_b1_wait.gd",
+      "sha256": "4bbdbe929b2a4d01929f88c6058815662532dd571cdcac3135d8ec320f356c09",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_b2_trade.gd",
+      "sha256": "c4f3eae494b34dd70808c1d4cfcc0d64a22d4964f094df18db325e9da15473e8",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_b3_intervention.gd",
+      "sha256": "e2764b6aee9a8f421cadbd43ec81bdb81c44d317828798e97d19db5a32209c76",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_b41_reactive.gd",
+      "sha256": "760da830826ac388264a12fa2ee7198b81668cef46e894a500b6aef15fad91b1",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_b4_encounters.gd",
+      "sha256": "9e93fa02d2c44bffd7ee1acd0bc268306858bc9b4f3fa1e8e4679dd21a31d9a6",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_b5_survival.gd",
+      "sha256": "33aba8e875f48f7568b29a2723d5fdbffa521f1ee6e8d995deec0fcedd315afa",
+      "historical_writes": []
+    },
+    {
+      "path": "tests/test_s5_c2_authorization.gd",
+      "sha256": "11d5cad37631aca58c962c9139cab46de816b5256f190d4425cd6de38c7d9e5d",
+      "historical_writes": []
+    }
+  ]
+}

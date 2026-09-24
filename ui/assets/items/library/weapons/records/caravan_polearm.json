@@ -1,0 +1,27 @@
+{
+  "id": "caravan_polearm",
+  "name": "商隊槍",
+  "section": 1,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/caravan_polearm.png",
+  "source_output": "exec-31cea153-b211-4eec-92ba-7965e40a6a1d.png",
+  "sha256": "ce267568b2d5de35153d4bb8e22e7e90f70bb4e29ce6eab348d20cbb702af449",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    35,
+    1230,
+    1228
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

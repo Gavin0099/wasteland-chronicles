@@ -1,0 +1,27 @@
+{
+  "id": "ammunition",
+  "name": "彈藥",
+  "section": 11,
+  "art_role": "category_illustration",
+  "file": "ui/assets/items/library/supplies/ammunition.png",
+  "source_output": "exec-3d8278e4-d485-420a-9bb7-60c889ffb77c.png",
+  "sha256": "ff3348791bd3ad24c46653e678916a5d4e17ec5923863d8efe9e5f655d7524ca",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    21,
+    1238,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "C:\\Users\\daish\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\godot.cmd --headless --path . --script tests/test_s5_c3_craft_practice.gd",
+  "exit_code": 0,
+  "started_at": "2026-09-24T04:44:17Z",
+  "finished_at": "2026-09-24T04:44:18Z",
+  "runner": "godot",
+  "linked_commit": "cc0b87e9dde9d92d937094703802c2eb54e5742f",
+  "output_artifacts": [
+    "artifacts/evidence/test-results/c3-craft-practice.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}

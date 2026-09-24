@@ -1,0 +1,37 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S3-B BASIC NEEDS PRESSURE TEST SUITE
+================================================================================
+
+--- [GATE B1] Demand Accounting Equation Verification ---
+PASS GATE B1: Demand Accounting strictly holds across all settlements (requested == fulfilled + unmet, all >= 0).
+
+--- [GATE B2] No False Pressure When Needs Are Fully Met ---
+PASS GATE B2: No False Pressure on Stock == 0 (Inventory = 0, fulfilled = 100%, unmet = 0, pressure = 0.0).
+
+--- [GATE B3] Pressure Accumulation Under Supply Shock ---
+  Gray Valley Day 60 Water Pressure: 100.000000 (began_unmet: true)
+PASS GATE B3: Pressure Accumulation Verified (Monotonically non-decreasing under unmet > 0, reached 100.0).
+
+--- [GATE B4] Severity Sensitivity (100% vs 40% Unmet) ---
+  Severe Camp (100% unmet) Day 1 Water Pressure: 25.000000
+  Mild Camp   ( 40% unmet) Day 1 Water Pressure: 10.000000
+PASS GATE B4: Severity Sensitivity Verified (100% unmet gains 25.0 vs 40% unmet gains 10.0).
+
+--- [GATE B5] Physical Recovery Latency Verification ---
+  Day 60 Repair Day: Stock = 0, Pressure = 100.00 (Repair != Water)
+  Day 62 Arrival Day: Evening Stock = 25, Pressure = 100.00
+  Day 63 First Morning Drunk: Fulfilled = 1, Pressure = 85.00 (Recovered by 15.0!)
+PASS GATE B5: Physical Recovery Verified (Pressure drops ONLY upon actual physical fulfillment).
+
+--- [GATE B6] Shadow Non-Interference Verification ---
+PASS GATE B6: Shadow Non-Interference Verified (Economic projection bitwise identical regardless of pressure).
+
+--- [GATE B7] Determinism & Invariants Replay ---
+  SHA-256 (World B Day 100 with Pressure): 8818234aa8b31a212c05158f7c7d6ef92c6941a05fa82fcb8936f251ad6b0aa8
+PASS GATE B7: Determinism Replay & Invariants 100% Verified.
+
+================================================================================
+ALL S3-B ACCEPTANCE GATES (B1 ~ B7) PASSED!
+================================================================================

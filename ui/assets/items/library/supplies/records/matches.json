@@ -1,0 +1,27 @@
+{
+  "id": "matches",
+  "name": "火柴",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/matches.png",
+  "source_output": "exec-b4d09506-ae90-406b-bd50-2d978b29d335.png",
+  "sha256": "06e866db669c71e806f77f89dfbc926542b2ec6f1dd8ba0b2c2ca8f4823083e7",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1230,
+    1222
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "water_filter",
+  "name": "濾水器",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/water_filter.png",
+  "source_output": "exec-d795db72-ef83-4980-a4f8-6853c1d88dea.png",
+  "sha256": "9f4a9c0d328d3fa91fb8a3531d40bd543424562d26e25cad40b6c1900d4db84f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    0,
+    1218,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

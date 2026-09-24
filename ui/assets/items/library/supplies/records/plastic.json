@@ -1,0 +1,27 @@
+{
+  "id": "plastic",
+  "name": "塑膠",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/plastic.png",
+  "source_output": "exec-053613e7-5f61-419d-9e8f-de778a5493a4.png",
+  "sha256": "0dc04ebf7c652c2fff6222c620c53fdde6bde468da9121b42942b04628a4142c",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    49,
+    35,
+    1194,
+    1210
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

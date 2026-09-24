@@ -1,0 +1,27 @@
+{
+  "id": "motorcycle_jacket",
+  "name": "摩托夾克",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/motorcycle_jacket.png",
+  "source_output": "exec-e3077a6c-ccdf-4893-897b-9357e4790011.png",
+  "sha256": "ee3dfdfc470042cdff8703a06b500b09cd77696eb434ff20f268bf3fe0fc6ee0",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1200,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

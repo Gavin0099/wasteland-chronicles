@@ -1,0 +1,27 @@
+{
+  "id": "old_revolver",
+  "name": "老式左輪",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/old_revolver.png",
+  "source_output": "exec-07a9b1b4-1352-4efa-9577-8951c163fd22.png",
+  "sha256": "a8e4e6d91d655887ae866b8030f563ebe3f0de5fb41c668b1fa8d03bd575b953",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    21,
+    1235,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

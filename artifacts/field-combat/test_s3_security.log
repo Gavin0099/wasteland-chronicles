@@ -1,0 +1,43 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S3-F SOCIAL ORDER & ROUTE PREDATION TEST SUITE
+================================================================================
+
+--- [GATE F1] Baseline Security Stability ---
+  Across 30 days of baseline trade, all 3 settlements maintained Security = 100.0.
+  Total disorder loss events = 0, Total transit predation events = 0.
+PASS GATE F1: Baseline Security Stability verified.
+
+--- [GATE F2] Causal Security Degradation ---
+  Gray Valley Security: Day 30 = 100.0 | Day 41 = 100.0 | Day 50 = 87.9 | Day 60 = 27.5
+PASS GATE F2: Causal Security Degradation verified.
+
+--- [GATE F3] Recovery Semantics ---
+  Controlled Town (Pop 100/100, Pressure 0): Security recovered 60.0 -> 70.0 (+2.0/day)
+  Gray Valley Day 100: Pop = 37 (workforce 9%), Water = 83, Security = 0.0
+  Observed Material Recovery != Social Recovery: Ghost town with 9 survivors retains collapsed security.
+PASS GATE F3: Recovery Semantics verified.
+
+--- [GATE F4] Local Disorder Loss ---
+  Gray Valley Cumulative Disorder Loss: { "scrap": 169, "fuel": 24 } | Security = 0.0
+  Healthy Settlements Disorder Loss = 0 (Strict Locality Guaranteed)
+PASS GATE F4: Local Disorder Loss verified.
+
+--- [GATE F5] Derived Route Risk ---
+  Safe Route (New Hope <-> Dry Well) Risk = 0.0 (Safe)
+  Insecure Route (Gray Valley <-> Dry Well) Risk = 40.0 (Hazardous)
+PASS GATE F5: Derived Route Risk mathematically verified.
+
+--- [GATE F6] Transit Predation ---
+  c_hope_dry (Safe Route): Predation Events = 0 (100%% Intact Delivery)
+  c_gray_dry (Hazardous Route): Predation Events = 13 (Once Per Leg Tolls Applied)
+PASS GATE F6: Transit Predation verified (Targeted contagion on dangerous route).
+
+--- [GATE F7] Full Invariant & Bitwise Determinism Replay ---
+  World B Day 100 SHA-256 with Full Security Ecosystem: 04885a088505660d4f77d196f9aac8175f967a0988899ecbd24289b759833618
+PASS GATE F7: Full Invariant & Bitwise Determinism Replay verified.
+
+================================================================================
+ALL S3-F ACCEPTANCE GATES (F1 ~ F7) PASSED!
+================================================================================

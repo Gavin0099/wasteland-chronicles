@@ -1,0 +1,27 @@
+{
+  "id": "industrial_nailgun",
+  "name": "工業釘槍",
+  "section": 4,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/industrial_nailgun.png",
+  "source_output": "exec-5c1b882e-d1ec-4e8b-adb7-af70d5a301ed.png",
+  "sha256": "e96971446cf03dfe1eefd5099d6b4185a2407591a122bdd590afdc4a32d948f0",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    80,
+    1224,
+    1222
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

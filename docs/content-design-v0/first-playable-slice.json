@@ -1,0 +1,171 @@
+{
+  "status": "DESIGN_ONLY",
+  "not_runtime_allowlist": true,
+  "item_ids": [
+    "content_rusted_knife",
+    "content_hunting_knife",
+    "content_rebar_club",
+    "content_scrap_machete",
+    "content_work_clothes",
+    "content_desert_robe",
+    "content_caravan_coat",
+    "content_travel_backpack",
+    "content_rope",
+    "content_flashlight",
+    "content_wrench",
+    "content_first_aid_kit",
+    "content_cloth_sack",
+    "content_waterproof_bag",
+    "content_screwdriver",
+    "content_pliers",
+    "content_bearing",
+    "content_copper_wire",
+    "content_scrap_iron",
+    "content_seeds",
+    "content_water",
+    "content_clean_water",
+    "content_food",
+    "content_salt",
+    "content_compass",
+    "content_binoculars",
+    "content_dust_mask",
+    "content_battery",
+    "content_crowbar",
+    "content_repair_manual"
+  ],
+  "encounter_ids": [
+    "town_001",
+    "town_002",
+    "town_003",
+    "town_035",
+    "town_036",
+    "town_037",
+    "town_068",
+    "town_069",
+    "town_070",
+    "town_071",
+    "wild_026",
+    "wild_028",
+    "wild_051",
+    "ruin_089",
+    "ruin_093"
+  ],
+  "quest_ids": [
+    "quest_new_hope_001",
+    "quest_new_hope_002",
+    "quest_new_hope_003",
+    "quest_gray_valley_001",
+    "quest_gray_valley_002",
+    "quest_gray_valley_003",
+    "quest_dry_well_001",
+    "quest_dry_well_002",
+    "quest_dry_well_003"
+  ],
+  "hook_ids": [
+    "hook_new_hope_001",
+    "hook_new_hope_002",
+    "hook_new_hope_003",
+    "hook_gray_valley_001",
+    "hook_gray_valley_002",
+    "hook_gray_valley_003",
+    "hook_dry_well_001",
+    "hook_dry_well_002",
+    "hook_dry_well_003",
+    "hook_dry_well_004"
+  ],
+  "deferred_options": [],
+  "hook_scope": "Use roles in selected quests/events only; additional personal hooks remain deferred.",
+  "deferred_hook_contexts": [
+    {
+      "hook_id": "hook_new_hope_001",
+      "outside_items": [],
+      "outside_encounters": [
+        "npc_001"
+      ],
+      "outside_people": []
+    },
+    {
+      "hook_id": "hook_new_hope_002",
+      "outside_items": [],
+      "outside_encounters": [
+        "npc_002"
+      ],
+      "outside_people": []
+    },
+    {
+      "hook_id": "hook_new_hope_003",
+      "outside_items": [
+        "content_medical_manual"
+      ],
+      "outside_encounters": [
+        "npc_003"
+      ],
+      "outside_people": [
+        "hook_new_hope_018"
+      ]
+    },
+    {
+      "hook_id": "hook_gray_valley_001",
+      "outside_items": [],
+      "outside_encounters": [
+        "npc_004"
+      ],
+      "outside_people": []
+    },
+    {
+      "hook_id": "hook_gray_valley_002",
+      "outside_items": [],
+      "outside_encounters": [
+        "npc_005"
+      ],
+      "outside_people": []
+    },
+    {
+      "hook_id": "hook_gray_valley_003",
+      "outside_items": [],
+      "outside_encounters": [
+        "npc_006"
+      ],
+      "outside_people": []
+    },
+    {
+      "hook_id": "hook_dry_well_001",
+      "outside_items": [
+        "content_fuel_can",
+        "content_paper_journal"
+      ],
+      "outside_encounters": [
+        "npc_007"
+      ],
+      "outside_people": []
+    },
+    {
+      "hook_id": "hook_dry_well_002",
+      "outside_items": [],
+      "outside_encounters": [
+        "npc_008"
+      ],
+      "outside_people": []
+    },
+    {
+      "hook_id": "hook_dry_well_003",
+      "outside_items": [],
+      "outside_encounters": [
+        "npc_009"
+      ],
+      "outside_people": [
+        "hook_dry_well_023"
+      ]
+    },
+    {
+      "hook_id": "hook_dry_well_004",
+      "outside_items": [
+        "content_unsent_letter"
+      ],
+      "outside_encounters": [
+        "npc_010"
+      ],
+      "outside_people": []
+    }
+  ]
+}

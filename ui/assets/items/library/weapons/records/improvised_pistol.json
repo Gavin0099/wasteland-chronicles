@@ -1,0 +1,27 @@
+{
+  "id": "improvised_pistol",
+  "name": "土製手槍",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/improvised_pistol.png",
+  "source_output": "exec-0552bdbc-19a4-410b-a6f8-0f2dd847bfd9.png",
+  "sha256": "1cf111e56891d9c8adaafddf9971e057b4100846cc775c19f50cd544dcc1216e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    15,
+    19,
+    1238,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

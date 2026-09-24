@@ -1,0 +1,30 @@
+{
+  "id": "battery",
+  "name": "電池",
+  "section": [
+    7,
+    11
+  ],
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/battery.png",
+  "source_output": "exec-1941bc29-a1aa-49a1-aa1c-e592b8fe126f.png",
+  "sha256": "b811f994bb8a5e241b215125cb7d5530680f492411324e65ad413c7fe9037127",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1222,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

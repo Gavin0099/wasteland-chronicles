@@ -1,0 +1,27 @@
+{
+  "id": "humming_stone",
+  "name": "鳴石",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/humming_stone.png",
+  "source_output": "exec-90f963ea-8ab2-400f-bf98-27e81886e372.png",
+  "sha256": "e4efbeff78fc706e2953e868a310a99e191be71850febea1975d2f4fc154497e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1224,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

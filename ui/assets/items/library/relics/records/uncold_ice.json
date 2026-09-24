@@ -1,0 +1,27 @@
+{
+  "id": "uncold_ice",
+  "name": "不冷的冰",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/uncold_ice.png",
+  "source_output": "exec-6948d01b-76db-4c36-9ea4-17ef0ecfbe08.png",
+  "sha256": "fc51378f8f31c3fc11da618fdb46e236db1c16eabfceb62fe6497ed4cdc9f072",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    47,
+    1206,
+    1206
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,1709 @@
+[
+  {
+    "quest_id": "quest_gray_valley_001",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "把卡住貨蓋下的廢鐵卸出來",
+    "premise_zh": "拆解場帶班工授權處理卡住的貨箱。內有已登記廢鐵3份，2份送場內架位、1份作報酬；外扣片變形，工班已固定箱體與安全支點。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工授權處理卡住的貨箱。內有已登記廢鐵3份，2份送場內架位、1份作報酬；外扣片變形，工班已固定箱體與安全支點。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後這批貨轉入另一班工作；他人先開箱完成卸貨即關閉本單。",
+      "without_player_zh": "若原工班先自行處理，廢鐵照實際去向登記且不保留玩家報酬；未處理就仍是鎖定有主貨。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用撬棍抬開扣片並卸下兩份廢鐵",
+        "required_items": [
+          "content_crowbar"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；借自有撬棍操作既定支點，工具留己。",
+        "outcome_zh": "貨蓋打開，2份廢鐵送入場內貨架；帶班工交付剩下的廢鐵1份。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "用扳手拆外框再重新固定",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；扳手留己，拆裝外露螺栓，不耗新材料。",
+        "outcome_zh": "外框復位且貨物完成卸交；領取箱內預留廢鐵1份。",
+        "rewards": [
+          {
+            "content_id": "content_scrap_iron",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "幫忙清出卸貨空位後退出",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；只移動帶班工指定的空架。",
+        "outcome_zh": "場內有了卸貨位置，開箱仍留給工班；玩家不領箱內物。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_035"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "指定貨箱的扣片、箱內3份廢鐵與工作報酬",
+        "change_zh": "開箱後2份回場內架位、1份交完成者，箱蓋操作只涵蓋此次授權。",
+        "authority_needed_zh": "未來局部物件操作、貨物所有權與工作結算管理者。",
+        "derivation_boundary_zh": "物理廢鐵與既有 aggregate scrap 沒有隱含1比1換算，不改整座拆解場產出。"
+      }
+    ],
+    "followup_zh": "帶班工可介紹流動技工現有的待修工作；玩家還需符合新的工具或材料條件。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_035 是本單同一次操作；綁定同一發案人、標的現物及預留報酬，直接引用事件的完成紀錄，不第二次扣物或發獎。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "repair",
+      "cargo",
+      "exploration"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_002",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "讓技工的手推車重新轉動",
+    "premise_zh": "流動技工已查明手推車接頭磨損，需求是相符軸承1件；車上還有可按相符手冊調整的備座。其自有銅線2份，其中1份只支付一種完成方案。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_003"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工已查明手推車接頭磨損，需求是相符軸承1件；車上還有可按相符手冊調整的備座。其自有銅線2份，其中1份只支付一種完成方案。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天後技工移到下一個既定工作點；車若未修妥會按真正運送安排處理，現場委託結束。",
+      "without_player_zh": "若技工買到合適軸承並先修好，本單關閉；未修好就保留待修狀態，不讓車自行恢復。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交付相符軸承讓技工裝回車上",
+        "required_items": [],
+        "consumed_items": [
+          "content_bearing"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交軸承1件，規格在交付前比對。",
+        "outcome_zh": "技工完成這台手推車的接頭更換並示範空車轉動；玩家領銅線1份。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "按相符手冊協助調整備用固定座",
+        "required_items": [
+          "content_repair_manual"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；閱讀自己的維修手冊，技工使用原車既有備座。",
+        "outcome_zh": "兩人改用完好的備座，空車測試通過；銅線1份作協作報酬，手冊留己。",
+        "rewards": [
+          {
+            "content_id": "content_copper_wire",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "協助把車移到工坊待修區",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不交零件，也不進行修復。",
+        "outcome_zh": "車離開通道並掛上待修牌，技工保留兩份銅線；玩家無報酬。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_036"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "這台手推車的接頭與技工報酬",
+        "change_zh": "更換玩家轉交的軸承，或按手冊改用現有備座；實際測試後交銅線1份。",
+        "authority_needed_zh": "未來特定設施修復、零件消耗與工作結算管理者。",
+        "derivation_boundary_zh": "這份有限修理不授予所有機器通用 repair，也不提升人物技能或全城效率。"
+      }
+    ],
+    "followup_zh": "車能轉動後，技工可用於真實可用的搬運工作；下一工作仍須另行接受。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_036 是本單同一次操作；綁定同一發案人、標的現物及預留報酬，直接引用事件的完成紀錄，不第二次扣物或發獎。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "repair",
+      "knowledge",
+      "identification"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_003",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "讓託管銅線退出可售帳",
+    "premise_zh": "材料記帳員發現紅繩盤與白繩盤各1份銅線抄進同欄。原單寫明紅盤是診所託管、白盤可售；另有布袋1只作核對和搬回貨架報酬。診所已書面授權在灰谷的記帳員核認紅盤，工坊授權同在灰谷的流動技工核認白盤，兩人已約次日共同見證；不要求新希望收貨人到場。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_new_hope_003"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員發現紅繩盤與白繩盤各1份銅線抄進同欄。原單寫明紅盤是診所託管、白盤可售；另有布袋1只作核對和搬回貨架報酬。診所已書面授權在灰谷的記帳員核認紅盤，工坊授權同在灰谷的流動技工核認白盤，兩人已約次日共同見證；不要求新希望收貨人到場。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後託管收件窗口結束；紅盤已被原主合法領走則按真實交接結案。",
+      "without_player_zh": "若記帳員先核清兩盤，工作關閉；沒有核清就不把託管品投入交易，不等待玩家凍結取貨。"
+    },
+    "approaches": [
+      {
+        "label_zh": "核對原單並將兩盤送回各自貨架",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 1
+        },
+        "cost_zh": "0天；依交接單核色與簽名，再搬到標示的架位。",
+        "outcome_zh": "託管與可售欄被正確分開，兩盤各歸其架；記帳員交付布袋1只。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "等本地授權代表依約逐盤核認",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；不消耗物品，核對灰谷記帳員與流動技工的有效委任和在場狀態，再共同見證簽名。",
+        "outcome_zh": "兩盤歸屬明確且移到正確架位；玩家領同一只預留布袋。",
+        "rewards": [
+          {
+            "content_id": "content_cloth_sack",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "只隔開桌上的兩盤，不參與記帳",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不買或取走銅線。",
+        "outcome_zh": "貨物不再混在一起，原帳仍等記帳員處理；布袋留在原庫。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_037"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "兩份銅線的所有權標記、可售狀態與貨架位置",
+        "change_zh": "紅盤保持託管、白盤可售，兩者歸位；布袋只付同一次完成紀錄。",
+        "authority_needed_zh": "未來物品託管、交易資格與工作結算管理者。",
+        "derivation_boundary_zh": "更正可售標記不直接調整全城價格，也不把診所權益轉給玩家。"
+      }
+    ],
+    "followup_zh": "原收件人到場後可以真實領貨；這不是給玩家同額銅線的獎勵。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_037 是本單同一次操作；綁定同一發案人、標的現物及預留報酬，直接引用事件的完成紀錄，不第二次扣物或發獎。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "FICTION-CANTICLE"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_004",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "空工具腰帶也能找工作",
+    "premise_zh": "流動技工代一名學徒澄清誤會：工坊看見工具腰帶就以為他自備全部器材，實際腰帶是空的；當日有一件可徒手完成的分料工作。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_029",
+      "hook_gray_valley_014"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工代一名學徒澄清誤會：工坊看見工具腰帶就以為他自備全部器材，實際腰帶是空的；當日有一件可徒手完成的分料工作。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後工坊本輪分料名額結束；是否仍有工作依真正空缺重查。",
+      "without_player_zh": "若學徒自行說明並取得工作，提案關閉；未被錄用也不生成失業懲罰或新NPC。"
+    },
+    "approaches": [
+      {
+        "label_zh": "借扳手讓學徒在場示範已會的操作",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；工具全程在場，結束後收回。",
+        "outcome_zh": "領班區分工具所有與實際能力，安排學徒做已示範的有限工序。",
+        "rewards": []
+      },
+      {
+        "label_zh": "請領班明列可徒手完成的分料項",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "0天；協商不保證學徒獲正式長期職位。",
+        "outcome_zh": "學徒接受當日可做的分料工作，工具欠缺不被誤報成技能欠缺。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替學徒保證能力",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不借工具。",
+        "outcome_zh": "學徒可自己申請或離開，玩家無僱傭權。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_038"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "學徒與工坊的一次工作配對",
+        "change_zh": "記錄真實可用工具與已觀察能力，安排現有工作而非創造工位。",
+        "authority_needed_zh": "未來NPC工作指派與借物管理者。",
+        "derivation_boundary_zh": "腰帶不給技能，短工不等於人口、永久產能或人物經驗增加。"
+      }
+    ],
+    "followup_zh": "若學徒完成工序，可留下具體經歷紀錄；是否成長屬後續角色系統。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_038 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_005",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "同一枚齒輪的兩份承諾",
+    "premise_zh": "材料記帳員代齒輪貨主查預留。僅有齒輪1件，兩位買家各拿一張便箋，其中一張其實是詢價而非成交；原收款記錄在場。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_037"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員代齒輪貨主查預留。僅有齒輪1件，兩位買家各拿一張便箋，其中一張其實是詢價而非成交；原收款記錄在場。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天後貨主原定交件窗口結束；未釐清則封存原齒輪而不給任一人。",
+      "without_player_zh": "若貨主與買家自行核清款項，按真實契約交付；不能因玩家不來讓第二枚齒輪出現。"
+    },
+    "approaches": [
+      {
+        "label_zh": "逐項核對詢價與預留的文字",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "1天；雙方同意提供便箋與收款記錄。",
+        "outcome_zh": "確認一位只是詢價，真正預留者取得原齒輪，另一位保留查找其他貨的需求。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪兩位到原收款人處對單",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；收款人必須仍在城內可聯絡。",
+        "outcome_zh": "原收款人證實只有一筆預留，貨主依此交件。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不代任一方搶取齒輪",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接管貨物。",
+        "outcome_zh": "齒輪繼續由原主保管。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_039",
+      "caravan_030"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "單件齒輪的預留證據與交付",
+        "change_zh": "區分詢價和有效承諾，把原齒輪交給有證據的收件者。",
+        "authority_needed_zh": "未來交易契約與物品所有權管理者。",
+        "derivation_boundary_zh": "不以技能成功強迫另一方接受價格，也不補造第二件貨。"
+      }
+    ],
+    "followup_zh": "落空的買家可提出新的尋件工作，報酬與需求另行核對。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_039 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_030 僅是非必經的可選後續：軸承換貨可作落空買家的另尋零件線索，原齒輪不是那枚軸承，也不保證能互換。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "regional_trade",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_006",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "夜班燈和檢測台共用的電池",
+    "premise_zh": "流動技工代夜班協調，現場只有已驗收電池1件。照明值班與短時檢測都想用，兩者可分時，但需雙方調整工序。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_003",
+      "hook_gray_valley_005",
+      "hook_gray_valley_033"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工代夜班協調，現場只有已驗收電池1件。照明值班與短時檢測都想用，兩者可分時，但需雙方調整工序。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 1,
+      "expiry_zh": "1天後本輪夜班開始，未達成分時就按原持有者既定用途使用。",
+      "without_player_zh": "若實際新電池先到貨或檢測取消，爭議解除；沒有到貨便不生成第二顆。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交自有電池供其中一項工作",
+        "required_items": [],
+        "consumed_items": [
+          "content_battery"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；移交電池1件，是否消耗能源由未來能源流程記錄。",
+        "outcome_zh": "兩項工作各有真實電池可用，玩家失去這件備品；無直接工資獎勵。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協調先檢測再交照明值班",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天；雙方接受具體交接時間。",
+        "outcome_zh": "同一電池按次序交接，不能同時屬於兩台設備。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不擅自拔下共用電池",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接協調。",
+        "outcome_zh": "原持有者繼續既定用途，其他工序等待另議。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_040",
+      "town_051"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "共享電池的使用排程與保管",
+        "change_zh": "記錄一件電池在兩個用途間的實際交接，或玩家自願提供第二件。",
+        "authority_needed_zh": "未來能源、設備占用與工作排程管理者。",
+        "derivation_boundary_zh": "電池物品存在不等於通用電力生成；城鎮供電與產量不直接加值。"
+      }
+    ],
+    "followup_zh": "分時是否足夠要由能源與設備實際需求驗證，不用故事保證整夜運轉。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_040 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 town_051 僅是非必經的可選後續：延長線時段是同類設備占用爭議，處理電池不自動解決用線許可。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "electronics",
+      "lighting",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-03"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_007",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "焊工不要便宜的錯材",
+    "premise_zh": "拆解場帶班工代焊工退一批不符要求的薄鋼板；買家需要受力件材料，交來的是外殼板。實物可辨厚薄，具體承重仍未驗。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003",
+      "hook_gray_valley_025"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工代焊工退一批不符要求的薄鋼板；買家需要受力件材料，交來的是外殼板。實物可辨厚薄，具體承重仍未驗。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天後原賣家返程，超過時限仍可保留證據，但需另找正式聯絡方式。",
+      "without_player_zh": "若賣家先接受退貨並簽回原物，工作結束；否則貨保持待驗，不強迫焊接使用。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用機械知識列明用途不符項",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 2
+        },
+        "cost_zh": "1天；不做破壞測試，原物保持可退。",
+        "outcome_zh": "賣家承認交的是外殼板，雙方簽下退回原板的交接單。",
+        "rewards": []
+      },
+      {
+        "label_zh": "協助把未動用的板料送回原攤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；按清單逐件搬運，等待雙方當面核對。",
+        "outcome_zh": "板料實數歸原賣家，付款處理另依真實交易。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替薄板出承重保證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不參與退貨。",
+        "outcome_zh": "焊工保留拒用權，材料不自動變厚鋼。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_041",
+      "caravan_023"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "不符用途板料的退貨與規格記錄",
+        "change_zh": "標出已知用途差異，完成原物退交或保留爭議。",
+        "authority_needed_zh": "未來材料鑑定、交易退貨與所有權管理者。",
+        "derivation_boundary_zh": "不給通用防禦或修理加成，退款不能由文字憑空入帳。"
+      }
+    ],
+    "followup_zh": "焊工可再提出正確規格需求，必須找到真實供應者。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_041 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_023 僅是非必經的可選後續：金屬價籤可引出另一批貨的規格核對，不能代替本批薄板的退貨憑據。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "identification",
+      "regional_trade",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-02"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_008",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "夾克上的舊隊徽從哪裡來",
+    "premise_zh": "材料記帳員代二手攤查一件摩托夾克，居民說圖案屬已解散的車隊；賣家卻宣稱現在仍可憑它通行。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_046",
+      "hook_gray_valley_032"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員代二手攤查一件摩托夾克，居民說圖案屬已解散的車隊；賣家卻宣稱現在仍可憑它通行。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天後二手攤離開現地，未查明則保留兩種說法與持有人聯絡線索。",
+      "without_player_zh": "若賣家先撤下通行承諾，爭議部分結束；居民可繼續講歷史但不產生現行權限。"
+    },
+    "approaches": [
+      {
+        "label_zh": "帶自己的摩托夾克給老裁縫比較縫法",
+        "required_items": [
+          "content_motorcycle_jacket"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；自有衣物留己，只查外觀年代。",
+        "outcome_zh": "確認徽布是舊裁片再利用，不能證明穿者是隊員。",
+        "rewards": []
+      },
+      {
+        "label_zh": "核對居民記憶與攤主進貨記錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "2天；分開記錄第一手與轉述。",
+        "outcome_zh": "找到舊制服裁剩布的來源，賣家撤回現行通行保證。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不為隊徽支付通行溢價",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不買也不拆徽。",
+        "outcome_zh": "夾克維持普通衣物身份，歷史待查。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_042",
+      "caravan_042"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "隊徽的可驗歷史與賣家宣稱",
+        "change_zh": "把舊隊伍符號與目前身份資格分開，留來源證據。",
+        "authority_needed_zh": "未來鑑定、知識與交易宣稱管理者。",
+        "derivation_boundary_zh": "不復活已不存在的勢力，不建立永久通行證或關係buff。"
+      }
+    ],
+    "followup_zh": "若後來找到真正隊員，須用現有人口綁定其角色而不是新增人口。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_042 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_042 僅是非必經的可選後續：沙袍上的異城牌是另一件來源調查，不能證明這件夾克有通行權。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "identification",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_009",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "讓折鏟能安全收合",
+    "premise_zh": "流動技工收到一把有主工兵鏟，外露鉸鏈螺栓鬆了；原主同意只處理這顆螺栓，預留螺絲起子1把作工錢。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_006",
+      "hook_gray_valley_044"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工收到一把有主工兵鏟，外露鉸鏈螺栓鬆了；原主同意只處理這顆螺栓，預留螺絲起子1把作工錢。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天後原主要領回工具；未完成就退回待修鏟，不能收已修價。",
+      "without_player_zh": "若技工先完成，報酬按真實完成者處理；沒有操作就不自動恢復工具狀態。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用扳手按技工指示緊固外露螺栓",
+        "required_items": [
+          "content_wrench"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；工具留己，收合測試在卸力狀態完成。",
+        "outcome_zh": "鏟柄可正常收合，原主驗收後交螺絲起子1把。",
+        "rewards": [
+          {
+            "content_id": "content_screwdriver",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "把鏟送到原主指定的現有修攤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；只負責交接與取回，修攤費用由原主另付。",
+        "outcome_zh": "修攤完成相同鉸鏈工作，玩家帶回驗收，原主交同一把螺絲起子。",
+        "rewards": [
+          {
+            "content_id": "content_screwdriver",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "只把鬆動部位寫入待修牌",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不操作工具。",
+        "outcome_zh": "鏟標明不能當全新貨出售，玩家不領工錢。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_043",
+      "caravan_021"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "指定工兵鏟鉸鏈狀態與維修交接",
+        "change_zh": "僅修已定位的外露螺栓，驗收後轉移既有工具報酬。",
+        "authority_needed_zh": "未來物件缺陷、局部修理與工作結算管理者。",
+        "derivation_boundary_zh": "不引入通用耐久值，也不由緊螺栓提升傷害或工具等級。"
+      }
+    ],
+    "followup_zh": "若其他部位另有裂縫，需新的檢查與拒收理由，不算這次已修。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_043 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_021 僅是非必經的可選後續：商隊鬆輪框可另提修理工作，折鏟驗收不等於車輪已修。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "repair",
+      "identification",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "WG-01",
+      "WG-05"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_010",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "先查粉塵，再安排拆解班",
+    "premise_zh": "拆解場帶班工要拆一片來路不明板材，普通布巾不足以說明防護。現存原包裝可查，但在另一個貨棚；沒有正式辨識前此班不開工。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_027"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工要拆一片來路不明板材，普通布巾不足以說明防護。現存原包裝可查，但在另一個貨棚；沒有正式辨識前此班不開工。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後本班轉做其他已有工作；待查板材留隔離處。",
+      "without_player_zh": "若原包裝先被找回並確認材料，負責人重新評估；否則不因玩家缺席強迫開工或生成傷病。"
+    },
+    "approaches": [
+      {
+        "label_zh": "查貨棚封號找回相符原包裝",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 2
+        },
+        "cost_zh": "1天；只取物主授權的包裝標記。",
+        "outcome_zh": "板材來源和標示記錄完整，仍由正式處理者決定防護與可否拆解。",
+        "rewards": []
+      },
+      {
+        "label_zh": "帶沙塵面罩供負責人比對適用範圍",
+        "required_items": [
+          "content_dust_mask"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；面罩留己，不進待查區。",
+        "outcome_zh": "查明普通防塵面罩不保證未知危害防護，工班維持暫緩。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕參加未辨識材料的拆解",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不領拆解報酬。",
+        "outcome_zh": "班長另排既有安全工作，板材不消失。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_044",
+      "town_046"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "未知板材的來源、隔離與工作許可",
+        "change_zh": "保存追溯證據，將未通過辨識的板材排除本班作業。",
+        "authority_needed_zh": "未來危害鑑定、拆解許可與工作排程管理者。",
+        "derivation_boundary_zh": "不給群體免疫、不創造疾病或直接封掉全城工業生產。"
+      }
+    ],
+    "followup_zh": "正式檢驗是下一份專業工作，材料標籤不能替代其結果。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_044 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 town_046 僅是非必經的可選後續：舊防化服是另一件材料隔離需求，不能用它代替本板材的危害辨識。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "hazards",
+      "identification",
+      "disassembly"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_011",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "economy",
+    "title_zh": "重新稱清回收秤上的三批料",
+    "premise_zh": "材料記帳員代買家核對三批有主材料。秤盤旁有砂，不知出自哪一批；原毛重票還在，買家同意先退回可見砂後逐批重新見證。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_020"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員代買家核對三批有主材料。秤盤旁有砂，不知出自哪一批；原毛重票還在，買家同意先退回可見砂後逐批重新見證。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後本次收貨停止，未核清的材料不入可售庫；仍保留實際保管位置，貨主完成返領交接才記為退回。",
+      "without_player_zh": "若買家與貨主自行完成重秤，本單關閉；找不到砂的來源就標未知，不任意罰款。"
+    },
+    "approaches": [
+      {
+        "label_zh": "分批核票並請貨主見證重秤",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "BARTER",
+          "rank": 2
+        },
+        "cost_zh": "1天；不靠技能猜精確重量。",
+        "outcome_zh": "三批各有新見證記錄，原票與差異一起保存，交易只用確認結果。",
+        "rewards": []
+      },
+      {
+        "label_zh": "交布袋隔開已驗收的一批",
+        "required_items": [],
+        "consumed_items": [
+          "content_cloth_sack"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；布袋1只歸買家，自己不取得其中材料。",
+        "outcome_zh": "至少一批已驗料與待查料分離，剩餘兩批繼續原程序。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不在來源不清時指控貨主",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接核票。",
+        "outcome_zh": "材料保持原保管與待驗狀態。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_045"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "三批回收料的見證秤量與驗收狀態",
+        "change_zh": "保留實測值及差異，不把原有砂當新金屬或推定詐欺。",
+        "authority_needed_zh": "未來批次貨物、秤量與交易驗收管理者。",
+        "derivation_boundary_zh": "不從差值自動鑄錢或扣名聲，價款仍需真正成交。"
+      }
+    ],
+    "followup_zh": "若以後查明有人調秤，需獨立事實才可開責任調查。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_045 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "cargo",
+      "regional_trade",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_012",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "把未知防化服留在生活區之外",
+    "premise_zh": "流動技工代居民拒收一件來源不明防化服作補衣材料；衣物主人願意查來源，但家人急需能穿的外衣。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_046"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工代居民拒收一件來源不明防化服作補衣材料；衣物主人願意查來源，但家人急需能穿的外衣。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天後本次收料改用已知乾淨來源；未知防化服繼續隔離或由原主另處理。",
+      "without_player_zh": "若原主先找到正式檢查結果，重新評估；否則家人可自行找衣，不自動染病或凍死。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交自己的舊工作服給需要衣物者",
+        "required_items": [],
+        "consumed_items": [
+          "content_work_clothes"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；舊工作服1件轉移，玩家失去該件穿著選擇。",
+        "outcome_zh": "對方有已知衣物可穿，防化服不必為趕工立刻拆料。",
+        "rewards": []
+      },
+      {
+        "label_zh": "用防水袋送來源紙條去找原收貨攤",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；袋留己，只裝紙條不裝疑似污染衣。",
+        "outcome_zh": "找到上一任收貨者並補交接記錄，仍不宣稱衣服乾淨。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒收未知衣料，但不替原主丟棄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接物。",
+        "outcome_zh": "原主保留處理責任，未生成新布料。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_046",
+      "caravan_046"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "未知防化服的隔離與替代衣物交接",
+        "change_zh": "維持疑似污染物與日常用品分開，只轉移自願提供的乾淨衣物。",
+        "authority_needed_zh": "未來危害、鑑定與物品所有權管理者。",
+        "derivation_boundary_zh": "沒有服裝清洗、醫療或污染免疫效果先行成立。"
+      }
+    ],
+    "followup_zh": "來源記錄可帶向正式檢測需求，下一份工作另定器材與報酬。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_046 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_046 僅是非必經的可選後續：晾曬醫療袋是另地保管疑點，不能把它當本衣物的檢驗結果。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "hazards",
+      "identification",
+      "cargo",
+      "equipment"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "WG-05"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_013",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "別讓資料磁碟一直墊桌腳",
+    "premise_zh": "流動技工發現一片有主資料磁碟被拿來墊桌，鄰近維修單寫有同編號；是否仍可讀未知。物主同意取回保存。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_036"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工發現一片有主資料磁碟被拿來墊桌，鄰近維修單寫有同編號；是否仍可讀未知。物主同意取回保存。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天後桌子要搬離工位，未處理時磁碟仍按物主決定保管，不保證不受損。",
+      "without_player_zh": "若物主已取回磁碟，工作關閉；不能替未發生的損壞預扣價值或生成新資料。"
+    },
+    "approaches": [
+      {
+        "label_zh": "交廢鐵作墊片，把磁碟還物主",
+        "required_items": [],
+        "consumed_items": [
+          "content_scrap_iron"
+        ],
+        "required_skill": null,
+        "cost_zh": "0天；廢鐵1份歸工位，磁碟不歸玩家。",
+        "outcome_zh": "磁碟脫離桌腳壓力，物主將它與相符維修單封存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "先把桌面搬空再扶桌取碟",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；需工位人同意停用並協助。",
+        "outcome_zh": "原磁碟完整取出，對照編號後由物主保存。",
+        "rewards": []
+      },
+      {
+        "label_zh": "只告知物主磁碟位置",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不擅取資料。",
+        "outcome_zh": "物主可自行處理，玩家沒有資料讀取權。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_047",
+      "caravan_032"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "磁碟的物理保管與文件關聯",
+        "change_zh": "保存原磁碟與已知編號關係，讀取狀態仍未知。",
+        "authority_needed_zh": "未來電子資料、物品保管與知識管理者。",
+        "derivation_boundary_zh": "不能因撿到磁碟就提高技術、解鎖配方或改世界設施。"
+      }
+    ],
+    "followup_zh": "若未來找到相容讀取設備，可另提具體資料復原工作。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_047 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_032 僅是非必經的可選後續：墊灶筆記可另回收保存，與本資料磁碟是兩份來源各異的知識物。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "electronics",
+      "knowledge",
+      "cargo"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_014",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "替夜班把真正的急救物資送到",
+    "premise_zh": "拆解場帶班工發現標著醫療箱的空盒，灰谷本地收貨棚實際預留急救包1件待領；帶班工自有乾糧1份給完成搬送者。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_038"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工發現標著醫療箱的空盒，灰谷本地收貨棚實際預留急救包1件待領；帶班工自有乾糧1份給完成搬送者。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後這一班收工；未領件仍在原收貨棚，已領但未送達件保留實際保管人與位置，須另行交還或重約送件，不傳送回棚或到工地。",
+      "without_player_zh": "若其他工人先領回急救包，本單結束；空箱仍可保留作容器，不自動填滿。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用自有防水袋護送已封好的急救包",
+        "required_items": [
+          "content_waterproof_bag"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；袋留己，急救包保持原封。",
+        "outcome_zh": "夜班保管者簽收預留包件，玩家領乾糧1份；沒有治療發生。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "帶回收貨棚與夜班雙方的交接憑據",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；徒手送件，走可用通道。",
+        "outcome_zh": "同一件急救包到正確保管者，領同份乾糧1份。",
+        "rewards": [
+          {
+            "content_id": "content_food",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "拒絕把空盒登記成已補給",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接搬送。",
+        "outcome_zh": "帳上保持缺實物狀態，帶班工另找人。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_048"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "已預留急救包的跨保管交付",
+        "change_zh": "把灰谷本地收貨棚的一件急救包交夜班保管者，報酬從帶班工扣出。",
+        "authority_needed_zh": "未來貨物所有權與工作結算管理者。",
+        "derivation_boundary_zh": "包件送達不等於HP恢復、醫療能力或傷病已處理。"
+      }
+    ],
+    "followup_zh": "若之後真的有人需要使用，須由正式醫療權限判定，不從委託敘事治療。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_048 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "cargo",
+      "knowledge",
+      "injury"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_015",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "exploration",
+    "title_zh": "鐵門後面是不是還有路",
+    "premise_zh": "拆解場帶班工代庫主查一扇鎖門。庫主授權看門框與舊平面圖，不授權砍門；圖上疑似有另一個通風間入口但尚未核實。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_026"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工代庫主查一扇鎖門。庫主授權看門框與舊平面圖，不授權砍門；圖上疑似有另一個通風間入口但尚未核實。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 5,
+      "expiry_zh": "5天後庫主離開現場，未續授權就停止檢查；門不會為玩家保持開放。",
+      "without_player_zh": "若庫主先找到鑰匙開門，工作轉為普通清點，不再報另路發現。"
+    },
+    "approaches": [
+      {
+        "label_zh": "持手電筒查看外側門框與可見縫隙",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；需真實可用電源，工具留己，不破門。",
+        "outcome_zh": "發現外露服務鉸鏈的位置，標成可由技工另查的入口候選。",
+        "rewards": []
+      },
+      {
+        "label_zh": "照舊世地圖走一圈核對側門",
+        "required_items": [
+          "content_old_world_map"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；只到庫主允許的外圍。",
+        "outcome_zh": "找到圖中通風間外門並確認已被堵住，帶回具體障礙資訊。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不拿消防斧強開有主鐵門",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；退出。",
+        "outcome_zh": "庫主保留門與內容物所有權。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_049",
+      "caravan_054"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "授權庫房的入口與障礙記錄",
+        "change_zh": "新增可查入口候選與堵塞事實，不直接進入庫內。",
+        "authority_needed_zh": "未來探索、門禁與局部維修管理者。",
+        "derivation_boundary_zh": "工具名稱不授予破壞權，沒有憑空戰利品或傳送。"
+      }
+    ],
+    "followup_zh": "清理側門或拆鉸鏈需另列工具、工時與許可，不能以發現代替施工。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_049 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_054 僅是非必經的可選後續：遺跡邀請是獨立探索支線，拒絕不影響庫房外圍檢查，也不開通庫房入口。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "exploration",
+      "lighting",
+      "navigation",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P01",
+      "FICTION-WOOL"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_016",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "先讓磨花鏡片的工人看清楚",
+    "premise_zh": "流動技工代居民檢查工程護目鏡；固定帶鬆了，鏡片也磨花，兩個問題不能靠同一條新帶解決。工人備鹽1份謝酬。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_025"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工代居民檢查工程護目鏡；固定帶鬆了，鏡片也磨花，兩個問題不能靠同一條新帶解決。工人備鹽1份謝酬。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 3,
+      "expiry_zh": "3天後工人決定是否送專門驗收，未完成前不把鏡片標成可作危險工序。",
+      "without_player_zh": "若工人先換得已驗收護具，提案關閉；無替代品就改排不用該護具的實際工作。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用自己的工程護目鏡作外觀與帶扣對照",
+        "required_items": [
+          "content_engineering_goggles"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；工具留己，不把自己的借給未知危害作業。",
+        "outcome_zh": "分清鬆帶與磨花兩項，工人接受完整待修表，領鹽1份。",
+        "rewards": [
+          {
+            "content_id": "content_salt",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "陪工人到原出售攤查驗",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；本人自願並帶原物。",
+        "outcome_zh": "攤主確認鏡片需另驗，留下實際處理選項；領同份鹽1份。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不對磨花鏡片提供防護保證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不拿謝酬。",
+        "outcome_zh": "工人保持待檢狀態。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_050"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "護目鏡兩個缺陷的分項記錄",
+        "change_zh": "明列固定帶與鏡片問題，不把局部整理算全面修好。",
+        "authority_needed_zh": "未來裝具鑑定、局部維修與工作結算管理者。",
+        "derivation_boundary_zh": "不增加命中率、視野或危害免疫。"
+      }
+    ],
+    "followup_zh": "實際換鏡片須有相容零件與正式修理，不由查驗生成。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_050 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "equipment",
+      "identification",
+      "repair",
+      "hazards"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_017",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "faction",
+    "title_zh": "誰都不能偷偷拔別人的線",
+    "premise_zh": "流動技工代公共車間處理插座爭議。檢測桌與居民充電區共用一條現有延長線，兩邊都把對方的使用時間當空檔。",
+    "issuer_hook_id": "hook_gray_valley_002",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_015",
+      "hook_gray_valley_050"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "流動技工代公共車間處理插座爭議。檢測桌與居民充電區共用一條現有延長線，兩邊都把對方的使用時間當空檔。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後車間公布下一輪使用表；爭議未解就保持原授權用途，不擅自拆線。",
+      "without_player_zh": "若兩邊先協商好，工作關閉；若仍不同意則由真正保管者安排，不生成停電事故逼玩家。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用萬用電表協助技工核對已允許的負載標記",
+        "required_items": [
+          "content_multimeter"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "ELECTRONICS",
+          "rank": 2
+        },
+        "cost_zh": "1天；設備與電源需正式許可，不教未知帶電操作。",
+        "outcome_zh": "技工確認可查的使用上限，雙方據此只安排分時而不再疊用。",
+        "rewards": []
+      },
+      {
+        "label_zh": "將兩邊需要的時段逐項排開",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 2
+        },
+        "cost_zh": "1天；雙方同意才生效。",
+        "outcome_zh": "當輪工作表消除重疊，原線按表交接。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不替任何一邊拔插頭",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；退出協商。",
+        "outcome_zh": "既有設備保持由原負責人操作。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_051",
+      "town_040"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "共用延長線的授權占用時段",
+        "change_zh": "把同一實物的使用範圍與時間寫清，維持負責人控制。",
+        "authority_needed_zh": "未來電力、設備占用與工作排程管理者。",
+        "derivation_boundary_zh": "協商不能提高電源容量或替全城發電。"
+      }
+    ],
+    "followup_zh": "若長期需求超過實際能力，才形成另買器材的市場需求候選。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_051 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 town_040 僅是非必經的可選後續：電池分時是另一份設備借用協商，排好延長線不增加電池數量。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "electronics",
+      "knowledge",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_018",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "work",
+    "title_zh": "拆車場少的那把小扳手",
+    "premise_zh": "拆解場帶班工找一把刻號扳手，最後出現在出貨架下；他自有另一把可交作尋回報酬，兩把刻號不同。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_003",
+      "hook_gray_valley_044"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工找一把刻號扳手，最後出現在出貨架下；他自有另一把可交作尋回報酬，兩把刻號不同。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 2,
+      "expiry_zh": "2天後出貨架搬離，未找到就改查新場地，不憑空宣布扳手丟失。",
+      "without_player_zh": "若工班先找回刻號扳手，這一尋物單關閉；報酬備用扳手留原主。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用手電筒側照出貨架下",
+        "required_items": [
+          "content_flashlight"
+        ],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "1天；需可用電源，工具留己，不鑽進未固定貨架。",
+        "outcome_zh": "找到原刻號扳手交帶班工，領另一把已預留扳手。",
+        "rewards": [
+          {
+            "content_id": "content_wrench",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "在帶班工協助下逐箱查移動紀錄",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "2天；只搬允許的小空箱。",
+        "outcome_zh": "按最後位置找到原扳手，領同一把預留備用扳手。",
+        "rewards": [
+          {
+            "content_id": "content_wrench",
+            "quantity": 1
+          }
+        ]
+      },
+      {
+        "label_zh": "不取走不屬自己的工具",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接尋物。",
+        "outcome_zh": "失物與報酬仍各有原主。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_052",
+      "caravan_060"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "失物扳手與報酬扳手的不同實例",
+        "change_zh": "原刻號工具返還，另一件自有工具支付給完成者。",
+        "authority_needed_zh": "未來物品實例身份與工作結算管理者。",
+        "derivation_boundary_zh": "同item_id不同實例不能混成同一件返還又獎勵；不生成工具。"
+      }
+    ],
+    "followup_zh": "找到後可提議改善借用記錄，但需要工班真正同意。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_052 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_060 僅是非必經的可選後續：散場失物是另一把刻號扳手；未核對真正刻號與原主前，不合併失物或報酬。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "lighting",
+      "exploration",
+      "cargo",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_019",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "life",
+    "title_zh": "皮衣夾層裡的工資收據",
+    "premise_zh": "材料記帳員代皮衣主人找一張工資收據。買家已付皮衣價，卻沒同意代收舊收據；夾層中的紙屬原主，兩方都願見證拆出。",
+    "issuer_hook_id": "hook_gray_valley_003",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_001",
+      "hook_gray_valley_021"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "材料記帳員代皮衣主人找一張工資收據。買家已付皮衣價，卻沒同意代收舊收據；夾層中的紙屬原主，兩方都願見證拆出。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 4,
+      "expiry_zh": "4天後買家要離城，未取出則記下可聯絡去向，不能為玩家攔人。",
+      "without_player_zh": "若雙方先完成紙件返還，工作關閉；找不到收據不直接否認已付工資。"
+    },
+    "approaches": [
+      {
+        "label_zh": "依縫線位置指導買家取出紙件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SCAVENGING",
+          "rank": 1
+        },
+        "cost_zh": "1天；不擅自割衣，原主同意檢查既有開口。",
+        "outcome_zh": "收據從可開夾層取出歸原主，皮衣仍歸買家。",
+        "rewards": []
+      },
+      {
+        "label_zh": "陪雙方到原裁縫處見證取件",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "2天；衣物一直由買家保管。",
+        "outcome_zh": "裁縫開原有內袋扣，完整紙件返原主，沒有重算工資。",
+        "rewards": []
+      },
+      {
+        "label_zh": "不把收據當成自己的兌款憑證",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不接物。",
+        "outcome_zh": "雙方保留各自所有權與查證方式。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_053",
+      "caravan_011"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "皮衣與夾層文件的分別所有權",
+        "change_zh": "將私人收據返原主，維持已成交皮衣歸買家。",
+        "authority_needed_zh": "未來文件與物品實例所有權管理者。",
+        "derivation_boundary_zh": "紙上金額不直接增加任何帳戶，不用敘事重發已支付工資。"
+      }
+    ],
+    "followup_zh": "收據若涉及未付款爭議，需另查真實交易證據。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_053 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。 caravan_011 僅是非必經的可選後續：箱上家徽另需身份與來源證據，不是本皮衣收據的兌付憑據。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "knowledge",
+      "cargo",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "WG-04"
+    ]
+  },
+  {
+    "quest_id": "quest_gray_valley_020",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "kind": "world_state",
+    "title_zh": "熱作業名單少了防護確認欄",
+    "premise_zh": "拆解場帶班工發現回收爐外工單只列人名，沒有每人實際護具確認；有人借穿一套隔熱服，卻被重複記給兩班。",
+    "issuer_hook_id": "hook_gray_valley_001",
+    "stakeholder_hook_ids": [
+      "hook_gray_valley_002",
+      "hook_gray_valley_003",
+      "hook_gray_valley_028",
+      "hook_gray_valley_047"
+    ],
+    "trigger": {
+      "basis": "PROPOSED_WORLD_FACT",
+      "condition_zh": "拆解場帶班工發現回收爐外工單只列人名，沒有每人實際護具確認；有人借穿一套隔熱服，卻被重複記給兩班。 接案與交付時重查發案人仍存活可聯絡、工作未結束及物資歸屬。"
+    },
+    "deadline": {
+      "kind": "relative_days",
+      "days": 1,
+      "expiry_zh": "1天後下一班實際開工審核，未有相符防護確認者不安排該工序，改做現有其他工作。",
+      "without_player_zh": "若負責人先核實人與裝具配對，名單更正；沒有護具就不生成或複製，亦不安排必然燒傷。"
+    },
+    "approaches": [
+      {
+        "label_zh": "用隔熱服作樣本核對標記與配套欄",
+        "required_items": [
+          "content_heat_insulation_suit"
+        ],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "MECHANICS",
+          "rank": 1
+        },
+        "cost_zh": "1天；自有服留己，只在安全區比對，不進爐區。",
+        "outcome_zh": "名單加上實物編號與適用性待驗欄，指出同服不能同時借兩班。",
+        "rewards": []
+      },
+      {
+        "label_zh": "逐一向兩班確認借用交接時間",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": {
+          "skill": "SPEECH",
+          "rank": 1
+        },
+        "cost_zh": "1天；不替沒有見過的護具簽字。",
+        "outcome_zh": "重疊借用被查明，排班改為前班實際歸還後才供後班審核。",
+        "rewards": []
+      },
+      {
+        "label_zh": "拒絕代簽未見過的護具",
+        "required_items": [],
+        "consumed_items": [],
+        "required_skill": null,
+        "cost_zh": "0天；不參與熱作業。",
+        "outcome_zh": "負責人保留未確認狀態，玩家不被默認為合格工人。",
+        "rewards": []
+      }
+    ],
+    "encounter_refs": [
+      "town_054"
+    ],
+    "world_effect_proposals": [
+      {
+        "target_zh": "熱作業排程中的人與裝具配對",
+        "change_zh": "消除同一套裝具被同時指派兩人的假記錄，保持未驗即未驗。",
+        "authority_needed_zh": "未來危害許可、設備借用與工作排程管理者。",
+        "derivation_boundary_zh": "不調整全城產量或賦予隔熱免疫；後續作業仍需實際危害判定。"
+      }
+    ],
+    "followup_zh": "若需要另購相符裝具，形成真實採購提案，不由名單自動補庫。 任務與所連事件若是同一交付，使用同一份結算紀錄，不能各領一次報酬。 town_054 是本任務的情境設計來源；本單採用自己列明的前提、人物與報酬，尚非可直接重用的同一事件。未對齊事實版本和標的實例前，不把兩套結果串成必經步驟或共用完成紀錄。",
+    "dependencies": [
+      "jobs",
+      "item_ownership",
+      "npc_relationship",
+      "equipment",
+      "hazards",
+      "knowledge"
+    ],
+    "inspiration_refs": [
+      "WG-05",
+      "WG-03"
+    ]
+  }
+]

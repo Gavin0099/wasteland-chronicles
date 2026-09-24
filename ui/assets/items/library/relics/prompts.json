@@ -1,0 +1,241 @@
+{
+  "generator": "builtin image_gen",
+  "scope": "Item World V0 sections 12–15; art candidates only",
+  "date": "2026-09-22",
+  "jobs": [
+    {
+      "id": "old_world_watch",
+      "name": "舊世界手錶",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A battered analog wristwatch, round ivory dial with plain tick marks (no words or numbers), scratched steel case and cracked brown leather strap curved into an open loop."
+    },
+    {
+      "id": "camera",
+      "name": "相機",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: An obsolete compact film camera, scuffed charcoal leatherette body, dull silver top plate, one large round glass lens and a small worn attached wrist strap, three-quarter view."
+    },
+    {
+      "id": "music_player",
+      "name": "音樂播放器",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A palm-sized old portable cassette music player, battered olive-gray rectangular housing, clear cassette window and a few chunky physical buttons, no headphones or loose parts."
+    },
+    {
+      "id": "vinyl_record",
+      "name": "黑膠唱片",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One vintage black vinyl record emerging slightly from its worn kraft-paper square sleeve as a single inventory object, concentric grooves, small faded ochre center label with no lettering."
+    },
+    {
+      "id": "old_photograph",
+      "name": "老照片",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One curled sepia photograph with worn ivory border, showing a deserted old settlement street and a single leafless tree, no people, no writing, slightly diagonal, physical paper texture."
+    },
+    {
+      "id": "identity_document",
+      "name": "身分證件",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A worn folded civilian identity booklet, faded slate-blue cover opened just enough to reveal layered yellowed pages, blind embossed plain geometric rectangle, no portrait, no readable text."
+    },
+    {
+      "id": "military_dog_tags",
+      "name": "軍人識別牌",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A pair of dented matte steel military identification tags hanging together from a short looping ball chain, weathered edges and shallow abstract wear grooves, no readable names or letters."
+    },
+    {
+      "id": "company_keycard",
+      "name": "公司門禁卡",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One old industrial company access card with a clipped corner, muted mustard identification band and dark magnetic strip, frayed short brown cord through a punched slot, no logo or text."
+    },
+    {
+      "id": "hospital_id_card",
+      "name": "醫院識別卡",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One old hospital access badge, worn ivory plastic with a pale sage-green band, a simple abstract green circle symbol and corroded steel clip, no portrait or readable text, distinct from a company keycard."
+    },
+    {
+      "id": "data_disk",
+      "name": "資料磁碟",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A single old rugged removable data disk cartridge, square dark olive polymer casing with a scratched silver sliding shutter, exposed small hub opening and blank torn paper label."
+    },
+    {
+      "id": "paper_journal",
+      "name": "紙本日記",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A thick hand-sized journal bound in cracked brown leather, irregular yellowed page edges, fraying cloth bookmark and plain wraparound leather tie, closed cover with no lettering."
+    },
+    {
+      "id": "repair_manual",
+      "name": "維修手冊",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A worn ochre cloth-covered repair manual, closed thick paperback with a small simple dark gear pictogram on its cover, dog-eared pages and grease-smudged edges, no lettering."
+    },
+    {
+      "id": "medical_manual",
+      "name": "醫療手冊",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A faded ivory and sage-green medical handbook, compact cloth-bound book with a plain green plus-shaped medical symbol on the cover (not red), bandaged spine repair, no words."
+    },
+    {
+      "id": "military_manual",
+      "name": "軍用手冊",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A rugged olive military field handbook, small thick square-backed book, reinforced black corners and simple dark chevron pictogram on cover, dusty page edges, no lettering."
+    },
+    {
+      "id": "planting_manual",
+      "name": "種植手冊",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A weathered moss-brown agricultural handbook, stitched paper binding and simple ivory sprouting-leaf pictogram on cover, dirt-smudged bottom edge, no lettering."
+    },
+    {
+      "id": "geological_survey_map",
+      "name": "地質調查圖",
+      "section": 12,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A partially unfolded old geological survey map as a single paper object, tan folds and colored earth-tone contour bands, tiny abstract unlabeled symbols, one rolled edge, no readable text."
+    },
+    {
+      "id": "neural_reflex_module",
+      "name": "神經反射模組",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A compact salvaged neural interface module, worn cream ceramic central capsule with brushed steel protective frame, two short attached ribbed leads folded inward and fine brass contact points, restrained plausible retrotechnology, no biological tissue."
+    },
+    {
+      "id": "old_world_tactical_chip",
+      "name": "舊世戰術晶片",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A rugged tactical data chip, dark olive rectangular metal cartridge with chamfered corners and one row of worn brass edge contacts, a plain inset chevron on its top, no text or lights."
+    },
+    {
+      "id": "muscle_stimulator",
+      "name": "肌纖維刺激器",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A battered portable muscle stimulation device, dull gray rounded control pod and a single attached wide flexible fabric electrode cuff folded underneath it, two simple knobs, industrial old medical equipment, no body or skin."
+    },
+    {
+      "id": "memory_core",
+      "name": "記憶核心",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A palm-sized old data memory core, cylindrical stack of tarnished metal memory rings enclosed by three dark support ribs and a cloudy protective glass cap, subtle visible inner circuit layers, no light effects."
+    },
+    {
+      "id": "military_medical_chip",
+      "name": "軍醫資料晶片",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A compact military medical data cartridge, ivory ceramic top inset in olive metal shell, one restrained green plus pictogram and gold edge contacts, chipped corners, no red cross, no words."
+    },
+    {
+      "id": "precision_engineering_manual",
+      "name": "精密工程手冊",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A thick old precision engineering reference book, faded slate cloth cover with a small fine brass-colored caliper pictogram, reinforced brown leather spine, neat yellowed pages and one fabric bookmark, no lettering."
+    },
+    {
+      "id": "unknown_implant",
+      "name": "未知植入物",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: An unfamiliar palm-sized implant made from matte titanium and aged ivory ceramic, asymmetrical curved housing with three short rounded contact prongs and a dark recessed glass inset, no gore, no skin, no glowing runes."
+    },
+    {
+      "id": "black_box_memory",
+      "name": "黑盒記憶體",
+      "section": 13,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A rugged black-box memory unit, small scuffed charcoal metal cuboid with protective raised corners, dark amber recessed connector panel and a torn blank warning strip, no text or glowing screen."
+    },
+    {
+      "id": "uncold_ice",
+      "name": "不冷的冰",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One irregular pale blue-gray ice-like solid fragment with milky inclusions and translucent chipped edges, resting as an isolated item with no puddle, no frost cloud, no particles; its true properties remain ambiguous."
+    },
+    {
+      "id": "black_water_drop",
+      "name": "黑色水滴",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One smooth glossy black teardrop-shaped liquid-like bead, slightly flattened and self-contained, soft gray upper-left reflection, subtle opaque oily depth, no container, no splashes, no trail, no glow."
+    },
+    {
+      "id": "hollow_stone",
+      "name": "空心石",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One pale porous weathered stone with a natural hollow tunnel through its center and thin chalky rim, asymmetrical rounded silhouette, subtle unusual lightness suggested only by structure, no levitation effects."
+    },
+    {
+      "id": "humming_stone",
+      "name": "鳴石",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One palm-sized dark slate stone with closely spaced natural parallel ridges and a small dull metallic inclusion, muted gray-brown mineral texture, grounded and mysterious through shape only, no sound waves or symbols."
+    },
+    {
+      "id": "static_bone",
+      "name": "靜電骨",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One small bleached nonhuman animal bone fragment with charcoal mineral veins and a few tiny coppery crystals along one end, dry old specimen with no flesh or blood, no lightning arcs or glow."
+    },
+    {
+      "id": "reverse_magnetic_shard",
+      "name": "逆磁片",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One thick irregular curved dark iron shard, dense brushed metal with faint concentric natural stress bands and rusty broken edges, subtly anomalous material only, no floating props, no magnets or force-field effects."
+    },
+    {
+      "id": "shadowless_glass",
+      "name": "無影玻璃",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One substantial curved shard of translucent smoky pale-gray glass with clearly readable thick chipped rim, restrained soft highlights and cloudy internal layers. Keep the object visible against transparency; no shadow, no backdrop, no magic glow."
+    },
+    {
+      "id": "gray_seed",
+      "name": "灰種",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One large unfamiliar gray seed pod, ridged stone-gray shell with a narrow organic seam and a small dried stem, subtle dusty fibrous texture, grounded botanical specimen, no sprouting vines, no magic glow."
+    },
+    {
+      "id": "heat_core",
+      "name": "熱核",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One compact dense mineral core, dark rust-brown outer crust split by a narrow warm ochre mineral vein, rounded irregular shape with scuffed natural facets, warmth suggested only by muted material color, no flames or light aura."
+    },
+    {
+      "id": "silence_box",
+      "name": "沉默盒",
+      "section": 14,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One small enigmatic sealed blackened metal box, plain thick lid and broad worn latch with a few short recessed slits, dusty old industrial construction, no antenna, symbols, lights or supernatural effects."
+    },
+    {
+      "id": "last_round",
+      "name": "最後一發",
+      "section": 15,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A unique antique six-shot revolver called The Last Round, weathered dark blued steel with a long worn barrel, dark walnut grip with a repaired hairline crack, six fine shallow personal tally-like inscription groups around cylinder not readable as words, no bullets or muzzle flash, diagonally oriented."
+    },
+    {
+      "id": "homecoming",
+      "name": "回家",
+      "section": 15,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A unique thirty-year-old hunting long gun called Homecoming, warm worn walnut stock polished by use, faded fabric sling attached, small oval stock repair in lighter wood and a hand-bound leather grip patch, understated steel barrel, entire firearm diagonal and uncropped, no accessories or ammunition."
+    },
+    {
+      "id": "number_sixty_three",
+      "name": "六十三號",
+      "section": 15,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A distinctive antique factory maintenance wrench, solid heavy closed-ring end and broad open jaw, flattened shaft with an old brass factory inventory tab riveted into it, decades of polished wear, small physical stamped number 63 on tab allowed, no other letters, diagonal silhouette."
+    },
+    {
+      "id": "well_guardian",
+      "name": "守井人",
+      "section": 15,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: A unique old desert settlement guard rifle, long barrel with worn matte gray metal, pale sand-weathered wooden stock, a distinctive dark blue faded cloth wrap near the fore-end and simple leather sling, patched practical construction, entire rifle diagonal and uncropped, no ammunition or magic."
+    },
+    {
+      "id": "unsent_letter",
+      "name": "沒有寄出的信",
+      "section": 15,
+      "prompt": "Use case: stylized-concept. Asset type: original inventory item artwork for Wasteland Chronicles, Survivor PDA art library. Create ONE isolated complete object on a genuinely transparent PNG alpha background, square 1024x1024. Original realistic hand-painted game illustration with restrained fine texture, practical weathered materials, soft light from upper left, muted olive, brown, dirty ivory, rust and steel palette. Slight elevated three-quarter view except papers shown almost front-on. Object centered, takes about 80 percent of canvas, keep whole silhouette inside with generous clear margin and readable at 48px. No surface, scenery, cast ground shadow, border, UI, floating labels, readable narrative text, logos, watermark, extra props, people, hands, mannequin, neon, magical glow or fantasy ornament. Single selected asset only. Subject: One undelivered old ivory envelope with a folded letter barely visible at its opening, deep fold creases, a faded ochre square postage stamp bearing only a small abstract landscape, hand-tied thin brown thread, no readable handwriting or letters."
+    }
+  ]
+}

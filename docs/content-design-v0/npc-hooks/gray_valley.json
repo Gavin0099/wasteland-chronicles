@@ -1,0 +1,2442 @@
+[
+  {
+    "hook_id": "hook_gray_valley_001",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "拆解場帶班工",
+    "public_need_zh": "辨認舊工作服上的班別標記，找回借出的撬棍。",
+    "private_stake_zh": "怕把衣物當證據冤枉換班者，也不願丟掉整班工錢。",
+    "leverage_zh": "可提供真實領用簿與當日在場見證人。",
+    "limit_zh": "衣服不能證明身分；不得把員工當新增人口。",
+    "group_ids": [
+      "gv_yard_workers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『拆解場帶班工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_work_clothes",
+      "content_crowbar"
+    ],
+    "encounter_refs": [
+      "town_035",
+      "npc_004"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_003",
+        "tension_zh": "記帳員要先封帳，帶班工想等最後一位借用人說明。",
+        "cooperation_zh": "逐件對照可分清未還工具與已報廢材料。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "工具仍未結清且帶班職責仍有效。",
+      "without_player_zh": "若工具先歸還，催還需求結束；若已交班，只移交有證據的未結事項。"
+    },
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_002",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "流動技工",
+    "public_need_zh": "借足照明，檢查暗處故障並交回工具。",
+    "private_stake_zh": "寧可少接一單也不肯保證所有舊機器都能修好。",
+    "leverage_zh": "有可確認的工具清單與有限檢查能力。",
+    "limit_zh": "看見問題不等於取得修理或設備控制權。",
+    "group_ids": [
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『流動技工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_flashlight",
+      "content_wrench"
+    ],
+    "encounter_refs": [
+      "town_036",
+      "npc_005"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_001",
+        "tension_zh": "帶班工急著復工，技工要求先界定可安全檢查區。",
+        "cooperation_zh": "確認可做與不可做的範圍能減少空等。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "本人尚未離城且設備管理者同意檢查。",
+      "without_player_zh": "若按既有行程離開，未接工作關閉；已接工作按約移交，不憑空留下替身。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "lighting",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_003",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "材料記帳員",
+    "public_need_zh": "分開可回收鋼筋與登記為借物的鋼筋棍。",
+    "private_stake_zh": "怕漏帳被認為私吞，又不想拿重量掩蓋用途差異。",
+    "leverage_zh": "掌握當批交接單與尚未熔解的物件。",
+    "limit_zh": "不能把有主工具自動改成廢料或直接更改市價。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_salvage_buyers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『材料記帳員』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_rebar_club",
+      "content_scrap_iron"
+    ],
+    "encounter_refs": [
+      "town_037",
+      "npc_006"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_001",
+        "tension_zh": "帶班工想立即再用材料，記帳員要求先查原主。",
+        "cooperation_zh": "保留用途標記後可共同釋出確實可售部分。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "本批材料仍可辨認且尚未正式結算。",
+      "without_player_zh": "若已合法移交，改為追溯勘誤；不倒轉熔解或生成遺失工具。"
+    },
+    "dependencies": [
+      "cargo",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_004",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "整具回收分揀人",
+    "public_need_zh": "先把完整扳手從散料堆取出給原保管者核認。",
+    "private_stake_zh": "拆成料比較快結工錢，但完整工具可能更有用。",
+    "leverage_zh": "知道本批來源與尚未拆解的位置。",
+    "limit_zh": "沒有權利擅自據有回收場所有物件。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_salvage_buyers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『整具回收分揀人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_wrench",
+      "content_pliers"
+    ],
+    "encounter_refs": [
+      "npc_031"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_003",
+        "tension_zh": "記帳員看來源單，分揀人看實際完整程度。",
+        "cooperation_zh": "兩種證據合併可避免把借物當耗材。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "整具仍在待分堆且所有權尚可查。",
+      "without_player_zh": "若原主已領回，只結清實際分揀勞動；不能再提供同一把作獎勵。"
+    },
+    "dependencies": [
+      "disassembly",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_005",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "宿舍照明接洽人",
+    "public_need_zh": "替一段可合法停電檢查的燈線找技工。",
+    "private_stake_zh": "怕工坊先接高價急單，居民又要摸黑交班。",
+    "leverage_zh": "可召集同意檢查的住戶與現有故障記錄。",
+    "limit_zh": "不能擅闖房間、偷接電或宣告永久供電。",
+    "group_ids": [
+      "gv_residents",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『宿舍照明接洽人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_copper_wire",
+      "content_flashlight"
+    ],
+    "encounter_refs": [
+      "npc_032"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_002",
+        "tension_zh": "技工不願跨過未知線路，接洽人希望一次修完。",
+        "cooperation_zh": "把檢查與修復分單可先建立可靠故障資料。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "故障仍存在且住戶同意本次查驗。",
+      "without_player_zh": "若其他技工已修好，停止招工；若住戶搬離，依實際權責尋新聯絡人。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "lighting",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-02",
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_006",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工具換柄師傅",
+    "public_need_zh": "替鏽扳手處理可握部分，保留原有刻記。",
+    "private_stake_zh": "不願用漂亮新柄掩飾金屬已裂的事實。",
+    "leverage_zh": "能指出外觀可見缺口並報有限工項。",
+    "limit_zh": "換柄不保證承重與機械性能，不能直接提升技能。",
+    "group_ids": [
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『工具換柄師傅』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_wrench",
+      "content_rubber"
+    ],
+    "encounter_refs": [
+      "npc_033"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_029",
+        "tension_zh": "學徒想把工具弄得像新的一樣，師傅重視留下缺陷說明。",
+        "cooperation_zh": "先標出不可修部分，學徒仍可練有界線的手工。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "物主同意處理且原工具尚未報廢。",
+      "without_player_zh": "若查出必須停用的實際缺陷，重新協商；未做的工項不自動收費。"
+    },
+    "dependencies": [
+      "crafting",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_007",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "校準件保管人",
+    "public_need_zh": "確認量測借具的歸還時段與使用範圍。",
+    "private_stake_zh": "最後一件可比較的樣本失準，就再也說不清責任。",
+    "leverage_zh": "持有既有借具紀錄與對照件。",
+    "limit_zh": "不能把私人標準件當全城認證權威。",
+    "group_ids": [
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『校準件保管人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_multimeter",
+      "content_precision_parts"
+    ],
+    "encounter_refs": [
+      "npc_034"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_015",
+        "tension_zh": "電表借用人想立即復測，保管人要求先說明燒痕。",
+        "cooperation_zh": "有限對照並保存原始讀數能共同查因。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "樣本仍存在且有安全合法的觀察條件。",
+      "without_player_zh": "若樣本損壞或被合法領走，停止借用；不免費刷新一套。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_008",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "車板來源追查人",
+    "public_need_zh": "核對胸甲車板是否出自有主車輛。",
+    "private_stake_zh": "想買便宜護具，但不想被當成拆走鄰居車門的人。",
+    "leverage_zh": "有可比對的舊照片與板面印記。",
+    "limit_zh": "相似印記不能單獨證明偷竊或定罪。",
+    "group_ids": [
+      "gv_salvage_buyers",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『車板來源追查人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_car_panel_cuirass",
+      "content_camera"
+    ],
+    "encounter_refs": [
+      "npc_035"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_003",
+        "tension_zh": "記帳員只有批次資料，追查人要求到具體物主核認。",
+        "cooperation_zh": "先把確定來源與未知來源分欄。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原板與資料仍可查且當事人願意說明。",
+      "without_player_zh": "若已有合法讓渡證據，撤回疑問；若來源無解，保留未知而不發明犯罪。"
+    },
+    "dependencies": [
+      "equipment",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_009",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "唱片修整委託人",
+    "public_need_zh": "只清理唱片一面，另一面留下原主的刻字。",
+    "private_stake_zh": "物件市價不高，卻怕修好聲音時抹去私人記號。",
+    "leverage_zh": "能指出可處理範圍並同意有限試聽。",
+    "limit_zh": "不擁有錄音裡所有人的公開同意。",
+    "group_ids": [
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『唱片修整委託人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_vinyl_record",
+      "content_music_player"
+    ],
+    "encounter_refs": [
+      "npc_036"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_017",
+        "tension_zh": "錄音整理者想完整複製，委託人只授權私人保存。",
+        "cooperation_zh": "分開公開曲目與私人聲音可以共享部分記錄。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原盤尚在且物主授權仍有效。",
+      "without_player_zh": "若物主撤回未開始部分即停工；已完成工作如實留下，不複製獎勵品。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_010",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "電池芯隔離記錄人",
+    "public_need_zh": "把狀態未明的電池芯與普通廢鐵分堆。",
+    "private_stake_zh": "怕分揀速度慢影響工錢，又不想讓搬運人不知道帶了什麼。",
+    "leverage_zh": "可展示外觀異常與來源批次。",
+    "limit_zh": "不宣稱電芯能用或安全，也不隨意拆開。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『電池芯隔離記錄人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_battery_cell",
+      "content_engineering_goggles"
+    ],
+    "encounter_refs": [
+      "npc_037"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_004",
+        "tension_zh": "分揀人要趕清場，記錄人要求保留隔離區。",
+        "cooperation_zh": "先移出已確認普通材料可以減輕場地壓力。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "該批物料仍未處置且有管理者同意的存放處。",
+      "without_player_zh": "若正式檢測或合法收運完成，關閉待查需求；不重生危險批次。"
+    },
+    "dependencies": [
+      "cargo",
+      "electronics",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-04",
+      "WG-05"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_011",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "特號扳手守藏人",
+    "public_need_zh": "保留六十三號的規格與刻印，不接受直接磨平。",
+    "private_stake_zh": "想知道它是否能找到原工廠，也怕被搶作古董。",
+    "leverage_zh": "可同意看外形與既有工廠線索。",
+    "limit_zh": "持物不等於擁有工廠，不能複製唯一工具。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『特號扳手守藏人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_number_sixty_three",
+      "content_repair_manual"
+    ],
+    "encounter_refs": [
+      "npc_038"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_032",
+        "tension_zh": "工具展覽人想公開展示，守藏人擔心引來不必要索取。",
+        "cooperation_zh": "可展示經同意的外觀圖，原件保持私人保管。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "真實唯一物仍在且物主有能力同意。",
+      "without_player_zh": "若原件轉交，依真實持有者重驗；不替舊保管者生成第二把。"
+    },
+    "dependencies": [
+      "crafting",
+      "exploration",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_012",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "舊錶修理委託人",
+    "public_need_zh": "用共同可見事件核對手錶快慢，而不是改寫工時。",
+    "private_stake_zh": "怕自己的慢錶害人被扣工，也捨不得直接丟掉。",
+    "leverage_zh": "能提供多次在同一交班點做的觀察。",
+    "limit_zh": "私人鐘錶不是世界日數或付薪權威。",
+    "group_ids": [
+      "gv_residents",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『舊錶修理委託人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_old_world_watch",
+      "content_paper_journal"
+    ],
+    "encounter_refs": [
+      "npc_039"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_028",
+        "tension_zh": "報工人要確切時數，委託人只能提供有誤差的記錄。",
+        "cooperation_zh": "標出誤差後仍可還原事件先後。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原錶與當事人仍可比較尚未結清的記錄。",
+      "without_player_zh": "若工時已依法結清，修錶仍可另談；不得倒扣過去工錢。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_013",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "缺頁手冊追索人",
+    "public_need_zh": "找出被剪走的維修頁是遺失、合法借用還是另有版次。",
+    "private_stake_zh": "自己曾只抄結論，怕錯版造成不實期待。",
+    "leverage_zh": "有封面、頁碼與可合法檢查的殘頁。",
+    "limit_zh": "不能從缺頁直接推定蓄意破壞。",
+    "group_ids": [
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『缺頁手冊追索人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_repair_manual",
+      "content_data_disk"
+    ],
+    "encounter_refs": [
+      "npc_040"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_030",
+        "tension_zh": "抄寫人希望借頁補本，追索人要求先核定版本。",
+        "cooperation_zh": "對照勘誤與頁碼可避免多抄一份錯誤。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "殘頁尚在且有可聯絡的合法持有人。",
+      "without_player_zh": "若借頁已歸還，改為版本核對；若原頁已毀，明記缺失不憑記憶造答案。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_014",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工具腰帶出借人",
+    "public_need_zh": "核對空扣原來掛什麼，分清漏還工具與舊缺件。",
+    "private_stake_zh": "怕每次借出都慢慢少一件，卻不願無證據向工人討錢。",
+    "leverage_zh": "有最近一次可核實的交接描述。",
+    "limit_zh": "空扣不是偷竊證據，不可扣留借用人的私物。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_yard_workers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『工具腰帶出借人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_tool_belt",
+      "content_screwdriver"
+    ],
+    "encounter_refs": [
+      "npc_041"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_001",
+        "tension_zh": "帶班工怕查物拖延散班，出借人要完成至少一次交接。",
+        "cooperation_zh": "按已知清單當場確認可免後來互相追討。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "本次借用尚未結清且工具仍可核查。",
+      "without_player_zh": "若舊記錄證明原先就缺件，撤掉追索；不另造被告。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_015",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "燒痕電表借用人",
+    "public_need_zh": "把燒痕何時出現的事實說清，申請有限復查。",
+    "private_stake_zh": "擔心承認不知道就被要求賠整台。",
+    "leverage_zh": "能指出實際操作步驟與當時連接物。",
+    "limit_zh": "不能修改舊記錄或把不確定原因說成他人過失。",
+    "group_ids": [
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『燒痕電表借用人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_multimeter",
+      "content_copper_wire"
+    ],
+    "encounter_refs": [
+      "npc_045"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_007",
+        "tension_zh": "保管人怕再損害校準件，借用人希望證明不是誤用。",
+        "cooperation_zh": "共同先做不通電的外觀查驗。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "表仍封存且雙方同意查因。",
+      "without_player_zh": "若已有可信鑑定，按結果協商；玩家缺席不自動判賠。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-04",
+      "WG-05"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_016",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "班表攝影記錄人",
+    "public_need_zh": "為工作交接保留照片，但隱去不願公開的人的名字。",
+    "private_stake_zh": "照片能證明自己到班，卻可能暴露別人的私人行程。",
+    "leverage_zh": "持有原照片並能提供經同意的局部查閱。",
+    "limit_zh": "物件持有權不等於可任意公開個人資料。",
+    "group_ids": [
+      "gv_residents",
+      "gv_yard_workers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『班表攝影記錄人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_camera",
+      "content_old_photograph"
+    ],
+    "encounter_refs": [
+      "npc_046"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_028",
+        "tension_zh": "報工人需要足夠證據，攝影人受限於其他在場者同意。",
+        "cooperation_zh": "只核對相關時段與工具位置能減少侵入。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原照片仍可讀且當事人願意限定查驗。",
+      "without_player_zh": "若其他證據已結清工作，停止為此公開照片；私人保存另循同意。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_017",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工作錄音整理人",
+    "public_need_zh": "把斷掉的半句與確實聽清的部分分開保存。",
+    "private_stake_zh": "怕自己補一句合理的話，反而決定工人責任。",
+    "leverage_zh": "能重播合法取得的原錄音。",
+    "limit_zh": "不能替失真部分編台詞或自動鑑定聲音身分。",
+    "group_ids": [
+      "gv_residents",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『工作錄音整理人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_music_player",
+      "content_radio"
+    ],
+    "encounter_refs": [
+      "npc_047"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_009",
+        "tension_zh": "唱片委託人重私人聲音，整理人想建立可查公共片段。",
+        "cooperation_zh": "先保留原件與公開範圍可共同保存記憶。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "載體尚可讀且授權未撤回。",
+      "without_player_zh": "若來源人不同意公開，停止新副本；不因沉默視為同意。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_018",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "記憶核心接洽人",
+    "public_need_zh": "在研究與轉賣之間找合法保管方式。",
+    "private_stake_zh": "想先看內容又怕先讀就失去談判籌碼。",
+    "leverage_zh": "有原件保管鏈與願意接洽的買家名單。",
+    "limit_zh": "核心不是免費技能升級，讀取也不等於可公開。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_salvage_buyers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『記憶核心接洽人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_memory_core",
+      "content_waterproof_bag"
+    ],
+    "encounter_refs": [
+      "npc_048"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_036",
+        "tension_zh": "材料買家想按殼體收購，接洽人認為資料可能更有價值。",
+        "cooperation_zh": "先不破壞的鑑別能釐清價格基礎。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原件仍存在且物主尚未承諾排他交易。",
+      "without_player_zh": "若合法成交，其他報價關閉；不多賣同一核心或複製唯一內容作獎勵。"
+    },
+    "dependencies": [
+      "electronics",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_019",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "未知植入物受推銷者",
+    "public_need_zh": "要求推銷者說出型號、來源與尚未證實的風險。",
+    "private_stake_zh": "很想變得能幹，也怕被看出急切就被抬價。",
+    "leverage_zh": "可提供推銷原話與實物外觀。",
+    "limit_zh": "不得先安裝再補同意，不因稀有就宣告有效。",
+    "group_ids": [
+      "gv_residents",
+      "gv_salvage_buyers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『未知植入物受推銷者』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_unknown_implant",
+      "content_military_medical_chip"
+    ],
+    "encounter_refs": [
+      "npc_049"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_038",
+        "tension_zh": "醫療資料整理人要求證據，受推銷者擔心錯過唯一機會。",
+        "cooperation_zh": "先保留可退出的鑑別窗口。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "推銷仍有效且尚未發生任何安裝。",
+      "without_player_zh": "若賣方撤貨，邀約結束；若有正式檢驗，依結果更新，不憑空使人受傷。"
+    },
+    "dependencies": [
+      "equipment",
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_020",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "受質疑的收料人",
+    "public_need_zh": "公開哪些雜質、搬運與處理成本影響本批出價。",
+    "private_stake_zh": "低價被叫奸商，但不願收了難處理材料再轉嫁工人。",
+    "leverage_zh": "能分開可驗重量、可用比例與未知品項。",
+    "limit_zh": "沒有權力規定全城價格，也不能把質疑者當敵人。",
+    "group_ids": [
+      "gv_salvage_buyers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『受質疑的收料人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_scrap_iron",
+      "content_aluminum_stock"
+    ],
+    "encounter_refs": [
+      "npc_050"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_003",
+        "tension_zh": "記帳員想按總重量結算，收料人只願為可確認部分報價。",
+        "cooperation_zh": "共同分堆可讓不同材料各有明確交易基礎。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "貨尚未成交且雙方仍願比較條款。",
+      "without_player_zh": "若別人合法買走就停止報價；市場後續由真實交易與既有模擬推導。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_021",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "欠薪協商代表",
+    "public_need_zh": "讓討薪者先收起刀，再逐筆核對已做的工作。",
+    "private_stake_zh": "自己也被欠薪，怕一退讓就被看作站在雇主那邊。",
+    "leverage_zh": "有真實工項見證與願協商的人。",
+    "limit_zh": "不能用武器威脅直接改帳或凍結居民資產。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『欠薪協商代表』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_scrap_machete",
+      "content_paper_journal"
+    ],
+    "encounter_refs": [
+      "npc_051"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_028",
+        "tension_zh": "報工人要求精準，代表希望先承認共同債務事實。",
+        "cooperation_zh": "把無爭議部分先確認可降低衝突。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "有仍未結清的真實委託且雙方在場。",
+      "without_player_zh": "若已支付則關閉相應部分；若雇主離開只保留待處理證據，不發明追殺。"
+    },
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_022",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "共享工具箱協調人",
+    "public_need_zh": "拆開兩位師傅的私物與共同購買用品清單。",
+    "private_stake_zh": "怕分家之後誰都做不了完整工作。",
+    "leverage_zh": "能安排兩人當面確認箱內現存物。",
+    "limit_zh": "不能因方便就把私人工具變公有。",
+    "group_ids": [
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『共享工具箱協調人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_toolbox",
+      "content_pliers"
+    ],
+    "encounter_refs": [
+      "npc_052"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_014",
+        "tension_zh": "腰帶出借人要求每件都記名，協調人希望保留彈性互借。",
+        "cooperation_zh": "建立有限借用時段可兼顧歸屬與合作。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "工具箱尚未分配且雙方同意談。",
+      "without_player_zh": "若雙方已自行分妥，停止介入；不拆回既成合法分配。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_023",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "彈簧批次分辨人",
+    "public_need_zh": "把尺寸相近但來源不同的舊彈簧留在各自袋內。",
+    "private_stake_zh": "想靠細工獲得報酬，不願被要求用一袋抵所有型號。",
+    "leverage_zh": "可提供尺寸與原袋標記的對照。",
+    "limit_zh": "外觀相似不證明適配武器或安全。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『彈簧批次分辨人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_spring",
+      "content_cloth_sack"
+    ],
+    "encounter_refs": [
+      "npc_053"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_037",
+        "tension_zh": "零件採買人急要可用件，分辨人只願保證已測尺寸。",
+        "cooperation_zh": "先交明確相符的部分，未知件另列。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "批次尚未混合且有合法查驗窗口。",
+      "without_player_zh": "若被別人混袋，只報來源失去的範圍；不虛造每件過往。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_024",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "釘槍借用工",
+    "public_need_zh": "趕在原主需要前完成已許可的小段工程。",
+    "private_stake_zh": "怕工具被當武器沒收，也怕自己延誤讓原主無法開工。",
+    "leverage_zh": "有借條與明確的施工範圍。",
+    "limit_zh": "持有釘槍不授權攻擊，不能超時占用。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『釘槍借用工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_industrial_nailgun",
+      "content_tool_belt"
+    ],
+    "encounter_refs": [
+      "npc_054"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_014",
+        "tension_zh": "出借人重準時歸還，借用工想再做一小段。",
+        "cooperation_zh": "另約下一窗口比含糊延長更可行。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "借期尚有效且剩餘工項仍需要。",
+      "without_player_zh": "若到期原主要收回，按約交還；未完成工項另行安排。"
+    },
+    "dependencies": [
+      "crafting",
+      "equipment",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_025",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "拒絕空白保證的技工",
+    "public_need_zh": "先做故障分段檢查，再決定是否接修復。",
+    "private_stake_zh": "怕一句『試試看』被居民當成一定修得好。",
+    "leverage_zh": "能提供觀察與不確定性的清楚清單。",
+    "limit_zh": "修理提案不是設備狀態修改，費用需另經同意。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『拒絕空白保證的技工』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_wrench",
+      "content_repair_manual"
+    ],
+    "encounter_refs": [
+      "npc_055"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_005",
+        "tension_zh": "住戶想在付款前確知結果，技工無法憑未知故障保證。",
+        "cooperation_zh": "把診斷報酬與修復報酬分開。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "設備仍可合法接近且尚無既成修復安排。",
+      "without_player_zh": "若其他人已診斷，先讀可驗記錄再接續；不重收同一調查作無效工作。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_026",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "舊管位置見證人",
+    "public_need_zh": "把探測器訊號與居民記得的舊管路分開標記。",
+    "private_stake_zh": "怕挖錯破壞住家，也怕自己記錯被當阻工。",
+    "leverage_zh": "能指出可見接頭與當年維修入口。",
+    "limit_zh": "記憶不是精確地下圖，不能保證可開挖。",
+    "group_ids": [
+      "gv_residents",
+      "gv_yard_workers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『舊管位置見證人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_metal_detector",
+      "content_geological_survey_map"
+    ],
+    "encounter_refs": [
+      "npc_042"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_001",
+        "tension_zh": "帶班工要清出作業地，見證人要求先排除仍用管段。",
+        "cooperation_zh": "共同做不破土查證可建立下一步依據。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "現場仍可查且有住戶同意的路線。",
+      "without_player_zh": "若已取得正式管線資料，修正記憶版本；未確認處保持封存提案。"
+    },
+    "dependencies": [
+      "electronics",
+      "exploration",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_027",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "面罩標籤核對人",
+    "public_need_zh": "區分防塵用途與來源不明濾罐，不把外形當防毒證據。",
+    "private_stake_zh": "怕自己過去推薦錯款，想補正又怕失去信任。",
+    "leverage_zh": "能提供包裝殘標與原購買記錄。",
+    "limit_zh": "不能因佩戴面罩就宣布污染區可進入。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『面罩標籤核對人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_dust_mask",
+      "content_gas_mask"
+    ],
+    "encounter_refs": [
+      "npc_043"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_010",
+        "tension_zh": "隔離人要求保守處理，核對人希望找回可用的部分。",
+        "cooperation_zh": "保留確知用途、撤回未證實說法。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "物件與標籤尚在，使用者願核查。",
+      "without_player_zh": "若檢驗已證實失效，改談合法替換；不免費更新所有居民裝備。"
+    },
+    "dependencies": [
+      "equipment",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-04",
+      "WG-05"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_028",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "報工見證人",
+    "public_need_zh": "核對確實完成的工項與已承諾付款。",
+    "private_stake_zh": "不想自己的名字被用來證明沒看見的整天工作。",
+    "leverage_zh": "能見證有限時段與明確成果。",
+    "limit_zh": "不能替缺席者造出工時、獎勵或債務。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『報工見證人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_paper_journal",
+      "content_old_world_watch"
+    ],
+    "encounter_refs": [
+      "npc_039",
+      "npc_051"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_021",
+        "tension_zh": "協商代表想快速定總額，見證人只確認親眼所見部分。",
+        "cooperation_zh": "把確認與爭議分開可先處理無爭議款。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "相關委託尚未結清且原記錄可查。",
+      "without_player_zh": "若雙方已合法結算，證詞轉作留存；不重複支付。"
+    },
+    "dependencies": [
+      "combat_extension",
+      "equipment",
+      "hazards",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-ROAD",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_029",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "學徒工具整理人",
+    "public_need_zh": "按實際借入用途整理工具，不擅自翻新私人物件。",
+    "private_stake_zh": "想被當可靠幫手，容易答應超出能力的修補。",
+    "leverage_zh": "熟悉自己確實收過的工具位置。",
+    "limit_zh": "沒有師傅授權不能修高風險設備或傳授技能rank。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_yard_workers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『學徒工具整理人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_screwdriver",
+      "content_tool_belt"
+    ],
+    "encounter_refs": [
+      "npc_033",
+      "npc_041"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_006",
+        "tension_zh": "換柄師傅要留下缺陷，學徒想把所有工具磨亮。",
+        "cooperation_zh": "由簡單清點開始可留下可信工作證據。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "本人自願承接且工具原主同意整理。",
+      "without_player_zh": "若師傅改派工作，移交已查清單；未完成項目不假報完成。"
+    },
+    "dependencies": [
+      "crafting",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_030",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "維修頁抄寫人",
+    "public_need_zh": "抄錄有權共享的索引並標明缺頁。",
+    "private_stake_zh": "想換取閱讀機會，但不希望錯版流傳都算自己責任。",
+    "leverage_zh": "能提供原頁、版本與已核查的抄本。",
+    "limit_zh": "抄書不直接增加技能，也不能公開私密資料。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『維修頁抄寫人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_repair_manual",
+      "content_precision_engineering_manual"
+    ],
+    "encounter_refs": [
+      "npc_040"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_013",
+        "tension_zh": "追索人想找原件，抄寫人想先保存已知內容。",
+        "cooperation_zh": "分清引用版次可讓兩項工作並行。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原持有人同意抄錄且內容尚可讀。",
+      "without_player_zh": "若授權撤回即停新抄本；已同意留存部分照條款處理。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_031",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "焊線歸還聯絡人",
+    "public_need_zh": "找到尚在借期內的最後一組線，先協商下一班時段。",
+    "private_stake_zh": "不願為趕工犧牲自己的工具，也怕被說不肯互助。",
+    "leverage_zh": "保存線材原主與當次使用位置。",
+    "limit_zh": "不能強拿仍在合法借期內的物件。",
+    "group_ids": [
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『焊線歸還聯絡人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_welding_tools",
+      "content_copper_wire"
+    ],
+    "encounter_refs": [
+      "npc_044"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_022",
+        "tension_zh": "共享箱協調人希望整套留場，聯絡人需按約歸還。",
+        "cooperation_zh": "排出可查的先後次序可保住兩方工作。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "線仍存在且兩份工作時段尚可協商。",
+      "without_player_zh": "若前工完成，正常交還；若需延期先詢原主，不靠玩家缺席延長借期。"
+    },
+    "dependencies": [
+      "crafting",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_032",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工具故事展示人",
+    "public_need_zh": "用物主同意的圖樣講工具來歷，不把傳說當真實通行證。",
+    "private_stake_zh": "展覽能吸引交換消息的人，也可能讓原主被騷擾。",
+    "leverage_zh": "持有自願提供的口述與外觀圖。",
+    "limit_zh": "不能因展出就複製唯一物、改其所有權或開工廠。",
+    "group_ids": [
+      "gv_residents",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『工具故事展示人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_number_sixty_three",
+      "content_camera"
+    ],
+    "encounter_refs": [
+      "npc_038",
+      "npc_046"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_011",
+        "tension_zh": "守藏人怕公開過多，展示人希望留足辨識資訊。",
+        "cooperation_zh": "匿名展示一般工法，特定印記另徵同意。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原資料可合法展示且物主仍願参與。",
+      "without_player_zh": "若撤回展示授權，收起相應部分；不刪改已發生的真正歷史。"
+    },
+    "dependencies": [
+      "crafting",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_033",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "夜班燈具保管人",
+    "public_need_zh": "分清手電筒、電池與借期，讓不同班都有已承諾的照明。",
+    "private_stake_zh": "怕歸還時剩空殼卻找不到誰用了電池。",
+    "leverage_zh": "可出示現物與分開的借用、耗用約定。",
+    "limit_zh": "不把電池無限刷新，也不把照明視為無條件安全。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『夜班燈具保管人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_flashlight",
+      "content_battery"
+    ],
+    "encounter_refs": [
+      "npc_032",
+      "npc_070"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_005",
+        "tension_zh": "宿舍也想借燈，保管人已答應夜班檢查。",
+        "cooperation_zh": "排出不重疊窗口可同時滿足有限需求。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "現有燈具未售出且仍有有效借用承諾。",
+      "without_player_zh": "若設備已壞，停止對外保證；新的缺口需實際來源才能補。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "lighting",
+      "navigation",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-02",
+      "WG-03",
+      "WG-04",
+      "WG-05"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_034",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "電路板收納人",
+    "public_need_zh": "把受潮與外觀完整的板件分袋，保留原設備來源。",
+    "private_stake_zh": "怕只按重量收料讓可辨識的舊技術都消失。",
+    "leverage_zh": "有可觀察焊點與來源標記。",
+    "limit_zh": "外觀完整不等於可通電使用或能修復一切。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『電路板收納人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_circuit_board",
+      "content_waterproof_bag"
+    ],
+    "encounter_refs": [
+      "npc_037",
+      "npc_048"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_018",
+        "tension_zh": "核心接洽人想優先保存資料，收納人也需要有限乾燥空間。",
+        "cooperation_zh": "共同排序不可再生來源資訊。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "板件仍在且場地管理者允許分存。",
+      "without_player_zh": "若已有合法買家接收，移交來源清單；不再把同批板件作拆解獎勵。"
+    },
+    "dependencies": [
+      "cargo",
+      "electronics",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04",
+      "WG-05"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_035",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "空心石稱量記錄人",
+    "public_need_zh": "在相同容器與同一秤上比較異常重量，保留誤差。",
+    "private_stake_zh": "想向買家證明自己沒換樣本，卻不懂現象原因。",
+    "leverage_zh": "能維持有限樣本保管鏈與原始測值。",
+    "limit_zh": "不能宣稱增加背包容量或永遠不受重量限制。",
+    "group_ids": [
+      "gv_salvage_buyers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『空心石稱量記錄人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_hollow_stone",
+      "content_travel_backpack"
+    ],
+    "encounter_refs": [
+      "anomaly_009",
+      "anomaly_010"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_020",
+        "tension_zh": "收料人只信可驗重量，記錄人想把異常觀察納入報價。",
+        "cooperation_zh": "做共同可重現的有限比較。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原樣本仍可合法觀察且測試條件未改。",
+      "without_player_zh": "若樣本交走，當地測試結束；只保留真實資料，不另造石頭。"
+    },
+    "dependencies": [
+      "cargo",
+      "crafting",
+      "exploration",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_036",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "資料載體估價人",
+    "public_need_zh": "把殼體材料價與可讀資料興趣分開報價。",
+    "private_stake_zh": "怕花錢買到空殼，也怕不懂而讓重要記錄被拆掉。",
+    "leverage_zh": "有真實願意鑑別的買家與有限檢查條款。",
+    "limit_zh": "不能先讀後無償複製，未知內容不保證技能收益。",
+    "group_ids": [
+      "gv_salvage_buyers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『資料載體估價人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_memory_core",
+      "content_black_box_memory"
+    ],
+    "encounter_refs": [
+      "npc_048"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_018",
+        "tension_zh": "接洽人想先保密，估價人需要最低限度證據。",
+        "cooperation_zh": "約定只確認載體可讀性而不公開內容。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "賣方仍願接洽且尚未有排他承諾。",
+      "without_player_zh": "若賣方接受他人報價，關閉本詢價；不操纵既有市場價格公式。"
+    },
+    "dependencies": [
+      "electronics",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_037",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "零件限額採買人",
+    "public_need_zh": "只買當前工程確實需要的規格，拒收拿不出用途的整袋料。",
+    "private_stake_zh": "怕被叫挑剔，卻沒有庫位替別人存所有雜件。",
+    "leverage_zh": "能列出本單用途與有限可收數量。",
+    "limit_zh": "採購意向不是無限需求或固定售價。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_salvage_buyers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『零件限額採買人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_gear",
+      "content_bearing",
+      "content_spring"
+    ],
+    "encounter_refs": [
+      "npc_053",
+      "npc_050"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_023",
+        "tension_zh": "分辨人希望每件都有價，採買人只接受核對規格部分。",
+        "cooperation_zh": "把剩餘料留給別的合法需求者。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "真實委託尚需零件且採購未滿。",
+      "without_player_zh": "若別處已補足，關閉剩餘需求；不得繼續無限收購等玩家刷錢。"
+    },
+    "dependencies": [
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_038",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "醫療資料看守人",
+    "public_need_zh": "為技術晶片保留型號與閱讀限制，阻止當場試裝未知物。",
+    "private_stake_zh": "想讓醫療知識有用，又怕自己被當成會治病的人。",
+    "leverage_zh": "可提供經允許查閱的索引與來源資料。",
+    "limit_zh": "看懂文字不等於行醫資格或植入authority。",
+    "group_ids": [
+      "gv_residents",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『醫療資料看守人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_military_medical_chip",
+      "content_unknown_implant"
+    ],
+    "encounter_refs": [
+      "npc_049"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_019",
+        "tension_zh": "受推銷者急想變強，看守人要求保留可拒絕步驟。",
+        "cooperation_zh": "先找合法鑑別者而非讓人當試驗對象。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "資料仍可讀且當事人自願查詢。",
+      "without_player_zh": "若買賣已取消，關閉緊急協助；資料保管仍依原授權。"
+    },
+    "dependencies": [
+      "equipment",
+      "identification",
+      "injury",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_039",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "逆磁片搬運協調人",
+    "public_need_zh": "先讓金屬工具避開可見排斥區，再決定有限搬運方式。",
+    "private_stake_zh": "怕耽誤清場，也不願把未知物交給沒聽到風險的人。",
+    "leverage_zh": "有原位置記錄與有限隔離範圍。",
+    "limit_zh": "不保證永久作用或抗彈效果。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『逆磁片搬運協調人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_reverse_magnetic_shard",
+      "content_rope"
+    ],
+    "encounter_refs": [
+      "anomaly_021",
+      "anomaly_022"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_001",
+        "tension_zh": "帶班工想恢復通路，協調人需要樣本歸屬與接收同意。",
+        "cooperation_zh": "先標明可繞路範圍，移動另行授權。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原樣本仍在且現場管理者同意處理。",
+      "without_player_zh": "若合法接收者先取走，清場提案結束；不在原地刷新新碎片。"
+    },
+    "dependencies": [
+      "cargo",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_040",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "鳴石電器對照人",
+    "public_need_zh": "用可退出的距離測試記錄鳴聲與電器位置。",
+    "private_stake_zh": "想知道夜裡吵聲來源，怕設備被拿去試到壞掉。",
+    "leverage_zh": "可提供本人設備的有限測試時段。",
+    "limit_zh": "聲響相關不證明供電、導航或敵人預警。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『鳴石電器對照人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_humming_stone",
+      "content_radio"
+    ],
+    "encounter_refs": [
+      "anomaly_013",
+      "anomaly_014"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_033",
+        "tension_zh": "燈具保管人不願占用夜班電池，對照人想延長觀察。",
+        "cooperation_zh": "先用不影響既定用途的短時段。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "樣本與設備均有物主同意，借期未滿。",
+      "without_player_zh": "若有任一物主撤回，停止新測試並歸還；已有觀察仍標明條件。"
+    },
+    "dependencies": [
+      "cargo",
+      "electronics",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_041",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "靜電骨包材試驗人",
+    "public_need_zh": "比較不同外包下可觀察的放電現象，避免直接接觸設備。",
+    "private_stake_zh": "想找可靠包法，又怕包住後被誤認普通骨頭。",
+    "leverage_zh": "有原樣本標記與合法保管的測試容器。",
+    "limit_zh": "不宣稱發電無限或可直接替代電池。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『靜電骨包材試驗人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_static_bone",
+      "content_rubber"
+    ],
+    "encounter_refs": [
+      "anomaly_017",
+      "anomaly_018"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_010",
+        "tension_zh": "隔離記錄人要清楚標示，試驗人想用外包降低干擾。",
+        "cooperation_zh": "在外包保留樣本標記與未知欄位。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "樣本仍在且管理者同意有限觀察。",
+      "without_player_zh": "若樣本封存不再開放，停試並保留資料；不憑空增加能源庫存。"
+    },
+    "dependencies": [
+      "cargo",
+      "electronics",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_042",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "沉默盒值班聯絡人",
+    "public_need_zh": "標記無線電失聯發生的範圍，安排人工傳話的可行窗口。",
+    "private_stake_zh": "怕被以失聯推定怠工，也不願把無線電都搬走。",
+    "leverage_zh": "有實際通聯記錄與值班路線。",
+    "limit_zh": "不能斷定盒子能阻止所有訊號或所有監聽。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『沉默盒值班聯絡人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_silence_box",
+      "content_radio"
+    ],
+    "encounter_refs": [
+      "anomaly_037",
+      "anomaly_040"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_017",
+        "tension_zh": "錄音整理人想確認細節，聯絡人擔心談話內容被擅自記錄。",
+        "cooperation_zh": "只交換測試時點與是否收到，不公開私人訊息。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原盒仍在且實際通信問題尚待處理。",
+      "without_player_zh": "若盒被合法移走，依新通聯事實結束替代安排；不永久封鎖全城。"
+    },
+    "dependencies": [
+      "cargo",
+      "combat_extension",
+      "electronics",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "navigation",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_043",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "熱核用途接洽人",
+    "public_need_zh": "區分可見發熱與尚未證實的安全加熱用途。",
+    "private_stake_zh": "想替居民找熱源，怕急用者跳過隔離程序。",
+    "leverage_zh": "有樣本保管人同意分享的有限觀察。",
+    "limit_zh": "未知熱源不等於可煮食、治病或免費燃料。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『熱核用途接洽人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_heat_core",
+      "content_heat_insulation_suit"
+    ],
+    "encounter_refs": [
+      "anomaly_033",
+      "anomaly_034"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_005",
+        "tension_zh": "住戶急要可用設備，接洽人只能提出未定案試驗。",
+        "cooperation_zh": "把急需補給與長期鑑別分開安排。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "樣本仍可接洽且當次測試條件合法。",
+      "without_player_zh": "若物主不再開放就關閉提案；居民需求須另找真實來源。"
+    },
+    "dependencies": [
+      "camping",
+      "cargo",
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship"
+    ],
+    "inspiration_refs": [
+      "FICTION-ROADSIDE",
+      "LD-P02",
+      "WG-04",
+      "WG-06"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_044",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工具回收押記人",
+    "public_need_zh": "把押物與買斷單分開，避免到期前先拆工具。",
+    "private_stake_zh": "怕借款人不回來，也怕被認為刻意吞掉家傳工具。",
+    "leverage_zh": "有真實條款與仍在保管的物件。",
+    "limit_zh": "押物不自动歸己，逾期處置需未來合法合約authority。",
+    "group_ids": [
+      "gv_salvage_buyers",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『工具回收押記人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_toolbox",
+      "content_old_world_watch"
+    ],
+    "encounter_refs": [
+      "npc_031",
+      "npc_039"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_020",
+        "tension_zh": "收料人想買可拆件，押記人不能出售未取得處分權的押物。",
+        "cooperation_zh": "先列出可出售與不可售清單。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "當事人合約仍有效且物件尚未合法處分。",
+      "without_player_zh": "若債務已結清，歸還押物並關閉；不再把它作買賣庫存。"
+    },
+    "dependencies": [
+      "disassembly",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_045",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "居民通路協商人",
+    "public_need_zh": "讓拆解場搬料時保留已同意的住家出入口。",
+    "private_stake_zh": "怕抗議被當阻礙工作，又不想每天多走很遠。",
+    "leverage_zh": "可提供現場可見界標與居民同意的時段。",
+    "limit_zh": "不能以口頭提案永久封路或製造新地點。",
+    "group_ids": [
+      "gv_residents",
+      "gv_yard_workers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『居民通路協商人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_rope",
+      "content_car_panel_cuirass"
+    ],
+    "encounter_refs": [
+      "npc_035",
+      "npc_042"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_026",
+        "tension_zh": "舊管見證人要求避免挖動，通路人想先移開表層堆料。",
+        "cooperation_zh": "找不碰地下設施的有限暫存位置。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "通路仍受阻且現場雙方願協商。",
+      "without_player_zh": "若搬料已完成，撤下臨時安排；不再次堆物給玩家清理。"
+    },
+    "dependencies": [
+      "electronics",
+      "equipment",
+      "exploration",
+      "hazards",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_046",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工衣識別補記人",
+    "public_need_zh": "把人員交班記錄與衣物標記拆開，避免穿錯就被冒認。",
+    "private_stake_zh": "曾把借衣當代班，想修正但怕被罰沒工錢。",
+    "leverage_zh": "能說明自己見到的衣物與真正見到的人。",
+    "limit_zh": "不能用外套生成NPC身分或抹消真實在場狀態。",
+    "group_ids": [
+      "gv_residents",
+      "gv_yard_workers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『工衣識別補記人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_work_clothes",
+      "content_worker_leather_jacket"
+    ],
+    "encounter_refs": [
+      "npc_004",
+      "npc_046"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_001",
+        "tension_zh": "帶班工想快點補全名冊，補記人拒絕填沒看見的名字。",
+        "cooperation_zh": "保留未知欄位後再找其他證據。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "該班記錄尚待核對且相關人願說明。",
+      "without_player_zh": "若正式更正已完成，本次補記結束；不重開指控以等待玩家。"
+    },
+    "dependencies": [
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_047",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "拆解前留影人",
+    "public_need_zh": "在合法拆解前替物主保留一張外觀與刻記照片。",
+    "private_stake_zh": "想留下舊物故事，又不想拖住已付工錢的工程。",
+    "leverage_zh": "有相機與物主同意的短暫拍攝範圍。",
+    "limit_zh": "照片不恢復被拆物，不自動揭示所有歷史。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『拆解前留影人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_camera",
+      "content_military_dog_tags"
+    ],
+    "encounter_refs": [
+      "npc_046",
+      "npc_031"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_004",
+        "tension_zh": "分揀人怕每件都等拍照，留影人只挑不可重建的記號。",
+        "cooperation_zh": "事先同意有限清單可縮短等待。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "物件尚未拆解且物主授權拍攝。",
+      "without_player_zh": "若已依法拆完，只記未能保存的部分；不還原原件。"
+    },
+    "dependencies": [
+      "disassembly",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "FICTION-WOOL",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_048",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "工坊接單轉介人",
+    "public_need_zh": "替超出本坊能力的委託找願承接者，先交代未知故障。",
+    "private_stake_zh": "轉介可維持信譽，也可能被認為把麻煩推給別人。",
+    "leverage_zh": "知道自願公开的可接工項與目前排期。",
+    "limit_zh": "不能擅自代別人承諾、插隊或保證一定修好。",
+    "group_ids": [
+      "gv_workshops",
+      "gv_salvage_buyers"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『工坊接單轉介人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_repair_manual",
+      "content_radio"
+    ],
+    "encounter_refs": [
+      "npc_055",
+      "npc_032"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_025",
+        "tension_zh": "謹慎技工要求檢查再接，轉介人怕客人等不及。",
+        "cooperation_zh": "把診斷工作單獨介紹給合適者。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "原委託人同意轉介且接洽者仍有空檔。",
+      "without_player_zh": "若另有人已合法接單，停止重複媒合；不製造第二份獎勵。"
+    },
+    "dependencies": [
+      "electronics",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "lighting",
+      "npc_relationship",
+      "regional_trade",
+      "repair"
+    ],
+    "inspiration_refs": [
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-03",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_049",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "舊資料公開異議人",
+    "public_need_zh": "要求公開前辨認資料裡的私人地址與家屬資訊。",
+    "private_stake_zh": "希望保留技術知識，卻不願家人的住處成交易籌碼。",
+    "leverage_zh": "能指出自己有權要求保護的具體片段。",
+    "limit_zh": "不能因此封鎖所有公共技術，也不代表所有資料當事人。",
+    "group_ids": [
+      "gv_residents",
+      "gv_workshops"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『舊資料公開異議人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_data_disk",
+      "content_identity_document"
+    ],
+    "encounter_refs": [
+      "npc_047",
+      "npc_048"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_018",
+        "tension_zh": "核心接洽人想增加買家，異議人要求分層授權。",
+        "cooperation_zh": "先分享非私人技術目錄可維持談判。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "資料仍未公開且相關權利人可確認。",
+      "without_player_zh": "若已合法公開部分，不假裝可撤回世界記憶；後續複製依有效條款處理。"
+    },
+    "dependencies": [
+      "electronics",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-02",
+      "WG-04"
+    ]
+  },
+  {
+    "hook_id": "hook_gray_valley_050",
+    "town_id": "gray_valley",
+    "status": "DESIGN_ONLY",
+    "role_zh": "跨班交接整理人",
+    "public_need_zh": "把工具借用、材料買賣與居民寄物分開交接。",
+    "private_stake_zh": "怕自己成為所有缺失的替罪者，不願簽沒見到的物件。",
+    "leverage_zh": "可協調各保管者核對現存清單。",
+    "limit_zh": "無權改人口、價格或把所有私人用品收歸場方。",
+    "group_ids": [
+      "gv_yard_workers",
+      "gv_workshops",
+      "gv_salvage_buyers",
+      "gv_residents"
+    ],
+    "binding_zh": "未來從灰谷當前在場且存活的人口中，確認有意願承擔『跨班交接整理人』職責者後綁定；若需具名化只能標記既有人口。這是角色候選，可由同一既有人物兼任相容職責，不新增總人口或自動生成家屬。接受與提交時重驗在場、存活、職責與同意。",
+    "item_refs": [
+      "content_toolbox",
+      "content_cloth_sack",
+      "content_paper_journal"
+    ],
+    "encounter_refs": [
+      "npc_031",
+      "npc_050",
+      "npc_052"
+    ],
+    "relationships": [
+      {
+        "target_hook_id": "hook_gray_valley_003",
+        "tension_zh": "記帳員追求結清當批，整理人要保留跨班未決責任。",
+        "cooperation_zh": "共同列已結與待續事項可讓新班正常工作。"
+      }
+    ],
+    "availability": {
+      "condition_zh": "真實交班尚未完成且參與者自願核對。",
+      "without_player_zh": "若班別已交完，只補有證據的勘誤；不倒帶已完成交易或叫回離開者。"
+    },
+    "dependencies": [
+      "disassembly",
+      "identification",
+      "item_ownership",
+      "jobs",
+      "knowledge",
+      "npc_relationship",
+      "regional_trade",
+      "repair",
+      "reputation"
+    ],
+    "inspiration_refs": [
+      "FICTION-CANTICLE",
+      "LD-P02",
+      "WG-01",
+      "WG-02",
+      "WG-04"
+    ]
+  }
+]

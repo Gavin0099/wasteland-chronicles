@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "Godot_v4.7.2-stable_win64_console.exe --headless --path . --script tests/test_pda_character_sheet.gd",
+  "exit_code": 0,
+  "started_at": "2026-09-22T05:27:35Z",
+  "finished_at": "2026-09-22T05:27:35Z",
+  "runner": "governance_tools.test_evidence_receipt_writer",
+  "linked_commit": "a6c3ae7cb21f0ce6adb8e226f67f707e38d6ad1d",
+  "output_artifacts": [
+    "artifacts/pda-ui-20260922/test-receipt.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}

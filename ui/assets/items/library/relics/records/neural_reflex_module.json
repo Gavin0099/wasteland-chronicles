@@ -1,0 +1,27 @@
+{
+  "id": "neural_reflex_module",
+  "name": "神經反射模組",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/neural_reflex_module.png",
+  "source_output": "exec-7abe2376-b7c1-43de-b598-77b45d9a22e3.png",
+  "sha256": "87fc5134d5e600fcce9e9b9ed5222bddf9a50affcbb3a6ab560bedee22269276",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    52,
+    1206,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

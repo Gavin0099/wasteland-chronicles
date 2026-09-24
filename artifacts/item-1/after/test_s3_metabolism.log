@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S3-A POPULATION METABOLISM TEST SUITE             
+================================================================================
+
+--- [GATE A1] Legacy Consumption Equivalence ---
+PASS GATE A1: Legacy Consumption Equivalence Verified across all settlements.
+
+--- [GATE A2] 100-Day Shadow Run (Legacy vs Population) ---
+PASS GATE A2: 100-Day Shadow Run 100% Bitwise Identical to Legacy World.
+
+--- [GATE A3] Population Sensitivity Up (+20%) ---
+  Day 40 Gray Valley Water (Base Pop 100): 21 | (Pop 120 Up): 19
+PASS GATE A3: Population Sensitivity Up Verified (Water demand scaled 5 -> 6, faster depletion).
+
+--- [GATE A4] Population Sensitivity Down (-20%) ---
+  Day 40 Gray Valley Water (Base Pop 100): 21 | (Pop 80 Down): 85
+PASS GATE A4: Population Sensitivity Down Verified (Water demand scaled 5 -> 4, Food 4 -> 3, pressure relieved).
+
+--- [GATE A5] Determinism & Invariants ---
+  SHA-256 (Day 100 with Population): 195ea996fdb92a67c61a530bb6349c51df121a4fde746e744f6fde903fc4c10c
+PASS GATE A5: Determinism Replay & Invariants 100% Verified.
+
+================================================================================
+ALL S3-A ACCEPTANCE GATES (A1 ~ A5) PASSED!
+================================================================================

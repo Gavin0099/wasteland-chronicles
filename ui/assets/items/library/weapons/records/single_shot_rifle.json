@@ -1,0 +1,27 @@
+{
+  "id": "single_shot_rifle",
+  "name": "單發獵槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/single_shot_rifle.png",
+  "source_output": "exec-44fe006d-cc21-40e3-81b5-8d09715bea95.png",
+  "sha256": "431534bfc758b6f41240776fb9349e7c9d603a393158357b348ae7d08c950ecd",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    30,
+    49,
+    1237,
+    1198
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,44 @@
+[memory_workflow]
+status=memory_workflow_required
+repo_root=D:\wasteland-chronicles
+repo_root_resolved=True
+canonical_writer_required=True
+task_classification=governed_memory_task
+guard_ran=True
+completion_claim_allowed=True
+memory_protocol_path=governance/MEMORY_PROTOCOL.md
+canonical_writer_path=NOT FOUND
+authority_guard_path=NOT FOUND
+Memory authority check ran and found no blocking item.
+completion_claim_allowed=True means this workflow currently does not block a completion claim.
+This does not prove that all completed work has canonical memory.
+[memory_files_in_diff]
+memory/01_active_task.md
+memory/2026-09-20.md
+[guard_summary]
+active_non_canonical_writer=0
+authority_override_rejected=0
+authority_override_used_current_diff=0
+current_diff_b0_blocker_count=0
+missing_canonical_memory=0
+non_canonical_writer=0
+non_daily_session_shaped_memory_entry=0
+repo_state_b0_blocker_count=0
+session_like_non_session_memory_type=0
+test_evidence_artifact_metadata_invalid=0
+test_evidence_artifact_metadata_missing=1
+test_evidence_artifact_not_durable=0
+test_evidence_exit_code_contradicts_claim=0
+test_evidence_linked_commit_mismatch=0
+test_evidence_provenance_not_found=2
+unbound_memory=0
+[recommended_workflow]
+Stop editing memory/ files directly.
+Use canonical writer for session-derived memory.
+Run memory authority guard after memory changes.
+Do not claim memory DONE until guard result is reported.
+[warnings]
+canonical writer not found
+memory authority guard not found
+test_evidence_provenance_not_found
+test_evidence_artifact_metadata_missing

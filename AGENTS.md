@@ -387,3 +387,12 @@ NOT CLAIMED unless separately implemented and validated:
 - **嚴禁隨機數/時間戳鑄造實體 ID**（Axiom 12：必須使用單調遞增序號保證重播決定論）。
 - **嚴禁未授權之自主行為發明**（Axiom 14：未授權動作強制 Fail-Closed）。
 - **嚴禁私自添加人為調節器掩蓋模擬失敗**（Axiom 8：發現異常必須記錄客觀因果並呈報）。
+
+## Wasteland UI Skill Routing
+
+For this repository's in-game UI or UI artwork, read
+`.agents/skills/wc-survivor-pda-design-system/SKILL.md` first. It is the single
+visual source; `wasteland-chronicles-ui-v1` is a compatibility pointer. Reuse the
+shared tokens/theme/components and verify rendered screens. User instructions
+and authorized gameplay scope take precedence; this routing does not authorize
+future systems by itself.

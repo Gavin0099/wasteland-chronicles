@@ -1,0 +1,27 @@
+{
+  "id": "oil_lamp",
+  "name": "油燈",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/oil_lamp.png",
+  "source_output": "exec-44798f3c-407b-46e1-9701-77bb371ac2c6.png",
+  "sha256": "eee8721c7ed4c388a9a1e2776f8a5f7adea9850891fc0a8ac90e99863abb485b",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    39,
+    14,
+    1236,
+    1232
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

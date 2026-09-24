@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+        WASTELAND CHRONICLES - S4-D TRAITS TEST SUITE (Fast Lane)               
+================================================================================
+
+--- [GATE D1] Closed Enum ---
+  Rejected out-of-enum trait values [-1, 6, 99, 4242]; world hash unchanged
+  Mara -> [0, 1]
+PASS GATE D1: Closed Enum verified.
+
+--- [GATE D2] Profile Integrity ---
+  Unknown NPC rejected
+  NPC without a profile rejected: NO_PROFILE: NPC npc:00000004 has no profile; traits are profile metadata
+  Post-mortem authoring rejected; pre-mortem trait STUBBORN preserved after death
+PASS GATE D2: Profile Integrity verified.
+
+--- [GATE D3] Set Semantics ---
+  Duplicate rejected with zero mutation: DUPLICATE_TRAIT: NPC npc:00000001 already has trait CAUTIOUS
+  [LOYAL, CAUTIOUS, STUBBORN] and [STUBBORN, CAUTIOUS, LOYAL] produce the same world
+  Canonical (enum) order: [0, 1, 5]
+PASS GATE D3: Set Semantics verified.
+
+--- [GATE D4] Zero Authority ---
+  CAUTIOUS denied FLEE; AGGRESSIVE would be denied ATTACK; all 6 attempts refused
+  Background, life state and world hash all unchanged by traits and refused actions
+  No modifier / bonus / weight / conflict / score keys anywhere in serialization
+PASS GATE D4: Zero Authority verified.
+
+--- [GATE D5] Simulation Inertness (30-day counterfactual) ---
+  30 ticks, 6 traits across 3 NPCs vs none -> identical projection SHA-256:
+    c85311a485b26dbec245fd9fdb2857f900306f6acb8646a184397e3aad7f65e8
+  Full-state hashes DO differ (traits are present and persisted)
+  => Traits describe who someone is; they do not change what the world does.
+PASS GATE D5: Simulation Inertness verified.
+
+--- [GATE D6] Persistence / Determinism ---
+  Round-trip SHA identical; all traits restored exactly
+  duplicate_state() deep-copies traits (mutating the copy left the original alone)
+  Negative tests: out-of-enum, duplicate and unordered traits all detected
+  Exported artifacts/world_snapshot_s4d.json for independent validation.
+PASS GATE D6: Persistence / Determinism verified.
+
+================================================================================
+ALL S4-D TRAIT GATES (D1 ~ D6) PASSED CLEANLY!
+================================================================================

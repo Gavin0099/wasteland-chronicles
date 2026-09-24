@@ -1,0 +1,27 @@
+{
+  "id": "compass",
+  "name": "指南針",
+  "section": 9,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/compass.png",
+  "source_output": "exec-9ffa5088-2d7a-4b33-b1b7-9885e3b8b4b2.png",
+  "sha256": "d37c7d6f6dbe24206c4fefb6472c5e8e9c7b7ee02c80f926962d5cb2dd041d64",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1236,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

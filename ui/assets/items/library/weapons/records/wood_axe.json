@@ -1,0 +1,27 @@
+{
+  "id": "wood_axe",
+  "name": "伐木斧",
+  "section": 1,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/wood_axe.png",
+  "source_output": "exec-1a79854b-08f2-4e67-ae24-168a3fbbf638.png",
+  "sha256": "8fe32c222e1e46b1b38eab81803492cdccb8585ed33fd61e6c850a4708d0ce74",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    21,
+    39,
+    1230,
+    1236
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

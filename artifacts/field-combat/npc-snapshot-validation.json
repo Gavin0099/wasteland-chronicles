@@ -1,0 +1,34 @@
+{
+  "ok": true,
+  "rule_ids": [
+    "G1.5-A",
+    "NPC-001",
+    "NPC-002",
+    "NPC-003",
+    "NPC-004",
+    "NPC-007",
+    "NPC-008",
+    "EVENT-001",
+    "EVENT-002",
+    "EVENT-003",
+    "EVENT-004",
+    "NUM-001",
+    "NUM-002",
+    "NUM-003",
+    "TRAIT-001",
+    "TRAIT-002",
+    "APT-001",
+    "APT-002"
+  ],
+  "violations": [],
+  "warnings": [],
+  "evidence_summary": "Validated 3 NPCs across 3 settlements, 3 backgrounds, 138 events. Violations: 0, Warnings: 0",
+  "metadata": {
+    "npc_count": 3,
+    "profile_count": 3,
+    "event_count": 138,
+    "max_sequence": 3,
+    "next_sequence": 4
+  },
+  "schema_version": "1.0"
+}

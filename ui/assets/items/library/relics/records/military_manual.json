@@ -1,0 +1,27 @@
+{
+  "id": "military_manual",
+  "name": "軍用手冊",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/military_manual.png",
+  "source_output": "exec-d1dd7ed3-1181-4595-a52f-7ec5fa91715a.png",
+  "sha256": "11e0a668a40318530ec31166d3a62b9c7466b6989a20662d5d86b9d84f56824e",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1238,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

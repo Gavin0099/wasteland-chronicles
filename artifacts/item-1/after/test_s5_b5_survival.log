@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S5-B5 PLAYER SURVIVAL TEST SUITE                  
+================================================================================
+
+--- [GATE S1] Transit Consumption ---
+  Two days on the road drank 2 water and ate 2 food from the backpack
+PASS GATE S1: Transit Consumption verified.
+
+--- [GATE S2] Unmet -> Pressure ---
+  Carrying enough water: pressure 0.0, exposure 0.0 after the whole journey
+  (a low backpack is not suffering; going WITHOUT is)
+  Travelling with nothing: pressure 25.0, exposure 1.00 after one day
+PASS GATE S2: Unmet -> Pressure verified.
+
+--- [GATE S3] Exposure / Grace Period ---
+  Two dry days: still alive (exposure 2.00 of 6.0 grace)
+  A town that kept failing to find water killed the player on day 7 (grace 6)
+  Recorded cause: dehydration (water grace 6 < food grace 18, so thirst comes first)
+  Life conservation and all invariants intact after the death
+  Died on the road on day 7; party headcount and life conservation both intact
+  (S4-B forbade IN_TRANSIT -> DEAD; S5-B5 makes the wasteland able to kill you)
+PASS GATE S3: Exposure / Grace Period verified.
+
+--- [GATE S4] Settlement: No Double Metabolism ---
+  5 days settled in a healthy town: backpack untouched (5 water, 5 food)
+  Dry town, empty backpack: exposure rose to 4.00 (unmet ratio 1.00)
+  Dry town, 6 water carried: drank 4 private rations (6 -> 2), exposure stayed 0.00
+  The town is no better off for it (its pressure is still 100.0): drinking your own
+  water and giving it to a town remain completely different acts
+PASS GATE S4: Settlement No Double Metabolism verified.
+
+--- [GATE S5] Death Authority ---
+  4 intents refused after death: DECEASED_OR_NO_LIFE_STATE
+  You cannot keep running caravans after you die in the sand
+PASS GATE S5: Death Authority verified.
+
+--- [GATE S6] Save / Load ---
+  Mid-deprivation snapshot restored exactly (water exposure 4.00)
+  Six further days on both sides: identical worlds, SHA befd5a52f7585e2e95e665ebc9c0b4adc4473d455586cc1f85623f1e0b750a74
+  (including whether the player lived or died)
+PASS GATE S6: Save / Load verified.
+
+================================================================================
+ALL S5-B5 PLAYER SURVIVAL GATES (S1 ~ S6) PASSED CLEANLY!
+================================================================================

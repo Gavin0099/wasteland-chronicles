@@ -285,7 +285,7 @@ func _init() -> void:
 		return
 	var mid_exposure: float = wa.player.water_exposure
 
-	var wb := WorldState.from_dict(JSON.parse_string(JSON.stringify(wa.to_dict())))
+	var wb := WorldState.from_json(JSON.stringify(wa.to_dict()))
 	if wb == null:
 		print("FAIL S6: loader refused a snapshot containing a deprived player!")
 		quit(1)

@@ -1,0 +1,7 @@
+# Raw evidence retains original bytes, including test-banner trailing spaces.
+before/*.log -text -whitespace
+after/*.log -text -whitespace
+before/historical-originals/*.json -text -whitespace
+before/historical-emitted/*.json -text -whitespace
+after/historical-originals/*.json -text -whitespace
+after/historical-emitted/*.json -text -whitespace

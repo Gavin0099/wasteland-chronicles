@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+    WASTELAND CHRONICLES - S5-B4.1 WORLD-REACTIVE ENCOUNTERS                    
+================================================================================
+
+--- [GATE R1] Same Road, Different World ---
+  A quiet road      : DEHYDRATED_TRAVELLER 10, EMPTY 100, ROADBLOCK 10, ROCKSLIDE 31, WRECK 29
+  A collapsing road : DEHYDRATED_TRAVELLER 30, EMPTY 60, ROADBLOCK 54, ROCKSLIDE 18, WRECK 18
+  Security 100 -> 15 : barricades 10 -> 54
+  Water pressure 0 -> 90 : dying travellers 10 -> 30
+  The same highway is a different place depending on what the world is doing
+PASS GATE R1: Same Road, Different World verified.
+
+--- [GATE R2] Real Entities ---
+  No refugees in the world: met 0 refugee columns in 180 road-days
+  A real party of 14 walking this road: met 55 times in 180 road-days
+  Gray Valley collapsed and the simulation sent 10 people to settlement:new_hope
+  Walking that same road, the facts offered are: no column (the player IS that party's road)
+PASS GATE R2: Real Entities verified.
+
+--- [GATE R3] Fresh Wreckage ---
+  A caravan lost on this road recently: wrecks 29 -> 70
+  Fresh wreckage reads differently from an old picked-over hulk
+PASS GATE R3: Fresh Wreckage verified.
+
+--- [GATE R4] Still Deterministic ---
+  100 repeats and 90 road-days: identical facts always give the identical road
+  Variety comes from the world moving, not from a dice roll
+PASS GATE R4: Still Deterministic verified.
+
+--- [GATE R5] Context Persistence ---
+  崩塌的道路 paused and restored with its observed facts intact: {}
+  The story the player is reading cannot change while they decide
+PASS GATE R5: Context Persistence verified.
+
+================================================================================
+ALL S5-B4.1 WORLD-REACTIVE GATES (R1 ~ R5) PASSED CLEANLY!
+================================================================================

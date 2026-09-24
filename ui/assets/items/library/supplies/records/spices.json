@@ -1,0 +1,27 @@
+{
+  "id": "spices",
+  "name": "香料",
+  "section": 11,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/spices.png",
+  "source_output": "exec-73e9a12c-a6b5-433e-8b62-6bccb458ec90.png",
+  "sha256": "5f6005732114b6df667c7e0dedcb490ed1785f8076bb01fb8fed64e0bc6558c9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1238,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

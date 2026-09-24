@@ -1,0 +1,27 @@
+{
+  "id": "worker_leather_jacket",
+  "name": "工人皮衣",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/worker_leather_jacket.png",
+  "source_output": "exec-e2cfd0fa-3cb2-4de2-a9f4-25e365550cad.png",
+  "sha256": "c7ef5f3e99a9501aacc10c30e2046af48e39ec10c52d63bd9b7f5326f767ac35",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1238,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

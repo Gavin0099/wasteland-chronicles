@@ -4122,6 +4122,8 @@
 			"origin_settlement_id": "settlement:gray_valley"
 		}
 	},
+	"pending_encounter_result": -1,
+	"progression_schema_version": 1,
 	"refugees": {},
 	"settlements": {
 		"settlement:dry_well": {

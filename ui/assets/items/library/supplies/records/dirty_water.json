@@ -1,0 +1,27 @@
+{
+  "id": "dirty_water",
+  "name": "污水",
+  "section": 7,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/dirty_water.png",
+  "source_output": "exec-edf8bcab-c055-40d1-9945-7a2b39a75f2f.png",
+  "sha256": "7a9e1766b2ff81e59d46afbef5e638c91c29e9bf6fabd8ee5553500b72f5a67f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    13,
+    1224,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "company_keycard",
+  "name": "公司門禁卡",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/company_keycard.png",
+  "source_output": "exec-1e7a701f-78b0-4155-82f1-678c884a6b02.png",
+  "sha256": "d5805b97546d048edb2ee41e62ce9b96f227bc9dcfd83e1f27ea27ee18558966",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1253,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

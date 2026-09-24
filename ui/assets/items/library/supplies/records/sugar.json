@@ -1,0 +1,27 @@
+{
+  "id": "sugar",
+  "name": "糖",
+  "section": 11,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/sugar.png",
+  "source_output": "exec-db06cd37-4b3e-4f37-ba09-2d06806ecc30.png",
+  "sha256": "e03512c3421868af8f4a9c58d35205a348cc02decbf91a30b55e6bf625a157d2",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1234,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

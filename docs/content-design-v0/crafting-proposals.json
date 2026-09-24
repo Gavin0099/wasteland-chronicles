@@ -1,0 +1,14 @@
+[
+  {"proposal_id":"craft_cloth_sack","status":"DESIGN_ONLY","inputs":["content_cloth"],"tools":["content_hunting_knife"],"output":"content_cloth_sack","limit_zh":"只提議布料到布袋的製作關係；針線、接縫強度、工時、耗損與產量尚未定義，不是把布料免費轉成容量。"},
+  {"proposal_id":"craft_rope","status":"DESIGN_ONLY","inputs":["content_cloth"],"tools":[],"output":"content_rope","limit_zh":"編繩需要適合纖維與檢驗，普通碎布不能直接成為攀登救援繩；材料分級、承重與製法未定前不可執行。"},
+  {"proposal_id":"craft_workwear","status":"DESIGN_ONLY","inputs":["content_cloth","content_leather"],"tools":["content_hunting_knife"],"output":"content_work_clothes","limit_zh":"裁製工作服需尺寸、縫製設備與工時；不含護甲值，也不把汙染衣物拆回乾淨醫用布。"},
+  {"proposal_id":"craft_desert_robe","status":"DESIGN_ONLY","inputs":["content_cloth"],"tools":["content_hunting_knife"],"output":"content_desert_robe","limit_zh":"長袍的透氣、遮蔽與耗料另需設計；本關係不授予耐熱、抗污染或風暴通行效果。"},
+  {"proposal_id":"craft_tool_belt","status":"DESIGN_ONLY","inputs":["content_leather","content_steel_stock"],"tools":["content_pliers"],"output":"content_tool_belt","limit_zh":"腰帶需要扣具加工與皮革縫合；尺寸、工具固定方式尚未定，不能自動增加負重或行動速度。"},
+  {"proposal_id":"craft_travel_pack","status":"DESIGN_ONLY","inputs":["content_cloth","content_leather","content_steel_stock"],"tools":["content_pliers"],"output":"content_travel_backpack","limit_zh":"背包製作需要版型、肩帶與接縫檢驗；空包重量不是容量，不能繞過現有背包權威。"},
+  {"proposal_id":"craft_dust_mask","status":"DESIGN_ONLY","inputs":["content_cloth","content_rubber"],"tools":[],"output":"content_dust_mask","limit_zh":"僅是沙塵遮蔽物候選；材料清潔度與貼合檢驗未定，不能用它抵抗毒氣、污染或保證安全。"},
+  {"proposal_id":"craft_oil_lamp","status":"DESIGN_ONLY","inputs":["content_glass","content_steel_stock","content_cloth"],"tools":["content_pliers"],"output":"content_oil_lamp","limit_zh":"燈體關係不包含燃料；需專業製作、密封與燃料相容性檢驗，不提供現實操作步驟或永久照明。"},
+  {"proposal_id":"craft_sealed_crate","status":"DESIGN_ONLY","inputs":["content_steel_stock","content_rubber"],"tools":["content_welding_tools"],"output":"content_sealed_cargo_crate","limit_zh":"需要工坊、電力及密封檢驗；普通焊接不保證危險品容器合格。工具是持有條件，耗材與產量尚未定。"},
+  {"proposal_id":"craft_waterskin","status":"DESIGN_ONLY","inputs":["content_leather","content_rubber"],"tools":[],"output":"content_waterskin","limit_zh":"容器需清潔、接縫與飲水接觸材料檢驗；成品為空容器，不從皮革生成淨水。"},
+  {"proposal_id":"craft_jerky","status":"DESIGN_ONLY","inputs":["content_raw_meat","content_salt"],"tools":[],"output":"content_jerky","limit_zh":"這是食物保存的抽象關係，尚需專業處理、安全與損耗規則；不提供真實食物製作流程，也不保證野外加工可食。"},
+  {"proposal_id":"craft_water_filter","status":"DESIGN_ONLY","inputs":["content_plastic","content_cloth"],"tools":["content_screwdriver"],"output":"content_water_filter","limit_zh":"這裡只記外殼／支撐材關係，缺正式濾材、處理能力與污染檢驗；不得由此配方直接產生可飲水或無限濾水器。"}
+]

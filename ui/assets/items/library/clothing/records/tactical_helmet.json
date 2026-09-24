@@ -1,0 +1,27 @@
+{
+  "id": "tactical_helmet",
+  "name": "舊世戰術頭盔",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/tactical_helmet.png",
+  "source_output": "exec-483d8109-3cc3-4258-a63b-1fd78e902579.png",
+  "sha256": "e400d322791de0231218039937c2d7259fdde1a76bbbf7af82c83570fd458fad",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1206,
+    1214
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "anti_radiation_medicine",
+  "name": "抗輻射藥",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/anti_radiation_medicine.png",
+  "source_output": "exec-ac2aebbe-efda-4aec-87f7-c4fa20e7e680.png",
+  "sha256": "639de43d600f20c78ea1f5765c19434a174aaab830b911518d8089d54af120f9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1200,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

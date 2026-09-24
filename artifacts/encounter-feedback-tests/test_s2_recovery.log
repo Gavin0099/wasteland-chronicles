@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+       WASTELAND CHRONICLES - S2-E POST-RESTORATION RECOVERY TEST (120 DAYS)
+================================================================================
+  [Day 30] World C: c_hope_gray route SEVERED.
+  [Day 60] World C: c_hope_gray route RESTORED (starts at New Hope, 3-day transit).
+  >>> [Day 62] World C: FIRST SHIPMENT ARRIVED at Gray Valley!
+PASS GATE 1: Precise Physical Travel Latency (Departed Day 60 morning, arrived Day 62 evening)
+PASS GATE 2: No Instant Replenishment on Day 60 (Water = 0, Price remains at zero-stock level $37.50)
+PASS GATE 3: First Delivery Stock Increase (Day 62 Water: 0 -> 23)
+PASS GATE 4: Price Responds to Physical Inflow ($37.50 -> $31.03 at Day 62)
+PASS GATE 5: Scrap Backlog Drainage Verified (Drained from 331 at Day 60 down to 315 at Day 70; Day 100 restored 382 << shock 557)
+PASS GATE 6: Determinism Replay Verified (World C SHA-256: d241c34f23fb5edfb84b797ca4db584c8836b43e89eeefe71237c5b588030f8a)
+PASS GATE 7: Invariants Valid Across 120 Days in World C
+
+================================================================================
+ALL S2-E HARD GATES (1 ~ 7) PASSED!
+================================================================================

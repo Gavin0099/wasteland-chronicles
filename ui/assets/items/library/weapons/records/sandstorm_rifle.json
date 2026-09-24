@@ -1,0 +1,27 @@
+{
+  "id": "sandstorm_rifle",
+  "name": "沙暴步槍",
+  "section": 3,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/sandstorm_rifle.png",
+  "source_output": "exec-84d0a180-9e8c-4da8-8b3e-82d9aee467d0.png",
+  "sha256": "cfd6167a2b535f1bb56bec007d11742bd8896ffd8bef4bc22192ab2611cbc35d",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    22,
+    53,
+    1236,
+    1237
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

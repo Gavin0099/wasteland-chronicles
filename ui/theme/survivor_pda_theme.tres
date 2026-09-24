@@ -93,6 +93,55 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_84ngf"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.105882354, 0.11372549, 0.13333334, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.27058825, 0.2901961, 0.33333334, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 32.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ljeiw"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.105882354, 0.11372549, 0.13333334, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.16470589, 0.1764706, 0.20784314, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uc3l"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.09411765, 0.101960786, 0.12156863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8509804, 0.50980395, 0.16862746, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eis65"]
 bg_color = Color(0.078431375, 0.08235294, 0.09411765, 1)
 border_width_left = 1
 border_width_top = 1
@@ -104,7 +153,7 @@ corner_radius_top_right = 1
 corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ljeiw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8j1b7"]
 bg_color = Color(0.8509804, 0.50980395, 0.16862746, 1)
 corner_radius_top_left = 1
 corner_radius_top_right = 1
@@ -124,5 +173,22 @@ Button/styles/pressed = SubResource("StyleBoxFlat_rsleu")
 Label/colors/font_color = Color(0.84705883, 0.827451, 0.78431374, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0.5)
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_8rfyf")
-ProgressBar/styles/background = SubResource("StyleBoxFlat_84ngf")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_ljeiw")
+PdaCommand/base_type = &"Button"
+PdaCommand/colors/font_disabled_color = Color(0.5882353, 0.5764706, 0.54509807, 1)
+PdaDialog/base_type = &"AcceptDialog"
+PdaDialog/styles/embedded_border = SubResource("StyleBoxFlat_84ngf")
+PdaDialog/styles/panel = SubResource("StyleBoxFlat_84ngf")
+PdaMuted/base_type = &"Label"
+PdaMuted/colors/font_color = Color(0.5882353, 0.5764706, 0.54509807, 1)
+PdaMuted/font_sizes/font_size = 14
+PdaPanel/base_type = &"PanelContainer"
+PdaPanel/styles/panel = SubResource("StyleBoxFlat_ljeiw")
+PdaPrimary/base_type = &"PdaCommand"
+PdaPrimary/styles/normal = SubResource("StyleBoxFlat_3uc3l")
+PdaSection/base_type = &"Label"
+PdaSection/colors/font_color = Color(0.8509804, 0.50980395, 0.16862746, 1)
+PdaSection/font_sizes/font_size = 18
+PdaTitle/base_type = &"Label"
+PdaTitle/font_sizes/font_size = 24
+ProgressBar/styles/background = SubResource("StyleBoxFlat_eis65")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_8j1b7")

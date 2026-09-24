@@ -1,0 +1,27 @@
+{
+  "id": "heat_core",
+  "name": "熱核",
+  "section": 14,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/heat_core.png",
+  "source_output": "exec-68aaad8c-9749-4ae9-8b7c-9b02b97d244d.png",
+  "sha256": "72d4de6072255022f753f32631c040a14ea64b2a85fe39d9308abb84954223f9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1234,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

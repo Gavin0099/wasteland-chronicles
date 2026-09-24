@@ -1,0 +1,27 @@
+{
+  "id": "tea",
+  "name": "茶葉",
+  "section": 11,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/tea.png",
+  "source_output": "exec-4098dc91-85fc-4521-897e-03815e978b06.png",
+  "sha256": "f5a505f15dfa5235fdd03b79d5b1e9f9cba294b609eaf30174b376641e4c840f",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    19,
+    1218,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

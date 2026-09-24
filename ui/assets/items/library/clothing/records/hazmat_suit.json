@@ -1,0 +1,27 @@
+{
+  "id": "hazmat_suit",
+  "name": "防化服",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/hazmat_suit.png",
+  "source_output": "exec-521b7c85-51a9-405e-93af-a8a767c4c4cb.png",
+  "sha256": "832467da4441c18337842db981fccad59e6b72c80aadf1915205f156fd11cc88",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    33,
+    0,
+    1230,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

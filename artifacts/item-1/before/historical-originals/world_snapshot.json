@@ -1,0 +1,254 @@
+{
+	"active_encounter": {},
+	"caravans": {
+		"caravan:c_gray_dry": {
+			"capacity_total": 40,
+			"cargo": {
+				"food": 0,
+				"fuel": 0,
+				"scrap": 15,
+				"water": 0
+			},
+			"days_remaining": 3,
+			"destination_id": "settlement:dry_well",
+			"id": "caravan:c_gray_dry",
+			"is_active": true,
+			"is_destroyed": false,
+			"name": "礦山-油井商隊",
+			"origin_id": "settlement:gray_valley",
+			"route_days": 3
+		},
+		"caravan:c_hope_dry": {
+			"capacity_total": 40,
+			"cargo": {
+				"food": 15,
+				"fuel": 0,
+				"scrap": 0,
+				"water": 18
+			},
+			"days_remaining": 3,
+			"destination_id": "settlement:dry_well",
+			"id": "caravan:c_hope_dry",
+			"is_active": true,
+			"is_destroyed": false,
+			"name": "綠洲-油井商隊",
+			"origin_id": "settlement:new_hope",
+			"route_days": 3
+		},
+		"caravan:c_hope_gray": {
+			"capacity_total": 40,
+			"cargo": {
+				"food": 10,
+				"fuel": 0,
+				"scrap": 0,
+				"water": 25
+			},
+			"days_remaining": 3,
+			"destination_id": "settlement:gray_valley",
+			"id": "caravan:c_hope_gray",
+			"is_active": true,
+			"is_destroyed": false,
+			"name": "綠洲-灰谷商隊",
+			"origin_id": "settlement:new_hope",
+			"route_days": 3
+		}
+	},
+	"current_day": 0,
+	"decision_audit_trail": [],
+	"event_count": 0,
+	"events": [],
+	"next_npc_sequence": 6,
+	"npc_life_state_registry": {},
+	"npc_profile_registry": {},
+	"npc_registry": {
+		"npc:00000001": {
+			"age_at_materialization": 28,
+			"id": "npc:00000001",
+			"name": "Mara",
+			"origin_settlement_id": "settlement:gray_valley"
+		},
+		"npc:00000002": {
+			"age_at_materialization": 35,
+			"id": "npc:00000002",
+			"name": "Eli",
+			"origin_settlement_id": "settlement:gray_valley"
+		},
+		"npc:00000003": {
+			"age_at_materialization": 42,
+			"id": "npc:00000003",
+			"name": "Jon",
+			"origin_settlement_id": "settlement:gray_valley"
+		},
+		"npc:00000004": {
+			"age_at_materialization": 24,
+			"id": "npc:00000004",
+			"name": "Sarah",
+			"origin_settlement_id": "settlement:new_hope"
+		},
+		"npc:00000005": {
+			"age_at_materialization": 50,
+			"id": "npc:00000005",
+			"name": "Kael",
+			"origin_settlement_id": "settlement:dry_well"
+		}
+	},
+	"pending_encounter_result": -1,
+	"progression_schema_version": 1,
+	"refugees": {},
+	"settlements": {
+		"settlement:dry_well": {
+			"base_price_food": 15.0,
+			"base_price_fuel": 10.0,
+			"base_price_scrap": 14.0,
+			"base_price_water": 15.0,
+			"consumption": {
+				"food": 4,
+				"fuel": 3,
+				"scrap": 2,
+				"water": 4
+			},
+			"cumulative_deaths": 0,
+			"cumulative_disorder_loss": {},
+			"days_since_last_migration": 999,
+			"disorder_loss_credits": {},
+			"food_exposure": 0.0,
+			"food_pressure": 0.0,
+			"id": "settlement:dry_well",
+			"inventory": {
+				"food": 60,
+				"fuel": 100,
+				"scrap": 50,
+				"water": 60
+			},
+			"maintenance_fuel": 3,
+			"maintenance_scrap": 2,
+			"market_cash": 500,
+			"metabolism_food_rate": 0.05,
+			"metabolism_water_rate": 0.05,
+			"name": "乾井 (Dry Well)",
+			"population": 80,
+			"price_food": 15.0,
+			"price_fuel": 10.0,
+			"price_scrap": 14.0,
+			"price_water": 15.0,
+			"production": {
+				"food": 1,
+				"fuel": 8,
+				"scrap": 1,
+				"water": 1
+			},
+			"production_credits": {},
+			"reference_population": 80,
+			"security": 100.0,
+			"target_food": 60,
+			"target_fuel": 100,
+			"target_scrap": 50,
+			"target_water": 60,
+			"water_exposure": 0.0,
+			"water_pressure": 0.0
+		},
+		"settlement:gray_valley": {
+			"base_price_food": 12.0,
+			"base_price_fuel": 20.0,
+			"base_price_scrap": 8.0,
+			"base_price_water": 15.0,
+			"consumption": {
+				"food": 4,
+				"fuel": 2,
+				"scrap": 4,
+				"water": 5
+			},
+			"cumulative_deaths": 0,
+			"cumulative_disorder_loss": {},
+			"days_since_last_migration": 999,
+			"disorder_loss_credits": {},
+			"food_exposure": 0.0,
+			"food_pressure": 0.0,
+			"id": "settlement:gray_valley",
+			"inventory": {
+				"food": 80,
+				"fuel": 40,
+				"scrap": 100,
+				"water": 80
+			},
+			"maintenance_fuel": 2,
+			"maintenance_scrap": 4,
+			"market_cash": 500,
+			"metabolism_food_rate": 0.04,
+			"metabolism_water_rate": 0.05,
+			"name": "灰谷 (Gray Valley)",
+			"population": 100,
+			"price_food": 12.0,
+			"price_fuel": 20.0,
+			"price_scrap": 8.0,
+			"price_water": 15.0,
+			"production": {
+				"food": 2,
+				"fuel": 0,
+				"scrap": 11,
+				"water": 0
+			},
+			"production_credits": {},
+			"reference_population": 100,
+			"security": 100.0,
+			"target_food": 80,
+			"target_fuel": 40,
+			"target_scrap": 100,
+			"target_water": 80,
+			"water_exposure": 0.0,
+			"water_pressure": 0.0
+		},
+		"settlement:new_hope": {
+			"base_price_food": 10.0,
+			"base_price_fuel": 20.0,
+			"base_price_scrap": 16.0,
+			"base_price_water": 8.0,
+			"consumption": {
+				"food": 4,
+				"fuel": 2,
+				"scrap": 4,
+				"water": 6
+			},
+			"cumulative_deaths": 0,
+			"cumulative_disorder_loss": {},
+			"days_since_last_migration": 999,
+			"disorder_loss_credits": {},
+			"food_exposure": 0.0,
+			"food_pressure": 0.0,
+			"id": "settlement:new_hope",
+			"inventory": {
+				"food": 80,
+				"fuel": 40,
+				"scrap": 60,
+				"water": 100
+			},
+			"maintenance_fuel": 2,
+			"maintenance_scrap": 4,
+			"market_cash": 500,
+			"metabolism_food_rate": 0.0333333333333333,
+			"metabolism_water_rate": 0.05,
+			"name": "新希望 (New Hope)",
+			"population": 120,
+			"price_food": 10.0,
+			"price_fuel": 20.0,
+			"price_scrap": 16.0,
+			"price_water": 8.0,
+			"production": {
+				"food": 9,
+				"fuel": 0,
+				"scrap": 1,
+				"water": 14
+			},
+			"production_credits": {},
+			"reference_population": 120,
+			"security": 100.0,
+			"target_food": 80,
+			"target_fuel": 40,
+			"target_scrap": 60,
+			"target_water": 100,
+			"water_exposure": 0.0,
+			"water_pressure": 0.0
+		}
+	},
+	"total_initial_population": -1
+}

@@ -14,6 +14,7 @@ extends RefCounted
 #   BUY    = 2 (Purchase commodity from current settlement)
 #   SELL   = 3 (Sell commodity to current settlement)
 #   RESOLVE_ENCOUNTER = 4 (S5-B4: choose an option on a roadside encounter)
+#   CONTINUE_JOURNEY = 5 (confirm a committed result, then resume travel)
 # ==============================================================================
 
 enum Action {
@@ -22,14 +23,21 @@ enum Action {
 	BUY               = 2,
 	SELL              = 3,
 	RESOLVE_ENCOUNTER = 4,
+	CONTINUE_JOURNEY = 5,
+	FIELD_ACTION = 6,
+	EQUIP_ITEM = 7,
+	UNEQUIP_ITEM = 8,
+	ACCEPT_QUEST = 9,
+	TURN_IN_QUEST = 10,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
 var destination_id: StringName = &""
 var commodity: StringName = &""
+var item_id: StringName = &""
 var quantity: int = 0
 var payload: Dictionary = {}
 
@@ -39,22 +47,30 @@ func _init(
 	p_destination_id: StringName = &"",
 	p_payload: Dictionary = {},
 	p_commodity: StringName = &"",
-	p_quantity: int = 0
+	p_quantity: int = 0,
+	p_item_id: StringName = &""
 ) -> void:
 	action = p_action
 	player_id = p_player_id
 	destination_id = p_destination_id
 	payload = p_payload
 	commodity = p_commodity
+	item_id = p_item_id
 	quantity = p_quantity
 
 static func action_name(value: int) -> String:
 	match value:
+		Action.FIELD_ACTION: return "FIELD_ACTION"
+		Action.EQUIP_ITEM: return "EQUIP_ITEM"
+		Action.UNEQUIP_ITEM: return "UNEQUIP_ITEM"
+		Action.ACCEPT_QUEST: return "ACCEPT_QUEST"
+		Action.TURN_IN_QUEST: return "TURN_IN_QUEST"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
 		Action.BUY: return "BUY"
 		Action.SELL: return "SELL"
 		Action.RESOLVE_ENCOUNTER: return "RESOLVE_ENCOUNTER"
+		Action.CONTINUE_JOURNEY: return "CONTINUE_JOURNEY"
 		_: return "INVALID(%d)" % value
 
 static func is_authorized_action(value: int) -> bool:
@@ -72,8 +88,26 @@ static func create_buy(p_player_id: StringName, p_commodity: StringName, p_quant
 static func create_sell(p_player_id: StringName, p_commodity: StringName, p_quantity: int) -> PlayerIntent:
 	return PlayerIntent.new(Action.SELL, p_player_id, &"", {}, p_commodity, p_quantity)
 
+static func create_buy_item(p_player_id: StringName, p_item_id: StringName, p_quantity: int) -> PlayerIntent:
+	return PlayerIntent.new(Action.BUY, p_player_id, &"", {}, &"", p_quantity, p_item_id)
+
+static func create_sell_item(p_player_id: StringName, p_item_id: StringName, p_quantity: int) -> PlayerIntent:
+	return PlayerIntent.new(Action.SELL, p_player_id, &"", {}, &"", p_quantity, p_item_id)
+
+static func create_equip_item(p_player_id: StringName, p_item_id: StringName, slot: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.EQUIP_ITEM, p_player_id, &"", {"item_id": String(p_item_id), "slot": slot})
+
+static func create_unequip_item(p_player_id: StringName, slot: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.UNEQUIP_ITEM, p_player_id, &"", {"slot": slot})
+
+static func create_accept_quest(p_player_id: StringName, quest_id: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.ACCEPT_QUEST, p_player_id, &"", {"quest_id": quest_id})
+
+static func create_turn_in_quest(p_player_id: StringName, quest_id: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.TURN_IN_QUEST, p_player_id, &"", {"quest_id": quest_id})
+
 func to_dict() -> Dictionary:
-	return {
+	var result := {
 		"action": action,
 		"player_id": String(player_id),
 		"destination_id": String(destination_id),
@@ -81,6 +115,9 @@ func to_dict() -> Dictionary:
 		"quantity": quantity,
 		"payload": payload.duplicate(true),
 	}
+	if item_id != &"":
+		result["item_id"] = String(item_id)
+	return result
 
 static func from_dict(data: Dictionary) -> PlayerIntent:
 	return PlayerIntent.new(
@@ -89,7 +126,8 @@ static func from_dict(data: Dictionary) -> PlayerIntent:
 		StringName(data.get("destination_id", "")),
 		data.get("payload", {}),
 		StringName(data.get("commodity", "")),
-		int(data.get("quantity", 0))
+		int(data.get("quantity", 0)),
+		StringName(data.get("item_id", ""))
 	)
 
 # S5-B4: the chosen option travels as an intent like everything else. A UI
@@ -98,3 +136,9 @@ static func create_resolve_encounter(p_player_id: StringName, p_option_id: Strin
 	return PlayerIntent.new(
 		Action.RESOLVE_ENCOUNTER, p_player_id, &"", {"option_id": String(p_option_id)}
 	)
+
+static func create_continue_journey(p_player_id: StringName, result_index: int) -> PlayerIntent:
+	return PlayerIntent.new(Action.CONTINUE_JOURNEY, p_player_id, &"", {"result_index": result_index})
+
+static func create_field_action(p_player_id: StringName, fields: Dictionary) -> PlayerIntent:
+	return PlayerIntent.new(Action.FIELD_ACTION, p_player_id, &"", fields.duplicate(true))

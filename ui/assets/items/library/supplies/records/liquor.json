@@ -1,0 +1,27 @@
+{
+  "id": "liquor",
+  "name": "酒",
+  "section": 11,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/liquor.png",
+  "source_output": "exec-bf521773-5a4f-409c-943f-1dc1c31acc89.png",
+  "sha256": "a8b4e82d84e68fb7750e17645396d6b40777974475ba48ac5f64edf3d4223876",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    20,
+    1196,
+    1190
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

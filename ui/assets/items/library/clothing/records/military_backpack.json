@@ -1,0 +1,27 @@
+{
+  "id": "military_backpack",
+  "name": "軍用背包",
+  "section": 6,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/military_backpack.png",
+  "source_output": "exec-7c849c76-ad22-4fdd-a249-02670a2249b3.png",
+  "sha256": "effd115f600805ba4c51ef6c42f99c5c88f00a4618e8d47a3cf1939a55b8d9f9",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    21,
+    1206,
+    1236
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

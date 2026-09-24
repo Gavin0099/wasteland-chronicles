@@ -1,0 +1,27 @@
+{
+  "id": "wilderness_cloak",
+  "name": "荒野斗篷",
+  "section": 5,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/clothing/wilderness_cloak.png",
+  "source_output": "exec-94993e26-ee46-4c01-b054-b5528276ce36.png",
+  "sha256": "10465cb41219e3e106e9fca94436b74e4a5c6432d45e0c7c09cae9316789b204",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    41,
+    16,
+    1208,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "police_pistol",
+  "name": "警用手槍",
+  "section": 2,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/police_pistol.png",
+  "source_output": "exec-8b2fbee5-3e4e-434f-b4e7-ca581d3bfe2c.png",
+  "sha256": "694dd4e5d8ea90938ea53d85b4334f000dab334d7593c378899a146b123444be",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    30,
+    53,
+    1240,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

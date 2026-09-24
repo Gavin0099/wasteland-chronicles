@@ -1,0 +1,27 @@
+{
+  "id": "old_world_tactical_chip",
+  "name": "舊世戰術晶片",
+  "section": 13,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/old_world_tactical_chip.png",
+  "source_output": "exec-5842cb29-7e8f-48b9-b08a-1c1bebb5713e.png",
+  "sha256": "5495110cb2c785809e5b904911dc711bb8cd6ea06bc28b4a9dff962d15c4e073",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    43,
+    77,
+    1206,
+    1198
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

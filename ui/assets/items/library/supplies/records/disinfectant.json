@@ -1,0 +1,27 @@
+{
+  "id": "disinfectant",
+  "name": "消毒水",
+  "section": 8,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/disinfectant.png",
+  "source_output": "exec-81533ab6-cdac-4bd5-84cd-7b8ab731ac18.png",
+  "sha256": "3653eb64888dd5a45e2563c21910ddf8fc37d5a183f5e85de32ae7d38b30cf86",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    25,
+    20,
+    1230,
+    1230
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

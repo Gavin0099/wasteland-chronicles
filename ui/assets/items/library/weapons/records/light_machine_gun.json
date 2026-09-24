@@ -1,0 +1,27 @@
+{
+  "id": "light_machine_gun",
+  "name": "輕機槍",
+  "section": 4,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/weapons/light_machine_gun.png",
+  "source_output": "exec-641b8fb0-c6f7-4acf-8949-37d651ddc18c.png",
+  "sha256": "a6d7d6c5ff05a2e7479f4a65134e03e1c559b354e2f7cbbb573032b00687a8b6",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    17,
+    21,
+    1243,
+    1198
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "scrap_iron",
+  "name": "廢鐵",
+  "section": 10,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/supplies/scrap_iron.png",
+  "source_output": "exec-cc4bcdac-cb1b-4c76-b4c8-794cd55ae546.png",
+  "sha256": "6d684fdb00e352aa9b9834f202d8d85eb6ee8f6a32ce0ab4c92890d783fd09b5",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    9,
+    1226,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

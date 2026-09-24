@@ -1,6 +1,12 @@
 class_name PlayerUIProjection
 extends RefCounted
 
+const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
+const ItemMarketState = preload("res://simulation/item_market_state.gd")
+const QuestRegistry = preload("res://simulation/quest_registry.gd")
+const QuestEngine = preload("res://simulation/quest_engine.gd")
+const ItemRegistry = preload("res://simulation/item_registry.gd")
+
 # ==============================================================================
 # S5-A.2: PLAYER UI PROJECTION (ISOLATION LAYER)
 # ==============================================================================
@@ -26,8 +32,93 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"events": _project_recent_events(world, 8) if debug_feed_enabled else [],
 		"debug_feed_enabled": debug_feed_enabled,
 		"active_encounter": _project_encounter(world),
+		"encounter_result": _project_encounter_result(world),
+		"death": _project_death(world),
+		"quests": _project_quests(world),
 	}
 	return proj
+
+static func _project_quests(world: WorldState) -> Array:
+	var rows: Array = []
+	if world.player == null:
+		return rows
+	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if life == null or not life.is_alive():
+		return rows
+	for definition in QuestRegistry.all_definitions():
+		var quest_id := String(definition.id)
+		var state = world.quest_state.get_quest(quest_id)
+		var status := String(state.status) if state != null else String(QuestEngine.evaluate_availability(world, quest_id))
+		var at_issuer := life.status == NpcLifeState.Status.SETTLED and String(life.population_container_id) == "settlement:" + String(definition.settlement_id)
+		if state == null and not at_issuer:
+			continue
+		if state == null and status != "AVAILABLE":
+			continue
+		var objective: Dictionary = definition.objectives[0]
+		var item_id := String(objective.get("item_id", ""))
+		var item_result: Dictionary = ItemRegistry.resolve(item_id) if item_id != "" else {"success": false}
+		var item_name := String(item_result.definition.display_name_zh) if item_result.success else "物品"
+		var target := _settlement_name("settlement:" + String(objective.get("settlement_id", definition.settlement_id)))
+		var required := int(objective.get("quantity", 0))
+		var held: int = world.player.item_inventory.quantity(item_id) if item_id != "" else 0
+		var action := PlayerIntent.create_accept_quest(world.player.npc_id, quest_id) if status == "AVAILABLE" else PlayerIntent.create_turn_in_quest(world.player.npc_id, quest_id)
+		var can_act := status in ["AVAILABLE", "ACTIVE"] and SimulationEngine.new().authorize_player_intent(world, action) == ""
+		var reward_caps := 0
+		var reward_xp := 0
+		for reward in definition.outcomes.resolved.rewards:
+			if String(reward.type) == "CURRENCY":
+				reward_caps += int(reward.amount)
+			elif String(reward.type) == "XP":
+				reward_xp += int(reward.amount)
+		rows.append({
+			"id": quest_id, "title": String(definition.title_zh), "description": String(definition.description_zh),
+			"status": status, "deadline_day": state.deadline_day if state != null else -1,
+			"deadline_days": int(definition.deadline_days), "target": target, "item_name": item_name,
+			"required": required, "held": held, "can_act": can_act,
+			"reward_caps": reward_caps, "reward_xp": reward_xp,
+		})
+	return rows
+
+# The end of a run is a world fact, not a side effect of a panel. The engine
+# already refuses every intent from a dead player; until this existed the UI had
+# no way to say so, so the buttons stayed lit and the game looked frozen.
+#
+# Read from the PLAYER_DIED receipt rather than recomputed, so the screen can
+# never disagree with the event log about how the run ended.
+static func _project_death(world: WorldState) -> Dictionary:
+	if world.player == null:
+		return {}
+	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if ls == null or ls.is_alive():
+		return {}
+	for i in range(world.event_log.size() - 1, -1, -1):
+		var evt: EventRecord = world.event_log[i]
+		if evt.type != "PLAYER_DIED" or evt.actor_id != world.player.npc_id:
+			continue
+		return {
+			"cause": String(evt.payload.get("cause", "")),
+			"day": evt.day,
+			"days_survived": int(evt.payload.get("days_survived", evt.day)),
+			"in_transit": bool(evt.payload.get("in_transit", false)),
+			"place": _settlement_name(String(evt.target_id)),
+		}
+	# Dead with no receipt should be impossible, but the screen must still stop
+	# the player rather than silently accept input.
+	return {"cause": "", "day": world.current_day, "days_survived": world.current_day,
+		"in_transit": false, "place": ""}
+
+static func _project_encounter_result(world: WorldState) -> Dictionary:
+	if world.pending_encounter_result < 0:
+		return {}
+	var evt := world.event_log[world.pending_encounter_result]
+	var result := evt.payload.duplicate(true)
+	result["result_index"] = world.pending_encounter_result
+	result["title"] = TravelEncounter.title(StringName(result.encounter_type))
+	result["route_label"] = "%s → %s" % [_settlement_name(result.origin), _settlement_name(result.destination)]
+	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	result["can_continue"] = ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.IN_TRANSIT
+	result["is_dead"] = ls != null and not ls.is_alive()
+	return result
 
 # S5-B4: what the road is currently asking. Options carry an `enabled` flag so
 # the UI can grey out a choice the player cannot afford, using the SAME check
@@ -38,13 +129,27 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 		return {}
 
 	var options: Array = []
-	for o in TravelEncounter.options(enc.encounter_type):
+	var engine := SimulationEngine.new()
+	for o in TravelEncounter.options(enc.encounter_type, enc.context):
 		var option_id: StringName = o["id"]
-		var reason := SimulationEngine.new().authorize_encounter_option(world, option_id)
+		var reason := engine.authorize_encounter_option(world, option_id)
+		# S5-C2: an approach this character cannot take is either hidden or shown
+		# locked, depending on WHY. A knowledge gate is hidden, because the
+		# character has no idea the option exists. A capability gate is shown
+		# and disabled with its requirement, because seeing the locked door is
+		# the only way the player ever learns which skill is worth raising -
+		# and coming back later to find it open is the point of the whole
+		# progression. Running out of caps is a third thing entirely: a
+		# temporary shortage, disabled as it always was.
+		var gated: bool = reason.begins_with("CAPABILITY_")
+		if gated and TravelEncounter.option_gate(enc.encounter_type, option_id) != TravelEncounter.GATE_CAPABILITY:
+			continue
 		options.append({
 			"id": String(option_id),
 			"label": o["label"],
 			"detail": o["detail"],
+			"requirement_label": String(o.get("requirement_label", "")),
+			"locked": gated,
 			"enabled": reason == "",
 			"blocked_reason": reason,
 		})
@@ -64,6 +169,7 @@ static func _project_player(world: WorldState) -> Dictionary:
 	if world.player == null:
 		return {
 			"has_player": false,
+			"is_alive": true,
 			"npc_id": "",
 			"name": "Unknown",
 			"money": 0,
@@ -121,12 +227,19 @@ static func _project_player(world: WorldState) -> Dictionary:
 			origin_id = String(p_party.origin_id)
 			destination_id = String(p_party.destination_id)
 			total_route_days = p_party.route_days
+	var item_entries: Array = []
+	if p.item_inventory != null:
+		item_entries = p.item_inventory.to_dict().get("items", [])
+	var equipment_data: Dictionary = {"slots": []}
+	if p.equipment != null:
+		equipment_data = p.equipment.to_dict()
 
 	return {
 		"has_player": true,
 		"npc_id": String(p.npc_id),
 		"name": p_name,
 		"money": p.money,
+		"health": p.field_kit.hp if p.field_kit != null else 12,
 		"status": status_str,
 		"is_in_transit": is_in_transit,
 		"location_display": location_display,
@@ -141,10 +254,15 @@ static func _project_player(world: WorldState) -> Dictionary:
 			"scrap": p.inventory.scrap if p.inventory != null else 0,
 			"fuel": p.inventory.fuel if p.inventory != null else 0,
 			"load": bp_load,
-			"capacity": p.capacity_total
+			"capacity": p.get_effective_capacity()
 		},
+		"items": item_entries,
+		"equipment": equipment_data,
 		"water_pressure": p.water_pressure,
-		"food_pressure": p.food_pressure
+		"food_pressure": p.food_pressure,
+		"is_alive": ls == null or ls.is_alive(),
+		"water_exposure": p.water_exposure,
+		"food_exposure": p.food_exposure
 	}
 
 static func _project_current_settlement(world: WorldState) -> Dictionary:
@@ -158,6 +276,28 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 	var s: SettlementState = world.get_settlement(ls.population_container_id)
 	if s == null:
 		return {}
+	var market_view: RefCounted = s.item_market if s.item_market != null else ItemMarketState.seeded_for(s.id)
+	var item_market_result := ItemMarketCatalogue.offers_for(s.id)
+	var item_offers: Array[Dictionary] = []
+	if item_market_result.success:
+		for offer in item_market_result.offers:
+			var item_id := String(offer.item_id)
+			var owned: int = world.player.item_inventory.quantity(item_id)
+			var sell_quote: int = ItemMarketState.sell_quote(item_id, s.id)
+			item_offers.append({
+				"item_id": item_id,
+				"display_name_zh": offer.display_name_zh,
+				"category": offer.category,
+				"asset_id": offer.asset_id,
+				"supply": offer.supply,
+				"demand": offer.demand,
+				"stock": market_view.quantity(item_id),
+				"owned": owned,
+				"quote_buy": ItemMarketState.buy_quote(item_id, s.id, market_view),
+				"quote_sell": sell_quote,
+				"can_buy": market_view.quantity(item_id) > 0 and world.player.money >= ItemMarketState.buy_quote(item_id, s.id, market_view),
+				"can_sell": owned > 0 and sell_quote > 0 and s.market_cash >= sell_quote,
+			})
 
 	# LIVE authoritative data for player's current location only
 	return {
@@ -184,6 +324,7 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 		"quote_sell_scrap": SimulationEngine.get_sell_quote(s, &"scrap"),
 		"quote_buy_fuel": SimulationEngine.get_buy_quote(s, &"fuel"),
 		"quote_sell_fuel": SimulationEngine.get_sell_quote(s, &"fuel"),
+		"item_market": item_offers,
 		"water_supply_status": _get_stock_status(s.inventory.water, s.target_water),
 		"food_supply_status": _get_stock_status(s.inventory.food, s.target_food),
 		"scrap_supply_status": _get_stock_status(s.inventory.scrap, s.target_scrap),
@@ -285,6 +426,8 @@ static func _settlement_name(raw_id: String) -> String:
 		"settlement:new_hope": return "新希望"
 	if raw_id.begins_with("settlement:"):
 		return raw_id.replace("settlement:", "").replace("_", " ").capitalize()
+	if raw_id.begins_with("refugee:"):
+		return "路上"
 	return raw_id
 
 # Returns {"text": String, "category": String} or an empty dict to omit.
@@ -299,6 +442,8 @@ static func _narrate_event(evt: EventRecord) -> Dictionary:
 		"PLAYER_TRAVEL_STARTED":
 			return {"text": "你動身前往%s，路程約 %d 天。" % [here, int(payload.get("route_days", 3))], "category": "player"}
 		"PLAYER_WAIT":
+			if not String(evt.target_id).begins_with("settlement:"):
+				return {"text": "你在路上又走了一天。", "category": "player"}
 			return {"text": "你在%s歇了一天。" % here, "category": "player"}
 		"TRADE_COMPLETED":
 			var goods := _commodity_name(String(payload.get("commodity", "")))

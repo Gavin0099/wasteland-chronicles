@@ -7010,6 +7010,8 @@
 	"npc_life_state_registry": {},
 	"npc_profile_registry": {},
 	"npc_registry": {},
+	"pending_encounter_result": -1,
+	"progression_schema_version": 1,
 	"refugees": {
 		"refugee:settlement:dry_well:settlement:new_hope:d43": {
 			"days_remaining": 0,

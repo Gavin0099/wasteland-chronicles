@@ -1,0 +1,27 @@
+{
+  "id": "old_world_watch",
+  "name": "舊世界手錶",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/old_world_watch.png",
+  "source_output": "exec-9223d0aa-322f-4636-a035-04a4805c1dfa.png",
+  "sha256": "bd0372debe4aa2867601f861aefa5d04411218a5b2f74854aaf5ffe0d0af8ab0",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    23,
+    1202,
+    1254
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}

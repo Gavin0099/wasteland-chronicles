@@ -214,7 +214,7 @@ func _init() -> void:
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE D6] Persistence / Determinism ---")
 
-	var restored := WorldState.from_dict(JSON.parse_string(JSON.stringify(w_traits.to_dict())))
+	var restored := WorldState.from_json(JSON.stringify(w_traits.to_dict()))
 	if restored == null:
 		print("FAIL D6: loader refused a snapshot it had just produced!")
 		quit(1)

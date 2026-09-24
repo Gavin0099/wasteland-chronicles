@@ -355,7 +355,7 @@ func _init() -> void:
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE F8] Replay / Independent Verification ---")
 
-	var restored := WorldState.from_dict(JSON.parse_string(JSON.stringify(w6a.to_dict())))
+	var restored := WorldState.from_json(JSON.stringify(w6a.to_dict()))
 	if restored == null:
 		print("FAIL F8: loader refused a snapshot with a decision trail!")
 		quit(1)
@@ -373,7 +373,7 @@ func _init() -> void:
 	# Continuing a reloaded world must produce the same decisions as never saving.
 	var cont_a := build_world_with_npcs(3)
 	run_days(cont_a, 30, true)
-	var cont_b := WorldState.from_dict(JSON.parse_string(JSON.stringify(cont_a.to_dict())))
+	var cont_b := WorldState.from_json(JSON.stringify(cont_a.to_dict()))
 	run_days(cont_a, 30, true)
 	run_days(cont_b, 30, true)
 	if cont_a.to_canonical_json().sha256_text() != cont_b.to_canonical_json().sha256_text():

@@ -6,7 +6,7 @@ extends SceneTree
 # Verifies that player intervention produces genuine causal, physical divergence
 # across counterfactual worlds using existing verbs without cheat/quest mechanics:
 #   I1: Crisis Readability (UI states the crisis in plain language)
-#   I2: Legal Intervention (Strictly PlayerIntent BUY / TRAVEL / WAIT / SELL)
+#   I2: Legal Intervention (Strictly enumerated PlayerIntent actions)
 #   I3: Physical Conservation (Backpack load, market cash, zero free goods)
 #   I4: Causal Effect (Sold water is metabolized by settlement population)
 #   I5: Counterfactual Divergence (Three Worlds: World A vs World B vs World C)
@@ -87,7 +87,15 @@ func _init() -> void:
 		PlayerIntent.Action.SELL,
 		# S5-B4 added answering a roadside encounter. It is a closed, enumerated
 		# verb like the rest, not an escape hatch.
-		PlayerIntent.Action.RESOLVE_ENCOUNTER
+		PlayerIntent.Action.RESOLVE_ENCOUNTER,
+		PlayerIntent.Action.CONTINUE_JOURNEY,
+		# Owner-authorized Field Combat Lite; subcommands have their own closed list.
+		PlayerIntent.Action.FIELD_ACTION,
+		# ITEM-13 equipment changes are authority-backed and remain enumerated.
+		PlayerIntent.Action.EQUIP_ITEM,
+		PlayerIntent.Action.UNEQUIP_ITEM,
+		PlayerIntent.Action.ACCEPT_QUEST,
+		PlayerIntent.Action.TURN_IN_QUEST
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:
@@ -103,7 +111,7 @@ func _init() -> void:
 		quit(1)
 		return
 
-	print("  Intervention uses only closed verbs: BUY, TRAVEL, WAIT, SELL")
+	print("  Intervention uses only the enumerated PlayerIntent verbs")
 	print("  Zero cheat APIs; fail-closed authorization strictly protects the world")
 	print("PASS GATE I2: Legal Intervention verified.")
 

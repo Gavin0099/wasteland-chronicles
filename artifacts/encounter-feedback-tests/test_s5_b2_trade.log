@@ -1,0 +1,66 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+================================================================================
+    WASTELAND CHRONICLES - S5-B2 TRADE TEST SUITE
+================================================================================
+
+--- [GATE T1] Quote Correctness (Spread & Minimum Price) ---
+  BUY quote = ceil(price), SELL quote = floor(price)
+  Natural spread guaranteed: SELL quote <= BUY quote
+  Minimum floor of 1 cap per unit strictly enforced
+PASS GATE T1: Quote Correctness verified.
+
+--- [GATE T2] BUY Atomicity & Time Invariance ---
+  BUY 2 water: goods and caps atomically transferred
+  Player: -30 caps ($20 remaining), +2 water (load 2/20)
+  Settlement: +30 caps ($530 reserve), -2 water (78 remaining)
+  Time invariance confirmed: Day 0
+PASS GATE T2: BUY Atomicity & Time Invariance verified.
+
+--- [GATE T3] SELL Atomicity & Time Invariance ---
+  SELL 1 water: goods and caps atomically transferred
+  Player: +15 caps ($35 total), -1 water (load 1/20)
+  Settlement: -15 caps ($515 reserve), +1 water (79 total)
+PASS GATE T3: SELL Atomicity & Time Invariance verified.
+
+--- [GATE T4] Fail-Closed Preconditions (0 Mutation) ---
+  Verified fail-closed: Invalid commodity (0 mutation, bitwise SHA intact)
+  Verified fail-closed: Zero quantity (0 mutation, bitwise SHA intact)
+  Verified fail-closed: Negative quantity (0 mutation, bitwise SHA intact)
+  Verified fail-closed: Insufficient settlement stock (0 mutation, bitwise SHA intact)
+  Verified fail-closed: Insufficient player funds (0 mutation, bitwise SHA intact)
+  Verified fail-closed: Insufficient backpack capacity (0 mutation, bitwise SHA intact)
+  Verified fail-closed: Insufficient player stock on sell (0 mutation, bitwise SHA intact)
+  Verified fail-closed: Insufficient settlement market cash on sell (0 mutation, bitwise SHA intact)
+  Verified fail-closed: In-transit player cannot trade
+PASS GATE T4: Fail-Closed Preconditions (0 Mutation) verified.
+
+--- [GATE T5] Full Conservation Law ---
+  World water conservation: 288 == 288
+  World food conservation:  250 == 250
+  World scrap conservation: 225 == 225
+  World fuel conservation:  180 == 180
+  Local currency conservation: 600 == 600 (player $45 + market $555)
+PASS GATE T5: Full Conservation Law verified.
+
+--- [GATE T6] UI Shell Fidelity & Fast-Lane Market ---
+  Live settlement displays market panel with buy/sell controls
+  Remote settlement strictly hides market controls (0 information leak)
+  UI trade button dispatches PlayerIntent and updates HUD reactively
+PASS GATE T6: UI Shell Fidelity & Fast-Lane Market verified.
+
+--- [GATE T7] Persistence & Save/Load Determinism ---
+  Pre-tick restored world bitwise identical: ad4610743ece937678bd2f171687b4ff82cb7942e493336a049b7af5d54908a1
+  Post-tick Day 1 simulation evolution bitwise identical: 99b8c262f108c1c2b6ee03af10b4cd81aaf8708e01f2f625fca4bad5625beaeb
+PASS GATE T7: Persistence & Save/Load Determinism verified.
+
+================================================================================
+ALL S5-B2 TRADE GATES (T1 ~ T7) PASSED CLEANLY!
+================================================================================
+ERROR: 11 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.
+ERROR: 6 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: 7 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+WARNING: 56 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

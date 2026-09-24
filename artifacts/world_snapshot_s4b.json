@@ -87,6 +87,8 @@
 			"origin_settlement_id": "settlement:new_hope"
 		}
 	},
+	"pending_encounter_result": -1,
+	"progression_schema_version": 1,
 	"refugees": {
 		"refugee:replay_test": {
 			"days_remaining": 3,

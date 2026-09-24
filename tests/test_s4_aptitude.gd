@@ -222,7 +222,7 @@ func _init() -> void:
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE E6] Persistence / Determinism ---")
 
-	var restored := WorldState.from_dict(JSON.parse_string(JSON.stringify(w_apt.to_dict())))
+	var restored := WorldState.from_json(JSON.stringify(w_apt.to_dict()))
 	if restored == null:
 		print("FAIL E6: loader refused a snapshot it had just produced!")
 		quit(1)

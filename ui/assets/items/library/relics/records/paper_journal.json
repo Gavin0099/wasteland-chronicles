@@ -1,0 +1,27 @@
+{
+  "id": "paper_journal",
+  "name": "紙本日記",
+  "section": 12,
+  "art_role": "item_illustration",
+  "file": "ui/assets/items/library/relics/paper_journal.png",
+  "source_output": "exec-5eeab4a2-e45b-45f7-b92c-e2719bf95f8e.png",
+  "sha256": "85a7882468f2f74f4a38bea66378f55b639c342bd050f65aa222a27c831f8a47",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_bounds": [
+    0,
+    45,
+    1222,
+    1238
+  ],
+  "alpha_range": [
+    0,
+    255
+  ],
+  "generator": "built-in image_gen",
+  "art_status": "GENERATED",
+  "gameplay_status": "NOT_IMPLEMENTED"
+}
