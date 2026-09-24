@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "C:\\Users\\daish\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\godot.cmd --headless --path . --script res://tests/test_s5_c45_desert_hardened.gd",
+  "exit_code": 0,
+  "started_at": "2026-09-24T14:19:14Z",
+  "finished_at": "2026-09-24T14:19:15Z",
+  "runner": "godot-4.7.2",
+  "linked_commit": "b989311fc5bc432f2466f5e3a3ffa99689e4c58c",
+  "output_artifacts": [
+    "artifacts/evidence/test-results/s5-c45-desert-hardened-20260924.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}
