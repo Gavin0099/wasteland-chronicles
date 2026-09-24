@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "C:\\Users\\daish\\AppData\\Local\\Microsoft\\WinGet\\Packages\\GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe\\godot.cmd --headless --path . --script res://tests/test_s5_c4_natural_xp.gd",
+  "exit_code": 0,
+  "started_at": "2026-09-24T13:46:20Z",
+  "finished_at": "2026-09-24T13:46:21Z",
+  "runner": "codex",
+  "linked_commit": "3ee8d9a7e83bbf45857f949b4bbd248287527051",
+  "output_artifacts": [
+    "artifacts/evidence/test-results/s5-c4-xp-ledger-20260924.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}
