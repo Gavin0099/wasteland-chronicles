@@ -1303,6 +1303,9 @@ func validate_invariants(world: WorldState) -> String:
 		var perk_history_error := PlayerState.Perks.validate_history(world.player.perk_ids, world.event_log, world.player.npc_id)
 		if perk_history_error != "":
 			return perk_history_error
+		var xp_history_error := ProgressionXp.validate_history(world.event_log, world.player.npc_id, world.player.xp)
+		if xp_history_error != "":
+			return xp_history_error
 
 	# S5-A Player Avatar invariants
 	if world.player != null:
