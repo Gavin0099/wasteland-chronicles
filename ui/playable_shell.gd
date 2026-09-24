@@ -1968,6 +1968,12 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 		lbl_encounter_body.text += "\n\n救人手法｜對方拿得出：%s。你仍要付出那一份補給。" % (
 			"什麼也拿不出來" if offered.is_empty() else "、".join(offered))
 
+	var risk: Dictionary = enc.get("risk_preview", {})
+	if not risk.is_empty():
+		var verdict := "被打趴（戰敗、損失物資）" if bool(risk.get("beaten", false)) else "剩 %d 點" % int(risk.get("hp_after", 0))
+		lbl_encounter_body.text += "\n\n見過底的人｜一路硬打：%d 回合擊退，期間挨 %d 點，%d → %s。（只算全程進攻；防禦或逃跑不同。）" % [
+			int(risk.get("turns", 0)), int(risk.get("incoming", 0)), int(risk.get("hp", 0)), verdict]
+
 	var bp: Dictionary = current_projection.get("player", {}).get("backpack", {})
 	lbl_encounter_supplies.text = "目前：💧 %d　🍴 %d　⚙ %d　⛽ %d　💰 %d" % [
 		int(bp.get("water", 0)), int(bp.get("food", 0)),

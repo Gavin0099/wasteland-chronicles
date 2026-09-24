@@ -16,6 +16,10 @@ const TRAITS := {
 		"name_zh": "救人手法",
 		"description_zh": "曾在兩個不同日子真的分出自己的水或糧食給路上的人。之後遇到同樣的人，能先看出對方拿得出什麼回報；不會改變對方拿得出多少，你仍要付出那一份補給。",
 	},
+	"DEATH_TESTED": {
+		"name_zh": "見過底的人",
+		"description_zh": "曾在兩個不同日子被打到只剩最後一口氣，而且活著離開。動手之前算得出這一仗要打幾回合、會被打掉多少；不會讓你更強、更不容易被打中，也不會多掉東西。",
+	},
 }
 # Helping costs a real ration, so these are the only options that count. LEAVE
 # and TAKE_PACK are not help, and an option the player could not afford never
@@ -27,9 +31,21 @@ static func candidates(events: Array[EventRecord], player_id: StringName, throug
 	var water_days := {}
 	var useful_search_days := {}
 	var helping_days := {}
+	# DEATH_TESTED needs two facts from the same day: a turn that really left the
+	# player on their last point of health, and a battle on that day that ended
+	# with them still alive. Both come from committed receipts; neither is
+	# inferred. Keyed by day, so a long fight cannot count itself twice.
+	var edge_days := {}
+	var survived_days := {}
 	for event in events:
 		if event.actor_id != player_id or event.day > through_day:
 			continue
+		if event.type == "FIELD_TURN":
+			if int(event.payload.get("taken", 0)) >= 1 and int(event.payload.get("hp", -1)) == 1:
+				edge_days[event.day] = true
+		elif event.type == "FIELD_RESULT":
+			if String(event.payload.get("outcome", "")) != "DEAD":
+				survived_days[event.day] = true
 		if event.type == "TRAVEL_ENCOUNTER_RESOLVED" and String(event.payload.get("option", "")) in HELPING_OPTIONS and Travel.valid_resolution(event.payload):
 			# The receipt must show the ration actually leaving the pack. An
 			# option chosen is not help; a cost paid is. The same distinct-day
@@ -50,6 +66,12 @@ static func candidates(events: Array[EventRecord], player_id: StringName, throug
 				useful_search_days[event.day] = true
 	# Appended in ID order so the candidate list is stable for the sheet.
 	var out: Array[String] = []
+	var tested_days := 0
+	for day in edge_days:
+		if survived_days.has(day):
+			tested_days += 1
+	if tested_days >= 2:
+		out.append("DEATH_TESTED")
 	if water_days.size() >= 2:
 		out.append("DESERT_HARDENED")
 	# Two days rather than three: a wreck is common roadside furniture, but a
@@ -76,7 +98,7 @@ static func validate_history(ids: Array[String], events: Array[EventRecord], pla
 	var prefix: Array[EventRecord] = []
 	var need_days := {}
 	for event in events:
-		if event.actor_id == player_id and event.type in ["PLAYER_NEED_UNMET", "ACQUIRED_TRAIT_ACCEPTED", "TRAVEL_ENCOUNTER_RESOLVED"] and (event.day < 0 or event.day > current_day):
+		if event.actor_id == player_id and event.type in ["PLAYER_NEED_UNMET", "ACQUIRED_TRAIT_ACCEPTED", "TRAVEL_ENCOUNTER_RESOLVED", "FIELD_TURN", "FIELD_RESULT"] and (event.day < 0 or event.day > current_day):
 			return "ACQUIRED_TRAIT_LEDGER_DAY_INVALID"
 		if event.actor_id == player_id and event.type == "PLAYER_NEED_UNMET":
 			var water: Variant = event.payload.get("water_unmet")

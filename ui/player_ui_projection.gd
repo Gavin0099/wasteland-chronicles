@@ -184,6 +184,12 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 				"goods": TravelEncounter.refugee_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index),
 			}
 
+	# DEATH_TESTED: the arithmetic of the fight in front of you, before you
+	# commit to it. Read-only, and it moves no combat number whatsoever.
+	var risk_preview := {}
+	if enc.encounter_type == TravelEncounter.BANDIT_AMBUSH and world.player.has_acquired_trait("DEATH_TESTED"):
+		risk_preview = WorldState.Field.forecast(world, true)
+
 	return {
 		"encounter_type": String(enc.encounter_type),
 		"title": TravelEncounter.title(enc.encounter_type),
@@ -195,6 +201,7 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 		"options": options,
 		"search_preview": search_preview,
 		"help_preview": help_preview,
+		"risk_preview": risk_preview,
 	}
 
 static func _project_player(world: WorldState) -> Dictionary:
