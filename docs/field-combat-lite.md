@@ -44,7 +44,8 @@ system, a movement grid, formations, or a party. The official reference is
 
 Three original generated images supply the environment, drifter and dog. See
 `ui/assets/combat/ASSETS.md`. Equipment presence is drawn at runtime. Godot Tweens
-provide attack lunges, defensive feedback, hit flashes, damage text and retreat.
+provide attack anticipation and lunges, defensive feedback, muted hit responses,
+ground-contact shadows, damage text and retreat.
 These are cutout animations, not separate hand-drawn sprite poses. Animation follows
 an already committed turn; its callbacks never change HP or world state. Repeated
 inputs are blocked while animating. Reduced motion skips motion with the same result.
@@ -55,9 +56,10 @@ Keep combat results independent of frame count and playback speed. No video asse
 external animation service, skeleton, extra mechanic or paid pack is required for
 this first version.
 
-The command authority remains closed: CRAFT, EQUIP, UNEQUIP, START, ATTACK, DEFEND,
-FLEE, OPEN, REST and CONFIRM. Equip and unequip are explicit desired states; duplicate
-requests cannot silently toggle an item back. This slice adds FIELD_ACTION to the
+The initial command authority included CRAFT, EQUIP, UNEQUIP, START, ATTACK,
+DEFEND, FLEE, OPEN, REST and CONFIRM. C3 later added TREAT. Equip and unequip
+are explicit desired states; duplicate requests cannot silently toggle an item
+back. This slice adds FIELD_ACTION to the
 existing player-action whitelist and retains rejection of all unknown actions.
 
 ## Play this version
