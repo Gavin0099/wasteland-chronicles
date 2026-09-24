@@ -1933,11 +1933,13 @@ func _render_encounter_result(result: Dictionary) -> void:
 		"SCOUT_PATH": "你從坡面的走向看出一條路，繞過了崩塌處。",
 		"FORCE_THROUGH": "你直接從土石上翻了過去。",
 		"HAGGLE": "你把過路費談了下來。",
+		"PERSUADE": "你出言交涉，說服對方將過路費降為 %d 瓶蓋。" % int(result.get("spent", {}).get("caps", TravelEncounter.ROADBLOCK_PERSUADED_CAPS)) if bool(result.get("persuasion_success", false)) else "你試圖說服對方，但對方寸步不讓，堅持要收 10 瓶蓋。你只能照數付款通過。",
 		"SLIP_PAST": "你等到天黑，從關卡旁邊摸了過去。",
 		"HYDRATE": "你讓他慢慢喝下水，確認他能自己站起來。",
 		"TAKE_PACK": "你拿走了他的背包。他還坐在那裡。",
 		"TRADE_COLUMN": "你用瓶蓋跟他們換了些東西。",
 		"BRIBE": "你交出瓶蓋破財消災，劫匪收下後放你通行。",
+		"PARLEY": "你出言周旋，說服劫匪接受 %d 瓶蓋放行。" % int(result.get("spent", {}).get("caps", TravelEncounter.BANDIT_PERSUADED_CAPS)) if bool(result.get("persuasion_success", false)) else "你試圖說服劫匪，但對方根本不聽，逼你交出全額 15 瓶蓋。",
 		"FLEE_ROAD": "你找準時機轉身逃跑，繞了一大圈才甩開劫匪。",
 	}
 	var gains := _resource_lines(result.gained, "+")

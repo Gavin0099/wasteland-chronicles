@@ -58,6 +58,8 @@ const WEIGHT_TRAVELLER_BASE := 1
 # amount depending on who is standing in front of it.
 const HAGGLED_TOLL_CAPS := 4
 const COLUMN_TRADE_CAPS := 5
+const ROADBLOCK_PERSUADED_CAPS := 5
+const BANDIT_PERSUADED_CAPS := 8
 const Capability = preload("res://simulation/capability_profile.gd")
 
 # C3 practice sources name an action the world already resolves. Paying a toll,
@@ -79,12 +81,17 @@ static func practice_skill(encounter_type: StringName, option_id: StringName) ->
 				return "BARTER"
 			if option_id == &"SLIP_PAST":
 				return "STEALTH"
+			if option_id == &"PERSUADE":
+				return "SPEECH"
 		DEHYDRATED_TRAVELLER:
 			if option_id == &"HYDRATE":
 				return "SURVIVAL"
 		REFUGEE_COLUMN:
 			if option_id == &"TRADE_COLUMN":
 				return "BARTER"
+		BANDIT_AMBUSH:
+			if option_id == &"PARLEY":
+				return "SPEECH"
 	return ""
 
 # Stable string hash. Deliberately simple and fully specified here so that its
@@ -240,6 +247,7 @@ static func options(encounter_type: StringName) -> Array:
 		ROADBLOCK:
 			return [
 				{"id": &"PAY", "label": "付過路費", "detail": "瓶蓋 −10　直接通過"},
+				{"id": &"PERSUADE", "label": "跟他們談談", "detail": "嘗試協商過路費（成功 %d 瓶蓋，失敗 10 瓶蓋）" % ROADBLOCK_PERSUADED_CAPS},
 				{"id": &"HAGGLE", "label": "把價錢談下來", "detail": "瓶蓋 −%d　直接通過" % HAGGLED_TOLL_CAPS,
 					"requires": _skill("BARTER", 1), "requirement_label": "交易 略懂", "gate": GATE_CAPABILITY},
 				{"id": &"SLIP_PAST", "label": "等天黑再摸過去", "detail": "耗時 1 天（水 −1、食物 −1）　不付錢",
@@ -266,6 +274,7 @@ static func options(encounter_type: StringName) -> Array:
 			return [
 				{"id": &"FIGHT", "label": "正面迎戰", "detail": "進入戰鬥，擊退劫匪"},
 				{"id": &"BRIBE", "label": "破財消災", "detail": "瓶蓋 −%d　交出財物以保平安" % BANDIT_BRIBE_CAPS},
+				{"id": &"PARLEY", "label": "出言周旋", "detail": "嘗試說服劫匪少拿一些（成功 %d 瓶蓋，失敗 %d 瓶蓋）" % [BANDIT_PERSUADED_CAPS, BANDIT_BRIBE_CAPS]},
 				{"id": &"FLEE_ROAD", "label": "尋隙逃跑", "detail": "耗時 1 天（水 −1、食物 −1）　狼狽脫身"},
 			]
 	return []
@@ -537,3 +546,21 @@ static func column_trade_yield(day: int, origin_id: StringName, destination_id: 
 # "reckless usually works out" is a slot machine. Unpredictable outcomes can
 # come back when the encounter system is mature enough to carry them.
 const FORCE_THROUGH_LOSS_PRIORITY: Array[String] = ["scrap", "fuel", "water"]
+
+# S5-C3b: Deterministic persuasion check for negotiation options.
+# Uses world facts (min_security, route, day, index) and SPEECH rank. Zero RNG.
+static func check_persuasion_success(encounter_type: StringName, origin_id: StringName, destination_id: StringName, day: int, travel_day_index: int, speech_rank: int, context: Dictionary = {}) -> bool:
+	var h := stable_hash("speech|%s|%s>%s|%d|%d" % [String(encounter_type), String(origin_id), String(destination_id), day, travel_day_index])
+	var roll := h % 100
+	var base_threshold: int = 35
+	match speech_rank:
+		0: base_threshold = 35
+		1: base_threshold = 60
+		2: base_threshold = 80
+		3: base_threshold = 95
+		_: base_threshold = 100
+	var sec: float = float(context.get("min_security", 50.0))
+	var sec_mod: int = int((sec - 50.0) * 0.2)
+	var threshold: int = clampi(base_threshold + sec_mod, 10, 100)
+	return roll < threshold
+

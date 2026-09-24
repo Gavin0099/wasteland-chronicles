@@ -1938,6 +1938,9 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		&"PAY":
 			if p.money < ROADBLOCK_TOLL_CAPS:
 				return "INSUFFICIENT_FUNDS: the toll is %d caps" % ROADBLOCK_TOLL_CAPS
+		&"PERSUADE":
+			if p.money < ROADBLOCK_TOLL_CAPS:
+				return "INSUFFICIENT_FUNDS: the toll is %d caps" % ROADBLOCK_TOLL_CAPS
 		&"HAGGLE":
 			if p.money < TravelEncounter.HAGGLED_TOLL_CAPS:
 				return "INSUFFICIENT_FUNDS: even the haggled toll is %d caps" % TravelEncounter.HAGGLED_TOLL_CAPS
@@ -1959,6 +1962,9 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 			if p.field_kit == null or p.field_kit.get("hp", 0) <= 0:
 				return "PLAYER_UNABLE_TO_FIGHT: player has no health"
 		&"BRIBE":
+			if p.money < TravelEncounter.BANDIT_BRIBE_CAPS:
+				return "INSUFFICIENT_FUNDS: the bandits demand %d caps" % TravelEncounter.BANDIT_BRIBE_CAPS
+		&"PARLEY":
 			if p.money < TravelEncounter.BANDIT_BRIBE_CAPS:
 				return "INSUFFICIENT_FUNDS: the bandits demand %d caps" % TravelEncounter.BANDIT_BRIBE_CAPS
 		&"FLEE_ROAD":
@@ -2015,6 +2021,7 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var items_left_behind: Dictionary = {}
 	var inventory_before := {}
 	var day_before := world.current_day
+	var persuasion_success := false
 	for commodity in COMMODITIES:
 		inventory_before[commodity] = p.inventory.get_amount(commodity)
 
@@ -2033,6 +2040,13 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"PAY":
 			p.money -= ROADBLOCK_TOLL_CAPS
 			spent["caps"] = ROADBLOCK_TOLL_CAPS
+		&"PERSUADE":
+			persuasion_success = TravelEncounter.check_persuasion_success(
+				enc.encounter_type, enc.origin_id, enc.destination_id, enc.day, enc.travel_day_index,
+				p.capability.get_rank("SPEECH"), enc.context)
+			var cost: int = TravelEncounter.ROADBLOCK_PERSUADED_CAPS if persuasion_success else ROADBLOCK_TOLL_CAPS
+			p.money -= cost
+			spent["caps"] = cost
 		&"GIVE_WATER":
 			p.inventory.add_amount("water", -1)
 			spent["water"] = 1
@@ -2103,6 +2117,13 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"BRIBE":
 			p.money -= TravelEncounter.BANDIT_BRIBE_CAPS
 			spent["caps"] = TravelEncounter.BANDIT_BRIBE_CAPS
+		&"PARLEY":
+			persuasion_success = TravelEncounter.check_persuasion_success(
+				enc.encounter_type, enc.origin_id, enc.destination_id, enc.day, enc.travel_day_index,
+				p.capability.get_rank("SPEECH"), enc.context)
+			var cost: int = TravelEncounter.BANDIT_PERSUADED_CAPS if persuasion_success else TravelEncounter.BANDIT_BRIBE_CAPS
+			p.money -= cost
+			spent["caps"] = cost
 		&"FLEE_ROAD":
 			extra_day = true
 
@@ -2137,10 +2158,14 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
 	var skill_id: String = TravelEncounter.practice_skill(encounter_type, option_id)
+	if option_id in [&"PERSUADE", &"PARLEY"] and not persuasion_success:
+		skill_id = ""
 	if skill_id != "":
 		var practice := _practice_after_action(world, skill_id, day_before)
 		if not practice.is_empty():
 			receipt["skill_practice"] = practice
+	if option_id in [&"PERSUADE", &"PARLEY"]:
+		receipt["persuasion_success"] = persuasion_success
 	if not gained_items.is_empty() or not items_left_behind.is_empty():
 		receipt["items_gained"] = gained_items
 		receipt["items_left_behind"] = items_left_behind
