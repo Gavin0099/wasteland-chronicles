@@ -164,7 +164,7 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	var person_window := DesktopWindow.new("人物與對手")
 	side.add_child(person_window)
 	status.reparent(person_window.body)
-	var tools_window := DesktopWindow.new("戰鬥指令")
+	var tools_window := DesktopWindow.new("行動指令")
 	side.add_child(tools_window)
 	actions.reparent(tools_window.body)
 	actions.columns = 1
@@ -218,7 +218,7 @@ func add_action(command: String, title: String) -> void:
 func reason_text(error: String) -> String:
 	if error == "EQUIPMENT_ALREADY_SET":
 		return "裝備狀態已更新，請重新選擇"
-	var names := {"NEED_SCRAP_3": "需要 3 廢料", "NEED_CROWBAR": "需要撬棍", "CROWBAR_ALREADY_OWNED": "已持有", "DOG_GUARDS_CACHE": "野犬仍在看守", "CACHE_ALREADY_OPENED": "已取走", "SITE_ALREADY_CLEARED": "已排除威脅", "RETURN_TO_GRAY_VALLEY": "需返回灰谷", "HEALTH_FULL": "生命已滿", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需存活並停留在聚落", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "PACK_FULL": "背包容量不足", "STALE_FIELD_TURN": "回合已改變，請重新選擇"}
+	var names := {"NEED_SCRAP_3": "需要 3 廢料", "NEED_CROWBAR": "需要撬棍", "NEED_FIRST_AID_KIT": "需要急救包", "CROWBAR_ALREADY_OWNED": "已持有", "DOG_GUARDS_CACHE": "野犬仍在看守", "CACHE_ALREADY_OPENED": "已取走", "SITE_ALREADY_CLEARED": "已排除威脅", "RETURN_TO_GRAY_VALLEY": "需返回灰谷", "HEALTH_FULL": "生命已滿", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需存活並停留在聚落", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "PACK_FULL": "背包容量不足", "STALE_FIELD_TURN": "回合已改變，請重新選擇"}
 	return names.get(error, "目前無法執行，請先完成當前行動")
 
 func goods_text(goods: Dictionary) -> String:
@@ -315,12 +315,13 @@ func refresh() -> void:
 		if is_road:
 			log_label.text = "戰鬥已結束，可點擊「返回旅途」。"
 		else:
-			log_label.text = "野犬守著灰谷外圍的舊補給棚。\n\n棚門需要撬棍才能打開；裡面只有一批補給：水 4、食物 2。\n\n撬棍：3 廢料組裝，負重 2。可開鎖住的棚門，也能裝備作近戰武器。\n\n休養：經過 1 天，恢復 4 生命；仍受世界供應與缺水缺糧影響。"
+			log_label.text = "野犬守著灰谷外圍的舊補給棚。\n\n棚門需要撬棍才能打開；裡面只有一批補給：水 4、食物 2。\n\n撬棍：3 廢料組裝，負重 2。可開鎖住的棚門，也能裝備作近戰武器。\n\n休養：經過 1 天，恢復 4 生命；仍受世界供應與缺水缺糧影響。急救包：消耗 1 件，立即恢復最多 4 生命。"
 			add_action("START", "接近補給棚 · 開始戰鬥")
 			add_action("CRAFT", "組裝撬棍 · 廢料 −3")
 			add_action("UNEQUIP" if kit.equipped else "EQUIP", "卸下撬棍" if kit.equipped else "裝備撬棍")
 			add_action("OPEN", "使用撬棍 · 打開補給棚")
 			add_action("REST", "休養 1 天 · 生命 +4")
+			add_action("TREAT", "使用急救包 · 生命最多 +4")
 
 func show_receipt_goods(title: String, goods: Dictionary, prefix: String, values: Dictionary) -> void:
 	label_in(receipt_items, title, "PdaSection")
@@ -360,7 +361,13 @@ func perform(payload: Dictionary) -> void:
 	close_button.disabled = false
 	refresh()
 	var practice: Dictionary = result.get("skill_practice", {})
-	if result.success and not practice.is_empty():
+	if result.success and payload.command == "TREAT":
+		var healed: int = int(world.event_log.back().payload.get("healed", 0))
+		growth_notice_label.text = "急救包 −1 · 生命 +%d" % healed
+		if not practice.is_empty():
+			growth_notice_label.text += " · " + practice_text(practice)
+		growth_notice_label.visible = true
+	elif result.success and not practice.is_empty():
 		growth_notice_label.text = practice_text(practice)
 		growth_notice_label.visible = true
 	if not buttons.is_empty():
