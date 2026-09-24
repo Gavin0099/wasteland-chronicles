@@ -7,19 +7,33 @@ const TRAITS := {
 	"DESERT_HARDENED": {
 		"name_zh": "荒野歷練",
 		"description_zh": "曾在路上兩天缺水。遇到崩塌路段可消耗 1 份食物趕路，不延誤；沒有食物時無法使用。",
-	}
+	},
+	"SCAVENGER_INSTINCT": {
+		"name_zh": "拾荒直覺",
+		"description_zh": "曾從三處不同殘骸實際帶走收穫。搜尋前能判讀徒手搜索可找到什麼；不會增加收穫，背包仍可能裝不下。",
+	},
 }
+const Travel = preload("res://simulation/travel_encounter.gd")
 
 static func candidates(events: Array[EventRecord], player_id: StringName, through_day: int) -> Array[String]:
 	var water_days := {}
+	var useful_wrecks := {}
 	for event in events:
-		if event.actor_id != player_id or event.type != "PLAYER_NEED_UNMET" or event.day > through_day:
+		if event.actor_id != player_id or event.day > through_day:
 			continue
-		if event.target_id != &"road" or typeof(event.payload.get("water_unmet")) not in [TYPE_FLOAT, TYPE_INT]:
-			continue
-		if float(event.payload.water_unmet) > 0.0 and float(event.payload.water_unmet) <= 1.0:
-			water_days[event.day] = true
-	return ["DESERT_HARDENED"] if water_days.size() >= 2 else []
+		if event.type == "PLAYER_NEED_UNMET":
+			if event.target_id == &"road" and typeof(event.payload.get("water_unmet")) in [TYPE_FLOAT, TYPE_INT] and float(event.payload.water_unmet) > 0.0 and float(event.payload.water_unmet) <= 1.0:
+				water_days[event.day] = true
+		elif event.type == "TRAVEL_ENCOUNTER_RESOLVED":
+			if event.payload.get("encounter_type") == "WRECK" and event.payload.get("option") == "SEARCH" and Travel.valid_resolution(event.payload) and (not event.payload.gained.is_empty() or not event.payload.get("items_gained", {}).is_empty()):
+				var wreck_key := "%d|%s|%s" % [event.day, event.payload.origin, event.payload.destination]
+				useful_wrecks[wreck_key] = true
+	var out: Array[String] = []
+	if water_days.size() >= 2:
+		out.append("DESERT_HARDENED")
+	if useful_wrecks.size() >= 3:
+		out.append("SCAVENGER_INSTINCT")
+	return out
 
 static func validate_selection(raw: Variant) -> String:
 	if typeof(raw) != TYPE_ARRAY:
@@ -36,7 +50,7 @@ static func validate_history(ids: Array[String], events: Array[EventRecord], pla
 	var prefix: Array[EventRecord] = []
 	var need_days := {}
 	for event in events:
-		if event.actor_id == player_id and event.type in ["PLAYER_NEED_UNMET", "ACQUIRED_TRAIT_ACCEPTED"] and (event.day < 0 or event.day > current_day):
+		if event.actor_id == player_id and event.type in ["PLAYER_NEED_UNMET", "ACQUIRED_TRAIT_ACCEPTED", "TRAVEL_ENCOUNTER_RESOLVED"] and (event.day < 0 or event.day > current_day):
 			return "ACQUIRED_TRAIT_LEDGER_DAY_INVALID"
 		if event.actor_id == player_id and event.type == "PLAYER_NEED_UNMET":
 			var water: Variant = event.payload.get("water_unmet")

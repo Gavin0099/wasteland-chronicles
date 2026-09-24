@@ -160,6 +160,12 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 			"blocked_reason": reason,
 		})
 
+	var search_preview := {}
+	if enc.encounter_type == TravelEncounter.WRECK and world.player.has_acquired_trait("SCAVENGER_INSTINCT"):
+		search_preview = {
+			"goods": TravelEncounter.wreck_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index),
+			"items": TravelEncounter.wreck_item_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, &"SEARCH", String(enc.context.get("route_type", ""))),
+		}
 	return {
 		"encounter_type": String(enc.encounter_type),
 		"title": TravelEncounter.title(enc.encounter_type),
@@ -169,6 +175,7 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 			_settlement_name(String(enc.origin_id)), _settlement_name(String(enc.destination_id))
 		],
 		"options": options,
+		"search_preview": search_preview,
 	}
 
 static func _project_player(world: WorldState) -> Dictionary:
