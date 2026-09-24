@@ -3989,6 +3989,14 @@
 			"type": "CARAVAN_LOADED"
 		}
 	],
+	"field_schema_version": 1,
+	"field_state": {
+		"battle": {},
+		"enemy_hp": 8,
+		"next_id": 1,
+		"opened": false,
+		"receipt": -1
+	},
 	"next_npc_sequence": 4,
 	"npc_life_state_registry": {
 		"npc:00000001": {
