@@ -65,6 +65,46 @@ func _init() -> void:
 		check(engine.validate_invariants(world) == "", "global invariants hold")
 		check(WorldState.from_json_checked(world.to_canonical_json()).success, "earned XP survives checked save/load")
 	check(first.to_canonical_json().sha256_text() == replay.to_canonical_json().sha256_text(), "full-world dual-track SHA matches")
+	var saved: Dictionary = first.to_dict()
+	var victory_index := -1
+	var wreck_index := -1
+	for i in range(saved.events.size()):
+		match String(saved.events[i].payload.get("xp_source", "")):
+			"FIRST_FIELD_VICTORY": victory_index = i
+			"FIRST_WRECK_SALVAGE": wreck_index = i
+	check(victory_index >= 0 and wreck_index >= 0, "both awards are discoverable in committed history")
+	if victory_index >= 0 and wreck_index >= 0:
+		var corrupted: Dictionary = saved.duplicate(true)
+		corrupted.events[victory_index].payload.erase("xp_gained")
+		check(String(WorldState.from_dict_checked(corrupted).error).begins_with("XP_LEDGER"), "missing amount fails checked load")
+		corrupted = saved.duplicate(true)
+		corrupted.events[victory_index].payload.outcome = "ESCAPED"
+		check(String(WorldState.from_dict_checked(corrupted).error).begins_with("XP_LEDGER"), "non-victory cannot carry first-victory XP")
+		corrupted = saved.duplicate(true)
+		corrupted.events[wreck_index].payload.gained = {}
+		corrupted.events[wreck_index].payload.erase("items_gained")
+		check(String(WorldState.from_dict_checked(corrupted).error).begins_with("XP_LEDGER"), "empty search cannot carry salvage XP")
+		corrupted = saved.duplicate(true)
+		corrupted.events[wreck_index].payload.xp_gained = 25
+		check(String(WorldState.from_dict_checked(corrupted).error).begins_with("XP_LEDGER"), "wrong award amount fails checked load")
+		corrupted = saved.duplicate(true)
+		corrupted.events.append(corrupted.events[wreck_index].duplicate(true))
+		corrupted.event_count = corrupted.events.size()
+		var duplicate_error: String = String(WorldState.from_dict_checked(corrupted).error)
+		check(duplicate_error.begins_with("XP_LEDGER"), "duplicate first-salvage award fails checked load: " + duplicate_error)
+		corrupted = saved.duplicate(true)
+		corrupted.player.xp = 24
+		check(String(WorldState.from_dict_checked(corrupted).error).begins_with("XP_LEDGER"), "profile XP cannot be below committed experiential awards")
+		corrupted = saved.duplicate(true)
+		corrupted.player.xp = 50
+		check(WorldState.from_dict_checked(corrupted).success, "other legitimate lifetime XP can coexist with tagged awards")
+		var tampered_live: WorldState = first.duplicate_state()
+		tampered_live.event_log[wreck_index].payload.xp_gained = 25.0
+		check(engine.validate_invariants(tampered_live).begins_with("XP_LEDGER"), "live world invariant rejects a changed award")
+		tampered_live = first.duplicate_state()
+		tampered_live.event_log[wreck_index].payload.gained = {"water": 0.0}
+		tampered_live.event_log[wreck_index].payload.erase("items_gained")
+		check(engine.validate_invariants(tampered_live).begins_with("XP_LEDGER"), "zero-quantity loot cannot justify first-salvage XP")
 
 	var empty := fixture()
 	check(engine.begin_player_travel(empty, PlayerIntent.create_travel(empty.player.npc_id, &"settlement:new_hope")).success, "picked-clean travel starts")
