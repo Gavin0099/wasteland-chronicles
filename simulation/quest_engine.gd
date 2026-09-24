@@ -66,10 +66,18 @@ static func authorize_turn_in(world: WorldState, quest_id: String) -> String:
 		return "ILLEGAL_QUEST_TRANSITION"
 	if world.current_day > qs.deadline_day:
 		return "QUEST_DEADLINE_PASSED"
-	for objective in found.definition.objectives:
+	var definition: Dictionary = found.definition
+	var has_delivery := false
+	for objective in definition.objectives:
+		if String(objective.type) == "DELIVER_ITEM":
+			has_delivery = true
+			break
+	if not has_delivery and not _settled_at(world, String(definition.settlement_id)):
+		return "QUEST_ISSUER_NOT_HERE"
+	for objective in definition.objectives:
 		if String(objective.type) == "DELIVER_ITEM" and not _settled_at(world, String(objective.settlement_id)):
 			return "QUEST_DELIVERY_LOCATION_REQUIRED"
-		if not _objective_satisfied(world, objective):
+		if not _objective_satisfied(world, quest_id, objective):
 			return "QUEST_OBJECTIVE_NOT_MET"
 	return ""
 
@@ -110,6 +118,9 @@ static func evaluate_availability(world: WorldState, quest_id: String) -> String
 	for flag in avail.get("required_flags", []):
 		if not world.quest_flags.get(flag, false):
 			return &"LOCKED"
+	var equipped_id := String(avail.get("required_equipped_item_id", ""))
+	if equipped_id != "" and (world.player == null or world.player.equipment == null or world.player.equipment.equipped_item("back") != equipped_id):
+		return &"LOCKED"
 	return &"AVAILABLE"
 
 # ── Accept ────────────────────────────────────────────────────────────────────
@@ -158,11 +169,11 @@ static func evaluate_objectives(world: WorldState, quest_id: String) -> bool:
 		return false
 	var defn: Dictionary = result.definition
 	for obj in defn.objectives:
-		if not _objective_satisfied(world, obj):
+		if not _objective_satisfied(world, quest_id, obj):
 			return false
 	return true
 
-static func _objective_satisfied(world: WorldState, obj: Dictionary) -> bool:
+static func _objective_satisfied(world: WorldState, quest_id: String, obj: Dictionary) -> bool:
 	match StringName(obj.get("type", "")):
 		&"HAVE_ITEM":
 			if world.player == null:
@@ -177,12 +188,16 @@ static func _objective_satisfied(world: WorldState, obj: Dictionary) -> bool:
 		&"WORLD_FLAG":
 			return world.quest_flags.get(obj.get("flag", ""), false)
 		&"VISIT_LOCATION":
-			# Check event log for a PLAYER_ARRIVED event at the target settlement
+			# Only this player's committed arrivals after this quest was accepted count.
 			var target: String = obj.get("settlement_id", "")
-			if target.is_empty():
+			if target.is_empty() or world.player == null:
 				return false
-			for evt in world.event_log:
-				if evt.type == "PLAYER_ARRIVED" and evt.payload.get("settlement_id", "") == target:
+			var accepted_index := -1
+			for i in range(world.event_log.size()):
+				var evt: EventRecord = world.event_log[i]
+				if evt.type == "QUEST_ACCEPTED" and evt.actor_id == world.player.npc_id and String(evt.payload.get("quest_id", "")) == quest_id:
+					accepted_index = i
+				elif i > accepted_index and accepted_index >= 0 and evt.type == "NAMED_MIGRATION_COMPLETED" and evt.actor_id == world.player.npc_id and String(evt.target_id) == "settlement:" + target:
 					return true
 			return false
 	return false

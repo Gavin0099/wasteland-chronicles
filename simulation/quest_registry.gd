@@ -43,6 +43,23 @@ static func _catalog() -> Array:
 			"failed": {"rewards": [], "world_effects": []},
 			"expired": {"rewards": [], "world_effects": []},
 		},
+	}, {
+		"id": "dry_well_north_survey",
+		"title_zh": "北線補給測繪",
+		"description_zh": "乾井的商隊想確認新希望一線的補給路況。先備妥並裝上軍用背包，在乾井接案；之後親自抵達新希望，再回乾井報告。這份工作不保證路上會找到任何東西。",
+		"settlement_id": "dry_well",
+		"issuer_npc_id": "",
+		"availability": {"required_day": 0, "required_flags": [], "required_equipped_item_id": "military_backpack"},
+		"deadline_days": 10,
+		"objectives": [
+			{"id": "retain_pack", "type": "HAVE_ITEM", "item_id": "military_backpack", "quantity": 1},
+			{"id": "visit_new_hope", "type": "VISIT_LOCATION", "settlement_id": "new_hope"},
+		],
+		"outcomes": {
+			"resolved": {"rewards": [{"type": "CURRENCY", "amount": 150}, {"type": "XP", "amount": 45}], "world_effects": [{"type": "SET_FLAG", "flag": "dry_well_north_surveyed"}]},
+			"failed": {"rewards": [], "world_effects": []},
+			"expired": {"rewards": [], "world_effects": []},
+		},
 	}]
 
 # ── Public API ────────────────────────────────────────────────────────────────

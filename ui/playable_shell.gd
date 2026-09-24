@@ -2131,15 +2131,18 @@ func _render_quests(rows: Array) -> void:
 	var available_count := 0
 	var active_count := 0
 	var completed_count := 0
+	var locked_count := 0
 	var other_ended_count := 0
 	for option in rows:
 		match String(option.status):
 			"AVAILABLE": available_count += 1
 			"ACTIVE": active_count += 1
 			"RESOLVED": completed_count += 1
+			"LOCKED": locked_count += 1
 			_: other_ended_count += 1
 	var other_ended_label := "　未完成 %d" % other_ended_count if other_ended_count > 0 else ""
-	quest_access_button.text = "委託　可接 %d　進行中 %d　已完成 %d%s　%s" % [available_count, active_count, completed_count, other_ended_label, "返回聚落 ›" if quest_journal_open else "查看 ›"]
+	var locked_label := "　未解鎖 %d" % locked_count if locked_count > 0 else ""
+	quest_access_button.text = "委託　可接 %d　進行中 %d　已完成 %d%s%s　%s" % [available_count, active_count, completed_count, locked_label, other_ended_label, "返回聚落 ›" if quest_journal_open else "查看 ›"]
 	quest_access_button.tooltip_text = "查看當地可接委託，以及已接受委託的進度和紀錄。"
 	if rows.is_empty():
 		quest_id_shown = ""
@@ -2170,7 +2173,20 @@ func _render_quests(rows: Array) -> void:
 	quest_title.text = "委託 · %s" % String(row.title)
 	quest_description.text = String(row.description)
 	var status := String(row.status)
-	if status == "AVAILABLE":
+	if bool(row.get("is_survey", false)):
+		var survey_step := "接案後抵達新希望，再返回乾井回報。"
+		if status == "LOCKED":
+			quest_progress.text = "尚未符合接案條件：需在背部裝備軍用背包。\n%s\n報酬：%d 瓶蓋、%d XP" % [survey_step, int(row.reward_caps), int(row.reward_xp)]
+		elif status == "AVAILABLE":
+			quest_progress.text = "期限：接下後 %d 天\n條件：已裝備軍用背包。%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), survey_step, int(row.reward_caps), int(row.reward_xp)]
+		elif status == "ACTIVE":
+			quest_progress.text = "進行中 · 第 %d 天截止\n%s\n回報時仍需持有軍用背包。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), survey_step, int(row.reward_caps), int(row.reward_xp)]
+		elif status == "RESOLVED":
+			quest_progress.text = "已完成 · 北線路況已回報乾井。\n獲得：%d 瓶蓋、%d XP" % [int(row.reward_caps), int(row.reward_xp)]
+		else:
+			quest_progress.text = {"EXPIRED": "已過期 · 未完成測繪", "FAILED": "已失敗 · 未完成測繪"}.get(status, "目前不可接")
+		quest_button.text = "回報測繪" if status == "ACTIVE" else "接受委託"
+	elif status == "AVAILABLE":
 		quest_progress.text = "期限：接下後 %d 天\n交付：%s ×%d → %s\n目前持有：%d／%d；接受後仍需自行取得物品。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
 		quest_button.text = "接受委託"
 	elif status == "ACTIVE":
@@ -2184,7 +2200,7 @@ func _render_quests(rows: Array) -> void:
 		quest_button.text = "委託已結束"
 	quest_button.visible = status in ["AVAILABLE", "ACTIVE"]
 	quest_button.disabled = not bool(row.can_act)
-	quest_button.tooltip_text = "需要持有足量物品、抵達交付地點，且仍在期限內。" if status == "ACTIVE" and quest_button.disabled else ""
+	quest_button.tooltip_text = ("抵達新希望後回乾井回報，並保留軍用背包；期限內方可完成。" if bool(row.get("is_survey", false)) else "需要持有足量物品、抵達交付地點，且仍在期限內。") if status == "ACTIVE" and quest_button.disabled else ""
 
 func _on_quest_access_pressed() -> void:
 	quest_journal_open = not quest_journal_open
@@ -2244,6 +2260,8 @@ func _on_quest_pressed() -> void:
 	receipt.title = "委託結果"
 	if accepting:
 		receipt.dialog_text = "委託已接受。第 %d 天截止。" % world.quest_state.get_quest(quest_id_shown).deadline_day
+	elif bool(row.get("is_survey", false)):
+		receipt.dialog_text = "北線路況已向乾井回報；軍用背包仍由你持有。獲得 %d 瓶蓋、%d XP。" % [int(row.reward_caps), int(row.reward_xp)]
 	else:
 		var delivered: Array = result.get("delivered", [])
 		var delivered_text := "%s ×%d" % [String(row.item_name), int(row.required)]

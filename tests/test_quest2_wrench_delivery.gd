@@ -55,7 +55,7 @@ func _init() -> void:
 
 func run() -> void:
 	var definitions: Array = Quests.all_definitions()
-	check(definitions.size() == 2 and Quests.get_definition(QUEST_ID).success, "wrench quest remains registered beside second commission")
+	check(definitions.size() == 3 and Quests.get_definition(QUEST_ID).success, "wrench quest remains registered beside other commissions")
 	var world := fixture()
 	var baseline := world.to_canonical_json()
 	var projected: Array = PlayerUIProjection.project(world).quests
