@@ -287,6 +287,9 @@ func refresh() -> void:
 		for event in world.event_log:
 			if event.type == "FIELD_TURN" and int(event.payload.battle_id) == int(state.battle.id) and event.payload.turn >= turn - 3:
 				log_label.text += "\n\n第 %d 回合：造成 %d / 承受 %d" % [event.payload.turn, event.payload.dealt, event.payload.taken]
+				var practice: Dictionary = event.payload.get("skill_practice", {})
+				if not practice.is_empty():
+					log_label.text += " · 近戰%s" % ("提升至 %d" % int(practice.to_rank) if practice.rank_up else "練習 +1")
 		add_action("ATTACK", "攻擊 · 傷害 %d" % Field.attack_damage(world))
 		add_action("DEFEND", "防禦 · 減傷 3，準備反擊")
 		add_action("FLEE", "逃跑 · 承受 1 傷害")

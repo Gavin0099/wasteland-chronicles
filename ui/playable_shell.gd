@@ -3,6 +3,7 @@ extends Control
 
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
+const CharacterPresentation = preload("res://ui/character_presentation.gd")
 
 # ==============================================================================
 # S5: PLAYABLE UI SHELL (SURVIVOR PDA FAST-LANE) — UX-P1
@@ -100,6 +101,7 @@ var lbl_inspection_title: Label
 var lbl_inspection_details: Label
 
 var market_panel: VBoxContainer
+var market_practice_label: Label
 var market_trade_buttons: Dictionary = {}
 var item_market_toggle: Button
 var item_market_scroll: ScrollContainer
@@ -888,6 +890,7 @@ func on_buy_pressed(commodity: String, quantity: int = 1) -> Dictionary:
 	var res := engine.commit_player_intent(world, intent)
 	if res.get("success", false):
 		refresh_ui()
+		_show_trade_practice(res)
 
 	trade_triggered.emit("BUY", commodity, quantity, res)
 	return res
@@ -900,6 +903,7 @@ func on_sell_pressed(commodity: String, quantity: int = 1) -> Dictionary:
 	var res := engine.commit_player_intent(world, intent)
 	if res.get("success", false):
 		refresh_ui()
+		_show_trade_practice(res)
 
 	trade_triggered.emit("SELL", commodity, quantity, res)
 	return res
@@ -911,6 +915,7 @@ func on_buy_item_pressed(item_id: String, quantity: int = 1) -> Dictionary:
 	var res := engine.commit_player_intent(world, intent)
 	if res.get("success", false):
 		refresh_ui()
+		_show_trade_practice(res)
 	trade_triggered.emit("BUY", item_id, quantity, res)
 	return res
 
@@ -921,8 +926,20 @@ func on_sell_item_pressed(item_id: String, quantity: int = 1) -> Dictionary:
 	var res := engine.commit_player_intent(world, intent)
 	if res.get("success", false):
 		refresh_ui()
+		_show_trade_practice(res)
 	trade_triggered.emit("SELL", item_id, quantity, res)
 	return res
+
+func _show_trade_practice(result: Dictionary) -> void:
+	if market_practice_label == null:
+		return
+	var practice: Dictionary = result.get("skill_practice", {})
+	market_practice_label.visible = not practice.is_empty()
+	if practice.is_empty():
+		return
+	market_practice_label.text = "交易能力提升：%d %s" % [int(practice.to_rank),
+		CharacterPresentation.RANK_NAMES[int(practice.to_rank)]] if practice.rank_up else \
+		"交易練習 +1（%d/%d）" % [int(practice.points), int(practice.required)]
 
 func advance_day() -> Dictionary:
 	if world != null and world.player != null:
@@ -1438,6 +1455,10 @@ func _build_ui_layout_if_needed() -> void:
 	m_panel.add_child(market_panel)
 
 	market_panel.add_child(_create_window_header("交易市場 MARKETPLACE", "🛒"))
+	market_practice_label = Label.new()
+	market_practice_label.theme_type_variation = "PdaMuted"
+	market_practice_label.visible = false
+	market_panel.add_child(market_practice_label)
 
 	var commodities_spec := [
 		{"key": "water", "name": "水"},
@@ -1921,6 +1942,14 @@ func _render_encounter_result(result: Dictionary) -> void:
 	lbl_encounter_body.text = "%s\n\n獲得\n%s\n\n消耗\n%s\n\n時間\n+%d 天" % [
 		descriptions.get(result.option, "選擇已結算。"), gains,
 		losses if not losses.is_empty() else "無", int(result.elapsed_days)]
+	var practice: Dictionary = result.get("skill_practice", {})
+	if not practice.is_empty():
+		var name: String = CharacterPresentation.SKILL_NAMES.get(String(practice.skill_id), String(practice.skill_id))
+		if practice.rank_up:
+			lbl_encounter_body.text += "\n\n能力成長\n%s %d → %d %s" % [name, int(practice.from_rank),
+				int(practice.to_rank), CharacterPresentation.RANK_NAMES[int(practice.to_rank)]]
+		else:
+			lbl_encounter_body.text += "\n\n能力練習\n%s +1（%d/%d）" % [name, int(practice.points), int(practice.required)]
 	if not left.is_empty():
 		lbl_encounter_body.text += "\n\n背包空間不足，未帶走\n%s" % left
 	if not item_left.is_empty():

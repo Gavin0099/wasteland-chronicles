@@ -59,6 +59,33 @@ const WEIGHT_TRAVELLER_BASE := 1
 const HAGGLED_TOLL_CAPS := 4
 const COLUMN_TRADE_CAPS := 5
 
+# C3 practice sources name an action the world already resolves. Paying a toll,
+# receiving a gift, leaving, and merely owning a tool teach no skill. This table
+# is separate from eligibility: a novice can learn by SEARCH or DETOUR, while a
+# skilled character can refine that same discipline through a gated approach.
+static func practice_skill(encounter_type: StringName, option_id: StringName) -> String:
+	match encounter_type:
+		WRECK:
+			if option_id in [&"SEARCH", &"QUICK_PICK"]:
+				return "SCAVENGING"
+			if option_id in [&"STRIP_PARTS", &"USE_WRENCH"]:
+				return "MECHANICS"
+		ROCKSLIDE:
+			if option_id in [&"DETOUR", &"SCOUT_PATH", &"USE_ROPE"]:
+				return "SURVIVAL"
+		ROADBLOCK:
+			if option_id == &"HAGGLE":
+				return "BARTER"
+			if option_id == &"SLIP_PAST":
+				return "STEALTH"
+		DEHYDRATED_TRAVELLER:
+			if option_id == &"HYDRATE":
+				return "SURVIVAL"
+		REFUGEE_COLUMN:
+			if option_id == &"TRADE_COLUMN":
+				return "BARTER"
+	return ""
+
 # Stable string hash. Deliberately simple and fully specified here so that its
 # output can never change underneath the simulation.
 static func stable_hash(text: String) -> int:

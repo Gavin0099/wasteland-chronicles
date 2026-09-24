@@ -269,6 +269,13 @@ static func apply(world, engine, payload: Dictionary) -> String:
 				dealt = mini(state.enemy_hp, attack_damage(world))
 				state.enemy_hp -= dealt
 				battle.prepared = false
+			var practice := {}
+			if command == "ATTACK" and dealt > 0 and player.capability != null:
+				var growth: Dictionary = player.capability.grant_practice("MELEE", world.current_day)
+				if growth.get("awarded", false):
+					practice = {"skill_id": "MELEE", "rank_up": growth.rank_up,
+						"from_rank": growth.from_rank, "to_rank": growth.to_rank,
+						"points": growth.points, "required": growth.required}
 			if command == "DEFEND":
 				battle.prepared = true
 			if state.enemy_hp > 0:
@@ -290,7 +297,11 @@ static func apply(world, engine, payload: Dictionary) -> String:
 				var ls = world.npc_life_state_registry.get_life_state(player.npc_id)
 				if ls != null:
 					container_id = ls.population_container_id
-			world.record_event(EventRecord.new(world.current_day, "FIELD_TURN", player.npc_id, container_id, {"battle_id": battle.id, "turn": turn, "command": command, "dealt": dealt, "taken": taken, "hp": player.field_kit.hp, "enemy_hp": state.enemy_hp}))
+			var turn_payload := {"battle_id": battle.id, "turn": turn, "command": command,
+				"dealt": dealt, "taken": taken, "hp": player.field_kit.hp, "enemy_hp": state.enemy_hp}
+			if not practice.is_empty():
+				turn_payload["skill_practice"] = practice
+			world.record_event(EventRecord.new(world.current_day, "FIELD_TURN", player.npc_id, container_id, turn_payload))
 
 			if is_road:
 				if state.enemy_hp == 0:
