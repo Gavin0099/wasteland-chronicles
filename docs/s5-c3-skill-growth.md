@@ -106,6 +106,11 @@ atomicity, save/load and malformed treatment receipts, dual-track world SHA-256
 and global invariants. Both required Godot renderer sizes show the actual HP
 and practice result without hiding the command area. C3 remains open for the
 three unsupported skills, beginner Stealth access, and long-run pacing.
-The current player-facing treatment entry is the Gray Valley outskirts screen;
-other settlements still need a general inventory-use entry despite the
-settled-player authority allowing treatment there.
+The character sheet now also offers treatment beside current HP whenever an
+owned kit is usable. It is available from any settlement; in battle, during
+travel or at full health the button shows the blocking reason. Both the field
+screen and character sheet send the same `TREAT` intent and display its actual
+HP, item and practice result. Opening the sheet remains read-only. The
+character-sheet bridge is verified by `tests/test_item14_medkit_sheet_use.gd`
+with a New Hope purchase/use path, direct-authority full-world SHA-256 match,
+save/load, full-health lock and 1280×720 plus 1152×648 renderer captures.

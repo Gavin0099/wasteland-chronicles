@@ -2169,7 +2169,7 @@ func _on_quest_pressed() -> void:
 	add_child(receipt)
 	receipt.popup_centered()
 
-func _show_character() -> void:
+func _show_character(action_notice: String = "") -> void:
 	if world == null or world.player == null:
 		return
 	var presentation = preload("res://ui/character_presentation.gd")
@@ -2186,8 +2186,30 @@ func _show_character() -> void:
 			dialog.queue_free()
 			refresh_ui()
 			call_deferred("_show_character")
+	var use_action := func(item_id: String):
+		if item_id != "first_aid_kit":
+			return
+		var result := engine.commit_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "TREAT"}))
+		if result.get("success", false):
+			var healed: int = int(world.event_log.back().payload.get("healed", 0))
+			var notice := "急救包 −1 · 生命 +%d" % healed
+			var practice: Dictionary = result.get("skill_practice", {})
+			if not practice.is_empty():
+				if practice.rank_up:
+					notice += " · 醫療提升至 %d %s" % [int(practice.to_rank), presentation.RANK_NAMES[int(practice.to_rank)]]
+				else:
+					notice += " · 醫療練習 +1（%d/%d）" % [int(practice.points), int(practice.required)]
+			dialog.hide()
+			dialog.queue_free()
+			refresh_ui()
+			call_deferred("_show_character", notice)
+		else:
+			dialog.action_notice_label.text = "目前無法使用急救包，請確認生命、位置與事件狀態。"
+			dialog.action_notice_label.visible = true
+	var treat_error := engine.authorize_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "TREAT"}))
+	var treat_reason: String = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落"}.get(treat_error, "目前無法使用")) if treat_error != "" else ""
 	add_child(dialog)
-	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action)
+	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice)
 	var viewport_size := get_viewport_rect().size
 	var sheet_size := Vector2i(mini(460, int(viewport_size.x) - 24), mini(560, int(viewport_size.y) - 72))
 	var sheet_position := Vector2i(int(viewport_size.x) - sheet_size.x - 12, 56)
