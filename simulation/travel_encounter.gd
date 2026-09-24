@@ -247,6 +247,8 @@ static func options(encounter_type: StringName, context: Dictionary = {}) -> Arr
 		ROCKSLIDE:
 			return [
 				{"id": &"CLEAR", "label": "墊出通道", "detail": "廢料 −1　不耽誤行程"},
+				{"id": &"ENDURE_CROSSING", "label": "咬牙穿過崩塌地", "detail": "食物 −1　不耽誤行程；沒有食物就無法硬撐",
+					"requires_acquired_trait": "DESERT_HARDENED", "gate": GATE_KNOWLEDGE},
 				{"id": &"SCOUT_PATH", "label": "找一條繞過崩塌的小徑", "detail": "不耗廢料、不耽誤行程",
 					"requires": _skill("SURVIVAL", 2), "requirement_label": "荒野求生 熟練", "gate": GATE_KNOWLEDGE},
 				{"id": &"FORCE_THROUGH", "label": "直接翻過去", "detail": "不耗廢料、不耽誤行程　翻越時弄丟 1 件物資（廢料→燃料→水）",

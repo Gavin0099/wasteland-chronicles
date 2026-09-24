@@ -6,6 +6,7 @@ const SkillRow = preload("res://ui/components/skill_rank_row.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
+const Acquired = preload("res://simulation/acquired_traits.gd")
 var skill_rows: Dictionary = {}
 var resource_values: Dictionary = {}
 var item_labels: Dictionary = {}
@@ -19,6 +20,7 @@ var equipment_action: Callable
 var equipment_unequip_action: Callable
 var item_use_action: Callable
 var perk_action: Callable
+var acquired_action: Callable
 var perk_choice_buttons: Dictionary = {}
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
@@ -48,11 +50,12 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable()) -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable()) -> void:
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
 	item_use_action = p_item_use_action
 	perk_action = p_perk_action
+	acquired_action = p_acquired_action
 	title = "人物與補給"
 	theme_type_variation = "PdaDialog"
 	ok_button_text = "返回旅程"
@@ -109,6 +112,20 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	label_in(left, "人物特質", "PdaSection")
 	trait_label = label_in(left, Presentation.trait_text(character.traits))
 	label_in(left, "部分特質會提供不同的遭遇處理方式。", "PdaMuted")
+	if not character.acquired_traits.is_empty() or not character.acquired_candidates.is_empty():
+		label_in(left, "人生經歷", "PdaSection")
+		for trait_id in character.acquired_traits:
+			label_in(left, "%s　%s" % [Acquired.TRAITS[trait_id].name_zh, Acquired.TRAITS[trait_id].description_zh])
+		for trait_id in character.acquired_candidates:
+			label_in(left, "你的經歷讓「%s」成為可能：%s" % [Acquired.TRAITS[trait_id].name_zh, Acquired.TRAITS[trait_id].description_zh])
+			var accept_button := Button.new()
+			accept_button.text = "接受　%s" % Acquired.TRAITS[trait_id].name_zh
+			accept_button.theme_type_variation = "PdaCommand"
+			accept_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+			accept_button.disabled = not acquired_action.is_valid() or String(player.status) != "SETTLED"
+			accept_button.pressed.connect(func(): acquired_action.call(String(trait_id)))
+			left.add_child(accept_button)
+		label_in(left, "現在不選也可以；這段經歷仍會留在你的人生裡。", "PdaMuted")
 	left.add_child(HSeparator.new())
 	label_in(left, "隨身補給", "PdaSection")
 	var bp: Dictionary = player.backpack

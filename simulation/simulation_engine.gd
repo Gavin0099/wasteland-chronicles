@@ -1072,6 +1072,9 @@ func validate_invariants(world: WorldState) -> String:
 		var perk_error := PlayerState.Perks.validate_selection(world.player.perk_ids, world.player.xp)
 		if perk_error != "":
 			return perk_error
+		var acquired_error := PlayerState.Acquired.validate_selection(world.player.acquired_trait_ids)
+		if acquired_error != "":
+			return acquired_error
 		var capability_error: String = PlayerState.Capability.validate(capability_data)
 		if capability_error != "":
 			return capability_error
@@ -1303,6 +1306,9 @@ func validate_invariants(world: WorldState) -> String:
 		var perk_history_error := PlayerState.Perks.validate_history(world.player.perk_ids, world.event_log, world.player.npc_id)
 		if perk_history_error != "":
 			return perk_history_error
+		var acquired_history_error := PlayerState.Acquired.validate_history(world.player.acquired_trait_ids, world.event_log, world.player.npc_id, world.current_day)
+		if acquired_history_error != "":
+			return acquired_history_error
 		var xp_history_error := ProgressionXp.validate_history(world.event_log, world.player.npc_id, world.player.xp)
 		if xp_history_error != "":
 			return xp_history_error
@@ -1409,6 +1415,13 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 			food_unmet_ratio = 0.0
 
 	_apply_player_need_outcome(p, water_unmet_ratio, food_unmet_ratio)
+	if ls.status == NpcLifeState.Status.IN_TRANSIT and (water_unmet_ratio > 0.0 or food_unmet_ratio > 0.0):
+		var need_event := EventRecord.new(current_day, "PLAYER_NEED_UNMET", p.npc_id, &"road", {
+			"water_unmet": water_unmet_ratio, "food_unmet": food_unmet_ratio,
+		})
+		world.record_event(need_event)
+		if tick_events != null:
+			tick_events.append(need_event)
 	_check_player_mortality(world, p, ls, current_day, tick_events)
 
 # How much of what this settlement asked for today went unmet, 0.0 .. 1.0.
@@ -1945,6 +1958,8 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 	for candidate in TravelEncounter.options(enc.encounter_type, enc.context):
 		if candidate.id == option_id and candidate.has("requires_perk") and not p.has_perk(String(candidate.requires_perk)):
 			return "PERK_NOT_OWNED: %s requires %s" % [option_id, candidate.requires_perk]
+		if candidate.id == option_id and candidate.has("requires_acquired_trait") and not p.has_acquired_trait(String(candidate.requires_acquired_trait)):
+			return "ACQUIRED_TRAIT_NOT_OWNED: %s requires %s" % [option_id, candidate.requires_acquired_trait]
 	var practice_skill: String = TravelEncounter.practice_skill(enc.encounter_type, option_id)
 	if practice_skill != "" and p.capability != null:
 		var practice_check: Dictionary = p.capability.get_practice_progress(practice_skill)
@@ -1979,6 +1994,9 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		&"CLEAR":
 			if p.inventory.get_amount("scrap") < 1:
 				return "INSUFFICIENT_SCRAP: clearing the road needs 1 scrap"
+		&"ENDURE_CROSSING":
+			if p.inventory.get_amount("food") < 1:
+				return "INSUFFICIENT_FOOD: the crossing needs one ration"
 		&"PAY":
 			if p.money < ROADBLOCK_TOLL_CAPS:
 				return "INSUFFICIENT_FUNDS: the toll is %d caps" % ROADBLOCK_TOLL_CAPS
@@ -2086,6 +2104,9 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		&"CLEAR":
 			p.inventory.add_amount("scrap", -1)
 			spent["scrap"] = 1
+		&"ENDURE_CROSSING":
+			p.inventory.add_amount("food", -1)
+			spent["food"] = 1
 		&"PAY":
 			p.money -= ROADBLOCK_TOLL_CAPS
 			spent["caps"] = ROADBLOCK_TOLL_CAPS
@@ -2351,6 +2372,19 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			if world.player.perk_ids.size() >= PlayerState.Perks.available_slots(world.player.level()):
 				return "NO_PERK_MILESTONE"
 			return ""
+		PlayerIntent.Action.ACCEPT_ACQUIRED_TRAIT:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "TRAIT_ACCEPTANCE_REQUIRES_SETTLEMENT"
+			if intent.payload.size() != 1 or typeof(intent.payload.get("trait_id")) != TYPE_STRING:
+				return "INVALID_ACQUIRED_TRAIT_INTENT"
+			var trait_id: String = intent.payload.trait_id
+			if not PlayerState.Acquired.TRAITS.has(trait_id):
+				return "UNKNOWN_ACQUIRED_TRAIT_ID"
+			if world.player.has_acquired_trait(trait_id):
+				return "ACQUIRED_TRAIT_ALREADY_OWNED"
+			if not PlayerState.Acquired.candidates(world.event_log, world.player.npc_id, world.current_day).has(trait_id):
+				return "ACQUIRED_TRAIT_HISTORY_NOT_MET"
+			return ""
 		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
 			if intent.payload.size() != 1 or typeof(intent.payload.get("quest_id")) != TYPE_STRING:
 				return "INVALID_QUEST_INTENT"
@@ -2542,6 +2576,15 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			if tick_events != null:
 				tick_events.append(perk_evt)
 			return {"success": true, "perk_id": perk_id, "level": world.player.level()}
+		PlayerIntent.Action.ACCEPT_ACQUIRED_TRAIT:
+			var trait_id: String = intent.payload.trait_id
+			world.player.acquired_trait_ids.append(trait_id)
+			world.player.acquired_trait_ids.sort()
+			var trait_evt := EventRecord.new(world.current_day, "ACQUIRED_TRAIT_ACCEPTED", intent.player_id, &"character", {"trait_id": trait_id})
+			world.record_event(trait_evt)
+			if tick_events != null:
+				tick_events.append(trait_evt)
+			return {"success": true, "trait_id": trait_id}
 		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
 			var quest_id := String(intent.payload.quest_id)
 			var quest_script = load("res://simulation/quest_engine.gd")

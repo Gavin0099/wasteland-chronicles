@@ -5,6 +5,7 @@ const Capability = preload("res://simulation/capability_profile.gd")
 const ItemInventory = preload("res://simulation/item_inventory_state.gd")
 const Equipment = preload("res://simulation/equipment_state.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
+const Acquired = preload("res://simulation/acquired_traits.gd")
 var capability: RefCounted
 const Field = preload("res://simulation/field_adventure.gd")
 var field_kit: Dictionary = Field.new_kit()
@@ -48,9 +49,13 @@ var food_exposure: float = 0.0
 var xp: int = 0             # lifetime XP earned from quests and events
 var growth_points: int = 0  # spendable points: CHAR-PROG-1 converts XP -> growth_points
 var perk_ids: Array[String] = []
+var acquired_trait_ids: Array[String] = []
 
 func has_perk(id: String) -> bool:
 	return perk_ids.has(id)
+
+func has_acquired_trait(id: String) -> bool:
+	return acquired_trait_ids.has(id)
 
 func level() -> int:
 	return Perks.level_for_xp(xp)
@@ -116,6 +121,7 @@ func duplicate_state() -> PlayerState:
 	copy.xp = xp
 	copy.growth_points = growth_points
 	copy.perk_ids = perk_ids.duplicate()
+	copy.acquired_trait_ids = acquired_trait_ids.duplicate()
 	return copy
 
 func to_dict() -> Dictionary:
@@ -142,6 +148,8 @@ func to_dict() -> Dictionary:
 		result["growth_points"] = growth_points
 	if not perk_ids.is_empty():
 		result["perk_ids"] = perk_ids.duplicate()
+	if not acquired_trait_ids.is_empty():
+		result["acquired_trait_ids"] = acquired_trait_ids.duplicate()
 	return result
 
 static func from_dict(data: Dictionary) -> PlayerState:
@@ -177,4 +185,6 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	p.growth_points = int(data.get("growth_points", 0))
 	for id in data.get("perk_ids", []):
 		p.perk_ids.append(String(id))
+	for id in data.get("acquired_trait_ids", []):
+		p.acquired_trait_ids.append(String(id))
 	return p
