@@ -14,7 +14,7 @@ func check(ok: bool, message: String) -> void:
 
 func _init() -> void:
 	var rows := Registry.all_definitions()
-	check(rows.size() == 12, "canonical registry contains exactly twelve records")
+	check(rows.size() == 13, "canonical registry contains exactly thirteen records")
 	var ids := {}
 	for row in rows:
 		ids[row.item_id] = true
@@ -24,7 +24,7 @@ func _init() -> void:
 		check(identity.definition.base_weight == row.base_weight, "ITEM-1 weight preserved: " + row.item_id)
 		check(row.settlement_supply.size() == 3 and row.settlement_demand.size() == 3, "three-market metadata: " + row.item_id)
 		check(row.description_zh.length() >= 8, "description present: " + row.item_id)
-	check(ids.size() == 12, "all IDs unique")
+	check(ids.size() == 13, "all IDs unique")
 	for invalid in [null, 1, true, "crowbar", "RUSTED_KNIFE", "rusted-knife"]:
 		check(not Registry.resolve(invalid).success, "unknown ID fails closed: " + str(invalid))
 	var row: Dictionary = rows[0].duplicate(true)

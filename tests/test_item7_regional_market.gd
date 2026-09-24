@@ -54,7 +54,7 @@ func _init() -> void:
 	var summary := Markets.summary_for("dry_well")
 	check(summary.success and summary.listed_item_count == 12, "summary counts listed items")
 	check(int(summary.supply_counts.high) > 0 and int(summary.supply_counts.low) > 0, "summary preserves regional spread")
-	check(Registry.all_definitions().size() == 12, "regional catalogue does not register new runtime items")
+	check(Registry.all_definitions().size() == 13, "registry includes one route-only item without listing it in regular markets")
 
 	print("ITEM-7 regional market catalogue: ", "PASS" if failures == 0 else "FAIL", "; assertions=", assertions, "; failures=", failures)
 	quit(0 if failures == 0 else 1)

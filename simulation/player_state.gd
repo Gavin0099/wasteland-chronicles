@@ -84,6 +84,8 @@ func get_effective_capacity() -> int:
 	var bonus := 0
 	if equipment != null and equipment.equipped_item("back") == "travel_backpack":
 		bonus = 8
+	elif equipment != null and equipment.equipped_item("back") == "military_backpack":
+		bonus = 12
 	return capacity_total + bonus
 
 func has_cargo_capacity(amount: int) -> bool:

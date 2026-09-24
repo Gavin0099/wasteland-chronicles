@@ -376,6 +376,11 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 			var enc := TravelEncounterState.from_dict(enc_data)
 			if not TravelEncounter.is_valid_type(enc.encounter_type):
 				return {"success": false, "world": null, "error": "ENCOUNTER_MALFORMED: unknown encounter type '%s'" % enc.encounter_type}
+			var encounter_life: NpcLifeState = w.npc_life_state_registry.get_life_state(w.player.npc_id) if w.player != null else null
+			var encounter_party: RefugeePartyState = w.get_refugee_party(encounter_life.population_container_id) if encounter_life != null and encounter_life.status == NpcLifeState.Status.IN_TRANSIT else null
+			if enc.context.has("route_type") or (encounter_party != null and encounter_party.route_type != &""):
+				if encounter_party == null or typeof(enc.context.get("route_type", null)) != TYPE_STRING or String(enc.context.route_type) != String(encounter_party.route_type) or enc.origin_id != encounter_party.origin_id or enc.destination_id != encounter_party.destination_id:
+					return {"success": false, "world": null, "error": "ENCOUNTER_ROUTE_MISMATCH"}
 			w.active_encounter = enc
 
 	if data.has("field_state"):

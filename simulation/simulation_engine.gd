@@ -5,6 +5,7 @@ const COMMODITIES: Array[String] = ["water", "food", "scrap", "fuel"]
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
 const ItemMarketState = preload("res://simulation/item_market_state.gd")
+const EquipmentState = preload("res://simulation/equipment_state.gd")
 const TravelRoute = preload("res://simulation/travel_route.gd")
 
 const PRICE_ELASTICITY_K: float = 1.5
@@ -1606,15 +1607,18 @@ func _authorize_equipment_intent(world: WorldState, intent: PlayerIntent, equipp
 		if typeof(intent.payload.get("item_id", "")) != TYPE_STRING:
 			return "INVALID_EQUIPMENT_INTENT"
 		var result: Dictionary = candidate.equip(intent.payload.item_id, intent.payload.slot, world.player.item_inventory)
-		return "" if result.success else String(result.error)
-	var removed: Dictionary = candidate.unequip(intent.payload.slot)
-	if not removed.success:
-		return String(removed.error)
-	if intent.payload.slot == "back" and world.player.equipment.equipped_item("back") == "travel_backpack":
-		if world.player.get_total_inventory_load() > world.player.capacity_total:
-			return "INSUFFICIENT_CAPACITY: Cargo load %d exceeds base capacity %d" % [
-				world.player.get_total_inventory_load(), world.player.capacity_total
-			]
+		if not result.success:
+			return String(result.error)
+	else:
+		var removed: Dictionary = candidate.unequip(intent.payload.slot)
+		if not removed.success:
+			return String(removed.error)
+	var candidate_player: PlayerState = world.player.duplicate_state()
+	candidate_player.equipment = candidate
+	if candidate_player.get_total_inventory_load() > candidate_player.get_effective_capacity():
+		return "INSUFFICIENT_CAPACITY: Cargo load %d exceeds capacity %d" % [
+			candidate_player.get_total_inventory_load(), candidate_player.get_effective_capacity()
+		]
 	return ""
 
 func _commit_equipment_intent(world: WorldState, intent: PlayerIntent, equipping: bool, tick_events: Array[EventRecord]) -> Dictionary:
@@ -1674,6 +1678,9 @@ func _authorize_item_trade(world: WorldState, settlement: SettlementState, inten
 		return "ITEM_NOT_BOUGHT_HERE: %s has no demand in %s" % [intent.item_id, settlement.id]
 	if not world.player.item_inventory.contains(String(intent.item_id), intent.quantity):
 		return "INSUFFICIENT_PLAYER_ITEM: Player does not hold %d of %s" % [intent.quantity, intent.item_id]
+	for slot in EquipmentState.SLOTS:
+		if world.player.equipment.equipped_item(slot) == String(intent.item_id):
+			return "ITEM_EQUIPPED: Unequip %s before selling it" % intent.item_id
 	var sell_quote := get_item_sell_quote(settlement, intent.item_id)
 	var total_revenue := sell_quote * intent.quantity
 	if settlement.market_cash < total_revenue:
@@ -1893,6 +1900,15 @@ func _check_travel_encounter(world: WorldState, ls: NpcLifeState) -> void:
 	)
 	world.record_event(evt)
 
+func _encounter_party_route(world: WorldState, enc: TravelEncounterState) -> String:
+	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if life == null or life.status != NpcLifeState.Status.IN_TRANSIT:
+		return ""
+	var party: RefugeePartyState = world.get_refugee_party(life.population_container_id)
+	if party == null or party.origin_id != enc.origin_id or party.destination_id != enc.destination_id:
+		return ""
+	return String(party.route_type)
+
 # Spend a day without getting any closer. The journey is padded by one day so
 # that ticking costs time and supplies without also advancing progress: a
 # detour is lost time, not free travel.
@@ -1994,6 +2010,7 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var enc := world.active_encounter
 	var p: PlayerState = world.player
 	var encounter_type := enc.encounter_type
+	var committed_route_type := _encounter_party_route(world, enc)
 
 	if option_id == &"FIGHT":
 		var origin_str: String = String(enc.origin_id)
@@ -2047,7 +2064,7 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered = TravelEncounter.wreck_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 			offered_items = TravelEncounter.wreck_item_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type)
 			extra_day = true
 		&"CLEAR":
 			p.inventory.add_amount("scrap", -1)
@@ -2085,13 +2102,13 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered = TravelEncounter.strip_parts_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 			offered_items = TravelEncounter.wreck_item_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type)
 			extra_day = true
 		&"USE_WRENCH":
 			offered = TravelEncounter.strip_parts_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
 			offered_items = TravelEncounter.wreck_item_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type)
 			extra_day = true
 		&"QUICK_PICK":
 			# The capability bought is the DAY, not the loot: no tick happens.
