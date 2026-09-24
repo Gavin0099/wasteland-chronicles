@@ -428,7 +428,13 @@ static func wreck_yield(day: int, origin_id: StringName, destination_id: StringN
 # resource yield. The same wreck facts produce the same item on replay, while a
 # picked-over truck can still give no item at all. Item effects, rarity and
 # equipment authority remain deferred.
-static func wreck_item_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, option_id: StringName = &"SEARCH") -> Dictionary:
+static func wreck_item_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, option_id: StringName = &"SEARCH", route_type: String = "") -> Dictionary:
+	# A sealed field kit is an uncommon find in remote wrecks. Thorough
+	# searches share the same cache fact; roadside quick-picking cannot reach it.
+	if route_type == "WILDERNESS" and option_id in [&"SEARCH", &"STRIP_PARTS", &"USE_WRENCH"]:
+		var cache_hash := stable_hash("field-kit|%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+		if cache_hash % 17 == 0:
+			return {"military_backpack": 1}
 	var h := stable_hash("wreck-item|%s|%s>%s|%d|%d" % [String(option_id), String(origin_id), String(destination_id), day, travel_day_index])
 	var roll := (h >> 1) % 12
 	if roll <= 7:

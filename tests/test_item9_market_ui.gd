@@ -31,7 +31,7 @@ func run() -> void:
 	var shell := PlayableShell.new()
 	root.add_child(shell)
 	shell.setup(world, engine)
-	check(shell.item_market_rows.size() == 12, "Survivor PDA builds one row per item offer")
+	check(shell.item_market_rows.size() == 13 and not shell.item_market_rows["military_backpack"].visible, "Survivor PDA keeps route-only loot out of regular shop rows")
 	check(shell.item_market_toggle != null and not shell.item_market_toggle.button_pressed, "item market starts collapsed")
 	shell.item_market_toggle.button_pressed = true
 	shell.item_market_toggle.toggled.emit(true)

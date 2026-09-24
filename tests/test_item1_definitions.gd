@@ -29,6 +29,7 @@ func fixtures() -> Array:
 		{"item_id": "desert_robe", "display_name_zh": "沙地長袍", "category": "APPAREL", "stack_mode": "UNIQUE", "base_weight": 900, "asset_id": "item_desert_robe", "tags": ["clothing", "desert"]},
 		{"item_id": "caravan_coat", "display_name_zh": "商隊外套", "category": "APPAREL", "stack_mode": "UNIQUE", "base_weight": 1500, "asset_id": "item_caravan_coat", "tags": ["clothing", "travel"]},
 		{"item_id": "travel_backpack", "display_name_zh": "舊旅行包", "category": "CONTAINER", "stack_mode": "UNIQUE", "base_weight": 1100, "asset_id": "item_travel_backpack", "tags": ["bag", "travel"]},
+		{"item_id": "military_backpack", "display_name_zh": "軍用背包", "category": "CONTAINER", "stack_mode": "UNIQUE", "base_weight": 2400, "asset_id": "item_military_backpack", "tags": ["backpack", "military", "salvaged"]},
 		{"item_id": "rope", "display_name_zh": "繩索", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 2500, "asset_id": "item_rope", "tags": ["rope", "travel"]},
 		{"item_id": "flashlight", "display_name_zh": "手電筒", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 400, "asset_id": "item_flashlight", "tags": ["lighting", "tool"]},
 		{"item_id": "wrench", "display_name_zh": "扳手", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 700, "asset_id": "item_wrench", "tags": ["hand_tool", "metal"]},
@@ -56,10 +57,10 @@ func _init() -> void:
 
 func check_definitions() -> void:
 	var rows: Array = Catalogue.all_definitions()
-	check(rows == sorted_fixtures(), "exact twelve approved records, integer grams and sorted identities")
-	check(rows.size() == 12, "185 images must not create 185 authoritative definitions")
+	check(rows == sorted_fixtures(), "exact thirteen approved records, integer grams and sorted identities")
+	check(rows.size() == 13, "185 images must not create 185 authoritative definitions")
 	var authored: Array = Authored.rows()
-	check(authored.size() == 12, "single authored source contains twelve records")
+	check(authored.size() == 13, "single authored source contains thirteen records")
 	var paths := {
 		"item_rusted_knife": "rusty_knife", "item_hunting_knife": "hunting_knife",
 		"item_rebar_club": "rebar_club", "item_scrap_machete": "scrap_machete",
@@ -74,7 +75,7 @@ func check_definitions() -> void:
 		check(result.success and result.definition == row and result.error == "", "exact ID lookup: " + row.item_id)
 		check(typeof(result.definition.base_weight) == TYPE_INT, "weight remains int: " + row.item_id)
 		var art: Dictionary = Art.resolve(row.asset_id)
-		var expected_path: String = "res://ui/assets/items/candidates/%s.png" % paths[row.asset_id]
+		var expected_path: String = "res://ui/assets/items/library/clothing/military_backpack.png" if row.asset_id == "item_military_backpack" else "res://ui/assets/items/candidates/%s.png" % paths[row.asset_id]
 		check(art.success and art.path == expected_path and art.error == "", "explicit stable asset binding: " + row.item_id)
 		check(FileAccess.file_exists(expected_path), "asset physically exists: " + expected_path)
 		var found := false
@@ -132,15 +133,15 @@ func check_refusals() -> void:
 		reject_catalogue(raw, "invalid complete-catalogue container")
 	var missing := fixtures()
 	missing.remove_at(0)
-	reject_catalogue(missing, "eleven rows")
+	reject_catalogue(missing, "missing required row")
 	var duplicate := fixtures()
 	duplicate[11] = duplicate[0].duplicate(true)
-	reject_catalogue(duplicate, "duplicate ID with twelve rows")
+	reject_catalogue(duplicate, "duplicate ID with full row count")
 	var thirteenth := fixtures()
 	var new_row: Dictionary = fixtures()[0]
 	new_row.item_id = "crowbar"
 	thirteenth.append(new_row)
-	reject_catalogue(thirteenth, "thirteenth item cannot become authority")
+	reject_catalogue(thirteenth, "unapproved item cannot become authority")
 	var unknown := fixtures()
 	unknown[0].item_id = "old_revolver"
 	reject_catalogue(unknown, "unknown but syntactically valid ID")
@@ -164,10 +165,10 @@ func check_detachment_and_canonicalization() -> void:
 	check(not canonical.canonical_json.contains("250.0"), "canonical grams do not become floats")
 	var source := fixtures()
 	var source_before := JSON.stringify(source)
-	for rotation in range(12):
+	for rotation in range(source.size()):
 		var reordered: Array = []
-		for offset in range(12):
-			var original: Dictionary = source[(rotation + offset) % 12]
+		for offset in range(source.size()):
+			var original: Dictionary = source[(rotation + offset) % source.size()]
 			var keys := original.keys()
 			keys.reverse()
 			var row := {}
@@ -204,7 +205,7 @@ func check_detachment_and_canonicalization() -> void:
 	var renamed_result: Dictionary = Catalogue.canonicalize(renamed)
 	check(renamed_result.success, "display name is presentation, not identity")
 	check(Catalogue.resolve("rusted_knife").definition == fixtures()[0], "pure candidate validation cannot install changed metadata")
-	evidence.append({"stage": "definition_fingerprint", "sha256": fingerprint, "definition_count": expected.size(), "permutations": 12})
+	evidence.append({"stage": "definition_fingerprint", "sha256": fingerprint, "definition_count": expected.size(), "permutations": source.size()})
 
 func query_noise(world: WorldState, reverse: bool) -> void:
 	var before := world.to_canonical_json()

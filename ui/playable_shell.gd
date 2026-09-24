@@ -603,11 +603,14 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 				if item_market_scroll != null:
 					item_market_scroll.visible = item_market_toggle != null and item_market_toggle.button_pressed
 				var item_offers: Array = cs.get("item_market", [])
+				for row in item_market_rows.values():
+					row.visible = false
 				for offer in item_offers:
 					var item_id := String(offer.get("item_id", ""))
 					if not item_market_rows.has(item_id):
 						continue
 					var item_row: MarketRowView = item_market_rows[item_id]
+					item_row.visible = true
 					var supply_word := _market_level_word(String(offer.get("supply", "")))
 					var demand_word := _market_level_word(String(offer.get("demand", "")))
 					item_row.update_row(
@@ -1506,7 +1509,13 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_encounter_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	lbl_encounter_body.add_theme_color_override("font_color", Color("#D8D3C8"))
 	lbl_encounter_body.add_theme_font_size_override("font_size", 12)
-	encounter_vbox.add_child(lbl_encounter_body)
+	var encounter_body_scroll := ScrollContainer.new()
+	encounter_body_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	encounter_body_scroll.custom_minimum_size.y = 80
+	encounter_body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	encounter_vbox.add_child(encounter_body_scroll)
+	lbl_encounter_body.size_flags_horizontal = SIZE_EXPAND_FILL
+	encounter_body_scroll.add_child(lbl_encounter_body)
 
 	# What you are carrying, shown right next to the decision that spends it.
 	lbl_encounter_supplies = Label.new()
@@ -1579,6 +1588,7 @@ func _build_ui_layout_if_needed() -> void:
 		item_row.buy_requested.connect(func(key: String): on_buy_item_pressed(key, 1))
 		item_row.sell_requested.connect(func(key: String): on_sell_item_pressed(key, 1))
 		item_market_rows_box.add_child(item_row)
+		item_row.visible = false
 		item_market_rows[item_id] = item_row
 
 	# 3. Bottom Split: Left Survival Resources (55%) vs Right Event Feed (45%)
