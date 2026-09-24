@@ -13,7 +13,7 @@ Core traits still come only from character creation. Perks still come from XP mi
 
 ## 拾荒直覺 / SCAVENGER_INSTINCT
 
-- **Evidence:** Three distinct wrecks resolved with `SEARCH`, each with goods or an item actually carried away. Empty searches and repeated records of the same wreck do not qualify.
+- **Evidence:** Successful `SEARCH` receipts on three distinct days, each with goods or an item actually carried away. Empty searches and multiple receipts on the same day do not qualify. Existing receipts do not identify a physical wreck, so this is evidence of repeated salvage work, not three proven distinct sites.
 - **Choice:** The survivor accepts the candidate at a settlement through the same opt-in authority; qualification alone changes nothing.
 - **New knowledge:** At a wreck, the encounter screen shows what this wreck's ordinary `SEARCH` would offer before the player spends a day. The preview is read-only and matches the existing deterministic yield functions.
 - **Limit:** The preview applies only to ordinary wreck searching. It does not add loot, reveal every specialized approach, or bypass bag capacity. The player can still decide that the day and rations are not worth the find.

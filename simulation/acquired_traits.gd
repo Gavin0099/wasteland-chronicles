@@ -10,14 +10,14 @@ const TRAITS := {
 	},
 	"SCAVENGER_INSTINCT": {
 		"name_zh": "拾荒直覺",
-		"description_zh": "曾從三處不同殘骸實際帶走收穫。搜尋前能判讀徒手搜索可找到什麼；不會增加收穫，背包仍可能裝不下。",
+		"description_zh": "曾在三個不同日子搜尋殘骸並帶走收穫。搜尋前能判讀徒手搜索可找到什麼；不會增加收穫，背包仍可能裝不下。",
 	},
 }
 const Travel = preload("res://simulation/travel_encounter.gd")
 
 static func candidates(events: Array[EventRecord], player_id: StringName, through_day: int) -> Array[String]:
 	var water_days := {}
-	var useful_wrecks := {}
+	var useful_search_days := {}
 	for event in events:
 		if event.actor_id != player_id or event.day > through_day:
 			continue
@@ -26,12 +26,14 @@ static func candidates(events: Array[EventRecord], player_id: StringName, throug
 				water_days[event.day] = true
 		elif event.type == "TRAVEL_ENCOUNTER_RESOLVED":
 			if event.payload.get("encounter_type") == "WRECK" and event.payload.get("option") == "SEARCH" and Travel.valid_resolution(event.payload) and (not event.payload.gained.is_empty() or not event.payload.get("items_gained", {}).is_empty()):
-				var wreck_key := "%d|%s|%s" % [event.day, event.payload.origin, event.payload.destination]
-				useful_wrecks[wreck_key] = true
+				# Old encounter receipts identify a search day and route, but carry no
+				# physical wreck ID. Count lived practice on distinct days; do not
+				# claim that returning to the same roadside wreck proves a new site.
+				useful_search_days[event.day] = true
 	var out: Array[String] = []
 	if water_days.size() >= 2:
 		out.append("DESERT_HARDENED")
-	if useful_wrecks.size() >= 3:
+	if useful_search_days.size() >= 3:
 		out.append("SCAVENGER_INSTINCT")
 	return out
 
