@@ -32,6 +32,22 @@ static func validate_selection(raw: Variant, xp: int) -> String:
 		previous = id
 	return ""
 
+# The selected build is a projection of committed character history. This
+# comparison is used by both live invariants and checked save loading.
+static func validate_history(perk_ids: Array[String], events: Array[EventRecord], player_id: StringName) -> String:
+	var recorded: Array[String] = []
+	for event in events:
+		if event.type != "PERK_SELECTED" or event.actor_id != player_id:
+			continue
+		var id: Variant = event.payload.get("perk_id")
+		if event.target_id != &"character" or typeof(id) != TYPE_STRING or not PERKS.has(id):
+			return "PERK_LEDGER_MALFORMED"
+		recorded.append(id)
+	recorded.sort()
+	if recorded != perk_ids:
+		return "PERK_LEDGER_MISMATCH"
+	return ""
+
 static func choices() -> Array:
 	var ids := PERKS.keys()
 	ids.sort()
