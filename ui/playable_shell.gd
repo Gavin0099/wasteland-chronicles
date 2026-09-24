@@ -1968,6 +1968,13 @@ func _render_encounter_result(result: Dictionary) -> void:
 		lbl_encounter_body.text += "\n\n背包空間不足，未帶走\n%s" % left
 	if not item_left.is_empty():
 		lbl_encounter_body.text += "\n\n物品容量不足，未帶走\n%s" % item_left
+	var equipped_back: String = ""
+	for slot_entry in current_projection.get("player", {}).get("equipment", {}).get("slots", []):
+		if slot_entry.get("slot") == "back":
+			equipped_back = String(slot_entry.get("item_id", ""))
+			break
+	if equipped_back == "travel_backpack" and (not gains.is_empty() and gains != "沒有獲得物資。"):
+		lbl_encounter_body.text += "\n\n舊旅行包提供了額外負重空間。"
 	if result.is_dead:
 		lbl_encounter_body.text += "\n\n你已在這段時間死亡，旅程結束。"
 	var bp: Dictionary = current_projection.player.backpack

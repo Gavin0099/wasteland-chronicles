@@ -80,8 +80,14 @@ func get_total_inventory_load() -> int:
 		return 0
 	return inventory.water + inventory.food + inventory.scrap + inventory.fuel + (Field.KIT_WEIGHT if field_kit.crowbar else 0)
 
+func get_effective_capacity() -> int:
+	var bonus := 0
+	if equipment != null and equipment.equipped_item("back") == "travel_backpack":
+		bonus = 8
+	return capacity_total + bonus
+
 func has_cargo_capacity(amount: int) -> bool:
-	return get_total_inventory_load() + amount <= capacity_total
+	return get_total_inventory_load() + amount <= get_effective_capacity()
 
 func duplicate_state() -> PlayerState:
 	var copy := PlayerState.new(npc_id, capacity_total, money)

@@ -1306,9 +1306,9 @@ func validate_invariants(world: WorldState) -> String:
 		if p.capacity_total <= 0:
 			return "S5-A: Player has non-positive capacity: %d" % p.capacity_total
 		if p.inventory != null:
-			if p.get_total_inventory_load() > p.capacity_total:
+			if p.get_total_inventory_load() > p.get_effective_capacity():
 				return "S5-A: Player inventory exceeds capacity (%d > %d)" % [
-					p.get_total_inventory_load(), p.capacity_total
+					p.get_total_inventory_load(), p.get_effective_capacity()
 				]
 			for res in COMMODITIES:
 				if p.inventory.get_amount(res) < 0:
@@ -1607,7 +1607,14 @@ func _authorize_equipment_intent(world: WorldState, intent: PlayerIntent, equipp
 		var result: Dictionary = candidate.equip(intent.payload.item_id, intent.payload.slot, world.player.item_inventory)
 		return "" if result.success else String(result.error)
 	var removed: Dictionary = candidate.unequip(intent.payload.slot)
-	return "" if removed.success else String(removed.error)
+	if not removed.success:
+		return String(removed.error)
+	if intent.payload.slot == "back" and world.player.equipment.equipped_item("back") == "travel_backpack":
+		if world.player.get_total_inventory_load() > world.player.capacity_total:
+			return "INSUFFICIENT_CAPACITY: Cargo load %d exceeds base capacity %d" % [
+				world.player.get_total_inventory_load(), world.player.capacity_total
+			]
+	return ""
 
 func _commit_equipment_intent(world: WorldState, intent: PlayerIntent, equipping: bool, tick_events: Array[EventRecord]) -> Dictionary:
 	var equipment: RefCounted = world.player.equipment.duplicate_state()
@@ -2240,7 +2247,7 @@ func _give_player_goods(p: PlayerState, goods: Dictionary) -> Dictionary:
 	var received: Dictionary = {}
 	for key in goods:
 		var wanted: int = int(goods[key])
-		var room: int = p.capacity_total - p.get_total_inventory_load()
+		var room: int = p.get_effective_capacity() - p.get_total_inventory_load()
 		var actual: int = clampi(wanted, 0, maxi(room, 0))
 		if actual > 0:
 			p.inventory.add_amount(String(key), actual)
@@ -2336,7 +2343,7 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 				]
 			if not world.player.has_cargo_capacity(intent.quantity):
 				return "INSUFFICIENT_CAPACITY: Player carrying %d/%d, cannot fit %d" % [
-					world.player.get_total_inventory_load(), world.player.capacity_total, intent.quantity
+					world.player.get_total_inventory_load(), world.player.get_effective_capacity(), intent.quantity
 				]
 			return ""
 		PlayerIntent.Action.SELL:

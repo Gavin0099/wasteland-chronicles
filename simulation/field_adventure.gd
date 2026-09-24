@@ -192,7 +192,7 @@ static func authorize(world, payload: Dictionary) -> String:
 				return "CROWBAR_ALREADY_OWNED"
 			if player.inventory.scrap < 3:
 				return "NEED_SCRAP_3"
-			if player.get_total_inventory_load() - 3 + KIT_WEIGHT > player.capacity_total:
+			if player.get_total_inventory_load() - 3 + KIT_WEIGHT > player.get_effective_capacity():
 				return "PACK_FULL"
 		"EQUIP", "UNEQUIP":
 			if not player.field_kit.crowbar:
@@ -311,7 +311,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			var left = {}
 			for id in ["water", "food"]:
 				var offered = 4 if id == "water" else 2
-				var amount = mini(offered, maxi(0, player.capacity_total - player.get_total_inventory_load()))
+				var amount = mini(offered, maxi(0, player.get_effective_capacity() - player.get_total_inventory_load()))
 				if amount > 0:
 					player.inventory.add_amount(id, amount)
 					gains[id] = amount
@@ -369,7 +369,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					var gains := {}
 					var left := {}
 					var offered_scrap := 2
-					var can_take := mini(offered_scrap, maxi(0, player.capacity_total - player.get_total_inventory_load()))
+					var can_take := mini(offered_scrap, maxi(0, player.get_effective_capacity() - player.get_total_inventory_load()))
 					if can_take > 0:
 						player.inventory.add_amount("scrap", can_take)
 						gains["scrap"] = can_take
