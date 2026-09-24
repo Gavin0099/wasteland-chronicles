@@ -6,6 +6,8 @@ Lifetime XP determines Level; it does not grant skill ranks or growth points. Th
 
 Lv.3 opens one permanent Perk choice while settled in a town. The character sheet shows the milestone and sends a `SELECT_PERK` intent; the simulation checks the earned slot and writes the selected stable ID to `PlayerState`. Old saves without a Perk list load with none. Unknown, duplicate, unordered, or unearned lists fail checked loading.
 
+Checked loading and live invariants also reconstruct the current player's Perk IDs from committed `PERK_SELECTED` events. A legal ID in the profile is insufficient without its matching event; an event without the profile entry is equally inconsistent. Prior characters' events do not grant the current character a Perk. This detects an inconsistent snapshot, not coordinated rewriting of both the profile and the ledger.
+
 | Perk | New encounter approach | Cost and limit |
 | --- | --- | --- |
 | 細心拾荒者 (`CAREFUL_SALVAGER`) | At a wreck, sort metal for one offered scrap. | Costs one day and normal daily supplies; cannot find the sealed field kit by this method. Capacity may prevent taking the scrap. |

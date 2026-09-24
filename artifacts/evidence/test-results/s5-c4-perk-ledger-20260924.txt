@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+S5-C4 perk ledger: PASS; assertions=18 failures=0

@@ -1298,6 +1298,10 @@ func validate_invariants(world: WorldState) -> String:
 		var rec_err := rec.validate()
 		if rec_err != "":
 			return "S4-C.1 L3: events[%d] (%s) is not persistable: %s" % [i, rec.type, rec_err]
+	if world.player != null:
+		var perk_history_error := PlayerState.Perks.validate_history(world.player.perk_ids, world.event_log, world.player.npc_id)
+		if perk_history_error != "":
+			return perk_history_error
 
 	# S5-A Player Avatar invariants
 	if world.player != null:
