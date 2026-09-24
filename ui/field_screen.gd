@@ -284,6 +284,8 @@ func refresh() -> void:
 		else:
 			outcome = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}.get(receipt.outcome, "")
 		log_label.text = "%s\n\n經過時間：0 天\n生命剩餘：%d / 12" % [outcome, kit.hp]
+		if int(receipt.get("xp_gained", 0)) > 0:
+			log_label.text += "\n歷練：+%d XP" % int(receipt.xp_gained)
 		var finishing_practice: Dictionary = receipt.get("skill_practice", {})
 		if not finishing_practice.is_empty():
 			growth_notice_label.text = practice_text(finishing_practice)
@@ -297,7 +299,10 @@ func refresh() -> void:
 			show_receipt_goods("失去物資", receipt.lost, "−", left_values)
 		if not receipt.left_behind.is_empty():
 			show_receipt_goods("容量不足，未帶走", receipt.left_behind, "", left_values)
-		add_action("CONFIRM", "確認結果並返回" if is_road else "確認結果")
+		var confirm_text := "確認結果並返回" if is_road else "確認結果"
+		if int(receipt.get("xp_gained", 0)) > 0:
+			confirm_text += " · 歷練 +%d XP" % int(receipt.xp_gained)
+		add_action("CONFIRM", confirm_text)
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
 		status_label.text += "\n第 %d 回合 · 你的行動" % turn

@@ -56,6 +56,18 @@ func run() -> void:
 	ui.setup(restored, engine)
 	check(ui.encounter_panel.visible and ui.lbl_encounter_body.text.contains("廢料 +5") and ui.lbl_encounter_body.text.contains("燃料 +2"), "receipt must show actual rewards without debug feed")
 	check(ui.lbl_encounter_body.text.contains("水 −1") and ui.lbl_encounter_body.text.contains("+1 天"), "receipt must show losses and time")
+	check(ui.lbl_encounter_body.text.contains("歷練") and ui.lbl_encounter_body.text.contains("+10 XP"), "first successful salvage displays earned XP")
+	check(ui.lbl_encounter_supplies.text.contains("歷練 +10 XP"), "earned XP remains visible outside scrollable receipt body")
+	if "--capture" in OS.get_cmdline_user_args():
+		var folder := OS.get_user_data_dir().path_join("captures/s5-c4-natural-xp")
+		DirAccess.make_dir_recursive_absolute(folder)
+		for viewport_size in [Vector2i(1280, 720), Vector2i(1152, 648)]:
+			root.size = viewport_size
+			for frame in range(8):
+				await process_frame
+			var path := folder.path_join("wreck_%dx%d.png" % [viewport_size.x, viewport_size.y])
+			check(root.get_texture().get_image().save_png(path) == OK, "real renderer captures wreck XP receipt")
+			print("CAPTURED " + path)
 	check(not ui.btn_wait.visible and not ui.itinerary_card.visible, "ordinary travel controls must be hidden")
 	check(ui.encounter_options_box.get_child_count() == 1 and ui.encounter_options_box.get_child(0).text == "繼續上路", "receipt requires one explicit continue button")
 	ui.refresh_ui()
@@ -73,6 +85,7 @@ func run() -> void:
 	check(choose(empty).gained.is_empty(), "empty wreck fixture must remain empty")
 	ui.setup(empty, engine)
 	check(ui.lbl_encounter_body.text.contains("沒有找到值得帶走"), "empty search needs explicit explanation")
+	check(not ui.lbl_encounter_body.text.contains("XP"), "empty search cannot display an unearned XP award")
 	var full := fixture()
 	full.player.capacity_total = 8
 	var full_result := choose(full)

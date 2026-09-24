@@ -7,6 +7,7 @@ const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
 const ItemMarketState = preload("res://simulation/item_market_state.gd")
 const EquipmentState = preload("res://simulation/equipment_state.gd")
 const TravelRoute = preload("res://simulation/travel_route.gd")
+const ProgressionXp = preload("res://simulation/progression_xp.gd")
 
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
@@ -2244,6 +2245,11 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var backpack_needed_for_haul := p.get_total_inventory_load() > p.capacity_total
 	if enc.encounter_type == TravelEncounter.WRECK and option_id == &"SEARCH" and String(enc.context.get("route_type", "")) == "WILDERNESS" and (not gained.is_empty() or not gained_items.is_empty()) and left_behind.is_empty() and items_left_behind.is_empty() and p.equipment != null and p.equipment.equipped_item("back") == "travel_backpack" and backpack_needed_for_haul:
 		receipt["attribution"] = "旅行背包讓你把貨車殘骸中的物資全部帶走。"
+	if player_alive and enc.encounter_type == TravelEncounter.WRECK and (not gained.is_empty() or not gained_items.is_empty()):
+		var xp_gained: int = ProgressionXp.award_once(world, "TRAVEL_ENCOUNTER_RESOLVED", ProgressionXp.FIRST_WRECK_SALVAGE, 10)
+		if xp_gained > 0:
+			receipt["xp_source"] = ProgressionXp.FIRST_WRECK_SALVAGE
+			receipt["xp_gained"] = xp_gained
 	world.record_event(EventRecord.new(world.current_day, "TRAVEL_ENCOUNTER_RESOLVED", p.npc_id, enc.destination_id, receipt))
 	world.pending_encounter_result = world.event_log.size() - 1
 	var result := receipt.duplicate(true)

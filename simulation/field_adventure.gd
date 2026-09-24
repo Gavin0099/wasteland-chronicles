@@ -2,6 +2,7 @@ extends RefCounted
 
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Capability = preload("res://simulation/capability_profile.gd")
+const ProgressionXp = preload("res://simulation/progression_xp.gd")
 
 const HOME := "settlement:gray_valley"
 const MAX_HP := 12
@@ -265,6 +266,11 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 			payload["attribution"] = "你以廢鐵砍刀擊退了劫匪。"
 	if not practice.is_empty():
 		payload["skill_practice"] = practice.duplicate(true)
+	if outcome == "VICTORY":
+		var xp_gained: int = ProgressionXp.award_once(world, "FIELD_RESULT", ProgressionXp.FIRST_FIELD_VICTORY, 15)
+		if xp_gained > 0:
+			payload["xp_source"] = ProgressionXp.FIRST_FIELD_VICTORY
+			payload["xp_gained"] = xp_gained
 	world.record_event(EventRecord.new(world.current_day, "FIELD_RESULT", world.player.npc_id, container_id, payload))
 	world.field_state.receipt = world.event_log.size() - 1
 

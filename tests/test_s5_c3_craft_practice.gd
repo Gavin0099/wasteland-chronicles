@@ -57,7 +57,7 @@ func track() -> Dictionary:
 		PlayerIntent.create_resolve_encounter(world.player.npc_id, &"USE_WRENCH"))
 	check(used.success and used.get("skill_practice", {}).get("rank_up", false), "later wrench use advances mechanics 0 to 1")
 	check(world.player.capability.get_skill_rank("MECHANICS").rank == 1, "owner profile holds earned rank")
-	check(world.player.xp == initial_xp, "mechanics practice does not mint Level XP")
+	check(used.get("xp_gained", 0) == 10 and world.player.xp == initial_xp + 10, "first real wreck haul grants XP separately from mechanics practice")
 	check(engine.validate_invariants(world) == "", "full craft-to-wrench path preserves global invariants")
 	return {"world": world, "sha": world.to_canonical_json().sha256_text()}
 

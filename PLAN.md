@@ -39,7 +39,7 @@
 - [x] **WPROG-2 : Risky Route — CLOSED**; New Hope–Dry Well route choice trades two days with more bandit risk against four days with more wreck chances. Existing weapon/backpack upgrades affect the real consequences; legacy journeys and world-reactive encounter facts remain intact. Route UI, atomic rejection, checked save/load, dual-track SHA and global invariants verified across 68/68 suites (`docs/wprog-2-risky-route.md`).
 - [x] **WPROG-3 : Better Loot — IMPLEMENTED**; thorough searches of a wilderness-route wreck can uncover a military backpack from a sealed field kit. The item exists in the formal registry, is absent from ordinary shop supply, equips for 32 total cargo capacity, and cannot be swapped or removed while that would overload the player. The chance is deterministic and never guaranteed (`docs/wprog-3-better-loot.md`).
 - [x] **WPROG-4 : Next Contract — IMPLEMENTED**; Dry Well survey requires an equipped military backpack to accept, a real post-acceptance arrival at New Hope, and a return to Dry Well before reporting. It does not consume the pack or modify the market (`docs/wprog-4-next-contract.md`).
-- [~] S5-C4 : Level & Perks — first Lv.3 milestone and two encounter-changing choices implemented; Perk profile ↔ committed ledger consistency enforced. Later milestones, broader XP sources, and player-experience validation remain open (`docs/s5-c4-first-perk.md`).
+- [~] S5-C4 : Level & Perks — first Lv.3 milestone and two encounter-changing choices implemented; Perk profile ↔ committed ledger consistency enforced. First real wreck salvage (+10 XP) and first combat victory (+15 XP) now provide one-time experiential paths. Later milestones, broader XP pacing, and player-experience validation remain open (`docs/s5-c4-first-perk.md`).
 - [ ] S5-C4.5 : Acquired Traits — real-life history creates opt-in candidates; 6 target identities, effects and tradeoffs required
 - [ ] S5-C5 : Equipment Progression — equipment enables previously unavailable actions and places
 - [x] Field Combat Lite — owner-authorized first example: 1v1 turn-based outskirts battle, crowbar equipment/cache, persistent HP/results, Passage of the Book visual direction. 40 suites pass; full C5 and C2-B remain open.
@@ -86,6 +86,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-24: **S5-C4 first natural XP paths** — award XP once per character for actual loot carried from a wreck and for first field/road victory. Award facts live in the corresponding resolution event and are visible before confirmation. Empty searches and non-victories grant none; skill practice remains independent. Full 73-suite regression exits 0 and dual-track world SHA matches. Human pacing and Perk-choice quality are still unverified. The saved XP event/payload consistency audit is deferred as a P2 follow-up.
 
 - 2026-09-24: **S5-C4 Perk ledger consistency** — checked loading and live invariants require the current player's selected Perk IDs to match committed `PERK_SELECTED` records. Detects mismatched snapshots; does not claim tamper-proof saves if both profile and ledger are rewritten. Natural XP sources and first-choice hand-play remain separate work.
 

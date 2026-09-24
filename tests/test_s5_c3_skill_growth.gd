@@ -55,6 +55,7 @@ func run_track() -> Dictionary:
 	var first := resolve(world, &"SEARCH")
 	check(first.success, "first search commits: " + String(first.get("error", "")))
 	check(first.get("skill_practice", {}).get("points", -1) == 1, "first search grants one scavenging practice")
+	var xp_after_first: int = world.player.xp
 	check(world.player.capability.get_skill_rank("SCAVENGING").rank == 0, "first practice alone does not rank up")
 	var after_first := sha(world)
 	var loaded := WorldState.from_dict_checked(world.to_dict())
@@ -70,7 +71,7 @@ func run_track() -> Dictionary:
 	var second := resolve(world, &"SEARCH")
 	check(second.success and second.get("skill_practice", {}).get("rank_up", false), "another day ranks scavenging 0 to 1")
 	check(world.player.capability.get_skill_rank("SCAVENGING").rank == 1, "owner profile holds rank 1")
-	check(world.player.xp == initial_xp, "skill practice does not mint level XP")
+	check(world.player.xp == xp_after_first and xp_after_first >= initial_xp, "second practice does not repeat first-salvage XP")
 	check(engine.validate_invariants(world) == "", "global invariants hold after growth")
 	return {"sha": sha(world), "world": world}
 

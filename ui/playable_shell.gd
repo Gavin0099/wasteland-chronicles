@@ -2031,6 +2031,8 @@ func _render_encounter_result(result: Dictionary) -> void:
 	lbl_encounter_body.text = "%s\n\n獲得\n%s\n\n消耗\n%s\n\n時間\n+%d 天" % [
 		descriptions.get(result.option, "選擇已結算。"), gains,
 		losses if not losses.is_empty() else "無", int(result.elapsed_days)]
+	if int(result.get("xp_gained", 0)) > 0:
+		lbl_encounter_body.text += "\n\n歷練\n+%d XP" % int(result.xp_gained)
 	var practice: Dictionary = result.get("skill_practice", {})
 	if not practice.is_empty():
 		var name: String = CharacterPresentation.SKILL_NAMES.get(String(practice.skill_id), String(practice.skill_id))
@@ -2056,6 +2058,8 @@ func _render_encounter_result(result: Dictionary) -> void:
 		lbl_encounter_body.text += "\n\n你已在這段時間死亡，旅程結束。"
 	var bp: Dictionary = current_projection.player.backpack
 	lbl_encounter_supplies.text = "目前補給：💧 水 %d　🍴 食物 %d" % [int(bp.water), int(bp.food)]
+	if int(result.get("xp_gained", 0)) > 0:
+		lbl_encounter_supplies.text += "　·　歷練 +%d XP" % int(result.xp_gained)
 	var btn := Button.new()
 	var has_resume: bool = not (result.get("resume_encounter", {}) as Dictionary).is_empty()
 	btn.text = "面對路障" if has_resume else ("繼續上路" if result.can_continue else "確認結果")
