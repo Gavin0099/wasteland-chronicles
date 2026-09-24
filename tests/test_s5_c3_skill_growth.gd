@@ -105,6 +105,17 @@ func _init() -> void:
 	var opening_buy := engine.execute_player_buy(opening_day, &"water", 1)
 	check(opening_buy.success and opening_buy.has("skill_practice"), "day-zero market action can start training")
 	check(engine.validate_invariants(opening_day) == "", "day-zero practice respects global invariants")
+	var legacy_wire: Dictionary = created().to_dict()
+	legacy_wire.erase("progression_schema_version")
+	legacy_wire.player.erase("capability")
+	var legacy_loaded := WorldState.from_json_checked(JSON.stringify(legacy_wire))
+	check(legacy_loaded.success, "pre-C1 player migrates into an explicit legacy profile")
+	if legacy_loaded.success:
+		var legacy_world: WorldState = legacy_loaded.world
+		var legacy_buy := engine.execute_player_buy(legacy_world, &"water", 1)
+		check(legacy_buy.success and not legacy_buy.has("skill_practice"), "legacy trade still works without minting practice")
+		check(legacy_world.player.capability.get_skill_rank("BARTER").rank == 0 and not legacy_world.player.capability.to_dict().has("skill_practice"), "legacy ranks and wire shape remain inert")
+		check(engine.validate_invariants(legacy_world) == "", "legacy world invariants survive an ordinary trade")
 	var fighter := created()
 	var battle_start := engine.commit_player_intent(fighter,
 		PlayerIntent.create_field_action(fighter.player.npc_id, {"command": "START"}))
@@ -134,6 +145,16 @@ func _init() -> void:
 	bad = profile_wire.duplicate(true)
 	bad.skill_practice["UNKNOWN"] = {"points": 0, "last_day": 1}
 	check(Profile.validate(bad) != "", "unknown practice skill is refused")
+	var corrupt_receipt: Dictionary = a.world.to_dict()
+	var receipt_index: int = int(corrupt_receipt.pending_encounter_result)
+	for invalid in ["broken", {"skill_id": "SCAVENGING", "rank_up": true,
+		"from_rank": 0, "to_rank": 999, "points": 0, "required": 0},
+		{"skill_id": "BARTER", "rank_up": true,
+		"from_rank": 0, "to_rank": 1, "points": 0, "required": 3}]:
+		var tampered: Dictionary = corrupt_receipt.duplicate(true)
+		tampered.events[receipt_index].payload.skill_practice = invalid
+		check(not WorldState.from_dict_checked(tampered).success, "corrupt practice receipt is rejected before UI projection")
+		check(not WorldState.from_json_checked(JSON.stringify(tampered)).success, "corrupt JSON receipt is rejected before UI projection")
 	var future: WorldState = a.world.duplicate_state()
 	var future_profile: Dictionary = future.player.capability.to_dict()
 	future_profile.skill_practice.SCAVENGING.last_day = future.current_day + 1

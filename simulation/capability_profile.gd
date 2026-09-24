@@ -61,6 +61,8 @@ static func validate(raw: Variant) -> String:
 		if typeof(rank) != TYPE_INT or rank < 0 or rank > 5:
 			return "INVALID_SKILL_RANK: " + skill
 	if has_growth:
+		if raw.creation_origin == "LEGACY_MIGRATION":
+			return "INVALID_LEGACY_PRACTICE"
 		if not raw.has("skill_practice") or not raw.has("skill_growth_schema_version") or typeof(raw.skill_growth_schema_version) not in [TYPE_INT, TYPE_FLOAT] or raw.skill_growth_schema_version != 1 or typeof(raw.skill_practice) != TYPE_DICTIONARY:
 			return "INVALID_SKILL_GROWTH_SCHEMA"
 		for skill in raw.skill_practice:
@@ -127,6 +129,8 @@ func grant_practice(skill_id: Variant, day: Variant) -> Dictionary:
 	var result := {"success": true, "skill_id": skill_id, "awarded": false,
 		"rank_up": false, "from_rank": progress.rank, "to_rank": progress.rank,
 		"points": progress.points, "required": progress.required}
+	if _data.creation_origin == "LEGACY_MIGRATION":
+		return result
 	if progress.rank == 5:
 		return result
 	var record: Dictionary = _data.get("skill_practice", {}).get(skill_id, {})
