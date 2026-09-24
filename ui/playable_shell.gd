@@ -771,6 +771,8 @@ func _get_settlement_name(settlement_id: String) -> String:
 # ==============================================================================
 
 func select_settlement(settlement_id: String) -> void:
+	if selected_settlement_id != settlement_id and market_practice_label != null:
+		market_practice_label.visible = false
 	selected_settlement_id = settlement_id
 	var current_id := String(current_projection.get("player", {}).get("current_container_id", ""))
 	desktop_details_open = settlement_id != current_id
@@ -1749,6 +1751,8 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	world_map_view.custom_minimum_size = Vector2(300, 220)
 
 func _show_desktop_scene() -> void:
+	if market_practice_label != null:
+		market_practice_label.visible = false
 	var location := String(current_projection.get("player", {}).get("current_container_id", ""))
 	if location.begins_with("settlement:") and not bool(current_projection.get("player", {}).get("is_in_transit", false)):
 		select_settlement(location)
@@ -1793,6 +1797,8 @@ func _sync_desktop(proj: Dictionary) -> void:
 	var encounter_result: Dictionary = proj.get("encounter_result", {})
 	var active_encounter := not encounter.is_empty() or not encounter_result.is_empty()
 	var show_details := desktop_details_open or quest_journal_open or in_transit or active_encounter
+	if market_practice_label != null and (not show_details or quest_journal_open or selected_settlement_id != market_practice_context):
+		market_practice_label.visible = false
 	desktop_scene_window.visible = true
 	desktop_details_window.visible = show_details
 	desktop_details_window.close_button.disabled = in_transit or active_encounter

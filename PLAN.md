@@ -34,7 +34,7 @@
 - [x] **S5-C0 : Character Creation — CLOSED; authoritative creation form → character summary → explicit entry**
 - [x] S5-C1 : Capability Foundation — CLOSED; headless authority + read-only player capability presentation
 - [~] S5-C2 : Trait & Skill Encounters — split closure: **C2-A Authority/Safety VERIFIED ✅** (A1~A8 green, 37 suites exit 0); **C2-B Player Experience NOT VERIFIED 🟡** (four Backgrounds + Trait A/B hand-play outstanding). Controlled real-UI playtest entry point prepared; automation is not a player verdict. Both halves required before CLOSED.
-- [~] S5-C3 : Skill Growth — committed action practice foundation implemented for six supported skills; combat-finisher feedback, market notice lifetime and saved receipt validation covered; source coverage and long-run pacing remain open (`docs/s5-c3-skill-growth.md`)
+- [~] S5-C3 : Skill Growth — committed action practice foundation implemented for six supported skills; combat-finisher feedback, market notice lifetime and saved result/turn consistency covered; source coverage and long-run pacing remain open (`docs/s5-c3-skill-growth.md`)
 - [ ] S5-C4 : Level & Perks — experience milestones and sparse, consequential specialization choices
 - [ ] S5-C4.5 : Acquired Traits — real-life history creates opt-in candidates; 6 target identities, effects and tradeoffs required
 - [ ] S5-C5 : Equipment Progression — equipment enables previously unavailable actions and places

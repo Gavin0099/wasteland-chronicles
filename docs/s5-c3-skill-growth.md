@@ -53,6 +53,15 @@ screen shows it above the scrollable outcome text. Saved `FIELD_TURN` and
 invalid awards, practice on a defensive turn, and practice on a non-victory
 result fail load before the player-facing view renders.
 
+The next consistency slice also clears the market notice when the details
+window closes, the quest journal takes over, or a different settlement is
+selected. A saved victory result
+may carry practice only when the immediately preceding finishing attack has
+the identical award, actor and day. This prevents a result panel from showing
+a structurally valid but unearned rank-up. The cross-record check applies to
+the displayed result award; it does not rebuild the entire character profile
+from historical combat events.
+
 `tests/test_s5_c3_feedback_integrity.gd` covers real trade, travel, combat,
 save/load rejection and acceptance, full-world dual-track SHA-256 replay and
 global invariants. Its renderer capture at 1152×648 verifies that a finishing

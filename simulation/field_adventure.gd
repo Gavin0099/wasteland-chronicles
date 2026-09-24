@@ -66,7 +66,8 @@ static func validate_wire(data: Dictionary) -> String:
 	var events: Variant = data.get("events", [])
 	if typeof(events) != TYPE_ARRAY:
 		return "INVALID_FIELD_EVENTS"
-	for raw_event in events:
+	for event_index in range(events.size()):
+		var raw_event: Variant = events[event_index]
 		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT"]:
 			continue
 		var event_payload: Variant = raw_event.get("payload", {})
@@ -78,6 +79,15 @@ static func validate_wire(data: Dictionary) -> String:
 			return "INVALID_FIELD_PRACTICE_TURN"
 		if raw_event.type == "FIELD_RESULT" and event_payload.get("outcome") != "VICTORY":
 			return "INVALID_FIELD_PRACTICE_RESULT"
+		if raw_event.type == "FIELD_RESULT":
+			if event_index == 0:
+				return "INVALID_FIELD_PRACTICE_RESULT"
+			var previous: Variant = events[event_index - 1]
+			if typeof(previous) != TYPE_DICTIONARY or previous.get("type") != "FIELD_TURN" or previous.get("actor_id") != raw_event.get("actor_id") or previous.get("day") != raw_event.get("day"):
+				return "INVALID_FIELD_PRACTICE_RESULT"
+			var turn_payload: Variant = previous.get("payload", {})
+			if typeof(turn_payload) != TYPE_DICTIONARY or turn_payload.get("command") != "ATTACK" or turn_payload.get("enemy_hp") != 0 or turn_payload.get("skill_practice", {}) != event_payload.skill_practice:
+				return "INVALID_FIELD_PRACTICE_RESULT"
 	var player = data.get("player", {})
 	if not data.has("field_schema_version"):
 		if data.has("field_state") or (typeof(player) == TYPE_DICTIONARY and player.has("field_kit")):
