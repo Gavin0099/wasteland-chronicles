@@ -6,6 +6,7 @@ const ItemMarketState = preload("res://simulation/item_market_state.gd")
 const QuestRegistry = preload("res://simulation/quest_registry.gd")
 const QuestEngine = preload("res://simulation/quest_engine.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+const TravelRoute = preload("res://simulation/travel_route.gd")
 
 # ==============================================================================
 # S5-A.2: PLAYER UI PROJECTION (ISOLATION LAYER)
@@ -372,12 +373,17 @@ static func _project_destinations(world: WorldState) -> Array[Dictionary]:
 		if not is_here and is_settled:
 			route_days = _calc_route_days(world, current_loc, StringName(s_id))
 
+		var routes: Array[Dictionary] = []
+		if not is_here and is_settled:
+			routes = TravelRoute.get_available_routes(current_loc, StringName(s_id))
+
 		# Remote settlement projection: ONLY name, route availability, distance.
 		# Strictly NO economic leaks (no specialization, no stock, no prices).
 		list.append({
 			"id": String(s.id),
 			"name": s.name,
 			"route_days": route_days,
+			"routes": routes,
 			"is_current": is_here,
 			"can_travel": (not is_here and is_settled)
 		})

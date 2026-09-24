@@ -273,7 +273,11 @@ func refresh() -> void:
 		var outcome: String = ""
 		if is_road:
 			match String(receipt.outcome):
-				"VICTORY": outcome = "戰鬥勝利！伏擊的劫匪已被擊退。\n你在現場收集了遺留的物資。\n\n你仍可以繼續行動。"
+				"VICTORY":
+					outcome = "戰鬥勝利！伏擊的劫匪已被擊退。"
+					if receipt.has("attribution") and String(receipt.attribution) != "":
+						outcome += "\n" + String(receipt.attribution)
+					outcome += "\n你在現場收集了遺留的物資。\n\n你仍可以繼續行動。"
 				"DEFEAT": outcome = "遭到劫匪伏擊！你身受重傷（生命剩餘 1）。\n劫匪搶走了你的物資後揚長而去。\n\n你仍可以繼續行動。"
 				"ESCAPED": outcome = "你擺脫了劫匪的包夾，成功逃離了戰場。\n\n你仍可以繼續行動。"
 				_: outcome = "戰鬥已結束。"

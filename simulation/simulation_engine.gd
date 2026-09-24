@@ -5,6 +5,7 @@ const COMMODITIES: Array[String] = ["water", "food", "scrap", "fuel"]
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const ItemMarketCatalogue = preload("res://simulation/item_market_catalogue.gd")
 const ItemMarketState = preload("res://simulation/item_market_state.gd")
+const TravelRoute = preload("res://simulation/travel_route.gd")
 
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
@@ -1749,7 +1750,7 @@ func gather_road_facts(world: WorldState, party: RefugeePartyState) -> Dictionar
 	if destination != null:
 		min_security = minf(min_security, destination.security)
 
-	return {
+	var facts := {
 		"min_security": min_security,
 		"destination_water_pressure": destination.water_pressure if destination != null else 0.0,
 		"origin_water_pressure": origin.water_pressure if origin != null else 0.0,
@@ -1757,6 +1758,9 @@ func gather_road_facts(world: WorldState, party: RefugeePartyState) -> Dictionar
 		"refugee_column": _find_refugee_column(world, party),
 		"fresh_wreck": _find_fresh_wreck(world, party),
 	}
+	if party != null and party.route_type != &"":
+		facts["route_type"] = String(party.route_type)
+	return facts
 
 # Whichever end of this road is in real water trouble, if either is.
 func _thirsty_end_of_road(world: WorldState, origin: SettlementState, destination: SettlementState) -> String:
@@ -1816,24 +1820,27 @@ func _find_fresh_wreck(world: WorldState, party: RefugeePartyState) -> Dictionar
 # Only the facts this particular encounter needs, so the stored context stays
 # small and readable in a snapshot.
 func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: StringName) -> Dictionary:
+	var ctx := {}
 	match encounter_type:
 		TravelEncounter.REFUGEE_COLUMN:
 			var column: Dictionary = facts.get("refugee_column", {})
-			return {
+			ctx = {
 				"headcount": column.get("headcount", 0),
 				"origin_name": _settlement_display_name(world, StringName(String(column.get("origin", "")))),
 				"destination_name": _settlement_display_name(world, StringName(String(column.get("destination", "")))),
 			}
 		TravelEncounter.WRECK:
-			return {"fresh_wreck": facts.get("fresh_wreck", {})}
+			ctx = {"fresh_wreck": facts.get("fresh_wreck", {})}
 		TravelEncounter.ROADBLOCK:
-			return {"min_security": facts.get("min_security", 100.0)}
+			ctx = {"min_security": facts.get("min_security", 100.0)}
 		TravelEncounter.DEHYDRATED_TRAVELLER:
 			# Someone dying of thirst on this road most likely walked out of
 			# whichever end of it has run dry. Name that place only when it is
 			# genuinely in trouble, so the detail is never invented.
-			return {"from_name": String(facts.get("thirsty_place_name", ""))}
-	return {}
+			ctx = {"from_name": String(facts.get("thirsty_place_name", ""))}
+	if facts.has("route_type"):
+		ctx["route_type"] = String(facts.get("route_type", ""))
+	return ctx
 
 func _settlement_display_name(world: WorldState, settlement_id: StringName) -> String:
 	var s: SettlementState = world.get_settlement(settlement_id)
@@ -2202,6 +2209,9 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	if not gained_items.is_empty() or not items_left_behind.is_empty():
 		receipt["items_gained"] = gained_items
 		receipt["items_left_behind"] = items_left_behind
+	var backpack_needed_for_haul := p.get_total_inventory_load() > p.capacity_total
+	if enc.encounter_type == TravelEncounter.WRECK and option_id == &"SEARCH" and String(enc.context.get("route_type", "")) == "WILDERNESS" and (not gained.is_empty() or not gained_items.is_empty()) and left_behind.is_empty() and items_left_behind.is_empty() and p.equipment != null and p.equipment.equipped_item("back") == "travel_backpack" and backpack_needed_for_haul:
+		receipt["attribution"] = "旅行背包讓你把貨車殘骸中的物資全部帶走。"
 	world.record_event(EventRecord.new(world.current_day, "TRAVEL_ENCOUNTER_RESOLVED", p.npc_id, enc.destination_id, receipt))
 	world.pending_encounter_result = world.event_log.size() - 1
 	var result := receipt.duplicate(true)
@@ -2387,7 +2397,13 @@ func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: A
 		return {"success": false, "error": "INVALID_PLAYER: no life state"}
 	var origin_id: StringName = ls.population_container_id
 	var dest_id: StringName = intent.destination_id
-	var route_days := get_route_days_between(world, origin_id, dest_id)
+	var route_type_str := String(intent.payload.get("route_type", ""))
+	var route_type := StringName(route_type_str) if route_type_str != "" else &""
+	var route_days: int = get_route_days_between(world, origin_id, dest_id)
+	if route_type != &"":
+		route_days = TravelRoute.get_route_days(origin_id, dest_id, route_type)
+		if route_days < 1:
+			return {"success": false, "error": "INVALID_ROUTE"}
 	var party_id := StringName("refugee:player_d%d_%s_to_%s" % [
 		world.current_day,
 		String(origin_id).replace("settlement:", ""),
@@ -2395,33 +2411,41 @@ func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: A
 	])
 
 	var result: Dictionary = world.npc_life_state_registry.begin_named_migration(
-		world, intent.player_id, dest_id, party_id, route_days, world.current_day
+		world, intent.player_id, dest_id, party_id, route_days, world.current_day,
+		route_type
 	)
 	if not result["success"]:
 		return result
+
+	var travel_payload := {
+		"origin": String(origin_id),
+		"destination": String(dest_id),
+		"party_id": String(party_id),
+		"route_days": route_days
+	}
+	if route_type != &"":
+		travel_payload["route_type"] = String(route_type)
 
 	var travel_evt := EventRecord.new(
 		world.current_day,
 		"PLAYER_TRAVEL_STARTED",
 		intent.player_id,
 		dest_id,
-		{
-			"origin": String(origin_id),
-			"destination": String(dest_id),
-			"party_id": String(party_id),
-			"route_days": route_days
-		}
+		travel_payload
 	)
 	if tick_events != null:
 		tick_events.append(travel_evt)
 	world.record_event(travel_evt)
 
-	return {
+	var out_res := {
 		"success": true,
 		"action": "TRAVEL",
 		"party_id": party_id,
 		"route_days": route_days
 	}
+	if route_type != &"":
+		out_res["route_type"] = String(route_type)
+	return out_res
 
 # Stage 2: run the clock until the journey ends. Written as "advance until
 # something stops us" rather than "advance exactly route_days", so that a travel

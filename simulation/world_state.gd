@@ -10,6 +10,7 @@ const ItemInventory = preload("res://simulation/item_inventory_state.gd")
 const Equipment = preload("res://simulation/equipment_state.gd")
 const ItemMarket = preload("res://simulation/item_market_state.gd")
 const QuestStateReg = preload("res://simulation/quest_state_registry.gd")
+const TravelRoute = preload("res://simulation/travel_route.gd")
 
 var current_day: int = 0
 var total_initial_population: int = -1
@@ -251,6 +252,17 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 	var numeric_error := NumericCanon.validate_world_numerics(data)
 	if numeric_error != "":
 		return {"success": false, "world": null, "error": numeric_error}
+	if data.has("refugees"):
+		if typeof(data.refugees) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "INVALID_REFUGEE_PARTIES"}
+		for party_id in data.refugees:
+			var party_data: Variant = data.refugees[party_id]
+			if typeof(party_data) != TYPE_DICTIONARY:
+				return {"success": false, "world": null, "error": "INVALID_REFUGEE_PARTY"}
+			if party_data.has("route_type"):
+				var raw_route: Variant = party_data.route_type
+				if typeof(raw_route) != TYPE_STRING or TravelRoute.get_route_days(StringName(party_data.get("origin_id", "")), StringName(party_data.get("destination_id", "")), raw_route) != int(party_data.get("route_days", -1)):
+					return {"success": false, "world": null, "error": "INVALID_TRAVEL_ROUTE"}
 
 	# event_count is metadata. It is CHECKED against the ledger, never trusted.
 	if data.has("event_count"):

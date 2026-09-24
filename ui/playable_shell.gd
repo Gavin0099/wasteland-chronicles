@@ -4,6 +4,7 @@ extends Control
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const CharacterPresentation = preload("res://ui/character_presentation.gd")
+const TravelRoute = preload("res://simulation/travel_route.gd")
 
 # ==============================================================================
 # S5: PLAYABLE UI SHELL (SURVIVOR PDA FAST-LANE) — UX-P1
@@ -38,7 +39,13 @@ var world: WorldState = null
 var engine: SimulationEngine = null
 var current_projection: Dictionary = {}
 var selected_settlement_id: String = "settlement:gray_valley"
+var selected_route_type: String = "HIGHWAY"
 var debug_world_feed_enabled: bool = false
+
+func select_route(route_type: String) -> void:
+	if TravelRoute.is_valid_route(route_type):
+		selected_route_type = route_type
+		refresh_ui()
 
 # Components
 var top_status_bar: TopStatusBar
@@ -129,6 +136,9 @@ var quest_id_shown: String = ""
 var field_button: Button
 var btn_wait: Button
 var btn_travel: Button
+var route_choice_row: HBoxContainer
+var route_highway_button: Button
+var route_wilderness_button: Button
 var death_banner: PanelContainer
 var lbl_death_title: Label
 var lbl_death_body: Label
@@ -322,7 +332,11 @@ func _render_supply_warning(p: Dictionary) -> void:
 		var route_days := 0
 		for d in current_projection.get("destinations", []):
 			if String(d.get("id", "")) == selected_settlement_id:
-				route_days = int(d.get("distance_days", 0))
+				route_days = int(d.get("route_days", 0))
+				for route in d.get("routes", []):
+					if String(route.get("id", "")) == selected_route_type:
+						route_days = int(route.get("days", route_days))
+						break
 				break
 		if route_days > 0 and (water < route_days or food < route_days):
 			critical = true
@@ -372,6 +386,8 @@ func _render_death(death: Dictionary) -> void:
 func _render_settlement_panel(proj: Dictionary) -> void:
 	if lbl_settlement_title == null or lbl_settlement_details == null:
 		return
+	if route_choice_row != null:
+		route_choice_row.visible = false
 
 	var p: Dictionary = proj.get("player", {})
 	var bp: Dictionary = p.get("backpack", {})
@@ -428,7 +444,7 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					if d.get("id") == selected_settlement_id:
 						d_info = d
 						break
-				var r_days: int = d_info.get("distance_days", 2)
+				var r_days: int = d_info.get("route_days", 2)
 				lbl_inspection_title.text = "🔍 遠端聚落查看：%s [非目標城鎮]" % sel_name
 				lbl_inspection_details.text = (
 					"路線距離：約 %d 天步程\n" +
@@ -635,23 +651,52 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					dest_info = d
 					break
 
-			var route_days: int = dest_info.get("distance_days", 2)
+			var routes: Array = dest_info.get("routes", [])
+			var route_days: int = int(dest_info.get("route_days", 2))
+			if route_choice_row != null:
+				route_choice_row.visible = routes.size() > 1
+				route_highway_button.button_pressed = selected_route_type == "HIGHWAY"
+				route_wilderness_button.button_pressed = selected_route_type == "WILDERNESS"
+			var active_route: Dictionary = {}
+			for r in routes:
+				if String(r.get("id", "")) == selected_route_type:
+					active_route = r
+					route_days = int(r.get("days", route_days))
+					break
+			if active_route.is_empty() and not routes.is_empty():
+				active_route = routes[0]
+				route_days = int(active_route.get("days", route_days))
+
 			if lbl_settlement_subtitle != null:
 				lbl_settlement_subtitle.visible = true
 				lbl_settlement_subtitle.text = _settlement_flavour(selected_settlement_id)
 			if lbl_settlement_condition != null:
 				lbl_settlement_condition.visible = false
 
-			lbl_settlement_details.text = (
-				"路線狀態：已知通行路徑\n" +
-				"地表行軍距離：約 %d 天步程\n" +
-				"遠端情報有限；抵達後可查看倉儲與市場行情。"
-			) % [route_days]
+			if not active_route.is_empty():
+				lbl_settlement_details.text = (
+					"選擇路線：【%s】· %d 天步程\n" +
+					"⚠️ 已知風險：%s\n" +
+					"🎁 預期收益：%s\n" +
+					"路況：%s"
+				) % [
+					String(active_route.get("name_zh", "")),
+					route_days,
+					String(active_route.get("risk_zh", "")),
+					String(active_route.get("reward_zh", "")),
+					String(active_route.get("description_zh", ""))
+				]
+			else:
+				lbl_settlement_details.text = (
+					"路線狀態：已知通行路徑\n" +
+					"地表行軍距離：約 %d 天步程\n" +
+					"遠端情報有限；抵達後可查看倉儲與市場行情。"
+				) % [route_days]
 
 			if btn_travel != null:
 				btn_travel.visible = true
 				btn_travel.disabled = false
-				btn_travel.text = "前往 %s · %d 天" % [sel_name, route_days]
+				btn_travel.text = "走%s前往 %s · %d 天" % [String(active_route.get("name_zh", "既有路線")), sel_name, route_days] if not active_route.is_empty() else "前往 %s · %d 天" % [sel_name, route_days]
 
 		if btn_wait != null:
 			btn_wait.text = "[ 原地等待 1 天 ]"
@@ -865,7 +910,9 @@ func on_travel_pressed() -> Dictionary:
 		return _report_action_result({"success": false, "error": "NO_WORLD_OR_PLAYER"})
 
 	var player_id := world.player.npc_id
-	var intent := PlayerIntent.create_travel(player_id, StringName(selected_settlement_id))
+	var current_id := world.npc_life_state_registry.get_life_state(player_id).population_container_id
+	var selected_route := selected_route_type if TravelRoute.supports_pair(current_id, StringName(selected_settlement_id)) else ""
+	var intent := PlayerIntent.create_travel(player_id, StringName(selected_settlement_id), selected_route)
 	var commit_res := engine.commit_player_intent(world, intent)
 
 	if not commit_res.get("success", false):
@@ -1310,6 +1357,24 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_settlement_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	lbl_settlement_details.add_theme_color_override("font_color", Color("#D8D3C8"))
 	s_vbox.add_child(lbl_settlement_details)
+
+	route_choice_row = HBoxContainer.new()
+	route_choice_row.add_theme_constant_override("separation", Tokens.GAP)
+	route_choice_row.visible = false
+	s_vbox.add_child(route_choice_row)
+	for route_id in ["HIGHWAY", "WILDERNESS"]:
+		var route_button := Button.new()
+		route_button.text = "廢棄公路" if route_id == "HIGHWAY" else "荒野繞路"
+		route_button.toggle_mode = true
+		route_button.theme_type_variation = "PdaCommand"
+		route_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		route_button.size_flags_horizontal = SIZE_EXPAND_FILL
+		route_button.pressed.connect(select_route.bind(route_id))
+		route_choice_row.add_child(route_button)
+		if route_id == "HIGHWAY":
+			route_highway_button = route_button
+		else:
+			route_wilderness_button = route_button
 
 	# Travel Action Button (When remote)
 	btn_travel = Button.new()
@@ -1973,7 +2038,9 @@ func _render_encounter_result(result: Dictionary) -> void:
 		if slot_entry.get("slot") == "back":
 			equipped_back = String(slot_entry.get("item_id", ""))
 			break
-	if equipped_back == "travel_backpack" and (not gains.is_empty() and gains != "沒有獲得物資。"):
+	if result.has("attribution") and String(result.attribution) != "":
+		lbl_encounter_body.text += "\n\n" + String(result.attribution)
+	elif equipped_back == "travel_backpack" and (not gains.is_empty() and gains != "沒有獲得物資。"):
 		lbl_encounter_body.text += "\n\n舊旅行包提供了額外負重空間。"
 	if result.is_dead:
 		lbl_encounter_body.text += "\n\n你已在這段時間死亡，旅程結束。"

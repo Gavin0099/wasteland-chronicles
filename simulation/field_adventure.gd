@@ -261,6 +261,8 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 			payload["lost"] = left
 		if caps_gained > 0:
 			payload["caps_gained"] = caps_gained
+		if outcome == "VICTORY" and world.player.equipment != null and world.player.equipment.equipped_item("main_hand") == "scrap_machete":
+			payload["attribution"] = "你以廢鐵砍刀擊退了劫匪。"
 	if not practice.is_empty():
 		payload["skill_practice"] = practice.duplicate(true)
 	world.record_event(EventRecord.new(world.current_day, "FIELD_RESULT", world.player.npc_id, container_id, payload))

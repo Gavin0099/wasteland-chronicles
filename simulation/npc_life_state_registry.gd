@@ -85,7 +85,8 @@ func begin_named_migration(
 	dest_id: StringName,
 	party_id: StringName,
 	route_days: int,
-	current_day: int
+	current_day: int,
+	route_type: StringName = &""
 ) -> Dictionary:
 	var ls: NpcLifeState = get_life_state(npc_id)
 	if ls == null:
@@ -111,7 +112,7 @@ func begin_named_migration(
 
 	var party: RefugeePartyState = world.get_refugee_party(party_id)
 	if party == null:
-		party = RefugeePartyState.new(party_id, origin_id, dest_id, 1, route_days, route_days, current_day)
+		party = RefugeePartyState.new(party_id, origin_id, dest_id, 1, route_days, route_days, current_day, route_type)
 		world.add_refugee_party(party)
 	else:
 		party.headcount += 1
