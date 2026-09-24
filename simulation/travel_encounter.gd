@@ -111,6 +111,7 @@ static func stable_hash(text: String) -> int:
 #   facts.refugee_column           a real party in transit on this road, or {}
 #   facts.fresh_wreck              a caravan this road really lost lately, or {}
 static func candidates(facts: Dictionary) -> Array:
+	var r_type := String(facts.get("route_type", ""))
 	var out: Array = []
 	out.append({"type": &"", "weight": WEIGHT_EMPTY})
 	out.append({"type": ROCKSLIDE, "weight": WEIGHT_ROCKSLIDE})
@@ -119,6 +120,8 @@ static func candidates(facts: Dictionary) -> Array:
 	# and it is a specific wreck rather than an anonymous one.
 	var wreck_weight := WEIGHT_WRECK
 	if not (facts.get("fresh_wreck", {}) as Dictionary).is_empty():
+		wreck_weight += 6
+	if r_type == "WILDERNESS":
 		wreck_weight += 6
 	out.append({"type": WRECK, "weight": wreck_weight})
 
@@ -140,6 +143,10 @@ static func candidates(facts: Dictionary) -> Array:
 	var ambush_weight: int = int(maxf(0.0, 75.0 - min_security) / 10.0)
 	if facts.get("bandit_ambush", false):
 		ambush_weight += 5
+	if r_type == "HIGHWAY":
+		ambush_weight += 7
+	elif r_type == "WILDERNESS":
+		ambush_weight = maxi(0, ambush_weight - 4)
 	if ambush_weight > 0:
 		out.append({"type": BANDIT_AMBUSH, "weight": ambush_weight})
 

@@ -79,8 +79,11 @@ static func is_authorized_action(value: int) -> bool:
 static func create_wait(p_player_id: StringName) -> PlayerIntent:
 	return PlayerIntent.new(Action.WAIT, p_player_id, &"", {})
 
-static func create_travel(p_player_id: StringName, p_dest_id: StringName) -> PlayerIntent:
-	return PlayerIntent.new(Action.TRAVEL, p_player_id, p_dest_id, {})
+static func create_travel(p_player_id: StringName, p_dest_id: StringName, p_route_type: Variant = "") -> PlayerIntent:
+	var payload: Dictionary = {}
+	if String(p_route_type) != "":
+		payload["route_type"] = String(p_route_type)
+	return PlayerIntent.new(Action.TRAVEL, p_player_id, p_dest_id, payload)
 
 static func create_buy(p_player_id: StringName, p_commodity: StringName, p_quantity: int) -> PlayerIntent:
 	return PlayerIntent.new(Action.BUY, p_player_id, &"", {}, p_commodity, p_quantity)
