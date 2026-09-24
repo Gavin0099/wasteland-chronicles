@@ -97,7 +97,9 @@ func _init() -> void:
 		PlayerIntent.Action.ACCEPT_QUEST,
 		PlayerIntent.Action.TURN_IN_QUEST,
 		# S5-C4 first milestone: bounded, earned character choice only.
-		PlayerIntent.Action.SELECT_PERK
+		PlayerIntent.Action.SELECT_PERK,
+		# S5-C4.5: only evidence-backed, opt-in this-life trait acceptance.
+		PlayerIntent.Action.ACCEPT_ACQUIRED_TRAIT
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:

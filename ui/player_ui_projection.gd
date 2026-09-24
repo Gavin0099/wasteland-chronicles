@@ -137,7 +137,7 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 	for o in TravelEncounter.options(enc.encounter_type, enc.context):
 		var option_id: StringName = o["id"]
 		var reason := engine.authorize_encounter_option(world, option_id)
-		if reason.begins_with("PERK_NOT_OWNED"):
+		if reason.begins_with("PERK_NOT_OWNED") or reason.begins_with("ACQUIRED_TRAIT_NOT_OWNED"):
 			continue
 		# S5-C2: an approach this character cannot take is either hidden or shown
 		# locked, depending on WHY. A knowledge gate is hidden, because the

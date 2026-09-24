@@ -303,6 +303,9 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		var perk_error := PlayerState.Perks.validate_selection(player_data.get("perk_ids", []), int(player_data.get("xp", 0)))
 		if perk_error != "":
 			return {"success": false, "world": null, "error": perk_error}
+		var acquired_error := PlayerState.Acquired.validate_selection(player_data.get("acquired_trait_ids", []))
+		if acquired_error != "":
+			return {"success": false, "world": null, "error": acquired_error}
 		if player_data.has("item_inventory"):
 			var item_inventory_error := ItemInventory.validate_serialized(player_data.item_inventory)
 			if item_inventory_error != "":
