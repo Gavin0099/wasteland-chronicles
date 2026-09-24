@@ -92,20 +92,23 @@ func run() -> void:
 	var screen = preload("res://ui/field_screen.gd").new()
 	root.add_child(screen)
 	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var before_setup := visual.to_canonical_json().sha256_text()
 	screen.setup(visual, engine)
+	check(visual.to_canonical_json().sha256_text() == before_setup, "opening field screen leaves world unchanged")
 	screen.perform({"command": "CRAFT"})
 	await process_frame
 	check(screen.growth_notice_label.visible and screen.growth_notice_label.text.contains("機械練習 +1"),
 		"actual craft shows its mechanics award in the field screen")
 	if "--capture" in OS.get_cmdline_user_args():
-		root.size = Vector2i(1152, 648)
-		for frame in range(8):
-			await process_frame
 		var folder := OS.get_user_data_dir().path_join("captures/c3-growth")
 		DirAccess.make_dir_recursive_absolute(folder)
-		var image_path := folder.path_join("craft_practice_1152x648.png")
-		check(root.get_texture().get_image().save_png(image_path) == OK, "real renderer saves craft feedback")
-		print("CAPTURED " + image_path)
+		for viewport_size in [Vector2i(1280, 720), Vector2i(1152, 648)]:
+			root.size = viewport_size
+			for frame in range(8):
+				await process_frame
+			var image_path := folder.path_join("craft_practice_%dx%d.png" % [viewport_size.x, viewport_size.y])
+			check(root.get_texture().get_image().save_png(image_path) == OK, "real renderer saves craft feedback at %dx%d" % [viewport_size.x, viewport_size.y])
+			print("CAPTURED " + image_path)
 	screen.queue_free()
 	await process_frame
 

@@ -81,7 +81,9 @@ validated receipt. Legacy profiles remain inert, and Level XP is unchanged.
 
 `tests/test_s5_c3_craft_practice.gd` exercises the actual craft, regional
 wrench purchase and subsequent encounter, refusal atomicity, save/load,
-receipt corruption, UI feedback, dual-track world SHA-256 and invariants. A
-real 1152×648 renderer capture confirms the feedback is visible. The action
+receipt corruption, UI feedback, dual-track world SHA-256 and invariants. Real
+1280×720 and 1152×648 renderer captures confirm the feedback is visible with
+unclipped actions and a stable command area; opening the screen does not
+change the world snapshot. The action
 still exists only once per character; it does not solve training for the four
 skills with no supported action or establish long-run pacing.
