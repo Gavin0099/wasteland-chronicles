@@ -76,6 +76,8 @@ static func validate_definition(raw: Variant) -> String:
 	for f in req_flags:
 		if typeof(f) != TYPE_STRING or f.is_empty():
 			return "QUEST_DEF_INVALID_AVAILABILITY_FLAG_TOKEN"
+	if avail.has("required_equipped_item_id") and not _stable_id(avail.required_equipped_item_id):
+		return "QUEST_DEF_INVALID_EQUIPPED_ITEM_ID"
 
 	# ── Deadline ──────────────────────────────────────────────────────────────
 	var ddl: Variant = raw.get("deadline_days")

@@ -51,7 +51,7 @@ func _init() -> void:
 
 func run() -> void:
 	var definitions := Registry.all_definitions()
-	check(definitions.size() == 2 and Registry.has(ROPE_ID) and Registry.has(WRENCH_ID), "two distinct authored commissions are registered")
+	check(definitions.size() == 3 and Registry.has(ROPE_ID) and Registry.has(WRENCH_ID), "two original commissions remain registered beside the survey")
 	var world := fixture()
 	var before_projection := world.to_canonical_json()
 	var rows: Array = PlayerUIProjection.project(world).quests

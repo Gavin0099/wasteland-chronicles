@@ -53,9 +53,10 @@ static func _project_quests(world: WorldState) -> Array:
 		var at_issuer := life.status == NpcLifeState.Status.SETTLED and String(life.population_container_id) == "settlement:" + String(definition.settlement_id)
 		if state == null and not at_issuer:
 			continue
-		if state == null and status != "AVAILABLE":
+		if state == null and status != "AVAILABLE" and not definition.availability.has("required_equipped_item_id"):
 			continue
 		var objective: Dictionary = definition.objectives[0]
+		var is_survey: bool = definition.objectives.any(func(obj: Dictionary) -> bool: return String(obj.type) == "VISIT_LOCATION")
 		var item_id := String(objective.get("item_id", ""))
 		var item_result: Dictionary = ItemRegistry.resolve(item_id) if item_id != "" else {"success": false}
 		var item_name := String(item_result.definition.display_name_zh) if item_result.success else "物品"
@@ -76,6 +77,8 @@ static func _project_quests(world: WorldState) -> Array:
 			"status": status, "deadline_day": state.deadline_day if state != null else -1,
 			"deadline_days": int(definition.deadline_days), "target": target, "item_name": item_name,
 			"required": required, "held": held, "can_act": can_act,
+			"is_survey": is_survey,
+			"required_equipped_item": String(definition.availability.get("required_equipped_item_id", "")),
 			"reward_caps": reward_caps, "reward_xp": reward_xp,
 		})
 	return rows
