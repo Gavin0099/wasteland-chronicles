@@ -1942,6 +1942,21 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 	lbl_encounter_route.text = String(enc.get("route_label", ""))
 	lbl_encounter_title.text = String(enc.get("title", ""))
 	lbl_encounter_body.text = String(enc.get("body", ""))
+	var preview: Dictionary = enc.get("search_preview", {})
+	if not preview.is_empty():
+		var finds := PackedStringArray()
+		var goods: Dictionary = preview.get("goods", {})
+		for resource in ["water", "food", "scrap", "fuel"]:
+			if int(goods.get(resource, 0)) > 0:
+				finds.append("%s %d" % [{"water": "水", "food": "食物", "scrap": "廢料", "fuel": "燃料"}[resource], int(goods[resource])])
+		var items: Dictionary = preview.get("items", {})
+		var item_ids := items.keys()
+		item_ids.sort()
+		for item_id in item_ids:
+			var resolved_item := ItemRegistry.resolve(item_id)
+			if resolved_item.success:
+				finds.append("%s %d" % [resolved_item.definition.display_name_zh, int(items[item_id])])
+		lbl_encounter_body.text += "\n\n拾荒直覺｜徒手搜尋可找到：%s。背包裝不下時仍帶不走。" % ("沒有值得帶走的東西" if finds.is_empty() else "、".join(finds))
 
 	var bp: Dictionary = current_projection.get("player", {}).get("backpack", {})
 	lbl_encounter_supplies.text = "目前：💧 %d　🍴 %d　⚙ %d　⛽ %d　💰 %d" % [
