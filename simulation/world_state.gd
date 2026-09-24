@@ -300,6 +300,9 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 	elif has_player_data and player_data.has("capability"):
 		return {"success": false, "world": null, "error": "MISSING_PROGRESSION_SCHEMA"}
 	if has_player_data:
+		var perk_error := PlayerState.Perks.validate_selection(player_data.get("perk_ids", []), int(player_data.get("xp", 0)))
+		if perk_error != "":
+			return {"success": false, "world": null, "error": perk_error}
 		if player_data.has("item_inventory"):
 			var item_inventory_error := ItemInventory.validate_serialized(player_data.item_inventory)
 			if item_inventory_error != "":

@@ -95,7 +95,9 @@ func _init() -> void:
 		PlayerIntent.Action.EQUIP_ITEM,
 		PlayerIntent.Action.UNEQUIP_ITEM,
 		PlayerIntent.Action.ACCEPT_QUEST,
-		PlayerIntent.Action.TURN_IN_QUEST
+		PlayerIntent.Action.TURN_IN_QUEST,
+		# S5-C4 first milestone: bounded, earned character choice only.
+		PlayerIntent.Action.SELECT_PERK
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:

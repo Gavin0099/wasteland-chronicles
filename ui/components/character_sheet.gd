@@ -5,6 +5,7 @@ const Presentation = preload("res://ui/character_presentation.gd")
 const SkillRow = preload("res://ui/components/skill_rank_row.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+const Perks = preload("res://simulation/perk_catalogue.gd")
 var skill_rows: Dictionary = {}
 var resource_values: Dictionary = {}
 var item_labels: Dictionary = {}
@@ -17,6 +18,8 @@ var trait_label: Label
 var equipment_action: Callable
 var equipment_unequip_action: Callable
 var item_use_action: Callable
+var perk_action: Callable
+var perk_choice_buttons: Dictionary = {}
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -45,10 +48,11 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "") -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable()) -> void:
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
 	item_use_action = p_item_use_action
+	perk_action = p_perk_action
 	title = "人物與補給"
 	theme_type_variation = "PdaDialog"
 	ok_button_text = "返回旅程"
@@ -65,6 +69,25 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	var left := panel_in(columns)
 	identity_label = label_in(left, "%s · %d 歲" % [character.name, character.age], "PdaTitle")
 	label_in(left, "生命　%d / 12" % character.field_kit.hp)
+	label_in(left, "歷練　Lv.%d · %d / %d XP" % [int(character.level), int(character.xp), int(character.next_level_xp)])
+	label_in(left, "特長", "PdaSection")
+	if character.perks.is_empty():
+		label_in(left, "尚未選擇特長。", "PdaMuted")
+	else:
+		for perk_id in character.perks:
+			label_in(left, "%s　%s" % [Perks.PERKS[perk_id].name_zh, Perks.PERKS[perk_id].description_zh])
+	if not character.perk_choices.is_empty():
+		label_in(left, "里程碑已到：選擇一項專長", "PdaSection")
+		for choice in character.perk_choices:
+			label_in(left, "%s　%s" % [choice.name_zh, choice.description_zh])
+			var perk_button := Button.new()
+			perk_button.text = "選擇　%s" % choice.name_zh
+			perk_button.theme_type_variation = "PdaCommand"
+			perk_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+			perk_button.disabled = not perk_action.is_valid() or String(player.status) != "SETTLED"
+			perk_button.pressed.connect(func(): perk_action.call(String(choice.id)))
+			left.add_child(perk_button)
+			perk_choice_buttons[String(choice.id)] = perk_button
 	action_notice_label = label_in(left, p_action_notice, "PdaSection")
 	action_notice_label.visible = not p_action_notice.is_empty()
 	var held_medkits := 0

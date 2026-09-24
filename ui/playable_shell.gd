@@ -2312,9 +2312,19 @@ func _show_character(action_notice: String = "") -> void:
 			dialog.action_notice_label.text = "目前無法使用急救包，請確認生命、位置與事件狀態。"
 			dialog.action_notice_label.visible = true
 	var treat_error := engine.authorize_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "TREAT"}))
+	var choose_perk := func(perk_id: String):
+		var result := engine.commit_player_intent(world, PlayerIntent.create_select_perk(world.player.npc_id, perk_id))
+		if result.get("success", false):
+			dialog.hide()
+			dialog.queue_free()
+			refresh_ui()
+			call_deferred("_show_character", "已形成新的特長。")
+		else:
+			dialog.action_notice_label.text = "目前無法選擇這項特長，請確認歷練里程碑與目前位置。"
+			dialog.action_notice_label.visible = true
 	var treat_reason: String = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落"}.get(treat_error, "目前無法使用")) if treat_error != "" else ""
 	add_child(dialog)
-	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice)
+	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk)
 	var viewport_size := get_viewport_rect().size
 	var sheet_size := Vector2i(mini(460, int(viewport_size.x) - 24), mini(560, int(viewport_size.y) - 72))
 	var sheet_position := Vector2i(int(viewport_size.x) - sheet_size.x - 12, 56)

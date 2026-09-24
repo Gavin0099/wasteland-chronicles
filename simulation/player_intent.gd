@@ -29,9 +29,10 @@ enum Action {
 	UNEQUIP_ITEM = 8,
 	ACCEPT_QUEST = 9,
 	TURN_IN_QUEST = 10,
+	SELECT_PERK = 11,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -65,6 +66,7 @@ static func action_name(value: int) -> String:
 		Action.UNEQUIP_ITEM: return "UNEQUIP_ITEM"
 		Action.ACCEPT_QUEST: return "ACCEPT_QUEST"
 		Action.TURN_IN_QUEST: return "TURN_IN_QUEST"
+		Action.SELECT_PERK: return "SELECT_PERK"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
 		Action.BUY: return "BUY"
@@ -108,6 +110,9 @@ static func create_accept_quest(p_player_id: StringName, quest_id: String) -> Pl
 
 static func create_turn_in_quest(p_player_id: StringName, quest_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.TURN_IN_QUEST, p_player_id, &"", {"quest_id": quest_id})
+
+static func create_select_perk(p_player_id: StringName, perk_id: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.SELECT_PERK, p_player_id, &"", {"perk_id": perk_id})
 
 func to_dict() -> Dictionary:
 	var result := {

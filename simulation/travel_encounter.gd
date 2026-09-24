@@ -69,7 +69,7 @@ const Capability = preload("res://simulation/capability_profile.gd")
 static func practice_skill(encounter_type: StringName, option_id: StringName) -> String:
 	match encounter_type:
 		WRECK:
-			if option_id in [&"SEARCH", &"QUICK_PICK"]:
+			if option_id in [&"SEARCH", &"QUICK_PICK", &"SORT_WRECK"]:
 				return "SCAVENGING"
 			if option_id in [&"STRIP_PARTS", &"USE_WRENCH"]:
 				return "MECHANICS"
@@ -77,6 +77,8 @@ static func practice_skill(encounter_type: StringName, option_id: StringName) ->
 			if option_id in [&"DETOUR", &"SCOUT_PATH", &"USE_ROPE"]:
 				return "SURVIVAL"
 		ROADBLOCK:
+			if option_id == &"CUT_AROUND":
+				return "SURVIVAL"
 			if option_id == &"HAGGLE":
 				return "BARTER"
 			if option_id == &"SLIP_PAST":
@@ -232,6 +234,8 @@ static func options(encounter_type: StringName, context: Dictionary = {}) -> Arr
 		WRECK:
 			return [
 				{"id": &"SEARCH", "label": "搜尋殘骸", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明"},
+				{"id": &"SORT_WRECK", "label": "逐件分類可用金屬", "detail": "耗時 1 天（水 −1、食物 −1）　至少找到 1 份廢料；滿載時可能帶不走。無法找到密封貨箱。",
+					"requires_perk": "CAREFUL_SALVAGER", "gate": GATE_KNOWLEDGE},
 				{"id": &"STRIP_PARTS", "label": "拆解引擎與傳動", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明",
 					"requires": _skill("MECHANICS", 2), "requirement_label": "機械 熟練", "gate": GATE_CAPABILITY},
 				{"id": &"USE_WRENCH", "label": "用扳手拆下可用部件", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明",
@@ -254,6 +258,8 @@ static func options(encounter_type: StringName, context: Dictionary = {}) -> Arr
 		ROADBLOCK:
 			var opts: Array = [
 				{"id": &"PAY", "label": "付過路費", "detail": "瓶蓋 −10　直接通過"},
+				{"id": &"CUT_AROUND", "label": "沿熟悉的側路繞過", "detail": "不付過路費，也不耽誤行程",
+					"requires_perk": "ROAD_RUNNER", "gate": GATE_KNOWLEDGE},
 				{"id": &"PERSUADE", "label": "跟他們談談", "detail": "嘗試協商過路費（成功 %d 瓶蓋，失敗 10 瓶蓋）" % ROADBLOCK_PERSUADED_CAPS},
 				{"id": &"HAGGLE", "label": "把價錢談下來", "detail": "瓶蓋 −%d　直接通過" % HAGGLED_TOLL_CAPS,
 					"requires": _skill("BARTER", 1), "requirement_label": "交易 略懂", "gate": GATE_CAPABILITY},
