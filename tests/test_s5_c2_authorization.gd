@@ -204,7 +204,7 @@ func _init() -> void:
 		{"bg": "CARAVAN_GUARD", "enc": Enc.WRECK, "opt": &"STRIP_PARTS"},
 		{"bg": "CARAVAN_GUARD", "enc": Enc.WRECK, "opt": &"QUICK_PICK"},
 		{"bg": "MECHANIC", "enc": Enc.ROADBLOCK, "opt": &"HAGGLE"},
-		{"bg": "MECHANIC", "enc": Enc.ROADBLOCK, "opt": &"SLIP_PAST"},
+		{"bg": "FARMER", "enc": Enc.WRECK, "opt": &"STRIP_PARTS"},
 		{"bg": "MECHANIC", "enc": Enc.DEHYDRATED_TRAVELLER, "opt": &"HYDRATE"},
 		{"bg": "MECHANIC", "enc": Enc.ROCKSLIDE, "opt": &"FORCE_THROUGH"},
 		{"bg": "MECHANIC", "enc": Enc.DEHYDRATED_TRAVELLER, "opt": &"TAKE_PACK"},

@@ -32,8 +32,8 @@ transactions and combat turn logs show the immediate outcome. A future-dated
 practice record is invalid at the world boundary.
 
 This does not declare all ten skills trainable. FIREARMS lacks firearm attacks,
-and ELECTRONICS lacks electronic equipment. STEALTH still requires a starting
-rank or an item-supported approach. Those gaps need an actual playable action,
+and ELECTRONICS lacks electronic equipment. STEALTH now has novice roadside
+access (S5-C3c). Those remaining gaps need an actual playable action,
 not an invisible timer or invented background bonus. C3 stays open until the
 coverage and pacing are evaluated as a complete progression system.
 
@@ -146,4 +146,40 @@ one-point-per-day cap.
 insufficient-fund refusal, deterministic success/failure outcomes, daily practice
 caps, level-up progression, rank-scaling success, save/load persistence and
 dual-track full-world SHA-256 replay.
+
+## Roadside sneaking as a novice STEALTH source (S5-C3c)
+
+`SLIP_PAST` at a roadblock no longer carries a hard `STEALTH >= 1` capability
+gate. All four starting backgrounds (including Rank 0) can attempt to slip past
+the guards under cover of darkness without requiring a starting rank or pre-held
+caps:
+
+* **Success rates**:
+  * Rank 0: 35%
+  * Rank 1: 70%
+  * Rank 2+: 100% (`BALANCE_PROVISIONAL`: first novice slice value, subject to
+    future hand-play tuning towards 35 / 65 / 85 / 95).
+* **Canonical day progression**:
+  Both success and failure advance time by +1 day via the canonical travel tick,
+  consuming 1 water and 1 food. Dehydration or starvation can cause death.
+* **Outcome on success**:
+  The roadblock is successfully bypassed without paying any toll (toll = 0).
+  Awards 1 point of `STEALTH` practice (subject to the canonical 1-point-per-day
+  cap).
+* **Outcome on failure**:
+  The player is discovered by the guards. **Zero practice is awarded**. No
+  money is automatically deducted; the player is not trapped in an illegal
+  negative balance or denied entry. Instead, upon confirming the result receipt,
+  the player returns to the active roadblock and its existing options (`PAY`,
+  `PERSUADE`, `HAGGLE`, `DETOUR`, or retry `SLIP_PAST`).
+* **Non-regression for Rank 1**:
+  `SCAVENGER` retains full access with a 70% success rate at Rank 1, 100% at
+  Rank 2+, without regression in existing travel mechanics.
+
+`tests/test_s5_c3c_stealth_training.gd` covers all 6 required gates:
+Rank-0 novice accessibility across all 4 backgrounds, zero-RNG deterministic
+hash outcomes, canonical day progression and survival/death handling, practice
+integrity (success +1, failure +0, daily cap), failure non-destruction of
+encounter ownership, and Scavenger Rank-1 non-regression.
+
 
