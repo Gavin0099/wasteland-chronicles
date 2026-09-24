@@ -12,6 +12,7 @@ free skill point allocation is introduced.
 | MECHANICS | Assemble the one-time crowbar from three scrap; strip a wreck or use a wrench on it |
 | MEDICINE | Use an owned first-aid kit to recover actual missing HP outside combat |
 | SCAVENGING | Search a wreck or take the quick-pick approach |
+| SPEECH | Persuade guards at a roadblock to reduce the toll, or parley with highway bandits |
 | STEALTH | Slip past a roadblock |
 | SURVIVAL | Detour/scout/use a rope at a rockslide, or hydrate a traveller |
 
@@ -31,8 +32,7 @@ transactions and combat turn logs show the immediate outcome. A future-dated
 practice record is invalid at the world boundary.
 
 This does not declare all ten skills trainable. FIREARMS lacks firearm attacks,
-ELECTRONICS lacks electronic equipment, and SPEECH lacks a speech action.
-STEALTH still requires a starting
+and ELECTRONICS lacks electronic equipment. STEALTH still requires a starting
 rank or an item-supported approach. Those gaps need an actual playable action,
 not an invisible timer or invented background bonus. C3 stays open until the
 coverage and pacing are evaluated as a complete progression system.
@@ -114,3 +114,36 @@ HP, item and practice result. Opening the sheet remains read-only. The
 character-sheet bridge is verified by `tests/test_item14_medkit_sheet_use.gd`
 with a New Hope purchase/use path, direct-authority full-world SHA-256 match,
 save/load, full-health lock and 1280×720 plus 1152×648 renderer captures.
+
+## Roadside negotiation as a SPEECH source (S5-C3b)
+
+Persuasion now has a grounded, economic role in roadside encounters without
+inventing new factions, secret lore or relationship state. At roadblocks and
+highway ambushes, the player can choose to negotiate down the demand instead of
+paying full price or relying on trade/stealth proficiency:
+
+* **ROADBLOCK** (`PERSUADE` / "跟他們談談"):
+  Attempts to talk down the 10-cap toll. Success costs 5 caps; failure costs the
+  full 10 caps.
+* **BANDIT_AMBUSH** (`PARLEY` / "出言周旋"):
+  Attempts to talk down the 15-cap bandit bribe. Success costs 8 caps; failure
+  costs the full 15 caps.
+
+Both options are accessible to Rank 0 / novice characters. An attempt requires
+holding the full demand in caps so that a refusal can always be paid atomically.
+Success is calculated deterministically via `check_persuasion_success` using
+a stable string hash of the route, day and encounter, modified by the actor's
+`SPEECH` rank (35% base at Rank 0, 60% at Rank 1, 80% at Rank 2, 95% at Rank 3,
+100% at Rank 4+) and the road's `min_security`.
+
+Crucially, **failed persuasion does NOT award skill practice**. The player only
+advances `SPEECH` when their persuasion actually succeeds in altering the
+outcome. This prevents negotiation from becoming a "press button for free XP"
+action that dominates plain payment. Practice remains subject to the canonical
+one-point-per-day cap.
+
+`tests/test_s5_c3b_speech_training.gd` verifies rank-0 accessibility, atomic
+insufficient-fund refusal, deterministic success/failure outcomes, daily practice
+caps, level-up progression, rank-scaling success, save/load persistence and
+dual-track full-world SHA-256 replay.
+

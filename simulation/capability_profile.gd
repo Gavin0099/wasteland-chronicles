@@ -132,6 +132,10 @@ func get_skill_rank(skill_id: Variant) -> Dictionary:
 		return {"success": false, "error": "UNKNOWN_SKILL"}
 	return {"success": true, "rank": _data.skill_ranks[skill_id], "error": ""}
 
+func get_rank(skill_id: Variant) -> int:
+	var res := get_skill_rank(skill_id)
+	return int(res.get("rank", 0)) if res.get("success", false) else 0
+
 func get_practice_progress(skill_id: Variant) -> Dictionary:
 	var rank_result := get_skill_rank(skill_id)
 	if not rank_result.success:
