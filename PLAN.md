@@ -52,6 +52,7 @@
 - [x] ITEM-11 — Regional item price elasticity: stock shortage premiums and demand-based sell quotes, deterministic and save-stable; bargaining and caravan price effects deferred.
 - [x] ITEM-12 — Equipment combat bridge: equipped canonical melee items modify the existing Field Combat Lite attack authority; no durability, armor or weapon progression added.
 - [x] ITEM-13 — Equipment PDA actions: owned equippable items expose authority-backed equip/unequip controls and persist through the existing sheet/save boundary.
+- [x] ITEM-14 — First-aid kit use from the character sheet: any settled player can consume an owned kit through the C3 treatment authority; actual HP/item/practice feedback appears beside current health, with full-health and travel/battle locks.
 - [ ] S5-C6 : Job Progression — natural capability requirements, not quest-level labels
 - [ ] S5-C7 : Capstone — advanced builds and rare items reconnect character growth to world consequences
 - [ ] World Expansion 3 -> 5 settlements — deferred; sparse roads/chokepoints retained, former S5-C0 identifier superseded

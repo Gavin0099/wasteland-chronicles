@@ -9,11 +9,14 @@ var skill_rows: Dictionary = {}
 var resource_values: Dictionary = {}
 var item_labels: Dictionary = {}
 var equipment_labels: Dictionary = {}
+var item_use_buttons: Dictionary = {}
+var action_notice_label: Label
 var capacity_label: Label
 var identity_label: Label
 var trait_label: Label
 var equipment_action: Callable
 var equipment_unequip_action: Callable
+var item_use_action: Callable
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -42,9 +45,10 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable()) -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "") -> void:
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
+	item_use_action = p_item_use_action
 	title = "人物與補給"
 	theme_type_variation = "PdaDialog"
 	ok_button_text = "返回旅程"
@@ -61,6 +65,22 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	var left := panel_in(columns)
 	identity_label = label_in(left, "%s · %d 歲" % [character.name, character.age], "PdaTitle")
 	label_in(left, "生命　%d / 12" % character.field_kit.hp)
+	action_notice_label = label_in(left, p_action_notice, "PdaSection")
+	action_notice_label.visible = not p_action_notice.is_empty()
+	var held_medkits := 0
+	for entry in player.get("items", []):
+		if String(entry.get("item_id", "")) == "first_aid_kit":
+			held_medkits = int(entry.get("quantity", 0))
+	if held_medkits > 0 and item_use_action.is_valid():
+		var use_button := Button.new()
+		use_button.text = "使用急救包（持有 %d） · 最多恢復 4 生命" % held_medkits if p_item_use_disabled_reason.is_empty() else "急救包 · " + p_item_use_disabled_reason
+		use_button.theme_type_variation = "PdaCommand"
+		use_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		use_button.disabled = not p_item_use_disabled_reason.is_empty()
+		use_button.tooltip_text = p_item_use_disabled_reason
+		use_button.pressed.connect(func(): item_use_action.call("first_aid_kit"))
+		left.add_child(use_button)
+		item_use_buttons["first_aid_kit"] = use_button
 	label_in(left, "背景", "PdaSection")
 	label_in(left, Presentation.background_name(character.background_id))
 	label_in(left, "人物特質", "PdaSection")
