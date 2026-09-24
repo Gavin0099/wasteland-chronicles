@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+S5-C3 craft replay SHA-256: 3f088eb63d60f28c7c0df2d9c8434aa587cebbc155f4c1a49a7a6a3818ded935
+S5-C3 craft practice: PASS
