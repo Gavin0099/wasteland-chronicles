@@ -12,15 +12,33 @@ const TRAITS := {
 		"name_zh": "拾荒直覺",
 		"description_zh": "曾在三個不同日子搜尋殘骸並帶走收穫。搜尋前能判讀徒手搜索可找到什麼；不會增加收穫，背包仍可能裝不下。",
 	},
+	"KNOWN_HELPER": {
+		"name_zh": "救人手法",
+		"description_zh": "曾在兩個不同日子真的分出自己的水或糧食給路上的人。之後遇到同樣的人，能先看出對方拿得出什麼回報；不會改變對方拿得出多少，你仍要付出那一份補給。",
+	},
 }
+# Helping costs a real ration, so these are the only options that count. LEAVE
+# and TAKE_PACK are not help, and an option the player could not afford never
+# produced a receipt at all.
+const HELPING_OPTIONS := ["GIVE_WATER", "HYDRATE", "SHARE_FOOD"]
 const Travel = preload("res://simulation/travel_encounter.gd")
 
 static func candidates(events: Array[EventRecord], player_id: StringName, through_day: int) -> Array[String]:
 	var water_days := {}
 	var useful_search_days := {}
+	var helping_days := {}
 	for event in events:
 		if event.actor_id != player_id or event.day > through_day:
 			continue
+		if event.type == "TRAVEL_ENCOUNTER_RESOLVED" and String(event.payload.get("option", "")) in HELPING_OPTIONS and Travel.valid_resolution(event.payload):
+			# The receipt must show the ration actually leaving the pack. An
+			# option chosen is not help; a cost paid is. The same distinct-day
+			# rule as SCAVENGER_INSTINCT: receipts carry a day, not an identity
+			# for the person helped, so two encounters on one day prove one day
+			# of lived practice, not two people.
+			var spent: Dictionary = event.payload.get("spent", {})
+			if int(spent.get("water", 0)) >= 1 or int(spent.get("food", 0)) >= 1:
+				helping_days[event.day] = true
 		if event.type == "PLAYER_NEED_UNMET":
 			if event.target_id == &"road" and typeof(event.payload.get("water_unmet")) in [TYPE_FLOAT, TYPE_INT] and float(event.payload.water_unmet) > 0.0 and float(event.payload.water_unmet) <= 1.0:
 				water_days[event.day] = true
@@ -30,9 +48,15 @@ static func candidates(events: Array[EventRecord], player_id: StringName, throug
 				# physical wreck ID. Count lived practice on distinct days; do not
 				# claim that returning to the same roadside wreck proves a new site.
 				useful_search_days[event.day] = true
+	# Appended in ID order so the candidate list is stable for the sheet.
 	var out: Array[String] = []
 	if water_days.size() >= 2:
 		out.append("DESERT_HARDENED")
+	# Two days rather than three: a wreck is common roadside furniture, but a
+	# dying traveller or a refugee column is not, so the same bar would make
+	# this identity unreachable in a normal run rather than merely demanding.
+	if helping_days.size() >= 2:
+		out.append("KNOWN_HELPER")
 	if useful_search_days.size() >= 3:
 		out.append("SCAVENGER_INSTINCT")
 	return out
