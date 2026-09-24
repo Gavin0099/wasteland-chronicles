@@ -9,7 +9,7 @@ free skill point allocation is introduced.
 | --- | --- |
 | BARTER | Buy or sell a commodity or item in a settlement; roadside haggling or column trade |
 | MELEE | Land an attack in an existing field/road battle |
-| MECHANICS | Strip a wreck or use a wrench on it |
+| MECHANICS | Assemble the one-time crowbar from three scrap; strip a wreck or use a wrench on it |
 | SCAVENGING | Search a wreck or take the quick-pick approach |
 | STEALTH | Slip past a roadblock |
 | SURVIVAL | Detour/scout/use a rope at a rockslide, or hydrate a traveller |
@@ -68,3 +68,20 @@ global invariants. Its renderer capture at 1152×648 verifies that a finishing
 blow's practice notice is visible in the result screen. This resolves feedback
 and data-integrity gaps; it does not close the remaining C3 source-coverage or
 pacing decisions.
+
+## Existing craft as a novice Mechanics source
+
+The Gray Valley crowbar assembly already consumes three scrap and creates one
+owned tool. That committed `CRAFT` action now grants one MECHANICS practice day
+and shows the award in the field screen. It is one-time: a second craft is
+refused without spending resources or minting practice. A MECHANICS-0 character
+can combine this work with a later day's wrench use at a wreck to reach rank 1.
+The world owns the resulting rank; the `FIELD_ACTION` ledger carries only a
+validated receipt. Legacy profiles remain inert, and Level XP is unchanged.
+
+`tests/test_s5_c3_craft_practice.gd` exercises the actual craft, regional
+wrench purchase and subsequent encounter, refusal atomicity, save/load,
+receipt corruption, UI feedback, dual-track world SHA-256 and invariants. A
+real 1152×648 renderer capture confirms the feedback is visible. The action
+still exists only once per character; it does not solve training for the four
+skills with no supported action or establish long-run pacing.

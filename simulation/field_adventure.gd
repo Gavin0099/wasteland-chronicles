@@ -68,13 +68,16 @@ static func validate_wire(data: Dictionary) -> String:
 		return "INVALID_FIELD_EVENTS"
 	for event_index in range(events.size()):
 		var raw_event: Variant = events[event_index]
-		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT"]:
+		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT", "FIELD_ACTION"]:
 			continue
 		var event_payload: Variant = raw_event.get("payload", {})
 		if typeof(event_payload) != TYPE_DICTIONARY or not event_payload.has("skill_practice"):
 			continue
-		if not Capability.valid_practice_award(event_payload.skill_practice, "MELEE"):
+		var expected_skill := "MECHANICS" if raw_event.type == "FIELD_ACTION" else "MELEE"
+		if not Capability.valid_practice_award(event_payload.skill_practice, expected_skill):
 			return "INVALID_FIELD_PRACTICE_RECEIPT"
+		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") != "CRAFT":
+			return "INVALID_FIELD_PRACTICE_ACTION"
 		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") != "ATTACK" or not integer(event_payload.get("dealt"), 1, ENEMY_HP)):
 			return "INVALID_FIELD_PRACTICE_TURN"
 		if raw_event.type == "FIELD_RESULT" and event_payload.get("outcome") != "VICTORY":
@@ -258,12 +261,19 @@ static func apply(world, engine, payload: Dictionary) -> String:
 	var player = world.player
 	var state = world.field_state
 	var command = payload.command
+	var action_payload := {"command": command}
 	match command:
 		"CONFIRM":
 			state.receipt = -1
 		"CRAFT":
 			player.inventory.scrap -= 3
 			player.field_kit.crowbar = true
+			if player.capability != null:
+				var growth: Dictionary = player.capability.grant_practice("MECHANICS", world.current_day)
+				if growth.get("awarded", false):
+					action_payload["skill_practice"] = {"skill_id": "MECHANICS", "rank_up": growth.rank_up,
+						"from_rank": growth.from_rank, "to_rank": growth.to_rank,
+						"points": growth.points, "required": growth.required}
 		"EQUIP", "UNEQUIP":
 			player.field_kit.equipped = command == "EQUIP"
 		"START":
@@ -378,7 +388,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					battle.turn += 1
 			world.record_event(EventRecord.new(world.current_day, "FIELD_ACTION", player.npc_id, container_id, {"command": command}))
 			return ""
-	world.record_event(EventRecord.new(world.current_day, "FIELD_ACTION", player.npc_id, StringName(HOME), {"command": command}))
+	world.record_event(EventRecord.new(world.current_day, "FIELD_ACTION", player.npc_id, StringName(HOME), action_payload))
 	return ""
 
 static func commit(world, engine, payload: Dictionary) -> Dictionary:
@@ -396,4 +406,9 @@ static func commit(world, engine, payload: Dictionary) -> Dictionary:
 	# Publish every owned world field because REST runs the real day simulation.
 	for key in ["current_day", "total_initial_population", "next_npc_sequence", "npc_registry", "npc_life_state_registry", "npc_profile_registry", "settlements", "caravans", "refugees", "event_log", "player", "decision_audit_trail", "active_encounter", "pending_encounter_result", "field_state"]:
 		world.set(key, staged.get(key))
-	return {"success": true, "error": "", "action": "FIELD_ACTION"}
+	var result := {"success": true, "error": "", "action": "FIELD_ACTION"}
+	if not world.event_log.is_empty():
+		var last_event = world.event_log.back()
+		if last_event.type == "FIELD_ACTION" and last_event.payload.get("command") == payload.command and last_event.payload.has("skill_practice"):
+			result["skill_practice"] = last_event.payload.skill_practice.duplicate(true)
+	return result
