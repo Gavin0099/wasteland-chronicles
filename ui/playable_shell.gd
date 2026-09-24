@@ -1934,7 +1934,7 @@ func _render_encounter_result(result: Dictionary) -> void:
 		"FORCE_THROUGH": "你直接從土石上翻了過去。",
 		"HAGGLE": "你把過路費談了下來。",
 		"PERSUADE": "你出言交涉，說服對方將過路費降為 %d 瓶蓋。" % int(result.get("spent", {}).get("caps", TravelEncounter.ROADBLOCK_PERSUADED_CAPS)) if bool(result.get("persuasion_success", false)) else "你試圖說服對方，但對方寸步不讓，堅持要收 10 瓶蓋。你只能照數付款通過。",
-		"SLIP_PAST": "你等到天黑，從關卡旁邊摸了過去。",
+		"SLIP_PAST": "你等到天黑，從關卡旁邊摸了過去。" if bool(result.get("stealth_success", true)) else "你等到天黑試圖摸過去，但被路障守衛發現攔了下來。你只能退回路障前另想辦法。",
 		"HYDRATE": "你讓他慢慢喝下水，確認他能自己站起來。",
 		"TAKE_PACK": "你拿走了他的背包。他還坐在那裡。",
 		"TRADE_COLUMN": "你用瓶蓋跟他們換了些東西。",
@@ -1973,7 +1973,8 @@ func _render_encounter_result(result: Dictionary) -> void:
 	var bp: Dictionary = current_projection.player.backpack
 	lbl_encounter_supplies.text = "目前補給：💧 水 %d　🍴 食物 %d" % [int(bp.water), int(bp.food)]
 	var btn := Button.new()
-	btn.text = "繼續上路" if result.can_continue else "確認結果"
+	var has_resume: bool = not (result.get("resume_encounter", {}) as Dictionary).is_empty()
+	btn.text = "面對路障" if has_resume else ("繼續上路" if result.can_continue else "確認結果")
 	btn.custom_minimum_size = Vector2(0, 36)
 	var receipt := int(result.result_index)
 	btn.pressed.connect(func():

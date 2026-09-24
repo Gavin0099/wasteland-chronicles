@@ -1897,7 +1897,7 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 	var enc := world.active_encounter
 	if enc == null:
 		return "NO_ACTIVE_ENCOUNTER: there is nothing on the road to answer"
-	if not TravelEncounter.has_option(enc.encounter_type, option_id):
+	if not TravelEncounter.has_option(enc.encounter_type, option_id, enc.context):
 		return "INVALID_OPTION: %s is not an option for %s" % [option_id, enc.encounter_type]
 
 	var p: PlayerState = world.player
@@ -2022,6 +2022,7 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var inventory_before := {}
 	var day_before := world.current_day
 	var persuasion_success := false
+	var stealth_success := false
 	for commodity in COMMODITIES:
 		inventory_before[commodity] = p.inventory.get_amount(commodity)
 
@@ -2100,6 +2101,9 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			p.money -= TravelEncounter.HAGGLED_TOLL_CAPS
 			spent["caps"] = TravelEncounter.HAGGLED_TOLL_CAPS
 		&"SLIP_PAST":
+			stealth_success = TravelEncounter.check_stealth_success(
+				enc.encounter_type, enc.origin_id, enc.destination_id, enc.day, enc.travel_day_index,
+				p.capability.get_rank("STEALTH"), enc.context)
 			extra_day = true
 		&"HYDRATE":
 			p.inventory.add_amount("water", -1)
@@ -2145,6 +2149,11 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	if extra_day:
 		_spend_extra_travel_day(world, p.npc_id)
 
+	var ls_after := world.npc_life_state_registry.get_life_state(p.npc_id)
+	var player_alive: bool = ls_after != null and ls_after.is_alive()
+	if not player_alive:
+		stealth_success = false
+
 	# Measure actual consumption, including the extra day's metabolism. No
 	# subsequent travel has happened yet, and missing rations are not fake losses.
 	for commodity in COMMODITIES:
@@ -2158,7 +2167,11 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
 	var skill_id: String = TravelEncounter.practice_skill(encounter_type, option_id)
-	if option_id in [&"PERSUADE", &"PARLEY"] and not persuasion_success:
+	if not player_alive:
+		skill_id = ""
+	elif option_id in [&"PERSUADE", &"PARLEY"] and not persuasion_success:
+		skill_id = ""
+	elif option_id == &"SLIP_PAST" and not stealth_success:
 		skill_id = ""
 	if skill_id != "":
 		var practice := _practice_after_action(world, skill_id, day_before)
@@ -2166,6 +2179,19 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			receipt["skill_practice"] = practice
 	if option_id in [&"PERSUADE", &"PARLEY"]:
 		receipt["persuasion_success"] = persuasion_success
+	if option_id == &"SLIP_PAST":
+		receipt["stealth_success"] = stealth_success
+		if not stealth_success and player_alive:
+			var resume_context: Dictionary = enc.context.duplicate(true)
+			resume_context["stealth_failed"] = true
+			receipt["resume_encounter"] = {
+				"encounter_type": String(enc.encounter_type),
+				"day": world.current_day,
+				"origin_id": String(enc.origin_id),
+				"destination_id": String(enc.destination_id),
+				"travel_day_index": enc.travel_day_index,
+				"context": resume_context,
+			}
 	if not gained_items.is_empty() or not items_left_behind.is_empty():
 		receipt["items_gained"] = gained_items
 		receipt["items_left_behind"] = items_left_behind
@@ -2178,11 +2204,17 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 
 # Confirmation consumes the receipt exactly once, then resumes existing travel.
 func _continue_after_encounter(world: WorldState) -> Dictionary:
+	var receipt_index := world.pending_encounter_result
 	world.pending_encounter_result = -1
 	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	var result := {"days_travelled": 0, "arrived": false}
 	if ls != null and ls.is_alive():
-		if ls.status == NpcLifeState.Status.IN_TRANSIT:
+		var last_event: EventRecord = world.event_log[receipt_index] if receipt_index >= 0 and receipt_index < world.event_log.size() else null
+		var resume_enc: Dictionary = last_event.payload.get("resume_encounter", {}) if last_event != null and typeof(last_event.payload) == TYPE_DICTIONARY else {}
+		if not resume_enc.is_empty():
+			world.active_encounter = TravelEncounterState.from_dict(resume_enc)
+			result["resumed_encounter"] = true
+		elif ls.status == NpcLifeState.Status.IN_TRANSIT:
 			var party := world.get_refugee_party(ls.population_container_id)
 			result = advance_player_travel(world, world.player.npc_id, party.days_remaining)
 		else:

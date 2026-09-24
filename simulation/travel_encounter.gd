@@ -220,7 +220,7 @@ static func body(encounter_type: StringName, context: Dictionary = {}) -> String
 # wreck into arithmetic instead of a gamble - and worse, every wreck paid out
 # exactly the same, so after the first one there was nothing left to find out.
 # You can see that the truck is worth a look. You cannot see what is under it.
-static func options(encounter_type: StringName) -> Array:
+static func options(encounter_type: StringName, context: Dictionary = {}) -> Array:
 	match encounter_type:
 		WRECK:
 			return [
@@ -245,15 +245,16 @@ static func options(encounter_type: StringName) -> Array:
 				{"id": &"DETOUR", "label": "繞路", "detail": "耗時 1 天（水 −1、食物 −1）"},
 			]
 		ROADBLOCK:
-			return [
+			var opts: Array = [
 				{"id": &"PAY", "label": "付過路費", "detail": "瓶蓋 −10　直接通過"},
 				{"id": &"PERSUADE", "label": "跟他們談談", "detail": "嘗試協商過路費（成功 %d 瓶蓋，失敗 10 瓶蓋）" % ROADBLOCK_PERSUADED_CAPS},
 				{"id": &"HAGGLE", "label": "把價錢談下來", "detail": "瓶蓋 −%d　直接通過" % HAGGLED_TOLL_CAPS,
 					"requires": _skill("BARTER", 1), "requirement_label": "交易 略懂", "gate": GATE_CAPABILITY},
-				{"id": &"SLIP_PAST", "label": "等天黑再摸過去", "detail": "耗時 1 天（水 −1、食物 −1）　不付錢",
-					"requires": _skill("STEALTH", 1), "requirement_label": "潛行 略懂", "gate": GATE_CAPABILITY},
-				{"id": &"DETOUR", "label": "繞路", "detail": "耗時 1 天（水 −1、食物 −1）"},
 			]
+			if not bool(context.get("stealth_failed", false)):
+				opts.append({"id": &"SLIP_PAST", "label": "等天黑再摸過去", "detail": "耗時 1 天（水 −1、食物 −1）　嘗試潛行繞過路障"})
+			opts.append({"id": &"DETOUR", "label": "繞路", "detail": "耗時 1 天（水 −1、食物 −1）"})
+			return opts
 		DEHYDRATED_TRAVELLER:
 			return [
 				{"id": &"GIVE_WATER", "label": "給他一份水", "detail": "水 −1　他也許身上有點什麼"},
@@ -337,8 +338,8 @@ static func option_item_requirement(encounter_type: StringName, option_id: Strin
 			return String(o.get("requires_item", ""))
 	return ""
 
-static func has_option(encounter_type: StringName, option_id: StringName) -> bool:
-	for o in options(encounter_type):
+static func has_option(encounter_type: StringName, option_id: StringName, context: Dictionary = {}) -> bool:
+	for o in options(encounter_type, context):
 		if o["id"] == option_id:
 			return true
 	return false
@@ -563,4 +564,16 @@ static func check_persuasion_success(encounter_type: StringName, origin_id: Stri
 	var sec_mod: int = int((sec - 50.0) * 0.2)
 	var threshold: int = clampi(base_threshold + sec_mod, 10, 100)
 	return roll < threshold
+
+# S5-C3c: Deterministic stealth check for novice/expert sneaking.
+# BALANCE_PROVISIONAL: Rank 0 = 35%, Rank 1 = 70%, Rank 2+ = 100%.
+# Pending human playtest review to consider 35 / 65 / 85 / 95. Zero RNG.
+static func check_stealth_success(encounter_type: StringName, origin_id: StringName, destination_id: StringName, day: int, travel_day_index: int, stealth_rank: int, _context: Dictionary = {}) -> bool:
+	if stealth_rank >= 2:
+		return true # BALANCE_PROVISIONAL
+	var h := stable_hash("stealth|%s|%s>%s|%d|%d" % [String(encounter_type), String(origin_id), String(destination_id), day, travel_day_index])
+	var roll := h % 100
+	var threshold: int = 35 if stealth_rank <= 0 else 70
+	return roll < threshold
+
 

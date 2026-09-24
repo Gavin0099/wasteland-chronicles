@@ -130,7 +130,7 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 
 	var options: Array = []
 	var engine := SimulationEngine.new()
-	for o in TravelEncounter.options(enc.encounter_type):
+	for o in TravelEncounter.options(enc.encounter_type, enc.context):
 		var option_id: StringName = o["id"]
 		var reason := engine.authorize_encounter_option(world, option_id)
 		# S5-C2: an approach this character cannot take is either hidden or shown
