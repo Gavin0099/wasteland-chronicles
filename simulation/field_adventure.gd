@@ -1,6 +1,7 @@
 extends RefCounted
 
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+const Capability = preload("res://simulation/capability_profile.gd")
 
 const HOME := "settlement:gray_valley"
 const MAX_HP := 12
@@ -62,6 +63,21 @@ static func validate_state(state: Variant) -> String:
 	return ""
 
 static func validate_wire(data: Dictionary) -> String:
+	var events: Variant = data.get("events", [])
+	if typeof(events) != TYPE_ARRAY:
+		return "INVALID_FIELD_EVENTS"
+	for raw_event in events:
+		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT"]:
+			continue
+		var event_payload: Variant = raw_event.get("payload", {})
+		if typeof(event_payload) != TYPE_DICTIONARY or not event_payload.has("skill_practice"):
+			continue
+		if not Capability.valid_practice_award(event_payload.skill_practice, "MELEE"):
+			return "INVALID_FIELD_PRACTICE_RECEIPT"
+		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") != "ATTACK" or not integer(event_payload.get("dealt"), 1, ENEMY_HP)):
+			return "INVALID_FIELD_PRACTICE_TURN"
+		if raw_event.type == "FIELD_RESULT" and event_payload.get("outcome") != "VICTORY":
+			return "INVALID_FIELD_PRACTICE_RESULT"
 	var player = data.get("player", {})
 	if not data.has("field_schema_version"):
 		if data.has("field_state") or (typeof(player) == TYPE_DICTIONARY and player.has("field_kit")):
@@ -203,7 +219,7 @@ static func _equipped_main_hand_bonus(world) -> int:
 static func enemy_damage(turn: int) -> int:
 	return 4 if turn % 3 == 0 else 2
 
-static func finish(world, outcome: String, gains: Dictionary = {}, left: Dictionary = {}, source: String = "field", caps_gained: int = 0) -> void:
+static func finish(world, outcome: String, gains: Dictionary = {}, left: Dictionary = {}, source: String = "field", caps_gained: int = 0, practice: Dictionary = {}) -> void:
 	world.field_state.battle = {}
 	var is_road := source == "road"
 	var container_id = StringName(HOME)
@@ -223,6 +239,8 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 			payload["lost"] = left
 		if caps_gained > 0:
 			payload["caps_gained"] = caps_gained
+	if not practice.is_empty():
+		payload["skill_practice"] = practice.duplicate(true)
 	world.record_event(EventRecord.new(world.current_day, "FIELD_RESULT", world.player.npc_id, container_id, payload))
 	world.field_state.receipt = world.event_log.size() - 1
 
@@ -315,7 +333,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					if can_take < offered_scrap:
 						left["scrap"] = offered_scrap - can_take
 					player.money += 5
-					finish(world, "VICTORY", gains, left, "road", 5)
+					finish(world, "VICTORY", gains, left, "road", 5, practice)
 				elif command == "FLEE":
 					finish(world, "ESCAPED", {}, {}, "road")
 				elif player.field_kit.hp == 1 and (enemy_damage(turn) - (3 if command == "DEFEND" else 0)) >= 1:
@@ -343,7 +361,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					world.record_event(EventRecord.new(world.current_day, "PLAYER_DIED", player.npc_id, StringName(HOME), {"cause": "field_combat", "days_survived": world.current_day, "in_transit": false}))
 					finish(world, "DEAD")
 				elif state.enemy_hp == 0:
-					finish(world, "VICTORY")
+					finish(world, "VICTORY", {}, {}, "field", 0, practice)
 				elif command == "FLEE":
 					finish(world, "ESCAPED")
 				else:

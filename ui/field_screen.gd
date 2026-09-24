@@ -9,12 +9,14 @@ const DesktopBackdrop = preload("res://ui/components/desktop_backdrop.gd")
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Stage = preload("res://ui/components/battle_stage.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
+const Presentation = preload("res://ui/character_presentation.gd")
 var world: WorldState
 var engine: SimulationEngine
 var stage: Control
 var heading_label: Label
 var status_label: Label
 var log_label: Label
+var growth_notice_label: Label
 var receipt_items: VBoxContainer
 var gain_values: Dictionary = {}
 var left_values: Dictionary = {}
@@ -25,6 +27,13 @@ var buttons: Dictionary = {}
 var busy := false
 var reduce_motion: CheckBox
 var battle_map_label: Label
+
+func practice_text(practice: Dictionary) -> String:
+	if practice.is_empty():
+		return ""
+	if practice.rank_up:
+		return "近戰能力提升：%d %s" % [int(practice.to_rank), Presentation.RANK_NAMES[int(practice.to_rank)]]
+	return "近戰練習 +1（%d/%d）" % [int(practice.points), int(practice.required)]
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -138,6 +147,8 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	var message_window := DesktopWindow.new("戰鬥訊息")
 	message_window.custom_minimum_size.y = 112
 	main.add_child(message_window)
+	growth_notice_label = label_in(message_window.body, "", "PdaSection")
+	growth_notice_label.visible = false
 	var message_scroll := ScrollContainer.new()
 	message_scroll.size_flags_vertical = SIZE_EXPAND_FILL
 	message_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -249,6 +260,8 @@ func refresh() -> void:
 				weapon = String(resolved.definition.display_name_zh)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
 	var enemy_name := "荒原劫匪" if is_road else "野犬"
+	if growth_notice_label != null:
+		growth_notice_label.visible = false
 	if battle_map_label != null:
 		battle_map_label.text = "交戰示意\n你　↔　%s" % enemy_name
 	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n武器　%s　·　負重 %d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.capacity_total]
@@ -266,6 +279,10 @@ func refresh() -> void:
 		else:
 			outcome = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}.get(receipt.outcome, "")
 		log_label.text = "%s\n\n經過時間：0 天\n生命剩餘：%d / 12" % [outcome, kit.hp]
+		var finishing_practice: Dictionary = receipt.get("skill_practice", {})
+		if not finishing_practice.is_empty():
+			growth_notice_label.text = practice_text(finishing_practice)
+			growth_notice_label.visible = true
 		receipt_items.show()
 		if not receipt.gained.is_empty():
 			show_receipt_goods("獲得物資", receipt.gained, "+", gain_values)
@@ -289,7 +306,7 @@ func refresh() -> void:
 				log_label.text += "\n\n第 %d 回合：造成 %d / 承受 %d" % [event.payload.turn, event.payload.dealt, event.payload.taken]
 				var practice: Dictionary = event.payload.get("skill_practice", {})
 				if not practice.is_empty():
-					log_label.text += " · 近戰%s" % ("提升至 %d" % int(practice.to_rank) if practice.rank_up else "練習 +1")
+					log_label.text += " · " + practice_text(practice)
 		add_action("ATTACK", "攻擊 · 傷害 %d" % Field.attack_damage(world))
 		add_action("DEFEND", "防禦 · 減傷 3，準備反擊")
 		add_action("FLEE", "逃跑 · 承受 1 傷害")
