@@ -18,11 +18,12 @@ post-processing. Runtime placement, scaling and equipment are handled in
 `ui/assets/items/crowbar.png`, scaled and positioned at the character's hand at
 runtime. Its visibility follows equipped state; it is not painted into the character.
 
-Motion uses Godot Tweens: brief lunge, hit flash, return, defense feedback and
-retreat. Preserve a reduced-motion option and never put damage, loot or death in
-an animation callback. Later sprite poses should keep identical camera, lighting,
-scale and foot anchors. Do not generate a baked battle video: HP, equipment and
-outcomes must remain live.
+Motion uses Godot Tweens: anticipation, lunge, muted hit response, return,
+defense feedback and retreat. Layered contact shadows follow each fighter's feet;
+they are presentation only. Preserve a reduced-motion option and never put
+damage, loot or death in an animation callback. Later sprite poses should keep
+identical camera, lighting, scale and foot anchors. Do not generate a baked
+battle video: HP, equipment and outcomes must remain live.
 
 Reference: [ARTDINK official page](https://www.artdink.co.jp/japanese/title/ldpob/).
 The reference sets visual direction; this version implements its own limited 1v1
