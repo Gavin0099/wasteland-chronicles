@@ -83,10 +83,10 @@ func tick(world: WorldState) -> Array[EventRecord]:
 
 	# 取得排序過之聚落與商隊 Key，確保迭代順序 100% 確定
 	var sorted_settlement_ids := world.settlements.keys()
-	sorted_settlement_ids.sort()
+	sorted_settlement_ids.sort_custom(func(a, b): return String(a) < String(b))
 
 	var sorted_caravan_ids := world.caravans.keys()
-	sorted_caravan_ids.sort()
+	sorted_caravan_ids.sort_custom(func(a, b): return String(a) < String(b))
 
 	# S3-F 日初治安快照 (Start-of-Day Security Snapshot 確保因果傳導延遲性)
 	var start_of_day_security: Dictionary = {}
@@ -338,7 +338,7 @@ func tick(world: WorldState) -> Array[EventRecord]:
 			caravan.days_remaining -= 1
 
 	var sorted_refugee_ids := world.refugees.keys()
-	sorted_refugee_ids.sort()
+	sorted_refugee_ids.sort_custom(func(a, b): return String(a) < String(b))
 	for r_id in sorted_refugee_ids:
 		var party: RefugeePartyState = world.refugees[r_id]
 		if party.is_active and not party.is_arrived:
@@ -1068,6 +1068,9 @@ func validate_invariants(world: WorldState) -> String:
 		if world.player.capability == null:
 			return "MISSING_CAPABILITY_PROFILE"
 		var capability_data: Dictionary = world.player.capability.to_dict()
+		var perk_error := PlayerState.Perks.validate_selection(world.player.perk_ids, world.player.xp)
+		if perk_error != "":
+			return perk_error
 		var capability_error: String = PlayerState.Capability.validate(capability_data)
 		if capability_error != "":
 			return capability_error
@@ -1931,6 +1934,9 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		return "INVALID_OPTION: %s is not an option for %s" % [option_id, enc.encounter_type]
 
 	var p: PlayerState = world.player
+	for candidate in TravelEncounter.options(enc.encounter_type, enc.context):
+		if candidate.id == option_id and candidate.has("requires_perk") and not p.has_perk(String(candidate.requires_perk)):
+			return "PERK_NOT_OWNED: %s requires %s" % [option_id, candidate.requires_perk]
 	var practice_skill: String = TravelEncounter.practice_skill(enc.encounter_type, option_id)
 	if practice_skill != "" and p.capability != null:
 		var practice_check: Dictionary = p.capability.get_practice_progress(practice_skill)
@@ -2066,12 +2072,17 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered_items = TravelEncounter.wreck_item_yield(
 				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type)
 			extra_day = true
+		&"SORT_WRECK":
+			offered = {"scrap": 1}
+			extra_day = true
 		&"CLEAR":
 			p.inventory.add_amount("scrap", -1)
 			spent["scrap"] = 1
 		&"PAY":
 			p.money -= ROADBLOCK_TOLL_CAPS
 			spent["caps"] = ROADBLOCK_TOLL_CAPS
+		&"CUT_AROUND":
+			pass
 		&"PERSUADE":
 			persuasion_success = TravelEncounter.check_persuasion_success(
 				enc.encounter_type, enc.origin_id, enc.destination_id, enc.day, enc.travel_day_index,
@@ -2314,6 +2325,19 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.SELECT_PERK:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "PERK_SELECTION_REQUIRES_SETTLEMENT"
+			if intent.payload.size() != 1 or typeof(intent.payload.get("perk_id")) != TYPE_STRING:
+				return "INVALID_PERK_INTENT"
+			var perk_id: String = intent.payload.perk_id
+			if not PlayerState.Perks.PERKS.has(perk_id):
+				return "UNKNOWN_PERK_ID"
+			if world.player.has_perk(perk_id):
+				return "PERK_ALREADY_SELECTED"
+			if world.player.perk_ids.size() >= PlayerState.Perks.available_slots(world.player.level()):
+				return "NO_PERK_MILESTONE"
+			return ""
 		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
 			if intent.payload.size() != 1 or typeof(intent.payload.get("quest_id")) != TYPE_STRING:
 				return "INVALID_QUEST_INTENT"
@@ -2496,6 +2520,15 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.SELECT_PERK:
+			var perk_id: String = intent.payload.perk_id
+			world.player.perk_ids.append(perk_id)
+			world.player.perk_ids.sort()
+			var perk_evt := EventRecord.new(world.current_day, "PERK_SELECTED", intent.player_id, &"character", {"perk_id": perk_id, "level": world.player.level()})
+			world.record_event(perk_evt)
+			if tick_events != null:
+				tick_events.append(perk_evt)
+			return {"success": true, "perk_id": perk_id, "level": world.player.level()}
 		PlayerIntent.Action.ACCEPT_QUEST, PlayerIntent.Action.TURN_IN_QUEST:
 			var quest_id := String(intent.payload.quest_id)
 			var quest_script = load("res://simulation/quest_engine.gd")
