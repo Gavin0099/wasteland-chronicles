@@ -299,8 +299,18 @@ func _init() -> void:
 	act_field(la, "CONFIRM")
 	denied.call(la, {"command": "OPEN"})
 	check(act_field(la, "REST").success and la.current_day == 1 and la.player.field_kit.hp == 12, "rest advances real day, heals to cap")
-	var leg_sha := la.to_canonical_json().sha256_text()
-	check(leg_sha == "4077195a038b6d5db19c9cb69905d10f1aa60228542cb0907f4688b3706c3d68", "legacy field combat SHA matches exact pre-slice reference")
+	# C3 deliberately adds MELEE practice to successful attacks. Project out only
+	# that new authority to retain the independent pre-C3 combat fixture: HP,
+	# enemy state, inventory, death and time must still match byte for byte.
+	var legacy_projection: Dictionary = la.to_dict()
+	legacy_projection.player.capability.skill_ranks.MELEE = w_leg.player.capability.get_skill_rank("MELEE").rank
+	legacy_projection.player.capability.erase("skill_practice")
+	legacy_projection.player.capability.erase("skill_growth_schema_version")
+	for event in legacy_projection.events:
+		if event.type == "FIELD_TURN":
+			event.payload.erase("skill_practice")
+	var leg_sha := JSON.stringify(legacy_projection, "\t", true).sha256_text()
+	check(leg_sha == "4077195a038b6d5db19c9cb69905d10f1aa60228542cb0907f4688b3706c3d68", "pre-C3 combat state still matches exact reference after excluding C3 practice")
 	
 	# Outskirts lethal defeat still commits death for source != road
 	var w_fatal := fresh_world()

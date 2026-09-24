@@ -3,6 +3,8 @@ extends RefCounted
 
 const SKILLS := ["BARTER", "ELECTRONICS", "FIREARMS", "MECHANICS", "MEDICINE", "MELEE", "SCAVENGING", "SPEECH", "STEALTH", "SURVIVAL"]
 const CORE_TRAITS := ["AGGRESSIVE", "CAUTIOUS", "COMPASSIONATE", "CURIOUS", "GREEDY", "IRON_STOMACH", "LIGHT_SLEEPER", "LONER", "LOYAL", "PACIFIST", "RECKLESS", "STUBBORN", "SUSPICIOUS", "VIGILANT"]
+# Practice required at ranks 0..4. A rank-5 skill cannot advance further.
+const PRACTICE_TO_ADVANCE := [2, 3, 4, 5, 6]
 var _data: Dictionary = {}
 
 static func legacy(npc_id: StringName) -> RefCounted:
@@ -29,13 +31,19 @@ static func from_dict_checked(raw: Variant) -> Dictionary:
 	profile._data = raw.duplicate(true)
 	profile._data.selected_creation_traits.sort() # Validated String IDs only.
 	profile._data.package_version = int(raw.package_version)
+	if profile._data.has("skill_practice"):
+		profile._data.skill_growth_schema_version = 1
+		for skill in profile._data.skill_practice:
+			profile._data.skill_practice[skill].points = int(profile._data.skill_practice[skill].points)
+			profile._data.skill_practice[skill].last_day = int(profile._data.skill_practice[skill].last_day)
 	return {"success": true, "profile": profile, "error": ""}
 
 static func validate(raw: Variant) -> String:
 	if typeof(raw) != TYPE_DICTIONARY:
 		return "INVALID_CAPABILITY_PROFILE"
 	var fields := ["npc_id", "creation_origin", "skill_ranks", "selected_creation_traits", "background_id", "package_version"]
-	if raw.size() != fields.size():
+	var has_growth: bool = raw.has("skill_practice") or raw.has("skill_growth_schema_version")
+	if raw.size() != fields.size() + (2 if has_growth else 0):
 		return "INVALID_CAPABILITY_FIELDS"
 	for key in fields:
 		if not raw.has(key):
@@ -52,6 +60,25 @@ static func validate(raw: Variant) -> String:
 		var rank: Variant = raw.skill_ranks[skill]
 		if typeof(rank) != TYPE_INT or rank < 0 or rank > 5:
 			return "INVALID_SKILL_RANK: " + skill
+	if has_growth:
+		if raw.creation_origin == "LEGACY_MIGRATION":
+			return "INVALID_LEGACY_PRACTICE"
+		if not raw.has("skill_practice") or not raw.has("skill_growth_schema_version") or typeof(raw.skill_growth_schema_version) not in [TYPE_INT, TYPE_FLOAT] or raw.skill_growth_schema_version != 1 or typeof(raw.skill_practice) != TYPE_DICTIONARY:
+			return "INVALID_SKILL_GROWTH_SCHEMA"
+		for skill in raw.skill_practice:
+			if typeof(skill) != TYPE_STRING or skill not in SKILLS:
+				return "INVALID_PRACTICE_SKILL"
+			var record: Variant = raw.skill_practice[skill]
+			if typeof(record) != TYPE_DICTIONARY or record.size() != 2 or not record.has("points") or not record.has("last_day"):
+				return "INVALID_PRACTICE_RECORD"
+			for field in ["points", "last_day"]:
+				var value: Variant = record[field]
+				if typeof(value) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(value)) or float(value) != floor(float(value)):
+					return "INVALID_PRACTICE_INTEGER"
+			var current_rank: int = raw.skill_ranks[skill]
+			var max_points: int = 0 if current_rank == 5 else PRACTICE_TO_ADVANCE[current_rank] - 1
+			if record.points < 0 or record.points > max_points or record.last_day < 0 or record.last_day > NumericCanon.MAX_SAFE_INT:
+				return "INVALID_PRACTICE_RANGE"
 	var trait_error := validate_traits(raw.selected_creation_traits)
 	if trait_error != "":
 		return trait_error
@@ -81,6 +108,52 @@ func get_skill_rank(skill_id: Variant) -> Dictionary:
 	if typeof(skill_id) != TYPE_STRING or skill_id not in SKILLS:
 		return {"success": false, "error": "UNKNOWN_SKILL"}
 	return {"success": true, "rank": _data.skill_ranks[skill_id], "error": ""}
+
+func get_practice_progress(skill_id: Variant) -> Dictionary:
+	var rank_result := get_skill_rank(skill_id)
+	if not rank_result.success:
+		return rank_result
+	var rank: int = rank_result.rank
+	var record: Dictionary = _data.get("skill_practice", {}).get(skill_id, {})
+	return {"success": true, "rank": rank, "points": int(record.get("points", 0)),
+		"required": PRACTICE_TO_ADVANCE[rank] if rank < 5 else 0, "error": ""}
+
+# Only the owning profile can advance a skill. The caller must first commit a
+# real skill-use action; the same skill earns at most one practice point per day.
+func grant_practice(skill_id: Variant, day: Variant) -> Dictionary:
+	var progress := get_practice_progress(skill_id)
+	if not progress.success:
+		return {"success": false, "error": progress.error}
+	if typeof(day) != TYPE_INT or day < 0 or day > NumericCanon.MAX_SAFE_INT:
+		return {"success": false, "error": "INVALID_PRACTICE_DAY"}
+	var result := {"success": true, "skill_id": skill_id, "awarded": false,
+		"rank_up": false, "from_rank": progress.rank, "to_rank": progress.rank,
+		"points": progress.points, "required": progress.required}
+	if _data.creation_origin == "LEGACY_MIGRATION":
+		return result
+	if progress.rank == 5:
+		return result
+	var record: Dictionary = _data.get("skill_practice", {}).get(skill_id, {})
+	if int(record.get("last_day", -1)) == day:
+		return result
+	var next_data: Dictionary = _data.duplicate(true)
+	if not next_data.has("skill_practice"):
+		next_data["skill_practice"] = {}
+		next_data["skill_growth_schema_version"] = 1
+	var points: int = progress.points + 1
+	var rank: int = progress.rank
+	if points >= progress.required:
+		rank += 1
+		points = 0
+		next_data.skill_ranks[skill_id] = rank
+		result.rank_up = true
+	next_data.skill_practice[skill_id] = {"points": points, "last_day": day}
+	_data = next_data
+	result.awarded = true
+	result.to_rank = rank
+	result.points = points
+	result.required = PRACTICE_TO_ADVANCE[rank] if rank < 5 else 0
+	return result
 
 func meets_skill_requirement(skill_id: Variant, rank: Variant) -> Dictionary:
 	return meets_requirements({"all": [{"kind": "skill", "skill_id": skill_id, "min_rank": rank}]})

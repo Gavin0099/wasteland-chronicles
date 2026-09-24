@@ -165,10 +165,16 @@ static func project(world: WorldState) -> Dictionary:
 		return {}
 	var identity: NpcIdentity = world.npc_registry.get_npc(world.player.npc_id)
 	var data: Dictionary = world.player.capability.to_dict()
+	var practice := {}
+	for skill in Profile.SKILLS:
+		var progress: Dictionary = world.player.capability.get_practice_progress(skill)
+		if progress.success:
+			practice[skill] = {"points": progress.points, "required": progress.required}
 	return {"name": identity.name, "age": identity.age_at_materialization,
 		"field_kit": world.player.field_kit.duplicate(true),
 		"background_id": data.background_id, "traits": data.selected_creation_traits,
-		"ranks": data.skill_ranks, "legacy": data.creation_origin == "LEGACY_MIGRATION"}
+		"ranks": data.skill_ranks, "practice": practice,
+		"legacy": data.creation_origin == "LEGACY_MIGRATION"}
 
 static func background_name(id: String) -> String:
 	return BACKGROUNDS[id][0] if BACKGROUNDS.has(id) else "舊有角色（未套用創角背景）"

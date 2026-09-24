@@ -140,7 +140,7 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	for id in Presentation.Profile.SKILLS:
 		var row := SkillRow.new()
 		right.add_child(row)
-		row.setup(id, character.ranks[id])
+		row.setup(id, character.ranks[id], character.get("practice", {}).get(id, {}))
 		skill_rows[id] = row
 	confirmed.connect(queue_free)
 	canceled.connect(queue_free)

@@ -1071,6 +1071,9 @@ func validate_invariants(world: WorldState) -> String:
 			return capability_error
 		if capability_data.npc_id != String(world.player.npc_id):
 			return "CAPABILITY_OWNER_MISMATCH"
+		for skill_id in capability_data.get("skill_practice", {}):
+			if int(capability_data.skill_practice[skill_id].last_day) > world.current_day:
+				return "PRACTICE_DAY_IN_FUTURE"
 	for s_id in world.settlements:
 		var s: SettlementState = world.settlements[s_id]
 		for res in COMMODITIES:
@@ -1690,36 +1693,39 @@ func _commit_item_trade(world: WorldState, intent: PlayerIntent, tick_events: Ar
 	settlement.item_market = market
 	world.player.item_inventory = player_items
 	var action_name := "BUY" if buying else "SELL"
+	var practice := _practice_after_action(world, "BARTER")
+	var trade_payload := {
+		"action": action_name, "item_id": String(intent.item_id), "quantity": intent.quantity,
+		"unit_price": quote, "total_amount": total,
+		"market_stock": market.quantity(intent.item_id),
+		"settlement_cash": settlement.market_cash, "player_money": world.player.money,
+	}
+	if not practice.is_empty():
+		trade_payload["skill_practice"] = practice
 	var evt := EventRecord.new(
 		world.current_day,
 		"ITEM_TRADE_COMPLETED",
 		intent.player_id,
 		settlement.id,
-		{
-			"action": action_name,
-			"item_id": String(intent.item_id),
-			"quantity": intent.quantity,
-			"unit_price": quote,
-			"total_amount": total,
-			"market_stock": market.quantity(intent.item_id),
-			"settlement_cash": settlement.market_cash,
-			"player_money": world.player.money
-		}
+		trade_payload
 	)
 	if tick_events != null:
 		tick_events.append(evt)
 	world.record_event(evt)
-	return {
-		"success": true,
-		"action": action_name,
-		"item_id": String(intent.item_id),
-		"quantity": intent.quantity,
-		"unit_price": quote,
-		"total_amount": total,
-		"market_stock": market.quantity(intent.item_id),
-		"settlement_cash": settlement.market_cash,
-		"player_money": world.player.money
-	}
+	var result := trade_payload.duplicate(true)
+	result["success"] = true
+	return result
+
+func _practice_after_action(world: WorldState, skill_id: String, action_day: int = -1) -> Dictionary:
+	if world.player == null or world.player.capability == null:
+		return {}
+	var practice: Dictionary = world.player.capability.grant_practice(skill_id,
+		world.current_day if action_day < 0 else action_day)
+	if not practice.get("awarded", false):
+		return {}
+	return {"skill_id": skill_id, "rank_up": practice.rank_up,
+		"from_rank": practice.from_rank, "to_rank": practice.to_rank,
+		"points": practice.points, "required": practice.required}
 
 # ==============================================================================
 # S5-B4.1: WHAT IS ACTUALLY HAPPENING ON THIS ROAD
@@ -1895,6 +1901,13 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		return "INVALID_OPTION: %s is not an option for %s" % [option_id, enc.encounter_type]
 
 	var p: PlayerState = world.player
+	var practice_skill: String = TravelEncounter.practice_skill(enc.encounter_type, option_id)
+	if practice_skill != "" and p.capability != null:
+		var practice_check: Dictionary = p.capability.get_practice_progress(practice_skill)
+		if not practice_check.success:
+			return "CAPABILITY_CHECK_FAILED: %s" % practice_check.error
+		if world.current_day < 0:
+			return "INVALID_PRACTICE_DAY: encounter day must be nonnegative"
 
 	# S5-C2: an approach the character cannot take is refused HERE, at the
 	# commit boundary, not merely hidden by the UI. The projection filters the
@@ -2123,6 +2136,11 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		"cost_extra_day": extra_day, "elapsed_days": world.current_day - day_before,
 		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
+	var skill_id: String = TravelEncounter.practice_skill(encounter_type, option_id)
+	if skill_id != "":
+		var practice := _practice_after_action(world, skill_id, day_before)
+		if not practice.is_empty():
+			receipt["skill_practice"] = practice
 	if not gained_items.is_empty() or not items_left_behind.is_empty():
 		receipt["items_gained"] = gained_items
 		receipt["items_left_behind"] = items_left_behind
@@ -2442,36 +2460,29 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			settlement.market_cash += total_cost
 			world.player.inventory.add_amount(comm_str, intent.quantity)
 			world.player.money -= total_cost
+			var buy_practice := _practice_after_action(world, "BARTER")
 
+			var buy_payload := {
+				"action": "BUY", "commodity": comm_str, "quantity": intent.quantity,
+				"unit_price": quote, "total_amount": total_cost,
+				"settlement_cash": settlement.market_cash, "player_money": world.player.money,
+			}
+			if not buy_practice.is_empty():
+				buy_payload["skill_practice"] = buy_practice
 			var trade_evt := EventRecord.new(
 				world.current_day,
 				"TRADE_COMPLETED",
 				intent.player_id,
 				settlement.id,
-				{
-					"action": "BUY",
-					"commodity": comm_str,
-					"quantity": intent.quantity,
-					"unit_price": quote,
-					"total_amount": total_cost,
-					"settlement_cash": settlement.market_cash,
-					"player_money": world.player.money
-				}
+				buy_payload
 			)
 			if tick_events != null:
 				tick_events.append(trade_evt)
 			world.record_event(trade_evt)
 
-			return {
-				"success": true,
-				"action": "BUY",
-				"commodity": comm_str,
-				"quantity": intent.quantity,
-				"unit_price": quote,
-				"total_amount": total_cost,
-				"settlement_cash": settlement.market_cash,
-				"player_money": world.player.money
-			}
+			var buy_result := buy_payload.duplicate(true)
+			buy_result["success"] = true
+			return buy_result
 
 		PlayerIntent.Action.SELL:
 			if intent.item_id != &"":
@@ -2486,36 +2497,29 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			world.player.money += total_revenue
 			settlement.inventory.add_amount(comm_str, intent.quantity)
 			settlement.market_cash -= total_revenue
+			var sell_practice := _practice_after_action(world, "BARTER")
 
+			var sell_payload := {
+				"action": "SELL", "commodity": comm_str, "quantity": intent.quantity,
+				"unit_price": quote, "total_amount": total_revenue,
+				"settlement_cash": settlement.market_cash, "player_money": world.player.money,
+			}
+			if not sell_practice.is_empty():
+				sell_payload["skill_practice"] = sell_practice
 			var trade_evt := EventRecord.new(
 				world.current_day,
 				"TRADE_COMPLETED",
 				intent.player_id,
 				settlement.id,
-				{
-					"action": "SELL",
-					"commodity": comm_str,
-					"quantity": intent.quantity,
-					"unit_price": quote,
-					"total_amount": total_revenue,
-					"settlement_cash": settlement.market_cash,
-					"player_money": world.player.money
-				}
+				sell_payload
 			)
 			if tick_events != null:
 				tick_events.append(trade_evt)
 			world.record_event(trade_evt)
 
-			return {
-				"success": true,
-				"action": "SELL",
-				"commodity": comm_str,
-				"quantity": intent.quantity,
-				"unit_price": quote,
-				"total_amount": total_revenue,
-				"settlement_cash": settlement.market_cash,
-				"player_money": world.player.money
-			}
+			var sell_result := sell_payload.duplicate(true)
+			sell_result["success"] = true
+			return sell_result
 
 	return {"success": false, "error": "UNREACHABLE"}
 

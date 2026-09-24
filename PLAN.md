@@ -34,7 +34,7 @@
 - [x] **S5-C0 : Character Creation — CLOSED; authoritative creation form → character summary → explicit entry**
 - [x] S5-C1 : Capability Foundation — CLOSED; headless authority + read-only player capability presentation
 - [~] S5-C2 : Trait & Skill Encounters — split closure: **C2-A Authority/Safety VERIFIED ✅** (A1~A8 green, 37 suites exit 0); **C2-B Player Experience NOT VERIFIED 🟡** (four Backgrounds + Trait A/B hand-play outstanding). Controlled real-UI playtest entry point prepared; automation is not a player verdict. Both halves required before CLOSED.
-- [ ] S5-C3 : Skill Growth — relevant use and work develop the corresponding skill
+- [~] S5-C3 : Skill Growth — committed action practice foundation implemented for six supported skills; source coverage and long-run pacing remain open (`docs/s5-c3-skill-growth.md`)
 - [ ] S5-C4 : Level & Perks — experience milestones and sparse, consequential specialization choices
 - [ ] S5-C4.5 : Acquired Traits — real-life history creates opt-in candidates; 6 target identities, effects and tradeoffs required
 - [ ] S5-C5 : Equipment Progression — equipment enables previously unavailable actions and places
@@ -66,7 +66,7 @@
 - [x] UI-LOCAL : Owner playtest location/action repair — location and available activity stay visible while inspecting another town; local market has a direct shortcut; combat entry names Gray Valley; quest counts distinguish available, active and completed; empty remote market container and misleading town art are removed. UI only; new combat sites and repeatable commissions remain unstarted.
 - [x] UI-WINDOW : Owner screenshot correction — settlement scene remains visible while information, market or quest content opens in a movable, closable desktop window; character/supplies opens as a narrow right-hand window. UI-only; character creation authority unchanged.
 - [x] UI-CREATION-WINDOW : Compact movable creation window over existing wasteland map art; choices and capability preview scroll separately, confirmation shrinks to a smaller window. 59 suites passed; merged as PR #4 (`c12bed6`). C0 authority and allowed inputs unchanged.
-- [~] C2-B Playtest Preparation : Four-background/five-encounter disposable UI entry point and Trait A/B comparisons; fixed narrow-screen encounter clipping found during real-renderer QA. Owner play report remains the acceptance gate; C3 not started.
+- [~] C2-B Playtest Preparation : Four-background/five-encounter disposable UI entry point and Trait A/B comparisons; fixed narrow-screen encounter clipping found during real-renderer QA. Owner play report remains the acceptance gate; C3 practice implementation proceeds as a separate slice without claiming C2-B closure.
 - [ ] S5-B4.2 : Encounter Variety 4 -> 8-10 state-aware templates — after growth foundation
 - [ ] ★ FP2 : still finding new decisions after 20 minutes
 - [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
