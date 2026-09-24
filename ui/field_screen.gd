@@ -265,7 +265,7 @@ func refresh() -> void:
 		growth_notice_label.visible = false
 	if battle_map_label != null:
 		battle_map_label.text = "交戰示意\n你　↔　%s" % enemy_name
-	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n武器　%s　·　負重 %d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.capacity_total]
+	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n武器　%s　·　負重 %d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.get_effective_capacity()]
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:

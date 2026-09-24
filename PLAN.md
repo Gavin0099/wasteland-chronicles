@@ -35,6 +35,10 @@
 - [x] S5-C1 : Capability Foundation — CLOSED; headless authority + read-only player capability presentation
 - [~] S5-C2 : Trait & Skill Encounters — split closure: **C2-A Authority/Safety VERIFIED ✅** (A1~A8 green, 37 suites exit 0); **C2-B Player Experience NOT VERIFIED 🟡** (four Backgrounds + Trait A/B hand-play outstanding). Controlled real-UI playtest entry point prepared; automation is not a player verdict. Both halves required before CLOSED.
 - [~] S5-C3 : Skill Growth — committed action practice foundation implemented for seven supported skills; crowbar crafting supplies novice Mechanics practice and a consumed first-aid kit now heals real HP while practicing Medicine; Firearms, Electronics, Speech, beginner Stealth access and long-run pacing remain open (`docs/s5-c3-skill-growth.md`)
+- [x] **WPROG-1 : First Survival Upgrade — CLOSED**; contract reward fuels exclusive initial choice between Scavenger (`travel_backpack` +8 capacity, bringing all wreck salvage home) and Fighter (`scrap_machete` +3 dmg, eliminating road bandits in 2 turns). Invariant integrity, persistence, unequip overload lock, and player-facing attribution verified across 5 gates and 67/67 suites.
+- [ ] WPROG-2 : Risky Route — equipment upgrade enables taking high-risk alternative route
+- [ ] WPROG-3 : Better Loot — dangerous route yields exclusive high-tier salvage
+- [ ] WPROG-4 : Next Contract — rare loot/expanded survival enables accepting next tier contract
 - [ ] S5-C4 : Level & Perks — experience milestones and sparse, consequential specialization choices
 - [ ] S5-C4.5 : Acquired Traits — real-life history creates opt-in candidates; 6 target identities, effects and tradeoffs required
 - [ ] S5-C5 : Equipment Progression — equipment enables previously unavailable actions and places
@@ -82,6 +86,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-24: **WPROG-1 First Survival Upgrade implemented** — Core progression pivot from abstract XP/perk trees to a tangible survival loop: contract completion (QUEST-2, 75 caps) funds an exclusive choice between Scavenger (`travel_backpack` +8 capacity, bringing all wreck salvage home instead of abandoning items) and Fighter (`scrap_machete` +3 attack bonus, 2-turn road bandit elimination). `PlayerState.get_effective_capacity()` dynamically binds equipped containers without corrupting base capacity invariants. Unequipping a backpack when holding cargo > base capacity is rejected fail-closed. Encounter result panel explicitly attributes capacity contributions to the equipped bag. Focused suite (`test_wprog_1_survival_upgrade.gd`, 51 assertions) and full 67-suite regression exit 0.
 
 - 2026-09-24: **Creation window follows the Owner's Lunatic Dawn reference** — The previously full-screen form now appears in a movable desktop window with the existing map art behind it. Background/Trait choices and capability preview have independent scroll areas, while the commit button stays visible; after authoritative creation, a smaller summary window requires explicit entry. This slice changes presentation only. No sex/portrait selector, free points, start-city picker or new character authority was added.
 - 2026-09-24: **Owner screenshots corrected the Lunatic Dawn desktop interpretation** — previous information navigation hid the entire scene, whereas the reference keeps the scene window mounted and opens smaller independent windows. Information/market/quest now occupy a movable, closable right-hand window without replacing the scene. Character/supplies opens at the right instead of centered. The existing creation form remains functional but is still a full-page layout, not a compact map-backed character generator. C0 creation authority and gameplay were not changed. All 59 Godot suites passed before the final title-drag regression refinement; the focused UI suite passed after it. Renderer captures at 1280×720 and 1152×648 were inspected.

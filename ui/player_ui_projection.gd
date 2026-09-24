@@ -254,7 +254,7 @@ static func _project_player(world: WorldState) -> Dictionary:
 			"scrap": p.inventory.scrap if p.inventory != null else 0,
 			"fuel": p.inventory.fuel if p.inventory != null else 0,
 			"load": bp_load,
-			"capacity": p.capacity_total
+			"capacity": p.get_effective_capacity()
 		},
 		"items": item_entries,
 		"equipment": equipment_data,
