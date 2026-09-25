@@ -14,8 +14,69 @@ class GroundShadow extends Node2D:
 		draw_circle(Vector2.ZERO, radius * 0.68, Color(0.10, 0.075, 0.05, 0.12))
 		draw_set_transform(Vector2.ZERO)
 
+# PLAY-1 BATTLE TRUTH.
+#
+# The stage used to hardcode three things: a supply-shed background, a feral
+# dog, and a crowbar. So a road ambush showed the label "荒原劫匪" over a
+# picture of a dog standing in a shed, and equipping a machete changed the
+# damage and the text while the hand still held a crowbar or nothing at all.
+# The screen was telling the player something the game did not mean.
+#
+# Every one of those three now comes from the battle itself. Where real art
+# exists it is used; where it does not, a PLACEHOLDER is drawn and labelled as
+# one. A drawn silhouette that is honestly a stand-in beats a dog pretending to
+# be a bandit.
+class PlaceholderFigure extends Node2D:
+	var figure_size := Vector2(128, 136)
+	var body := Color(0.16, 0.15, 0.17)
+	var trim := Color(0.42, 0.33, 0.24)
+
+	func _draw() -> void:
+		var w := figure_size.x
+		var h := figure_size.y
+		# A plainly humanoid stand-in: head, coat, legs, and a raised arm. It
+		# reads as a person at a glance and as a placeholder on a second look.
+		draw_circle(Vector2(w * 0.5, h * 0.17), w * 0.115, body)
+		var coat := PackedVector2Array([
+			Vector2(w * 0.38, h * 0.28), Vector2(w * 0.62, h * 0.28),
+			Vector2(w * 0.72, h * 0.66), Vector2(w * 0.60, h * 0.64),
+			Vector2(w * 0.55, h * 0.70), Vector2(w * 0.45, h * 0.70),
+			Vector2(w * 0.40, h * 0.64), Vector2(w * 0.28, h * 0.66),
+		])
+		draw_colored_polygon(coat, body)
+		draw_line(Vector2(w * 0.45, h * 0.70), Vector2(w * 0.42, h), body, w * 0.075)
+		draw_line(Vector2(w * 0.55, h * 0.70), Vector2(w * 0.59, h), body, w * 0.075)
+		# Raised arm holding something, so the pose reads as hostile.
+		draw_line(Vector2(w * 0.62, h * 0.34), Vector2(w * 0.83, h * 0.20), body, w * 0.06)
+		draw_line(Vector2(w * 0.83, h * 0.24), Vector2(w * 0.88, h * 0.06), trim, w * 0.035)
+		draw_line(Vector2(w * 0.38, h * 0.36), Vector2(w * 0.24, h * 0.52), body, w * 0.06)
+
+# The road is not the supply shed, and until there is art for it saying so
+# plainly is better than reusing the shed and hoping nobody notices.
+class PlaceholderBackdrop extends Control:
+	func _draw() -> void:
+		var w := size.x
+		var h := size.y
+		draw_rect(Rect2(0, 0, w, h * 0.52), Color(0.42, 0.35, 0.28))
+		draw_rect(Rect2(0, h * 0.52, w, h * 0.48), Color(0.29, 0.24, 0.19))
+		# Distant ridge.
+		draw_colored_polygon(PackedVector2Array([
+			Vector2(0, h * 0.52), Vector2(w * 0.18, h * 0.36), Vector2(w * 0.34, h * 0.47),
+			Vector2(w * 0.52, h * 0.31), Vector2(w * 0.74, h * 0.45), Vector2(w, h * 0.34),
+			Vector2(w, h * 0.52),
+		]), Color(0.34, 0.28, 0.23))
+		# The road itself, widening toward the camera.
+		draw_colored_polygon(PackedVector2Array([
+			Vector2(w * 0.44, h * 0.52), Vector2(w * 0.56, h * 0.52),
+			Vector2(w * 0.86, h), Vector2(w * 0.10, h),
+		]), Color(0.33, 0.29, 0.25))
+
 var hero: TextureRect
 var enemy: TextureRect
+var enemy_placeholder: PlaceholderFigure
+var shed_background: TextureRect
+var road_background: PlaceholderBackdrop
+var placeholder_note: Label
 var hero_shadow: GroundShadow
 var enemy_shadow: GroundShadow
 var weapon: Sprite2D
@@ -24,6 +85,8 @@ var hero_origin := Vector2.ZERO
 var enemy_origin := Vector2.ZERO
 var reduced_motion := false
 var enemy_alive := true
+var armed := false
+var showing_bandit := false
 
 func texture(path: String) -> Texture2D:
 	if ResourceLoader.exists(path):
@@ -38,11 +101,16 @@ func _init() -> void:
 	custom_minimum_size = Vector2(0, 240)
 	size_flags_horizontal = SIZE_EXPAND_FILL
 	size_flags_vertical = SIZE_EXPAND_FILL
+	road_background = PlaceholderBackdrop.new()
+	road_background.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	road_background.visible = false
+	add_child(road_background)
 	var background := TextureRect.new()
 	background.texture = texture("res://ui/assets/combat/supply-shed.png")
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	background.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	shed_background = background
 	add_child(background)
 	hero_shadow = GroundShadow.new()
 	hero_shadow.radius = 35.0
@@ -70,6 +138,15 @@ func _init() -> void:
 	enemy.size = Vector2(128, 136)
 	enemy.pivot_offset = enemy.size * 0.5
 	add_child(enemy)
+	enemy_placeholder = PlaceholderFigure.new()
+	enemy_placeholder.visible = false
+	add_child(enemy_placeholder)
+	placeholder_note = Label.new()
+	placeholder_note.text = "（劫匪與荒路為暫用示意圖）"
+	placeholder_note.add_theme_font_size_override("font_size", 10)
+	placeholder_note.add_theme_color_override("font_color", Color(0.75, 0.70, 0.62, 0.75))
+	placeholder_note.visible = false
+	add_child(placeholder_note)
 	floating = Label.new()
 	floating.theme_type_variation = "PdaTitle"
 	floating.add_theme_color_override("font_shadow_color", Color.BLACK)
@@ -86,11 +163,52 @@ func arrange() -> void:
 	enemy.position = enemy_origin
 	hero_shadow.position = hero_origin + Vector2(58, 156)
 	enemy_shadow.position = enemy_origin + Vector2(64, 123)
+	if enemy_placeholder != null:
+		enemy_placeholder.position = enemy_origin
+		enemy_placeholder.queue_redraw()
+	if placeholder_note != null:
+		placeholder_note.position = Vector2(8, size.y - 18)
+
+# PLAY-1: the battle tells the stage who is in it, what is in the player's hand
+# and where it is happening. Everything below is presentation; no combat number
+# is read or written here.
+#
+#   enemy_id       "feral_dog" (real art) or "bandit" (drawn placeholder)
+#   weapon_item_id the item really equipped in main_hand, "" for none
+#   is_road        a road ambush rather than the Gray Valley shed
+func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> void:
+	var is_bandit := enemy_id == "bandit"
+	enemy.visible = enemy_alive and not is_bandit
+	enemy_placeholder.visible = enemy_alive and is_bandit
+	if shed_background != null:
+		shed_background.visible = not is_road
+	if road_background != null:
+		road_background.visible = is_road
+	if placeholder_note != null:
+		placeholder_note.visible = is_bandit or is_road
+
+	# The hand shows what is actually equipped. The crowbar is only the fallback
+	# for the legacy field kit, which predates the equipment slots.
+	var art: Texture2D = null
+	if weapon_item_id != "":
+		art = ItemIcon.texture_for(weapon_item_id)
+	if art == null and weapon_item_id == "crowbar":
+		art = ItemIcon.texture_for("crowbar")
+	if art != null:
+		weapon.texture = art
+		weapon.scale = Vector2.ONE * (62.0 / maxf(1.0, float(art.get_width())))
+	armed = art != null
+	weapon.visible = armed
+	showing_bandit = is_bandit
+	arrange()
 
 func refresh(equipped: bool, alive: bool) -> void:
-	weapon.visible = equipped
+	# `equipped` is the legacy field-kit crowbar flag and is now only one way to
+	# be armed; configure() has already decided what is in the hand.
+	weapon.visible = armed or (equipped and weapon.texture != null)
 	enemy_alive = alive
-	enemy.visible = alive
+	enemy.visible = alive and not showing_bandit
+	enemy_placeholder.visible = alive and showing_bandit
 	enemy_shadow.visible = alive
 	hero.modulate = Color.WHITE
 	enemy.modulate = Color.WHITE

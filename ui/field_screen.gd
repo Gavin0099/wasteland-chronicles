@@ -251,14 +251,19 @@ func refresh() -> void:
 	close_button.text = "返回旅途" if is_road else "返回地圖"
 	close_button.disabled = not state.battle.is_empty() or state.receipt >= 0
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
-	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var weapon := "撬棍" if kit.equipped else "徒手"
+	var weapon_item := "crowbar" if kit.equipped else ""
 	if world.player.equipment != null:
 		var main_hand: String = world.player.equipment.equipped_item("main_hand")
 		if not main_hand.is_empty():
 			var resolved := ItemRegistry.resolve(main_hand)
 			if resolved.success:
 				weapon = String(resolved.definition.display_name_zh)
+				weapon_item = main_hand
+	# PLAY-1: the stage is told what this battle actually is, instead of always
+	# drawing a dog in a supply shed holding a crowbar.
+	stage.configure("bandit" if is_road else "feral_dog", weapon_item, is_road)
+	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
 	var enemy_name := "荒原劫匪" if is_road else "野犬"
 	if growth_notice_label != null:
