@@ -77,6 +77,48 @@ component is touched; do not repaint unrelated screens just to widen a UI task.
   systems or explicitly requests a labeled prototype. User-approved new slices may add
   corresponding real components; this skill is not a feature approval gate.
 
+## Chrome belongs to the tokens too
+
+A screen can follow every rule inside its panels and still look wrong, because
+the frame around them was written separately. Window chrome, toolbars and title
+bars are UI; they use the same tokens as everything else. Checked 2026-09-25:
+`desktop_window.gd` and `field_screen.gd` between them hardcoded a `#496AA8`
+title bar, a 2px `#B8B6AF` frame, pale `#DCDAD2` / `#D1D0C9` toolbars and pure
+white title text. None of those are in the token table, and together they read
+as a pale desktop window pasted over a dark industrial PDA. They were the
+loudest thing on every screen and the first thing an owner playtest called ugly.
+
+- Chrome uses `PANEL` / `ELEVATED` fills, `BORDER` or `BORDER_STRONG` at 1 px,
+  `TEXT` for labels and `AMBER` only where it means "this is what you are about
+  to touch": the active title, focus, hover, the primary command.
+- An accent is a hairline or a word, not a filled band. If a quarter of the
+  screen is one accent colour, that colour has stopped meaning anything.
+- Before adding a colour, find its token. A colour with no token is a decision
+  nobody wrote down, and it will not survive the next screen.
+
+## A battle screen is three questions in reading order
+
+Combat is the screen where a player is making a decision under a clock, so its
+layout is a sequence, not a grid of boxes:
+
+1. **Who is fighting and how hurt are they?** Both fighters get a labelled bar
+   AND the number: `你　6 / 12`. A number alone makes the player do arithmetic
+   before they can feel danger; a bar alone hides the exact value the rules use.
+2. **What is about to happen?** A telegraphed action is the single fact that
+   decides the turn, so it sits immediately above the commands, states the real
+   damage, and says what bracing would save. It takes `CRITICAL` only when the
+   incoming blow really is the dangerous one — a panel that is always red is
+   never a warning.
+3. **What can I do, and what will it cost?** Each command carries its own number
+   (`攻擊 · 傷害 5`, `架勢防禦 · 減傷 7`), so the comparison happens on the
+   buttons rather than in the log.
+
+The combat log is history, not the interface. Anything a player needs in order
+to choose must not live in a scrolling log; found 2026-09-25 with the raider's
+wind-up buried under the arena while a near-empty "交戰位置" panel held a screen
+of blank space beside the commands. Panels that state a constant deserve their
+space only if the constant is a decision.
+
 ## Data and interaction boundary
 
 UI reads projections and sends existing intents. It never mutates world inventories,
@@ -102,9 +144,13 @@ if art is requested, reference an existing anchor and apply this same palette an
 
 Owner selected **Lunatic Dawn: Passage of the Book (俠客遊・前途道標)** as the
 first battle-screen reference. Use an elevated/isometric arena with visible fighters
-and a stable command area, retaining this project's PDA frame. First slice is a
-single player and animal opponent; do not imply formation, pathfinding, party or
-movement mechanics from the visual composition. Assets live in `ui/assets/combat/`.
+and a stable command area, retaining this project's PDA frame. First slice was a
+single player and animal opponent; PLAY-4 added a bandit and a heavy raider. Do
+not imply formation, pathfinding, party or movement mechanics from the visual
+composition. Where an enemy has no artwork, draw a labelled stand-in rather than
+reusing another enemy's art: two opponents that share a sprite teach the player
+that the picture is decoration. Stand-ins say so on screen and are recorded in
+`ui/assets/combat/ASSETS.md` as drop-in replaceable. Assets live in `ui/assets/combat/`.
 The environment contains no fighters, UI or text. Fighter cutouts are separate;
 weapon presence, HP, damage and outcomes come from current state. Tween motion is a
 projection after commit; never apply damage in an animation callback. Keep reduced
