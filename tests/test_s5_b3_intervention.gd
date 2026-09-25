@@ -99,7 +99,11 @@ func _init() -> void:
 		# S5-C4 first milestone: bounded, earned character choice only.
 		PlayerIntent.Action.SELECT_PERK,
 		# S5-C4.5: only evidence-backed, opt-in this-life trait acceptance.
-		PlayerIntent.Action.ACCEPT_ACQUIRED_TRAIT
+		PlayerIntent.Action.ACCEPT_ACQUIRED_TRAIT,
+		# PLAY-2: spending a point the character EARNED by levelling. Bounded
+		# the same way as a perk - one skill, at a settlement, and only while
+		# the ledger says an unspent point exists.
+		PlayerIntent.Action.SPEND_GROWTH_POINT
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:

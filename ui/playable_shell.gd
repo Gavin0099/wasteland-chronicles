@@ -2394,9 +2394,23 @@ func _show_character(action_notice: String = "") -> void:
 		else:
 			dialog.action_notice_label.text = "目前無法接受這項人生經歷，請確認經歷條件與目前位置。"
 			dialog.action_notice_label.visible = true
+	# PLAY-2: spending a point is an authority-checked intent like every other
+	# change to the character, and the sheet reopens so the new rank is visible
+	# immediately rather than on the player's next guess.
+	var spend_point := func(skill_id: String):
+		var result := engine.commit_player_intent(world, PlayerIntent.create_spend_growth_point(world.player.npc_id, skill_id))
+		if result.get("success", false):
+			dialog.hide()
+			dialog.queue_free()
+			refresh_ui()
+			call_deferred("_show_character", "%s 提升到 %d 階。" % [
+				presentation.SKILL_NAMES.get(skill_id, skill_id), int(result.get("to_rank", 0))])
+		else:
+			dialog.action_notice_label.text = "目前無法投入成長點，請確認點數與目前位置。"
+			dialog.action_notice_label.visible = true
 	var treat_reason: String = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落"}.get(treat_error, "目前無法使用")) if treat_error != "" else ""
 	add_child(dialog)
-	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired)
+	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point)
 	var viewport_size := get_viewport_rect().size
 	var sheet_size := Vector2i(mini(460, int(viewport_size.x) - 24), mini(560, int(viewport_size.y) - 72))
 	var sheet_position := Vector2i(int(viewport_size.x) - sheet_size.x - 12, 56)

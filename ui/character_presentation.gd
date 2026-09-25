@@ -5,6 +5,7 @@ const Catalogue = preload("res://simulation/background_catalogue.gd")
 const Profile = preload("res://simulation/capability_profile.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
+const Growth = preload("res://simulation/growth_points.gd")
 const SKILL_NAMES = {"BARTER": "交易", "ELECTRONICS": "電子", "FIREARMS": "槍械", "MECHANICS": "機械", "MEDICINE": "醫療", "MELEE": "近戰", "SCAVENGING": "搜刮", "SPEECH": "社交", "STEALTH": "潛行", "SURVIVAL": "荒野求生"}
 const RANK_NAMES = ["外行", "略懂", "熟練", "專業", "專家", "大師"]
 # One line on how each background actually plays. Copy only; the numbers above
@@ -182,6 +183,8 @@ static func project(world: WorldState) -> Dictionary:
 		"perk_choices": Perks.choices() if world.player.perk_ids.size() < Perks.available_slots(world.player.level()) else [],
 		"acquired_traits": world.player.acquired_trait_ids.duplicate(),
 		"acquired_candidates": Acquired.candidates(world.event_log, world.player.npc_id, world.current_day).filter(func(id: String) -> bool: return not world.player.has_acquired_trait(id)),
+		"growth_points": Growth.available(world),
+		"growth_choices": Growth.choices(world),
 		"legacy": data.creation_origin == "LEGACY_MIGRATION"}
 
 static func background_name(id: String) -> String:

@@ -8,6 +8,7 @@ const ItemMarketState = preload("res://simulation/item_market_state.gd")
 const EquipmentState = preload("res://simulation/equipment_state.gd")
 const TravelRoute = preload("res://simulation/travel_route.gd")
 const ProgressionXp = preload("res://simulation/progression_xp.gd")
+const GrowthPoints = preload("res://simulation/growth_points.gd")
 
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
@@ -1312,6 +1313,14 @@ func validate_invariants(world: WorldState) -> String:
 		var xp_history_error := ProgressionXp.validate_history(world.event_log, world.player.npc_id, world.player.xp)
 		if xp_history_error != "":
 			return xp_history_error
+		# PLAY-2: a character cannot have spent more growth than their history
+		# earned. The ledger cannot reconstruct a final skill rank on its own,
+		# because practice moves ranks too and its progress lives in the
+		# profile, so this checks what it honestly can: the shape of each
+		# receipt and the count against levels gained.
+		var growth_history_error := GrowthPoints.validate_history(world.event_log, world.player.npc_id, world.player.xp)
+		if growth_history_error != "":
+			return growth_history_error
 
 	# S5-A Player Avatar invariants
 	if world.player != null:
@@ -2359,6 +2368,21 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.SPEND_GROWTH_POINT:
+			# PLAY-2. Deciding who you are becoming is something you do while
+			# stopped somewhere, not mid-ambush on the road.
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "GROWTH_SPEND_REQUIRES_SETTLEMENT"
+			if intent.payload.size() != 1 or typeof(intent.payload.get("skill_id")) != TYPE_STRING:
+				return "INVALID_GROWTH_INTENT"
+			var growth_skill: String = intent.payload.skill_id
+			if not GrowthPoints.is_spendable(growth_skill):
+				return "SKILL_NOT_SPENDABLE"
+			if GrowthPoints.available(world) < 1:
+				return "NO_GROWTH_POINT_AVAILABLE"
+			if world.player.capability == null or world.player.capability.get_rank(growth_skill) >= 5:
+				return "SKILL_ALREADY_MASTERED"
+			return ""
 		PlayerIntent.Action.SELECT_PERK:
 			if ls.status != NpcLifeState.Status.SETTLED:
 				return "PERK_SELECTION_REQUIRES_SETTLEMENT"
@@ -2567,6 +2591,19 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.SPEND_GROWTH_POINT:
+			var growth_skill: String = intent.payload.skill_id
+			var raised: Dictionary = world.player.capability.raise_rank_by_point(growth_skill)
+			if not raised.success:
+				return {"success": false, "error": String(raised.get("error", "GROWTH_SPEND_FAILED"))}
+			var growth_evt := EventRecord.new(world.current_day, "SKILL_POINT_SPENT", intent.player_id, &"character", {
+				"skill_id": growth_skill, "to_rank": int(raised.to_rank), "level": world.player.level(),
+			})
+			world.record_event(growth_evt)
+			if tick_events != null:
+				tick_events.append(growth_evt)
+			return {"success": true, "skill_id": growth_skill, "to_rank": int(raised.to_rank),
+				"remaining": GrowthPoints.available(world)}
 		PlayerIntent.Action.SELECT_PERK:
 			var perk_id: String = intent.payload.perk_id
 			world.player.perk_ids.append(perk_id)
