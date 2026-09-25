@@ -2059,11 +2059,14 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		var travel_idx: int = enc.travel_day_index
 		world.active_encounter = null
 		world.pending_encounter_result = -1
+		# PLAY-4: who is standing in the road depends on which road the player
+		# chose to walk, so the committed route type travels with the handoff.
 		var battle_info: Dictionary = WorldState.Field.begin_road_battle(world, {
 			"encounter_type": "BANDIT_AMBUSH",
 			"origin": origin_str,
 			"destination": dest_str,
 			"travel_day_index": travel_idx,
+			"route_type": _encounter_party_route(world, enc),
 		})
 		world.record_event(EventRecord.new(
 			world.current_day,

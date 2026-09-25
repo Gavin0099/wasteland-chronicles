@@ -278,16 +278,16 @@ func _init() -> void:
 	var stale := fields(la, "ATTACK")
 	for track in [la, lb]:
 		check(act_field(track, "ATTACK").success, "turn 1")
-		check(track.player.field_kit.hp == 10 and track.field_state.enemy_hp == 5, "equipped hit 3 and enemy hit 2")
+		check(track.player.field_kit.hp == 9 and track.field_state.enemy_hp == 3, "PLAY-4: equipped hit 3 and the dog bit for 3")
 	denied.call(la, stale)
 	denied.call(la, {"command": "REST"})
 	var before := la.to_canonical_json()
 	check(not engine.commit_player_intent(la, PlayerIntent.create_wait(la.player.npc_id)).success and before == la.to_canonical_json(), "world time blocked during combat")
 	for track in [la, lb]:
-		check(act_field(track, "DEFEND").success and track.player.field_kit.hp == 10, "defend absorbs normal hit")
+		check(act_field(track, "DEFEND").success and track.player.field_kit.hp == 9, "PLAY-4: bracing absorbs the dog's whole bite")
 	lb = WorldState.from_json(lb.to_canonical_json())
 	for track in [la, lb]:
-		check(act_field(track, "ATTACK").success and track.field_state.enemy_hp == 0 and track.player.field_kit.hp == 10, "prepared hit 5 wins before retaliation")
+		check(act_field(track, "ATTACK").success and track.field_state.enemy_hp == 0 and track.player.field_kit.hp == 9, "prepared hit 5 wins before retaliation")
 		check(track.current_day == 0, "rounds do not spend days")
 		check(engine.validate_invariants(track) == "", "combat global invariants")
 	check(la.to_canonical_json().sha256_text() == lb.to_canonical_json().sha256_text(), "mid-turn save/load dual-track replay")
@@ -316,7 +316,12 @@ func _init() -> void:
 		if event.type == "FIELD_TURN" or (event.type == "FIELD_ACTION" and event.payload.get("command") == "CRAFT"):
 			event.payload.erase("skill_practice")
 	var leg_sha := JSON.stringify(legacy_projection, "\t", true).sha256_text()
-	check(leg_sha == "4077195a038b6d5db19c9cb69905d10f1aa60228542cb0907f4688b3706c3d68", "pre-C3 combat state still matches exact reference after excluding C3 practice")
+	# PLAY-4 deliberately changed the shed dog: 6 health and a flat 3-damage
+	# bite with no wind-up, so that it fights differently from the bandit rather
+	# than being the same pattern with another name. This frozen reference is
+	# regenerated for that change and for no other reason.
+	#   before PLAY-4: 4077195a038b6d5db19c9cb69905d10f1aa60228542cb0907f4688b3706c3d68
+	check(leg_sha == "441866ae8cd452c6293b8f6748fdc4c16c221b471886220742ad05ddb94aa824", "pre-C3 combat state still matches exact reference after excluding C3 practice")
 	
 	# Outskirts lethal defeat still commits death for source != road
 	var w_fatal := fresh_world()

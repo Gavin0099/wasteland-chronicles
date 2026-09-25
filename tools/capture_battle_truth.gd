@@ -41,6 +41,32 @@ func _shed_fight(with_machete: bool) -> Dictionary:
 	engine.commit_player_intent(world, PlayerIntent.create_field_action(id, {"command": "START"}))
 	return setup
 
+# PLAY-4: the wilderness road, where the opponent you are not ready for waits.
+func _raider_fight() -> Dictionary:
+	var world := S1WorldData.create_s1_world()
+	var engine := SimulationEngine.new()
+	if not engine.commit_character_creation(world, Creation.new({
+		"source_settlement_id": "settlement:dry_well", "character_name": "打手",
+		"age": 30, "background_id": "CARAVAN_GUARD", "trait_ids": [],
+	})).success:
+		return {}
+	var id: StringName = world.player.npc_id
+	world.player.inventory.set_amount("water", 9)
+	world.player.inventory.set_amount("food", 9)
+	world.player.pickup_item("rebar_club")
+	engine.commit_player_intent(world, PlayerIntent.create_equip_item(id, &"rebar_club", "main_hand"))
+	engine.begin_player_travel(world, PlayerIntent.create_travel(id, &"settlement:new_hope", "WILDERNESS"))
+	world.active_encounter = TravelEncounterState.create(
+		TravelEncounter.BANDIT_AMBUSH, world.current_day, &"settlement:dry_well", &"settlement:new_hope", 1)
+	engine.commit_player_intent(world, PlayerIntent.create_resolve_encounter(id, &"FIGHT"))
+	# Step to the turn the hammer is coming, so the telegraph is on screen.
+	for turn in range(2):
+		if world.field_state.battle.is_empty():
+			break
+		engine.commit_player_intent(world, PlayerIntent.create_field_action(id, {
+			"command": "ATTACK", "battle_id": world.field_state.battle.id, "turn": world.field_state.battle.turn}))
+	return {"world": world, "engine": engine}
+
 func _road_fight() -> Dictionary:
 	var setup := _base()
 	if setup.is_empty():
@@ -75,4 +101,5 @@ func capture() -> void:
 	await _shoot(_shed_fight(false), "1_shed_crowbar")
 	await _shoot(_shed_fight(true), "2_shed_machete")
 	await _shoot(_road_fight(), "3_road_bandit")
+	await _shoot(_raider_fight(), "4_wilderness_raider")
 	quit(0)

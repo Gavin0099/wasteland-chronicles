@@ -262,15 +262,17 @@ func refresh() -> void:
 				weapon_item = main_hand
 	# PLAY-1: the stage is told what this battle actually is, instead of always
 	# drawing a dog in a supply shed holding a crowbar.
-	stage.configure("bandit" if is_road else "feral_dog", weapon_item, is_road)
+	stage.configure(Field.Enemies.resolve(Field.battle_enemy(state)).art, weapon_item, is_road)
 	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
-	var enemy_name := "荒原劫匪" if is_road else "野犬"
+	# PLAY-4: the name and the health bar come from whoever is actually there.
+	var current_foe := Field.battle_enemy(state)
+	var enemy_name := Field.Enemies.display_name(current_foe)
 	if growth_notice_label != null:
 		growth_notice_label.visible = false
 	if battle_map_label != null:
 		battle_map_label.text = "交戰示意\n你　↔　%s" % enemy_name
-	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n武器　%s　·　負重 %d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.get_effective_capacity()]
+	status_label.text = "你　生命 %d / 12\n%s　生命 %d / %d\n武器　%s　·　負重 %d / %d" % [kit.hp, enemy_name, state.enemy_hp, Field.Enemies.max_hp(current_foe), weapon, world.player.get_total_inventory_load(), world.player.get_effective_capacity()]
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:
@@ -311,11 +313,13 @@ func refresh() -> void:
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
 		status_label.text += "\n第 %d 回合 · 你的行動" % turn
-		var damage := Field.enemy_damage(turn)
-		if is_road:
-			log_label.text = "荒原劫匪準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["狠毒猛擊" if damage == 4 else "揮砍", damage]
-		else:
-			log_label.text = "野犬準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["猛撲" if damage == 4 else "撕咬", damage]
+		# PLAY-4: the telegraph is the whole reason bracing is a decision, so it
+		# comes from the enemy catalogue and states exactly what this turn's
+		# blow will be and what bracing against it would actually save.
+		var foe := Field.battle_enemy(state)
+		var brace: int = Field.Enemies.brace_reduction(foe, turn)
+		log_label.text = "%s\n架勢防禦可減少 %d 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % [
+			Field.Enemies.telegraph(foe, turn), brace]
 		for event in world.event_log:
 			if event.type == "FIELD_TURN" and int(event.payload.battle_id) == int(state.battle.id) and event.payload.turn >= turn - 3:
 				log_label.text += "\n\n第 %d 回合：造成 %d / 承受 %d" % [event.payload.turn, event.payload.dealt, event.payload.taken]
@@ -323,7 +327,7 @@ func refresh() -> void:
 				if not practice.is_empty():
 					log_label.text += " · " + practice_text(practice)
 		add_action("ATTACK", "攻擊 · 傷害 %d" % Field.attack_damage(world))
-		add_action("DEFEND", "防禦 · 減傷 3，準備反擊")
+		add_action("DEFEND", "架勢防禦 · 減傷 %d，準備反擊" % Field.Enemies.brace_reduction(Field.battle_enemy(state), turn))
 		add_action("FLEE", "逃跑 · 承受 1 傷害")
 	else:
 		if is_road:

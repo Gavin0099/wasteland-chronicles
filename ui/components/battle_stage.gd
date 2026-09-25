@@ -30,9 +30,12 @@ class PlaceholderFigure extends Node2D:
 	var figure_size := Vector2(128, 136)
 	var body := Color(0.16, 0.15, 0.17)
 	var trim := Color(0.42, 0.33, 0.24)
+	# A heavier build for the raider. Two stand-ins that look the same would
+	# repeat the exact mistake this class exists to fix.
+	var bulk := 1.0
 
 	func _draw() -> void:
-		var w := figure_size.x
+		var w := figure_size.x * bulk
 		var h := figure_size.y
 		# A plainly humanoid stand-in: head, coat, legs, and a raised arm. It
 		# reads as a person at a glance and as a placeholder on a second look.
@@ -177,15 +180,22 @@ func arrange() -> void:
 #   weapon_item_id the item really equipped in main_hand, "" for none
 #   is_road        a road ambush rather than the Gray Valley shed
 func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> void:
-	var is_bandit := enemy_id == "bandit"
-	enemy.visible = enemy_alive and not is_bandit
-	enemy_placeholder.visible = enemy_alive and is_bandit
+	# Anything without real art gets the drawn stand-in. Checking for one
+	# specific id was how the raider quietly ended up being drawn as a dog.
+	var has_art := enemy_id == "feral_dog"
+	var drawn := not has_art
+	enemy.visible = enemy_alive and has_art
+	enemy_placeholder.visible = enemy_alive and drawn
+	enemy_placeholder.bulk = 1.35 if enemy_id == "heavy_raider" else 1.0
+	enemy_placeholder.body = Color(0.13, 0.13, 0.15) if enemy_id == "heavy_raider" else Color(0.16, 0.15, 0.17)
+	enemy_placeholder.trim = Color(0.55, 0.42, 0.22) if enemy_id == "heavy_raider" else Color(0.42, 0.33, 0.24)
+	enemy_placeholder.queue_redraw()
 	if shed_background != null:
 		shed_background.visible = not is_road
 	if road_background != null:
 		road_background.visible = is_road
 	if placeholder_note != null:
-		placeholder_note.visible = is_bandit or is_road
+		placeholder_note.visible = drawn or is_road
 
 	# The hand shows what is actually equipped. The crowbar is only the fallback
 	# for the legacy field kit, which predates the equipment slots.
@@ -199,7 +209,7 @@ func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> void:
 		weapon.scale = Vector2.ONE * (62.0 / maxf(1.0, float(art.get_width())))
 	armed = art != null
 	weapon.visible = armed
-	showing_bandit = is_bandit
+	showing_bandit = drawn
 	arrange()
 
 func refresh(equipped: bool, alive: bool) -> void:
