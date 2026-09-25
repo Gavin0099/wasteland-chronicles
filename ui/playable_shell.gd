@@ -140,6 +140,10 @@ var route_choice_row: HBoxContainer
 var route_highway_button: Button
 var route_wilderness_button: Button
 var death_banner: PanelContainer
+var growth_banner: PanelContainer
+var lbl_growth_title: Label
+var lbl_growth_body: Label
+var growth_open_button: Button
 var lbl_death_title: Label
 var lbl_death_body: Label
 var lbl_action_error: Label
@@ -275,6 +279,7 @@ func _render_projection(proj: Dictionary) -> void:
 	_render_event_feed(proj.get("events", []))
 	_render_encounter(proj.get("active_encounter", {}), proj.get("encounter_result", {}))
 	_render_supply_warning(p)
+	_render_growth(proj.get("growth", {}))
 	_render_death(proj.get("death", {}))
 	_sync_desktop(proj)
 
@@ -348,6 +353,28 @@ func _render_supply_warning(p: Dictionary) -> void:
 ".join(lines)
 	lbl_supply_warning.add_theme_color_override(
 		"font_color", Color("#E0555B") if critical else Color("#C9A227"))
+
+# A point is only a decision if the player knows what it would buy. The banner
+# names a concrete thing one point would open, derived from the same catalogue
+# the creation screen reads, so "+1 交易" stops being a number.
+func _render_growth(growth: Dictionary) -> void:
+	if growth_banner == null:
+		return
+	var points := int(growth.get("points", 0))
+	growth_banner.visible = points > 0
+	if points <= 0:
+		return
+	lbl_growth_title.text = "升級了　可用成長點 %d" % points
+	var openings: Array = growth.get("openings", [])
+	if openings.is_empty():
+		lbl_growth_body.text = "在聚落打開人物頁，決定要把自己練成什麼。"
+	else:
+		var lines := PackedStringArray()
+		for opening in openings:
+			lines.append("%s +1 → %s" % [String(opening.skill_name), String(opening.opens)])
+		lbl_growth_body.text = "這一點可以換到：%s" % "；".join(lines)
+	growth_open_button.disabled = String(current_projection.get("player", {}).get("status", "")) != "SETTLED"
+	growth_open_button.tooltip_text = "需要停留在聚落才能投入成長點。" if growth_open_button.disabled else ""
 
 func _render_death(death: Dictionary) -> void:
 	if death_banner == null:
@@ -1073,6 +1100,52 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_death_body.add_theme_color_override("font_color", Color("#D8D3C8"))
 	lbl_death_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	death_vbox.add_child(lbl_death_body)
+
+	# PLAY-2 follow-up. A level used to happen in silence: the only place that
+	# said so was the character sheet, and a player who did not think to open it
+	# never learned they had something to spend. It also answers the first thing
+	# a point has to answer - not "you have a point" but "a point here would let
+	# you do THIS" - by reading the same encounter catalogue the creation screen
+	# already derives from.
+	growth_banner = PanelContainer.new()
+	growth_banner.visible = false
+	var growth_style := StyleBoxFlat.new()
+	growth_style.bg_color = Color("#20241A")
+	growth_style.border_color = Color("#C9A227")
+	growth_style.set_border_width_all(1)
+	growth_style.set_corner_radius_all(2)
+	growth_style.content_margin_left = 12
+	growth_style.content_margin_right = 12
+	growth_style.content_margin_top = 6
+	growth_style.content_margin_bottom = 6
+	growth_banner.add_theme_stylebox_override("panel", growth_style)
+	app_frame.add_child(growth_banner)
+
+	var growth_row := HBoxContainer.new()
+	growth_row.add_theme_constant_override("separation", 12)
+	growth_banner.add_child(growth_row)
+	var growth_text := VBoxContainer.new()
+	growth_text.size_flags_horizontal = SIZE_EXPAND_FILL
+	growth_text.add_theme_constant_override("separation", 2)
+	growth_row.add_child(growth_text)
+
+	lbl_growth_title = Label.new()
+	lbl_growth_title.add_theme_color_override("font_color", Color("#E0B84A"))
+	lbl_growth_title.add_theme_font_size_override("font_size", 16)
+	growth_text.add_child(lbl_growth_title)
+
+	lbl_growth_body = Label.new()
+	lbl_growth_body.add_theme_color_override("font_color", Color("#D8D3C8"))
+	lbl_growth_body.add_theme_font_size_override("font_size", 12)
+	lbl_growth_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	growth_text.add_child(lbl_growth_body)
+
+	growth_open_button = Button.new()
+	growth_open_button.text = "投入成長點"
+	growth_open_button.theme_type_variation = "PdaCommand"
+	growth_open_button.custom_minimum_size = Vector2(140, Tokens.COMMAND_HEIGHT)
+	growth_open_button.pressed.connect(func(): _show_character())
+	growth_row.add_child(growth_open_button)
 
 	# Compatibility labels
 	lbl_day = Label.new()

@@ -35,11 +35,24 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"active_encounter": _project_encounter(world),
 		"encounter_result": _project_encounter_result(world),
 		"death": _project_death(world),
+		"growth": _project_growth(world),
 		"quests": _project_quests(world),
 	}
 	return proj
 
 const JobBoard = preload("res://simulation/job_board.gd")
+const Growth = preload("res://simulation/growth_points.gd")
+
+# PLAY-2 follow-up: a level has to announce itself. Before this the only place
+# that said "you levelled" was the character sheet, so a player who did not
+# think to open it never found out they had something to spend.
+static func _project_growth(world: WorldState) -> Dictionary:
+	if world.player == null:
+		return {}
+	var points := Growth.available(world)
+	if points <= 0:
+		return {}
+	return {"points": points, "openings": Growth.openings(world)}
 const RESOURCE_LABELS := {"water": "水", "food": "食物", "scrap": "廢料", "fuel": "燃料"}
 
 static func _project_quests(world: WorldState) -> Array:
@@ -118,7 +131,24 @@ static func _project_quests(world: WorldState) -> Array:
 			"urgent": bool(extras.get("urgent", false)),
 			"intel": JobBoard.intel_for(world, extras) if not extras.is_empty() else [],
 		})
-	return rows
+	# Hand-play: "任務結束應該直接不見 而不是還在那邊". Finished work used to
+	# stay in the list for ever, so the board silently turned into a graveyard
+	# and fresh work was buried under contracts already settled.
+	#
+	# Generated jobs leave entirely once terminal: they are routine hauling, and
+	# their record lives in the event log where history belongs. Authored
+	# commissions keep their completion line - QUEST-UI added that deliberately
+	# after an earlier playtest - but sort to the bottom so they can never push
+	# an available job out of sight.
+	var live: Array = []
+	var finished: Array = []
+	for row in rows:
+		var terminal: bool = String(row.status) in ["RESOLVED", "EXPIRED", "FAILED"]
+		if not terminal:
+			live.append(row)
+		elif not String(row.id).begins_with("job_"):
+			finished.append(row)
+	return live + finished
 
 # The end of a run is a world fact, not a side effect of a panel. The engine
 # already refuses every intent from a dead player; until this existed the UI had

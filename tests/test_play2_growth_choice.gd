@@ -171,6 +171,30 @@ func run() -> void:
 	check(spend_calls == ["SPEECH"], "pressing the button asks to spend on that skill")
 	sheet.free()
 
+	# ---- a level has to announce itself, and say what the point would buy ----
+	# Hand-play: "人物升級應該有通知之類的 不應該還去人物那邊看".
+	var announced: Dictionary = PlayerUIProjection.project(world).get("growth", {})
+	check(int(announced.get("points", 0)) == Growth.available(world), "the level announces the real number of points")
+	var openings: Array = Growth.openings(world)
+	check(openings.size() > 0, "the announcement names something a point would actually open")
+	var named := {}
+	for opening in openings:
+		named[String(opening.skill_id)] = String(opening.opens)
+		check(String(opening.opens) != "", "%s says what it opens" % opening.skill_id)
+	check(named.has("BARTER"), "+1 交易 crosses a real requirement and is offered")
+	# The honest half: a point in SPEECH opens no door at all, it only shifts
+	# the odds on one that is already there, so it must not be advertised as an
+	# opening. Selling it as one is exactly how a growth system starts lying.
+	check(not named.has("SPEECH"), "+1 社交 opens no door and is not dressed up as one")
+	check(not named.has("STEALTH"), "+1 潛行 opens no door either")
+
+	var spent_all := world.to_canonical_json()
+	while Growth.available(world) > 0:
+		check(engine.commit_player_intent(world, PlayerIntent.create_spend_growth_point(id, "BARTER")).success, "points spend down")
+	check(PlayerUIProjection.project(world).get("growth", {}).is_empty(),
+		"with nothing left to spend the announcement goes away")
+	check(spent_all != world.to_canonical_json(), "spending really changed the world")
+
 	# ---- G7 persistence, invariants, replay ----
 	check(engine.validate_invariants(world) == "", "G7: global invariants hold after spending")
 	var reloaded := WorldState.from_json_checked(world.to_canonical_json())

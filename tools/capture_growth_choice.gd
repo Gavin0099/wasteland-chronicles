@@ -29,6 +29,10 @@ func capture() -> void:
 		shell.setup(world, engine)
 		for frame in range(6):
 			await process_frame
+		# Shot 1: the banner that tells the player a level happened at all.
+		var banner_path := "%s/banner_%dx%d.png" % [output_dir, viewport_size.x, viewport_size.y]
+		if root.get_texture().get_image().save_png(banner_path) == OK:
+			print("CAPTURED ", banner_path)
 		shell._show_character()
 		for frame in range(8):
 			await process_frame

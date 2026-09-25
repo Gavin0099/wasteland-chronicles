@@ -92,6 +92,50 @@ static func validate_history(events: Array[EventRecord], player_id: StringName, 
 # What the character sheet shows: every skill, whether a point may go into it
 # right now, and if not, why not. A locked door with a reason on it teaches the
 # player something; a missing door teaches them nothing.
+# What ONE point would concretely open, right now, for this character.
+#
+# Derived from the encounter catalogue rather than written out, for the same
+# reason the creation screen derives its copy: a hand-written promise drifts the
+# first time an option is retuned, and the player would have spent a point on
+# something the road no longer honours.
+#
+# Only skills where the very next rank crosses a real requirement are listed.
+# "+1 社交" opens no door at all - it only shifts the odds on a door that is
+# already there - so it is deliberately absent rather than dressed up.
+static func openings(world) -> Array:
+	const Travel = preload("res://simulation/travel_encounter.gd")
+	const Names = {"BARTER": "交易", "ELECTRONICS": "電子", "FIREARMS": "槍械", "MECHANICS": "機械",
+		"MEDICINE": "醫療", "MELEE": "近戰", "SCAVENGING": "搜刮", "SPEECH": "社交",
+		"STEALTH": "潛行", "SURVIVAL": "荒野求生"}
+	var out: Array = []
+	if world == null or world.player == null or world.player.capability == null:
+		return out
+	if available(world) < 1:
+		return out
+	var encounter_types := [Travel.WRECK, Travel.ROCKSLIDE, Travel.ROADBLOCK,
+		Travel.DEHYDRATED_TRAVELLER, Travel.REFUGEE_COLUMN, Travel.BANDIT_AMBUSH]
+	for skill_id in SPENDABLE:
+		var have: int = world.player.capability.get_rank(skill_id)
+		if have >= 5:
+			continue
+		var labels := PackedStringArray()
+		for encounter_type in encounter_types:
+			for option in Travel.options(encounter_type):
+				for clause in (option.get("requires", {}) as Dictionary).get("all", []):
+					if String(clause.get("kind", "")) != "skill" or String(clause.get("skill_id", "")) != skill_id:
+						continue
+					var need := int(clause.get("min_rank", 0))
+					if have < need and have + 1 >= need:
+						labels.append("%s：%s" % [Travel.title(encounter_type), String(option.label)])
+		if labels.size() > 0:
+			out.append({
+				"skill_id": skill_id,
+				"skill_name": String(Names.get(skill_id, skill_id)),
+				"opens": "、".join(labels),
+				"count": labels.size(),
+			})
+	return out
+
 static func choices(world) -> Array:
 	var rows: Array = []
 	if world == null or world.player == null or world.player.capability == null:
