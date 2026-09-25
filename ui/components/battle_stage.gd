@@ -28,8 +28,8 @@ class GroundShadow extends Node2D:
 # be a bandit.
 class PlaceholderFigure extends Node2D:
 	var figure_size := Vector2(128, 136)
-	var body := Color(0.16, 0.15, 0.17)
-	var trim := Color(0.42, 0.33, 0.24)
+	var body := Color(0.34, 0.30, 0.28)
+	var trim := Color(0.72, 0.60, 0.32)
 	# A heavier build for the raider. Two stand-ins that look the same would
 	# repeat the exact mistake this class exists to fix.
 	var bulk := 1.0
@@ -37,42 +37,136 @@ class PlaceholderFigure extends Node2D:
 	func _draw() -> void:
 		var w := figure_size.x * bulk
 		var h := figure_size.y
-		# A plainly humanoid stand-in: head, coat, legs, and a raised arm. It
-		# reads as a person at a glance and as a placeholder on a second look.
-		draw_circle(Vector2(w * 0.5, h * 0.17), w * 0.115, body)
+		# Wide separation, because a figure whose light and shade differ by a few
+		# percent is a silhouette no matter how many vertices it has.
+		var lit := Color(body).lightened(0.38)
+		var dark := Color(body).darkened(0.55)
+
+		# Shadow first, so the figure stands on the ground rather than floating.
+		draw_set_transform(Vector2(w * 0.5, h * 0.99), 0.0, Vector2(1.0, 0.26))
+		draw_circle(Vector2.ZERO, w * 0.34, Color(0.08, 0.06, 0.05, 0.35))
+		draw_set_transform(Vector2.ZERO)
+
+		# Legs, slightly apart and braced.
+		draw_line(Vector2(w * 0.455, h * 0.66), Vector2(w * 0.40, h * 0.98), dark, w * 0.085, true)
+		draw_line(Vector2(w * 0.555, h * 0.66), Vector2(w * 0.62, h * 0.98), dark, w * 0.085, true)
+
+		# Torso and coat, lit from the upper left. draw_polygon takes a colour
+		# per vertex, which is what turns a flat cut-out into a form.
 		var coat := PackedVector2Array([
-			Vector2(w * 0.38, h * 0.28), Vector2(w * 0.62, h * 0.28),
-			Vector2(w * 0.72, h * 0.66), Vector2(w * 0.60, h * 0.64),
-			Vector2(w * 0.55, h * 0.70), Vector2(w * 0.45, h * 0.70),
-			Vector2(w * 0.40, h * 0.64), Vector2(w * 0.28, h * 0.66),
+			Vector2(w * 0.36, h * 0.30), Vector2(w * 0.50, h * 0.255), Vector2(w * 0.64, h * 0.30),
+			Vector2(w * 0.70, h * 0.50), Vector2(w * 0.74, h * 0.70), Vector2(w * 0.62, h * 0.68),
+			Vector2(w * 0.55, h * 0.74), Vector2(w * 0.45, h * 0.74), Vector2(w * 0.38, h * 0.68),
+			Vector2(w * 0.26, h * 0.70), Vector2(w * 0.30, h * 0.50),
 		])
-		draw_colored_polygon(coat, body)
-		draw_line(Vector2(w * 0.45, h * 0.70), Vector2(w * 0.42, h), body, w * 0.075)
-		draw_line(Vector2(w * 0.55, h * 0.70), Vector2(w * 0.59, h), body, w * 0.075)
-		# Raised arm holding something, so the pose reads as hostile.
-		draw_line(Vector2(w * 0.62, h * 0.34), Vector2(w * 0.83, h * 0.20), body, w * 0.06)
-		draw_line(Vector2(w * 0.83, h * 0.24), Vector2(w * 0.88, h * 0.06), trim, w * 0.035)
-		draw_line(Vector2(w * 0.38, h * 0.36), Vector2(w * 0.24, h * 0.52), body, w * 0.06)
+		var coat_colors := PackedColorArray([
+			lit, lit, body, body, dark, dark, dark, dark, dark, dark, body,
+		])
+		draw_polygon(coat, coat_colors)
+		# Rim light down the lit edge sells the volume more than any fill does.
+		draw_polyline(PackedVector2Array([
+			Vector2(w * 0.36, h * 0.30), Vector2(w * 0.30, h * 0.50), Vector2(w * 0.26, h * 0.70),
+		]), Color(lit).lightened(0.25), 1.5, true)
+
+		# Head and shoulders.
+		draw_circle(Vector2(w * 0.5, h * 0.185), w * 0.105, dark)
+		draw_circle(Vector2(w * 0.475, h * 0.17), w * 0.085, body)
+		draw_line(Vector2(w * 0.36, h * 0.30), Vector2(w * 0.64, h * 0.30), dark, w * 0.05, true)
+
+		# The weapon arm, raised. The trim colour is the only warm note, so the
+		# eye goes to the thing that is about to hit you.
+		draw_line(Vector2(w * 0.63, h * 0.35), Vector2(w * 0.82, h * 0.22), body, w * 0.065, true)
+		draw_line(Vector2(w * 0.80, h * 0.25), Vector2(w * 0.90, h * 0.04), trim, w * 0.045, true)
+		draw_line(Vector2(w * 0.37, h * 0.36), Vector2(w * 0.23, h * 0.54), body, w * 0.06, true)
 
 # The road is not the supply shed, and until there is art for it saying so
 # plainly is better than reusing the shed and hoping nobody notices.
 class PlaceholderBackdrop extends Control:
+	# The first version of this was three flat polygons and it looked like three
+	# flat polygons. `draw_polygon` takes a colour PER VERTEX, which is the whole
+	# difference between a fill and a sky; `draw_polyline` and `draw_line` take
+	# an antialiased flag. Using them is what separates a stand-in that reads as
+	# a place from one that reads as a debug shape.
+	const HORIZON := 0.46
+
+	func _band(points: Array, colors: Array) -> void:
+		draw_polygon(PackedVector2Array(points), PackedColorArray(colors))
+
 	func _draw() -> void:
 		var w := size.x
 		var h := size.y
-		draw_rect(Rect2(0, 0, w, h * 0.52), Color(0.42, 0.35, 0.28))
-		draw_rect(Rect2(0, h * 0.52, w, h * 0.48), Color(0.29, 0.24, 0.19))
-		# Distant ridge.
+		var sky_top := Color(0.30, 0.25, 0.22)
+		var sky_low := Color(0.62, 0.47, 0.33)
+		# Sky, hot and hazy toward the horizon rather than one flat brown.
+		_band([Vector2(0, 0), Vector2(w, 0), Vector2(w, h * HORIZON), Vector2(0, h * HORIZON)],
+			[sky_top, sky_top, sky_low, sky_low])
+
+		# Three ridge layers. Each nearer one is darker and sits lower, which is
+		# the cheapest honest way to get depth out of flat shapes.
+		var ridges := [
+			{"y": 0.40, "amp": 0.075, "color": Color(0.47, 0.38, 0.31), "seed": 3},
+			{"y": 0.44, "amp": 0.055, "color": Color(0.37, 0.30, 0.25), "seed": 7},
+			{"y": 0.47, "amp": 0.035, "color": Color(0.28, 0.23, 0.20), "seed": 11},
+		]
+		for ridge in ridges:
+			var points: Array = []
+			var colors: Array = []
+			var steps := 14
+			for i in range(steps + 1):
+				var t := float(i) / float(steps)
+				# A fixed, repeatable profile: no RNG, so the road looks the
+				# same every time the screen is drawn.
+				var bump := sin(t * float(ridge.seed) * 1.7) * 0.5 + sin(t * float(ridge.seed) * 0.6) * 0.5
+				points.append(Vector2(w * t, h * (float(ridge.y) - float(ridge.amp) * bump)))
+				colors.append(ridge.color)
+			points.append(Vector2(w, h))
+			points.append(Vector2(0, h))
+			colors.append(Color(ridge.color).darkened(0.25))
+			colors.append(Color(ridge.color).darkened(0.25))
+			_band(points, colors)
+
+		# Ground, lighter where the light falls and darker at the player's feet.
+		_band([Vector2(0, h * HORIZON), Vector2(w, h * HORIZON), Vector2(w, h), Vector2(0, h)],
+			[Color(0.44, 0.35, 0.27), Color(0.44, 0.35, 0.27),
+			 Color(0.24, 0.19, 0.16), Color(0.24, 0.19, 0.16)])
+
+		# The road, widening toward the camera and catching more light near it.
+		_band([Vector2(w * 0.455, h * HORIZON), Vector2(w * 0.545, h * HORIZON),
+			Vector2(w * 0.92, h), Vector2(w * 0.04, h)],
+			[Color(0.50, 0.42, 0.34), Color(0.50, 0.42, 0.34),
+			 Color(0.33, 0.28, 0.24), Color(0.33, 0.28, 0.24)])
+
+		# Worn edges and a broken centre line give the road a direction.
+		draw_line(Vector2(w * 0.455, h * HORIZON), Vector2(w * 0.04, h), Color(0.22, 0.18, 0.15, 0.7), 2.0, true)
+		draw_line(Vector2(w * 0.545, h * HORIZON), Vector2(w * 0.92, h), Color(0.22, 0.18, 0.15, 0.7), 2.0, true)
+		var dashes := 6
+		for i in range(dashes):
+			var t0 := float(i) / float(dashes)
+			var t1 := t0 + 0.055
+			if t1 > 1.0:
+				break
+			# Perspective: dashes lengthen and widen as they approach.
+			draw_line(
+				Vector2(lerpf(w * 0.5, w * 0.48, t0), lerpf(h * HORIZON, h, t0 * t0)),
+				Vector2(lerpf(w * 0.5, w * 0.48, t1), lerpf(h * HORIZON, h, t1 * t1)),
+				Color(0.70, 0.62, 0.45, 0.45), 1.0 + 3.0 * t0, true)
+
+		# A little wreckage on the shoulder, so the eye has something to land on.
+		_silhouette(Vector2(w * 0.085, h * 0.60), w * 0.10, h * 0.055, Color(0.20, 0.17, 0.15))
+		_silhouette(Vector2(w * 0.88, h * 0.55), w * 0.055, h * 0.032, Color(0.22, 0.18, 0.16))
+		draw_line(Vector2(w * 0.735, h * 0.505), Vector2(w * 0.742, h * 0.40), Color(0.19, 0.16, 0.14), 2.0, true)
+		draw_line(Vector2(w * 0.742, h * 0.40), Vector2(w * 0.775, h * 0.415), Color(0.19, 0.16, 0.14), 2.0, true)
+
+	# A low hulk: something rusted that stopped here a long time ago.
+	func _silhouette(base: Vector2, wide: float, tall: float, tint: Color) -> void:
 		draw_colored_polygon(PackedVector2Array([
-			Vector2(0, h * 0.52), Vector2(w * 0.18, h * 0.36), Vector2(w * 0.34, h * 0.47),
-			Vector2(w * 0.52, h * 0.31), Vector2(w * 0.74, h * 0.45), Vector2(w, h * 0.34),
-			Vector2(w, h * 0.52),
-		]), Color(0.34, 0.28, 0.23))
-		# The road itself, widening toward the camera.
-		draw_colored_polygon(PackedVector2Array([
-			Vector2(w * 0.44, h * 0.52), Vector2(w * 0.56, h * 0.52),
-			Vector2(w * 0.86, h), Vector2(w * 0.10, h),
-		]), Color(0.33, 0.29, 0.25))
+			base + Vector2(-wide * 0.5, 0.0),
+			base + Vector2(-wide * 0.42, -tall * 0.75),
+			base + Vector2(-wide * 0.05, -tall),
+			base + Vector2(wide * 0.30, -tall * 0.92),
+			base + Vector2(wide * 0.5, -tall * 0.35),
+			base + Vector2(wide * 0.46, 0.0),
+		]), tint)
 
 var hero: TextureRect
 var enemy: TextureRect
@@ -187,8 +281,10 @@ func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> void:
 	enemy.visible = enemy_alive and has_art
 	enemy_placeholder.visible = enemy_alive and drawn
 	enemy_placeholder.bulk = 1.35 if enemy_id == "heavy_raider" else 1.0
-	enemy_placeholder.body = Color(0.13, 0.13, 0.15) if enemy_id == "heavy_raider" else Color(0.16, 0.15, 0.17)
-	enemy_placeholder.trim = Color(0.55, 0.42, 0.22) if enemy_id == "heavy_raider" else Color(0.42, 0.33, 0.24)
+	# The raider is armour plate, the bandit is cloth and leather. Both must sit
+	# clearly above the sand behind them or they read as holes in the picture.
+	enemy_placeholder.body = Color(0.40, 0.41, 0.44) if enemy_id == "heavy_raider" else Color(0.34, 0.30, 0.28)
+	enemy_placeholder.trim = Color(0.78, 0.55, 0.24) if enemy_id == "heavy_raider" else Color(0.72, 0.60, 0.32)
 	enemy_placeholder.queue_redraw()
 	if shed_background != null:
 		shed_background.visible = not is_road

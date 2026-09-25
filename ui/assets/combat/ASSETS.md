@@ -44,5 +44,17 @@ The weapon in the fighter's hand is no longer hardcoded to the crowbar. It is
 canonical melee items each show their own existing art, and an unarmed fighter
 shows nothing. The crowbar remains the fallback for the legacy field kit.
 
-Replacing either placeholder is a drop-in: supply real art and switch the
-`configure()` branch to a TextureRect, exactly as the dog already is.
+Both stand-ins were rewritten on 2026-09-25 against Godot's custom-drawing API
+rather than being left as flat shapes. The first version used only
+`draw_colored_polygon` with one colour per shape, which is why it looked like
+coloured paper: `draw_polygon` accepts a colour PER VERTEX, and `draw_line` /
+`draw_polyline` take an antialiased flag. The backdrop now carries a sky
+gradient, three ridge layers that darken as they near the camera, a road with
+perspective dashes and worn edges, roadside wreckage, and the figures carry a
+ground shadow, a lit side and a rim light.
+
+This is still a stand-in and still says so on screen. It does NOT match the
+painted drifter and dog beside it, and no amount of drawing code will: the gap
+between a stylised vector figure and a painted cutout is a style gap, not a
+detail gap. Replacing either placeholder remains a drop-in: supply real art and
+switch the `configure()` branch to a TextureRect, exactly as the dog already is.
