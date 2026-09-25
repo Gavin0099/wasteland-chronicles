@@ -245,27 +245,40 @@ static func _objective_satisfied(world: WorldState, quest_id: String, obj: Dicti
 			var origin: String = "settlement:" + String(obj.get("origin_id", ""))
 			var destination: String = "settlement:" + String(obj.get("destination_id", ""))
 			var needed: int = int(obj.get("quantity", 1))
+			# A FIELD_RESULT records the outcome but NOT the road - the route
+			# lives on the ROAD_COMBAT_BEGAN receipt that opened the battle. So
+			# the two are correlated in ledger order rather than changing a
+			# committed receipt shape and every save that contains one.
 			var accepted_at := -1
 			var wins := 0
+			var current_road := {}
 			for i in range(world.event_log.size()):
 				var record: EventRecord = world.event_log[i]
 				if record.type == "QUEST_ACCEPTED" and record.actor_id == world.player.npc_id and String(record.payload.get("quest_id", "")) == quest_id:
 					accepted_at = i
 					wins = 0
+					current_road = {}
 					continue
-				if accepted_at < 0 or i < accepted_at:
+				if accepted_at < 0 or i < accepted_at or record.actor_id != world.player.npc_id:
 					continue
-				if record.type != "FIELD_RESULT" or record.actor_id != world.player.npc_id:
+				if record.type == "ROAD_COMBAT_BEGAN":
+					current_road = {
+						"origin": String(record.payload.get("origin", "")),
+						"destination": String(record.payload.get("destination", "")),
+					}
 					continue
-				if String(record.payload.get("source", "")) != "road" or String(record.payload.get("outcome", "")) != "VICTORY":
+				if record.type != "FIELD_RESULT":
 					continue
-				# The receipt names the road it was won on, in either direction:
-				# the bandits on a road do not care which way you were walking.
-				var fought_origin := String(record.payload.get("origin", ""))
-				var fought_destination := String(record.payload.get("destination", ""))
-				var same_road: bool = (fought_origin == origin and fought_destination == destination) or (fought_origin == destination and fought_destination == origin)
-				if same_road:
-					wins += 1
+				var ended_a_road_battle: bool = String(record.payload.get("source", "")) == "road"
+				if ended_a_road_battle and String(record.payload.get("outcome", "")) == "VICTORY" and not current_road.is_empty():
+					# Either direction counts: the people working a road do not
+					# care which way the player happened to be walking.
+					var a := String(current_road.origin)
+					var b := String(current_road.destination)
+					if (a == origin and b == destination) or (a == destination and b == origin):
+						wins += 1
+				if ended_a_road_battle:
+					current_road = {}
 			return wins >= needed
 		&"WORLD_FLAG":
 			return world.quest_flags.get(obj.get("flag", ""), false)
