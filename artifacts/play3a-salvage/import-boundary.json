@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "passed": 17,
+  "cases": [
+    "external",
+    "project",
+    "traversal",
+    "cache_traversal",
+    "sibling",
+    "nested",
+    "ads",
+    "non_string",
+    "scalar",
+    "directory",
+    "cache_link",
+    "data_link",
+    "artifact_junction",
+    "md5_junction",
+    "resource_ok",
+    "absolute_ok",
+    "packed_ok"
+  ],
+  "skipped": [
+    "artifact_link: file symlink unavailable (errno=22, winerror=1314)",
+    "md5_link: file symlink unavailable (errno=22, winerror=1314)",
+    "broken_link: file symlink unavailable (errno=22, winerror=1314)"
+  ]
+}

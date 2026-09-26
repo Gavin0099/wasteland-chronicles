@@ -129,6 +129,7 @@ static func _project_quests(world: WorldState) -> Array:
 			"risk_stars": JobBoard.RISK_STARS.get(int(extras.get("risk", 0)), ""),
 			"route_days": int(extras.get("route_days", 0)),
 			"urgent": bool(extras.get("urgent", false)),
+			"target_site": String(extras.get("target_site", definition.get("target_site", ""))),
 			"intel": JobBoard.intel_for(world, extras) if not extras.is_empty() else [],
 		})
 	# Hand-play: "任務結束應該直接不見 而不是還在那邊". Finished work used to
@@ -184,7 +185,7 @@ static func _project_encounter_result(world: WorldState) -> Dictionary:
 	var evt := world.event_log[world.pending_encounter_result]
 	var result := evt.payload.duplicate(true)
 	result["result_index"] = world.pending_encounter_result
-	result["title"] = TravelEncounter.title(StringName(result.encounter_type))
+	result["title"] = TravelEncounter.title(StringName(result.encounter_type), result)
 	result["route_label"] = "%s → %s" % [_settlement_name(result.origin), _settlement_name(result.destination)]
 	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	result["can_continue"] = ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.IN_TRANSIT
@@ -230,8 +231,8 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 	var search_preview := {}
 	if enc.encounter_type == TravelEncounter.WRECK and world.player.has_acquired_trait("SCAVENGER_INSTINCT"):
 		search_preview = {
-			"goods": TravelEncounter.wreck_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index),
-			"items": TravelEncounter.wreck_item_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, &"SEARCH", String(enc.context.get("route_type", ""))),
+			"goods": TravelEncounter.wreck_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, String(enc.context.get("source_wreck_id", ""))),
+			"items": TravelEncounter.wreck_item_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, &"SEARCH", String(enc.context.get("route_type", "")), String(enc.context.get("source_wreck_id", ""))),
 		}
 	# KNOWN_HELPER: the same read-only shape as the wreck preview, over the
 	# existing deterministic yield functions. Someone who has really given their
@@ -259,7 +260,7 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 
 	return {
 		"encounter_type": String(enc.encounter_type),
-		"title": TravelEncounter.title(enc.encounter_type),
+		"title": TravelEncounter.title(enc.encounter_type, enc.context),
 		"body": TravelEncounter.body(enc.encounter_type, enc.context),
 		"day": enc.day,
 		"route_label": "%s → %s" % [

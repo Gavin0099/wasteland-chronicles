@@ -31,6 +31,13 @@ func execute(params: Dictionary) -> void:
         utils_script.log_error("Cannot parse import sidecar: " + error_string(load_error))
         return
 
+    # A sidecar is project data, not authority to delete arbitrary files. Check
+    # every artifact and its companion before saving even the option change.
+    var invalidation: Dictionary = _validate_invalidation(config)
+    if not invalidation.ok:
+        utils_script.log_error("Unsafe import cache destination: " + str(invalidation.error))
+        return
+
     var codec = codec_script.new()
     var applied := {}
     for key in options.keys():
@@ -55,13 +62,13 @@ func execute(params: Dictionary) -> void:
     # otherwise consider the asset up to date. The .godot/imported cache is
     # regenerable by design.
     var removed_artifacts: Array[String] = []
-    for destination in Array(config.get_value("deps", "dest_files", [])):
-        var destination_path := str(destination)
-        var absolute_destination := ProjectSettings.globalize_path(destination_path)
+    for target in invalidation.targets:
+        var destination_path: String = target.source
+        var absolute_destination: String = target.artifact
         if FileAccess.file_exists(absolute_destination):
             DirAccess.remove_absolute(absolute_destination)
             removed_artifacts.append(destination_path)
-        var md5_path := absolute_destination.get_basename() + ".md5"
+        var md5_path: String = target.md5
         if FileAccess.file_exists(md5_path):
             DirAccess.remove_absolute(md5_path)
 
@@ -73,6 +80,44 @@ func execute(params: Dictionary) -> void:
         "invalidated_artifacts": removed_artifacts,
         "reimport_required": true
     }))
+
+func _validate_invalidation(config: ConfigFile) -> Dictionary:
+    var destinations: Variant = config.get_value("deps", "dest_files", [])
+    if typeof(destinations) not in [TYPE_ARRAY, TYPE_PACKED_STRING_ARRAY]:
+        return {"ok": false, "error": "dest_files must be an array of paths"}
+    var targets: Array[Dictionary] = []
+    if destinations.is_empty():
+        return {"ok": true, "targets": targets}
+
+    # Refuse directory links/junctions as well as linked artifact files. No
+    # attacker-controlled ancestor remains between this project and the cache.
+    var project_dir: DirAccess = DirAccess.open("res://")
+    if project_dir == null or project_dir.is_link(".godot"):
+        return {"ok": false, "error": "the project cache must not be a link"}
+    var data_dir: DirAccess = DirAccess.open("res://.godot")
+    if data_dir == null or data_dir.is_link("imported"):
+        return {"ok": false, "error": "the import cache must be a local directory"}
+    var cache_dir: DirAccess = DirAccess.open("res://.godot/imported")
+    if cache_dir == null:
+        return {"ok": false, "error": "the import cache cannot be inspected"}
+    var cache_root: String = ProjectSettings.globalize_path("res://.godot/imported").simplify_path()
+    for destination in destinations:
+        if typeof(destination) != TYPE_STRING:
+            return {"ok": false, "error": "dest_files contains a non-string path"}
+        var path: String = destination.replace("\\", "/")
+        var parts: PackedStringArray = path.split("/")
+        if parts.has(".") or parts.has(".."):
+            return {"ok": false, "error": "traversal components are not allowed"}
+        var absolute_path: String = ProjectSettings.globalize_path(path).simplify_path()
+        var md5_path: String = absolute_path.get_basename() + ".md5"
+        for candidate in [absolute_path, md5_path]:
+            var filename: String = candidate.get_file()
+            if candidate.get_base_dir() != cache_root or not filename.is_valid_filename():
+                return {"ok": false, "error": "only direct import-cache files may be invalidated"}
+            if cache_dir.is_link(filename) or cache_dir.dir_exists(filename):
+                return {"ok": false, "error": "cache targets must not be links or directories"}
+        targets.append({"source": destination, "artifact": absolute_path, "md5": md5_path})
+    return {"ok": true, "targets": targets}
 
 func _normalize_res_path(path_value: Variant) -> String:
     var path := str(path_value).strip_edges().replace("\\", "/")

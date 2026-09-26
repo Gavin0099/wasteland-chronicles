@@ -123,6 +123,40 @@ static func validate_definition(raw: Variant) -> String:
 		if out_err != "":
 			return out_err
 
+	return validate_salvage_target(raw)
+
+# Optional on pre-PLAY-3A contracts; once present, the complete site is required.
+static func validate_salvage_target(raw: Dictionary) -> String:
+	var fields: Array[String] = ["target_site", "target_route_origin", "target_route_destination", "target_item_id", "route_days", "source_wreck_id"]
+	var has_target: bool = false
+	for field in fields:
+		has_target = has_target or raw.has(field)
+	if not has_target:
+		return ""
+	for field in fields:
+		if not raw.has(field):
+			return "SALVAGE_TARGET_INCOMPLETE"
+		if field != "route_days" and (typeof(raw[field]) != TYPE_STRING or String(raw[field]).strip_edges().is_empty()):
+			return "SALVAGE_TARGET_INVALID_" + field.to_upper()
+	var days: Variant = raw.route_days
+	if typeof(days) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(days)) or days != floor(float(days)) or days < 1:
+		return "SALVAGE_TARGET_INVALID_ROUTE_DAYS"
+	if not String(raw.id).begins_with("job_") or not _stable_id(raw.target_route_origin) or not _stable_id(raw.target_route_destination) or raw.target_route_origin != raw.settlement_id or raw.target_route_origin == raw.target_route_destination:
+		return "SALVAGE_TARGET_INVALID_ROUTE"
+	if not _stable_id(raw.target_item_id) or raw.objectives.size() != 1:
+		return "SALVAGE_TARGET_INVALID_ITEM"
+	var objective: Dictionary = raw.objectives[0]
+	if objective.get("type") != "DELIVER_ITEM" or objective.get("item_id") != raw.target_item_id or objective.get("settlement_id") != raw.settlement_id or objective.get("quantity") != 1:
+		return "SALVAGE_TARGET_OBJECTIVE_MISMATCH"
+	var prefix: String = "salvage:%s:%s_%s:" % [raw.id, raw.target_route_origin, raw.target_route_destination]
+	if not String(raw.source_wreck_id).begins_with(prefix):
+		return "SALVAGE_TARGET_SOURCE_MISMATCH"
+	var suffix: String = String(raw.source_wreck_id).trim_prefix(prefix)
+	if suffix.is_empty():
+		return "SALVAGE_TARGET_SOURCE_MISMATCH"
+	for character in suffix:
+		if character not in "0123456789_":
+			return "SALVAGE_TARGET_SOURCE_MISMATCH"
 	return ""
 
 # ── Private helpers ────────────────────────────────────────────────────────────
