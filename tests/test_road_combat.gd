@@ -120,21 +120,31 @@ func _init() -> void:
 		for c in pool:
 			check(int(c.weight) >= 0, "candidate weight must never be negative (sec=%f)" % sec)
 
-	# High security road has 0 bandit ambush weight
-	var calm_pool := TravelEncounter.candidates({"min_security": 100.0})
-	var has_bandit_calm := false
-	for c in calm_pool:
+	# This gate used to require that a calm road have NO ambush at all. In a
+	# healthy world that made both roads out of the starting town, and the
+	# wilderness route, roll zero ambushes in 180 tries - owner hand-play:
+	# "戰鬥很難遇到" - and left the PLAY-4 raider unreachable. The rule is now
+	# the one FUN-1 already uses: security MODULATES the fight, it does not
+	# decide whether one can happen.
+	var ambush_weight_at := func(sec: float) -> int:
+		for c in TravelEncounter.candidates({"min_security": sec}):
+			if c.type == TravelEncounter.BANDIT_AMBUSH:
+				return int(c.weight)
+		return 0
+	var calm_weight: int = ambush_weight_at.call(100.0)
+	var unsafe_weight: int = ambush_weight_at.call(25.0)
+	check(calm_weight >= 1, "a calm road still has bandits working it (got %d)" % calm_weight)
+	check(unsafe_weight > calm_weight, "collapsing security makes the road busier (%d -> %d)" % [calm_weight, unsafe_weight])
+	var previous := -1
+	for sec in [100.0, 80.0, 60.0, 40.0, 20.0, 0.0]:
+		var w: int = ambush_weight_at.call(sec)
+		check(w >= previous, "ambush weight never falls as security falls (sec %.0f -> %d)" % [sec, w])
+		previous = w
+	var wild_weight := 0
+	for c in TravelEncounter.candidates({"min_security": 100.0, "route_type": "WILDERNESS"}):
 		if c.type == TravelEncounter.BANDIT_AMBUSH:
-			has_bandit_calm = true
-	check(not has_bandit_calm, "calm road has no bandit ambush")
-
-	# Low security road has scaled bandit ambush weight (~1 to 5)
-	var unsafe_pool := TravelEncounter.candidates({"min_security": 25.0})
-	var bandit_weight := 0
-	for c in unsafe_pool:
-		if c.type == TravelEncounter.BANDIT_AMBUSH:
-			bandit_weight = int(c.weight)
-	check(bandit_weight >= 1 and bandit_weight <= 6, "unsafe road has scaled bandit weight (got %d)" % bandit_weight)
+			wild_weight = int(c.weight)
+	check(wild_weight >= 1, "the wilderness, where the raider waits, can actually roll an ambush")
 
 	# Dual-track deterministic replay
 	var wa := travel_world(5, 5, 50)

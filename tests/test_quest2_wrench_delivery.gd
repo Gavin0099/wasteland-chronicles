@@ -41,6 +41,11 @@ func finish_delivery(world: WorldState) -> bool:
 		elif world.active_encounter != null:
 			var selected := &""
 			for option in TravelEncounter.options(world.active_encounter.encounter_type):
+				# These are delivery tests. Every road now carries bandits, so a courier
+				# answers an ambush the way a courier would - not by starting a fight
+				# this helper was never written to finish.
+				if option.id == &"FIGHT":
+					continue
 				if engine.authorize_encounter_option(world, option.id) == "":
 					selected = option.id
 					break
@@ -124,6 +129,11 @@ func run() -> void:
 		elif world.active_encounter != null:
 			var selected := &""
 			for option in TravelEncounter.options(world.active_encounter.encounter_type):
+				# These are delivery tests. Every road now carries bandits, so a courier
+				# answers an ambush the way a courier would - not by starting a fight
+				# this helper was never written to finish.
+				if option.id == &"FIGHT":
+					continue
 				if engine.authorize_encounter_option(world, option.id) == "":
 					selected = option.id
 					break

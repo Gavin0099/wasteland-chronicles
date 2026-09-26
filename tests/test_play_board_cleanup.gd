@@ -11,9 +11,11 @@ extends SceneTree
 #
 #   G1  a generated job disappears from the board once it is over
 #   G2  its history is NOT destroyed to achieve that
-#   G3  an authored commission keeps its completion line, because QUEST-UI
-#       added that deliberately after an earlier playtest
-#   G4  but a settled commission can never sit above available work
+#   G3  NOTHING terminal stays on the board, authored or generated. The first
+#       version kept authored commissions with a completion line; the owner
+#       reported "完成的任務還是沒有不見" twice, so that exception is gone.
+#   G4  the tally survives: completed work is counted from quest state, not
+#       from board rows (counting rows made "已完成" read 0 after a job)
 # ==============================================================================
 
 const Board = preload("res://simulation/job_board.gd")
@@ -77,19 +79,14 @@ func run() -> void:
 	check(engine.validate_invariants(world) == "", "G2: invariants still hold")
 	check(WorldState.from_json_checked(world.to_canonical_json()).success, "G2: the world still loads")
 
-	# ---- G3 / G4 authored commissions keep their line, at the bottom ----
-	var rows: Array = PlayerUIProjection.project(world).quests
-	var first_terminal := -1
-	var last_live := -1
-	for i in rows.size():
-		var terminal: bool = String(rows[i].status) in ["RESOLVED", "EXPIRED", "FAILED"]
-		if terminal and first_terminal < 0:
-			first_terminal = i
-		if not terminal:
-			last_live = i
-		check(not (terminal and String(rows[i].id).begins_with("job_")), "G1: no finished generated job survives anywhere in the list")
-	if first_terminal >= 0 and last_live >= 0:
-		check(first_terminal > last_live, "G4: settled work never sits above work still available")
+	# ---- G3 nothing terminal on the board ----
+	for row in PlayerUIProjection.project(world).quests:
+		check(not String(row.status) in ["RESOLVED", "EXPIRED", "FAILED"],
+			"G3: no finished work of any kind stays on the board (%s)" % String(row.id))
+
+	# ---- G4 the tally is counted from quest state ----
+	var history: Dictionary = PlayerUIProjection.project(world).quest_history
+	check(int(history.completed) == 1, "G4: the finished generated job is counted, got %d" % int(history.completed))
 
 	if failures == 0:
 		print("BOARD cleanup: PASS; assertions=%d failures=0" % assertions)
