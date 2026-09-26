@@ -37,6 +37,11 @@ func reach_dry_well(world: WorldState) -> bool:
 		elif world.active_encounter != null:
 			var selected := &""
 			for option in TravelEncounter.options(world.active_encounter.encounter_type):
+				# These are delivery tests. Every road now carries bandits, so a courier
+				# answers an ambush the way a courier would - not by starting a fight
+				# this helper was never written to finish.
+				if option.id == &"FIGHT":
+					continue
 				if engine.authorize_encounter_option(world, option.id) == "":
 					selected = option.id
 					break
@@ -126,7 +131,16 @@ func run() -> void:
 	var completed := engine.commit_player_intent(world, PlayerIntent.create_turn_in_quest(world.player.npc_id, ROPE_ID))
 	check(completed.success and not world.player.item_inventory.contains("rope"), "rope turn-in transfers exactly one physical item")
 	shell.refresh_ui()
-	check(shell.quest_panel.visible and shell.quest_progress.text.contains("已完成 · 已交付 繩索 ×1") and shell.quest_progress.text.contains("65 瓶蓋、20 XP"), "completed commission remains readable after receipt closes")
+	# Owner ruling after two hand-plays ("完成的任務還是沒有不見"): finished
+	# work leaves the board. The reward is reported by the 委託結果 receipt at
+	# turn-in, and the tally survives as a count taken from quest state.
+	var still_listed := false
+	for row in PlayerUIProjection.project(world).quests:
+		if String(row.id) == ROPE_ID:
+			still_listed = true
+	check(not still_listed, "a completed commission leaves the board")
+	check(int(PlayerUIProjection.project(world).quest_history.completed) == 1, "the completion is still counted")
+	check(shell.quest_access_button.text.contains("已完成 1"), "the access button reports the completed count")
 	check(world.player.money == before_caps + 65 and world.player.xp == before_xp + 20, "rope rewards are exactly once and separate from skill ranks")
 	check(world.quest_flags.get("dry_well_rope_delivered", false) and not world.quest_flags.get("dry_well_wrench_delivered", false), "rope sets only its own world fact")
 	check(world.event_log.back().type == "QUEST_RESOLVED" and world.event_log.back().payload.quest_id == ROPE_ID, "ledger identifies correct commission")

@@ -52,6 +52,9 @@ const WEIGHT_WRECK := 3
 const WEIGHT_ROCKSLIDE := 3
 const WEIGHT_ROADBLOCK_BASE := 1
 const WEIGHT_TRAVELLER_BASE := 1
+# Every road carries some bandit risk regardless of security; see candidates().
+const WEIGHT_AMBUSH_BASE := 4
+const WEIGHT_AMBUSH_WILDERNESS := 2
 
 # S5-C2 costs. The plain toll stays where S5-B4 put it; someone who trades for a
 # living pays less for the same barrier, so the same road costs a different
@@ -141,16 +144,30 @@ static func candidates(facts: Dictionary) -> Array:
 	if not (facts.get("refugee_column", {}) as Dictionary).is_empty():
 		out.append({"type": REFUGEE_COLUMN, "weight": 8})
 
-	# Bandits ambush where security is compromised. Clamped and scaled to match existing weights.
-	var ambush_weight: int = int(maxf(0.0, 75.0 - min_security) / 10.0)
+	# Bandits work EVERY road; collapsing security only makes them busier.
+	#
+	# This used to be `(75 - security) / 10` with nothing underneath it, which is
+	# zero in a healthy world. Measured over 180 rolls per road: both roads out
+	# of the starting town, and the wilderness route, rolled an ambush 0 times.
+	# So a new player could not meet a road fight from home, two of the three
+	# bounties on the board pointed at roads where the fight could never
+	# happen, and the heavy raider PLAY-4 placed on the wilderness route was
+	# unreachable in ordinary play - its tests staged the encounter directly,
+	# which is why nothing failed. Security gating the fight was the same
+	# mistake FUN-1 made and fixed for bounty postings: a world that never
+	# degrades then never produces the thing. Security now modulates.
+	var ambush_weight: int = WEIGHT_AMBUSH_BASE + int(maxf(0.0, 75.0 - min_security) / 10.0)
 	if facts.get("bandit_ambush", false):
 		ambush_weight += 5
 	if r_type == "HIGHWAY":
-		ambush_weight += 7
+		# The route copy says the highway is where bandits wait; it stays the
+		# most ambush-heavy road.
+		ambush_weight += 4
 	elif r_type == "WILDERNESS":
-		ambush_weight = maxi(0, ambush_weight - 4)
-	if ambush_weight > 0:
-		out.append({"type": BANDIT_AMBUSH, "weight": ambush_weight})
+		# Fewer people wait out here, but the ones who do are the heavy raider.
+		# Rarer per day, over a four-day road - and never zero.
+		ambush_weight = maxi(WEIGHT_AMBUSH_WILDERNESS, ambush_weight - 2)
+	out.append({"type": BANDIT_AMBUSH, "weight": ambush_weight})
 
 	return out
 

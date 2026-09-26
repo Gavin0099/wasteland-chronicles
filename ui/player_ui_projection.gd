@@ -37,6 +37,7 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"death": _project_death(world),
 		"growth": _project_growth(world),
 		"quests": _project_quests(world),
+		"quest_history": _project_quest_history(world),
 	}
 	return proj
 
@@ -136,20 +137,35 @@ static func _project_quests(world: WorldState) -> Array:
 	# stay in the list for ever, so the board silently turned into a graveyard
 	# and fresh work was buried under contracts already settled.
 	#
-	# Generated jobs leave entirely once terminal: they are routine hauling, and
-	# their record lives in the event log where history belongs. Authored
-	# commissions keep their completion line - QUEST-UI added that deliberately
-	# after an earlier playtest - but sort to the bottom so they can never push
-	# an available job out of sight.
+	# The first fix kept AUTHORED commissions on the list with a completion
+	# line, because QUEST-UI had once added persistent completion. The owner
+	# then reported the same thing twice - "完成的任務還是沒有不見" - because a
+	# finished rope delivery kept following the player to Dry Well. So nothing
+	# terminal stays on the board. How much has been done is still shown, as a
+	# count taken from the quest state itself (`_project_quest_history`), not
+	# from these rows - counting rows is exactly how "已完成" used to read 0
+	# after finishing a generated job.
 	var live: Array = []
-	var finished: Array = []
 	for row in rows:
-		var terminal: bool = String(row.status) in ["RESOLVED", "EXPIRED", "FAILED"]
-		if not terminal:
+		if not String(row.status) in ["RESOLVED", "EXPIRED", "FAILED"]:
 			live.append(row)
-		elif not String(row.id).begins_with("job_"):
-			finished.append(row)
-	return live + finished
+	return live
+
+# Completed and otherwise-ended work, counted from the authoritative quest state
+# rather than from whatever the board happens to be displaying.
+static func _project_quest_history(world: WorldState) -> Dictionary:
+	var completed := 0
+	var ended_other := 0
+	if world.player == null:
+		return {"completed": 0, "ended_other": 0}
+	for quest_id in world.quest_state.all_quest_ids():
+		var state = world.quest_state.get_quest(quest_id)
+		if state == null:
+			continue
+		match String(state.status):
+			"RESOLVED": completed += 1
+			"EXPIRED", "FAILED": ended_other += 1
+	return {"completed": completed, "ended_other": ended_other}
 
 # The end of a run is a world fact, not a side effect of a panel. The engine
 # already refuses every intent from a dead player; until this existed the UI had

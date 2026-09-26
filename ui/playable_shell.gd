@@ -2245,9 +2245,12 @@ func _render_quests(rows: Array) -> void:
 		match String(option.status):
 			"AVAILABLE": available_count += 1
 			"ACTIVE": active_count += 1
-			"RESOLVED": completed_count += 1
 			"LOCKED": locked_count += 1
-			_: other_ended_count += 1
+	# Finished work no longer sits on the board, so its tally comes from the
+	# quest state rather than from the rows on screen.
+	var history: Dictionary = current_projection.get("quest_history", {})
+	completed_count = int(history.get("completed", 0))
+	other_ended_count = int(history.get("ended_other", 0))
 	var other_ended_label := "　未完成 %d" % other_ended_count if other_ended_count > 0 else ""
 	var locked_label := "　未解鎖 %d" % locked_count if locked_count > 0 else ""
 	quest_access_button.text = "委託　可接 %d　進行中 %d　已完成 %d%s%s　%s" % [available_count, active_count, completed_count, locked_label, other_ended_label, "返回聚落 ›" if quest_journal_open else "查看 ›"]
