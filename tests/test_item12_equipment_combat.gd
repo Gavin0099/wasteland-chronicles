@@ -31,14 +31,14 @@ func act(world: WorldState, command: String) -> Dictionary:
 func _init() -> void:
 	var unarmed := fresh()
 	check(act(unarmed, "START").success, "unarmed battle starts")
-	check(act(unarmed, "ATTACK").success and unarmed.field_state.enemy_hp == 6, "unarmed attack remains damage 2")
+	check(act(unarmed, "ATTACK").success and unarmed.field_state.enemy_hp == 4, "unarmed attack remains damage 2")
 
 	var knife := fresh()
 	check(knife.player.pickup_item("rusted_knife").success, "test player owns rusted knife")
 	check(knife.player.equip_item("rusted_knife", "main_hand").success, "main-hand knife equips through equipment authority")
 	check(act(knife, "START").success, "equipped battle starts")
 	check(Field.attack_damage(knife) == 3, "rusted knife adds one main-hand damage")
-	check(act(knife, "ATTACK").success and knife.field_state.enemy_hp == 5, "equipped knife changes committed combat result")
+	check(act(knife, "ATTACK").success and knife.field_state.enemy_hp == 3, "equipped knife changes committed combat result")
 
 	var machete := fresh()
 	machete.player.pickup_item("scrap_machete")

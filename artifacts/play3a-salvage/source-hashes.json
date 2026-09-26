@@ -1,0 +1,38 @@
+[
+  {
+    "path": "simulation/job_board.gd",
+    "sha256": "e19a4046a9eae29ba121dd328ca6485579df5b9862d9e6b046939ab571361275"
+  },
+  {
+    "path": "simulation/quest_definition.gd",
+    "sha256": "219cbec0a5172b1304b5464efbd101d033865801c1b12aaa6e0a3428dc2e589d"
+  },
+  {
+    "path": "simulation/simulation_engine.gd",
+    "sha256": "6719ca44696383a3a609c671f5bfff8f97c55f7998aa77605856ae2758f0aa1f"
+  },
+  {
+    "path": "simulation/travel_encounter.gd",
+    "sha256": "42f46dcf9004773703b983d4fc320161061393a2d70e9abbe1a76d97c8a122be"
+  },
+  {
+    "path": "simulation/world_state.gd",
+    "sha256": "de0bdbddfdcf52bed99ec0eeca4f15351c9e857421a17a3e39a254a605cc2dfc"
+  },
+  {
+    "path": "ui/player_ui_projection.gd",
+    "sha256": "cc7b75e8a2ed25cc364e0b599892068d58e1940d3575eb23b6f407fc430361c3"
+  },
+  {
+    "path": "tests/test_play3a_salvage_integration.gd",
+    "sha256": "e5970de2e6c749834ddf76930f0002da5e9d9eb7f4bc56f7bff3e5d3bd63995a"
+  },
+  {
+    "path": "tests/test_play3a_salvage_verb.gd",
+    "sha256": "85db7aa0de27f6a7d43b5619fa095306afb34466ce734fb8f3f58a7af47219de"
+  },
+  {
+    "path": "tests/tools/capture_play3a_salvage.gd",
+    "sha256": "0ec6184ac8e2aa9d1feb00cf095ee9dc9704283b66dc110572f50e07a83ecbe9"
+  }
+]

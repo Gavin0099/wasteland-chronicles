@@ -63,10 +63,21 @@ func run() -> void:
 	for quest_row in projected:
 		if String(quest_row.id) == QUEST_ID and String(quest_row.status) == "AVAILABLE":
 			wrench_available = true
-	check(projected.size() == 2 and wrench_available, "local board shows original quest alongside second commission")
+	# FUN-1 put generated work on the same board, so the guarantee is about the
+	# AUTHORED commissions, not the total row count.
+	var authored_rows := 0
+	for row in projected:
+		if not String(row.id).begins_with("job_"):
+			authored_rows += 1
+	check(authored_rows == 2 and wrench_available, "local board shows original quest alongside second commission")
 	check(world.to_canonical_json() == baseline, "quest projection does not mutate world")
 	var remote := fixture("settlement:new_hope")
-	check(PlayerUIProjection.project(remote).quests.is_empty(), "remote board does not leak quest")
+	var remote_rows: Array = PlayerUIProjection.project(remote).quests
+	var leaked := false
+	for row in remote_rows:
+		if not String(row.id).begins_with("job_"):
+			leaked = true
+	check(not leaked, "remote board does not leak quest")
 	var remote_before := remote.to_canonical_json()
 	var refused := engine.commit_player_intent(remote, PlayerIntent.create_accept_quest(remote.player.npc_id, QUEST_ID))
 	check(not refused.success and remote.to_canonical_json() == remote_before, "remote acceptance fails atomically")

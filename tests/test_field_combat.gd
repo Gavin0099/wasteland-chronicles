@@ -45,16 +45,16 @@ func _init() -> void:
 	var stale := fields(a, "ATTACK")
 	for track in [a, b]:
 		check(act(track, "ATTACK").success, "turn 1")
-		check(track.player.field_kit.hp == 10 and track.field_state.enemy_hp == 5, "equipped hit 3 and enemy hit 2")
+		check(track.player.field_kit.hp == 9 and track.field_state.enemy_hp == 3, "PLAY-4: equipped hit 3 and the dog bit for 3")
 	denied(a, stale)
 	denied(a, {"command": "REST"})
 	var before := a.to_canonical_json()
 	check(not engine.commit_player_intent(a, PlayerIntent.create_wait(a.player.npc_id)).success and before == a.to_canonical_json(), "world time blocked during combat")
 	for track in [a, b]:
-		check(act(track, "DEFEND").success and track.player.field_kit.hp == 10, "defend absorbs normal hit")
+		check(act(track, "DEFEND").success and track.player.field_kit.hp == 9, "PLAY-4: bracing absorbs the dog's whole bite")
 	b = WorldState.from_json(b.to_canonical_json())
 	for track in [a, b]:
-		check(act(track, "ATTACK").success and track.field_state.enemy_hp == 0 and track.player.field_kit.hp == 10, "prepared hit 5 wins before retaliation")
+		check(act(track, "ATTACK").success and track.field_state.enemy_hp == 0 and track.player.field_kit.hp == 9, "prepared hit 5 wins before retaliation")
 		check(track.current_day == 0, "rounds do not spend days")
 		check(engine.validate_invariants(track) == "", "combat global invariants")
 	check(a.to_canonical_json().sha256_text() == b.to_canonical_json().sha256_text(), "mid-turn save/load dual-track replay")
@@ -77,11 +77,11 @@ func _init() -> void:
 	w = fresh()
 	act(w, "START")
 	act(w, "ATTACK")
-	check(w.field_state.enemy_hp == 6 and w.player.field_kit.hp == 10, "unarmed damage fixture")
-	check(act(w, "FLEE").success and w.player.field_kit.hp == 9 and w.field_state.enemy_hp == 6, "escape keeps both HP values")
+	check(w.field_state.enemy_hp == 4 and w.player.field_kit.hp == 9, "unarmed damage fixture")
+	check(act(w, "FLEE").success and w.player.field_kit.hp == 8 and w.field_state.enemy_hp == 4, "escape keeps both HP values")
 	act(w, "CONFIRM")
 	act(w, "START")
-	check(w.field_state.battle.id == 2 and w.field_state.enemy_hp == 6, "monotonic ID and no enemy respawn/heal")
+	check(w.field_state.battle.id == 2 and w.field_state.enemy_hp == 4, "monotonic ID and no enemy respawn/heal")
 	# Lethal result uses existing population authority exactly once.
 	w.player.field_kit.hp = 1
 	var population := w.get_settlement(&"settlement:gray_valley").population

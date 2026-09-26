@@ -3,6 +3,7 @@ extends RefCounted
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Capability = preload("res://simulation/capability_profile.gd")
 const ProgressionXp = preload("res://simulation/progression_xp.gd")
+const Enemies = preload("res://simulation/enemy_catalogue.gd")
 
 const HOME := "settlement:gray_valley"
 const MAX_HP := 12
@@ -15,17 +16,28 @@ static func new_kit() -> Dictionary:
 	return {"hp": MAX_HP, "crowbar": false, "equipped": false}
 
 static func new_state() -> Dictionary:
-	return {"enemy_hp": ENEMY_HP, "opened": false, "next_id": 1, "battle": {}, "receipt": -1}
+	return {"enemy_hp": Enemies.max_hp(Enemies.FERAL_DOG), "opened": false, "next_id": 1, "battle": {}, "receipt": -1}
 
-static func begin_road_battle(world, _enc_context: Dictionary = {}) -> Dictionary:
+# PLAY-4: who is actually standing in the road. The wilderness route is the
+# player's own choice to take the worse road, so it is the honest place for the
+# opponent you are not ready for yet - you can see it coming and decide.
+static func road_enemy_for(context: Dictionary) -> String:
+	const Route = preload("res://simulation/travel_route.gd")
+	if String(context.get("route_type", "")) == String(Route.ROUTE_WILDERNESS):
+		return Enemies.HEAVY_RAIDER
+	return Enemies.BANDIT
+
+static func begin_road_battle(world, enc_context: Dictionary = {}) -> Dictionary:
 	var state: Dictionary = world.field_state
+	var enemy_id := road_enemy_for(enc_context)
 	state.battle = {
 		"id": state.next_id,
 		"turn": 1,
 		"prepared": false,
 		"source": "road",
+		"enemy": enemy_id,
 	}
-	state.enemy_hp = BANDIT_HP
+	state.enemy_hp = Enemies.max_hp(enemy_id)
 	state.next_id += 1
 	state.receipt = -1
 	return state.battle.duplicate(true)
@@ -46,13 +58,18 @@ static func validate_kit(kit: Variant) -> String:
 static func validate_state(state: Variant) -> String:
 	if typeof(state) != TYPE_DICTIONARY or state.size() != 5:
 		return "INVALID_FIELD_STATE"
-	if not integer(state.get("enemy_hp"), 0, ENEMY_HP) or typeof(state.get("opened")) != TYPE_BOOL or not integer(state.get("next_id"), 1, 2147483647) or not integer(state.get("receipt"), -1, 2147483647) or typeof(state.get("battle")) != TYPE_DICTIONARY:
+	if not integer(state.get("enemy_hp"), 0, Enemies.highest_hp()) or typeof(state.get("opened")) != TYPE_BOOL or not integer(state.get("next_id"), 1, 2147483647) or not integer(state.get("receipt"), -1, 2147483647) or typeof(state.get("battle")) != TYPE_DICTIONARY:
 		return "INVALID_FIELD_STATE"
 	if state.opened and state.enemy_hp > 0:
 		return "INVALID_FIELD_SITE"
 	var battle = state.battle
 	if not battle.is_empty():
 		if battle.has("source") and typeof(battle.get("source")) != TYPE_STRING:
+			return "INVALID_FIELD_BATTLE"
+		# PLAY-4: the opponent is part of the battle, not the site. Absent means
+		# a battle saved before this existed, which is read as the old single
+		# enemy rather than rejected.
+		if battle.has("enemy") and not Enemies.exists(battle.get("enemy")):
 			return "INVALID_FIELD_BATTLE"
 		for req_key in ["id", "turn", "prepared"]:
 			if not battle.has(req_key):
@@ -83,7 +100,7 @@ static func validate_wire(data: Dictionary) -> String:
 			return "INVALID_FIELD_PRACTICE_ACTION"
 		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") == "TREAT" and (event_payload.get("item_id") != "first_aid_kit" or not integer(event_payload.get("healed"), 1, 4)):
 			return "INVALID_FIELD_PRACTICE_ACTION"
-		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") != "ATTACK" or not integer(event_payload.get("dealt"), 1, ENEMY_HP)):
+		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") != "ATTACK" or not integer(event_payload.get("dealt"), 1, Enemies.highest_hp())):
 			return "INVALID_FIELD_PRACTICE_TURN"
 		if raw_event.type == "FIELD_RESULT" and event_payload.get("outcome") != "VICTORY":
 			return "INVALID_FIELD_PRACTICE_RESULT"
@@ -239,8 +256,21 @@ static func _equipped_main_hand_bonus(world) -> int:
 		"scrap_machete": return 3
 		_: return 0
 
-static func enemy_damage(turn: int) -> int:
-	return 4 if turn % 3 == 0 else 2
+# Which opponent this battle is against. A battle saved before PLAY-4 carries
+# no enemy, so it is read as whatever that battle used to be rather than being
+# rejected or silently turned into something harder.
+static func battle_enemy(state) -> String:
+	if typeof(state) != TYPE_DICTIONARY:
+		return Enemies.DEFAULT_ENEMY
+	var battle = state.get("battle", {})
+	if typeof(battle) == TYPE_DICTIONARY and Enemies.exists(battle.get("enemy")):
+		return String(battle.enemy)
+	if typeof(battle) == TYPE_DICTIONARY and String(battle.get("source", "field")) == "road":
+		return Enemies.BANDIT
+	return Enemies.FERAL_DOG
+
+static func enemy_damage(turn: int, enemy_id: String = Enemies.BANDIT) -> int:
+	return int(Enemies.action_for(enemy_id, turn).damage)
 
 # DEATH_TESTED: a read-only forecast of an all-out fight, derived from the same
 # deterministic functions the battle itself uses.
@@ -259,10 +289,15 @@ static func forecast(world, is_road: bool) -> Dictionary:
 	var per_hit: int = attack_damage(world)
 	if per_hit <= 0:
 		return {}
-	var turns: int = int(ceil(float(ENEMY_HP) / float(per_hit)))
+	# PLAY-4: the forecast must be about the opponent actually in front of you,
+	# or it stops being a promise the game keeps.
+	var forecast_enemy := battle_enemy(world.field_state)
+	if world.field_state.battle.is_empty():
+		forecast_enemy = road_enemy_for(world.active_encounter.context if world.active_encounter != null else {}) if is_road else Enemies.FERAL_DOG
+	var turns: int = int(ceil(float(Enemies.max_hp(forecast_enemy)) / float(per_hit)))
 	var incoming := 0
 	for turn in range(1, turns):
-		incoming += enemy_damage(turn)
+		incoming += enemy_damage(turn, forecast_enemy)
 	var hp: int = world.player.field_kit.hp
 	# A road fight cannot kill: incoming damage is clamped to leave 1 HP, and
 	# being put on 1 HP is what triggers DEFEAT and its supply loss. The shed
@@ -385,7 +420,11 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			if command == "DEFEND":
 				battle.prepared = true
 			if state.enemy_hp > 0:
-				var raw_damage: int = 1 if command == "FLEE" else maxi(0, enemy_damage(turn) - (3 if command == "DEFEND" else 0))
+				# PLAY-4: bracing is only a real choice if it is worth more
+				# against the blow that is worth bracing for.
+				var foe := battle_enemy(state)
+				var brace: int = Enemies.brace_reduction(foe, turn) if command == "DEFEND" else 0
+				var raw_damage: int = 1 if command == "FLEE" else maxi(0, enemy_damage(turn, foe) - brace)
 				if is_road:
 					if command == "FLEE":
 						taken = mini(raw_damage, maxi(0, player.field_kit.hp - 1))
@@ -424,7 +463,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					finish(world, "VICTORY", gains, left, "road", 5, practice)
 				elif command == "FLEE":
 					finish(world, "ESCAPED", {}, {}, "road")
-				elif player.field_kit.hp == 1 and (enemy_damage(turn) - (3 if command == "DEFEND" else 0)) >= 1:
+				elif player.field_kit.hp == 1 and (enemy_damage(turn, battle_enemy(state)) - (Enemies.brace_reduction(battle_enemy(state), turn) if command == "DEFEND" else 0)) >= 1:
 					var water_lost: int = clampi(2, 0, player.inventory.get_amount("water"))
 					var food_lost: int = clampi(1, 0, player.inventory.get_amount("food"))
 					var caps_lost: int = clampi(10, 0, player.money)

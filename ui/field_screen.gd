@@ -27,6 +27,45 @@ var buttons: Dictionary = {}
 var busy := false
 var reduce_motion: CheckBox
 var battle_map_label: Label
+var player_bar: ProgressBar
+var enemy_bar: ProgressBar
+
+# One combatant, one row: who, how much is left, and a bar wide enough to feel
+# at a glance. The number stays beside the bar, so nothing essential is carried
+# by colour or length alone.
+func _make_bar(parent: Node, fill: Color) -> ProgressBar:
+	var row := VBoxContainer.new()
+	row.add_theme_constant_override("separation", 2)
+	row.size_flags_horizontal = SIZE_EXPAND_FILL
+	parent.add_child(row)
+	var caption := Label.new()
+	caption.add_theme_font_size_override("font_size", Tokens.BODY)
+	caption.add_theme_color_override("font_color", Tokens.TEXT)
+	row.add_child(caption)
+	var bar := ProgressBar.new()
+	bar.custom_minimum_size = Vector2(0, 14)
+	bar.show_percentage = false
+	bar.size_flags_horizontal = SIZE_EXPAND_FILL
+	var background := StyleBoxFlat.new()
+	background.bg_color = Tokens.BASE
+	background.border_color = Tokens.BORDER_STRONG
+	background.set_border_width_all(1)
+	bar.add_theme_stylebox_override("background", background)
+	var foreground := StyleBoxFlat.new()
+	foreground.bg_color = fill
+	bar.add_theme_stylebox_override("fill", foreground)
+	row.add_child(bar)
+	bar.set_meta("caption", caption)
+	return bar
+
+func _set_bar(bar: ProgressBar, label: String, current: int, maximum: int) -> void:
+	if bar == null:
+		return
+	bar.max_value = float(maxi(1, maximum))
+	bar.value = float(clampi(current, 0, maximum))
+	var caption = bar.get_meta("caption", null)
+	if caption != null:
+		caption.text = "%s　%d / %d" % [label, current, maximum]
 
 func practice_text(practice: Dictionary) -> String:
 	if practice.is_empty():
@@ -112,8 +151,8 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	move_child(backdrop, 1)
 	var toolbar := PanelContainer.new()
 	var toolbar_style := StyleBoxFlat.new()
-	toolbar_style.bg_color = Color("#DCDAD2")
-	toolbar_style.border_color = Color("#7E7E7C")
+	toolbar_style.bg_color = Tokens.ELEVATED
+	toolbar_style.border_color = Tokens.BORDER_STRONG
 	toolbar_style.set_border_width_all(1)
 	toolbar_style.content_margin_left = 8
 	toolbar_style.content_margin_right = 8
@@ -123,7 +162,7 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	root.add_child(toolbar)
 	root.move_child(toolbar, 0)
 	heading.reparent(toolbar)
-	heading_label.add_theme_color_override("font_color", Color("#20242C"))
+	heading_label.add_theme_color_override("font_color", Tokens.TEXT)
 	var columns := HBoxContainer.new()
 	columns.size_flags_vertical = SIZE_EXPAND_FILL
 	columns.add_theme_constant_override("separation", 12)
@@ -163,19 +202,28 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	note.reparent(message_window.body)
 	var person_window := DesktopWindow.new("人物與對手")
 	side.add_child(person_window)
+	# Numbers alone make the player do arithmetic before they can feel how bad
+	# it is. The bar carries the feeling; the number beside it stays authoritative,
+	# so nothing essential is encoded in colour alone.
+	player_bar = _make_bar(person_window.body, Tokens.AMBER)
+	enemy_bar = _make_bar(person_window.body, Tokens.CRITICAL)
 	status.reparent(person_window.body)
 	var tools_window := DesktopWindow.new("行動指令")
 	side.add_child(tools_window)
 	actions.reparent(tools_window.body)
 	actions.columns = 1
-	var map_window := DesktopWindow.new("交戰位置")
-	map_window.size_flags_vertical = SIZE_EXPAND_FILL
+	# The side column used to end in a panel that said "you ↔ the dog" and then
+	# left most of a screen-height empty, while the one fact that decides this
+	# turn - what is about to hit you and how hard - sat as body text at the
+	# bottom of a scrolling log. They have swapped places: the incoming blow is
+	# now directly above the commands, which is the order the player reads in.
+	var map_window := DesktopWindow.new("這一回合")
 	side.add_child(map_window)
+	side.move_child(map_window, side.get_child_count() - 2)
 	battle_map_label = Label.new()
 	battle_map_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	battle_map_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	battle_map_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	battle_map_label.size_flags_vertical = SIZE_EXPAND_FILL
+	battle_map_label.size_flags_horizontal = SIZE_EXPAND_FILL
+	battle_map_label.add_theme_font_size_override("font_size", Tokens.BODY)
 	map_window.body.add_child(battle_map_label)
 	old_body.queue_free()
 
@@ -251,21 +299,35 @@ func refresh() -> void:
 	close_button.text = "返回旅途" if is_road else "返回地圖"
 	close_button.disabled = not state.battle.is_empty() or state.receipt >= 0
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
-	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var weapon := "撬棍" if kit.equipped else "徒手"
+	var weapon_item := "crowbar" if kit.equipped else ""
 	if world.player.equipment != null:
 		var main_hand: String = world.player.equipment.equipped_item("main_hand")
 		if not main_hand.is_empty():
 			var resolved := ItemRegistry.resolve(main_hand)
 			if resolved.success:
 				weapon = String(resolved.definition.display_name_zh)
+				weapon_item = main_hand
+	# PLAY-1: the stage is told what this battle actually is, instead of always
+	# drawing a dog in a supply shed holding a crowbar.
+	stage.configure(Field.Enemies.resolve(Field.battle_enemy(state)).art, weapon_item, is_road)
+	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
-	var enemy_name := "荒原劫匪" if is_road else "野犬"
+	# PLAY-4: the name and the health bar come from whoever is actually there.
+	var current_foe := Field.battle_enemy(state)
+	var enemy_name := Field.Enemies.display_name(current_foe)
 	if growth_notice_label != null:
 		growth_notice_label.visible = false
+	_set_bar(player_bar, "你", int(kit.hp), Field.MAX_HP)
+	_set_bar(enemy_bar, enemy_name, int(state.enemy_hp), Field.Enemies.max_hp(current_foe))
 	if battle_map_label != null:
-		battle_map_label.text = "交戰示意\n你　↔　%s" % enemy_name
-	status_label.text = "你　生命 %d / 12\n%s　生命 %d / 8\n武器　%s　·　負重 %d / %d" % [kit.hp, enemy_name, state.enemy_hp, weapon, world.player.get_total_inventory_load(), world.player.get_effective_capacity()]
+		# Overwritten below when a turn is actually waiting on the player. This
+		# panel is about the decision in front of you, not a standing diagram.
+		battle_map_label.add_theme_color_override("font_color", Tokens.SECONDARY)
+		battle_map_label.text = Field.Enemies.resolve(current_foe).note_zh
+	# Both health values are on the bars above now; repeating them here was the
+	# same fact three times in one panel.
+	status_label.text = "武器　%s　·　負重 %d / %d" % [weapon, world.player.get_total_inventory_load(), world.player.get_effective_capacity()]
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:
@@ -306,11 +368,19 @@ func refresh() -> void:
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
 		status_label.text += "\n第 %d 回合 · 你的行動" % turn
-		var damage := Field.enemy_damage(turn)
-		if is_road:
-			log_label.text = "荒原劫匪準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["狠毒猛擊" if damage == 4 else "揮砍", damage]
-		else:
-			log_label.text = "野犬準備%s，將造成 %d 傷害。\n防禦可減少 3 傷害，並讓下次攻擊增加 2 傷害（不累加）。" % ["猛撲" if damage == 4 else "撕咬", damage]
+		# PLAY-4: the telegraph is the whole reason bracing is a decision, so it
+		# comes from the enemy catalogue and states exactly what this turn's
+		# blow will be and what bracing against it would actually save.
+		var foe := Field.battle_enemy(state)
+		var brace: int = Field.Enemies.brace_reduction(foe, turn)
+		var incoming: Dictionary = Field.Enemies.action_for(foe, turn)
+		# The single fact that decides this turn sits beside the commands, and
+		# takes the danger colour only when it really is one.
+		if battle_map_label != null:
+			battle_map_label.text = "%s\n\n架勢防禦這回合可減少 %d 傷害。" % [Field.Enemies.telegraph(foe, turn), brace]
+			battle_map_label.add_theme_color_override(
+				"font_color", Tokens.CRITICAL if bool(incoming.heavy) else Tokens.TEXT)
+		log_label.text = "架勢防禦也讓你下次攻擊增加 2 傷害（不累加）。"
 		for event in world.event_log:
 			if event.type == "FIELD_TURN" and int(event.payload.battle_id) == int(state.battle.id) and event.payload.turn >= turn - 3:
 				log_label.text += "\n\n第 %d 回合：造成 %d / 承受 %d" % [event.payload.turn, event.payload.dealt, event.payload.taken]
@@ -318,7 +388,7 @@ func refresh() -> void:
 				if not practice.is_empty():
 					log_label.text += " · " + practice_text(practice)
 		add_action("ATTACK", "攻擊 · 傷害 %d" % Field.attack_damage(world))
-		add_action("DEFEND", "防禦 · 減傷 3，準備反擊")
+		add_action("DEFEND", "架勢防禦 · 減傷 %d，準備反擊" % Field.Enemies.brace_reduction(Field.battle_enemy(state), turn))
 		add_action("FLEE", "逃跑 · 承受 1 傷害")
 	else:
 		if is_road:

@@ -159,7 +159,13 @@ func _init() -> void:
 
 	# --------------------------------------------------------------------------
 	print("\n--- [GATE UI3] Travel Interaction ---")
-	if not shell.lbl_local_context.text.contains("灰谷") or shell.field_button.disabled or not shell.quest_access_button.text.contains("可接 2"):
+	# FUN-1: the board now also posts generated work here, so the count is no
+	# longer a fixed two. The gate is that the entry is present and offers work.
+	var acceptable := 0
+	for row in PlayerUIProjection.project(world).quests:
+		if row.status == "AVAILABLE":
+			acceptable += 1
+	if not shell.lbl_local_context.text.contains("灰谷") or shell.field_button.disabled or acceptable < 2 or not shell.quest_access_button.text.contains("可接"):
 		print("FAIL UI3: Gray Valley must expose its location, local combat entry, and two available commissions")
 		quit(1)
 		return
@@ -219,7 +225,14 @@ func _init() -> void:
 		print("FAIL UI3: player did not end up at New Hope: %s" % arrived_ls.population_container_id)
 		quit(1)
 		return
-	if not shell.field_button.disabled or not shell.quest_access_button.text.contains("可接 0") or not shell.lbl_local_context.text.contains("新希望"):
+	# FUN-1: New Hope runs its own board, so "可接 0" no longer holds. The gate
+	# it was protecting is that Gray Valley's AUTHORED commissions do not follow
+	# the player down the road.
+	var followed := false
+	for row in PlayerUIProjection.project(world).quests:
+		if not String(row.id).begins_with("job_") and row.status == "AVAILABLE":
+			followed = true
+	if not shell.field_button.disabled or followed or not shell.lbl_local_context.text.contains("新希望"):
 		print("FAIL UI3: new location did not disclose local activity availability")
 		quit(1)
 		return

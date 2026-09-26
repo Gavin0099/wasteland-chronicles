@@ -41,6 +41,11 @@ var pending_encounter_result: int = -1
 # so old saves produce byte-identical JSON — Gate 7.
 var quest_state: RefCounted = QuestStateReg.new()
 var quest_flags: Dictionary = {}  # Dictionary[String, bool] — set by quest world_effects
+# FUN-1: the definition of every job the player has ACCEPTED from a board.
+# The board itself is recomputed from today's facts and is never stored, so a
+# town that stops being short cannot retroactively cancel work already taken.
+# Once accepted, this committed copy is the only truth about that contract.
+var accepted_jobs: Dictionary = {}  # Dictionary[String, Dictionary] — quest_id -> definition
 
 func get_settlement(id: StringName) -> SettlementState:
 	return settlements.get(id, null)
@@ -136,6 +141,7 @@ func duplicate_state() -> WorldState:
 	# QUEST-1
 	copy.quest_state = quest_state.duplicate_registry()
 	copy.quest_flags = quest_flags.duplicate(true)
+	copy.accepted_jobs = accepted_jobs.duplicate(true)
 	return copy
 
 func to_dict() -> Dictionary:
@@ -201,6 +207,11 @@ func to_dict() -> Dictionary:
 	if not quest_flags.is_empty():
 		result["quest_schema_version"] = 1
 		result["quest_flags"] = quest_flags.duplicate(true)
+	if not accepted_jobs.is_empty():
+		result["quest_schema_version"] = 1
+		# Contract numbers share the ledger's JSON value model. A raw duplicate
+		# turns integer tokens into floats only after a load, breaking replay SHA.
+		result["accepted_jobs"] = EventRecord.canonicalize_payload(accepted_jobs)
 	return result
 
 # ==============================================================================
@@ -357,6 +368,21 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		for flag in data["quest_flags"]:
 			if typeof(flag) != TYPE_STRING or flag.is_empty() or typeof(data["quest_flags"][flag]) != TYPE_BOOL:
 				return {"success": false, "world": null, "error": "QUEST_FLAGS_INVALID_ENTRY"}
+	# FUN-1: an accepted job is a committed contract, so a malformed one must
+	# fail the load rather than silently becoming unfulfillable.
+	if data.has("accepted_jobs"):
+		if typeof(data["accepted_jobs"]) != TYPE_DICTIONARY:
+			return {"success": false, "world": null, "error": "ACCEPTED_JOBS_NOT_DICT"}
+		const JobDefinition = preload("res://simulation/quest_definition.gd")
+		for job_id in data["accepted_jobs"]:
+			if typeof(job_id) != TYPE_STRING or not job_id.begins_with("job_"):
+				return {"success": false, "world": null, "error": "ACCEPTED_JOB_INVALID_ID"}
+			var raw: Variant = data["accepted_jobs"][job_id]
+			if typeof(raw) != TYPE_DICTIONARY or String(raw.get("id", "")) != job_id:
+				return {"success": false, "world": null, "error": "ACCEPTED_JOB_ID_MISMATCH"}
+			var job_err := JobDefinition.validate_definition(raw)
+			if job_err != "":
+				return {"success": false, "world": null, "error": "ACCEPTED_JOB_" + job_err}
 
 	var w := from_dict_unchecked(data)
 
@@ -389,6 +415,10 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 					return {"success": false, "world": null, "error": "ENCOUNTER_ROUTE_MISMATCH"}
 			w.active_encounter = enc
 
+	var salvage_error: String = _validate_salvage_sources(w)
+	if salvage_error != "":
+		return {"success": false, "world": null, "error": salvage_error}
+
 	if data.has("field_state"):
 		w.field_state = Field.normalize_state(data.field_state)
 	var field_world_error := Field.validate_world(w)
@@ -413,6 +443,72 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		if world_error != "":
 			return {"success": false, "world": null, "error": world_error}
 	return {"success": true, "world": w, "error": "", "migrated": not data.has("progression_schema_version")}
+
+# Site facts have authority because the accepted contract and committed ledger
+# agree. Older jobs have none of these fields and keep their original behavior.
+static func _validate_salvage_sources(world: WorldState) -> String:
+	var accepted: Dictionary = {}
+	var resolved: Dictionary = {}
+	for event in world.event_log:
+		if event.type not in ["QUEST_ACCEPTED", "TRAVEL_ENCOUNTER", "TRAVEL_ENCOUNTER_RESOLVED"]:
+			continue
+		var payload: Dictionary = event.payload
+		if not payload.has("source_wreck_id") and not payload.has("salvage_job_id"):
+			continue
+		var job_id: Variant = payload.get("quest_id") if event.type == "QUEST_ACCEPTED" else payload.get("salvage_job_id")
+		if typeof(job_id) != TYPE_STRING or not world.accepted_jobs.has(job_id):
+			return "SALVAGE_SOURCE_UNKNOWN_JOB"
+		var definition: Dictionary = world.accepted_jobs[job_id]
+		if not definition.has("source_wreck_id") or typeof(payload.get("source_wreck_id")) != TYPE_STRING or payload.source_wreck_id != definition.source_wreck_id:
+			return "SALVAGE_SOURCE_CONTRACT_MISMATCH"
+		if world.player == null or event.actor_id != world.player.npc_id:
+			return "SALVAGE_SOURCE_ACTOR_MISMATCH"
+		if event.type == "QUEST_ACCEPTED":
+			accepted[job_id] = true
+			continue
+		if not accepted.has(job_id) or not _salvage_route_matches(definition, payload.get("origin"), payload.get("destination")) or payload.get("encounter_type") != "WRECK":
+			return "SALVAGE_SOURCE_ROUTE_MISMATCH"
+		if resolved.has(job_id):
+			return "SALVAGE_SOURCE_ALREADY_RESOLVED"
+		if event.type == "TRAVEL_ENCOUNTER_RESOLVED":
+			if payload.get("site_name") != definition.target_site:
+				return "SALVAGE_SOURCE_SITE_MISMATCH"
+			resolved[job_id] = true
+	for job_id in world.accepted_jobs:
+		var definition: Dictionary = world.accepted_jobs[job_id]
+		if not definition.has("source_wreck_id"):
+			continue
+		if not accepted.has(job_id):
+			return "SALVAGE_SOURCE_ACCEPTANCE_MISSING"
+		if world.get_settlement(StringName("settlement:" + definition.target_route_origin)) == null or world.get_settlement(StringName("settlement:" + definition.target_route_destination)) == null:
+			return "SALVAGE_SOURCE_UNKNOWN_ROUTE"
+	if world.active_encounter != null:
+		var encounter: TravelEncounterState = world.active_encounter
+		var context: Dictionary = encounter.context
+		# Removing the whole context must not downgrade an already announced
+		# contract site into an ordinary day-seeded wreck after loading.
+		for index in range(world.event_log.size() - 1, -1, -1):
+			var event: EventRecord = world.event_log[index]
+			if event.type != "TRAVEL_ENCOUNTER" or event.day != encounter.day or event.payload.get("origin") != String(encounter.origin_id) or event.payload.get("destination") != String(encounter.destination_id) or event.payload.get("travel_day_index") != encounter.travel_day_index:
+				continue
+			if event.payload.has("source_wreck_id") and (context.get("source_wreck_id") != event.payload.source_wreck_id or context.get("salvage_job_id") != event.payload.get("salvage_job_id")):
+				return "SALVAGE_SOURCE_CONTEXT_MISMATCH"
+			break
+		if context.has("source_wreck_id") or context.has("salvage_job_id") or context.has("salvage_target_item"):
+			var job_id: Variant = context.get("salvage_job_id")
+			if typeof(job_id) != TYPE_STRING or not accepted.has(job_id) or resolved.has(job_id):
+				return "SALVAGE_SOURCE_INVALID_ACTIVE_JOB"
+			var definition: Dictionary = world.accepted_jobs[job_id]
+			if encounter.encounter_type != TravelEncounter.WRECK or context.get("source_wreck_id") != definition.source_wreck_id or context.get("salvage_target_item") != definition.target_item_id or context.get("site_name") != definition.target_site:
+				return "SALVAGE_SOURCE_CONTEXT_MISMATCH"
+			if not _salvage_route_matches(definition, String(encounter.origin_id), String(encounter.destination_id)) or context.get("route_type", "") == "WILDERNESS":
+				return "SALVAGE_SOURCE_ROUTE_MISMATCH"
+	return ""
+
+static func _salvage_route_matches(definition: Dictionary, origin: Variant, destination: Variant) -> bool:
+	var start: String = "settlement:" + definition.target_route_origin
+	var finish: String = "settlement:" + definition.target_route_destination
+	return (origin == start and destination == finish) or (origin == finish and destination == start)
 
 # Raw saves must enter here, before Godot erases rank-token spelling.
 static func from_json_checked(raw: String) -> Dictionary:
@@ -467,6 +563,8 @@ static func from_dict_unchecked(data: Dictionary) -> WorldState:
 		w.quest_state = QuestStateReg.from_dict(data["quest_state"])
 	if data.has("quest_flags") and typeof(data["quest_flags"]) == TYPE_DICTIONARY:
 		w.quest_flags = data["quest_flags"].duplicate(true)
+	if data.has("accepted_jobs") and typeof(data["accepted_jobs"]) == TYPE_DICTIONARY:
+		w.accepted_jobs = data["accepted_jobs"].duplicate(true)
 	return w
 
 func to_canonical_json() -> String:
