@@ -57,7 +57,22 @@ func search_three_wrecks(world: WorldState) -> void:
 		check(steps < 12 and world.npc_life_state_registry.get_life_state(id).status == NpcLifeState.Status.SETTLED, "journey returns to settlement")
 		trips += 1
 	check(counted == 3, "all three fixture wrecks actually yielded carried loot")
-	check(Acquired.candidates(world.event_log, id, world.current_day).has("SCAVENGER_INSTINCT"), "three different real wrecks create candidate")
+	var one_search: EventRecord = null
+	for event in world.event_log:
+		if event.type == "TRAVEL_ENCOUNTER_RESOLVED" and event.actor_id == id and event.payload.get("encounter_type") == "WRECK" and event.payload.get("option") == "SEARCH" and (not event.payload.gained.is_empty() or not event.payload.get("items_gained", {}).is_empty()):
+			one_search = event
+			break
+	check(one_search != null, "real successful search receipt exists for qualification boundary")
+	if one_search != null:
+		var same_day: Array[EventRecord] = []
+		for _i in range(3):
+			same_day.append(EventRecord.new(10, one_search.type, id, one_search.target_id, one_search.payload.duplicate(true)))
+		check(not Acquired.candidates(same_day, id, 12).has("SCAVENGER_INSTINCT"), "three receipts on one day do not create a candidate")
+		var repeated_route: Array[EventRecord] = []
+		for day in [10, 11, 12]:
+			repeated_route.append(EventRecord.new(day, one_search.type, id, one_search.target_id, one_search.payload.duplicate(true)))
+		check(Acquired.candidates(repeated_route, id, 12).has("SCAVENGER_INSTINCT"), "three successful days on the same route qualify without claiming distinct physical wrecks")
+	check(Acquired.candidates(world.event_log, id, world.current_day).has("SCAVENGER_INSTINCT"), "three successful search days create candidate")
 	check(engine.commit_player_intent(world, PlayerIntent.create_accept_acquired_trait(id, "SCAVENGER_INSTINCT")).success, "qualified survivor opts in at settlement")
 	check(world.player.has_acquired_trait("SCAVENGER_INSTINCT"), "trait is owned separately from creation traits")
 	var next_origin: StringName = world.npc_life_state_registry.get_life_state(id).population_container_id

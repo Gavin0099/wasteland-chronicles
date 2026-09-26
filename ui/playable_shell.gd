@@ -1958,6 +1958,22 @@ func _render_encounter(enc: Dictionary, result: Dictionary = {}) -> void:
 				finds.append("%s %d" % [resolved_item.definition.display_name_zh, int(items[item_id])])
 		lbl_encounter_body.text += "\n\n拾荒直覺｜徒手搜尋可找到：%s。背包裝不下時仍帶不走。" % ("沒有值得帶走的東西" if finds.is_empty() else "、".join(finds))
 
+	var help: Dictionary = enc.get("help_preview", {})
+	if not help.is_empty():
+		var offered := PackedStringArray()
+		var help_goods: Dictionary = help.get("goods", {})
+		for resource in ["water", "food", "scrap", "fuel"]:
+			if int(help_goods.get(resource, 0)) > 0:
+				offered.append("%s %d" % [{"water": "水", "food": "食物", "scrap": "廢料", "fuel": "燃料"}[resource], int(help_goods[resource])])
+		lbl_encounter_body.text += "\n\n救人手法｜對方拿得出：%s。你仍要付出那一份補給。" % (
+			"什麼也拿不出來" if offered.is_empty() else "、".join(offered))
+
+	var risk: Dictionary = enc.get("risk_preview", {})
+	if not risk.is_empty():
+		var verdict := "被打趴（戰敗、損失物資）" if bool(risk.get("beaten", false)) else "剩 %d 點" % int(risk.get("hp_after", 0))
+		lbl_encounter_body.text += "\n\n見過底的人｜一路硬打：%d 回合擊退，期間挨 %d 點，%d → %s。（只算全程進攻；防禦或逃跑不同。）" % [
+			int(risk.get("turns", 0)), int(risk.get("incoming", 0)), int(risk.get("hp", 0)), verdict]
+
 	var bp: Dictionary = current_projection.get("player", {}).get("backpack", {})
 	lbl_encounter_supplies.text = "目前：💧 %d　🍴 %d　⚙ %d　⛽ %d　💰 %d" % [
 		int(bp.get("water", 0)), int(bp.get("food", 0)),

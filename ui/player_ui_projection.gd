@@ -166,6 +166,30 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 			"goods": TravelEncounter.wreck_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index),
 			"items": TravelEncounter.wreck_item_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, &"SEARCH", String(enc.context.get("route_type", ""))),
 		}
+	# KNOWN_HELPER: the same read-only shape as the wreck preview, over the
+	# existing deterministic yield functions. Someone who has really given their
+	# own water away twice can tell what the person in front of them still has
+	# to offer. It changes nothing about the outcome - the ration is still paid
+	# and the yield is still whatever the road already decided.
+	var help_preview := {}
+	if world.player.has_acquired_trait("KNOWN_HELPER"):
+		if enc.encounter_type == TravelEncounter.DEHYDRATED_TRAVELLER:
+			help_preview = {
+				"option": "GIVE_WATER",
+				"goods": TravelEncounter.traveller_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index),
+			}
+		elif enc.encounter_type == TravelEncounter.REFUGEE_COLUMN:
+			help_preview = {
+				"option": "SHARE_FOOD",
+				"goods": TravelEncounter.refugee_yield(enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index),
+			}
+
+	# DEATH_TESTED: the arithmetic of the fight in front of you, before you
+	# commit to it. Read-only, and it moves no combat number whatsoever.
+	var risk_preview := {}
+	if enc.encounter_type == TravelEncounter.BANDIT_AMBUSH and world.player.has_acquired_trait("DEATH_TESTED"):
+		risk_preview = WorldState.Field.forecast(world, true)
+
 	return {
 		"encounter_type": String(enc.encounter_type),
 		"title": TravelEncounter.title(enc.encounter_type),
@@ -176,6 +200,8 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 		],
 		"options": options,
 		"search_preview": search_preview,
+		"help_preview": help_preview,
+		"risk_preview": risk_preview,
 	}
 
 static func _project_player(world: WorldState) -> Dictionary:

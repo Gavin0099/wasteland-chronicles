@@ -1,10 +1,10 @@
 {
-	"assertions": 1102,
+	"assertions": 1138,
 	"checkpoints": [
 		{
-			"definition_count": 12,
-			"permutations": 12,
-			"sha256": "b921c0b02f5be7a5aad40595d8ac91986614d4fccbfcb664808a8f96fa496f01",
+			"definition_count": 13,
+			"permutations": 13,
+			"sha256": "dd8df25224fb17251ed73cd5685a772fe59631ca0604fe778094df3c6546df1f",
 			"stage": "definition_fingerprint"
 		},
 		{
@@ -15,38 +15,38 @@
 		},
 		{
 			"day": 0,
-			"sha256_a": "fa1542cb8e87928e386763f45685725ad664b6443af4b84e9558afb647fa1939",
-			"sha256_b": "fa1542cb8e87928e386763f45685725ad664b6443af4b84e9558afb647fa1939",
+			"sha256_a": "377c016e17b3206eb658208d08de3f308bbfd3bc3eaa52e1861e1c19969a6c86",
+			"sha256_b": "377c016e17b3206eb658208d08de3f308bbfd3bc3eaa52e1861e1c19969a6c86",
 			"stage": "traded_and_reloaded"
 		},
 		{
 			"day": 0,
-			"sha256_a": "9eca168623612c1b4f55e6953c1bcf9cd988bff14762247a93c7ddaaed9cc0ee",
-			"sha256_b": "9eca168623612c1b4f55e6953c1bcf9cd988bff14762247a93c7ddaaed9cc0ee",
+			"sha256_a": "29a16f6f0a7fa5aa41bac2950421fb2ca84d41d856d628de893a04b60129d455",
+			"sha256_b": "29a16f6f0a7fa5aa41bac2950421fb2ca84d41d856d628de893a04b60129d455",
 			"stage": "departed_at_wreck"
 		},
 		{
 			"day": 1,
-			"sha256_a": "b62b7454836bc22af5601dcc31f96d9a03c7d02f3eb91bd1b850c862cdbf9038",
-			"sha256_b": "b62b7454836bc22af5601dcc31f96d9a03c7d02f3eb91bd1b850c862cdbf9038",
+			"sha256_a": "38e2ce29966affd4f64803a44a946c78873ba29a839e76ec9813aa6b80074149",
+			"sha256_b": "38e2ce29966affd4f64803a44a946c78873ba29a839e76ec9813aa6b80074149",
 			"stage": "pending_receipt_reloaded"
 		},
 		{
 			"day": 2,
-			"sha256_a": "344171cbce76384357e38535c65f430a146da3e5839c600296cc3409ab59ddba",
-			"sha256_b": "344171cbce76384357e38535c65f430a146da3e5839c600296cc3409ab59ddba",
+			"sha256_a": "ff8c778300519f601a3f6615700b4c0eb207aedeeff771714d78f6ca20cc875b",
+			"sha256_b": "ff8c778300519f601a3f6615700b4c0eb207aedeeff771714d78f6ca20cc875b",
 			"stage": "journey_step_0"
 		},
 		{
 			"day": 3,
-			"sha256_a": "3da7d9ff1949092b885db6c914bfac817cbfa871a17766bac7205a5146f5c4f0",
-			"sha256_b": "3da7d9ff1949092b885db6c914bfac817cbfa871a17766bac7205a5146f5c4f0",
+			"sha256_a": "ebe68a9c0413026bcd2d187f165a7bb1e6f2aacc3c3b8b9d1a5bb5bfb5b37e38",
+			"sha256_b": "ebe68a9c0413026bcd2d187f165a7bb1e6f2aacc3c3b8b9d1a5bb5bfb5b37e38",
 			"stage": "journey_step_1"
 		},
 		{
 			"day": 5,
-			"sha256_a": "59ed47275657b8e66abe853fdfa538a32044da67d529c942e2f65e186e119663",
-			"sha256_b": "59ed47275657b8e66abe853fdfa538a32044da67d529c942e2f65e186e119663",
+			"sha256_a": "34728b4ff5520b07ac82f8af4bec7b7e2d6763a4b4acd269aaa863001df0730c",
+			"sha256_b": "34728b4ff5520b07ac82f8af4bec7b7e2d6763a4b4acd269aaa863001df0730c",
 			"stage": "journey_step_2"
 		},
 		{

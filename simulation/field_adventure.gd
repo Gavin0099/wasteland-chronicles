@@ -242,6 +242,43 @@ static func _equipped_main_hand_bonus(world) -> int:
 static func enemy_damage(turn: int) -> int:
 	return 4 if turn % 3 == 0 else 2
 
+# DEATH_TESTED: a read-only forecast of an all-out fight, derived from the same
+# deterministic functions the battle itself uses.
+#
+# KNOWLEDGE ONLY. It changes no damage, defence, accuracy, success rate or
+# drop. It tells a survivor who has really been beaten to the edge what the
+# arithmetic of this fight looks like BEFORE they commit to it, so the decision
+# between fighting, paying and running is made with open eyes.
+#
+# The enemy does not swing on the turn it goes down - the loop deals the
+# player's damage first and only retaliates while enemy_hp > 0 - so the
+# incoming total covers turns 1..turns-1 and not the killing turn.
+static func forecast(world, is_road: bool) -> Dictionary:
+	if world == null or world.player == null:
+		return {}
+	var per_hit: int = attack_damage(world)
+	if per_hit <= 0:
+		return {}
+	var turns: int = int(ceil(float(ENEMY_HP) / float(per_hit)))
+	var incoming := 0
+	for turn in range(1, turns):
+		incoming += enemy_damage(turn)
+	var hp: int = world.player.field_kit.hp
+	# A road fight cannot kill: incoming damage is clamped to leave 1 HP, and
+	# being put on 1 HP is what triggers DEFEAT and its supply loss. The shed
+	# has no such floor, which is the honest difference between the two.
+	var floor_hp: int = 1 if is_road else 0
+	var hp_after: int = maxi(floor_hp, hp - incoming)
+	return {
+		"turns": turns,
+		"damage_per_hit": per_hit,
+		"incoming": incoming,
+		"hp": hp,
+		"hp_after": hp_after,
+		"is_road": is_road,
+		"beaten": hp - incoming <= floor_hp,
+	}
+
 static func finish(world, outcome: String, gains: Dictionary = {}, left: Dictionary = {}, source: String = "field", caps_gained: int = 0, practice: Dictionary = {}) -> void:
 	world.field_state.battle = {}
 	var is_road := source == "road"

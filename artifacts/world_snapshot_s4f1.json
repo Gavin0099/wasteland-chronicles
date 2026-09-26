@@ -4154,20 +4154,6 @@
 			"type": "CARAVAN_LOADED"
 		},
 		{
-			"actor_id": "refugee:settlement:gray_valley:settlement:new_hope:d13",
-			"day": 15,
-			"payload": {
-				"anonymous_headcount": 10.0,
-				"dest_population_after": 130.0,
-				"destination": "settlement:new_hope",
-				"headcount": 10.0,
-				"named_arrived": [],
-				"origin": "settlement:gray_valley"
-			},
-			"target_id": "settlement:new_hope",
-			"type": "REFUGEES_ARRIVED"
-		},
-		{
 			"actor_id": "npc:00000003",
 			"day": 15,
 			"payload": {
@@ -4205,7 +4191,7 @@
 			"day": 15,
 			"payload": {
 				"anonymous_headcount": 0.0,
-				"dest_population_after": 133.0,
+				"dest_population_after": 123.0,
 				"destination": "settlement:new_hope",
 				"headcount": 3.0,
 				"named_arrived": [
@@ -4213,6 +4199,20 @@
 					"npc:00000002",
 					"npc:00000001"
 				],
+				"origin": "settlement:gray_valley"
+			},
+			"target_id": "settlement:new_hope",
+			"type": "REFUGEES_ARRIVED"
+		},
+		{
+			"actor_id": "refugee:settlement:gray_valley:settlement:new_hope:d13",
+			"day": 15,
+			"payload": {
+				"anonymous_headcount": 10.0,
+				"dest_population_after": 133.0,
+				"destination": "settlement:new_hope",
+				"headcount": 10.0,
+				"named_arrived": [],
 				"origin": "settlement:gray_valley"
 			},
 			"target_id": "settlement:new_hope",
@@ -6104,6 +6104,14 @@
 			"type": "DISORDER_LOSS"
 		}
 	],
+	"field_schema_version": 1,
+	"field_state": {
+		"battle": {},
+		"enemy_hp": 8,
+		"next_id": 1,
+		"opened": false,
+		"receipt": -1
+	},
 	"next_npc_sequence": 4,
 	"npc_life_state_registry": {
 		"npc:00000001": {
