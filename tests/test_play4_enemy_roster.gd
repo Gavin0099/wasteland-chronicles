@@ -145,17 +145,27 @@ func run() -> void:
 	root.add_child(stage)
 	stage.configure(Enemies.resolve(Enemies.BANDIT).art, "rebar_club", true)
 	stage.refresh(false, true)
-	check(stage.enemy_placeholder.visible and not stage.enemy.visible, "G6: a bandit is not drawn as the dog")
-	var bandit_bulk: float = stage.enemy_placeholder.bulk
+	check(stage.enemy.visible and not stage.enemy_placeholder.visible, "G6: a bandit shows genuine art")
+	var bandit_tex: Texture2D = stage.enemy.texture
+	var bandit_h: float = stage.enemy_actor.target_height
+
 	stage.configure(Enemies.resolve(Enemies.HEAVY_RAIDER).art, "rebar_club", true)
 	stage.refresh(false, true)
-	check(stage.enemy_placeholder.visible and not stage.enemy.visible,
-		"G6: the raider is not quietly drawn as the dog either")
-	check(stage.enemy_placeholder.bulk > bandit_bulk,
-		"G6: the raider does not look like the bandit in a different hat")
+	check(stage.enemy.visible and not stage.enemy_placeholder.visible,
+		"G6: the raider shows genuine art")
+	var raider_tex: Texture2D = stage.enemy.texture
+	var raider_h: float = stage.enemy_actor.target_height
+	check(raider_tex != null and raider_tex != bandit_tex,
+		"G6: the raider does not borrow bandit art")
+	check(raider_h > bandit_h,
+		"G6: the raider stands taller and heavier than the bandit")
+
 	stage.configure(Enemies.resolve(Enemies.FERAL_DOG).art, "rebar_club", false)
 	stage.refresh(false, true)
 	check(stage.enemy.visible and not stage.enemy_placeholder.visible, "G6: the dog uses its own art")
+	var dog_tex: Texture2D = stage.enemy.texture
+	check(dog_tex != null and dog_tex != bandit_tex and dog_tex != raider_tex,
+		"G6: the dog does not borrow bandit or raider art")
 	stage.free()
 
 	# ---- G5 the raider is brutal now and manageable later ----

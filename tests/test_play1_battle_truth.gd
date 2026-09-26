@@ -76,12 +76,13 @@ func run() -> void:
 	var road := stage()
 	road.configure("bandit", "rebar_club", true)
 	road.refresh(false, true)
-	check(road.enemy_placeholder.visible and not road.enemy.visible, "G3: a bandit is not drawn as the dog")
+	check(road.enemy.visible and not road.enemy_placeholder.visible, "G3: a bandit shows genuine art")
+	check(road.enemy.texture != null and road.enemy.texture != shed.enemy.texture, "G3: a bandit is not drawn as the dog")
 	check(road.road_background.visible and not road.shed_background.visible, "G3: the road is not the supply shed")
 
 	# ---- G4 honesty about the stand-in ----
-	check(road.placeholder_note.visible, "G4: the placeholder is labelled as a placeholder")
-	check(not shed.placeholder_note.visible, "G4: real art carries no placeholder label")
+	check(not road.placeholder_note.visible, "G4: genuine bandit art carries no placeholder label")
+	check(not shed.placeholder_note.visible, "G4: real dog art carries no placeholder label")
 
 	# ---- G3 a dead enemy disappears in both presentations ----
 	road.refresh(false, false)

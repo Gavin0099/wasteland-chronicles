@@ -8,8 +8,11 @@ These are illustrative bitmap assets; they do not encode combat state or UI text
 | File | Generation brief / use |
 | --- | --- |
 | `supply-shed.png` | Dusty wasteland supply-shed arena in an elevated/isometric view; quiet central fighting space, ruined walls, scrap and weathered shed. No fighters, text, symbols or interface. |
+| `abandoned-road.png` | Dusty cracked asphalt highway arena in matching elevated/isometric view (approx 30-35 degree angle); quiet central road fighting space, weathered concrete barriers, roadside gravel and desert rubble, distant muted horizon. No fighters, text or UI. |
 | `drifter.png` | Separate transparent adult drifter in an olive jacket and backpack, unarmed, three-quarter rear view facing upper-right; grounded muted wasteland illustration. |
 | `feral-dog.png` | Separate transparent brown/grey feral dog, facing lower-left toward the drifter; matching elevated camera and muted illustration. |
+| `road-bandit.png` | Separate transparent post-apocalyptic road bandit scavenger in weathered leather coat, goggles and cloth mask, facing lower-left; matching elevated 30-35 degree isometric perspective and muted wasteland illustration. |
+| `heavy-raider.png` | Separate transparent hulking wasteland raider in welded scrap armor, spiked pauldrons and caged helm with spiked rebar club, facing lower-left; matching elevated 30-35 degree isometric perspective and muted wasteland illustration. |
 
 Briefs above summarize the intended visual direction, not a promise of exact
 regeneration. The checked-in PNGs are the original tool outputs, without image

@@ -429,7 +429,9 @@ func perform(payload: Dictionary) -> void:
 			for i in range(world.event_log.size() - 1, -1, -1):
 				var event := world.event_log[i]
 				if event.type == "FIELD_TURN":
-					await stage.animate_turn(payload.command, int(event.payload.dealt), int(event.payload.taken))
+					var ctx: Dictionary = event.payload.duplicate()
+					ctx["enemy_id"] = Field.battle_enemy(world.field_state)
+					await stage.animate_turn(payload.command, int(event.payload.dealt), int(event.payload.taken), ctx)
 					break
 		error_label.hide()
 		world_changed.emit()
