@@ -10,7 +10,8 @@
 
 ## Current Phase
 
-- [ ] S4 — Individual NPC Ecology
+- [~] S5 PLAY — player gameplay integration. The vertical slice is playable: the world generates work, a level hands the player a decision, three enemies fight differently, and salvage is the first livelihood that plays differently from the others. The open question is no longer capability but CONTENT LOOP: whether Bounty and Courier become real verbs too, and whether thirty minutes of play still produces a next thing the player wants.
+- [ ] S4 — Individual NPC Ecology (foundations closed; the remaining S4-F2/F3/G items are parked behind the PLAY track, not in progress)
 
 ## Active Sprint
 
@@ -65,7 +66,10 @@
 - [x] CHAR-POINTS : superseded by PLAY-2. The original objection stood and still stands - free points AT CREATION would dissolve the Background into a spreadsheet - but spending a point EARNED by play is the opposite act, and hand-play proved its absence was the single biggest reason levelling felt like nothing. Original note: **was DEFERRED / NEEDS DESIGN DECISION**. Would modify the frozen C0/C1 `Background package 2/1/1, no free points`. Owner position: growth should come from play (jobs, combat, training, events, equipment, injury), not from an opening optimisation pass that dilutes Background identity. Re-decide the growth model first, then unfreeze the contract separately. Do not implement in passing.
 - [x] PLAY-1 : Battle Truth — the fighter holds the weapon actually equipped, a road ambush shows a person on a road rather than a dog in a shed, and both stand-ins are labelled as placeholders.
 - [x] PLAY-2 : Growth Choice — every level from Lv.2 earns one growth point, spent at a settlement to raise one skill by one rank. Points are derived from committed history, never stored. Supersedes and closes CHAR-POINTS.
-- [~] PLAY-3 : Job Verbs — the three livelihoods must differ in what the player DOES, not only in nouns and numbers. **PLAY-3A salvage technically verified locally**: accepted jobs identify a real road wreck and its recovery methods; genuine purchase or travel/salvage/return/turn-in paths, one-shot source, checked persistence and SHA replay pass. 87/87 suites exit 0 including the existing combat worktree; 321 integration assertions, two-size rendering and independent review clear. Changes remain uncommitted; delivery and owner playtest pending. Courier/bounty follow-up remains open (`docs/play3a-salvage.md`).
+- [~] PLAY-3 : Job Verbs — the three livelihoods must differ in what the player DOES, not only in nouns and numbers. Roughly one third done.
+  - [x] **PLAY-3A Salvage — MERGED** (`263e4ab`, PR #28): an accepted salvage contract names a real, walkable road wreck and its recovery methods; genuine buy-and-deliver or travel/salvage/return/turn-in paths; the site is consumed once; checked persistence and dual-track SHA replay hold. 69 verb assertions + 321 integration assertions; 87/87 suites exit 0. **Owner hand-play of the actual salvage decision (buy vs dig, which method) is still open** — technical verification is not a fun verdict (`docs/play3a-salvage.md`).
+  - [ ] **PLAY-3B Bounty Verb — NEXT.** Not more enemies: this slice SPENDS the combat that PLAY-4 and BVIS already built. Accept a bounty, learn who and where the target is, judge whether you can take it, travel, actually find it, fight it, and carry a victory receipt home. The point is the heavy raider: a high-value bounty you decline at level 1 and come back for once your weapon and MELEE have moved. That closes the loop between PLAY-2 growth and PLAY-4 danger for the first time.
+  - [ ] **PLAY-3C Courier — world consequence.** Not extra buttons: cargo the player actually delivers should enter the settlement, so the shortfall, the prices and the next posting all recompute from it. This is the one place the simulation stops being background and becomes something the player moves. Overlaps QUEST-W1 by design; treat that overlap as the slice, not as a reason to defer it again.
 - [x] PLAY-4 : Enemy Roster — feral dog, bandit and heavy raider differ in deterministic attack pattern, not only in numbers; the raider telegraphs a hammer blow that makes bracing the right answer; the wilderness route is where it waits, so meeting it is the player's own choice.
 - [x] BVIS : Battle Visual (1A/1B/2A/2B) — the hand-drawn PLAY-1/PLAY-4 stand-ins are replaced by genuine painted art for the bandit and heavy raider plus a hand-painted road arena, loaded fail-closed with no silhouette fallback; a receipt-driven `BattleMotionDirector` gives each enemy its own shared-grammar motion (charge/hit/brace/flee tokens), a telegraphed raider wind-up pose, damage numbers anchored over the actor they hit, and a DEFEND/unbraced contrast — all pure presentation over committed receipts, zero simulation mutation, reduced-motion preserved.
 - [x] ROAD-COMBAT : Bandit ambush on the road, reusing Field Combat Lite — highwayman handoff, non-lethal defeat aftermath, save compatibility and legacy combat non-regression verified.
@@ -78,7 +82,7 @@
 - [x] UI-CREATION-WINDOW : Compact movable creation window over existing wasteland map art; choices and capability preview scroll separately, confirmation shrinks to a smaller window. 59 suites passed; merged as PR #4 (`c12bed6`). C0 authority and allowed inputs unchanged.
 - [~] C2-B Playtest Preparation : Four-background/five-encounter disposable UI entry point and Trait A/B comparisons; fixed narrow-screen encounter clipping found during real-renderer QA. Owner play report remains the acceptance gate; C3 practice implementation proceeds as a separate slice without claiming C2-B closure.
 - [ ] S5-B4.2 : Encounter Variety 4 -> 8-10 state-aware templates — after growth foundation
-- [ ] ★ FP2 : still finding new decisions after 20 minutes
+- [ ] ★ FP2 : still finding new decisions after 20 minutes — **the acceptance gate for the PLAY track.** Runs after PLAY-3B and PLAY-3C, on a real thirty-minute session. Local Reputation and a Dangerous Place are the candidates for what comes after it, and neither starts before it reports.
 - [ ] S4-F2 : Autonomous Migration (decision to physical arrival)
 - [ ] S4-F3 : Multi-NPC Determinism at scale
 - [ ] S4-G : NPC Relationships (split out of S4-C)
@@ -91,6 +95,14 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-09-26: **Owner locked the PLAY-3 order and a refusal list** — reviewing merged `main` (PR #28, `33c0570`), the owner's judgement is that the project has crossed from "a technical prototype with many systems" into "a playable RPG vertical slice", and that what is missing is no longer capability but content loop. Specifically: PLAY-2 made the player decide who the character becomes, FUN-1 made the world produce work instead of three one-shot quests, and PLAY-3A made salvage the first livelihood that PLAYS differently — but Bounty and Courier are still Jira tickets with different nouns, so PLAY-3 stays open at roughly one third.
+
+  Locked order: hand-play PLAY-3A -> **PLAY-3B Bounty Verb** -> **PLAY-3C Courier world consequence** -> **FP2 thirty-minute hand-play** -> only then decide between Local Reputation and a Dangerous Place.
+
+  PLAY-3B must SPEND the combat already built rather than adding to it; its success condition is one moment - a high-value raider bounty the player declines early and returns for after growth and gear, which is the first time PLAY-2 and PLAY-4 close a loop together. PLAY-3C must make delivered cargo actually enter the settlement so the shortfall, prices and next posting recompute; the QUEST-W1 overlap IS the slice and is no longer a reason to defer.
+
+  Explicitly refused until FP2 reports, regardless of how cheap any of them look: more Traits, more Perks, a fourth or fifth job type, more combat animation, more enemies, promoting the 185-item design set to runtime, Party, expanding to five settlements, and artifact-governance work. The gap is that three jobs are not yet three ways to play; none of that list closes it.
 
 - 2026-09-26: **PLAY-3A salvage source and full-loop verification** — finished the existing working-tree implementation in an isolated checkout, then synchronized its scoped fixes back to the main worktree. Contract sites stay on the highway so wilderness rare-loot substitution cannot make the requested item unreachable; work orders name recovery methods and use real route duration (Gray Valley–Dry Well is three days). Optional target metadata is all-or-none and checked against accepted/source receipts; accepted contracts now serialize in the existing canonical JSON numeric model, fixing save/resume SHA drift. Real purchase and outbound/return paths, malformed saves, one-shot rewards, skill/tool gates and dual-track SHA passed; 87/87 main-worktree suites exit 0. Eight rendered captures at 1280×720 and 1152×648 and independent review completed. Player-experience acceptance is still open; disabled-text contrast and renderer-exit resource warnings are recorded in the slice document. No commit, push or merge was performed.
 
