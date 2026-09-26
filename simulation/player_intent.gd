@@ -30,10 +30,11 @@ enum Action {
 	ACCEPT_QUEST = 9,
 	TURN_IN_QUEST = 10,
 	SELECT_PERK = 11,
+	SPEND_GROWTH_POINT = 13,
 	ACCEPT_ACQUIRED_TRAIT = 12,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -68,6 +69,7 @@ static func action_name(value: int) -> String:
 		Action.ACCEPT_QUEST: return "ACCEPT_QUEST"
 		Action.TURN_IN_QUEST: return "TURN_IN_QUEST"
 		Action.SELECT_PERK: return "SELECT_PERK"
+		Action.SPEND_GROWTH_POINT: return "SPEND_GROWTH_POINT"
 		Action.ACCEPT_ACQUIRED_TRAIT: return "ACCEPT_ACQUIRED_TRAIT"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
@@ -115,6 +117,10 @@ static func create_turn_in_quest(p_player_id: StringName, quest_id: String) -> P
 
 static func create_select_perk(p_player_id: StringName, perk_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.SELECT_PERK, p_player_id, &"", {"perk_id": perk_id})
+
+# PLAY-2: spend one earned growth point on one skill.
+static func create_spend_growth_point(p_player_id: StringName, skill_id: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.SPEND_GROWTH_POINT, p_player_id, &"", {"skill_id": skill_id})
 
 static func create_accept_acquired_trait(p_player_id: StringName, trait_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.ACCEPT_ACQUIRED_TRAIT, p_player_id, &"", {"trait_id": trait_id})

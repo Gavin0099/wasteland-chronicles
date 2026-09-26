@@ -1,0 +1,50 @@
+{
+  "ok": true,
+  "project_path": "D:\\wasteland-chronicles",
+  "counts": {
+    "total": 1,
+    "errors": 0,
+    "warnings": 1,
+    "parse_errors": 0
+  },
+  "categories": {
+    "godot3_api": 0,
+    "godot3_shader": 0,
+    "inference": 0,
+    "node_ref": 1,
+    "unique_name": 0,
+    "signal_target": 0,
+    "missing_resource": 0,
+    "input_action": 0,
+    "group_ref": 0,
+    "res_path": 0,
+    "animation_ref": 0
+  },
+  "scan_summary": {
+    "gd": 202,
+    "tscn": 2,
+    "tres": 1,
+    "shader": 0,
+    "project_godot": 1,
+    "scene_script_pairs": 2,
+    "node_paths_checked": 1,
+    "skipped_dynamic_paths": 1,
+    "skipped_gdignore_dirs": 0
+  },
+  "suppressions": {
+    "total": 0,
+    "used": 0,
+    "unused": []
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "category": "node_ref",
+      "rule": "node_path_missing",
+      "message": "`get_node_or_null(\"FieldScreen\")` does not resolve. res://ui/playable_shell.tscn attaches this script to the scene root `PlayableShell`, and there is no node `FieldScreen` at that point in the tree.",
+      "file": "res://ui/playable_shell.gd",
+      "line": 2502,
+      "suggested_fix": "In res://ui/playable_shell.tscn the script is on the scene root `PlayableShell`, and the path `FieldScreen` breaks at `FieldScreen`. PlayableShell has no children in the scene file. Point the path at one of those children, or add a node named `FieldScreen` there with add_node. A path in a script is relative to the node the script is attached to, not to the scene root \u2014 use `%UniqueName` or an `@export var target: NodePath` when the node lives elsewhere."
+    }
+  ]
+}

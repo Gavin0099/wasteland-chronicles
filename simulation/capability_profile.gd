@@ -182,6 +182,27 @@ func grant_practice(skill_id: Variant, day: Variant) -> Dictionary:
 	result.required = PRACTICE_TO_ADVANCE[rank] if rank < 5 else 0
 	return result
 
+# PLAY-2. The other way a rank moves: the player spends a point earned by
+# levelling. Practice is the character improving by doing; this is the player
+# deciding. Both end in the same place, so both go through the profile.
+#
+# Partial practice toward the old rank is cleared, because the points needed to
+# advance change with the rank: carrying them forward would silently make the
+# next rank cheaper than it says it is.
+func raise_rank_by_point(skill_id: Variant) -> Dictionary:
+	var current := get_skill_rank(skill_id)
+	if not current.success:
+		return current
+	var rank: int = int(current.rank)
+	if rank >= 5:
+		return {"success": false, "error": "SKILL_ALREADY_MASTERED"}
+	var next_data: Dictionary = _data.duplicate(true)
+	next_data.skill_ranks[skill_id] = rank + 1
+	if next_data.has("skill_practice") and next_data.skill_practice.has(skill_id):
+		next_data.skill_practice.erase(skill_id)
+	_data = next_data
+	return {"success": true, "to_rank": rank + 1, "error": ""}
+
 func meets_skill_requirement(skill_id: Variant, rank: Variant) -> Dictionary:
 	return meets_requirements({"all": [{"kind": "skill", "skill_id": skill_id, "min_rank": rank}]})
 

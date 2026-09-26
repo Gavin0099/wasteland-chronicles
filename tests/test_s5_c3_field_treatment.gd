@@ -31,10 +31,13 @@ func act(world: WorldState, command: String) -> Dictionary:
 		payload.receipt = world.field_state.receipt
 	return engine.commit_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, payload))
 
+# PLAY-4 gave the dog six health instead of eight, so trading a punch every
+# time this helper ran would kill it partway through the test and leave no
+# battle to escape from. Breaking away is real damage too, and it leaves the
+# opponent untouched, so the helper no longer depends on how tough the dog is.
 func wounded(world: WorldState) -> void:
 	check(act(world, "START").success, "real field battle starts")
-	check(act(world, "ATTACK").success, "enemy deals real damage")
-	check(act(world, "FLEE").success, "escape retains injury")
+	check(act(world, "FLEE").success, "breaking away costs real health")
 	check(act(world, "CONFIRM").success, "battle result is acknowledged")
 	check(world.player.field_kit.hp < Field.MAX_HP, "real damage remains before treatment")
 

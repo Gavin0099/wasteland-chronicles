@@ -8,6 +8,8 @@ const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
 var skill_rows: Dictionary = {}
+var growth_buttons: Dictionary = {}
+var growth_points_available: int = 0
 var resource_values: Dictionary = {}
 var item_labels: Dictionary = {}
 var equipment_labels: Dictionary = {}
@@ -50,7 +52,7 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable()) -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable(), p_growth_action: Callable = Callable()) -> void:
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
 	item_use_action = p_item_use_action
@@ -197,11 +199,38 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	var right := panel_in(columns)
 	label_in(right, "能力", "PdaSection")
 	label_in(right, "0 外行 → 5 大師", "PdaMuted")
+
+	# PLAY-2: a level has to hand the player a decision. The point is shown
+	# where the skills are, because that is the question it asks.
+	var growth_rows: Array = character.get("growth_choices", [])
+	growth_points_available = int(character.get("growth_points", 0))
+	if growth_points_available > 0:
+		var banner := label_in(right, "可用成長點：%d" % growth_points_available, "PdaTitle")
+		banner.add_theme_color_override("font_color", Color("#D9822B"))
+		label_in(right, "你這一路換來的。要把自己練成什麼，由你決定。", "PdaMuted")
 	for id in Presentation.Profile.SKILLS:
 		var row := SkillRow.new()
 		right.add_child(row)
 		row.setup(id, character.ranks[id], character.get("practice", {}).get(id, {}))
 		skill_rows[id] = row
+		var choice := {}
+		for candidate in growth_rows:
+			if String(candidate.skill_id) == id:
+				choice = candidate
+		if choice.is_empty():
+			continue
+		if bool(choice.can_spend) and p_growth_action.is_valid():
+			var spend := Button.new()
+			spend.text = "投入 1 點　%s +1" % Presentation.SKILL_NAMES[id]
+			spend.theme_type_variation = "PdaCommand"
+			spend.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+			spend.pressed.connect(func(): p_growth_action.call(id))
+			right.add_child(spend)
+			growth_buttons[id] = spend
+		elif growth_points_available > 0 and String(choice.reason) != "沒有可用的成長點。":
+			# A locked door with a reason on it teaches the player something;
+			# a missing door teaches them nothing.
+			label_in(right, "　%s" % String(choice.reason), "PdaMuted")
 	confirmed.connect(queue_free)
 	canceled.connect(queue_free)
 

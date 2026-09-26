@@ -157,6 +157,10 @@ static func candidates(facts: Dictionary) -> Array:
 # Which encounter, if any, happens on this day of this journey.
 # Returns &"" for an empty stretch of road.
 static func select(facts: Dictionary, origin_id: StringName, destination_id: StringName, departure_day: int, travel_day_index: int) -> StringName:
+	var salvage_job: Dictionary = facts.get("salvage_job", {})
+	if not salvage_job.is_empty():
+		return WRECK
+
 	var pool := candidates(facts)
 	var total := 0
 	for c in pool:
@@ -177,9 +181,12 @@ static func select(facts: Dictionary, origin_id: StringName, destination_id: Str
 # Options are DEFINED here and never stored in the world, so a saved game can
 # never disagree with the catalogue about what a choice does.
 
-static func title(encounter_type: StringName) -> String:
+static func title(encounter_type: StringName, context: Dictionary = {}) -> String:
 	match encounter_type:
-		WRECK: return "翻覆的貨車"
+		WRECK:
+			if context.has("site_name") and String(context.get("site_name", "")) != "":
+				return "目標殘骸：%s" % context.get("site_name")
+			return "翻覆的貨車"
 		ROCKSLIDE: return "崩塌的道路"
 		ROADBLOCK: return "路上的關卡"
 		DEHYDRATED_TRAVELLER: return "脫水的旅人"
@@ -194,6 +201,8 @@ static func body(encounter_type: StringName, context: Dictionary = {}) -> String
 		BANDIT_AMBUSH:
 			return "一夥持械的荒原劫匪從路旁的掩體後竄出，將你團團圍住。\n為首的劫匪揮舞著生鏽的砍刀，大聲喝令你交出所有財物。"
 		WRECK:
+			if context.has("site_name") and String(context.get("site_name", "")) != "":
+				return "這正是工棚通報的目標殘骸（%s）。車體翻覆在路肩，引擎蓋半開，底盤卡著待拆零件。\n你可以仔細翻找，或是運用手藝拆下可用部件。" % context.get("site_name")
 			var wreck: Dictionary = context.get("fresh_wreck", {})
 			if not wreck.is_empty():
 				return "一輛商隊貨車翻覆在路肩，看得出來出事沒多久。貨箱被撬開過，地上還有拖行的痕跡。\n翻找要花掉一整天。"
@@ -419,8 +428,9 @@ static func valid_item_quantities(value: Variant) -> bool:
 # The empty result matters most. If searching always paid, the only question
 # would be whether you can afford the day. Sometimes you spend the day, drink
 # the water, and find nothing - which is what makes the gamble a gamble.
-static func wreck_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int) -> Dictionary:
-	var h := stable_hash("wreck|%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+static func wreck_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, source_wreck_id: String = "") -> Dictionary:
+	var seed_str := source_wreck_id if source_wreck_id != "" else ("%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+	var h := stable_hash("wreck|%s" % seed_str)
 	var roll := h % 10
 	if roll <= 1:
 		return {}                                  # picked clean
@@ -436,14 +446,15 @@ static func wreck_yield(day: int, origin_id: StringName, destination_id: StringN
 # resource yield. The same wreck facts produce the same item on replay, while a
 # picked-over truck can still give no item at all. Item effects, rarity and
 # equipment authority remain deferred.
-static func wreck_item_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, option_id: StringName = &"SEARCH", route_type: String = "") -> Dictionary:
+static func wreck_item_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, option_id: StringName = &"SEARCH", route_type: String = "", source_wreck_id: String = "") -> Dictionary:
+	var seed_str := source_wreck_id if source_wreck_id != "" else ("%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
 	# A sealed field kit is an uncommon find in remote wrecks. Thorough
 	# searches share the same cache fact; roadside quick-picking cannot reach it.
 	if route_type == "WILDERNESS" and option_id in [&"SEARCH", &"STRIP_PARTS", &"USE_WRENCH"]:
-		var cache_hash := stable_hash("field-kit|%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+		var cache_hash := stable_hash("field-kit|%s" % seed_str)
 		if cache_hash % 17 == 0:
 			return {"military_backpack": 1}
-	var h := stable_hash("wreck-item|%s|%s>%s|%d|%d" % [String(option_id), String(origin_id), String(destination_id), day, travel_day_index])
+	var h := stable_hash("wreck-item|%s|%s" % [String(option_id), seed_str])
 	var roll := (h >> 1) % 12
 	if roll <= 7:
 		return {}
@@ -490,8 +501,9 @@ static func refugee_yield(day: int, origin_id: StringName, destination_id: Strin
 # A mechanic is not searching the wreck, they are dismantling it: they take the
 # parts a scavenger would walk past. Rarely empty - they know what is worth
 # pulling before they start - but it still costs the day.
-static func strip_parts_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int) -> Dictionary:
-	var h := stable_hash("strip|%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+static func strip_parts_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, source_wreck_id: String = "") -> Dictionary:
+	var seed_str := source_wreck_id if source_wreck_id != "" else ("%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+	var h := stable_hash("strip|%s" % seed_str)
 	var roll := h % 10
 	if roll == 0:
 		return {"scrap": 2}
@@ -504,8 +516,9 @@ static func strip_parts_yield(day: int, origin_id: StringName, destination_id: S
 # A scavenger does not need the day. They can see from the roadside whether
 # anything is left, take it and keep walking - which also means they take only
 # what is within reach, and often there is nothing within reach at all.
-static func quick_pick_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int) -> Dictionary:
-	var h := stable_hash("quickpick|%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+static func quick_pick_yield(day: int, origin_id: StringName, destination_id: StringName, travel_day_index: int, source_wreck_id: String = "") -> Dictionary:
+	var seed_str := source_wreck_id if source_wreck_id != "" else ("%s>%s|%d|%d" % [String(origin_id), String(destination_id), day, travel_day_index])
+	var h := stable_hash("quickpick|%s" % seed_str)
 	var roll := h % 10
 	if roll <= 2:
 		return {}

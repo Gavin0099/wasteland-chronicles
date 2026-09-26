@@ -140,6 +140,10 @@ var route_choice_row: HBoxContainer
 var route_highway_button: Button
 var route_wilderness_button: Button
 var death_banner: PanelContainer
+var growth_banner: PanelContainer
+var lbl_growth_title: Label
+var lbl_growth_body: Label
+var growth_open_button: Button
 var lbl_death_title: Label
 var lbl_death_body: Label
 var lbl_action_error: Label
@@ -275,6 +279,7 @@ func _render_projection(proj: Dictionary) -> void:
 	_render_event_feed(proj.get("events", []))
 	_render_encounter(proj.get("active_encounter", {}), proj.get("encounter_result", {}))
 	_render_supply_warning(p)
+	_render_growth(proj.get("growth", {}))
 	_render_death(proj.get("death", {}))
 	_sync_desktop(proj)
 
@@ -348,6 +353,28 @@ func _render_supply_warning(p: Dictionary) -> void:
 ".join(lines)
 	lbl_supply_warning.add_theme_color_override(
 		"font_color", Color("#E0555B") if critical else Color("#C9A227"))
+
+# A point is only a decision if the player knows what it would buy. The banner
+# names a concrete thing one point would open, derived from the same catalogue
+# the creation screen reads, so "+1 交易" stops being a number.
+func _render_growth(growth: Dictionary) -> void:
+	if growth_banner == null:
+		return
+	var points := int(growth.get("points", 0))
+	growth_banner.visible = points > 0
+	if points <= 0:
+		return
+	lbl_growth_title.text = "升級了　可用成長點 %d" % points
+	var openings: Array = growth.get("openings", [])
+	if openings.is_empty():
+		lbl_growth_body.text = "在聚落打開人物頁，決定要把自己練成什麼。"
+	else:
+		var lines := PackedStringArray()
+		for opening in openings:
+			lines.append("%s +1 → %s" % [String(opening.skill_name), String(opening.opens)])
+		lbl_growth_body.text = "這一點可以換到：%s" % "；".join(lines)
+	growth_open_button.disabled = String(current_projection.get("player", {}).get("status", "")) != "SETTLED"
+	growth_open_button.tooltip_text = "需要停留在聚落才能投入成長點。" if growth_open_button.disabled else ""
 
 func _render_death(death: Dictionary) -> void:
 	if death_banner == null:
@@ -1073,6 +1100,52 @@ func _build_ui_layout_if_needed() -> void:
 	lbl_death_body.add_theme_color_override("font_color", Color("#D8D3C8"))
 	lbl_death_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	death_vbox.add_child(lbl_death_body)
+
+	# PLAY-2 follow-up. A level used to happen in silence: the only place that
+	# said so was the character sheet, and a player who did not think to open it
+	# never learned they had something to spend. It also answers the first thing
+	# a point has to answer - not "you have a point" but "a point here would let
+	# you do THIS" - by reading the same encounter catalogue the creation screen
+	# already derives from.
+	growth_banner = PanelContainer.new()
+	growth_banner.visible = false
+	var growth_style := StyleBoxFlat.new()
+	growth_style.bg_color = Color("#20241A")
+	growth_style.border_color = Color("#C9A227")
+	growth_style.set_border_width_all(1)
+	growth_style.set_corner_radius_all(2)
+	growth_style.content_margin_left = 12
+	growth_style.content_margin_right = 12
+	growth_style.content_margin_top = 6
+	growth_style.content_margin_bottom = 6
+	growth_banner.add_theme_stylebox_override("panel", growth_style)
+	app_frame.add_child(growth_banner)
+
+	var growth_row := HBoxContainer.new()
+	growth_row.add_theme_constant_override("separation", 12)
+	growth_banner.add_child(growth_row)
+	var growth_text := VBoxContainer.new()
+	growth_text.size_flags_horizontal = SIZE_EXPAND_FILL
+	growth_text.add_theme_constant_override("separation", 2)
+	growth_row.add_child(growth_text)
+
+	lbl_growth_title = Label.new()
+	lbl_growth_title.add_theme_color_override("font_color", Color("#E0B84A"))
+	lbl_growth_title.add_theme_font_size_override("font_size", 16)
+	growth_text.add_child(lbl_growth_title)
+
+	lbl_growth_body = Label.new()
+	lbl_growth_body.add_theme_color_override("font_color", Color("#D8D3C8"))
+	lbl_growth_body.add_theme_font_size_override("font_size", 12)
+	lbl_growth_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	growth_text.add_child(lbl_growth_body)
+
+	growth_open_button = Button.new()
+	growth_open_button.text = "投入成長點"
+	growth_open_button.theme_type_variation = "PdaCommand"
+	growth_open_button.custom_minimum_size = Vector2(140, Tokens.COMMAND_HEIGHT)
+	growth_open_button.pressed.connect(func(): _show_character())
+	growth_row.add_child(growth_open_button)
 
 	# Compatibility labels
 	lbl_day = Label.new()
@@ -2199,14 +2272,26 @@ func _render_quests(rows: Array) -> void:
 	for i in rows.size():
 		var option: Dictionary = rows[i]
 		var state_label: String = {"AVAILABLE": "可接", "ACTIVE": "進行中", "RESOLVED": "已完成", "EXPIRED": "已過期", "FAILED": "已失敗"}.get(String(option.status), "未開放")
-		quest_selector.add_item("委託 %d/%d · %s · %s" % [i + 1, rows.size(), state_label, String(option.title)])
+		# FUN-1: without the kind and the danger on the row itself, three very
+		# different jobs read as three identical tickets.
+		var kind_label: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞"}.get(String(option.get("archetype", "")), "委託")
+		var stars := String(option.get("risk_stars", ""))
+		quest_selector.add_item("%s %d/%d · %s%s · %s" % [
+			kind_label, i + 1, rows.size(), state_label,
+			"　" + stars if stars != "" else "", String(option.title)])
 		quest_selector.set_item_metadata(i, String(option.id))
 	quest_selector.select(selected_index)
 	quest_selector.visible = rows.size() > 1
 	var row: Dictionary = rows[selected_index]
 	quest_id_shown = String(row.id)
-	quest_title.text = "委託 · %s" % String(row.title)
+	var row_kind: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞"}.get(String(row.get("archetype", "")), "委託")
+	var row_stars := String(row.get("risk_stars", ""))
+	quest_title.text = "%s · %s%s" % [row_kind, String(row.title), "　危險 " + row_stars if row_stars != "" else ""]
 	quest_description.text = String(row.description)
+	# What THIS character can read off the board. Perks and earned identities
+	# stop being a one-off encounter button and become how this person works.
+	for line in row.get("intel", []):
+		quest_description.text += "\n\n" + String(line)
 	var status := String(row.status)
 	if bool(row.get("is_survey", false)):
 		var survey_step := "接案後抵達新希望，再返回乾井回報。"
@@ -2221,8 +2306,23 @@ func _render_quests(rows: Array) -> void:
 		else:
 			quest_progress.text = {"EXPIRED": "已過期 · 未完成測繪", "FAILED": "已失敗 · 未完成測繪"}.get(status, "目前不可接")
 		quest_button.text = "回報測繪" if status == "ACTIVE" else "接受委託"
+	elif String(row.get("objective_type", "")) == "WIN_ROAD_COMBAT":
+		var cleared: bool = int(row.held) >= 1
+		if status == "AVAILABLE":
+			quest_progress.text = "期限：接下後 %d 天\n目標：在往%s的路上打贏一場劫匪伏擊\n付錢打發或掉頭逃跑都不算。路程約 %d 天。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.target), int(row.get("route_days", 2)), int(row.reward_caps), int(row.reward_xp)]
+			quest_button.text = "接下懸賞"
+		elif status == "ACTIVE":
+			quest_progress.text = "進行中 · 第 %d 天截止\n目標：在往%s的路上打贏一場劫匪伏擊\n目前：%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.target), "已達成，回來領賞" if cleared else "尚未打贏", int(row.reward_caps), int(row.reward_xp)]
+			quest_button.text = "領取賞金"
+		elif status == "RESOLVED":
+			quest_progress.text = "已完成 · 往%s的路已清過一次\n獲得：%d 瓶蓋、%d XP" % [String(row.target), int(row.reward_caps), int(row.reward_xp)]
+			quest_button.text = "委託已結束"
+		else:
+			quest_progress.text = {"EXPIRED": "已過期 · 未完成清剿", "FAILED": "已失敗 · 未完成清剿"}.get(status, "目前不可接")
+			quest_button.text = "委託已結束"
 	elif status == "AVAILABLE":
-		quest_progress.text = "期限：接下後 %d 天\n交付：%s ×%d → %s\n目前持有：%d／%d；接受後仍需自行取得物品。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
+		var carry_note: String = "從背包的散裝補給中交付，交出去之後你自己路上就少了那一份。" if String(row.get("objective_type", "")) == "DELIVER_RESOURCE" else "接受後仍需自行取得物品。"
+		quest_progress.text = "期限：接下後 %d 天\n交付：%s ×%d → %s\n目前持有：%d／%d；%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), carry_note, int(row.reward_caps), int(row.reward_xp)]
 		quest_button.text = "接受委託"
 	elif status == "ACTIVE":
 		quest_progress.text = "進行中 · 第 %d 天截止\n交付：%s ×%d → %s\n目前持有：%d／%d；需自行取得物品後前往交付。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
@@ -2367,9 +2467,23 @@ func _show_character(action_notice: String = "") -> void:
 		else:
 			dialog.action_notice_label.text = "目前無法接受這項人生經歷，請確認經歷條件與目前位置。"
 			dialog.action_notice_label.visible = true
+	# PLAY-2: spending a point is an authority-checked intent like every other
+	# change to the character, and the sheet reopens so the new rank is visible
+	# immediately rather than on the player's next guess.
+	var spend_point := func(skill_id: String):
+		var result := engine.commit_player_intent(world, PlayerIntent.create_spend_growth_point(world.player.npc_id, skill_id))
+		if result.get("success", false):
+			dialog.hide()
+			dialog.queue_free()
+			refresh_ui()
+			call_deferred("_show_character", "%s 提升到 %d 階。" % [
+				presentation.SKILL_NAMES.get(skill_id, skill_id), int(result.get("to_rank", 0))])
+		else:
+			dialog.action_notice_label.text = "目前無法投入成長點，請確認點數與目前位置。"
+			dialog.action_notice_label.visible = true
 	var treat_reason: String = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落"}.get(treat_error, "目前無法使用")) if treat_error != "" else ""
 	add_child(dialog)
-	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired)
+	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point)
 	var viewport_size := get_viewport_rect().size
 	var sheet_size := Vector2i(mini(460, int(viewport_size.x) - 24), mini(560, int(viewport_size.y) - 72))
 	var sheet_position := Vector2i(int(viewport_size.x) - sheet_size.x - 12, 56)

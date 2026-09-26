@@ -55,7 +55,13 @@ func run() -> void:
 	var world := fixture()
 	var before_projection := world.to_canonical_json()
 	var rows: Array = PlayerUIProjection.project(world).quests
-	check(rows.size() == 2 and rows[0].status == "AVAILABLE" and rows[1].status == "AVAILABLE", "both commissions appear at local notice board")
+	# FUN-1 shares this board with generated work, so check the two authored
+	# commissions specifically rather than the first two rows of the list.
+	var authored: Array = []
+	for row in rows:
+		if not String(row.id).begins_with("job_"):
+			authored.append(row)
+	check(authored.size() == 2 and authored[0].status == "AVAILABLE" and authored[1].status == "AVAILABLE", "both commissions appear at local notice board")
 	check(world.to_canonical_json() == before_projection, "multi-quest projection is read-only")
 	var rope_definition: Dictionary = Registry.get_definition(ROPE_ID).definition
 	check(rope_definition.objectives[0].item_id == "rope" and rope_definition.deadline_days == 5, "rope contract uses canonical owned item and five-day window")
@@ -85,7 +91,7 @@ func run() -> void:
 	check(not shell.quest_panel.visible and shell.right_scroll.visible, "Escape closes journal and restores settlement")
 	shell.quest_access_button.pressed.emit()
 	check(world.to_canonical_json() == before_projection, "opening and closing journal cannot mutate world")
-	check(shell.quest_selector.visible and shell.quest_selector.item_count == 2, "PDA exposes two selectable commissions")
+	check(shell.quest_selector.visible and shell.quest_selector.item_count >= 2, "PDA exposes two selectable commissions")
 	check(shell.quest_selector.focus_mode == Control.FOCUS_ALL, "commission selector is keyboard focusable")
 	var rope_index := -1
 	var wrench_index := -1
