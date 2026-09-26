@@ -23,3 +23,5 @@
 - QUEST-3 implemented and locally verified in 7cce3d2; PR review and merge pending. C2-B playtest/C3 growth remain open. <!-- memory_record_projection:active-task-summary:3a743c33632b98d243341fc452bc272015ab92724f801d8467d5cdd4cd407d5d -->
 
 - QUEST-UI implementation pushed; PR/current-head checks pending. QUEST-W1 world-response hypothesis remains unimplemented and owner hand-play remains open. <!-- memory_record_projection:active-task-summary:01666e14fe0432ddc7554b18723c24c04bc383d357d42f4c36872e72f4fa3c46 -->
+
+- PLAY-3A salvage technically verified in the uncommitted worktree: real market and salvage roundtrip, stable source, checked persistence and SHA replay; 87/87 suites, independent no-P0/P1 review. Human playtest and delivery remain open; existing combat edits preserved. <!-- memory_record_projection:active-task-summary:5ac0290ca8578429aa318d236bcc750c58ed22bb691e39421d737ccda8037a04 -->

@@ -1,0 +1,437 @@
+[
+  {
+    "test": "test_bvis_1a_ground_actor.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_bvis_1b_asset_integration.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_bvis_2a_motion_grammar.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_bvis_2b_combat_readability.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_c0_c1_headless.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_c1_p0_rank_codec.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_char_info.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_character_creation_ui.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_death_feedback_ui.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_determinism.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_encounter_resolution_feedback.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_field_combat_ui.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_field_combat.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_invariants.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item1_definitions.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item10_market_restock.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item11_dynamic_item_pricing.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item12_equipment_combat.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item13_equipment_ui.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item14_medkit_sheet_use.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item2_registry.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item3_inventory.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item4_encounter_items.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item5_equipment.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item6_item_approaches.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item7_regional_market.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item8_market_transactions.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_item9_market_ui.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_m0_baseline.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_m0_shock.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_npc_population_accounting.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_pda_character_sheet.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_play_board_cleanup.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_play1_battle_truth.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_play2_growth_choice.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_play3a_salvage_integration.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_play3a_salvage_verb.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_play4_enemy_roster.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_quest1.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_quest2_wrench_delivery.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_quest3_multiple_commissions.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_road_combat.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s1_stability.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s2_recovery.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s2_shock.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s3_labor.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s3_metabolism.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s3_migration.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s3_mortality.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s3_pressure.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s3_security.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_aptitude.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_c1_event_ledger.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_c2_numeric.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_f1_decisions.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_f2_migration.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_f3_batch_determinism.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_identity.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_life_state.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_profile.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s4_traits.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_a_player.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_a2_ui_shell.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_b1_wait.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_b2_trade.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_b3_intervention.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_b4_encounters.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_b41_reactive.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_b5_survival.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c2_authorization.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c3_craft_practice.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c3_feedback_integrity.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c3_field_treatment.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c3_skill_growth.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c3b_speech_training.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c3c_stealth_training.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c4_first_perk.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c4_natural_xp.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c4_perk_ledger.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c45_death_tested.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c45_desert_hardened.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c45_known_helper.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_s5_c45_scavenger_instinct.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_wprog_1_survival_upgrade.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_wprog_2_risky_route.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_wprog_3_better_loot.gd",
+    "exit_code": 0,
+    "timed_out": false
+  },
+  {
+    "test": "test_wprog_4_next_contract.gd",
+    "exit_code": 0,
+    "timed_out": false
+  }
+]

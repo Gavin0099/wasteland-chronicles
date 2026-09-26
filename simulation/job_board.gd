@@ -74,8 +74,8 @@ const RISK_WORDS := {1: "平靜", 2: "不太平", 3: "危險"}
 
 const RESOURCE_NAMES := {"water": "水", "food": "食物", "scrap": "廢料", "fuel": "燃料"}
 const COURIER_RESOURCES := ["water", "food", "scrap", "fuel"]
-const SALVAGE_ITEMS := ["wrench", "rope", "flashlight", "first_aid_kit"]
-const SALVAGE_ITEM_NAMES := {"wrench": "扳手", "rope": "繩索", "flashlight": "手電筒", "first_aid_kit": "急救包"}
+const SALVAGE_ITEMS := ["wrench", "rope", "flashlight", "first_aid_kit", "rusted_knife"]
+const SALVAGE_ITEM_NAMES := {"wrench": "扳手", "rope": "繩索", "flashlight": "手電筒", "first_aid_kit": "急救包", "rusted_knife": "生鏽小刀"}
 
 # Same hand-written hash as the encounter catalogue, and for the same reason:
 # engine-internal hashing is not guaranteed stable across engine versions, and
@@ -265,8 +265,6 @@ static func _courier(world, settlement, window: int) -> Dictionary:
 # ── Salvage: an exploration and gambling question ─────────────────────────────
 static func _salvage(world, settlement, window: int) -> Dictionary:
 	var settlement_id: StringName = settlement.id
-	var pick := stable_hash("salvage|%s|%d" % [String(settlement_id), window]) % SALVAGE_ITEMS.size()
-	var item_id: String = SALVAGE_ITEMS[pick]
 	var scrap_gap: int = int(settlement.get_target("scrap")) - int(settlement.inventory.get_amount("scrap"))
 	var pressed := scrap_gap >= 10
 
@@ -277,13 +275,69 @@ static func _salvage(world, settlement, window: int) -> Dictionary:
 	var caps: int = 38 + 6 * risk + (10 if pressed else 0)
 	var xp: int = 3 + risk
 
+	var neighbour_name := _name_of(world, StringName(neighbour)) if neighbour != "" else "廢棄公路"
+	var days: int = Route.get_route_days(settlement_id, StringName(neighbour), Route.ROUTE_HIGHWAY)
+	if days < 1:
+		days = SimulationEngine.new().get_route_days_between(world, settlement_id, StringName(neighbour))
+	var site_patterns := [
+		"往%s公路旁的拋錨貨車",
+		"往%s方向的舊貨運站殘骸",
+		"往%s公路沿線的廢棄車輛",
+	]
+	var job_id: String = "%s%s_salvage_%d" % [JOB_ID_PREFIX, _short(String(settlement_id)), window]
+	var origin_short := _short(String(settlement_id))
+	var dest_short := _short(neighbour)
+
+	# Derive source_wreck_id: a job-scoped stable salvage site identity.
+	# NOTE: This guarantees exact yield and encounter stability across travel days and
+	# re-visits for this specific contract. It is job-scoped, not a permanent global POI registry.
+	var base_site_idx := stable_hash("salvage_site|%s|%d" % [String(settlement_id), window]) % site_patterns.size()
+	var chosen_site_idx := base_site_idx
+	var source_wreck_id := ""
+	var item_id := ""
+	var candidate_verbs: Array[StringName] = [&"SEARCH", &"STRIP_PARTS", &"USE_WRENCH", &"QUICK_PICK"]
+
+	for attempt in range(64):
+		var test_site_idx := (base_site_idx + attempt) % site_patterns.size()
+		var test_wreck_id := "salvage:%s:%s_%s:%d" % [job_id, origin_short, dest_short, test_site_idx]
+		if attempt >= site_patterns.size():
+			test_wreck_id = "salvage:%s:%s_%s:%d_%d" % [job_id, origin_short, dest_short, test_site_idx, attempt]
+		var found_items: Array[String] = []
+		for verb in candidate_verbs:
+			var yields := TravelEncounter.wreck_item_yield(0, settlement_id, StringName(neighbour), 1, verb, "", test_wreck_id)
+			for it in yields:
+				if not found_items.has(it) and SALVAGE_ITEM_NAMES.has(it):
+					found_items.append(it)
+		if not found_items.is_empty():
+			chosen_site_idx = test_site_idx
+			source_wreck_id = test_wreck_id
+			found_items.sort()
+			var pick := stable_hash("salvage_item|%s|%d" % [test_wreck_id, window]) % found_items.size()
+			item_id = found_items[pick]
+			break
+
+	if item_id == "":
+		push_error("No recoverable salvage contract for %s" % job_id)
+		return {}
+
+	var site_name: String = site_patterns[chosen_site_idx] % neighbour_name
+	var methods: Array[String] = []
+	var method_names: Dictionary = {&"SEARCH": "仔細搜索", &"STRIP_PARTS": "拆解零件（機械熟練）", &"USE_WRENCH": "用扳手拆卸", &"QUICK_PICK": "順手搜刮（搜刮熟練）"}
+	for verb in candidate_verbs:
+		if TravelEncounter.wreck_item_yield(0, settlement_id, StringName(neighbour), 1, verb, "", source_wreck_id).has(item_id):
+			methods.append(method_names[verb])
+
+	var shortage_info := "修理抽水與機具的料快見底了（廢料 %d／%d）。" % [
+		int(settlement.inventory.get_amount("scrap")), int(settlement.get_target("scrap"))
+	] if pressed else ""
+
 	return {
 		"definition": {
-			"id": "%s%s_salvage_%d" % [JOB_ID_PREFIX, _short(String(settlement_id)), window],
+			"id": job_id,
 			"title_zh": "%s回收：%s 收%s" % ["急件 " if pressed else "", settlement.name, SALVAGE_ITEM_NAMES[item_id]],
-			"description_zh": "%s的工棚開單收一件%s。%s從哪裡弄來沒人過問：市場上買現成的最省事，但舊公路的殘骸裡翻得出來的話，翻出來的其他東西都歸你。" % [
+			"description_zh": "%s的工棚開單收一件%s。%s商隊回報在%s發現了車輛殘骸，取回方式：%s。請沿公路前往；荒野繞路不經過這處目標。也能買現成品交件；親自搜刮取得的其他物資歸你。公路單程約 %d 天。" % [
 				settlement.name, SALVAGE_ITEM_NAMES[item_id],
-				"修理抽水與機具的料快見底了（廢料 %d／%d）。" % [int(settlement.inventory.get_amount("scrap")), int(settlement.get_target("scrap"))] if pressed else ""],
+				shortage_info, site_name, "、".join(methods), days],
 			"settlement_id": _short(String(settlement_id)),
 			"issuer_npc_id": "",
 			"availability": {"required_day": 0, "required_flags": []},
@@ -297,12 +351,23 @@ static func _salvage(world, settlement, window: int) -> Dictionary:
 				"failed": {"rewards": [], "world_effects": []},
 				"expired": {"rewards": [], "world_effects": []},
 			},
+			"target_site": site_name,
+			"target_route_origin": _short(String(settlement_id)),
+			"target_route_destination": _short(neighbour),
+			"target_item_id": item_id,
+			"route_days": days,
+			"source_wreck_id": source_wreck_id,
 		},
 		"archetype": "SALVAGE",
 		"risk": risk,
-		"route_days": 0,
+		"route_days": days,
 		"urgent": pressed,
-		"summary": "交一件%s" % SALVAGE_ITEM_NAMES[item_id],
+		"summary": "交一件%s（目標：%s）" % [SALVAGE_ITEM_NAMES[item_id], site_name],
+		"target_site": site_name,
+		"target_route_origin": _short(String(settlement_id)),
+		"target_route_destination": _short(neighbour),
+		"target_item_id": item_id,
+		"source_wreck_id": source_wreck_id,
 	}
 
 # ── Bounty: a combat-readiness question ───────────────────────────────────────
@@ -365,6 +430,11 @@ static func intel_for(world, entry: Dictionary) -> Array:
 
 	if archetype == "SALVAGE" and player.perk_ids.has("CAREFUL_SALVAGER"):
 		lines.append("〔細心拾荒者〕舊公路的殘骸你翻得比別人乾淨，這件自己去找通常划得來。")
+	if archetype == "SALVAGE" and player.capability != null:
+		if player.capability.get_rank("SCAVENGING") >= 2:
+			lines.append("〔搜刮 熟練〕你能順手搜刮殘骸，不耽誤趕路天數；拿得到什麼仍看殘骸本身。")
+		if player.capability.get_rank("MECHANICS") >= 2:
+			lines.append("〔機械 熟練〕你能拆解引擎與傳動，取出一般搜索會漏掉的零件。")
 	if archetype == "COURIER" and player.perk_ids.has("ROAD_RUNNER"):
 		var caps := 0
 		for reward in entry.definition.outcomes.resolved.rewards:

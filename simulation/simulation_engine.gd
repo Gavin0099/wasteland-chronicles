@@ -1797,6 +1797,7 @@ func gather_road_facts(world: WorldState, party: RefugeePartyState) -> Dictionar
 		"thirsty_place_name": _thirsty_end_of_road(world, origin, destination),
 		"refugee_column": _find_refugee_column(world, party),
 		"fresh_wreck": _find_fresh_wreck(world, party),
+		"salvage_job": _find_salvage_target(world, party),
 	}
 	if party != null and party.route_type != &"":
 		facts["route_type"] = String(party.route_type)
@@ -1857,6 +1858,46 @@ func _find_fresh_wreck(world: WorldState, party: RefugeePartyState) -> Dictionar
 			return {"day": evt.day, "type": evt.type}
 	return {}
 
+# PLAY-3A: Check if the player has an active Salvage Job targeting this road.
+func _find_salvage_target(world: WorldState, party: RefugeePartyState) -> Dictionary:
+	if world == null or party == null or party.route_type == TravelRoute.ROUTE_WILDERNESS:
+		return {}
+	var job_ids: Array = world.accepted_jobs.keys()
+	job_ids.sort()
+	for quest_id in job_ids:
+		var qs = world.quest_state.get_quest(quest_id)
+		if qs == null or qs.status != &"ACTIVE":
+			continue
+		var defn: Dictionary = world.accepted_jobs[quest_id]
+		var origin_short := String(defn.get("target_route_origin", ""))
+		var dest_short := String(defn.get("target_route_destination", ""))
+		if origin_short == "" or dest_short == "":
+			continue
+		var origin_full := "settlement:" + origin_short
+		var dest_full := "settlement:" + dest_short
+		var party_origin := String(party.origin_id)
+		var party_dest := String(party.destination_id)
+		var matches_route: bool = (party_origin == origin_full and party_dest == dest_full) or (party_origin == dest_full and party_dest == origin_full)
+		if not matches_route:
+			continue
+		var already_resolved := false
+		for evt in world.event_log:
+			if evt.type == "TRAVEL_ENCOUNTER_RESOLVED" and String(evt.payload.get("salvage_job_id", "")) == quest_id:
+				already_resolved = true
+				break
+		if already_resolved:
+			continue
+		var target_item := String(defn.get("target_item_id", ""))
+		if target_item == "" and defn.objectives.size() > 0:
+			target_item = String(defn.objectives[0].get("item_id", ""))
+		return {
+			"job_id": quest_id,
+			"target_item": target_item,
+			"site_name": String(defn.get("target_site", "拋錨車輛殘骸")),
+			"source_wreck_id": String(defn.get("source_wreck_id", "")),
+		}
+	return {}
+
 # Only the facts this particular encounter needs, so the stored context stays
 # small and readable in a snapshot.
 func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: StringName) -> Dictionary:
@@ -1871,6 +1912,13 @@ func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: St
 			}
 		TravelEncounter.WRECK:
 			ctx = {"fresh_wreck": facts.get("fresh_wreck", {})}
+			var salvage: Dictionary = facts.get("salvage_job", {})
+			if not salvage.is_empty():
+				ctx["salvage_job_id"] = salvage.get("job_id", "")
+				ctx["salvage_target_item"] = salvage.get("target_item", "")
+				ctx["site_name"] = salvage.get("site_name", "")
+				if salvage.has("source_wreck_id") and String(salvage.get("source_wreck_id", "")) != "":
+					ctx["source_wreck_id"] = String(salvage.get("source_wreck_id", ""))
 		TravelEncounter.ROADBLOCK:
 			ctx = {"min_security": facts.get("min_security", 100.0)}
 		TravelEncounter.DEHYDRATED_TRAVELLER:
@@ -1919,17 +1967,21 @@ func _check_travel_encounter(world: WorldState, ls: NpcLifeState) -> void:
 		_encounter_context(world, facts, encounter_type)
 	)
 
+	var evt_payload := {
+		"encounter_type": String(encounter_type),
+		"origin": String(party.origin_id),
+		"destination": String(party.destination_id),
+		"travel_day_index": index,
+	}
+	if world.active_encounter != null and world.active_encounter.context.has("source_wreck_id"):
+		evt_payload["source_wreck_id"] = String(world.active_encounter.context.get("source_wreck_id", ""))
+		evt_payload["salvage_job_id"] = String(world.active_encounter.context.get("salvage_job_id", ""))
 	var evt := EventRecord.new(
 		world.current_day,
 		"TRAVEL_ENCOUNTER",
 		world.player.npc_id if world.player != null else &"",
 		party.destination_id,
-		{
-			"encounter_type": String(encounter_type),
-			"origin": String(party.origin_id),
-			"destination": String(party.destination_id),
-			"travel_day_index": index,
-		}
+		evt_payload
 	)
 	world.record_event(evt)
 
@@ -2101,14 +2153,15 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	for commodity in COMMODITIES:
 		inventory_before[commodity] = p.inventory.get_amount(commodity)
 
+	var source_wreck_id: String = String(enc.context.get("source_wreck_id", ""))
 	match option_id:
 		&"SEARCH":
 			# What is under this particular truck. Capped by what you can carry;
 			# the ledger records what was really taken, not what was on offer.
 			offered = TravelEncounter.wreck_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, source_wreck_id)
 			offered_items = TravelEncounter.wreck_item_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type, source_wreck_id)
 			extra_day = true
 		&"SORT_WRECK":
 			offered = {"scrap": 1}
@@ -2152,22 +2205,22 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		# world fact the simulation could not already state.
 		&"STRIP_PARTS":
 			offered = TravelEncounter.strip_parts_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, source_wreck_id)
 			offered_items = TravelEncounter.wreck_item_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type, source_wreck_id)
 			extra_day = true
 		&"USE_WRENCH":
 			offered = TravelEncounter.strip_parts_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, source_wreck_id)
 			offered_items = TravelEncounter.wreck_item_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, committed_route_type, source_wreck_id)
 			extra_day = true
 		&"QUICK_PICK":
 			# The capability bought is the DAY, not the loot: no tick happens.
 			offered = TravelEncounter.quick_pick_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, source_wreck_id)
 			offered_items = TravelEncounter.wreck_item_yield(
-				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id)
+				enc.day, enc.origin_id, enc.destination_id, enc.travel_day_index, option_id, "", source_wreck_id)
 		&"SCOUT_PATH":
 			pass
 		&"FORCE_THROUGH":
@@ -2249,6 +2302,11 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		"cost_extra_day": extra_day, "elapsed_days": world.current_day - day_before,
 		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
+	if enc.context.has("salvage_job_id"):
+		receipt["salvage_job_id"] = String(enc.context.get("salvage_job_id", ""))
+		receipt["site_name"] = String(enc.context.get("site_name", ""))
+	if enc.context.has("source_wreck_id"):
+		receipt["source_wreck_id"] = String(enc.context.get("source_wreck_id", ""))
 	var skill_id: String = TravelEncounter.practice_skill(encounter_type, option_id)
 	if not player_alive:
 		skill_id = ""
@@ -2633,12 +2691,17 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			if not quest_result.success:
 				return quest_result
 			var target: StringName = world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id
-			var event := EventRecord.new(world.current_day, "QUEST_ACCEPTED" if accepting else "QUEST_RESOLVED", intent.player_id, target, {
+			var payload := {
 				"quest_id": quest_id,
 				"deadline_day": world.quest_state.get_quest(quest_id).deadline_day if accepting else -1,
 				"delivered": [] if accepting else quest_result.delivered,
 				"rewards": [] if accepting else quest_result.rewards,
-			})
+			}
+			if accepting and world.accepted_jobs.has(quest_id):
+				var defn: Dictionary = world.accepted_jobs[quest_id]
+				if defn.has("source_wreck_id") and String(defn.get("source_wreck_id", "")) != "":
+					payload["source_wreck_id"] = String(defn.get("source_wreck_id", ""))
+			var event := EventRecord.new(world.current_day, "QUEST_ACCEPTED" if accepting else "QUEST_RESOLVED", intent.player_id, target, payload)
 			world.record_event(event)
 			if tick_events != null:
 				tick_events.append(event)
