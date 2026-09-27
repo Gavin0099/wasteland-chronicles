@@ -36,9 +36,11 @@ enum Action {
 	TRACK_RUMOR = 14,
 	# REP-1: keep the goods a town trusted you to carry.
 	BETRAY_JOB = 15,
+	# TRAIN-1: pay a town's teacher to raise one skill.
+	TRAIN_SKILL = 16,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT, Action.TRACK_RUMOR, Action.BETRAY_JOB]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT, Action.TRACK_RUMOR, Action.BETRAY_JOB, Action.TRAIN_SKILL]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -76,6 +78,7 @@ static func action_name(value: int) -> String:
 		Action.SPEND_GROWTH_POINT: return "SPEND_GROWTH_POINT"
 		Action.TRACK_RUMOR: return "TRACK_RUMOR"
 		Action.BETRAY_JOB: return "BETRAY_JOB"
+		Action.TRAIN_SKILL: return "TRAIN_SKILL"
 		Action.ACCEPT_ACQUIRED_TRAIT: return "ACCEPT_ACQUIRED_TRAIT"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
@@ -127,6 +130,9 @@ static func create_select_perk(p_player_id: StringName, perk_id: String) -> Play
 # PLAY-2: spend one earned growth point on one skill.
 static func create_spend_growth_point(p_player_id: StringName, skill_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.SPEND_GROWTH_POINT, p_player_id, &"", {"skill_id": skill_id})
+
+static func create_train_skill(p_player_id: StringName, skill_id: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.TRAIN_SKILL, p_player_id, &"", {"skill_id": skill_id})
 
 static func create_betray_job(p_player_id: StringName, quest_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.BETRAY_JOB, p_player_id, &"", {"quest_id": quest_id})

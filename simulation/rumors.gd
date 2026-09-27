@@ -106,7 +106,7 @@ static func progress(world, rumor_id: String) -> Dictionary:
 			const Field = preload("res://simulation/field_adventure.gd")
 			var read: Dictionary = Field.forecast_for_enemy(world, Enemies.HEAVY_RAIDER, true)
 			if read.is_empty() or bool(read.beaten):
-				return {"done": false, "next": "照你現在的身手打不贏他：把格鬥練上去，或找一把更好的武器。"}
+				return {"done": false, "next": "照你現在的身手打不贏他：把格鬥練上去（新希望的護衛隊長有在教），或找一把更好的武器。"}
 			return {"done": false, "next": "你現在打得贏他。去新希望接常駐懸賞，走荒野路。"}
 		"rumor:armory":
 			var armory := RoadPlaces.state(world, "place:old_armory")
@@ -114,7 +114,7 @@ static func progress(world, rumor_id: String) -> Dictionary:
 				return {"done": true, "next": "軍械庫裡的東西已經在你手上。"}
 			var rank: int = int(world.player.capability.get_rank("MECHANICS")) if world.player.capability != null else 0
 			if rank < RoadPlaces.ARMORY_MECHANICS:
-				return {"done": false, "next": "門要機械 %d 才拆得開，你現在是 %d。" % [RoadPlaces.ARMORY_MECHANICS, rank]}
+				return {"done": false, "next": "門要機械 %d 才拆得開，你現在是 %d。灰谷的老焊工教機械。" % [RoadPlaces.ARMORY_MECHANICS, rank]}
 			return {"done": false, "next": "你的機械夠了。走乾井—新希望的荒野路，第三天。帶足水糧，路上有他的營地。"}
 		"rumor:old_well", "rumor:fuel_station":
 			var place_id := String(RUMORS[rumor_id].place_id)

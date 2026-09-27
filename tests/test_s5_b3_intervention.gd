@@ -111,7 +111,11 @@ func _init() -> void:
 		# REP-1: keeping goods a town consigned to you. It moves only goods the
 		# player already carries, fails that one job, and is remembered by the
 		# town that trusted them - it creates nothing.
-		PlayerIntent.Action.BETRAY_JOB
+		PlayerIntent.Action.BETRAY_JOB,
+		# TRAIN-1: paying a town's teacher to raise one taught skill, only up to
+		# 熟練, only in that town and only if it will deal with you. Caps and days
+		# are spent; nothing is created.
+		PlayerIntent.Action.TRAIN_SKILL
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:
