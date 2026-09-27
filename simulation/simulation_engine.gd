@@ -633,6 +633,42 @@ func load_caravan_cargo(caravan: CaravanState, origin: SettlementState, dest: Se
 
 	return loaded
 
+# PLAY-3C: cargo the player hauls in is real cargo. It enters the settlement's
+# stores, and prices recompute from the new stock at once, so the shortfall the
+# board reads, the market price and the next courier posting all move because
+# of what the player carried. Before and after are written into the receipt:
+# the player is shown what changed, and replay never has to re-derive it.
+func _deliver_cargo_to_settlement(world: WorldState, settlement_id: StringName, handed_over: Array) -> Array:
+	var settlement: SettlementState = world.get_settlement(settlement_id)
+	if settlement == null:
+		return []
+	const Board = preload("res://simulation/job_board.gd")
+	var before := {}
+	for entry in handed_over:
+		var res := String(entry.resource)
+		before[res] = {"stock": settlement.inventory.get_amount(res), "price": settlement.get_current_price(res)}
+	for entry in handed_over:
+		settlement.inventory.add_amount(String(entry.resource), int(entry.quantity))
+	recalculate_prices(settlement)
+	var effects: Array = []
+	for entry in handed_over:
+		var res := String(entry.resource)
+		var target := settlement.get_target(res)
+		var stock_after := settlement.inventory.get_amount(res)
+		effects.append({
+			"settlement_id": String(settlement_id),
+			"resource": res,
+			"quantity": int(entry.quantity),
+			"stock_before": int(before[res].stock),
+			"stock_after": stock_after,
+			"target": target,
+			"price_before": NumericCanon.canonical_float(float(before[res].price)),
+			"price_after": NumericCanon.canonical_float(settlement.get_current_price(res)),
+			"was_short": target - int(before[res].stock) >= Board.COURIER_URGENT_GAP,
+			"still_short": target - stock_after >= Board.COURIER_URGENT_GAP,
+		})
+	return effects
+
 # 重新計算聚落全品項價格
 func recalculate_prices(settlement: SettlementState) -> void:
 	for res in COMMODITIES:
@@ -2773,6 +2809,10 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 				"delivered": [] if accepting else quest_result.delivered,
 				"rewards": [] if accepting else quest_result.rewards,
 			}
+			if not accepting and not Array(quest_result.get("handed_over", [])).is_empty():
+				var effects := _deliver_cargo_to_settlement(world, target, quest_result.handed_over)
+				payload["settlement_effects"] = effects
+				quest_result["settlement_effects"] = effects
 			if accepting and world.accepted_jobs.has(quest_id):
 				var defn: Dictionary = world.accepted_jobs[quest_id]
 				if defn.has("source_wreck_id") and String(defn.get("source_wreck_id", "")) != "":

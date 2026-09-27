@@ -99,7 +99,7 @@ func run_gate_evaluation() -> void:
 	var final_day_a := world_a.current_day
 	var final_water_a := world_a.player.inventory.get_amount("water")
 	var final_food_a := world_a.player.inventory.get_amount("food")
-	var final_xp_a: int = int(world_a.player.experience)
+	var final_xp_a: int = int(world_a.player.xp)
 
 	print("\n  [RUN A FINAL RECEIPT]")
 	print("  * Days Elapsed:        %d days" % [final_day_a - initial_day_a])
@@ -201,7 +201,7 @@ func run_gate_evaluation() -> void:
 	var final_day_b := world_b.current_day
 	var final_water_b := world_b.player.inventory.get_amount("water")
 	var final_food_b := world_b.player.inventory.get_amount("food")
-	var final_xp_b: int = int(world_b.player.experience)
+	var final_xp_b: int = int(world_b.player.xp)
 	var scrap_gained := world_b.player.inventory.get_amount("scrap")
 	var fuel_gained := world_b.player.inventory.get_amount("fuel")
 

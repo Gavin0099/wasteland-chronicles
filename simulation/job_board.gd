@@ -62,6 +62,10 @@ const POSTING_WINDOW_DAYS := 3
 const JOB_ID_PREFIX := "job_"
 
 const COURIER_DEADLINE_DAYS := 7
+# A stock this far below target is a shortfall the town posts as urgent. The
+# delivery receipt uses the same line, so "you ended the shortage" means the
+# next board really will stop calling it urgent.
+const COURIER_URGENT_GAP := 10
 const SALVAGE_DEADLINE_DAYS := 8
 const BOUNTY_DEADLINE_DAYS := 9
 
@@ -217,7 +221,7 @@ static func _courier(world, settlement, window: int) -> Dictionary:
 		if gap > worst_gap:
 			worst_gap = gap
 			worst = resource
-	var urgent := worst_gap >= 10
+	var urgent := worst_gap >= COURIER_URGENT_GAP
 	if not urgent:
 		worst = COURIER_RESOURCES[stable_hash("courier|%s|%d" % [String(settlement_id), window]) % COURIER_RESOURCES.size()]
 
@@ -240,9 +244,9 @@ static func _courier(world, settlement, window: int) -> Dictionary:
 		"definition": {
 			"id": "%s%s_courier_%d" % [JOB_ID_PREFIX, _short(String(settlement_id)), window],
 			"title_zh": "%s運補：%s 收%s %d 份" % ["急件 " if urgent else "", settlement.name, RESOURCE_NAMES[worst], quantity],
-			"description_zh": "%s帶 %d 份%s到%s交付。走%s一線大約 %d 天，路況%s。你自己路上的水糧要另外算——這份工作買下你背上的貨，不會因此把倉庫填滿。" % [
+			"description_zh": "%s帶 %d 份%s到%s交付。走%s一線大約 %d 天，路況%s。你自己路上的水糧要另外算。交出去的貨會進%s的倉庫，當地的存量和價格會跟著變。" % [
 				shortage_line, quantity, RESOURCE_NAMES[worst], settlement.name,
-				_name_of(world, StringName(origin_id)), days, RISK_WORDS[risk]],
+				_name_of(world, StringName(origin_id)), days, RISK_WORDS[risk], settlement.name],
 			"settlement_id": _short(String(settlement_id)),
 			"issuer_npc_id": "",
 			"availability": {"required_day": 0, "required_flags": []},
