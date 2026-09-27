@@ -468,7 +468,7 @@ static func _bounty(world, settlement, window: int, standing_generation: int = -
 	var summary := "在往%s的%s擊退%s" % [target_name, route_name, enemy_name]
 	if standing_generation >= 0:
 		title_zh = "常駐懸賞：%s（%s）" % [enemy_name, route_name]
-		description_zh = "%s在往%s的%s上紮了營，商隊繞著走。這張賞單一直貼在這裡，直到有人把他打下來。付錢、談判、掉頭跑都不算——要真的打贏。路程約 %d 天。" % [enemy_name, target_name, route_name, days]
+		description_zh = "%s在往%s的%s上紮了營，商隊繞著走。這張賞單一直貼在這裡，直到有人把他打下來。付錢、談判、掉頭跑都不算——要真的打贏。路程約 %d 天。\n商隊的人還說：他的營地再往荒野裡走一天，沙裡埋著一座舊世的地下軍械庫。" % [enemy_name, target_name, route_name, days]
 
 	return {
 		"definition": {

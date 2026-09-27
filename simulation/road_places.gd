@@ -34,6 +34,10 @@ extends RefCounted
 const RESOURCE := "RESOURCE"
 const CAMP := "CAMP"
 const WRECK_SITE := "WRECK_SITE"
+# ASP-1: a place worth a special journey, holding something the market does
+# not sell, behind a condition the player can see but may not meet yet.
+const SECRET := "SECRET"
+const ARMORY_MECHANICS := 2
 
 const CAMP_CLEARED_DAYS := 15
 # Walking past a place is an answer too. It is not asked again for a week, or
@@ -85,6 +89,18 @@ const PLACES := {
 		"body_zh": "荒野路的岔口搭著一圈焊死的鐵皮，火堆還在冒煙。重裝掠奪者就住在這裡。\n打進去，這條荒野路會安靜一陣子；不驚動他們，路就照樣危險。",
 		"map_t": 0.5,
 	},
+	"place:old_armory": {
+		"name_zh": "舊世地下軍械庫",
+		"kind": SECRET,
+		"a": "settlement:dry_well",
+		"b": "settlement:new_hope",
+		"route": "WILDERNESS",
+		# Past the raider's camp: the long road, the camp, then this.
+		"day_index": 3,
+		"prize": "old_world_saber",
+		"body_zh": "荒野深處，半埋在沙裡的一道防爆門，門上的漆字還看得出「補給」兩個字。\n控制盒的蓋板用螺絲鎖死，線路還連著——懂機械的人拆得開，一般人只能在門外乾瞪眼。",
+		"map_t": 0.78,
+	},
 	"place:convoy_wreck": {
 		"name_zh": "翻覆的商隊殘骸",
 		"kind": WRECK_SITE,
@@ -128,7 +144,7 @@ static func state(world, place_id: String) -> Dictionary:
 	var p := info(place_id)
 	var out := {
 		"place_id": place_id, "discovered": false, "status": "UNTOUCHED",
-		"marked_for": "", "claimed_by": "", "cleared_until": -1, "scrap": 0, "left_day": -1, "fresh_losses": 0,
+		"marked_for": "", "claimed_by": "", "cleared_until": -1, "scrap": 0, "left_day": -1, "fresh_losses": 0, "prize_taken": false,
 	}
 	if p.is_empty() or world == null:
 		return out
@@ -156,6 +172,9 @@ static func state(world, place_id: String) -> Dictionary:
 							out.marked_for = String(evt.payload.get("marked_for", ""))
 					"SEARCH_SITE":
 						last_search = i
+					"OPEN_ARMORY":
+						if int((evt.payload.get("items_gained", {}) as Dictionary).get(String(p.get("prize", "")), 0)) > 0:
+							out.prize_taken = true
 					"LEAVE":
 						out.left_day = int(evt.day)
 			"PLACE_REPORTED":
@@ -195,6 +214,8 @@ static func is_live(world, place_id: String) -> bool:
 			return s.status == "UNTOUCHED"
 		CAMP:
 			return int(s.cleared_until) <= int(world.current_day)
+		SECRET:
+			return not bool(s.prize_taken)
 		WRECK_SITE:
 			# Seen once, it is only worth stopping again when the road has left
 			# something new on it.
@@ -217,6 +238,10 @@ static func place_for_trip(world, party, travel_day_index: int) -> String:
 			continue
 		if _met_this_trip(world, place_id, int(party.departure_day)):
 			continue
+		# A secret is the reason for the trip: it always asks, so coming back
+		# once you are ready is never met with silence.
+		if String(info(place_id).kind) == SECRET:
+			return place_id
 		var left_day := int(state(world, place_id).left_day)
 		if left_day >= 0 and int(world.current_day) - left_day < LEFT_QUIET_DAYS:
 			continue
@@ -246,7 +271,7 @@ const RESOURCE_NAMES := {"water": "水", "food": "食物", "scrap": "廢料", "f
 
 # Every option id a place can ever offer, for validating a receipt that no
 # longer has its context.
-const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE"]
+const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY"]
 
 static func options(context: Dictionary, world = null) -> Array:
 	var place_id := String(context.get("place_id", ""))
@@ -275,6 +300,13 @@ static func options(context: Dictionary, world = null) -> Array:
 				{"id": &"FIGHT", "label": "突襲營地", "detail": "對上重裝掠奪者。打贏後這條荒野路約 %d 天內不會再有人攔路。" % CAMP_CLEARED_DAYS},
 				{"id": &"LEAVE", "label": "繞遠一點，不驚動他們", "detail": "營地還在，這條荒野路照樣危險"},
 			]
+		SECRET:
+			return [
+				{"id": &"OPEN_ARMORY", "label": "拆開控制盒，進去", "detail": "耗時 1 天。裡面是什麼，只有進去才知道。",
+					"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": ARMORY_MECHANICS}]},
+					"requirement_label": "機械 %d" % ARMORY_MECHANICS, "gate": "capability"},
+				{"id": &"LEAVE", "label": "記下位置，改天再來", "detail": "門不會自己打開"},
+			]
 		WRECK_SITE:
 			var scrap := int(context.get("scrap", 0))
 			return [
@@ -282,6 +314,12 @@ static func options(context: Dictionary, world = null) -> Array:
 				{"id": &"LEAVE", "label": "不停留", "detail": "什麼也沒發生"},
 			]
 	return []
+
+static func all_options() -> Array:
+	var out: Array = []
+	for place_id in ids():
+		out.append_array(options({"place_id": place_id}))
+	return out
 
 static func title(context: Dictionary) -> String:
 	return String(info(String(context.get("place_id", ""))).get("name_zh", "路邊的地方"))
@@ -308,4 +346,6 @@ static func status_text(world, place_id: String) -> String:
 			return "有人盤據"
 		WRECK_SITE:
 			return "約 %d 份廢料" % int(s.scrap) if int(s.scrap) > 0 else "暫時撿空了"
+		SECRET:
+			return "已被你搬空" if bool(s.prize_taken) else "門還鎖著（需要機械 %d）" % ARMORY_MECHANICS
 	return ""

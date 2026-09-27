@@ -13,6 +13,7 @@ static func rows() -> Array:
 		_row("caravan_coat", "商隊外套", "APPAREL", 1500, "item_caravan_coat", ["clothing", "travel"]),
 		_row("travel_backpack", "舊旅行包", "CONTAINER", 1100, "item_travel_backpack", ["bag", "travel"]),
 		_row("military_backpack", "軍用背包", "CONTAINER", 2400, "item_military_backpack", ["backpack", "military", "salvaged"]),
+		_row("old_world_saber", "舊世軍刀", "WEAPON", 1300, "item_old_world_saber", ["blade", "military", "old_world"]),
 		_row("rope", "繩索", "TOOL", 2500, "item_rope", ["rope", "travel"]),
 		_row("flashlight", "手電筒", "TOOL", 400, "item_flashlight", ["lighting", "tool"]),
 		_row("wrench", "扳手", "TOOL", 700, "item_wrench", ["hand_tool", "metal"]),

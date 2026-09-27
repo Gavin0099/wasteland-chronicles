@@ -95,9 +95,11 @@ func settled_at(world: WorldState) -> String:
 
 func run() -> void:
 	# ---- G1 four places, three verbs, real shortages ----
-	check(RoadPlaces.ids().size() == 4, "G1: exactly four places")
+	# ASP-1 added a secret; PLACE-4 is about the four road places.
+	var road_ids: Array = RoadPlaces.ids().filter(func(id): return String(RoadPlaces.info(id).kind) != RoadPlaces.SECRET)
+	check(road_ids.size() == 4, "G1: exactly four road places")
 	var kinds := {}
-	for place_id in RoadPlaces.ids():
+	for place_id in road_ids:
 		var p := RoadPlaces.info(place_id)
 		kinds[String(p.kind)] = true
 		check(TravelRoute.get_route_days(StringName(p.a), StringName(p.b), StringName(p.route)) > 0 or String(p.route) == "HIGHWAY",
@@ -270,7 +272,7 @@ func run() -> void:
 
 	# ---- G8 map and saves ----
 	var map_rows: Array = PlayerUIProjection.project(mark).get("road_places", [])
-	check(map_rows.size() == 4, "G8: the map carries all four places")
+	check(map_rows.size() == RoadPlaces.ids().size(), "G8: the map carries every place")
 	var named := 0
 	for row in map_rows:
 		if bool(row.discovered):

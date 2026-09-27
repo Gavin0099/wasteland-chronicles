@@ -78,6 +78,8 @@ static func practice_skill(encounter_type: StringName, option_id: StringName) ->
 		PLACE_VISIT:
 			if option_id == &"SEARCH_SITE":
 				return "SCAVENGING"
+			if option_id == &"OPEN_ARMORY":
+				return "MECHANICS"
 		WRECK:
 			if option_id in [&"SEARCH", &"QUICK_PICK", &"SORT_WRECK"]:
 				return "SCAVENGING"
@@ -408,26 +410,32 @@ static func _trait(trait_id: String) -> Dictionary:
 
 # {} means anyone on the road can choose it. Every encounter keeps at least one
 # such ordinary option, so no character is ever left with nothing to answer.
+# Gates are looked up without an encounter's context. A place's options live
+# with the place, so the lookup has to see every place's options, or a gated
+# option there would read as ungated.
+static func _option_catalogue(encounter_type: StringName) -> Array:
+	return RoadPlaces.all_options() if encounter_type == PLACE_VISIT else options(encounter_type)
+
 static func option_requirements(encounter_type: StringName, option_id: StringName) -> Dictionary:
-	for o in options(encounter_type):
+	for o in _option_catalogue(encounter_type):
 		if o["id"] == option_id:
 			return (o.get("requires", {}) as Dictionary).duplicate(true)
 	return {}
 
 static func option_requirement_label(encounter_type: StringName, option_id: StringName) -> String:
-	for o in options(encounter_type):
+	for o in _option_catalogue(encounter_type):
 		if o["id"] == option_id:
 			return String(o.get("requirement_label", ""))
 	return ""
 
 static func option_gate(encounter_type: StringName, option_id: StringName) -> String:
-	for o in options(encounter_type):
+	for o in _option_catalogue(encounter_type):
 		if o["id"] == option_id:
 			return String(o.get("gate", GATE_KNOWLEDGE))
 	return ""
 
 static func option_item_requirement(encounter_type: StringName, option_id: StringName) -> String:
-	for o in options(encounter_type):
+	for o in _option_catalogue(encounter_type):
 		if o["id"] == option_id:
 			return String(o.get("requires_item", ""))
 	return ""
