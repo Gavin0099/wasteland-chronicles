@@ -14,6 +14,7 @@ const RoadPlaces = preload("res://simulation/road_places.gd")
 const Rumors = preload("res://simulation/rumors.gd")
 const LocalTrust = preload("res://simulation/local_trust.gd")
 const Training = preload("res://simulation/training.gd")
+const Party = preload("res://simulation/party.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -1431,8 +1432,12 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 
 	if ls.status == NpcLifeState.Status.IN_TRANSIT:
 		# Requested one of each per day, met from the backpack.
+		# PARTY-1: a guide finds water on the road, so nobody drinks from the pack.
+		var guided: bool = Party.current(world) != "" and bool(Party.info(Party.current(world)).finds_water)
 		var cur_water := p.inventory.get_amount("water")
-		if cur_water >= 1:
+		if guided:
+			pass
+		elif cur_water >= 1:
 			p.inventory.set_amount("water", cur_water - 1)
 		else:
 			water_unmet_ratio = 1.0
@@ -1464,6 +1469,8 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 			food_unmet_ratio = 0.0
 
 	_apply_player_need_outcome(p, water_unmet_ratio, food_unmet_ratio)
+	if ls.status == NpcLifeState.Status.IN_TRANSIT:
+		_feed_companion_on_road(world, p, current_day, tick_events)
 	if ls.status == NpcLifeState.Status.IN_TRANSIT and (water_unmet_ratio > 0.0 or food_unmet_ratio > 0.0):
 		var need_event := EventRecord.new(current_day, "PLAYER_NEED_UNMET", p.npc_id, &"road", {
 			"water_unmet": water_unmet_ratio, "food_unmet": food_unmet_ratio,
@@ -1472,6 +1479,25 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 		if tick_events != null:
 			tick_events.append(need_event)
 	_check_player_mortality(world, p, ls, current_day, tick_events)
+
+# PARTY-1: on a travel day a companion eats from your pack after you do (a
+# guide finds their own water, and yours - see process_player_daily_needs).
+# If the pack cannot feed them, they leave you on the road.
+func _feed_companion_on_road(world: WorldState, p: PlayerState, current_day: int, tick_events: Array[EventRecord]) -> void:
+	var who := Party.current(world)
+	if who == "":
+		return
+	var c: Dictionary = Party.info(who)
+	var need_water := int(c.road_water)
+	var need_food := int(c.road_food)
+	if p.inventory.get_amount("water") < need_water or p.inventory.get_amount("food") < need_food:
+		var left := EventRecord.new(current_day, "COMPANION_LEFT", p.npc_id, &"road", {"companion_id": who, "reason": "HUNGER"})
+		world.record_event(left)
+		if tick_events != null:
+			tick_events.append(left)
+		return
+	p.inventory.add_amount("water", -need_water)
+	p.inventory.add_amount("food", -need_food)
 
 # How much of what this settlement asked for today went unmet, 0.0 .. 1.0.
 func _settlement_unmet_ratio(s: SettlementState, resource: String) -> float:
@@ -2159,7 +2185,8 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 	if not requirements.is_empty():
 		if p.capability == null:
 			return "CAPABILITY_UNAVAILABLE: %s requires a capability profile" % option_id
-		var check: Dictionary = p.capability.meets_requirements(requirements)
+		# PARTY-1: a companion's skill counts for the party; traits stay yours.
+		var check: Dictionary = Party.meets(world, requirements)
 		if not check.success:
 			return "CAPABILITY_CHECK_FAILED: %s" % check.error
 		if not check.met:
@@ -2592,6 +2619,20 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.HIRE_COMPANION:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "HIRING_REQUIRES_SETTLEMENT"
+			if intent.payload.size() != 1 or typeof(intent.payload.get("companion_id")) != TYPE_STRING:
+				return "INVALID_HIRE_INTENT"
+			return Party.hire_refusal(world, String(ls.population_container_id), String(intent.payload.companion_id))
+		PlayerIntent.Action.DISMISS_COMPANION:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "DISMISS_REQUIRES_SETTLEMENT"
+			if not intent.payload.is_empty():
+				return "INVALID_DISMISS_INTENT"
+			if Party.current(world) == "":
+				return "NO_COMPANION"
+			return ""
 		PlayerIntent.Action.TRAIN_SKILL:
 			# TRAIN-1: a lesson is taken in town, from a teacher who teaches it.
 			if ls.status != NpcLifeState.Status.SETTLED:
@@ -2875,6 +2916,22 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.HIRE_COMPANION:
+			var hired := String(intent.payload.companion_id)
+			var hire_fee := int(Party.info(hired).fee)
+			world.player.money -= hire_fee
+			var joined := EventRecord.new(world.current_day, "COMPANION_JOINED", intent.player_id, &"character", {"companion_id": hired, "fee": hire_fee})
+			world.record_event(joined)
+			if tick_events != null:
+				tick_events.append(joined)
+			return {"success": true, "companion_id": hired, "fee": hire_fee}
+		PlayerIntent.Action.DISMISS_COMPANION:
+			var parting := Party.current(world)
+			var left_evt := EventRecord.new(world.current_day, "COMPANION_LEFT", intent.player_id, &"character", {"companion_id": parting, "reason": "DISMISSED"})
+			world.record_event(left_evt)
+			if tick_events != null:
+				tick_events.append(left_evt)
+			return {"success": true, "companion_id": parting}
 		PlayerIntent.Action.TRAIN_SKILL:
 			var lesson_skill := String(intent.payload.skill_id)
 			var lesson_town := String(world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id)

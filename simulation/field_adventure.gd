@@ -251,7 +251,8 @@ static func attack_damage(world) -> int:
 	var base = 3 if world.player.field_kit.equipped else 2
 	var rank = world.player.capability.get_skill_rank("MELEE")
 	var bonus = 2 if world.field_state.battle.get("prepared", false) else 0
-	return base + _equipped_main_hand_bonus(world) + int(rank.rank) + bonus
+	# PARTY-1: a fighter at your side lands a blow of their own.
+	return base + _equipped_main_hand_bonus(world) + int(rank.rank) + bonus + preload("res://simulation/party.gd").attack_bonus(world)
 
 static func _equipped_main_hand_bonus(world) -> int:
 	if world == null or world.player == null or world.player.equipment == null:

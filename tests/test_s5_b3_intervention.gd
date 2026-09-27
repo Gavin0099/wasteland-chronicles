@@ -115,7 +115,12 @@ func _init() -> void:
 		# TRAIN-1: paying a town's teacher to raise one taught skill, only up to
 		# 熟練, only in that town and only if it will deal with you. Caps and days
 		# are spent; nothing is created.
-		PlayerIntent.Action.TRAIN_SKILL
+		PlayerIntent.Action.TRAIN_SKILL,
+		# PARTY-1: taking on a companion for a fee in their own town, or letting
+		# them go home. It moves caps and who walks with you; the companion's
+		# abilities are fixed facts about them, and their food comes from your pack.
+		PlayerIntent.Action.HIRE_COMPANION,
+		PlayerIntent.Action.DISMISS_COMPANION
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:

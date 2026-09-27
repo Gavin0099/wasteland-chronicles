@@ -112,9 +112,10 @@ static func progress(world, rumor_id: String) -> Dictionary:
 			var armory := RoadPlaces.state(world, "place:old_armory")
 			if bool(armory.prize_taken):
 				return {"done": true, "next": "軍械庫裡的東西已經在你手上。"}
-			var rank: int = int(world.player.capability.get_rank("MECHANICS")) if world.player.capability != null else 0
+			const Party = preload("res://simulation/party.gd")
+			var rank: int = Party.skill_rank(world, "MECHANICS")
 			if rank < RoadPlaces.ARMORY_MECHANICS:
-				return {"done": false, "next": "門要機械 %d 才拆得開，你現在是 %d。灰谷的老焊工教機械。" % [RoadPlaces.ARMORY_MECHANICS, rank]}
+				return {"done": false, "next": "門要機械 %d 才拆得開，你現在是 %d。灰谷的老焊工教機械，灰谷的技師阿扳也拆得開。" % [RoadPlaces.ARMORY_MECHANICS, rank]}
 			return {"done": false, "next": "你的機械夠了。走乾井—新希望的荒野路，第三天。帶足水糧，路上有他的營地。"}
 		"rumor:old_well", "rumor:fuel_station":
 			var place_id := String(RUMORS[rumor_id].place_id)
