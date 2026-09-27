@@ -40,6 +40,7 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"quest_history": _project_quest_history(world),
 		"road_places": _project_road_places(world),
 		"trust": _project_trust(world),
+		"party": {"companion_id": preload("res://simulation/party.gd").current(world), "summary": preload("res://simulation/party.gd").summary(world)},
 		"rumors": preload("res://simulation/rumors.gd").project(world),
 	}
 	return proj

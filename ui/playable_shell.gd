@@ -42,6 +42,8 @@ var current_projection: Dictionary = {}
 var place_reports_seen: int = -1
 # TRAIN-1: the lesson buttons of the open training dialog, by skill.
 var training_buttons: Dictionary = {}
+# PARTY-1: hire / dismiss buttons of the open 找人 dialog.
+var companion_buttons: Dictionary = {}
 var selected_settlement_id: String = "settlement:gray_valley"
 var selected_route_type: String = "HIGHWAY"
 var debug_world_feed_enabled: bool = false
@@ -1280,7 +1282,7 @@ func _build_ui_layout_if_needed() -> void:
 	btn_local_market.pressed.connect(_show_local_market)
 	action_row.add_child(btn_local_market)
 	btn_local_train = Button.new()
-	btn_local_train.text = "找師傅"
+	btn_local_train.text = "找人"
 	btn_local_train.theme_type_variation = "PdaCommand"
 	btn_local_train.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	btn_local_train.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -2027,9 +2029,11 @@ func _sync_desktop(proj: Dictionary) -> void:
 		for rumor in proj.get("rumors", []):
 			if bool(rumor.tracked):
 				aim = rumor
-		desktop_aim_label.visible = not aim.is_empty()
+		var party_line := String(proj.get("party", {}).get("summary", ""))
+		desktop_aim_label.visible = not aim.is_empty() or party_line != ""
+		desktop_aim_label.text = party_line
 		if not aim.is_empty():
-			desktop_aim_label.text = "追尋：%s%s\n%s" % [String(aim.title), "（已了結）" if bool(aim.done) else "", String(aim.next)]
+			desktop_aim_label.text = ("%s\n" % party_line if party_line != "" else "") + "追尋：%s%s\n%s" % [String(aim.title), "（已了結）" if bool(aim.done) else "", String(aim.next)]
 	if desktop_profile_vitals != null:
 		var health := int(player.get("health", 12))
 		desktop_profile_vitals.text = "生命 %d / 12\n第 %d 天 · %d 瓶蓋" % [health, int(proj.get("current_day", 0)), int(player.get("money", 0))]
@@ -2436,7 +2440,7 @@ func _show_training() -> void:
 	var here := String(world.npc_life_state_registry.get_life_state(world.player.npc_id).population_container_id)
 	var dialog := AcceptDialog.new()
 	dialog.theme_type_variation = "PdaDialog"
-	dialog.title = "找師傅"
+	dialog.title = "找人"
 	dialog.ok_button_text = "離開"
 	# Autowrapped labels would otherwise grow the window to the screen height.
 	dialog.wrap_controls = false
@@ -2471,10 +2475,53 @@ func _show_training() -> void:
 			box.add_child(why)
 	if preload("res://simulation/training.gd").offers(world, here).is_empty():
 		intro.text = "這裡沒有人收徒弟。"
+	# PARTY-1: who can walk with you from here, and what they cost.
+	var PartyScript = preload("res://simulation/party.gd")
+	var mate_head := Label.new()
+	mate_head.text = "夥伴（一次只能帶一位；在鎮上鎮裡供吃住，路上吃你背包裡的）"
+	mate_head.theme_type_variation = "PdaSection"
+	mate_head.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(mate_head)
+	companion_buttons.clear()
+	var with_you: String = PartyScript.current(world)
+	if with_you != "":
+		var mate: Dictionary = PartyScript.info(with_you)
+		var let_go := Button.new()
+		let_go.text = "讓%s（%s）回去" % [String(mate.name_zh), String(mate.role_zh)]
+		let_go.theme_type_variation = "PdaCommand"
+		let_go.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		let_go.pressed.connect(func():
+			var result := engine.commit_player_intent(world, PlayerIntent.create_dismiss_companion(world.player.npc_id))
+			dialog.queue_free()
+			_report_action_result(result)
+			refresh_ui())
+		box.add_child(let_go)
+		companion_buttons["dismiss"] = let_go
+	var for_hire: String = PartyScript.for_hire_in(here)
+	if for_hire != "" and for_hire != with_you:
+		var offer: Dictionary = PartyScript.info(for_hire)
+		var hire := Button.new()
+		hire.text = "雇用%s（%s）　簽約 %d 瓶蓋" % [String(offer.name_zh), String(offer.role_zh), int(offer.fee)]
+		hire.theme_type_variation = "PdaCommand"
+		hire.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		var why_not: String = PartyScript.hire_refusal(world, here, for_hire)
+		hire.disabled = why_not != ""
+		hire.pressed.connect(func():
+			var result := engine.commit_player_intent(world, PlayerIntent.create_hire_companion(world.player.npc_id, for_hire))
+			dialog.queue_free()
+			_report_action_result(result)
+			refresh_ui())
+		box.add_child(hire)
+		companion_buttons[for_hire] = hire
+		var pitch := Label.new()
+		pitch.text = "　" + String(offer.pitch_zh) + ({"ALREADY_HAS_COMPANION": "（你身邊已經有人了）", "INSUFFICIENT_FUNDS": "（簽約金不夠）", "TOWN_DISTRUSTS_YOU": "（這個鎮現在不想跟你打交道）"}.get(why_not, ""))
+		pitch.theme_type_variation = "PdaMuted"
+		pitch.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		box.add_child(pitch)
 	dialog.confirmed.connect(dialog.queue_free)
 	dialog.canceled.connect(dialog.queue_free)
 	add_child(dialog)
-	dialog.popup_centered(Vector2i(500, 340))
+	dialog.popup_centered(Vector2i(520, 470))
 
 func _on_betray_pressed() -> void:
 	if world == null or quest_id_shown == "":
