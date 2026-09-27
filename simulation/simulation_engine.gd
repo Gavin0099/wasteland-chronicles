@@ -10,6 +10,7 @@ const TravelRoute = preload("res://simulation/travel_route.gd")
 const ProgressionXp = preload("res://simulation/progression_xp.gd")
 const GrowthPoints = preload("res://simulation/growth_points.gd")
 
+const RoadPlaces = preload("res://simulation/road_places.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -1835,6 +1836,8 @@ func gather_road_facts(world: WorldState, party: RefugeePartyState) -> Dictionar
 		"fresh_wreck": _find_fresh_wreck(world, party),
 		"salvage_job": _find_salvage_target(world, party),
 		"bounty_job": _find_bounty_target(world, party),
+		"road_place": RoadPlaces.place_for_trip(world, party, _travel_day_index(party)) if party != null else "",
+		"camp_cleared": RoadPlaces.camp_cleared(world),
 	}
 	if party != null and party.route_type != &"":
 		facts["route_type"] = String(party.route_type)
@@ -1999,6 +2002,22 @@ func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: St
 			if not bounty.is_empty():
 				ctx["bounty_job_id"] = String(bounty.get("job_id", ""))
 				ctx["target_enemy"] = String(bounty.get("target_enemy", ""))
+			# PLACE-4: a bounty on the raider, met on the road past his camp, IS the
+			# camp fight - winning it clears the camp as well.
+			var bounty_place := String(facts.get("road_place", ""))
+			if bounty_place != "" and String(RoadPlaces.info(bounty_place).kind) == RoadPlaces.CAMP:
+				ctx["place_id"] = bounty_place
+		TravelEncounter.PLACE_VISIT:
+			var place_id := String(facts.get("road_place", ""))
+			var towns: Array = RoadPlaces.towns(place_id)
+			ctx = {
+				"place_id": place_id,
+				"a_name": RoadPlaces.town_name(world, String(towns[0])),
+				"b_name": RoadPlaces.town_name(world, String(towns[1])),
+				"scrap": int(RoadPlaces.state(world, place_id).scrap),
+			}
+			if String(RoadPlaces.info(place_id).kind) == RoadPlaces.CAMP:
+				ctx["target_enemy"] = "heavy_raider"
 		TravelEncounter.REFUGEE_COLUMN:
 			var column: Dictionary = facts.get("refugee_column", {})
 			ctx = {
@@ -2069,6 +2088,8 @@ func _check_travel_encounter(world: WorldState, ls: NpcLifeState) -> void:
 		"destination": String(party.destination_id),
 		"travel_day_index": index,
 	}
+	if world.active_encounter != null and world.active_encounter.context.has("place_id"):
+		evt_payload["place_id"] = String(world.active_encounter.context.get("place_id", ""))
 	if world.active_encounter != null and world.active_encounter.context.has("source_wreck_id"):
 		evt_payload["source_wreck_id"] = String(world.active_encounter.context.get("source_wreck_id", ""))
 		evt_payload["salvage_job_id"] = String(world.active_encounter.context.get("salvage_job_id", ""))
@@ -2207,6 +2228,7 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		var travel_idx: int = enc.travel_day_index
 		var target_enemy := String(enc.context.get("target_enemy", ""))
 		var bounty_job_id := String(enc.context.get("bounty_job_id", ""))
+		var fight_place_id := String(enc.context.get("place_id", ""))
 		world.active_encounter = null
 		world.pending_encounter_result = -1
 		# PLAY-4: who is standing in the road depends on which road the player
@@ -2222,6 +2244,8 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			battle_ctx["target_enemy"] = target_enemy
 		if bounty_job_id != "":
 			battle_ctx["bounty_job_id"] = bounty_job_id
+		if fight_place_id != "":
+			battle_ctx["place_id"] = fight_place_id
 		var battle_info: Dictionary = WorldState.Field.begin_road_battle(world, battle_ctx)
 		var combat_payload: Dictionary = {
 			"encounter_type": "BANDIT_AMBUSH",
@@ -2234,6 +2258,8 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			combat_payload["target_enemy"] = target_enemy
 		if bounty_job_id != "":
 			combat_payload["bounty_job_id"] = bounty_job_id
+		if fight_place_id != "":
+			combat_payload["place_id"] = fight_place_id
 		world.record_event(EventRecord.new(
 			world.current_day,
 			"ROAD_COMBAT_BEGAN",
@@ -2374,6 +2400,16 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			spent["caps"] = cost
 		&"FLEE_ROAD":
 			extra_day = true
+		# PLACE-4 road locations.
+		&"TAKE_RESOURCE":
+			var take_place := RoadPlaces.info(String(enc.context.get("place_id", "")))
+			offered = {String(take_place.resource): int(take_place.take)}
+		&"MARK_A", &"MARK_B":
+			pass
+		&"SEARCH_SITE":
+			var site_scrap := int(RoadPlaces.state(world, String(enc.context.get("place_id", ""))).scrap)
+			offered = {"scrap": site_scrap + p.capability.get_rank("SCAVENGING")} if site_scrap > 0 else {}
+			extra_day = true
 
 	gained = _give_player_goods(p, offered)
 	for item_id in offered_items:
@@ -2419,6 +2455,10 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		receipt["bounty_job_id"] = String(enc.context.get("bounty_job_id", ""))
 	if enc.context.has("target_enemy"):
 		receipt["target_enemy"] = String(enc.context.get("target_enemy", ""))
+	if enc.context.has("place_id"):
+		receipt["place_id"] = String(enc.context.get("place_id", ""))
+		if option_id in [&"MARK_A", &"MARK_B"]:
+			receipt["marked_for"] = String(RoadPlaces.towns(receipt.place_id)[0 if option_id == &"MARK_A" else 1])
 	var skill_id: String = TravelEncounter.practice_skill(encounter_type, option_id)
 	if not player_alive:
 		skill_id = ""
@@ -2749,10 +2789,43 @@ func advance_player_travel(world: WorldState, player_id: StringName, route_days:
 			break
 
 	var arrival_ls: NpcLifeState = world.npc_life_state_registry.get_life_state(player_id)
-	return {
-		"days_travelled": days_travelled,
-		"arrived": arrival_ls != null and arrival_ls.status == NpcLifeState.Status.SETTLED
-	}
+	var arrived: bool = arrival_ls != null and arrival_ls.status == NpcLifeState.Status.SETTLED
+	var out := {"days_travelled": days_travelled, "arrived": arrived}
+	if arrived and world.player != null and player_id == world.player.npc_id:
+		var reports := _report_marked_places(world, arrival_ls.population_container_id)
+		if not reports.is_empty():
+			out["place_reports"] = reports
+	return out
+
+# PLACE-4: a place the player marked for a town is reported the moment they
+# walk into that town. The town takes it over - its production of that
+# resource rises for good - and the player is paid a finder's fee. The
+# receipt carries the production before and after, so nothing is re-derived.
+func _report_marked_places(world: WorldState, settlement_id: StringName) -> Array:
+	var reports: Array = []
+	var settlement: SettlementState = world.get_settlement(settlement_id)
+	if settlement == null:
+		return reports
+	for place_id in RoadPlaces.ids():
+		var place_state: Dictionary = RoadPlaces.state(world, place_id)
+		if String(place_state.status) != "MARKED" or String(place_state.marked_for) != String(settlement_id):
+			continue
+		var place := RoadPlaces.info(place_id)
+		var res := String(place.resource)
+		var before := settlement.production.get_amount(res)
+		settlement.production.add_amount(res, int(place.production))
+		world.player.money += int(place.fee_caps)
+		world.player.xp += int(place.fee_xp)
+		var payload := {
+			"place_id": place_id, "settlement_id": String(settlement_id), "resource": res,
+			"production_before": before, "production_after": settlement.production.get_amount(res),
+			"net_before": before - settlement.consumption.get_amount(res),
+			"net_after": settlement.production.get_amount(res) - settlement.consumption.get_amount(res),
+			"caps": int(place.fee_caps), "xp": int(place.fee_xp),
+		}
+		world.record_event(EventRecord.new(world.current_day, "PLACE_REPORTED", world.player.npc_id, settlement_id, payload))
+		reports.append(payload)
+	return reports
 
 # A journey halts while an encounter is waiting for an answer.
 func is_player_travel_interrupted(world: WorldState, _player_id: StringName) -> bool:

@@ -41,6 +41,8 @@ static func begin_road_battle(world, enc_context: Dictionary = {}) -> Dictionary
 	}
 	if enc_context.has("bounty_job_id") and String(enc_context.bounty_job_id) != "":
 		state.battle["bounty_job_id"] = String(enc_context.bounty_job_id)
+	if enc_context.has("place_id") and String(enc_context.place_id) != "":
+		state.battle["place_id"] = String(enc_context.place_id)
 	if enc_context.has("route_type") and String(enc_context.route_type) != "":
 		state.battle["route_type"] = String(enc_context.route_type)
 	state.enemy_hp = Enemies.max_hp(enemy_id)
@@ -388,6 +390,8 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 		payload["enemy"] = String(active_battle.enemy)
 	if active_battle.has("bounty_job_id") and String(active_battle.bounty_job_id) != "":
 		payload["bounty_job_id"] = String(active_battle.bounty_job_id)
+	if active_battle.has("place_id") and String(active_battle.place_id) != "":
+		payload["place_id"] = String(active_battle.place_id)
 	if active_battle.has("route_type") and String(active_battle.route_type) != "":
 		payload["route_type"] = String(active_battle.route_type)
 	if is_road:

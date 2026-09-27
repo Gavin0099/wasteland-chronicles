@@ -38,6 +38,8 @@ const DesktopBackdrop = preload("res://ui/components/desktop_backdrop.gd")
 var world: WorldState = null
 var engine: SimulationEngine = null
 var current_projection: Dictionary = {}
+# PLACE-4: how far into the ledger place reports have already been shown.
+var place_reports_seen: int = -1
 var selected_settlement_id: String = "settlement:gray_valley"
 var selected_route_type: String = "HIGHWAY"
 var debug_world_feed_enabled: bool = false
@@ -173,6 +175,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine = null) -> void:
 	_build_ui_layout_if_needed()
 	world = p_world
 	engine = p_engine if p_engine != null else SimulationEngine.new()
+	place_reports_seen = world.event_log.size()
 	if world.player != null and world.player.npc_id != &"":
 		var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 		if ls != null and ls.status == NpcLifeState.Status.SETTLED:
@@ -192,7 +195,30 @@ func refresh_ui() -> void:
 	if market_practice_label != null and market_practice_context != String(current_projection.get("player", {}).get("current_container_id", "")):
 		market_practice_label.visible = false
 	_render_projection(current_projection)
+	_show_new_place_reports()
 	ui_refreshed.emit(current_projection)
+
+# PLACE-4: a town taking over a place you marked is news, whichever path
+# walked you in (a plain trip, a confirmed encounter, a finished fight).
+func _show_new_place_reports() -> void:
+	if world == null or place_reports_seen < 0:
+		return
+	var lines: Array[String] = []
+	for i in range(place_reports_seen, world.event_log.size()):
+		if world.event_log[i].type == "PLACE_REPORTED":
+			lines.append(PlayerUIProjection.place_report_text(world, world.event_log[i].payload))
+	place_reports_seen = world.event_log.size()
+	if lines.is_empty() or not is_inside_tree():
+		return
+	var dialog := AcceptDialog.new()
+	dialog.theme_type_variation = "PdaDialog"
+	dialog.title = "地點回報"
+	dialog.dialog_text = "\n\n".join(lines)
+	dialog.ok_button_text = "知道了"
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered()
 
 func _render_projection(proj: Dictionary) -> void:
 	if not is_inside_tree() and lbl_day == null:
@@ -259,6 +285,7 @@ func _render_projection(proj: Dictionary) -> void:
 
 	# 3. Tactical World Map View (_draw)
 	if world_map_view != null:
+		world_map_view.road_places = proj.get("road_places", [])
 		world_map_view.update_map_data(proj.get("destinations", []), p, selected_settlement_id)
 
 	# Map legacy buttons
@@ -2154,6 +2181,8 @@ func _render_encounter_result(result: Dictionary) -> void:
 		if slot_entry.get("slot") == "back":
 			equipped_back = String(slot_entry.get("item_id", ""))
 			break
+	if String(result.get("place_note", "")) != "":
+		lbl_encounter_body.text += "\n\n" + String(result.place_note)
 	if result.has("attribution") and String(result.attribution) != "":
 		lbl_encounter_body.text += "\n\n" + String(result.attribution)
 	elif equipped_back == "travel_backpack" and (not gains.is_empty() and gains != "沒有獲得物資。"):

@@ -85,7 +85,7 @@ func target_event_count(world: WorldState, event_type: String) -> int:
 func passive_option(world: WorldState) -> StringName:
 	# Fixed policies never dynamically search for a loot-producing answer.
 	match world.active_encounter.encounter_type:
-		TravelEncounter.WRECK, TravelEncounter.DEHYDRATED_TRAVELLER, TravelEncounter.REFUGEE_COLUMN:
+		TravelEncounter.WRECK, TravelEncounter.DEHYDRATED_TRAVELLER, TravelEncounter.REFUGEE_COLUMN, TravelEncounter.PLACE_VISIT:
 			return &"LEAVE"
 		TravelEncounter.ROCKSLIDE:
 			if engine.authorize_encounter_option(world, &"USE_ROPE") == "":

@@ -54,6 +54,8 @@ var destinations: Array = []
 var player_info: Dictionary = {}
 var selected_settlement_id: String = "settlement:gray_valley"
 var hovered_settlement_id: String = ""
+# PLACE-4: [{id, name, kind, a, b, route, t, discovered, status}] from the projection.
+var road_places: Array = []
 
 func _init() -> void:
 	mouse_filter = MOUSE_FILTER_STOP
@@ -163,6 +165,9 @@ func _draw() -> void:
 		draw_rect(badge_rect, Color(0.08, 0.09, 0.12, 0.92))
 		draw_rect(badge_rect, Color("#363D4E"), false, 1.0)
 		draw_string(default_font, Vector2(mid.x - (label_size.x * 0.5), mid.y + 3), label_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#C4BFB6"))
+
+	# 3b. PLACE-4 road places, under the towns so a town is never hidden
+	_draw_road_places(default_font)
 
 	# 4. Draw Settlement Nodes
 	for node_key in NODE_POSITIONS:
@@ -292,3 +297,47 @@ func _short_name(settlement_id: String) -> String:
 		"settlement:dry_well": return "乾井"
 		"settlement:new_hope": return "新希望"
 	return settlement_id.replace("settlement:", "").replace("_", " ").capitalize()
+
+# PLACE-4: each place sits on its road; the camp sits off the Dry Well - New Hope
+# line, on the wilderness side, because that is the road it belongs to. An
+# undiscovered place is a dim "?" - the map admits something is there without
+# saying what.
+func _draw_road_places(font: Font) -> void:
+	for entry_variant in road_places:
+		var entry: Dictionary = entry_variant
+		if not NODE_POSITIONS.has(entry.get("a", "")) or not NODE_POSITIONS.has(entry.get("b", "")):
+			continue
+		var p1 := _get_pixel_pos(NODE_POSITIONS[entry.a])
+		var p2 := _get_pixel_pos(NODE_POSITIONS[entry.b])
+		var pos := p1.lerp(p2, float(entry.get("t", 0.5)))
+		if String(entry.get("route", "")) == "WILDERNESS":
+			var normal := (p2 - p1).orthogonal().normalized()
+			var off := normal * 34.0
+			if (pos + off).x > size.x - 20.0 or (pos + off).y > size.y - 20.0:
+				off = -off
+			draw_dashed_line(pos, pos + off, Color(0.55, 0.58, 0.65, 0.6), 1.5, 4.0)
+			pos += off
+		var discovered: bool = bool(entry.get("discovered", false))
+		var tint := Color("#6C7280")
+		if discovered:
+			match String(entry.get("kind", "")):
+				"CAMP": tint = Color("#A8382B")
+				"RESOURCE": tint = Color("#39D353")
+				_: tint = Color("#D9822B")
+		var r := 7.0
+		var diamond := PackedVector2Array([pos + Vector2(0, -r), pos + Vector2(r, 0), pos + Vector2(0, r), pos + Vector2(-r, 0)])
+		draw_colored_polygon(diamond, Color(0.08, 0.09, 0.12, 0.95))
+		diamond.append(pos + Vector2(0, -r))
+		draw_polyline(diamond, tint, 2.0)
+		if not discovered:
+			draw_string(font, Vector2(pos.x - 3, pos.y + 4), "?", HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#8B949E"))
+			continue
+		var label := String(entry.get("name", "?"))
+		if discovered and String(entry.get("status", "")) != "":
+			label += "・" + String(entry.status)
+		var label_size := font.get_string_size(label, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+		# Each place says which side of its marker is clear of the towns' tags.
+		var top := pos.y + r + 2 if bool(entry.get("label_below", false)) else pos.y - r - 16
+		var rect := Rect2(pos.x - label_size.x * 0.5 - 3, top, label_size.x + 6, 14)
+		draw_rect(rect, Color(0.08, 0.09, 0.12, 0.85))
+		draw_string(font, Vector2(pos.x - label_size.x * 0.5, top + 11), label, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#C4BFB6") if discovered else Color("#8B949E"))

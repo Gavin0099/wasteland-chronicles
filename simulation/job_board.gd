@@ -51,6 +51,7 @@ const Route = preload("res://simulation/travel_route.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
 const FieldAdventure = preload("res://simulation/field_adventure.gd")
+const RoadPlaces = preload("res://simulation/road_places.gd")
 
 # The board turns over on a cadence rather than daily, so work the player walked
 # past yesterday is usually still there when they come back for it.
@@ -410,6 +411,11 @@ static func _bounty(world, settlement, window: int) -> Dictionary:
 		target_id = StringName(_worst_neighbour(world, settlement_id))
 		route_type = Route.ROUTE_HIGHWAY
 		target_enemy = Enemies.BANDIT
+
+	# PLACE-4: nobody posts the raider while his camp is burned out.
+	if target_enemy == Enemies.HEAVY_RAIDER and RoadPlaces.camp_cleared(world):
+		target_enemy = Enemies.BANDIT
+		route_type = Route.ROUTE_HIGHWAY
 
 	if target_id == "":
 		return {}
