@@ -2422,6 +2422,9 @@ func _on_quest_pressed() -> void:
 		if not delivered.is_empty():
 			delivered_text = "%s ×%d" % [String(row.item_name), int(delivered[0].quantity)]
 		receipt.dialog_text = "已交付%s。獲得 %d 瓶蓋、%d XP。" % [delivered_text, int(row.reward_caps), int(row.reward_xp)]
+		# PLAY-3C: what the cargo did to the town, read from the receipt.
+		for effect in result.get("settlement_effects", []):
+			receipt.dialog_text += "\n\n" + PlayerUIProjection.delivery_effect_text(world, effect)
 	receipt.ok_button_text = "繼續旅程"
 	receipt.confirmed.connect(receipt.queue_free)
 	receipt.canceled.connect(receipt.queue_free)

@@ -119,9 +119,9 @@ static func turn_in(world: WorldState, quest_id: String) -> Dictionary:
 		if not removed.success:
 			return _fail(String(removed.error))
 		delivered.append({"item_id": String(objective.item_id), "quantity": int(objective.quantity)})
-	# FUN-1: aggregate cargo leaves the pack here. It is deliberately NOT added
-	# to the settlement: the contract buys what you carried, and the world's
-	# response to that is QUEST-W1, not this slice.
+	# FUN-1: aggregate cargo leaves the pack here. PLAY-3C: the engine's
+	# turn-in path then puts it into the settlement's stores and records what
+	# changed (SimulationEngine._deliver_cargo_to_settlement).
 	var handed_over: Array = []
 	for objective in definition.objectives:
 		if String(objective.type) != "DELIVER_RESOURCE":

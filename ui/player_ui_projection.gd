@@ -153,6 +153,21 @@ static func _project_quests(world: WorldState) -> Array:
 			live.append(row)
 	return live
 
+# PLAY-3C: one delivery's effect on the town, in the order the player cares:
+# the stock, the price, and whether the shortage the board posted is over.
+static func delivery_effect_text(world: WorldState, effect: Dictionary) -> String:
+	var settlement = world.get_settlement(StringName(String(effect.get("settlement_id", ""))))
+	var town: String = settlement.name if settlement != null else "當地"
+	var res_name: String = String(JobBoard.RESOURCE_NAMES.get(String(effect.get("resource", "")), String(effect.get("resource", ""))))
+	var text := "%s倉庫的%s：%d → %d（目標 %d）\n%s價：%.1f → %.1f 瓶蓋" % [
+		town, res_name, int(effect.stock_before), int(effect.stock_after), int(effect.target),
+		res_name, float(effect.price_before), float(effect.price_after)]
+	if bool(effect.was_short) and not bool(effect.still_short):
+		text += "\n%s的%s不再算急缺了。" % [town, res_name]
+	elif bool(effect.still_short):
+		text += "\n仍缺 %d 份%s，這裡還會繼續收。" % [int(effect.target) - int(effect.stock_after), res_name]
+	return text
+
 # Completed and otherwise-ended work, counted from the authoritative quest state
 # rather than from whatever the board happens to be displaying.
 static func _project_quest_history(world: WorldState) -> Dictionary:
