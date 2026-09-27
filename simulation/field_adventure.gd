@@ -262,6 +262,8 @@ static func _equipped_main_hand_bonus(world) -> int:
 		"hunting_knife": return 2
 		"rebar_club": return 2
 		"scrap_machete": return 3
+		# ASP-1: the one thing the old armory holds, and no market sells.
+		"old_world_saber": return 5
 		_: return 0
 
 # Which opponent this battle is against. A battle saved before PLAY-4 carries

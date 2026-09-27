@@ -2406,6 +2406,13 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered = {String(take_place.resource): int(take_place.take)}
 		&"MARK_A", &"MARK_B":
 			pass
+		&"OPEN_ARMORY":
+			# ASP-1: the prize is an item the market never sells; if the pack
+			# cannot take it, it stays behind the open door for next time.
+			var armory := RoadPlaces.info(String(enc.context.get("place_id", "")))
+			offered = {"scrap": 3}
+			offered_items = {String(armory.get("prize", "")): 1}
+			extra_day = true
 		&"SEARCH_SITE":
 			var site_scrap := int(RoadPlaces.state(world, String(enc.context.get("place_id", ""))).scrap)
 			offered = {"scrap": site_scrap + p.capability.get_rank("SCAVENGING")} if site_scrap > 0 else {}

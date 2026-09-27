@@ -14,6 +14,7 @@ static func resolve(asset_id: Variant) -> Dictionary:
 		"item_caravan_coat": "res://ui/assets/items/candidates/caravan_coat.png",
 		"item_travel_backpack": "res://ui/assets/items/candidates/travel_backpack.png",
 		"item_military_backpack": "res://ui/assets/items/library/clothing/military_backpack.png",
+		"item_old_world_saber": "res://ui/assets/items/library/weapons/desert_sabre.png",
 		"item_rope": "res://ui/assets/items/candidates/rope.png",
 		"item_flashlight": "res://ui/assets/items/candidates/flashlight.png",
 		"item_wrench": "res://ui/assets/items/candidates/wrench.png",

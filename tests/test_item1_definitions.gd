@@ -30,6 +30,8 @@ func fixtures() -> Array:
 		{"item_id": "caravan_coat", "display_name_zh": "商隊外套", "category": "APPAREL", "stack_mode": "UNIQUE", "base_weight": 1500, "asset_id": "item_caravan_coat", "tags": ["clothing", "travel"]},
 		{"item_id": "travel_backpack", "display_name_zh": "舊旅行包", "category": "CONTAINER", "stack_mode": "UNIQUE", "base_weight": 1100, "asset_id": "item_travel_backpack", "tags": ["bag", "travel"]},
 		{"item_id": "military_backpack", "display_name_zh": "軍用背包", "category": "CONTAINER", "stack_mode": "UNIQUE", "base_weight": 2400, "asset_id": "item_military_backpack", "tags": ["backpack", "military", "salvaged"]},
+		# ASP-1: the armory prize, one item promoted from the art library.
+		{"item_id": "old_world_saber", "display_name_zh": "舊世軍刀", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 1300, "asset_id": "item_old_world_saber", "tags": ["blade", "military", "old_world"]},
 		{"item_id": "rope", "display_name_zh": "繩索", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 2500, "asset_id": "item_rope", "tags": ["rope", "travel"]},
 		{"item_id": "flashlight", "display_name_zh": "手電筒", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 400, "asset_id": "item_flashlight", "tags": ["lighting", "tool"]},
 		{"item_id": "wrench", "display_name_zh": "扳手", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 700, "asset_id": "item_wrench", "tags": ["hand_tool", "metal"]},
@@ -57,10 +59,10 @@ func _init() -> void:
 
 func check_definitions() -> void:
 	var rows: Array = Catalogue.all_definitions()
-	check(rows == sorted_fixtures(), "exact thirteen approved records, integer grams and sorted identities")
-	check(rows.size() == 13, "185 images must not create 185 authoritative definitions")
+	check(rows == sorted_fixtures(), "exact fourteen approved records, integer grams and sorted identities")
+	check(rows.size() == 14, "185 images must not create 185 authoritative definitions")
 	var authored: Array = Authored.rows()
-	check(authored.size() == 13, "single authored source contains thirteen records")
+	check(authored.size() == 14, "single authored source contains fourteen records")
 	var paths := {
 		"item_rusted_knife": "rusty_knife", "item_hunting_knife": "hunting_knife",
 		"item_rebar_club": "rebar_club", "item_scrap_machete": "scrap_machete",
@@ -75,7 +77,8 @@ func check_definitions() -> void:
 		check(result.success and result.definition == row and result.error == "", "exact ID lookup: " + row.item_id)
 		check(typeof(result.definition.base_weight) == TYPE_INT, "weight remains int: " + row.item_id)
 		var art: Dictionary = Art.resolve(row.asset_id)
-		var expected_path: String = "res://ui/assets/items/library/clothing/military_backpack.png" if row.asset_id == "item_military_backpack" else "res://ui/assets/items/candidates/%s.png" % paths[row.asset_id]
+		var library_paths := {"item_military_backpack": "res://ui/assets/items/library/clothing/military_backpack.png", "item_old_world_saber": "res://ui/assets/items/library/weapons/desert_sabre.png"}
+		var expected_path: String = String(library_paths[row.asset_id]) if library_paths.has(row.asset_id) else "res://ui/assets/items/candidates/%s.png" % paths[row.asset_id]
 		check(art.success and art.path == expected_path and art.error == "", "explicit stable asset binding: " + row.item_id)
 		check(FileAccess.file_exists(expected_path), "asset physically exists: " + expected_path)
 		var found := false

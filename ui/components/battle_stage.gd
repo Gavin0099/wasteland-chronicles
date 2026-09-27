@@ -30,6 +30,7 @@ const WEAPON_GRIPS := {
 	"hunting_knife": {"grip": Vector2(0.26, 0.77), "size": 0.22},
 	"rebar_club": {"grip": Vector2(0.18, 0.86), "size": 0.32},
 	"scrap_machete": {"grip": Vector2(0.20, 0.83), "size": 0.30},
+	"old_world_saber": {"grip": Vector2(0.15, 0.84), "size": 0.40},
 }
 const DEFAULT_GRIP := {"grip": Vector2(0.24, 0.80), "size": 0.26}
 
