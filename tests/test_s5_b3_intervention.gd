@@ -107,7 +107,11 @@ func _init() -> void:
 		# ASP-2: naming which heard rumour the player is chasing. It moves no
 		# resource, rank or world fact - it records a choice of aim, and only
 		# for a rumour the player has actually heard.
-		PlayerIntent.Action.TRACK_RUMOR
+		PlayerIntent.Action.TRACK_RUMOR,
+		# REP-1: keeping goods a town consigned to you. It moves only goods the
+		# player already carries, fails that one job, and is remembered by the
+		# town that trusted them - it creates nothing.
+		PlayerIntent.Action.BETRAY_JOB
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:

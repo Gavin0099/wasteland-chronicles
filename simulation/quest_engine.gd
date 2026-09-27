@@ -79,6 +79,17 @@ static func authorize_accept(world: WorldState, quest_id: String) -> String:
 		return "ILLEGAL_QUEST_TRANSITION"
 	if evaluate_availability(world, quest_id) != &"AVAILABLE":
 		return "QUEST_NOT_AVAILABLE"
+	# REP-1: a town that has turned on you gives you no work.
+	const LocalTrust = preload("res://simulation/local_trust.gd")
+	if not LocalTrust.gives_work(world, "settlement:" + String(definition.settlement_id)):
+		return "TOWN_DISTRUSTS_YOU"
+	if definition.has("consign_resource"):
+		var origin = world.get_settlement(StringName("settlement:" + String(definition.settlement_id)))
+		var quantity := int(definition.consign_quantity)
+		if origin == null or origin.inventory.get_amount(String(definition.consign_resource)) < quantity:
+			return "CONSIGNMENT_NO_STOCK"
+		if world.player.get_effective_capacity() - world.player.get_total_inventory_load() < quantity:
+			return "CONSIGNMENT_NO_ROOM"
 	return ""
 
 static func authorize_turn_in(world: WorldState, quest_id: String) -> String:
