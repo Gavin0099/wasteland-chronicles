@@ -265,6 +265,8 @@ static func _objective_satisfied(world: WorldState, quest_id: String, obj: Dicti
 					current_road = {
 						"origin": String(record.payload.get("origin", "")),
 						"destination": String(record.payload.get("destination", "")),
+						"target_enemy": String(record.payload.get("target_enemy", "")),
+						"bounty_job_id": String(record.payload.get("bounty_job_id", "")),
 					}
 					continue
 				if record.type != "FIELD_RESULT":
@@ -276,7 +278,18 @@ static func _objective_satisfied(world: WorldState, quest_id: String, obj: Dicti
 					var a := String(current_road.origin)
 					var b := String(current_road.destination)
 					if (a == origin and b == destination) or (a == destination and b == origin):
-						wins += 1
+						var enemy_matched := true
+						if obj.has("target_enemy") and String(obj.target_enemy) != "":
+							var record_enemy := String(record.payload.get("enemy", current_road.get("target_enemy", "")))
+							if record_enemy != String(obj.target_enemy):
+								enemy_matched = false
+						var job_id_matched := true
+						if obj.has("bounty_job_id") and String(obj.bounty_job_id) != "":
+							var record_job_id := String(record.payload.get("bounty_job_id", current_road.get("bounty_job_id", "")))
+							if record_job_id != String(obj.bounty_job_id):
+								job_id_matched = false
+						if enemy_matched and job_id_matched:
+							wins += 1
 				if ended_a_road_battle:
 					current_road = {}
 			return wins >= needed

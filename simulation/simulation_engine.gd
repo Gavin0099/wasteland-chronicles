@@ -1798,6 +1798,7 @@ func gather_road_facts(world: WorldState, party: RefugeePartyState) -> Dictionar
 		"refugee_column": _find_refugee_column(world, party),
 		"fresh_wreck": _find_fresh_wreck(world, party),
 		"salvage_job": _find_salvage_target(world, party),
+		"bounty_job": _find_bounty_target(world, party),
 	}
 	if party != null and party.route_type != &"":
 		facts["route_type"] = String(party.route_type)
@@ -1869,6 +1870,8 @@ func _find_salvage_target(world: WorldState, party: RefugeePartyState) -> Dictio
 		if qs == null or qs.status != &"ACTIVE":
 			continue
 		var defn: Dictionary = world.accepted_jobs[quest_id]
+		if defn.has("target_enemy") or not defn.has("source_wreck_id"):
+			continue
 		var origin_short := String(defn.get("target_route_origin", ""))
 		var dest_short := String(defn.get("target_route_destination", ""))
 		if origin_short == "" or dest_short == "":
@@ -1898,11 +1901,68 @@ func _find_salvage_target(world: WorldState, party: RefugeePartyState) -> Dictio
 		}
 	return {}
 
+# PLAY-3B: Check if the player has an active Bounty Job targeting this road.
+func _find_bounty_target(world: WorldState, party: RefugeePartyState) -> Dictionary:
+	if world == null or party == null:
+		return {}
+	var job_ids: Array = world.accepted_jobs.keys()
+	job_ids.sort()
+	for quest_id in job_ids:
+		var qs = world.quest_state.get_quest(quest_id)
+		if qs == null or qs.status != &"ACTIVE":
+			continue
+		var defn: Dictionary = world.accepted_jobs[quest_id]
+		if not defn.has("target_enemy"):
+			continue
+		var origin_short := String(defn.get("target_route_origin", ""))
+		var dest_short := String(defn.get("target_route_destination", ""))
+		if origin_short == "" or dest_short == "":
+			continue
+		var origin_full := "settlement:" + origin_short
+		var dest_full := "settlement:" + dest_short
+		var party_origin := String(party.origin_id)
+		var party_dest := String(party.destination_id)
+		var matches_route: bool = (party_origin == origin_full and party_dest == dest_full) or (party_origin == dest_full and party_dest == origin_full)
+		if not matches_route:
+			continue
+		var target_route_type := String(defn.get("target_route_type", "HIGHWAY"))
+		var party_route_type := String(party.route_type) if party.route_type != &"" else "HIGHWAY"
+		if target_route_type != party_route_type:
+			continue
+		# If the target is already defeated / job objective fulfilled, do not trigger combat again
+		var already_won := false
+		var already_encountered_this_trip := false
+		for evt in world.event_log:
+			if evt.type == "FIELD_RESULT" and String(evt.payload.get("bounty_job_id", "")) == quest_id and String(evt.payload.get("outcome", "")) == "VICTORY":
+				already_won = true
+				break
+			if evt.day >= party.departure_day and (
+				(evt.type == "FIELD_RESULT" and String(evt.payload.get("bounty_job_id", "")) == quest_id) or
+				(evt.type == "TRAVEL_ENCOUNTER_RESOLVED" and String(evt.payload.get("bounty_job_id", "")) == quest_id) or
+				(evt.type == "ROAD_COMBAT_BEGAN" and String(evt.payload.get("bounty_job_id", "")) == quest_id)
+			):
+				already_encountered_this_trip = true
+		if already_won or already_encountered_this_trip:
+			continue
+		return {
+			"job_id": quest_id,
+			"target_enemy": String(defn.get("target_enemy", "")),
+			"target_route_origin": origin_short,
+			"target_route_destination": dest_short,
+			"target_route_type": target_route_type,
+		}
+	return {}
+
 # Only the facts this particular encounter needs, so the stored context stays
 # small and readable in a snapshot.
 func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: StringName) -> Dictionary:
 	var ctx := {}
 	match encounter_type:
+		TravelEncounter.BANDIT_AMBUSH:
+			var bounty: Dictionary = facts.get("bounty_job", {})
+			if not bounty.is_empty():
+				ctx["bounty_job_id"] = String(bounty.get("job_id", ""))
+				ctx["target_enemy"] = String(bounty.get("target_enemy", ""))
 		TravelEncounter.REFUGEE_COLUMN:
 			var column: Dictionary = facts.get("refugee_column", {})
 			ctx = {
@@ -2109,29 +2169,41 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		var origin_str: String = String(enc.origin_id)
 		var dest_str: String = String(enc.destination_id)
 		var travel_idx: int = enc.travel_day_index
+		var target_enemy := String(enc.context.get("target_enemy", ""))
+		var bounty_job_id := String(enc.context.get("bounty_job_id", ""))
 		world.active_encounter = null
 		world.pending_encounter_result = -1
 		# PLAY-4: who is standing in the road depends on which road the player
 		# chose to walk, so the committed route type travels with the handoff.
-		var battle_info: Dictionary = WorldState.Field.begin_road_battle(world, {
+		var battle_ctx: Dictionary = {
 			"encounter_type": "BANDIT_AMBUSH",
 			"origin": origin_str,
 			"destination": dest_str,
 			"travel_day_index": travel_idx,
 			"route_type": _encounter_party_route(world, enc),
-		})
+		}
+		if target_enemy != "":
+			battle_ctx["target_enemy"] = target_enemy
+		if bounty_job_id != "":
+			battle_ctx["bounty_job_id"] = bounty_job_id
+		var battle_info: Dictionary = WorldState.Field.begin_road_battle(world, battle_ctx)
+		var combat_payload: Dictionary = {
+			"encounter_type": "BANDIT_AMBUSH",
+			"battle_id": battle_info.id,
+			"origin": origin_str,
+			"destination": dest_str,
+			"travel_day_index": travel_idx,
+		}
+		if target_enemy != "":
+			combat_payload["target_enemy"] = target_enemy
+		if bounty_job_id != "":
+			combat_payload["bounty_job_id"] = bounty_job_id
 		world.record_event(EventRecord.new(
 			world.current_day,
 			"ROAD_COMBAT_BEGAN",
 			p.npc_id,
 			StringName(dest_str),
-			{
-				"encounter_type": "BANDIT_AMBUSH",
-				"battle_id": battle_info.id,
-				"origin": origin_str,
-			"destination": dest_str,
-			"travel_day_index": travel_idx,
-			}
+			combat_payload
 		))
 		return {
 			"success": true,
@@ -2307,6 +2379,10 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		receipt["site_name"] = String(enc.context.get("site_name", ""))
 	if enc.context.has("source_wreck_id"):
 		receipt["source_wreck_id"] = String(enc.context.get("source_wreck_id", ""))
+	if enc.context.has("bounty_job_id"):
+		receipt["bounty_job_id"] = String(enc.context.get("bounty_job_id", ""))
+	if enc.context.has("target_enemy"):
+		receipt["target_enemy"] = String(enc.context.get("target_enemy", ""))
 	var skill_id: String = TravelEncounter.practice_skill(encounter_type, option_id)
 	if not player_alive:
 		skill_id = ""

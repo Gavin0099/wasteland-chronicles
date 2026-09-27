@@ -49,6 +49,8 @@ extends RefCounted
 const Definition = preload("res://simulation/quest_definition.gd")
 const Route = preload("res://simulation/travel_route.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
+const Enemies = preload("res://simulation/enemy_catalogue.gd")
+const FieldAdventure = preload("res://simulation/field_adventure.gd")
 
 # The board turns over on a cadence rather than daily, so work the player walked
 # past yesterday is usually still there when they come back for it.
@@ -373,46 +375,113 @@ static func _salvage(world, settlement, window: int) -> Dictionary:
 # ── Bounty: a combat-readiness question ───────────────────────────────────────
 static func _bounty(world, settlement, window: int) -> Dictionary:
 	var settlement_id: StringName = settlement.id
-	var target_id := _worst_neighbour(world, settlement_id)
+	var short_origin := _short(String(settlement_id))
+	var target_id := &""
+	var route_type: StringName = Route.ROUTE_HIGHWAY
+	var target_enemy := Enemies.BANDIT
+
+	if short_origin == "new_hope":
+		if window % 2 == 0:
+			target_id = &"settlement:dry_well"
+			route_type = Route.ROUTE_WILDERNESS
+			target_enemy = Enemies.HEAVY_RAIDER
+		else:
+			target_id = &"settlement:dry_well"
+			route_type = Route.ROUTE_HIGHWAY
+			target_enemy = Enemies.BANDIT
+	elif short_origin == "dry_well":
+		if window % 2 == 1:
+			target_id = &"settlement:new_hope"
+			route_type = Route.ROUTE_WILDERNESS
+			target_enemy = Enemies.HEAVY_RAIDER
+		else:
+			target_id = &"settlement:new_hope"
+			route_type = Route.ROUTE_HIGHWAY
+			target_enemy = Enemies.BANDIT
+	elif short_origin == "gray_valley":
+		target_id = &"settlement:dry_well"
+		route_type = Route.ROUTE_HIGHWAY
+		target_enemy = Enemies.FERAL_DOG if window % 2 == 0 else Enemies.BANDIT
+	else:
+		target_id = StringName(_worst_neighbour(world, settlement_id))
+		route_type = Route.ROUTE_HIGHWAY
+		target_enemy = Enemies.BANDIT
+
 	if target_id == "":
 		return {}
-	var risk := road_risk(world, settlement_id, StringName(target_id), Route.ROUTE_HIGHWAY)
-	var days := _route_days(world, settlement_id, StringName(target_id))
-	var other = world.get_settlement(StringName(target_id))
+
+	var days := Route.get_route_days(settlement_id, target_id, route_type)
+	if days <= 0:
+		days = 4 if route_type == Route.ROUTE_WILDERNESS else 2
+
+	var risk := road_risk(world, settlement_id, target_id, route_type)
+	var other = world.get_settlement(target_id)
 	var security: float = minf(float(settlement.security), float(other.security) if other != null else 100.0)
 
-	# A standing clearing contract is routine; a collapsing road makes it pay
-	# far better and count for more. This is the whole point of modulation: the
-	# job exists either way, and the world decides how bad it is.
-	var caps: int = 55 + 20 * risk + int(maxf(0.0, 100.0 - security))
-	var xp: int = 6 + 4 * risk
-	var target_name := _name_of(world, StringName(target_id))
+	var base_caps := 40
+	var base_xp := 4
+	match target_enemy:
+		Enemies.FERAL_DOG:
+			base_caps = 40
+			base_xp = 4
+		Enemies.BANDIT:
+			base_caps = 65
+			base_xp = 8
+		Enemies.HEAVY_RAIDER:
+			base_caps = 100
+			base_xp = 14
+
+	var caps: int = base_caps + 15 * risk + int(maxf(0.0, 100.0 - security))
+	var xp: int = base_xp + 2 * risk
+	var target_name := _name_of(world, target_id)
+	var enemy_info: Dictionary = Enemies.resolve(target_enemy)
+	var enemy_name: String = String(enemy_info.get("name_zh", "目標"))
+	var route_name: String = "荒野繞路" if route_type == Route.ROUTE_WILDERNESS else "廢棄公路"
+	var job_id := "%s%s_bounty_%d" % [JOB_ID_PREFIX, short_origin, window]
+
+	var title_zh := "%s懸賞：%s（往%s）" % [
+		"高額 " if risk >= RISK_ROUGH or target_enemy == Enemies.HEAVY_RAIDER else "",
+		enemy_name, target_name
+	]
+	var description_zh := "商隊回報在往%s的%s上有%s攔路（該路段治安 %d，路況%s）。%s出賞金：在那條路上把%s打退一次，回來領賞。付錢打發或掉頭跑掉都不算——要真的打贏。路程約 %d 天。" % [
+		target_name, route_name, enemy_name, int(security), RISK_WORDS[risk], settlement.name, enemy_name, days
+	]
+	var summary := "在往%s的%s擊退%s" % [target_name, route_name, enemy_name]
 
 	return {
 		"definition": {
-			"id": "%s%s_bounty_%d" % [JOB_ID_PREFIX, _short(String(settlement_id)), window],
-			"title_zh": "%s懸賞：清理往%s的路" % ["高額 " if risk >= RISK_ROUGH else "", target_name],
-			"description_zh": "商隊回報往%s那條路上有人攔車（該路段治安 %d，路況%s）。%s出賞金：在那條路上把攔路的人打退一次，回來領賞。付錢打發或掉頭跑掉都不算——要真的打贏。路程約 %d 天。" % [
-				target_name, int(security), RISK_WORDS[risk], settlement.name, days],
-			"settlement_id": _short(String(settlement_id)),
+			"id": job_id,
+			"title_zh": title_zh,
+			"description_zh": description_zh,
+			"settlement_id": short_origin,
 			"issuer_npc_id": "",
 			"availability": {"required_day": 0, "required_flags": []},
 			"deadline_days": BOUNTY_DEADLINE_DAYS,
 			"objectives": [{
 				"id": "clear_road", "type": "WIN_ROAD_COMBAT",
-				"origin_id": _short(String(settlement_id)), "destination_id": _short(target_id), "quantity": 1,
+				"origin_id": short_origin, "destination_id": _short(String(target_id)),
+				"quantity": 1, "target_enemy": target_enemy, "bounty_job_id": job_id,
 			}],
 			"outcomes": {
 				"resolved": {"rewards": [{"type": "CURRENCY", "amount": caps}, {"type": "XP", "amount": xp}], "world_effects": []},
 				"failed": {"rewards": [], "world_effects": []},
 				"expired": {"rewards": [], "world_effects": []},
 			},
+			"target_enemy": target_enemy,
+			"target_route_origin": short_origin,
+			"target_route_destination": _short(String(target_id)),
+			"target_route_type": String(route_type),
+			"route_days": days,
 		},
 		"archetype": "BOUNTY",
 		"risk": risk,
 		"route_days": days,
-		"urgent": risk >= RISK_ROUGH,
-		"summary": "在往%s的路上打贏一次" % target_name,
+		"urgent": risk >= RISK_ROUGH or target_enemy == Enemies.HEAVY_RAIDER,
+		"target_enemy": target_enemy,
+		"target_route_origin": short_origin,
+		"target_route_destination": _short(String(target_id)),
+		"target_route_type": String(route_type),
+		"summary": summary,
 	}
 
 # ── What this character, specifically, can read off the board ─────────────────
@@ -443,12 +512,31 @@ static func intel_for(world, entry: Dictionary) -> Array:
 		var fair: int = caps + 6 * int(entry.get("route_days", 2))
 		if fair > caps:
 			lines.append("〔商路熟手〕這趟開 %d 瓶蓋偏低，照路程你估合理價該在 %d 上下。" % [caps, fair])
-	if archetype == "BOUNTY" and player.has_acquired_trait("DEATH_TESTED"):
-		var hp: int = int(player.field_kit.get("hp", 0))
-		if hp <= 6:
-			lines.append("〔見過底的人〕你現在 %d 點血。以這個狀態接這張賞金，不是勇敢的問題。" % hp)
+	if archetype == "BOUNTY":
+		var target_enemy: String = String(entry.get("target_enemy", ""))
+		var enemy_name: String = String(Enemies.resolve(target_enemy).get("name_zh", "目標")) if target_enemy != "" else "攔路敵人"
+		var has_death_tested: bool = player.has_acquired_trait("DEATH_TESTED")
+		if has_death_tested:
+			var fc: Dictionary = FieldAdventure.forecast_for_enemy(world, target_enemy, true)
+			if not fc.is_empty():
+				var beaten_note := "，以目前血量可能會倒下！" if fc.get("beaten", false) else "。"
+				lines.append("〔見過底的人〕目標：%s（推估需 %d 輪、每擊 %d 傷、承受約 %d 傷、戰後剩餘約 %d HP%s）" % [
+					enemy_name, int(fc.turns), int(fc.damage_per_hit), int(fc.incoming), int(fc.hp_after), beaten_note
+				])
+			else:
+				var hp: int = int(player.field_kit.get("hp", 0))
+				lines.append("〔見過底的人〕你現在 %d 點血，對手是%s。" % [hp, enemy_name])
 		else:
-			lines.append("〔見過底的人〕你現在 %d 點血，撐得住一場硬仗。" % hp)
+			var rank_int: int = player.capability.get_rank("MELEE") if player.capability != null else 0
+			var rank_name: String = {0: "生疏", 1: "略懂", 2: "熟練", 3: "精通"}.get(rank_int, "生疏")
+			var weapon_note: String = "赤手空拳"
+			if player.equipment != null:
+				var w_id: String = player.equipment.equipped_item("main_hand")
+				if w_id != "":
+					weapon_note = "裝備了武器"
+			lines.append("懸賞目標：%s（威脅度 %s）。你目前的格鬥水平為〔%s〕，%s。" % [
+				enemy_name, RISK_STARS.get(risk, "★☆☆"), rank_name, weapon_note
+			])
 	if archetype == "COURIER" and player.has_acquired_trait("DESERT_HARDENED"):
 		lines.append("〔荒野歷練〕這段路你走過更糟的，估算補給時可以抓得比一般人緊。")
 	if risk >= RISK_BAD:

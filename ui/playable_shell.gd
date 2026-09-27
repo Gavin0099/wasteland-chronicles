@@ -2400,6 +2400,14 @@ func _on_quest_pressed() -> void:
 		receipt.dialog_text = "委託已接受。第 %d 天截止。" % world.quest_state.get_quest(quest_id_shown).deadline_day
 	elif bool(row.get("is_survey", false)):
 		receipt.dialog_text = "北線路況已向乾井回報；軍用背包仍由你持有。獲得 %d 瓶蓋、%d XP。" % [int(row.reward_caps), int(row.reward_xp)]
+	elif String(row.get("objective_type", "")) == "WIN_ROAD_COMBAT" or String(row.get("archetype", "")) == "BOUNTY":
+		var enemy_name: String = "攔路敵人"
+		var target_enemy: String = String(row.get("target_enemy", ""))
+		if target_enemy != "":
+			const Enemies = preload("res://simulation/enemy_catalogue.gd")
+			if Enemies.exists(target_enemy):
+				enemy_name = String(Enemies.resolve(target_enemy).get("name_zh", "敵人"))
+		receipt.dialog_text = "已擊退懸賞目標（%s）。獲得 %d 瓶蓋、%d XP。" % [enemy_name, int(row.reward_caps), int(row.reward_xp)]
 	else:
 		var delivered: Array = result.get("delivered", [])
 		var delivered_text := "%s ×%d" % [String(row.item_name), int(row.required)]

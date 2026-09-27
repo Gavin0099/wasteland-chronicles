@@ -42,6 +42,7 @@ const DEHYDRATED_TRAVELLER := &"DEHYDRATED_TRAVELLER"
 const REFUGEE_COLUMN := &"REFUGEE_COLUMN"
 const BANDIT_AMBUSH := &"BANDIT_AMBUSH"
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+const Enemies = preload("res://simulation/enemy_catalogue.gd")
 
 const BANDIT_BRIBE_CAPS := 15
 
@@ -178,6 +179,10 @@ static func select(facts: Dictionary, origin_id: StringName, destination_id: Str
 	if not salvage_job.is_empty():
 		return WRECK
 
+	var bounty_job: Dictionary = facts.get("bounty_job", {})
+	if not bounty_job.is_empty():
+		return BANDIT_AMBUSH
+
 	var pool := candidates(facts)
 	var total := 0
 	for c in pool:
@@ -208,7 +213,15 @@ static func title(encounter_type: StringName, context: Dictionary = {}) -> Strin
 		ROADBLOCK: return "路上的關卡"
 		DEHYDRATED_TRAVELLER: return "脫水的旅人"
 		REFUGEE_COLUMN: return "逃難的人群"
-		BANDIT_AMBUSH: return "劫匪伏擊"
+		BANDIT_AMBUSH:
+			var target_enemy := String(context.get("target_enemy", ""))
+			if target_enemy == "feral_dog":
+				return "懸賞目標：野犬"
+			elif target_enemy == "heavy_raider":
+				return "懸賞目標：重裝掠奪者"
+			elif target_enemy != "" and Enemies.exists(target_enemy):
+				return "懸賞目標：%s" % Enemies.resolve(target_enemy).get("name_zh", "敵人")
+			return "劫匪伏擊"
 	return "路上的事"
 
 # The same road reads differently depending on what the world is doing, so the
@@ -216,6 +229,11 @@ static func title(encounter_type: StringName, context: Dictionary = {}) -> Strin
 static func body(encounter_type: StringName, context: Dictionary = {}) -> String:
 	match encounter_type:
 		BANDIT_AMBUSH:
+			var target_enemy := String(context.get("target_enemy", ""))
+			if target_enemy == "feral_dog":
+				return "路旁的岩縫間傳來低沉的咆哮，一隻骨瘦如柴的野犬死死盯著你，露出泛黃的獠牙。\n它根本聽不懂人話，撲上來就不會鬆口。"
+			elif target_enemy == "heavy_raider":
+				return "前方的路面上拖著沉重的金屬摩擦聲。一名身材魁梧的掠奪者拖著鐵鎚擋在路中，厚重的防護甲片在陽光下泛著冷光。\n他甚至懶得向你開口要錢，只是冷冷舉起了武器。"
 			return "一夥持械的荒原劫匪從路旁的掩體後竄出，將你團團圍住。\n為首的劫匪揮舞著生鏽的砍刀，大聲喝令你交出所有財物。"
 		WRECK:
 			if context.has("site_name") and String(context.get("site_name", "")) != "":
@@ -313,8 +331,26 @@ static func options(encounter_type: StringName, context: Dictionary = {}) -> Arr
 				{"id": &"LEAVE", "label": "讓路讓他們過去", "detail": "什麼也沒發生"},
 			]
 		BANDIT_AMBUSH:
+			var target_enemy := String(context.get("target_enemy", ""))
+			var can_parley := true
+			var enemy_name := "劫匪"
+			if target_enemy != "" and Enemies.exists(target_enemy):
+				var info: Dictionary = Enemies.resolve(target_enemy)
+				can_parley = bool(info.get("can_parley", true))
+				enemy_name = String(info.get("name_zh", "敵人"))
+			elif String(context.get("route_type", "")) == "WILDERNESS":
+				can_parley = false
+				enemy_name = "掠奪者"
+
+			var fight_label := "正面迎戰"
+			var fight_detail := "進入戰鬥，擊退%s" % enemy_name
+			if not can_parley:
+				return [
+					{"id": &"FIGHT", "label": fight_label, "detail": fight_detail},
+					{"id": &"FLEE_ROAD", "label": "尋隙逃跑", "detail": "耗時 1 天（水 −1、食物 −1）　狼狽脫身"},
+				]
 			return [
-				{"id": &"FIGHT", "label": "正面迎戰", "detail": "進入戰鬥，擊退劫匪"},
+				{"id": &"FIGHT", "label": fight_label, "detail": fight_detail},
 				{"id": &"BRIBE", "label": "破財消災", "detail": "瓶蓋 −%d　交出財物以保平安" % BANDIT_BRIBE_CAPS},
 				{"id": &"PARLEY", "label": "出言周旋", "detail": "嘗試說服劫匪少拿一些（成功 %d 瓶蓋，失敗 %d 瓶蓋）" % [BANDIT_PERSUADED_CAPS, BANDIT_BRIBE_CAPS]},
 				{"id": &"FLEE_ROAD", "label": "尋隙逃跑", "detail": "耗時 1 天（水 −1、食物 −1）　狼狽脫身"},
