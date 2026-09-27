@@ -11,6 +11,7 @@ const ProgressionXp = preload("res://simulation/progression_xp.gd")
 const GrowthPoints = preload("res://simulation/growth_points.gd")
 
 const RoadPlaces = preload("res://simulation/road_places.gd")
+const Rumors = preload("res://simulation/rumors.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -2588,6 +2589,14 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.TRACK_RUMOR:
+			# ASP-2: you can only chase what you have actually heard.
+			if intent.payload.size() != 1 or typeof(intent.payload.get("rumor_id")) != TYPE_STRING:
+				return "INVALID_RUMOR_INTENT"
+			var rumor_id: String = intent.payload.rumor_id
+			if rumor_id != "" and not Rumors.heard(world, rumor_id):
+				return "RUMOR_NOT_HEARD"
+			return ""
 		PlayerIntent.Action.SPEND_GROWTH_POINT:
 			# PLAY-2. Deciding who you are becoming is something you do while
 			# stopped somewhere, not mid-ambush on the road.
@@ -2844,6 +2853,12 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.TRACK_RUMOR:
+			var track_evt := EventRecord.new(world.current_day, "RUMOR_TRACKED", intent.player_id, &"character", {"rumor_id": String(intent.payload.rumor_id)})
+			world.record_event(track_evt)
+			if tick_events != null:
+				tick_events.append(track_evt)
+			return {"success": true, "rumor_id": String(intent.payload.rumor_id)}
 		PlayerIntent.Action.SPEND_GROWTH_POINT:
 			var growth_skill: String = intent.payload.skill_id
 			var raised: Dictionary = world.player.capability.raise_rank_by_point(growth_skill)

@@ -32,9 +32,11 @@ enum Action {
 	SELECT_PERK = 11,
 	SPEND_GROWTH_POINT = 13,
 	ACCEPT_ACQUIRED_TRAIT = 12,
+	# ASP-2: which rumour the player is chasing (empty id lets it go).
+	TRACK_RUMOR = 14,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT, Action.TRACK_RUMOR]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -70,6 +72,7 @@ static func action_name(value: int) -> String:
 		Action.TURN_IN_QUEST: return "TURN_IN_QUEST"
 		Action.SELECT_PERK: return "SELECT_PERK"
 		Action.SPEND_GROWTH_POINT: return "SPEND_GROWTH_POINT"
+		Action.TRACK_RUMOR: return "TRACK_RUMOR"
 		Action.ACCEPT_ACQUIRED_TRAIT: return "ACCEPT_ACQUIRED_TRAIT"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
@@ -121,6 +124,9 @@ static func create_select_perk(p_player_id: StringName, perk_id: String) -> Play
 # PLAY-2: spend one earned growth point on one skill.
 static func create_spend_growth_point(p_player_id: StringName, skill_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.SPEND_GROWTH_POINT, p_player_id, &"", {"skill_id": skill_id})
+
+static func create_track_rumor(p_player_id: StringName, rumor_id: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.TRACK_RUMOR, p_player_id, &"", {"rumor_id": rumor_id})
 
 static func create_accept_acquired_trait(p_player_id: StringName, trait_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.ACCEPT_ACQUIRED_TRAIT, p_player_id, &"", {"trait_id": trait_id})

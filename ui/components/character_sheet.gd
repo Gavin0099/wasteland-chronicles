@@ -9,6 +9,7 @@ const Perks = preload("res://simulation/perk_catalogue.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
 var skill_rows: Dictionary = {}
 var growth_buttons: Dictionary = {}
+var rumor_buttons: Dictionary = {}
 var growth_points_available: int = 0
 var resource_values: Dictionary = {}
 var item_labels: Dictionary = {}
@@ -52,7 +53,7 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable(), p_growth_action: Callable = Callable()) -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable(), p_growth_action: Callable = Callable(), p_rumor_action: Callable = Callable()) -> void:
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
 	item_use_action = p_item_use_action
@@ -75,6 +76,7 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	identity_label = label_in(left, "%s · %d 歲" % [character.name, character.age], "PdaTitle")
 	label_in(left, "生命　%d / 12" % character.field_kit.hp)
 	label_in(left, "歷練　Lv.%d · %d / %d XP" % [int(character.level), int(character.xp), int(character.next_level_xp)])
+	_add_rumors(left, player, p_rumor_action)
 	label_in(left, "特長", "PdaSection")
 	if character.perks.is_empty():
 		label_in(left, "尚未選擇特長。", "PdaMuted")
@@ -233,6 +235,29 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 			label_in(right, "　%s" % String(choice.reason), "PdaMuted")
 	confirmed.connect(queue_free)
 	canceled.connect(queue_free)
+
+# ASP-2: near the top of the sheet, because this is what the player is
+# deciding to go after, not a footnote under the skills.
+func _add_rumors(parent: Node, player: Dictionary, p_rumor_action: Callable) -> void:
+	# ASP-2: not a checklist. Only what the player has actually heard, each
+	# with the one thing that stands between them and it; they pick one.
+	var rumors: Array = player.get("rumors", [])
+	if not rumors.is_empty():
+		label_in(parent, "你聽過的傳聞", "PdaSection")
+		for rumor in rumors:
+			var head := label_in(parent, "%s%s" % [String(rumor.title), "　（已了結）" if bool(rumor.done) else ("　◆ 追尋中" if bool(rumor.tracked) else "")])
+			head.add_theme_color_override("font_color", Color("#D9822B") if bool(rumor.tracked) else (Color("#686A70") if bool(rumor.done) else Color("#D8D3C8")))
+			label_in(parent, "「%s」" % String(rumor.text), "PdaMuted")
+			label_in(parent, "→ " + String(rumor.next))
+			if not bool(rumor.done) and p_rumor_action.is_valid():
+				var chase := Button.new()
+				var rumor_id := String(rumor.id)
+				chase.text = "不追了" if bool(rumor.tracked) else "追這個"
+				chase.theme_type_variation = "PdaCommand"
+				chase.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+				chase.pressed.connect(func(): p_rumor_action.call("" if bool(rumor.tracked) else rumor_id))
+				parent.add_child(chase)
+				rumor_buttons[rumor_id] = chase
 
 func _item_display_name(item_id: String) -> String:
 	if item_id == "":

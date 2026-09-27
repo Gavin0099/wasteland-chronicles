@@ -163,6 +163,8 @@ var desktop_last_location := ""
 var desktop_back_button: Button
 var desktop_profile_name: Label
 var desktop_profile_vitals: Label
+# ASP-2: the one rumour the player chose to chase, always in view.
+var desktop_aim_label: Label
 var desktop_message: Label
 var map_node_buttons: Dictionary = {}
 
@@ -1914,6 +1916,12 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 		tool_row.add_child(button)
 	quest_access_button.reparent(tools_window.body)
 	quest_access_button.text = "委託"
+	desktop_aim_label = Label.new()
+	desktop_aim_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desktop_aim_label.add_theme_font_size_override("font_size", Tokens.SMALL)
+	desktop_aim_label.add_theme_color_override("font_color", Tokens.AMBER)
+	desktop_aim_label.visible = false
+	tools_window.body.add_child(desktop_aim_label)
 
 	var map_window := DesktopWindow.new("地圖")
 	map_window.size_flags_vertical = SIZE_EXPAND_FILL
@@ -1986,6 +1994,14 @@ func _sync_desktop(proj: Dictionary) -> void:
 		desktop_back_button.tooltip_text = "先完成旅程或路上事件。" if desktop_back_button.disabled else ""
 	if desktop_profile_name != null:
 		desktop_profile_name.text = String(player.get("name", "流浪者"))
+	if desktop_aim_label != null:
+		var aim: Dictionary = {}
+		for rumor in proj.get("rumors", []):
+			if bool(rumor.tracked):
+				aim = rumor
+		desktop_aim_label.visible = not aim.is_empty()
+		if not aim.is_empty():
+			desktop_aim_label.text = "追尋：%s%s\n%s" % [String(aim.title), "（已了結）" if bool(aim.done) else "", String(aim.next)]
 	if desktop_profile_vitals != null:
 		var health := int(player.get("health", 12))
 		desktop_profile_vitals.text = "生命 %d / 12\n第 %d 天 · %d 瓶蓋" % [health, int(proj.get("current_day", 0)), int(player.get("money", 0))]
@@ -2534,7 +2550,15 @@ func _show_character(action_notice: String = "") -> void:
 			dialog.action_notice_label.visible = true
 	var treat_reason: String = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落"}.get(treat_error, "目前無法使用")) if treat_error != "" else ""
 	add_child(dialog)
-	dialog.setup(presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point)
+	var track_rumor := func(rumor_id: String):
+		var result := engine.commit_player_intent(world, PlayerIntent.create_track_rumor(world.player.npc_id, rumor_id))
+		if result.get("success", false):
+			dialog.queue_free()
+			refresh_ui()
+			call_deferred("_show_character")
+	var sheet_player: Dictionary = PlayerUIProjection.project(world).player.duplicate()
+	sheet_player["rumors"] = preload("res://simulation/rumors.gd").project(world)
+	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point, track_rumor)
 	var viewport_size := get_viewport_rect().size
 	var sheet_size := Vector2i(mini(460, int(viewport_size.x) - 24), mini(560, int(viewport_size.y) - 72))
 	var sheet_position := Vector2i(int(viewport_size.x) - sheet_size.x - 12, 56)

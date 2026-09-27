@@ -103,7 +103,11 @@ func _init() -> void:
 		# PLAY-2: spending a point the character EARNED by levelling. Bounded
 		# the same way as a perk - one skill, at a settlement, and only while
 		# the ledger says an unspent point exists.
-		PlayerIntent.Action.SPEND_GROWTH_POINT
+		PlayerIntent.Action.SPEND_GROWTH_POINT,
+		# ASP-2: naming which heard rumour the player is chasing. It moves no
+		# resource, rank or world fact - it records a choice of aim, and only
+		# for a rumour the player has actually heard.
+		PlayerIntent.Action.TRACK_RUMOR
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:
