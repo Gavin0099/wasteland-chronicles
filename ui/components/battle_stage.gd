@@ -19,10 +19,27 @@ const MotionDirector = preload("res://ui/components/battle_motion_director.gd")
 
 const KNOWN_ENEMIES := ["feral_dog", "bandit", "heavy_raider"]
 
+# Hand-play, twice: the weapon floated beside the fighter instead of being held.
+# Every weapon icon is drawn the same way - handle bottom-left, tip top-right -
+# so each one only needs WHERE ITS HANDLE IS (uv on the icon) and HOW LONG it
+# is next to the fighter (icon width / fighter height). The grip is pinned to
+# the fist and the weapon is drawn behind the body, so the fist covers it.
+const WEAPON_GRIPS := {
+	"crowbar": {"grip": Vector2(0.20, 0.82), "size": 0.34},
+	"rusted_knife": {"grip": Vector2(0.26, 0.77), "size": 0.20},
+	"hunting_knife": {"grip": Vector2(0.26, 0.77), "size": 0.22},
+	"rebar_club": {"grip": Vector2(0.18, 0.86), "size": 0.32},
+	"scrap_machete": {"grip": Vector2(0.20, 0.83), "size": 0.30},
+}
+const DEFAULT_GRIP := {"grip": Vector2(0.24, 0.80), "size": 0.26}
+
 const VISUAL_PROFILES := {
 	"drifter": {
 		"texture_path": "res://ui/assets/combat/drifter.png",
 		"foot_anchor_uv": Vector2(0.50, 0.98),
+		# The front (lower) fist, measured on the 462x1243 art. The weapon's
+		# grip is pinned here so the hand actually closes on the handle.
+		"hand_uv": Vector2(0.89, 0.295),
 		"height_ratio": 0.42,
 		"shadow_radius_ratio": 0.22,
 		"modulate": Color.WHITE,
@@ -172,6 +189,8 @@ class ActorNode extends Node2D:
 	var weapon: Sprite2D
 	var is_hero := false
 	var foot_anchor_uv := Vector2(0.5, 1.0)
+	var hand_uv := Vector2(0.75, 0.40)
+	var weapon_id := ""
 	var target_height := 160.0
 	var texture_ref: Texture2D = null
 	var anim_player: AnimationPlayer
@@ -196,7 +215,11 @@ class ActorNode extends Node2D:
 			weapon = Sprite2D.new()
 			weapon.name = "Weapon"
 			weapon.visible = false
-			add_child(weapon)
+			# A child of the body, drawn behind it: it follows every body pose and
+			# the fist sits over the handle.
+			weapon.centered = false
+			weapon.show_behind_parent = true
+			body.add_child(weapon)
 		anim_player = AnimationPlayer.new()
 		anim_player.name = "AnimPlayer"
 		add_child(anim_player)
@@ -224,7 +247,7 @@ class ActorNode extends Node2D:
 		a_atk.track_insert_key(t_atk_rot, 0.35, 0.0)
 		if is_hero and weapon != null:
 			var t_w_rot := a_atk.add_track(Animation.TYPE_VALUE)
-			a_atk.track_set_path(t_w_rot, NodePath("Weapon:rotation"))
+			a_atk.track_set_path(t_w_rot, NodePath("Body/Weapon:rotation"))
 			a_atk.track_insert_key(t_w_rot, 0.0, 0.0)
 			a_atk.track_insert_key(t_w_rot, 0.10, -0.25)
 			a_atk.track_insert_key(t_w_rot, 0.22, 0.35)
@@ -261,7 +284,7 @@ class ActorNode extends Node2D:
 		a_brace.track_insert_key(t_br_mod, 0.30, Color.WHITE)
 		if is_hero and weapon != null:
 			var t_bw_rot := a_brace.add_track(Animation.TYPE_VALUE)
-			a_brace.track_set_path(t_bw_rot, NodePath("Weapon:rotation"))
+			a_brace.track_set_path(t_bw_rot, NodePath("Body/Weapon:rotation"))
 			a_brace.track_insert_key(t_bw_rot, 0.0, 0.0)
 			a_brace.track_insert_key(t_bw_rot, 0.15, -0.22)
 			a_brace.track_insert_key(t_bw_rot, 0.30, 0.0)
@@ -321,10 +344,23 @@ class ActorNode extends Node2D:
 			body.offset = -Vector2(float(tex.get_width()) * foot_anchor_uv.x, float(tex.get_height()) * foot_anchor_uv.y)
 			body.modulate = profile.get("modulate", Color.WHITE)
 
-			if weapon != null and weapon.texture != null:
-				var w_tex: Texture2D = weapon.texture
-				weapon.scale = Vector2.ONE * (58.0 / maxf(1.0, float(w_tex.get_width())))
-				weapon.position = Vector2(target_height * 0.18, -target_height * 0.52)
+			hand_uv = profile.get("hand_uv", Vector2(0.75, 0.40))
+			fit_weapon()
+
+	# Pins the weapon's grip to the fist. Body-local coordinates are the body
+	# texture's pixels shifted by its offset; the weapon's own scale is divided
+	# by the body's so its size is set against the fighter on screen.
+	func fit_weapon() -> void:
+		if weapon == null or weapon.texture == null or body.texture == null:
+			return
+		var fit: Dictionary = WEAPON_GRIPS.get(weapon_id, DEFAULT_GRIP)
+		var w_tex: Texture2D = weapon.texture
+		var w_size := Vector2(float(w_tex.get_width()), float(w_tex.get_height()))
+		var on_screen: float = target_height * float(fit.size) / maxf(1.0, w_size.x)
+		weapon.scale = Vector2.ONE * (on_screen / maxf(0.0001, body.scale.x))
+		weapon.offset = -w_size * (fit.grip as Vector2)
+		var b_size := Vector2(float(body.texture.get_width()), float(body.texture.get_height()))
+		weapon.position = body.offset + b_size * hand_uv
 
 	func apply_placeholder(p_bulk: float, body_col: Color, trim_col: Color, p_height: float, shadow_rad: float) -> void:
 		if placeholder == null:
@@ -564,6 +600,7 @@ func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> bool:
 		art = ItemIcon.texture_for("crowbar")
 	if art != null:
 		weapon.texture = art
+	hero_actor.weapon_id = weapon_item_id
 	armed = art != null
 	weapon.visible = armed
 
