@@ -12,6 +12,9 @@
     README.md                              # 本規範文件
     wasteland-chronicles-ui-v1/            # UI 專案相容指引
     wc-survivor-pda-design-system/         # 廢土倖存者 PDA 視覺與 Token 規範（最高優先）
+    lunatic-dawn-design/                   # 俠客遊式玩法設計與 review：慾望、工作、旅行、戰鬥目的、後果、夥伴
+      SKILL.md
+      references/
     godot/                                 # Godot 4.x 開發、語法檢查、測試與自動化工具箱
       SKILL.md
       references/
