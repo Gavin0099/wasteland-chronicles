@@ -2311,11 +2311,19 @@ func _render_quests(rows: Array) -> void:
 		quest_button.text = "回報測繪" if status == "ACTIVE" else "接受委託"
 	elif String(row.get("objective_type", "")) == "WIN_ROAD_COMBAT":
 		var cleared: bool = int(row.held) >= 1
+		# PLAY-3B: name who, and which road - the raider only waits on the
+		# wilderness route, and a player who takes the highway never meets him.
+		var bounty_target := "打贏一場劫匪伏擊"
+		var target_enemy := String(row.get("target_enemy", ""))
+		if target_enemy != "":
+			const Enemies = preload("res://simulation/enemy_catalogue.gd")
+			var road_name := "荒野繞路" if String(row.get("target_route_type", "")) == "WILDERNESS" else "公路"
+			bounty_target = "走%s，打贏%s" % [road_name, Enemies.display_name(target_enemy)]
 		if status == "AVAILABLE":
-			quest_progress.text = "期限：接下後 %d 天\n目標：在往%s的路上打贏一場劫匪伏擊\n付錢打發或掉頭逃跑都不算。路程約 %d 天。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.target), int(row.get("route_days", 2)), int(row.reward_caps), int(row.reward_xp)]
+			quest_progress.text = "期限：接下後 %d 天\n目標：在往%s的路上%s\n付錢打發或掉頭逃跑都不算。路程約 %d 天。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.target), bounty_target, int(row.get("route_days", 2)), int(row.reward_caps), int(row.reward_xp)]
 			quest_button.text = "接下懸賞"
 		elif status == "ACTIVE":
-			quest_progress.text = "進行中 · 第 %d 天截止\n目標：在往%s的路上打贏一場劫匪伏擊\n目前：%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.target), "已達成，回來領賞" if cleared else "尚未打贏", int(row.reward_caps), int(row.reward_xp)]
+			quest_progress.text = "進行中 · 第 %d 天截止\n目標：在往%s的路上%s\n目前：%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.target), bounty_target, "已達成，回來領賞" if cleared else "尚未打贏", int(row.reward_caps), int(row.reward_xp)]
 			quest_button.text = "領取賞金"
 		elif status == "RESOLVED":
 			quest_progress.text = "已完成 · 往%s的路已清過一次\n獲得：%d 瓶蓋、%d XP" % [String(row.target), int(row.reward_caps), int(row.reward_xp)]
