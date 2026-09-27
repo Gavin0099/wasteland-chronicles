@@ -123,15 +123,16 @@ static func validate_definition(raw: Variant) -> String:
 		if out_err != "":
 			return out_err
 
-	return validate_salvage_target(raw)
+	var salvage_err := validate_salvage_target(raw)
+	if salvage_err != "":
+		return salvage_err
+	return validate_bounty_target(raw)
 
 # Optional on pre-PLAY-3A contracts; once present, the complete site is required.
 static func validate_salvage_target(raw: Dictionary) -> String:
 	var fields: Array[String] = ["target_site", "target_route_origin", "target_route_destination", "target_item_id", "route_days", "source_wreck_id"]
-	var has_target: bool = false
-	for field in fields:
-		has_target = has_target or raw.has(field)
-	if not has_target:
+	var has_salvage: bool = raw.has("target_site") or raw.has("source_wreck_id") or raw.has("target_item_id")
+	if not has_salvage:
 		return ""
 	for field in fields:
 		if not raw.has(field):
@@ -157,6 +158,40 @@ static func validate_salvage_target(raw: Dictionary) -> String:
 	for character in suffix:
 		if character not in "0123456789_":
 			return "SALVAGE_TARGET_SOURCE_MISMATCH"
+	return ""
+
+# PLAY-3B: Optional on pre-PLAY-3B contracts; once present, the complete bounty contract is required.
+static func validate_bounty_target(raw: Dictionary) -> String:
+	var fields: Array[String] = ["target_enemy", "target_route_origin", "target_route_destination", "target_route_type", "route_days"]
+	var has_bounty: bool = raw.has("target_enemy") or raw.has("target_route_type")
+	if not has_bounty:
+		return ""
+	for field in fields:
+		if not raw.has(field):
+			return "BOUNTY_TARGET_INCOMPLETE"
+		if field != "route_days" and (typeof(raw[field]) != TYPE_STRING or String(raw[field]).strip_edges().is_empty()):
+			return "BOUNTY_TARGET_INVALID_" + field.to_upper()
+	var days: Variant = raw.route_days
+	if typeof(days) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(days)) or days != floor(float(days)) or days < 1:
+		return "BOUNTY_TARGET_INVALID_ROUTE_DAYS"
+	if not String(raw.id).begins_with("job_") or not _stable_id(raw.target_route_origin) or not _stable_id(raw.target_route_destination) or raw.target_route_origin != raw.settlement_id or raw.target_route_origin == raw.target_route_destination:
+		return "BOUNTY_TARGET_INVALID_ROUTE"
+	const Enemies = preload("res://simulation/enemy_catalogue.gd")
+	if not Enemies.exists(raw.target_enemy):
+		return "BOUNTY_TARGET_INVALID_ENEMY"
+	if String(raw.target_route_type) not in ["HIGHWAY", "WILDERNESS"]:
+		return "BOUNTY_TARGET_INVALID_ROUTE_TYPE"
+	if String(raw.target_enemy) == "heavy_raider" and String(raw.target_route_type) != "WILDERNESS":
+		return "BOUNTY_TARGET_RAIDER_REQUIRES_WILDERNESS"
+	if raw.objectives.size() != 1:
+		return "BOUNTY_TARGET_INVALID_OBJECTIVES"
+	var objective: Dictionary = raw.objectives[0]
+	if objective.get("type") != "WIN_ROAD_COMBAT" or objective.get("origin_id") != raw.target_route_origin or objective.get("destination_id") != raw.target_route_destination or int(objective.get("quantity", 0)) != 1:
+		return "BOUNTY_TARGET_OBJECTIVE_MISMATCH"
+	if objective.has("target_enemy") and objective.get("target_enemy") != raw.target_enemy:
+		return "BOUNTY_TARGET_OBJECTIVE_ENEMY_MISMATCH"
+	if objective.has("bounty_job_id") and objective.get("bounty_job_id") != raw.id:
+		return "BOUNTY_TARGET_OBJECTIVE_JOB_ID_MISMATCH"
 	return ""
 
 # ── Private helpers ────────────────────────────────────────────────────────────
@@ -210,6 +245,13 @@ static func _validate_objective(obj: Variant, seen: Dictionary) -> String:
 			var wqty: Variant = obj.get("quantity")
 			if typeof(wqty) not in [TYPE_INT, TYPE_FLOAT] or wqty != floor(float(wqty)) or int(wqty) < 1:
 				return "QUEST_OBJ_INVALID_QUANTITY"
+			if obj.has("target_enemy"):
+				const Enemies = preload("res://simulation/enemy_catalogue.gd")
+				if not Enemies.exists(obj.get("target_enemy")):
+					return "QUEST_OBJ_INVALID_TARGET_ENEMY"
+			if obj.has("bounty_job_id"):
+				if not _stable_id(obj.get("bounty_job_id")):
+					return "QUEST_OBJ_INVALID_BOUNTY_JOB_ID"
 	return ""
 
 static func _validate_outcome(out: Variant) -> String:

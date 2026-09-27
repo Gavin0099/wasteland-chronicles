@@ -131,6 +131,8 @@ static func _project_quests(world: WorldState) -> Array:
 			"route_days": int(extras.get("route_days", 0)),
 			"urgent": bool(extras.get("urgent", false)),
 			"target_site": String(extras.get("target_site", definition.get("target_site", ""))),
+			"target_enemy": String(extras.get("target_enemy", definition.get("target_enemy", ""))),
+			"target_route_type": String(extras.get("target_route_type", definition.get("target_route_type", ""))),
 			"intel": JobBoard.intel_for(world, extras) if not extras.is_empty() else [],
 		})
 	# Hand-play: "任務結束應該直接不見 而不是還在那邊". Finished work used to

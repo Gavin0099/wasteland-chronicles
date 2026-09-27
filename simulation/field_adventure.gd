@@ -22,6 +22,8 @@ static func new_state() -> Dictionary:
 # player's own choice to take the worse road, so it is the honest place for the
 # opponent you are not ready for yet - you can see it coming and decide.
 static func road_enemy_for(context: Dictionary) -> String:
+	if Enemies.exists(context.get("target_enemy", "")):
+		return String(context.target_enemy)
 	const Route = preload("res://simulation/travel_route.gd")
 	if String(context.get("route_type", "")) == String(Route.ROUTE_WILDERNESS):
 		return Enemies.HEAVY_RAIDER
@@ -37,6 +39,10 @@ static func begin_road_battle(world, enc_context: Dictionary = {}) -> Dictionary
 		"source": "road",
 		"enemy": enemy_id,
 	}
+	if enc_context.has("bounty_job_id") and String(enc_context.bounty_job_id) != "":
+		state.battle["bounty_job_id"] = String(enc_context.bounty_job_id)
+	if enc_context.has("route_type") and String(enc_context.route_type) != "":
+		state.battle["route_type"] = String(enc_context.route_type)
 	state.enemy_hp = Enemies.max_hp(enemy_id)
 	state.next_id += 1
 	state.receipt = -1
@@ -283,25 +289,18 @@ static func enemy_damage(turn: int, enemy_id: String = Enemies.BANDIT) -> int:
 # The enemy does not swing on the turn it goes down - the loop deals the
 # player's damage first and only retaliates while enemy_hp > 0 - so the
 # incoming total covers turns 1..turns-1 and not the killing turn.
-static func forecast(world, is_road: bool) -> Dictionary:
+static func forecast_for_enemy(world, enemy_id: String, is_road: bool = true) -> Dictionary:
 	if world == null or world.player == null:
 		return {}
 	var per_hit: int = attack_damage(world)
 	if per_hit <= 0:
 		return {}
-	# PLAY-4: the forecast must be about the opponent actually in front of you,
-	# or it stops being a promise the game keeps.
-	var forecast_enemy := battle_enemy(world.field_state)
-	if world.field_state.battle.is_empty():
-		forecast_enemy = road_enemy_for(world.active_encounter.context if world.active_encounter != null else {}) if is_road else Enemies.FERAL_DOG
+	var forecast_enemy := enemy_id if Enemies.exists(enemy_id) else Enemies.DEFAULT_ENEMY
 	var turns: int = int(ceil(float(Enemies.max_hp(forecast_enemy)) / float(per_hit)))
 	var incoming := 0
 	for turn in range(1, turns):
 		incoming += enemy_damage(turn, forecast_enemy)
 	var hp: int = world.player.field_kit.hp
-	# A road fight cannot kill: incoming damage is clamped to leave 1 HP, and
-	# being put on 1 HP is what triggers DEFEAT and its supply loss. The shed
-	# has no such floor, which is the honest difference between the two.
 	var floor_hp: int = 1 if is_road else 0
 	var hp_after: int = maxi(floor_hp, hp - incoming)
 	return {
@@ -312,9 +311,21 @@ static func forecast(world, is_road: bool) -> Dictionary:
 		"hp_after": hp_after,
 		"is_road": is_road,
 		"beaten": hp - incoming <= floor_hp,
+		"enemy": forecast_enemy,
 	}
 
+static func forecast(world, is_road: bool) -> Dictionary:
+	if world == null or world.player == null:
+		return {}
+	# PLAY-4: the forecast must be about the opponent actually in front of you,
+	# or it stops being a promise the game keeps.
+	var forecast_enemy := battle_enemy(world.field_state)
+	if world.field_state.battle.is_empty():
+		forecast_enemy = road_enemy_for(world.active_encounter.context if world.active_encounter != null else {}) if is_road else Enemies.FERAL_DOG
+	return forecast_for_enemy(world, forecast_enemy, is_road)
+
 static func finish(world, outcome: String, gains: Dictionary = {}, left: Dictionary = {}, source: String = "field", caps_gained: int = 0, practice: Dictionary = {}) -> void:
+	var active_battle: Dictionary = world.field_state.get("battle", {}).duplicate(true) if typeof(world.field_state.get("battle")) == TYPE_DICTIONARY else {}
 	world.field_state.battle = {}
 	var is_road := source == "road"
 	var container_id = StringName(HOME)
@@ -328,6 +339,12 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 		"gained": gains,
 		"left_behind": left if outcome != "DEFEAT" else {}
 	}
+	if active_battle.has("enemy") and Enemies.exists(active_battle.enemy):
+		payload["enemy"] = String(active_battle.enemy)
+	if active_battle.has("bounty_job_id") and String(active_battle.bounty_job_id) != "":
+		payload["bounty_job_id"] = String(active_battle.bounty_job_id)
+	if active_battle.has("route_type") and String(active_battle.route_type) != "":
+		payload["route_type"] = String(active_battle.route_type)
 	if is_road:
 		payload["source"] = "road"
 		if outcome == "DEFEAT":
@@ -335,7 +352,8 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 		if caps_gained > 0:
 			payload["caps_gained"] = caps_gained
 		if outcome == "VICTORY" and world.player.equipment != null and world.player.equipment.equipped_item("main_hand") == "scrap_machete":
-			payload["attribution"] = "你以廢鐵砍刀擊退了劫匪。"
+			var defeated_name: String = String(Enemies.resolve(payload.get("enemy", Enemies.BANDIT)).get("name_zh", "劫匪"))
+			payload["attribution"] = "你以廢鐵砍刀擊退了%s。" % defeated_name
 	if not practice.is_empty():
 		payload["skill_practice"] = practice.duplicate(true)
 	if outcome == "VICTORY":
