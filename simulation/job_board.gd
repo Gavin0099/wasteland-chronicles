@@ -52,6 +52,7 @@ const Perks = preload("res://simulation/perk_catalogue.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
 const FieldAdventure = preload("res://simulation/field_adventure.gd")
 const RoadPlaces = preload("res://simulation/road_places.gd")
+const LocalTrust = preload("res://simulation/local_trust.gd")
 
 # The board turns over on a cadence rather than daily, so work the player walked
 # past yesterday is usually still there when they come back for it.
@@ -67,6 +68,8 @@ const COURIER_DEADLINE_DAYS := 7
 # delivery receipt uses the same line, so "you ended the shortage" means the
 # next board really will stop calling it urgent.
 const COURIER_URGENT_GAP := 10
+# REP-1: consignment - the town hands you its own goods to carry.
+const CONSIGN_DEADLINE_DAYS := 8
 const SALVAGE_DEADLINE_DAYS := 8
 const BOUNTY_DEADLINE_DAYS := 9
 # The standing raider bounty (owner ruling 2026-09-27).
@@ -178,6 +181,7 @@ static func postings(world, settlement_id: StringName) -> Array:
 		_courier(world, settlement, window),
 		_salvage(world, settlement, window),
 		_bounty(world, settlement, window),
+		_consignment(world, settlement, window),
 	]
 	if _short(String(settlement_id)) == "new_hope":
 		built.append(_standing_raider(world, settlement, window))
@@ -192,8 +196,17 @@ static func postings(world, settlement_id: StringName) -> Array:
 		if error != "":
 			push_error("JobBoard generated an invalid posting: %s (%s)" % [String(entry.definition.get("id", "?")), error])
 			continue
+		# REP-1: a town that knows you pays you better for its own work.
+		_scale_pay(entry, LocalTrust.reward_multiplier(world, String(settlement_id)))
 		out.append(entry)
 	return out
+
+static func _scale_pay(entry: Dictionary, multiplier: float) -> void:
+	if is_equal_approx(multiplier, 1.0):
+		return
+	for reward in entry.definition.outcomes.resolved.rewards:
+		if String(reward.type) == "CURRENCY":
+			reward.amount = int(round(float(reward.amount) * multiplier))
 
 # Every posting on every board today.
 static func all_postings(world) -> Array:
@@ -273,6 +286,71 @@ static func _courier(world, settlement, window: int) -> Dictionary:
 		"route_days": days,
 		"urgent": urgent,
 		"summary": "帶 %d 份%s來交付" % [quantity, RESOURCE_NAMES[worst]],
+	}
+
+# ── Consignment: carry the town's own goods (REP-1) ──────────────────────────
+# Lunatic Dawn's delivery job: low pay, little risk, and the goods are on your
+# back - so keeping them is possible, and the town remembers. A town ships
+# what it produces to the neighbour that needs it most; the goods really
+# leave its stores when the job is taken.
+static func _consignment(world, settlement, window: int) -> Dictionary:
+	var origin_id: StringName = settlement.id
+	var best_resource := ""
+	var best_dest := ""
+	var best_need := -1000
+	for resource in COURIER_RESOURCES:
+		if settlement.production.get_amount(resource) <= settlement.consumption.get_amount(resource):
+			continue
+		for other_id in _sorted_settlement_ids(world):
+			if other_id == String(origin_id):
+				continue
+			var other = world.get_settlement(StringName(other_id))
+			# Need is today's gap, or failing that the town's standing deficit.
+			var need: int = maxi(other.get_target(resource) - other.inventory.get_amount(resource), other.consumption.get_amount(resource) - other.production.get_amount(resource))
+			if need > best_need:
+				best_need = need
+				best_resource = resource
+				best_dest = other_id
+	if best_resource == "" or best_need <= 0:
+		return {}
+	var quantity: int = clampi(2 + int(best_need / 10), 2, 5)
+	if settlement.inventory.get_amount(best_resource) < quantity:
+		return {}
+	var days := _route_days(world, origin_id, StringName(best_dest))
+	var risk := road_risk(world, origin_id, StringName(best_dest), Route.ROUTE_HIGHWAY)
+	var caps: int = 4 * quantity + 5 * days + 6 * risk
+	var xp: int = 2 + risk
+	var dest_name := _name_of(world, StringName(best_dest))
+	var res_name: String = RESOURCE_NAMES[best_resource]
+	var short_origin := _short(String(origin_id))
+	return {
+		"definition": {
+			"id": "%s%s_consign_%d" % [JOB_ID_PREFIX, short_origin, window],
+			"title_zh": "運貨：%s %d 份 → %s" % [res_name, quantity, dest_name],
+			"description_zh": "%s把自己產的%s交給你，%d 份，運到%s交貨。錢不多，但貨本不用你出。走公路約 %d 天，路況%s。\n貨在你背上——要私吞也行，只是%s會記住。" % [
+				settlement.name, res_name, quantity, dest_name, days, RISK_WORDS[risk], settlement.name],
+			"settlement_id": short_origin,
+			"issuer_npc_id": "",
+			"availability": {"required_day": 0, "required_flags": []},
+			"deadline_days": CONSIGN_DEADLINE_DAYS,
+			"objectives": [{
+				"id": "deliver_%s" % best_resource, "type": "DELIVER_RESOURCE",
+				"resource": best_resource, "quantity": quantity, "settlement_id": _short(best_dest),
+			}],
+			"outcomes": {
+				"resolved": {"rewards": [{"type": "CURRENCY", "amount": caps}, {"type": "XP", "amount": xp}], "world_effects": []},
+				"failed": {"rewards": [], "world_effects": []},
+				"expired": {"rewards": [], "world_effects": []},
+			},
+			"consign_resource": best_resource,
+			"consign_quantity": quantity,
+			"consign_to": _short(best_dest),
+		},
+		"archetype": "CONSIGNMENT",
+		"risk": risk,
+		"route_days": days,
+		"urgent": false,
+		"summary": "把 %d 份%s運到%s" % [quantity, res_name, dest_name],
 	}
 
 # ── Salvage: an exploration and gambling question ─────────────────────────────

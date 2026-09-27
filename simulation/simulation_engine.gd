@@ -12,6 +12,7 @@ const GrowthPoints = preload("res://simulation/growth_points.gd")
 
 const RoadPlaces = preload("res://simulation/road_places.gd")
 const Rumors = preload("res://simulation/rumors.gd")
+const LocalTrust = preload("res://simulation/local_trust.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -1644,10 +1645,11 @@ func materialize_player(
 		"settlement_id": settlement_id
 	}
 
-static func get_buy_quote(settlement: SettlementState, commodity: StringName) -> int:
+# REP-1: `markup` is what this town charges YOU on top (LocalTrust.buy_markup).
+static func get_buy_quote(settlement: SettlementState, commodity: StringName, markup: float = 1.0) -> int:
 	if settlement == null:
 		return 1
-	var price := settlement.get_current_price(String(commodity))
+	var price := settlement.get_current_price(String(commodity)) * markup
 	return maxi(1, int(ceil(price)))
 
 static func get_sell_quote(settlement: SettlementState, commodity: StringName) -> int:
@@ -1656,10 +1658,10 @@ static func get_sell_quote(settlement: SettlementState, commodity: StringName) -
 	var price := settlement.get_current_price(String(commodity))
 	return maxi(1, int(floor(price)))
 
-static func get_item_buy_quote(settlement: SettlementState, item_id: StringName, market: RefCounted = null) -> int:
+static func get_item_buy_quote(settlement: SettlementState, item_id: StringName, market: RefCounted = null, markup: float = 1.0) -> int:
 	if settlement == null:
 		return 0
-	return ItemMarketState.buy_quote(item_id, settlement.id, market)
+	return int(ceil(float(ItemMarketState.buy_quote(item_id, settlement.id, market)) * markup))
 
 static func get_item_sell_quote(settlement: SettlementState, item_id: StringName) -> int:
 	if settlement == null:
@@ -1736,7 +1738,7 @@ func _authorize_item_trade(world: WorldState, settlement: SettlementState, inten
 			return "ITEM_NOT_SOLD_HERE: %s has no routine supply in %s" % [intent.item_id, settlement.id]
 		if market.quantity(intent.item_id) < intent.quantity:
 			return "INSUFFICIENT_ITEM_STOCK: %s has %d, requested %d" % [intent.item_id, market.quantity(intent.item_id), intent.quantity]
-		var quote := get_item_buy_quote(settlement, intent.item_id, market)
+		var quote := get_item_buy_quote(settlement, intent.item_id, market, LocalTrust.buy_markup(world, String(settlement.id)))
 		var total_cost := quote * intent.quantity
 		if world.player.money < total_cost:
 			return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [world.player.money, total_cost]
@@ -1764,7 +1766,7 @@ func _commit_item_trade(world: WorldState, intent: PlayerIntent, tick_events: Ar
 	var buying := intent.action == PlayerIntent.Action.BUY
 	var market: RefCounted = settlement.item_market.duplicate_state() if settlement.item_market != null else ItemMarketState.seeded_for(settlement.id)
 	var player_items: RefCounted = world.player.item_inventory.duplicate_state()
-	var quote := get_item_buy_quote(settlement, intent.item_id, market) if buying else get_item_sell_quote(settlement, intent.item_id)
+	var quote := get_item_buy_quote(settlement, intent.item_id, market, LocalTrust.buy_markup(world, String(settlement.id))) if buying else get_item_sell_quote(settlement, intent.item_id)
 	var total := quote * intent.quantity
 	if buying:
 		market.remove(String(intent.item_id), intent.quantity)
@@ -2589,6 +2591,17 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.BETRAY_JOB:
+			# REP-1: only goods a town trusted you with can be kept.
+			if intent.payload.size() != 1 or typeof(intent.payload.get("quest_id")) != TYPE_STRING:
+				return "INVALID_BETRAY_INTENT"
+			var betray_id: String = intent.payload.quest_id
+			if not LocalTrust.is_consignment(world, betray_id):
+				return "NOT_A_CONSIGNMENT"
+			var betray_qs = world.quest_state.get_quest(betray_id)
+			if betray_qs == null or betray_qs.status != &"ACTIVE":
+				return "ILLEGAL_QUEST_TRANSITION"
+			return ""
 		PlayerIntent.Action.TRACK_RUMOR:
 			# ASP-2: you can only chase what you have actually heard.
 			if intent.payload.size() != 1 or typeof(intent.payload.get("rumor_id")) != TYPE_STRING:
@@ -2686,7 +2699,7 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 				return "INSUFFICIENT_STOCK: Settlement %s has %d %s, requested %d" % [
 					settlement.id, settlement_stock, comm_str, intent.quantity
 				]
-			var quote := get_buy_quote(settlement, intent.commodity)
+			var quote := get_buy_quote(settlement, intent.commodity, LocalTrust.buy_markup(world, String(settlement.id)))
 			var total_cost := quote * intent.quantity
 			if world.player.money < total_cost:
 				return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [
@@ -2853,6 +2866,21 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.BETRAY_JOB:
+			var kept_id: String = intent.payload.quest_id
+			var kept: Dictionary = world.accepted_jobs[kept_id]
+			var quest_script = load("res://simulation/quest_engine.gd")
+			var failed: Dictionary = quest_script.fail_quest(world, kept_id)
+			if not failed.get("success", false):
+				return failed
+			var betray_evt := EventRecord.new(world.current_day, "JOB_BETRAYED", intent.player_id, StringName("settlement:" + String(kept.settlement_id)), {
+				"quest_id": kept_id, "settlement_id": "settlement:" + String(kept.settlement_id),
+				"resource": String(kept.consign_resource), "quantity": int(kept.consign_quantity),
+			})
+			world.record_event(betray_evt)
+			if tick_events != null:
+				tick_events.append(betray_evt)
+			return {"success": true, "quest_id": kept_id, "kept": {String(kept.consign_resource): int(kept.consign_quantity)}}
 		PlayerIntent.Action.TRACK_RUMOR:
 			var track_evt := EventRecord.new(world.current_day, "RUMOR_TRACKED", intent.player_id, &"character", {"rumor_id": String(intent.payload.rumor_id)})
 			world.record_event(track_evt)
@@ -2908,6 +2936,16 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 				var effects := _deliver_cargo_to_settlement(world, target, quest_result.handed_over)
 				payload["settlement_effects"] = effects
 				quest_result["settlement_effects"] = effects
+			if accepting and world.accepted_jobs.has(quest_id) and world.accepted_jobs[quest_id].has("consign_resource"):
+				# REP-1: the goods really leave the town's stores for your pack.
+				var consign: Dictionary = world.accepted_jobs[quest_id]
+				var consign_res := String(consign.consign_resource)
+				var consign_qty := int(consign.consign_quantity)
+				var consign_origin: SettlementState = world.get_settlement(StringName("settlement:" + String(consign.settlement_id)))
+				consign_origin.inventory.add_amount(consign_res, -consign_qty)
+				world.player.inventory.add_amount(consign_res, consign_qty)
+				recalculate_prices(consign_origin)
+				payload["consigned"] = {"resource": consign_res, "quantity": consign_qty}
 			if accepting and world.accepted_jobs.has(quest_id):
 				var defn: Dictionary = world.accepted_jobs[quest_id]
 				if defn.has("source_wreck_id") and String(defn.get("source_wreck_id", "")) != "":
@@ -2961,7 +2999,7 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 			var settlement: SettlementState = world.get_settlement(ls.population_container_id)
 			var comm_str := String(intent.commodity)
-			var quote := get_buy_quote(settlement, intent.commodity)
+			var quote := get_buy_quote(settlement, intent.commodity, LocalTrust.buy_markup(world, String(settlement.id)))
 			var total_cost := quote * intent.quantity
 
 			settlement.inventory.add_amount(comm_str, -intent.quantity)

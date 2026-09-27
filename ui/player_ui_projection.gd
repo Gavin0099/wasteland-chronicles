@@ -39,12 +39,14 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"quests": _project_quests(world),
 		"quest_history": _project_quest_history(world),
 		"road_places": _project_road_places(world),
+		"trust": _project_trust(world),
 		"rumors": preload("res://simulation/rumors.gd").project(world),
 	}
 	return proj
 
 const JobBoard = preload("res://simulation/job_board.gd")
 const Growth = preload("res://simulation/growth_points.gd")
+const LocalTrust = preload("res://simulation/local_trust.gd")
 
 # PLAY-2 follow-up: a level has to announce itself. Before this the only place
 # that said "you levelled" was the character sheet, so a player who did not
@@ -135,6 +137,9 @@ static func _project_quests(world: WorldState) -> Array:
 			"target_site": String(extras.get("target_site", definition.get("target_site", ""))),
 			"target_enemy": String(extras.get("target_enemy", definition.get("target_enemy", ""))),
 			"target_route_type": String(extras.get("target_route_type", definition.get("target_route_type", ""))),
+			"is_consignment": definition.has("consign_resource"),
+			"issuer": _settlement_name("settlement:" + String(definition.settlement_id)),
+			"can_betray": definition.has("consign_resource") and status == "ACTIVE",
 			"intel": JobBoard.intel_for(world, extras) if not extras.is_empty() else [],
 		})
 	# Hand-play: "任務結束應該直接不見 而不是還在那邊". Finished work used to
@@ -203,6 +208,13 @@ static func _project_road_places(world: WorldState) -> Array:
 			"discovered": bool(state.discovered),
 			"status": RoadPlaces.status_text(world, place_id),
 		})
+	return out
+
+# REP-1: what each town thinks of the player, in one line each.
+static func _project_trust(world: WorldState) -> Dictionary:
+	var out := {}
+	for town in LocalTrust.TOWNS:
+		out[town] = {"tier": LocalTrust.tier(world, town), "name": LocalTrust.tier_name(world, town), "summary": LocalTrust.summary(world, town)}
 	return out
 
 # Completed and otherwise-ended work, counted from the authoritative quest state
@@ -483,9 +495,9 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 				"demand": offer.demand,
 				"stock": market_view.quantity(item_id),
 				"owned": owned,
-				"quote_buy": ItemMarketState.buy_quote(item_id, s.id, market_view),
+				"quote_buy": SimulationEngine.get_item_buy_quote(s, StringName(item_id), market_view, LocalTrust.buy_markup(world, String(s.id))),
 				"quote_sell": sell_quote,
-				"can_buy": market_view.quantity(item_id) > 0 and world.player.money >= ItemMarketState.buy_quote(item_id, s.id, market_view),
+				"can_buy": market_view.quantity(item_id) > 0 and world.player.money >= SimulationEngine.get_item_buy_quote(s, StringName(item_id), market_view, LocalTrust.buy_markup(world, String(s.id))),
 				"can_sell": owned > 0 and sell_quote > 0 and s.market_cash >= sell_quote,
 			})
 
@@ -506,13 +518,13 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 		"price_food": s.price_food,
 		"price_scrap": s.price_scrap,
 		"price_fuel": s.price_fuel,
-		"quote_buy_water": SimulationEngine.get_buy_quote(s, &"water"),
+		"quote_buy_water": SimulationEngine.get_buy_quote(s, &"water", LocalTrust.buy_markup(world, String(s.id))),
 		"quote_sell_water": SimulationEngine.get_sell_quote(s, &"water"),
-		"quote_buy_food": SimulationEngine.get_buy_quote(s, &"food"),
+		"quote_buy_food": SimulationEngine.get_buy_quote(s, &"food", LocalTrust.buy_markup(world, String(s.id))),
 		"quote_sell_food": SimulationEngine.get_sell_quote(s, &"food"),
-		"quote_buy_scrap": SimulationEngine.get_buy_quote(s, &"scrap"),
+		"quote_buy_scrap": SimulationEngine.get_buy_quote(s, &"scrap", LocalTrust.buy_markup(world, String(s.id))),
 		"quote_sell_scrap": SimulationEngine.get_sell_quote(s, &"scrap"),
-		"quote_buy_fuel": SimulationEngine.get_buy_quote(s, &"fuel"),
+		"quote_buy_fuel": SimulationEngine.get_buy_quote(s, &"fuel", LocalTrust.buy_markup(world, String(s.id))),
 		"quote_sell_fuel": SimulationEngine.get_sell_quote(s, &"fuel"),
 		"item_market": item_offers,
 		"water_supply_status": _get_stock_status(s.inventory.water, s.target_water),

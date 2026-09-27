@@ -133,6 +133,8 @@ var quest_title: Label
 var quest_description: Label
 var quest_progress: Label
 var quest_button: Button
+# REP-1: keep the goods a town trusted you with.
+var quest_betray_button: Button
 var quest_id_shown: String = ""
 
 var field_button: Button
@@ -934,12 +936,17 @@ func _render_local_actions(proj: Dictionary) -> void:
 	btn_local_market.visible = true
 	var available := 0
 	for row in proj.get("quests", []):
-		if String(row.status) == "AVAILABLE":
+		# REP-1: work a town will not give you is not work you can take.
+		if String(row.status) == "AVAILABLE" and bool(row.get("can_act", true)):
 			available += 1
 	if location == "settlement:gray_valley":
 		lbl_local_hint.text = "此地可接委託 %d 件。近郊補給棚可查看裝備；戰鬥依現場狀態開啟。" % available
 	else:
 		lbl_local_hint.text = "此地目前可接委託 %d 件。近郊補給棚位於灰谷。" % available
+	# REP-1: what this town thinks of you is part of where you are.
+	var trust: Dictionary = proj.get("trust", {}).get(location, {})
+	if not trust.is_empty():
+		lbl_local_hint.text += "\n" + String(trust.summary)
 
 # Every refusal the engine issues has to reach the player. The authority still
 # decides; this only stops the screen from pretending nothing was asked.
@@ -1559,6 +1566,12 @@ func _build_ui_layout_if_needed() -> void:
 	quest_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	quest_button.pressed.connect(_on_quest_pressed)
 	quest_column.add_child(quest_button)
+	quest_betray_button = Button.new()
+	quest_betray_button.text = "私吞貨物"
+	quest_betray_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	quest_betray_button.visible = false
+	quest_betray_button.pressed.connect(_on_betray_pressed)
+	quest_column.add_child(quest_betray_button)
 	quest_panel.visible = false
 
 	# ==========================================================================
@@ -2378,11 +2391,15 @@ func _render_quests(rows: Array) -> void:
 			quest_button.text = "委託已結束"
 	elif status == "AVAILABLE":
 		var carry_note: String = "從背包的散裝補給中交付，交出去之後你自己路上就少了那一份。" if String(row.get("objective_type", "")) == "DELIVER_RESOURCE" else "接受後仍需自行取得物品。"
+		if bool(row.get("is_consignment", false)):
+			carry_note = "接下時%s會把貨交給你，背包要留 %d 格空間。" % [String(row.issuer), int(row.required)]
 		quest_progress.text = "期限：接下後 %d 天\n交付：%s ×%d → %s\n目前持有：%d／%d；%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), carry_note, int(row.reward_caps), int(row.reward_xp)]
 		quest_button.text = "接受委託"
 	elif status == "ACTIVE":
 		quest_progress.text = "進行中 · 第 %d 天截止\n交付：%s ×%d → %s\n目前持有：%d／%d；需自行取得物品後前往交付。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
 		quest_button.text = "交付物品"
+		if bool(row.get("is_consignment", false)):
+			quest_progress.text = "進行中 · 第 %d 天截止\n%s託你運的貨：%s ×%d → %s\n背包裡有 %d／%d。運到就能交貨。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.issuer), String(row.item_name), int(row.required), String(row.target), int(row.held), int(row.required), int(row.reward_caps), int(row.reward_xp)]
 	else:
 		if status == "RESOLVED":
 			quest_progress.text = "已完成 · 已交付 %s ×%d → %s\n獲得：%d 瓶蓋、%d XP" % [String(row.item_name), int(row.required), String(row.target), int(row.reward_caps), int(row.reward_xp)]
@@ -2391,7 +2408,35 @@ func _render_quests(rows: Array) -> void:
 		quest_button.text = "委託已結束"
 	quest_button.visible = status in ["AVAILABLE", "ACTIVE"]
 	quest_button.disabled = not bool(row.can_act)
+	if quest_betray_button != null:
+		quest_betray_button.visible = bool(row.get("can_betray", false))
 	quest_button.tooltip_text = ("抵達新希望後回乾井回報，並保留軍用背包；期限內方可完成。" if bool(row.get("is_survey", false)) else "需要持有足量物品、抵達交付地點，且仍在期限內。") if status == "ACTIVE" and quest_button.disabled else ""
+
+# REP-1: keeping consigned goods is a real choice, so it is asked plainly and
+# the price is named before the player commits.
+func _on_betray_pressed() -> void:
+	if world == null or quest_id_shown == "":
+		return
+	var row: Dictionary = {}
+	for candidate in current_projection.get("quests", []):
+		if String(candidate.id) == quest_id_shown:
+			row = candidate
+	if row.is_empty() or not bool(row.get("can_betray", false)):
+		return
+	var ask := ConfirmationDialog.new()
+	ask.theme_type_variation = "PdaDialog"
+	ask.title = "私吞貨物"
+	ask.dialog_text = "%s ×%d 歸你，拿去用或拿去賣都行。\n%s會記住：信任大降，一陣子不接你的委託，在那裡買東西貴 25%%。" % [String(row.item_name), int(row.required), String(row.issuer)]
+	ask.ok_button_text = "貨歸我"
+	ask.cancel_button_text = "還是送去"
+	var quest_id := quest_id_shown
+	ask.confirmed.connect(func():
+		engine.commit_player_intent(world, PlayerIntent.create_betray_job(world.player.npc_id, quest_id))
+		refresh_ui()
+		ask.queue_free())
+	ask.canceled.connect(ask.queue_free)
+	add_child(ask)
+	ask.popup_centered()
 
 func _on_quest_access_pressed() -> void:
 	quest_journal_open = not quest_journal_open
