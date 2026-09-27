@@ -38,6 +38,7 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"growth": _project_growth(world),
 		"quests": _project_quests(world),
 		"quest_history": _project_quest_history(world),
+		"road_places": _project_road_places(world),
 	}
 	return proj
 
@@ -168,6 +169,41 @@ static func delivery_effect_text(world: WorldState, effect: Dictionary) -> Strin
 		text += "\n仍缺 %d 份%s，這裡還會繼續收。" % [int(effect.target) - int(effect.stock_after), res_name]
 	return text
 
+# PLACE-4: a town taking over a place the player marked, read off the receipt.
+static func place_report_text(world: WorldState, report: Dictionary) -> String:
+	const RoadPlaces = preload("res://simulation/road_places.gd")
+	var place_name := String(RoadPlaces.info(String(report.get("place_id", ""))).get("name_zh", "那個地方"))
+	var town := RoadPlaces.town_name(world, String(report.get("settlement_id", "")))
+	var res_name: String = String(JobBoard.RESOURCE_NAMES.get(String(report.get("resource", "")), String(report.get("resource", ""))))
+	var net_before := int(report.get("net_before", 0))
+	var net_after := int(report.get("net_after", 0))
+	return "你把%s的位置告訴了%s。他們派人去接手了。\n%s每天的%s產量：%d → %d（扣掉消耗後每天 %+d → %+d）\n賞金 %d 瓶蓋、%d XP" % [
+		place_name, town, town, res_name,
+		int(report.get("production_before", 0)), int(report.get("production_after", 0)),
+		net_before, net_after, int(report.get("caps", 0)), int(report.get("xp", 0))]
+
+# PLACE-4: the four road places for the map - where they are, and what each one
+# is to the world right now. Undiscovered places are shown, but not named.
+static func _project_road_places(world: WorldState) -> Array:
+	const RoadPlaces = preload("res://simulation/road_places.gd")
+	var out: Array = []
+	for place_id in RoadPlaces.ids():
+		var info := RoadPlaces.info(place_id)
+		var state := RoadPlaces.state(world, place_id)
+		out.append({
+			"id": place_id,
+			"name": String(info.name_zh) if bool(state.discovered) else "？",
+			"kind": String(info.kind),
+			"a": String(info.a),
+			"b": String(info.b),
+			"route": String(info.route),
+			"t": float(info.get("map_t", 0.5)),
+			"label_below": String(info.get("map_label", "above")) == "below",
+			"discovered": bool(state.discovered),
+			"status": RoadPlaces.status_text(world, place_id),
+		})
+	return out
+
 # Completed and otherwise-ended work, counted from the authoritative quest state
 # rather than from whatever the board happens to be displaying.
 static func _project_quest_history(world: WorldState) -> Dictionary:
@@ -223,6 +259,19 @@ static func _project_encounter_result(world: WorldState) -> Dictionary:
 	var ls := world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	result["can_continue"] = ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.IN_TRANSIT
 	result["is_dead"] = ls != null and not ls.is_alive()
+	# PLACE-4: what this answer did to the place, in one line.
+	var place_id := String(result.get("place_id", ""))
+	if place_id != "" and String(result.encounter_type) == String(TravelEncounter.PLACE_VISIT):
+		const RoadPlaces = preload("res://simulation/road_places.gd")
+		var place_name := String(RoadPlaces.info(place_id).get("name_zh", ""))
+		match String(result.option):
+			"MARK_A", "MARK_B":
+				var town := RoadPlaces.town_name(world, String(result.get("marked_for", "")))
+				result["place_note"] = "你記下了%s的位置。走進%s，就能回報給他們。" % [place_name, town]
+			"TAKE_RESOURCE":
+				result["place_note"] = "%s被你搬空了，不會再有鎮來接手。" % place_name
+			"LEAVE":
+				result["place_note"] = "你沒有停留。%s還在那裡，地圖上記著。" % place_name
 	return result
 
 # S5-B4: what the road is currently asking. Options carry an `enabled` flag so

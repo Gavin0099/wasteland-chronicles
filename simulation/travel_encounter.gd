@@ -41,6 +41,9 @@ const ROADBLOCK := &"ROADBLOCK"
 const DEHYDRATED_TRAVELLER := &"DEHYDRATED_TRAVELLER"
 const REFUGEE_COLUMN := &"REFUGEE_COLUMN"
 const BANDIT_AMBUSH := &"BANDIT_AMBUSH"
+# PLACE-4: a fixed road location (well, fuel station, camp, wreck site).
+const PLACE_VISIT := &"PLACE_VISIT"
+const RoadPlaces = preload("res://simulation/road_places.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
 
@@ -72,6 +75,9 @@ const Capability = preload("res://simulation/capability_profile.gd")
 # skilled character can refine that same discipline through a gated approach.
 static func practice_skill(encounter_type: StringName, option_id: StringName) -> String:
 	match encounter_type:
+		PLACE_VISIT:
+			if option_id == &"SEARCH_SITE":
+				return "SCAVENGING"
 		WRECK:
 			if option_id in [&"SEARCH", &"QUICK_PICK", &"SORT_WRECK"]:
 				return "SCAVENGING"
@@ -168,6 +174,9 @@ static func candidates(facts: Dictionary) -> Array:
 		# Fewer people wait out here, but the ones who do are the heavy raider.
 		# Rarer per day, over a four-day road - and never zero.
 		ambush_weight = maxi(WEIGHT_AMBUSH_WILDERNESS, ambush_weight - 2)
+		# PLACE-4: ...unless the player has just burned out his camp.
+		if facts.get("camp_cleared", false):
+			ambush_weight = 0
 	out.append({"type": BANDIT_AMBUSH, "weight": ambush_weight})
 
 	return out
@@ -182,6 +191,11 @@ static func select(facts: Dictionary, origin_id: StringName, destination_id: Str
 	var bounty_job: Dictionary = facts.get("bounty_job", {})
 	if not bounty_job.is_empty():
 		return BANDIT_AMBUSH
+
+	# PLACE-4: a fixed place on this road is met on the first day, every trip,
+	# until it has nothing left to decide.
+	if String(facts.get("road_place", "")) != "":
+		return PLACE_VISIT
 
 	var pool := candidates(facts)
 	var total := 0
@@ -205,6 +219,7 @@ static func select(facts: Dictionary, origin_id: StringName, destination_id: Str
 
 static func title(encounter_type: StringName, context: Dictionary = {}) -> String:
 	match encounter_type:
+		PLACE_VISIT: return RoadPlaces.title(context)
 		WRECK:
 			if context.has("site_name") and String(context.get("site_name", "")) != "":
 				return "目標殘骸：%s" % context.get("site_name")
@@ -228,6 +243,7 @@ static func title(encounter_type: StringName, context: Dictionary = {}) -> Strin
 # prose takes the context that was observed when the encounter fired.
 static func body(encounter_type: StringName, context: Dictionary = {}) -> String:
 	match encounter_type:
+		PLACE_VISIT: return RoadPlaces.body(context)
 		BANDIT_AMBUSH:
 			var target_enemy := String(context.get("target_enemy", ""))
 			if target_enemy == "feral_dog":
@@ -275,6 +291,7 @@ static func body(encounter_type: StringName, context: Dictionary = {}) -> String
 # You can see that the truck is worth a look. You cannot see what is under it.
 static func options(encounter_type: StringName, context: Dictionary = {}) -> Array:
 	match encounter_type:
+		PLACE_VISIT: return RoadPlaces.options(context)
 		WRECK:
 			return [
 				{"id": &"SEARCH", "label": "搜尋殘骸", "detail": "耗時 1 天（水 −1、食物 −1）　收穫不明"},
@@ -416,13 +433,17 @@ static func option_item_requirement(encounter_type: StringName, option_id: Strin
 	return ""
 
 static func has_option(encounter_type: StringName, option_id: StringName, context: Dictionary = {}) -> bool:
+	# A receipt read back from disk has lost its place, so any answer some place
+	# offers is a real answer.
+	if encounter_type == PLACE_VISIT and not RoadPlaces.exists(context.get("place_id", "")):
+		return option_id in RoadPlaces.ALL_OPTION_IDS
 	for o in options(encounter_type, context):
 		if o["id"] == option_id:
 			return true
 	return false
 
 static func is_valid_type(encounter_type: StringName) -> bool:
-	return encounter_type in [WRECK, ROCKSLIDE, ROADBLOCK, DEHYDRATED_TRAVELLER, REFUGEE_COLUMN, BANDIT_AMBUSH]
+	return encounter_type in [WRECK, ROCKSLIDE, ROADBLOCK, DEHYDRATED_TRAVELLER, REFUGEE_COLUMN, BANDIT_AMBUSH, PLACE_VISIT]
 
 # Pending receipts loaded from disk must contain concrete, displayable facts.
 static func valid_resolution(data: Dictionary) -> bool:

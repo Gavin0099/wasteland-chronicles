@@ -393,7 +393,9 @@ func make_world(engine: SimulationEngine, water: int, food: int) -> WorldState:
 func travel_until_encounter(engine: SimulationEngine, w: WorldState, first_dest: StringName, wanted: StringName) -> void:
 	var destinations := [first_dest, &"settlement:gray_valley", &"settlement:dry_well", &"settlement:new_hope"]
 	var hops := 0
-	while hops < 12:
+	# PLACE-4: fixed places now take the first day of some roads, so a
+	# random encounter can take a few more trips to turn up.
+	while hops < 48:
 		var ls: NpcLifeState = w.npc_life_state_registry.get_life_state(w.player.npc_id)
 		if ls == null or not ls.is_alive():
 			# Dead searchers cannot answer anything; clear the pending encounter
