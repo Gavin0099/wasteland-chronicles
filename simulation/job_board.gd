@@ -69,6 +69,10 @@ const COURIER_DEADLINE_DAYS := 7
 const COURIER_URGENT_GAP := 10
 const SALVAGE_DEADLINE_DAYS := 8
 const BOUNTY_DEADLINE_DAYS := 9
+# The standing raider bounty (owner ruling 2026-09-27).
+const STANDING_RAIDER_PREFIX := "new_hope_raider_standing_"
+const STANDING_RAIDER_CAPS := 150
+const STANDING_RAIDER_XP := 18
 
 # Danger is a 1..3 rating, and it is the spine of the whole board: it sets the
 # stars the player reads, the caps, and the experience. Easy work pays rent;
@@ -175,6 +179,8 @@ static func postings(world, settlement_id: StringName) -> Array:
 		_salvage(world, settlement, window),
 		_bounty(world, settlement, window),
 	]
+	if _short(String(settlement_id)) == "new_hope":
+		built.append(_standing_raider(world, settlement, window))
 	var out: Array = []
 	for entry in built:
 		if entry.is_empty():
@@ -378,31 +384,29 @@ static func _salvage(world, settlement, window: int) -> Dictionary:
 	}
 
 # ── Bounty: a combat-readiness question ───────────────────────────────────────
-static func _bounty(world, settlement, window: int) -> Dictionary:
+static func _bounty(world, settlement, window: int, standing_generation: int = -1) -> Dictionary:
 	var settlement_id: StringName = settlement.id
 	var short_origin := _short(String(settlement_id))
 	var target_id := &""
 	var route_type: StringName = Route.ROUTE_HIGHWAY
 	var target_enemy := Enemies.BANDIT
 
-	if short_origin == "new_hope":
-		if window % 2 == 0:
-			target_id = &"settlement:dry_well"
-			route_type = Route.ROUTE_WILDERNESS
-			target_enemy = Enemies.HEAVY_RAIDER
-		else:
-			target_id = &"settlement:dry_well"
-			route_type = Route.ROUTE_HIGHWAY
-			target_enemy = Enemies.BANDIT
+	# Owner ruling: the raider is a STANDING bounty, not one that rotates away
+	# in three days - the point is to read it, know you cannot take it yet,
+	# and still find it there when you come back stronger. The rotating work
+	# on these two boards is the bandit on the highway.
+	if standing_generation >= 0:
+		target_id = &"settlement:dry_well"
+		route_type = Route.ROUTE_WILDERNESS
+		target_enemy = Enemies.HEAVY_RAIDER
+	elif short_origin == "new_hope":
+		target_id = &"settlement:dry_well"
+		route_type = Route.ROUTE_HIGHWAY
+		target_enemy = Enemies.BANDIT
 	elif short_origin == "dry_well":
-		if window % 2 == 1:
-			target_id = &"settlement:new_hope"
-			route_type = Route.ROUTE_WILDERNESS
-			target_enemy = Enemies.HEAVY_RAIDER
-		else:
-			target_id = &"settlement:new_hope"
-			route_type = Route.ROUTE_HIGHWAY
-			target_enemy = Enemies.BANDIT
+		target_id = &"settlement:new_hope"
+		route_type = Route.ROUTE_HIGHWAY
+		target_enemy = Enemies.BANDIT
 	elif short_origin == "gray_valley":
 		target_id = &"settlement:dry_well"
 		route_type = Route.ROUTE_HIGHWAY
@@ -448,6 +452,11 @@ static func _bounty(world, settlement, window: int) -> Dictionary:
 	var enemy_name: String = String(enemy_info.get("name_zh", "目標"))
 	var route_name: String = "荒野繞路" if route_type == Route.ROUTE_WILDERNESS else "廢棄公路"
 	var job_id := "%s%s_bounty_%d" % [JOB_ID_PREFIX, short_origin, window]
+	if standing_generation >= 0:
+		job_id = "%s%s%d" % [JOB_ID_PREFIX, STANDING_RAIDER_PREFIX, standing_generation]
+		# A fixed price: the same number is on the board every time you look.
+		caps = STANDING_RAIDER_CAPS
+		xp = STANDING_RAIDER_XP
 
 	var title_zh := "%s懸賞：%s（往%s）" % [
 		"高額 " if risk >= RISK_ROUGH or target_enemy == Enemies.HEAVY_RAIDER else "",
@@ -457,6 +466,9 @@ static func _bounty(world, settlement, window: int) -> Dictionary:
 		target_name, route_name, enemy_name, int(security), RISK_WORDS[risk], settlement.name, enemy_name, days
 	]
 	var summary := "在往%s的%s擊退%s" % [target_name, route_name, enemy_name]
+	if standing_generation >= 0:
+		title_zh = "常駐懸賞：%s（%s）" % [enemy_name, route_name]
+		description_zh = "%s在往%s的%s上紮了營，商隊繞著走。這張賞單一直貼在這裡，直到有人把他打下來。付錢、談判、掉頭跑都不算——要真的打贏。路程約 %d 天。" % [enemy_name, target_name, route_name, days]
 
 	return {
 		"definition": {
@@ -493,6 +505,27 @@ static func _bounty(world, settlement, window: int) -> Dictionary:
 		"target_route_type": String(route_type),
 		"summary": summary,
 	}
+
+# The standing raider bounty. It stays on New Hope's board until it is
+# resolved, expires or fails; each ending opens the next generation, so a
+# missed deadline puts the same raider back up rather than losing him. Not
+# posted while his camp is burned out (PLACE-4).
+static func standing_raider_generation(world) -> int:
+	var ended := 0
+	for quest_id in world.quest_state.all_quest_ids():
+		if String(quest_id).begins_with(JOB_ID_PREFIX + STANDING_RAIDER_PREFIX):
+			var qs = world.quest_state.get_quest(quest_id)
+			if qs != null and String(qs.status) in ["RESOLVED", "EXPIRED", "FAILED"]:
+				ended += 1
+	return ended
+
+static func _standing_raider(world, settlement, window: int) -> Dictionary:
+	if RoadPlaces.camp_cleared(world):
+		return {}
+	var entry := _bounty(world, settlement, window, standing_raider_generation(world))
+	if not entry.is_empty():
+		entry["standing"] = true
+	return entry
 
 # ── What this character, specifically, can read off the board ─────────────────
 
@@ -547,6 +580,16 @@ static func intel_for(world, entry: Dictionary) -> Array:
 			lines.append("懸賞目標：%s（威脅度 %s）。你目前的格鬥水平為〔%s〕，%s。" % [
 				enemy_name, RISK_STARS.get(risk, "★☆☆"), rank_name, weapon_note
 			])
+			# The "not yet" has to be readable, or the player cannot decide to
+			# come back later. Words only - the arithmetic stays DEATH_TESTED's.
+			var read: Dictionary = FieldAdventure.forecast_for_enemy(world, target_enemy, true) if target_enemy != "" else {}
+			if not read.is_empty():
+				if bool(read.beaten):
+					lines.append("照你現在的身手，正面打多半會被打倒。練強一點、換把好武器再回來。")
+				elif int(read.hp_after) <= 4:
+					lines.append("硬拚打得下來，但會打得很慘。")
+				else:
+					lines.append("以你現在的身手，這一仗打得贏。")
 	if archetype == "COURIER" and player.has_acquired_trait("DESERT_HARDENED"):
 		lines.append("〔荒野歷練〕這段路你走過更糟的，估算補給時可以抓得比一般人緊。")
 	if risk >= RISK_BAD:
