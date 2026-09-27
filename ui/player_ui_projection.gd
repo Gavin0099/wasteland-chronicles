@@ -39,6 +39,7 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"quests": _project_quests(world),
 		"quest_history": _project_quest_history(world),
 		"road_places": _project_road_places(world),
+		"rumors": preload("res://simulation/rumors.gd").project(world),
 	}
 	return proj
 
