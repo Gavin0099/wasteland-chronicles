@@ -13,6 +13,7 @@ const GrowthPoints = preload("res://simulation/growth_points.gd")
 const RoadPlaces = preload("res://simulation/road_places.gd")
 const Rumors = preload("res://simulation/rumors.gd")
 const LocalTrust = preload("res://simulation/local_trust.gd")
+const Training = preload("res://simulation/training.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -2591,6 +2592,14 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.TRAIN_SKILL:
+			# TRAIN-1: a lesson is taken in town, from a teacher who teaches it.
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "TRAINING_REQUIRES_SETTLEMENT"
+			if intent.payload.size() != 1 or typeof(intent.payload.get("skill_id")) != TYPE_STRING:
+				return "INVALID_TRAINING_INTENT"
+			var lesson_refusal := Training.refusal(world, String(ls.population_container_id), String(intent.payload.skill_id))
+			return lesson_refusal
 		PlayerIntent.Action.BETRAY_JOB:
 			# REP-1: only goods a town trusted you with can be kept.
 			if intent.payload.size() != 1 or typeof(intent.payload.get("quest_id")) != TYPE_STRING:
@@ -2866,6 +2875,26 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.TRAIN_SKILL:
+			var lesson_skill := String(intent.payload.skill_id)
+			var lesson_town := String(world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id)
+			var lesson_from: int = world.player.capability.get_rank(lesson_skill)
+			var lesson_price := Training.price(lesson_from + 1)
+			var raised_by_lesson: Dictionary = world.player.capability.raise_rank_by_point(lesson_skill)
+			if not raised_by_lesson.success:
+				return {"success": false, "error": String(raised_by_lesson.get("error", "TRAINING_FAILED"))}
+			world.player.money -= lesson_price
+			var lesson_evt := EventRecord.new(world.current_day, "SKILL_TRAINED", intent.player_id, StringName(lesson_town), {
+				"skill_id": lesson_skill, "from_rank": lesson_from, "to_rank": int(raised_by_lesson.to_rank),
+				"caps": lesson_price, "days": Training.LESSON_DAYS, "teacher": String(Training.TEACHERS[lesson_town][lesson_skill]),
+			})
+			world.record_event(lesson_evt)
+			if tick_events != null:
+				tick_events.append(lesson_evt)
+			# Lessons take days, and days cost water and food like any other.
+			for lesson_day in range(Training.LESSON_DAYS):
+				tick(world)
+			return {"success": true, "skill_id": lesson_skill, "to_rank": int(raised_by_lesson.to_rank), "caps": lesson_price, "current_day": world.current_day}
 		PlayerIntent.Action.BETRAY_JOB:
 			var kept_id: String = intent.payload.quest_id
 			var kept: Dictionary = world.accepted_jobs[kept_id]

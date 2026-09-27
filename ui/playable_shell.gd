@@ -40,6 +40,8 @@ var engine: SimulationEngine = null
 var current_projection: Dictionary = {}
 # PLACE-4: how far into the ledger place reports have already been shown.
 var place_reports_seen: int = -1
+# TRAIN-1: the lesson buttons of the open training dialog, by skill.
+var training_buttons: Dictionary = {}
 var selected_settlement_id: String = "settlement:gray_valley"
 var selected_route_type: String = "HIGHWAY"
 var debug_world_feed_enabled: bool = false
@@ -125,6 +127,8 @@ var lbl_local_context: Label
 var lbl_local_hint: Label
 var btn_return_local: Button
 var btn_local_market: Button
+# TRAIN-1: the town's teachers.
+var btn_local_train: Button
 var quest_close_button: Button
 var right_scroll: ScrollContainer
 var quest_journal_open: bool = false
@@ -930,10 +934,14 @@ func _render_local_actions(proj: Dictionary) -> void:
 		lbl_local_hint.text = "抵達聚落後可查看當地委託與可探索地點。"
 		btn_return_local.visible = false
 		btn_local_market.visible = false
+		if btn_local_train != null:
+			btn_local_train.visible = false
 		return
 	lbl_local_context.text = "目前：%s" % _get_settlement_name(location)
 	btn_return_local.visible = selected_settlement_id != location
 	btn_local_market.visible = true
+	if btn_local_train != null:
+		btn_local_train.visible = true
 	var available := 0
 	for row in proj.get("quests", []):
 		# REP-1: work a town will not give you is not work you can take.
@@ -1271,6 +1279,13 @@ func _build_ui_layout_if_needed() -> void:
 	btn_local_market.size_flags_horizontal = SIZE_EXPAND_FILL
 	btn_local_market.pressed.connect(_show_local_market)
 	action_row.add_child(btn_local_market)
+	btn_local_train = Button.new()
+	btn_local_train.text = "找師傅"
+	btn_local_train.theme_type_variation = "PdaCommand"
+	btn_local_train.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	btn_local_train.size_flags_horizontal = SIZE_EXPAND_FILL
+	btn_local_train.pressed.connect(_show_training)
+	action_row.add_child(btn_local_train)
 	field_button = Button.new()
 	field_button.theme_type_variation = "PdaCommand"
 	field_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
@@ -2414,6 +2429,53 @@ func _render_quests(rows: Array) -> void:
 
 # REP-1: keeping consigned goods is a real choice, so it is asked plainly and
 # the price is named before the player commits.
+# TRAIN-1: who teaches what here, what it costs, and why a lesson is closed.
+func _show_training() -> void:
+	if world == null or world.player == null:
+		return
+	var here := String(world.npc_life_state_registry.get_life_state(world.player.npc_id).population_container_id)
+	var dialog := AcceptDialog.new()
+	dialog.theme_type_variation = "PdaDialog"
+	dialog.title = "找師傅"
+	dialog.ok_button_text = "離開"
+	# Autowrapped labels would otherwise grow the window to the screen height.
+	dialog.wrap_controls = false
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", Tokens.GAP)
+	dialog.add_child(box)
+	var intro := Label.new()
+	intro.text = "師傅只教到〔熟練〕，再往上要靠實戰和歷練。每堂課要花 %d 天，路上的水糧照樣會消耗。" % preload("res://simulation/training.gd").LESSON_DAYS
+	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	intro.custom_minimum_size.x = 420
+	box.add_child(intro)
+	training_buttons.clear()
+	for offer in preload("res://simulation/training.gd").offers(world, here):
+		var lesson := Button.new()
+		var skill_id := String(offer.skill_id)
+		lesson.text = "%s　%s → %s　%d 瓶蓋 · %d 天" % [String(offer.teacher), String(offer.skill_name), String(offer.to_rank_name), int(offer.price), int(offer.days)] if int(offer.price) > 0 else "%s　%s　已經教不了你" % [String(offer.teacher), String(offer.skill_name)]
+		lesson.theme_type_variation = "PdaCommand"
+		lesson.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		lesson.disabled = not bool(offer.can_train)
+		lesson.pressed.connect(func():
+			var result := engine.commit_player_intent(world, PlayerIntent.create_train_skill(world.player.npc_id, skill_id))
+			dialog.queue_free()
+			_report_action_result(result)
+			refresh_ui())
+		box.add_child(lesson)
+		training_buttons[skill_id] = lesson
+		if String(offer.note) != "":
+			var why := Label.new()
+			why.text = "　" + String(offer.note)
+			why.theme_type_variation = "PdaMuted"
+			why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			box.add_child(why)
+	if preload("res://simulation/training.gd").offers(world, here).is_empty():
+		intro.text = "這裡沒有人收徒弟。"
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered(Vector2i(500, 340))
+
 func _on_betray_pressed() -> void:
 	if world == null or quest_id_shown == "":
 		return
