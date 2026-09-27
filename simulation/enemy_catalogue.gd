@@ -93,22 +93,25 @@ static func highest_hp() -> int:
 #
 #   damage  what it will deal before any bracing
 #   heavy   worth spending a turn to brace against
+#   label_zh  the short name of the move, for the intent line
 static func action_for(enemy_id: Variant, turn: int) -> Dictionary:
 	var safe_turn: int = maxi(1, turn)
 	match String(enemy_id) if typeof(enemy_id) == TYPE_STRING else DEFAULT_ENEMY:
 		FERAL_DOG:
 			# No rhythm to read and no wind-up: it simply keeps biting. The
 			# pressure is that it never lets up, so a wasted turn costs you.
-			return {"damage": 3, "heavy": false}
+			return {"damage": 3, "heavy": false, "label_zh": "撲咬"}
 		HEAVY_RAIDER:
 			# Two ordinary swings, then the hammer. Slow enough to see coming,
 			# and hard enough that seeing it matters.
 			if safe_turn % 3 == 0:
-				return {"damage": 9, "heavy": true}
-			return {"damage": 3, "heavy": false}
+				return {"damage": 9, "heavy": true, "label_zh": "鐵鎚重擊"}
+			return {"damage": 3, "heavy": false, "label_zh": "揮擊"}
 		_:
 			# The bandit keeps the rhythm road combat already had.
-			return {"damage": 4 if safe_turn % 3 == 0 else 2, "heavy": false}
+			if safe_turn % 3 == 0:
+				return {"damage": 4, "heavy": false, "label_zh": "狠砍"}
+			return {"damage": 2, "heavy": false, "label_zh": "揮砍"}
 
 # What the player is told BEFORE choosing this turn's action. The telegraph is
 # the whole reason DEFEND is a decision, so it has to name the coming blow

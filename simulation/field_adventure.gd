@@ -314,6 +314,51 @@ static func forecast_for_enemy(world, enemy_id: String, is_road: bool = true) ->
 		"enemy": forecast_enemy,
 	}
 
+# COMBAT-READ: what the enemy will do this turn, in numbers, before the player
+# chooses. Owner ruling: exactly two facts matter - the next move and the damage
+# it will deal - plus the two things that change that damage: bracing, and
+# killing it first (it does not swing on the turn it goes down).
+#
+# PRESENTATION ONLY and derived from the same functions resolve_command uses,
+# including the road floor, so it is a promise the next FIELD_TURN keeps.
+# test_combat_read.gd holds every prediction against the real turn.
+static func intent_preview(world) -> Dictionary:
+	if world == null or world.player == null or world.field_state.battle.is_empty():
+		return {}
+	var state = world.field_state
+	var turn: int = int(state.battle.turn)
+	var foe := battle_enemy(state)
+	var action: Dictionary = Enemies.action_for(foe, turn)
+	var is_road: bool = String(state.battle.get("source", "field")) == "road"
+	var hp: int = int(world.player.field_kit.hp)
+	var raw: int = int(action.damage)
+	var braced_raw: int = maxi(0, raw - Enemies.brace_reduction(foe, turn))
+	var per_hit: int = attack_damage(world)
+	return {
+		"enemy": foe,
+		"turn": turn,
+		"label_zh": String(action.get("label_zh", "攻擊")),
+		"heavy": bool(action.heavy),
+		# What the blow is, which is what the player reads, and what it will
+		# actually take off you, which the road floor can make smaller.
+		"damage": raw,
+		"braced_damage": braced_raw,
+		"taken": _taken_preview(raw, hp, is_road),
+		"braced_taken": _taken_preview(braced_raw, hp, is_road),
+		"attack_damage": per_hit,
+		"attack_kills": per_hit >= int(state.enemy_hp),
+		# On the road a blow that would kill leaves you on 1 HP and ends the
+		# fight as a DEFEAT, so "knocked down" is the honest word for it.
+		"knocks_down": is_road and raw >= 1 and hp - _taken_preview(raw, hp, is_road) <= 1,
+		"knocks_down_braced": is_road and braced_raw >= 1 and hp - _taken_preview(braced_raw, hp, is_road) <= 1,
+		"is_road": is_road,
+	}
+
+static func _taken_preview(raw: int, hp: int, is_road: bool) -> int:
+	if is_road:
+		return maxi(0, hp - 1) if raw >= hp else raw
+	return mini(raw, hp)
+
 static func forecast(world, is_road: bool) -> Dictionary:
 	if world == null or world.player == null:
 		return {}

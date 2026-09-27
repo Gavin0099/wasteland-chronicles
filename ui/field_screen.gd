@@ -29,6 +29,8 @@ var reduce_motion: CheckBox
 var battle_map_label: Label
 var player_bar: ProgressBar
 var enemy_bar: ProgressBar
+var intent_label: Label
+var intent_detail_label: Label
 
 # One combatant, one row: who, how much is left, and a bar wide enough to feel
 # at a glance. The number stays beside the bar, so nothing essential is carried
@@ -207,6 +209,15 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	# so nothing essential is encoded in colour alone.
 	player_bar = _make_bar(person_window.body, Tokens.AMBER)
 	enemy_bar = _make_bar(person_window.body, Tokens.CRITICAL)
+	# COMBAT-READ: the enemy's next move and its damage sit directly under its
+	# health bar, as numbers, because that is the fact this turn is decided on.
+	intent_label = label_in(person_window.body, "", "PdaSection")
+	intent_label.add_theme_font_size_override("font_size", Tokens.SECTION)
+	intent_label.visible = false
+	intent_detail_label = label_in(person_window.body, "")
+	intent_detail_label.add_theme_font_size_override("font_size", Tokens.SMALL)
+	intent_detail_label.add_theme_color_override("font_color", Tokens.SECONDARY)
+	intent_detail_label.visible = false
 	status.reparent(person_window.body)
 	var tools_window := DesktopWindow.new("行動指令")
 	side.add_child(tools_window)
@@ -295,7 +306,7 @@ func refresh() -> void:
 		is_road = String(world.event_log[state.receipt].payload.get("source", "field")) == "road"
 
 	if heading_label != null:
-		heading_label.text = "荒原道路 / 劫匪伏擊" if is_road else "灰谷近郊 / 舊補給棚"
+		heading_label.text = ("荒原道路 / %s" % Field.Enemies.display_name(Field.battle_enemy(state))) if is_road else "灰谷近郊 / 舊補給棚"
 	close_button.text = "返回旅途" if is_road else "返回地圖"
 	close_button.disabled = not state.battle.is_empty() or state.receipt >= 0
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
@@ -320,6 +331,7 @@ func refresh() -> void:
 		growth_notice_label.visible = false
 	_set_bar(player_bar, "你", int(kit.hp), Field.MAX_HP)
 	_set_bar(enemy_bar, enemy_name, int(state.enemy_hp), Field.Enemies.max_hp(current_foe))
+	_show_intent(Field.intent_preview(world))
 	if battle_map_label != null:
 		# Overwritten below when a turn is actually waiting on the player. This
 		# panel is about the decision in front of you, not a standing diagram.
@@ -336,12 +348,12 @@ func refresh() -> void:
 		if is_road:
 			match String(receipt.outcome):
 				"VICTORY":
-					outcome = "戰鬥勝利！伏擊的劫匪已被擊退。"
+					outcome = "戰鬥勝利！%s已被擊退。" % enemy_name
 					if receipt.has("attribution") and String(receipt.attribution) != "":
 						outcome += "\n" + String(receipt.attribution)
 					outcome += "\n你在現場收集了遺留的物資。\n\n你仍可以繼續行動。"
-				"DEFEAT": outcome = "遭到劫匪伏擊！你身受重傷（生命剩餘 1）。\n劫匪搶走了你的物資後揚長而去。\n\n你仍可以繼續行動。"
-				"ESCAPED": outcome = "你擺脫了劫匪的包夾，成功逃離了戰場。\n\n你仍可以繼續行動。"
+				"DEFEAT": outcome = "你被%s擊倒，身受重傷（生命剩餘 1）。\n你的物資在混亂中被搶走或散落。\n\n你仍可以繼續行動。" % enemy_name
+				"ESCAPED": outcome = "你擺脫了%s，成功逃離了戰場。\n\n你仍可以繼續行動。" % enemy_name
 				_: outcome = "戰鬥已結束。"
 		else:
 			outcome = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}.get(receipt.outcome, "")
@@ -372,12 +384,13 @@ func refresh() -> void:
 		# comes from the enemy catalogue and states exactly what this turn's
 		# blow will be and what bracing against it would actually save.
 		var foe := Field.battle_enemy(state)
-		var brace: int = Field.Enemies.brace_reduction(foe, turn)
 		var incoming: Dictionary = Field.Enemies.action_for(foe, turn)
 		# The single fact that decides this turn sits beside the commands, and
 		# takes the danger colour only when it really is one.
 		if battle_map_label != null:
-			battle_map_label.text = "%s\n\n架勢防禦這回合可減少 %d 傷害。" % [Field.Enemies.telegraph(foe, turn), brace]
+			# The numbers now live on the intent line above; this stays the
+			# picture of what the enemy is doing.
+			battle_map_label.text = Field.Enemies.telegraph(foe, turn)
 			battle_map_label.add_theme_color_override(
 				"font_color", Tokens.CRITICAL if bool(incoming.heavy) else Tokens.TEXT)
 		log_label.text = "架勢防禦也讓你下次攻擊增加 2 傷害（不累加）。"
@@ -401,6 +414,26 @@ func refresh() -> void:
 			add_action("OPEN", "使用撬棍 · 打開補給棚")
 			add_action("REST", "休養 1 天 · 生命 +4")
 			add_action("TREAT", "使用急救包 · 生命最多 +4")
+
+func _show_intent(preview: Dictionary) -> void:
+	if intent_label == null:
+		return
+	intent_label.visible = not preview.is_empty()
+	intent_detail_label.visible = not preview.is_empty()
+	if preview.is_empty():
+		return
+	var head := "下一步：%s　%d 傷害" % [String(preview.label_zh), int(preview.damage)]
+	if bool(preview.knocks_down):
+		head += "（會把你擊倒）"
+	intent_label.text = head
+	intent_label.add_theme_color_override("font_color", Tokens.CRITICAL if bool(preview.heavy) or bool(preview.knocks_down) else Tokens.AMBER)
+	var lines: Array[String] = []
+	lines.append("架勢防禦 → 承受 %d%s" % [int(preview.braced_damage), "（仍會倒下）" if bool(preview.knocks_down_braced) else ""])
+	if bool(preview.attack_kills):
+		lines.append("攻擊 %d → 可擊倒它，它不會出手" % int(preview.attack_damage))
+	else:
+		lines.append("攻擊 %d → 它還會出手" % int(preview.attack_damage))
+	intent_detail_label.text = "\n".join(lines)
 
 func show_receipt_goods(title: String, goods: Dictionary, prefix: String, values: Dictionary) -> void:
 	label_in(receipt_items, title, "PdaSection")
