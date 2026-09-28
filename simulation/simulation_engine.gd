@@ -15,6 +15,7 @@ const Rumors = preload("res://simulation/rumors.gd")
 const LocalTrust = preload("res://simulation/local_trust.gd")
 const Training = preload("res://simulation/training.gd")
 const Party = preload("res://simulation/party.gd")
+const JobBoard = preload("res://simulation/job_board.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -1763,6 +1764,8 @@ func _authorize_item_trade(world: WorldState, settlement: SettlementState, inten
 	if buying:
 		if not profile.is_routinely_supplied:
 			return "ITEM_NOT_SOLD_HERE: %s has no routine supply in %s" % [intent.item_id, settlement.id]
+		if JobBoard.wanted_items(world, settlement.id).has(String(intent.item_id)):
+			return "ITEM_WANTED_HERE: %s is what %s is asking for" % [intent.item_id, settlement.id]
 		if market.quantity(intent.item_id) < intent.quantity:
 			return "INSUFFICIENT_ITEM_STOCK: %s has %d, requested %d" % [intent.item_id, market.quantity(intent.item_id), intent.quantity]
 		var quote := get_item_buy_quote(settlement, intent.item_id, market, LocalTrust.buy_markup(world, String(settlement.id)))

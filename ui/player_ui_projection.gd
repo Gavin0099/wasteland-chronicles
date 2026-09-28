@@ -493,6 +493,8 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 	var market_view: RefCounted = s.item_market if s.item_market != null else ItemMarketState.seeded_for(s.id)
 	var item_market_result := ItemMarketCatalogue.offers_for(s.id)
 	var item_offers: Array[Dictionary] = []
+	# Hand-play: what this town is asking for in its jobs is out of stock here.
+	var wanted_here: Dictionary = JobBoard.wanted_items(world, s.id)
 	if item_market_result.success:
 		for offer in item_market_result.offers:
 			var item_id := String(offer.item_id)
@@ -505,11 +507,12 @@ static func _project_current_settlement(world: WorldState) -> Dictionary:
 				"asset_id": offer.asset_id,
 				"supply": offer.supply,
 				"demand": offer.demand,
-				"stock": market_view.quantity(item_id),
+				"stock": 0 if wanted_here.has(item_id) else market_view.quantity(item_id),
 				"owned": owned,
 				"quote_buy": SimulationEngine.get_item_buy_quote(s, StringName(item_id), market_view, LocalTrust.buy_markup(world, String(s.id))),
 				"quote_sell": sell_quote,
-				"can_buy": market_view.quantity(item_id) > 0 and world.player.money >= SimulationEngine.get_item_buy_quote(s, StringName(item_id), market_view, LocalTrust.buy_markup(world, String(s.id))),
+				"wanted": wanted_here.has(item_id),
+				"can_buy": not wanted_here.has(item_id) and market_view.quantity(item_id) > 0 and world.player.money >= SimulationEngine.get_item_buy_quote(s, StringName(item_id), market_view, LocalTrust.buy_markup(world, String(s.id))),
 				"can_sell": owned > 0 and sell_quote > 0 and s.market_cash >= sell_quote,
 			})
 
