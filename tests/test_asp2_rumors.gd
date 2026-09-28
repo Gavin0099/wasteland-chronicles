@@ -143,12 +143,10 @@ func run() -> void:
 	await process_frame
 	check(shell.desktop_aim_label != null and shell.desktop_aim_label.visible, "R5: the aim is on the main screen")
 	check(shell.desktop_aim_label.text.contains("加油站"), "R5: it names what you chase: %s" % shell.desktop_aim_label.text)
-	var sheet = Sheet.new()
+	var sheet = preload("res://ui/components/rumor_window.gd").new()
 	root.add_child(sheet)
-	var sheet_player: Dictionary = PlayerUIProjection.project(chase).player.duplicate()
-	sheet_player["rumors"] = Rumors.project(chase)
 	var chosen := [""]
-	sheet.setup(preload("res://ui/character_presentation.gd").project(chase), sheet_player, Callable(), Callable(), Callable(), "", "", Callable(), Callable(), Callable(), func(rid: String): chosen[0] = rid)
+	sheet.setup(Rumors.project(chase), func(rid: String): chosen[0] = rid)
 	await process_frame
 	check(sheet.rumor_buttons.has("rumor:old_well") and sheet.rumor_buttons.has("rumor:fuel_station"), "R5: each heard rumour has a chase button")
 	check(not sheet.rumor_buttons.has("rumor:armory"), "R5: an unheard one is not listed at all")

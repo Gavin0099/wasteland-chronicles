@@ -131,6 +131,8 @@ var btn_return_local: Button
 var btn_local_market: Button
 # The open trade window, if any.
 var market_window: AcceptDialog
+# The open rumour window, if any.
+var rumor_window: AcceptDialog
 # TRAIN-1: the town's teachers.
 var btn_local_train: Button
 var quest_close_button: Button
@@ -1949,7 +1951,7 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	var tool_row := HBoxContainer.new()
 	tool_row.add_theme_constant_override("separation", 4)
 	tools_window.body.add_child(tool_row)
-	for command in [{"label": "場景", "action": _show_desktop_scene}, {"label": "資料", "action": _show_desktop_details}, {"label": "人物", "action": _show_character}]:
+	for command in [{"label": "場景", "action": _show_desktop_scene}, {"label": "資料", "action": _show_desktop_details}, {"label": "人物", "action": _show_character}, {"label": "傳聞", "action": _show_rumors}]:
 		var button := Button.new()
 		button.text = command.label
 		button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
@@ -2727,19 +2729,28 @@ func _show_character(action_notice: String = "") -> void:
 			dialog.action_notice_label.visible = true
 	var treat_reason: String = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落"}.get(treat_error, "目前無法使用")) if treat_error != "" else ""
 	add_child(dialog)
-	var track_rumor := func(rumor_id: String):
+	var sheet_player: Dictionary = PlayerUIProjection.project(world).player.duplicate()
+	sheet_player["party"] = current_projection.get("party", {})
+	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point)
+	# Laid out like an RPG character window, so it needs the room of one.
+	var viewport_size := get_viewport_rect().size
+	dialog.popup_centered(Vector2i(int(viewport_size.x * 0.9), int(viewport_size.y * 0.88)))
+
+# ASP-2: what you have heard, in its own window (not on the character sheet).
+func _show_rumors() -> void:
+	if world == null or world.player == null:
+		return
+	if is_instance_valid(rumor_window):
+		rumor_window.queue_free()
+	rumor_window = preload("res://ui/components/rumor_window.gd").new()
+	add_child(rumor_window)
+	rumor_window.setup(preload("res://simulation/rumors.gd").project(world), func(rumor_id: String):
 		var result := engine.commit_player_intent(world, PlayerIntent.create_track_rumor(world.player.npc_id, rumor_id))
 		if result.get("success", false):
-			dialog.queue_free()
 			refresh_ui()
-			call_deferred("_show_character")
-	var sheet_player: Dictionary = PlayerUIProjection.project(world).player.duplicate()
-	sheet_player["rumors"] = preload("res://simulation/rumors.gd").project(world)
-	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point, track_rumor)
+			call_deferred("_show_rumors"))
 	var viewport_size := get_viewport_rect().size
-	var sheet_size := Vector2i(mini(460, int(viewport_size.x) - 24), mini(560, int(viewport_size.y) - 72))
-	var sheet_position := Vector2i(int(viewport_size.x) - sheet_size.x - 12, 56)
-	dialog.popup(Rect2i(sheet_position, sheet_size))
+	rumor_window.popup_centered(Vector2i(mini(640, int(viewport_size.x) - 40), int(viewport_size.y * 0.8)))
 
 func _encounter_blocked_text(option: Dictionary) -> String:
 	if bool(option.get("locked", false)):

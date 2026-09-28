@@ -127,20 +127,20 @@ func market_track(save_resume: bool) -> WorldState:
 	var world: WorldState = fixture()
 	if not accept(world):
 		return world
-	var settlement: SettlementState = world.get_settlement(ORIGIN)
-	var initial_cash: int = settlement.market_cash
-	var bought: Dictionary = commit(world, PlayerIntent.create_buy_item(world.player.npc_id, &"rope", 1), "buy target rope from real market")
-	check(bought.get("total_amount", -1) == 30 and world.player.money == 20, "market path actually spends 30 caps")
-	check(settlement.market_cash == initial_cash + 30 and settlement.item_market != null and settlement.item_market.quantity("rope") == 5,
-		"market receives payment and decrements six-rope stock to five")
-	check(world.player.item_inventory.quantity("rope") == 1, "purchased rope physically enters inventory")
+	# Owner hand-play 2026-09-28: "任務物品直接可以在市場買到 感覺很怪". The town
+	# that asks for the rope does not sell it; the rope has to come from
+	# somewhere else - another town's stall or a wreck - and be carried in.
+	reject_atomically(world, PlayerIntent.create_buy_item(world.player.npc_id, &"rope", 1), "buying the requested rope in the town that requests it")
+	check(world.player.item_inventory.quantity("rope") == 0, "the issuing town sold no rope")
+	check(world.player.pickup_item("rope", 1).success, "a rope carried in from elsewhere")
+	check(world.player.item_inventory.quantity("rope") == 1, "the carried rope is physically in the pack")
 	checkpoint(world, "market purchase")
 	if save_resume:
 		world = resume(world, "market purchase")
 	var turnin: Dictionary = commit(world, PlayerIntent.create_turn_in_quest(world.player.npc_id, JOB_ID), "deliver purchased rope")
 	check(turnin.get("delivered", []) == [{"item_id": "rope", "quantity": 1}], "turn-in receipt records one actual rope")
-	check(world.player.item_inventory.quantity("rope") == 0 and world.player.money == 70 and world.player.xp == 5,
-		"market route consumes rope and pays exactly 50 caps / 5 quest XP")
+	check(world.player.item_inventory.quantity("rope") == 0 and world.player.money == 100 and world.player.xp == 5,
+		"carried-in route consumes rope and pays exactly 50 caps / 5 quest XP")
 	check(target_event_count(world, "TRAVEL_ENCOUNTER_RESOLVED") == 0 and world.current_day == 0, "market fulfillment requires no fabricated wreck or travel")
 	reject_atomically(world, PlayerIntent.create_turn_in_quest(world.player.npc_id, JOB_ID), "duplicate market turn-in")
 	checkpoint(world, "completed market route")

@@ -178,16 +178,41 @@ func run() -> void:
 	check(weapons and not market.visible_entries().is_empty(), "M: the weapons tab shows weapons only")
 	market.tab_buttons["SUPPLY"].pressed.emit()
 	await process_frame
+	# Pick, then act: select water, step to five, buy.
+	market.row_buttons["water"].pressed.emit()
+	check(market.selected_key == "water", "M: a row click selects it")
+	for i in range(4):
+		market.plus_button.pressed.emit()
+	check(market.quantity == 5 and market.buy_button.text.contains("買入 5"), "M: the stepper sets the amount and the button says it: %s" % market.buy_button.text)
 	var price := int(PlayerUIProjection.project(mw).current_settlement.quote_buy_water)
 	var money0 := mw.player.money
 	var water0 := mw.player.inventory.get_amount("water")
-	market.row_buttons["water"]["buy5"].pressed.emit()
-	check(mw.player.inventory.get_amount("water") == water0 + 5 and money0 - mw.player.money == price * 5, "M: 買 5 buys five at the quoted price")
+	market.buy_button.pressed.emit()
+	check(mw.player.inventory.get_amount("water") == water0 + 5 and money0 - mw.player.money == price * 5, "M: 買入 5 buys five at the quoted price")
+	check(market.notice_label.visible and market.notice_label.text.contains("買入"), "M: the trade is confirmed in words")
 	mw.player.money = 0
 	ms.refresh_ui()
 	market.refresh()
 	market._trade("food", false, true, 1)
 	check(market.notice_label.visible and market.notice_label.text.contains("瓶蓋不夠"), "M: a refused trade says why: %s" % market.notice_label.text)
+	# Hand-play: "任務物品直接可以在市場買到 感覺很怪".
+	mw.player.money = 500
+	for entry in Board.postings(mw, &"settlement:gray_valley"):
+		if entry.archetype == "SALVAGE":
+			check(engine.commit_player_intent(mw, PlayerIntent.create_accept_quest(mw.player.npc_id, String(entry.definition.id))).success, "M: take Gray Valley's salvage job")
+	var wanted: Dictionary = Board.wanted_items(mw, &"settlement:gray_valley")
+	var asked := ""
+	for item_id in wanted:
+		asked = String(item_id)
+	if asked != "":
+		var refused := engine.commit_player_intent(mw, PlayerIntent.create_buy_item(mw.player.npc_id, StringName(asked), 1))
+		check(not refused.success and String(refused.error).begins_with("ITEM_WANTED_HERE"), "M: what Gray Valley is asking for cannot be bought in Gray Valley (%s)" % asked)
+		ms.refresh_ui()
+		market.refresh()
+		var row: Dictionary = market.entry(asked)
+		check(row.is_empty() or (bool(row.wanted) and int(row.stock) == 0), "M: and the market shows it as 正缺")
+	else:
+		check(false, "M: Gray Valley should be asking for some item")
 	ms.queue_free()
 
 	print("FIXES-0928: %s; assertions=%d failures=%d" % ["PASS" if failures == 0 else "FAIL", assertions, failures])

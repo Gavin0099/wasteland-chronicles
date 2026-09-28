@@ -216,6 +216,29 @@ static func all_postings(world) -> Array:
 			out.append(entry)
 	return out
 
+# Hand-play: "任務物品直接可以在市場買到 感覺很怪" - Gray Valley posted a job for
+# a wrench while its own stalls sold wrenches. A town that is asking for
+# something is a town that does not have it: every item a job the player has
+# TAKEN (or an authored commission) wants delivered HERE is out of stock
+# here. It can still be bought elsewhere and carried in (that is an errand),
+# or dug out of a wreck. Postings nobody has taken do not empty the stalls,
+# or the opening rope errand could not buy its rope.
+static func wanted_items(world, settlement_id: StringName) -> Dictionary:
+	var here := _short(String(settlement_id))
+	var definitions: Array = []
+	for quest_id in world.accepted_jobs:
+		definitions.append(world.accepted_jobs[quest_id])
+	definitions.append_array(preload("res://simulation/quest_registry.gd").all_definitions())
+	var out := {}
+	for definition in definitions:
+		var qs = world.quest_state.get_quest(String(definition.id))
+		if qs != null and String(qs.status) in ["RESOLVED", "EXPIRED", "FAILED"]:
+			continue
+		for objective in definition.objectives:
+			if String(objective.get("type", "")) == "DELIVER_ITEM" and String(objective.get("settlement_id", definition.settlement_id)) == here:
+				out[String(objective.item_id)] = true
+	return out
+
 static func find_posting(world, quest_id: String) -> Dictionary:
 	if not is_job_id(quest_id):
 		return {}
