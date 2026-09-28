@@ -126,6 +126,12 @@ static func _project_quests(world: WorldState) -> Array:
 			"status": status, "deadline_day": state.deadline_day if state != null else -1,
 			"deadline_days": int(definition.deadline_days), "target": target, "item_name": item_name,
 			"required": required, "held": held, "can_act": can_act,
+			# Hand-play: "明明就有資源 但是不能交付" and "打完獵犬任務也沒有通過" -
+			# the work was done but the player stood in the wrong town, and nothing
+			# said so. Deliveries are handed in where they go; everything else back
+			# where it was issued (QuestEngine.authorize_turn_in).
+			"turn_in_place": _settlement_name(_turn_in_settlement(definition, objective)),
+			"at_turn_in_point": life.status == NpcLifeState.Status.SETTLED and String(life.population_container_id) == _turn_in_settlement(definition, objective),
 			"is_survey": is_survey,
 			"required_equipped_item": String(definition.availability.get("required_equipped_item_id", "")),
 			"reward_caps": reward_caps, "reward_xp": reward_xp,
@@ -210,6 +216,11 @@ static func _project_road_places(world: WorldState) -> Array:
 			"status": RoadPlaces.status_text(world, place_id),
 		})
 	return out
+
+static func _turn_in_settlement(definition: Dictionary, objective: Dictionary) -> String:
+	if String(objective.get("type", "")) in ["DELIVER_ITEM", "DELIVER_RESOURCE"]:
+		return "settlement:" + String(objective.get("settlement_id", definition.settlement_id))
+	return "settlement:" + String(definition.settlement_id)
 
 # REP-1: what each town thinks of the player, in one line each.
 static func _project_trust(world: WorldState) -> Dictionary:

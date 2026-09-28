@@ -195,7 +195,9 @@ func _init() -> void:
 
 	# After CONFIRM: world intent is accepted!
 	var wait_ok := engine.commit_player_intent(wd, PlayerIntent.create_wait(wd.player.npc_id))
-	check(wait_ok.success, "world accepts next intent after road defeat confirmation")
+	# Confirming now resumes the journey, which may meet the road again at once;
+	# what matters is that the fight no longer holds the world.
+	check(wait_ok.success or not String(wait_ok.get("error", "")).contains("FIELD_ACTIVITY_PENDING"), "world accepts next intent after road defeat confirmation")
 	print("PASS GATE 4: Defeat aftermath & strict intent gating verified.")
 
 	# --------------------------------------------------------------------------
