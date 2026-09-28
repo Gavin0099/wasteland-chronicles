@@ -186,7 +186,7 @@ func run() -> void:
 	check(ui_world.to_canonical_json() == ui_before, "opening quest PDA is read-only")
 	shell.quest_button.pressed.emit()
 	check(ui_world.quest_state.get_quest(QUEST_ID) != null and ui_world.quest_state.get_quest(QUEST_ID).status == &"ACTIVE", "PDA button sends authority-backed accept intent")
-	check(shell.quest_button.text == "交付物品" and shell.quest_button.disabled, "accepted quest remains visible but cannot be delivered at issuer")
+	check(shell.quest_button.text.ends_with("才能交貨") and shell.quest_button.disabled, "accepted quest remains visible, cannot be delivered at issuer, and says where it can")
 	shell.queue_free()
 	await process_frame
 	print("QUEST-2 wrench delivery: ", "PASS" if failures == 0 else "FAIL", "; assertions=", assertions, "; failures=", failures)

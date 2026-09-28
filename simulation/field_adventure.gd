@@ -577,6 +577,12 @@ static func commit(world, engine, payload: Dictionary) -> Dictionary:
 		error = authorize(world, payload)
 	if error != "":
 		return {"success": false, "error": error}
+	# Hand-play: after a road fight the rest of the trip went quiet - no road
+	# places, no ambushes, no arrival reports - because it was walked with
+	# [繼續前進 1 天] instead of the journey resuming. Confirming a road result
+	# now resumes the journey exactly as confirming any other road answer does.
+	var resume_road: bool = String(payload.get("command", "")) == "CONFIRM" and world.field_state.receipt >= 0 \
+		and String(world.event_log[world.field_state.receipt].payload.get("source", "field")) == "road"
 	var staged = world.duplicate_state()
 	error = apply(staged, engine, payload)
 	if error == "":
@@ -587,6 +593,16 @@ static func commit(world, engine, payload: Dictionary) -> Dictionary:
 	for key in ["current_day", "total_initial_population", "next_npc_sequence", "npc_registry", "npc_life_state_registry", "npc_profile_registry", "settlements", "caravans", "refugees", "event_log", "player", "decision_audit_trail", "active_encounter", "pending_encounter_result", "field_state"]:
 		world.set(key, staged.get(key))
 	var result := {"success": true, "error": "", "action": "FIELD_ACTION"}
+	if resume_road:
+		var life = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+		if life != null and life.is_alive() and life.status == NpcLifeState.Status.IN_TRANSIT and world.active_encounter == null and world.pending_encounter_result < 0:
+			var party = world.get_refugee_party(life.population_container_id)
+			if party != null:
+				var travelled: Dictionary = engine.advance_player_travel(world, world.player.npc_id, party.days_remaining)
+				result["resumed_journey"] = true
+				result["arrived"] = bool(travelled.get("arrived", false))
+				if travelled.has("place_reports"):
+					result["place_reports"] = travelled.place_reports
 	if not world.event_log.is_empty():
 		var last_event = world.event_log.back()
 		if last_event.type == "FIELD_ACTION" and last_event.payload.get("command") == payload.command and last_event.payload.has("skill_practice"):

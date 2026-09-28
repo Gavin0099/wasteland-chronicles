@@ -27,6 +27,8 @@ var buttons: Dictionary = {}
 var busy := false
 var reduce_motion: CheckBox
 var battle_map_label: Label
+# The window around battle_map_label: "這一回合" during a turn, "對手" otherwise.
+var turn_window: Control
 var player_bar: ProgressBar
 var enemy_bar: ProgressBar
 var intent_label: Label
@@ -229,6 +231,7 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	# bottom of a scrolling log. They have swapped places: the incoming blow is
 	# now directly above the commands, which is the order the player reads in.
 	var map_window := DesktopWindow.new("這一回合")
+	turn_window = map_window
 	side.add_child(map_window)
 	side.move_child(map_window, side.get_child_count() - 2)
 	battle_map_label = Label.new()
@@ -335,8 +338,12 @@ func refresh() -> void:
 	if battle_map_label != null:
 		# Overwritten below when a turn is actually waiting on the player. This
 		# panel is about the decision in front of you, not a standing diagram.
+		# Hand-play: a "this turn" heading over a description of the enemy read
+		# as nonsense. Outside a turn this panel is about who you face.
 		battle_map_label.add_theme_color_override("font_color", Tokens.SECONDARY)
-		battle_map_label.text = Field.Enemies.resolve(current_foe).note_zh
+		battle_map_label.text = "%s：%s" % [enemy_name, Field.Enemies.resolve(current_foe).note_zh]
+		if turn_window != null:
+			turn_window.title_label.text = "對手"
 	# Both health values are on the bars above now; repeating them here was the
 	# same fact three times in one panel.
 	status_label.text = "武器　%s　·　負重 %d / %d" % [weapon, world.player.get_total_inventory_load(), world.player.get_effective_capacity()]
@@ -391,6 +398,8 @@ func refresh() -> void:
 			# The numbers now live on the intent line above; this stays the
 			# picture of what the enemy is doing.
 			battle_map_label.text = Field.Enemies.telegraph(foe, turn)
+			if turn_window != null:
+				turn_window.title_label.text = "這一回合"
 			battle_map_label.add_theme_color_override(
 				"font_color", Tokens.CRITICAL if bool(incoming.heavy) else Tokens.TEXT)
 		log_label.text = "架勢防禦也讓你下次攻擊增加 2 傷害（不累加）。"
@@ -456,7 +465,18 @@ func perform(payload: Dictionary) -> void:
 	close_button.disabled = true
 	for button in buttons.values():
 		button.disabled = true
+	# Hand-play: "打輸後跑到這邊" - once a road result was confirmed, nothing
+	# said it had been a road fight any more, so the screen fell back to the
+	# Gray Valley shed with every command refused. A confirmed road result
+	# ends the road fight: go back to the journey.
+	var confirming_road: bool = String(payload.get("command", "")) == "CONFIRM" and world.field_state.receipt >= 0 \
+		and String(world.event_log[world.field_state.receipt].payload.get("source", "field")) == "road"
 	var result := engine.commit_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, payload))
+	if result.success and confirming_road:
+		busy = false
+		world_changed.emit()
+		close()
+		return
 	if result.success:
 		if payload.command in ["ATTACK", "DEFEND", "FLEE"]:
 			for i in range(world.event_log.size() - 1, -1, -1):

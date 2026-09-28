@@ -129,6 +129,8 @@ var lbl_local_context: Label
 var lbl_local_hint: Label
 var btn_return_local: Button
 var btn_local_market: Button
+# The open trade window, if any.
+var market_window: AcceptDialog
 # TRAIN-1: the town's teachers.
 var btn_local_train: Button
 var quest_close_button: Button
@@ -911,6 +913,16 @@ func _show_local_market() -> void:
 		return
 	if market_practice_label != null:
 		market_practice_label.visible = false
+	# Hand-play: "下方的物品太短 導致很難找東西". Trading happens in its own
+	# large window; the panel below stays as the price reference for towns
+	# you are only looking at.
+	if is_inside_tree():
+		if is_instance_valid(market_window):
+			market_window.queue_free()
+		market_window = preload("res://ui/components/market_window.gd").new()
+		add_child(market_window)
+		market_window.open(self)
+		return
 	select_settlement(location)
 	desktop_details_open = true
 	_sync_desktop(current_projection)
@@ -2400,7 +2412,7 @@ func _render_quests(rows: Array) -> void:
 			quest_progress.text = "期限：接下後 %d 天\n目標：在往%s的路上%s\n付錢打發或掉頭逃跑都不算。路程約 %d 天。\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_days), String(row.target), bounty_target, int(row.get("route_days", 2)), int(row.reward_caps), int(row.reward_xp)]
 			quest_button.text = "接下懸賞"
 		elif status == "ACTIVE":
-			quest_progress.text = "進行中 · 第 %d 天截止\n目標：在往%s的路上%s\n目前：%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.target), bounty_target, "已達成，回來領賞" if cleared else "尚未打贏", int(row.reward_caps), int(row.reward_xp)]
+			quest_progress.text = "進行中 · 第 %d 天截止\n目標：在往%s的路上%s\n目前：%s\n報酬：%d 瓶蓋、%d XP" % [int(row.deadline_day), String(row.target), bounty_target, ("已達成，回%s領賞" % _short_town(String(row.get("issuer", "")))) if cleared else "尚未打贏", int(row.reward_caps), int(row.reward_xp)]
 			quest_button.text = "領取賞金"
 		elif status == "RESOLVED":
 			quest_progress.text = "已完成 · 往%s的路已清過一次\n獲得：%d 瓶蓋、%d XP" % [String(row.target), int(row.reward_caps), int(row.reward_xp)]
@@ -2429,6 +2441,12 @@ func _render_quests(rows: Array) -> void:
 	quest_button.disabled = not bool(row.can_act)
 	if quest_betray_button != null:
 		quest_betray_button.visible = bool(row.get("can_betray", false))
+	# Say WHY a delivery cannot be made, on the button itself.
+	if status == "ACTIVE" and not bool(row.get("at_turn_in_point", true)):
+		var delivering: bool = String(row.get("objective_type", "")) in ["DELIVER_ITEM", "DELIVER_RESOURCE"]
+		quest_button.text = ("到%s才能交貨" if delivering else "回%s領賞") % _short_town(String(row.get("turn_in_place", row.target)))
+	elif status == "ACTIVE" and String(row.get("objective_type", "")) in ["DELIVER_ITEM", "DELIVER_RESOURCE"] and int(row.held) < int(row.required):
+		quest_button.text = "還差 %d 份%s" % [int(row.required) - int(row.held), String(row.item_name)]
 	quest_button.tooltip_text = ("抵達新希望後回乾井回報，並保留軍用背包；期限內方可完成。" if bool(row.get("is_survey", false)) else "需要持有足量物品、抵達交付地點，且仍在期限內。") if status == "ACTIVE" and quest_button.disabled else ""
 
 # REP-1: keeping consigned goods is a real choice, so it is asked plainly and
@@ -2546,6 +2564,11 @@ func _on_betray_pressed() -> void:
 	ask.canceled.connect(ask.queue_free)
 	add_child(ask)
 	ask.popup_centered()
+
+# "灰谷 (Gray Valley)" reads as "灰谷" on a button.
+func _short_town(name: String) -> String:
+	var cut := name.find(" (")
+	return name.substr(0, cut) if cut > 0 else name
 
 func _on_quest_access_pressed() -> void:
 	quest_journal_open = not quest_journal_open
