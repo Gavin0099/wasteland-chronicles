@@ -74,6 +74,9 @@ static func authorize_accept(world: WorldState, quest_id: String) -> String:
 	var definition: Dictionary = found.definition
 	if not _settled_at(world, String(definition.settlement_id)):
 		return "QUEST_ISSUER_NOT_HERE"
+	const Well = preload("res://simulation/well_repair.gd")
+	if Well.is_contract(definition) and (Well.active_job(world) != "" or Well.state(world).status != "BROKEN" or Well.state(world).owner != "settlement:" + String(definition.settlement_id)):
+		return "REPAIR_CONTRACT_UNAVAILABLE"
 	var existing = world.quest_state.get_quest(quest_id)
 	if existing != null and existing.status != &"AVAILABLE":
 		return "ILLEGAL_QUEST_TRANSITION"
@@ -333,6 +336,9 @@ static func _objective_satisfied(world: WorldState, quest_id: String, obj: Dicti
 			return wins >= needed
 		&"WORLD_FLAG":
 			return world.quest_flags.get(obj.get("flag", ""), false)
+		&"REPAIR_EQUIPMENT":
+			var equipment: Dictionary = preload("res://simulation/well_repair.gd").state(world)
+			return equipment.status == "WORKING" and equipment.quest_id == quest_id
 		&"VISIT_LOCATION":
 			# Only this player's committed arrivals after this quest was accepted count.
 			var target: String = obj.get("settlement_id", "")

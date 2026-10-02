@@ -1105,6 +1105,9 @@ func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -
 	return ""
 
 func validate_invariants(world: WorldState) -> String:
+	var repair_error: String = preload("res://simulation/well_repair.gd").validate(world)
+	if repair_error != "":
+		return repair_error
 	var field_error := WorldState.Field.validate_world(world)
 	if field_error != "":
 		return field_error
@@ -2047,6 +2050,8 @@ func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: St
 				"b_name": RoadPlaces.town_name(world, String(towns[1])),
 				"scrap": int(RoadPlaces.state(world, place_id).scrap),
 			}
+			if place_id == "place:old_well" and preload("res://simulation/well_repair.gd").active_job(world) != "":
+				ctx["repair_visit"] = true
 			if String(RoadPlaces.info(place_id).kind) == RoadPlaces.CAMP:
 				ctx["target_enemy"] = "heavy_raider"
 		TravelEncounter.REFUGEE_COLUMN:
@@ -2201,6 +2206,8 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		]
 
 	match option_id:
+		&"REPAIR_PUMP":
+			return preload("res://simulation/well_repair.gd").refusal(world)
 		&"OPEN_ARMORY", &"BRIDGE_ARMORY":
 			if bool(RoadPlaces.state(world, "place:old_armory").prize_taken):
 				return "PLACE_ALREADY_CLEARED: armory prize already taken"
@@ -2321,6 +2328,7 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var day_before := world.current_day
 	var persuasion_success := false
 	var stealth_success := false
+	var equipment_repair: Dictionary = {}
 	for commodity in COMMODITIES:
 		inventory_before[commodity] = p.inventory.get_amount(commodity)
 
@@ -2443,6 +2451,9 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered = {String(take_place.resource): int(take_place.take)}
 		&"MARK_A", &"MARK_B":
 			pass
+		&"REPAIR_PUMP":
+			equipment_repair = preload("res://simulation/well_repair.gd").apply(world)
+			extra_day = true
 		&"OPEN_ARMORY", &"BRIDGE_ARMORY":
 			# ASP-1: the prize is an item the market never sells; if the pack
 			# cannot take it, it stays behind the open door for next time.
@@ -2492,6 +2503,8 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 		"cost_extra_day": extra_day, "elapsed_days": world.current_day - day_before,
 		"origin": String(enc.origin_id), "destination": String(enc.destination_id),
 	}
+	if not equipment_repair.is_empty():
+		receipt["equipment_repair"] = equipment_repair
 	if enc.context.has("salvage_job_id"):
 		receipt["salvage_job_id"] = String(enc.context.get("salvage_job_id", ""))
 		receipt["site_name"] = String(enc.context.get("site_name", ""))

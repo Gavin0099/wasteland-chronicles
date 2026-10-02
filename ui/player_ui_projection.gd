@@ -108,7 +108,7 @@ static func _project_quests(world: WorldState) -> Array:
 			var resource := String(objective.get("resource", ""))
 			item_name = RESOURCE_LABELS.get(resource, resource)
 			held = int(world.player.inventory.get_amount(resource)) if world.player.inventory != null else 0
-		elif objective_type == "WIN_ROAD_COMBAT":
+		elif objective_type in ["WIN_ROAD_COMBAT", "REPAIR_EQUIPMENT"]:
 			item_name = "擊退劫匪"
 			target = _settlement_name("settlement:" + String(objective.get("destination_id", "")))
 			held = 1 if QuestEngine.evaluate_objectives(world, quest_id) else 0
@@ -136,7 +136,7 @@ static func _project_quests(world: WorldState) -> Array:
 			"required_equipped_item": String(definition.availability.get("required_equipped_item_id", "")),
 			"reward_caps": reward_caps, "reward_xp": reward_xp,
 			"objective_type": objective_type,
-			"archetype": String(extras.get("archetype", "")),
+			"archetype": "REPAIR" if objective_type == "REPAIR_EQUIPMENT" else String(extras.get("archetype", "")),
 			"risk": int(extras.get("risk", 0)),
 			"risk_stars": JobBoard.RISK_STARS.get(int(extras.get("risk", 0)), ""),
 			"route_days": int(extras.get("route_days", 0)),
@@ -290,6 +290,9 @@ static func _project_encounter_result(world: WorldState) -> Dictionary:
 		const RoadPlaces = preload("res://simulation/road_places.gd")
 		var place_name := String(RoadPlaces.info(place_id).get("name_zh", ""))
 		match String(result.option):
+			"REPAIR_PUMP":
+				var repair: Dictionary = result.get("equipment_repair", {})
+				result["place_note"] = "抽水泵已修復：故障 → 運轉。%s每日產水 %d → %d。期限內回委託鎮領酬。" % [_settlement_name(String(repair.get("settlement_id", ""))), int(repair.get("production_before", 0)), int(repair.get("production_after", 0))]
 			"MARK_A", "MARK_B":
 				var town := RoadPlaces.town_name(world, String(result.get("marked_for", "")))
 				result["place_note"] = "你記下了%s的位置。走進%s，就能回報給他們。" % [place_name, town]

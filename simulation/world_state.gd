@@ -418,6 +418,9 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 	var salvage_error: String = _validate_salvage_sources(w)
 	if salvage_error != "":
 		return {"success": false, "world": null, "error": salvage_error}
+	var repair_error: String = preload("res://simulation/well_repair.gd").validate(w)
+	if repair_error != "":
+		return {"success": false, "world": null, "error": repair_error}
 
 	if data.has("field_state"):
 		w.field_state = Field.normalize_state(data.field_state)

@@ -17,8 +17,8 @@
 
 - [x] ECON-1 — Real item demand delivered in PR #46 (merge 6ac9722): stock-derived procurement, pinned contracts, destination stock and receipts. 100/100 suites exit 0; 53 focused assertions; independent and exact-head GitHub review clear, CI passed. See docs/econ1-real-item-demand.md.
 - [x] GUN-1 — Delivered in PR #47 (merge 1e56c9b), independent and exact-head GitHub review clear, CI passed. 101 suites exit 0 after fixture reruns; 175 focused assertions; rendered at two resolutions. Includes legacy-shop supply compatibility; see docs/gun1-first-firearm.md.
-- [~] ELEC-1 — Electronics 2 plus two scrap opens the existing armory; Gray Valley teacher and growth points provide learning paths. Both entries share one prize. 102 suites exit 0, 50 focused assertions, six rendered views, independent review no P0/P1. PR/CI/merge pending; see docs/elec1-armory-access.md.
-- [ ] JOB-ADV-1 — One on-site well repair contract with real equipment state and bounded production effect.
+- [x] ELEC-1 — Delivered PR #48 (merge 32b878c), CI passed and exact-head GitHub review has no P0/P1. 102 suites exit 0, 50 focused assertions, six rendered views. Three P2 follow-ups recorded in PR: historical bridge receipt validation, growth opening hints, dual-skill rumor guidance. See docs/elec1-armory-access.md.
+- [~] JOB-ADV-1 — Claimed old well posts one pump repair contract; actual revisit, mechanics/tool/material/time, persisted working pump and owner water production +1/day. 103 suites exit 0, 116 focused assertions, six rendered views; independent review has no P0/P1 (generic reward notification P2 deferred). PR/CI/merge pending; see docs/job-adv1-well-repair.md.
 - [ ] PARTY-2A — Abban's personal tool request, one shared experience and a rehire benefit.
 - Delivery order: finish, test, independent review, PR, current-head GitHub review/CI, merge each slice before starting the next. Owner authorized this sequence on 2026-10-03. FP2-B remains open and follows feature work.
 
