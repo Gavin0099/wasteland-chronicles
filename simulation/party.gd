@@ -22,11 +22,13 @@ extends RefCounted
 # them, they leave you on the road.
 #
 # Everything is folded from COMPANION_JOINED / COMPANION_LEFT receipts; nothing
-# new is saved. Deliberately NOT here: wishes, trust, relationships, romance -
-# the loop they would deepen has to be worth deepening first (PARTY-2+).
+# new is saved. PARTY-2A adds exactly one personal request and shared journey;
+# no general relationship score, new NPC lifecycle or romance.
 # ==============================================================================
 
 const LocalTrust = preload("res://simulation/local_trust.gd")
+const ABBAN := "companion:abban"
+const FRIEND_FEE := 25
 
 const COMPANIONS := {
 	"companion:abban": {
@@ -106,9 +108,29 @@ static func hire_refusal(world, settlement_id: String, companion_id: String) -> 
 		return "ALREADY_HAS_COMPANION"
 	if not LocalTrust.gives_work(world, settlement_id):
 		return "TOWN_DISTRUSTS_YOU"
-	if int(world.player.money) < int(COMPANIONS[companion_id].fee):
+	if int(world.player.money) < hire_fee(world, companion_id):
 		return "INSUFFICIENT_FUNDS"
 	return ""
+
+# PARTY-2A keeps one request in existing event receipts.
+const Request = preload("res://simulation/companion_request.gd")
+
+static func personal_state(world) -> Dictionary:
+	return Request.state(world)
+
+static func validate_personal_history(world) -> String:
+	return String(Request.state(world).error)
+
+static func hire_fee(world, companion_id: String) -> int:
+	if companion_id == ABBAN and bool(personal_state(world).tool_given):
+		return FRIEND_FEE
+	return int(COMPANIONS[companion_id].fee) if exists(companion_id) else 0
+
+static func request_refusal(world) -> String:
+	return Request.delivery_refusal(world)
+
+static func personal_note(world) -> String:
+	return Request.note(world)
 
 # ── What the party can do ─────────────────────────────────────────────────────
 

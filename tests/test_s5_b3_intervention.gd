@@ -120,7 +120,11 @@ func _init() -> void:
 		# them go home. It moves caps and who walks with you; the companion's
 		# abilities are fixed facts about them, and their food comes from your pack.
 		PlayerIntent.Action.HIRE_COMPANION,
-		PlayerIntent.Action.DISMISS_COMPANION
+		PlayerIntent.Action.DISMISS_COMPANION,
+		# PARTY-2A: the owner-authorized personal request only records an answer
+		# or transfers one actually recovered tool; no money, XP or people minted.
+		PlayerIntent.Action.RESPOND_COMPANION_REQUEST,
+		PlayerIntent.Action.FULFILL_COMPANION_REQUEST
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:
