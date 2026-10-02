@@ -41,9 +41,12 @@ enum Action {
 	# PARTY-1: take on, or let go of, a companion.
 	HIRE_COMPANION = 17,
 	DISMISS_COMPANION = 18,
+	# PARTY-2A: answer Abban, then transfer an owned wrench after actual recovery.
+	FULFILL_COMPANION_REQUEST = 19,
+	RESPOND_COMPANION_REQUEST = 20,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT, Action.TRACK_RUMOR, Action.BETRAY_JOB, Action.TRAIN_SKILL, Action.HIRE_COMPANION, Action.DISMISS_COMPANION]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT, Action.TRACK_RUMOR, Action.BETRAY_JOB, Action.TRAIN_SKILL, Action.HIRE_COMPANION, Action.DISMISS_COMPANION, Action.FULFILL_COMPANION_REQUEST, Action.RESPOND_COMPANION_REQUEST]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -84,6 +87,8 @@ static func action_name(value: int) -> String:
 		Action.TRAIN_SKILL: return "TRAIN_SKILL"
 		Action.HIRE_COMPANION: return "HIRE_COMPANION"
 		Action.DISMISS_COMPANION: return "DISMISS_COMPANION"
+		Action.FULFILL_COMPANION_REQUEST: return "FULFILL_COMPANION_REQUEST"
+		Action.RESPOND_COMPANION_REQUEST: return "RESPOND_COMPANION_REQUEST"
 		Action.ACCEPT_ACQUIRED_TRAIT: return "ACCEPT_ACQUIRED_TRAIT"
 		Action.WAIT: return "WAIT"
 		Action.TRAVEL: return "TRAVEL"
@@ -141,6 +146,12 @@ static func create_hire_companion(p_player_id: StringName, companion_id: String)
 
 static func create_dismiss_companion(p_player_id: StringName) -> PlayerIntent:
 	return PlayerIntent.new(Action.DISMISS_COMPANION, p_player_id, &"", {})
+
+static func create_fulfill_companion_request(p_player_id: StringName) -> PlayerIntent:
+	return PlayerIntent.new(Action.FULFILL_COMPANION_REQUEST, p_player_id, &"", {})
+
+static func create_respond_companion_request(p_player_id: StringName, response: String) -> PlayerIntent:
+	return PlayerIntent.new(Action.RESPOND_COMPANION_REQUEST, p_player_id, &"", {"response": response})
 
 static func create_train_skill(p_player_id: StringName, skill_id: String) -> PlayerIntent:
 	return PlayerIntent.new(Action.TRAIN_SKILL, p_player_id, &"", {"skill_id": skill_id})

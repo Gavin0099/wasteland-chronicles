@@ -41,6 +41,7 @@ const ARMORY_MECHANICS := 2
 const ARMORY_ELECTRONICS := 2
 const ARMORY_CIRCUIT_SCRAP := 2
 const Well = preload("res://simulation/well_repair.gd")
+const CompanionRequest = preload("res://simulation/companion_request.gd")
 
 const CAMP_CLEARED_DAYS := 15
 # Walking past a place is an answer too. It is not asked again for a week, or
@@ -210,6 +211,8 @@ static func camp_cleared(world) -> bool:
 
 # Whether passing this place today offers a decision at all.
 static func is_live(world, place_id: String) -> bool:
+	if place_id == CompanionRequest.PLACE and CompanionRequest.recovery_pending(world):
+		return true
 	if place_id == Well.PLACE and Well.state(world).status == "BROKEN" and Well.active_job(world) != "":
 		return true
 	var p := info(place_id)
@@ -245,7 +248,7 @@ static func place_for_trip(world, party, travel_day_index: int) -> String:
 			continue
 		# A secret is the reason for the trip: it always asks, so coming back
 		# once you are ready is never met with silence.
-		if String(info(place_id).kind) == SECRET or (place_id == Well.PLACE and Well.active_job(world) != ""):
+		if String(info(place_id).kind) == SECRET or (place_id == Well.PLACE and Well.active_job(world) != "") or (place_id == CompanionRequest.PLACE and CompanionRequest.recovery_pending(world)):
 			return place_id
 		var left_day := int(state(world, place_id).left_day)
 		if left_day >= 0 and int(world.current_day) - left_day < LEFT_QUIET_DAYS:
@@ -276,7 +279,7 @@ const RESOURCE_NAMES := {"water": "水", "food": "食物", "scrap": "廢料", "f
 
 # Every option id a place can ever offer, for validating a receipt that no
 # longer has its context.
-const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY", &"REPAIR_PUMP"]
+const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY", &"REPAIR_PUMP", &"RECOVER_ABBAN_TOOL"]
 
 static func repair_option() -> Dictionary:
 	return {"id": &"REPAIR_PUMP", "label": "修復抽水泵", "detail": "扳手保留、廢料 −3、耗時 1 天；修好後委託鎮每日產水 +1，再回鎮領酬。",
@@ -291,6 +294,8 @@ static func options(context: Dictionary, world = null) -> Array:
 	var p := info(place_id)
 	if place_id == Well.PLACE and bool(context.get("repair_visit", false)):
 		return [repair_option(), {"id": &"LEAVE", "label": "先不修，繼續走", "detail": "設備仍故障；期限內可以再回來"}]
+	if place_id == CompanionRequest.PLACE and bool(context.get("companion_request", false)):
+		return [companion_option(), {"id": &"LEAVE", "label": "這次先走", "detail": "請求保留；下次與阿扳同行時再來"}]
 	match String(p.kind):
 		RESOURCE:
 			var res_name: String = RESOURCE_NAMES.get(String(p.resource), String(p.resource))
@@ -330,7 +335,7 @@ static func options(context: Dictionary, world = null) -> Array:
 	return []
 
 static func all_options() -> Array:
-	var out: Array = [repair_option()]
+	var out: Array = [repair_option(), companion_option()]
 	for place_id in ids():
 		out.append_array(options({"place_id": place_id}))
 	return out
@@ -338,7 +343,12 @@ static func all_options() -> Array:
 static func title(context: Dictionary) -> String:
 	return String(info(String(context.get("place_id", ""))).get("name_zh", "路邊的地方"))
 
+static func companion_option() -> Dictionary:
+	return {"id": &"RECOVER_ABBAN_TOOL", "label": "陪阿扳找回扳手", "detail": "耗時 1 天，扳手 ×1 放入背包。回鎮後可交給他，或留著自用。"}
+
 static func body(context: Dictionary) -> String:
+	if context.get("place_id") == CompanionRequest.PLACE and bool(context.get("companion_request", false)):
+		return "阿扳指著翻覆貨車：『上次修車時，我把扳手掉在底盤下面了。得一起抬開這些廢鐵。』\n你可以為他的事情多留一天，也可以這次先走。"
 	if context.get("place_id") == Well.PLACE and bool(context.get("repair_visit", false)):
 		return "鎮上已派人來井邊取水，但抽水泵卡死了，仍靠人力提水。你接下的工作就在眼前：拆開泵頭、更換損壞的零件，讓它重新運轉。"
 	return String(info(String(context.get("place_id", ""))).get("body_zh", ""))

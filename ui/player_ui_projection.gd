@@ -296,6 +296,8 @@ static func _project_encounter_result(world: WorldState) -> Dictionary:
 			"MARK_A", "MARK_B":
 				var town := RoadPlaces.town_name(world, String(result.get("marked_for", "")))
 				result["place_note"] = "你記下了%s的位置。走進%s，就能回報給他們。" % [place_name, town]
+			"RECOVER_ABBAN_TOOL":
+				result["place_note"] = "你和阿扳找回了他的扳手，已放入背包。回鎮後到「找人」交給他，或留下自用；只有交付才會降低下次雇金。"
 			"TAKE_RESOURCE":
 				result["place_note"] = "%s被你搬空了，不會再有鎮來接手。" % place_name
 			"LEAVE":

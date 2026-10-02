@@ -2470,9 +2470,14 @@ func _show_training() -> void:
 	dialog.ok_button_text = "離開"
 	# Autowrapped labels would otherwise grow the window to the screen height.
 	dialog.wrap_controls = false
+	var people_scroll := ScrollContainer.new()
+	people_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	people_scroll.custom_minimum_size = Vector2(480, 390)
+	dialog.add_child(people_scroll)
 	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", Tokens.GAP)
-	dialog.add_child(box)
+	people_scroll.add_child(box)
 	var intro := Label.new()
 	intro.text = "師傅只教到〔熟練〕，再往上要靠實戰和歷練。每堂課要花 %d 天，路上的水糧照樣會消耗。" % preload("res://simulation/training.gd").LESSON_DAYS
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2510,6 +2515,51 @@ func _show_training() -> void:
 	box.add_child(mate_head)
 	companion_buttons.clear()
 	var with_you: String = PartyScript.current(world)
+	if with_you == PartyScript.ABBAN or here == "settlement:gray_valley":
+		var personal := Label.new()
+		personal.text = PartyScript.personal_note(world)
+		personal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		personal.theme_type_variation = "PdaMuted"
+		box.add_child(personal)
+		var request_state: Dictionary = PartyScript.personal_state(world)
+		if with_you == PartyScript.ABBAN and request_state.status in ["OFFERED", "DEFERRED"]:
+			for response: String in ["ACCEPT", "DEFER", "REFUSE"]:
+				var response_button := Button.new()
+				response_button.text = {"ACCEPT": "答應：陪阿扳去商隊殘骸", "DEFER": "暫緩：準備好再說", "REFUSE": "拒絕這個請求（仍可照常同行）"}[response]
+				response_button.theme_type_variation = "PdaCommand"
+				response_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+				response_button.pressed.connect(func():
+					var result := engine.commit_player_intent(world, PlayerIntent.create_respond_companion_request(world.player.npc_id, response))
+					dialog.hide()
+					dialog.queue_free()
+					_report_action_result(result)
+					refresh_ui()
+					call_deferred("_show_training"))
+				box.add_child(response_button)
+				companion_buttons[response] = response_button
+		if with_you == PartyScript.ABBAN and request_state.status == "RECOVERED":
+			var give_tool := Button.new()
+			var refusal: String = PartyScript.request_refusal(world)
+			give_tool.text = "交給阿扳找回的扳手 ×1（從背包交出）"
+			give_tool.theme_type_variation = "PdaCommand"
+			give_tool.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+			give_tool.disabled = refusal != ""
+			give_tool.pressed.connect(func():
+				var result := engine.commit_player_intent(world, PlayerIntent.create_fulfill_companion_request(world.player.npc_id))
+				dialog.hide()
+				dialog.queue_free()
+				_report_action_result(result)
+				if result.success:
+					call_deferred("_show_training")
+				refresh_ui())
+			box.add_child(give_tool)
+			companion_buttons["request"] = give_tool
+			if refusal != "":
+				var request_note := Label.new()
+				request_note.text = {"WRENCH_REQUIRED": "找回的扳手已不在背包；取回一把扳手才能交付。"}.get(refusal, "現在無法交出扳手。")
+				request_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+				request_note.theme_type_variation = "PdaMuted"
+				box.add_child(request_note)
 	if with_you != "":
 		var mate: Dictionary = PartyScript.info(with_you)
 		var let_go := Button.new()
@@ -2527,7 +2577,7 @@ func _show_training() -> void:
 	if for_hire != "" and for_hire != with_you:
 		var offer: Dictionary = PartyScript.info(for_hire)
 		var hire := Button.new()
-		hire.text = "雇用%s（%s）　簽約 %d 瓶蓋" % [String(offer.name_zh), String(offer.role_zh), int(offer.fee)]
+		hire.text = "雇用%s（%s）　簽約 %d 瓶蓋" % [String(offer.name_zh), String(offer.role_zh), PartyScript.hire_fee(world, for_hire)]
 		hire.theme_type_variation = "PdaCommand"
 		hire.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 		var why_not: String = PartyScript.hire_refusal(world, here, for_hire)
@@ -2767,6 +2817,7 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 		return "目前能力未達需求：" + String(option.get("requirement_label", ""))
 	var reason := String(option.get("blocked_reason", ""))
 	var repair_reasons: Dictionary = {"REPAIR_SITE_REQUIRED": "需要到枯河井泵現場", "REPAIR_CONTRACT_REQUIRED": "需先到水井所屬鎮接下修理委託", "REPAIR_DEADLINE_TOO_CLOSE": "期限內已來不及完成一天修理", "EQUIPMENT_ALREADY_REPAIRED": "抽水泵已修好", "ITEM_NOT_HELD": "缺少所需工具：" + String(option.get("requirement_label", ""))}
+	repair_reasons.merge({"WRENCH_ALREADY_CARRIED": "背包只能帶一把扳手；先處理原本那把，再回來找", "ITEM_CAPACITY_EXCEEDED": "工具背包空間不足", "NO_ACCEPTED_COMPANION_REQUEST": "需要阿扳同行，並先答應他的請求", "COMPANION_WRONG_SITE": "需要到灰谷—新希望公路的商隊殘骸"})
 	if repair_reasons.has(reason.get_slice(":", 0)):
 		return String(repair_reasons[reason.get_slice(":", 0)])
 	for code in {"INSUFFICIENT_WATER": "水不足", "INSUFFICIENT_FOOD": "食物不足", "INSUFFICIENT_SCRAP": "廢料不足", "INSUFFICIENT_MONEY": "瓶蓋不足", "BACKPACK_FULL": "背包容量不足"}:

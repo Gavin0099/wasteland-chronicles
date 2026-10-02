@@ -1105,6 +1105,9 @@ func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -
 	return ""
 
 func validate_invariants(world: WorldState) -> String:
+	var companion_error: String = Party.validate_personal_history(world)
+	if companion_error != "":
+		return companion_error
 	var repair_error: String = preload("res://simulation/well_repair.gd").validate(world)
 	if repair_error != "":
 		return repair_error
@@ -2052,6 +2055,8 @@ func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: St
 			}
 			if place_id == "place:old_well" and preload("res://simulation/well_repair.gd").active_job(world) != "":
 				ctx["repair_visit"] = true
+			if place_id == Party.Request.PLACE and Party.Request.recovery_pending(world):
+				ctx["companion_request"] = true
 			if String(RoadPlaces.info(place_id).kind) == RoadPlaces.CAMP:
 				ctx["target_enemy"] = "heavy_raider"
 		TravelEncounter.REFUGEE_COLUMN:
@@ -2206,6 +2211,8 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		]
 
 	match option_id:
+		&"RECOVER_ABBAN_TOOL":
+			return Party.Request.recovery_refusal(world)
 		&"REPAIR_PUMP":
 			return preload("res://simulation/well_repair.gd").refusal(world)
 		&"OPEN_ARMORY", &"BRIDGE_ARMORY":
@@ -2467,6 +2474,9 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			var site_scrap := int(RoadPlaces.state(world, String(enc.context.get("place_id", ""))).scrap)
 			offered = {"scrap": site_scrap + p.capability.get_rank("SCAVENGING")} if site_scrap > 0 else {}
 			extra_day = true
+		&"RECOVER_ABBAN_TOOL":
+			offered_items = {"wrench": 1}
+			extra_day = true
 
 	gained = _give_player_goods(p, offered)
 	for item_id in offered_items:
@@ -2640,6 +2650,18 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 		return "ENCOUNTER_PENDING: the road is waiting for an answer"
 
 	match intent.action:
+		PlayerIntent.Action.RESPOND_COMPANION_REQUEST:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "REQUEST_REQUIRES_SETTLEMENT"
+			if intent.payload.size() != 1 or typeof(intent.payload.get("response")) != TYPE_STRING:
+				return "INVALID_COMPANION_REQUEST_INTENT"
+			return Party.Request.response_refusal(world, String(intent.payload.response))
+		PlayerIntent.Action.FULFILL_COMPANION_REQUEST:
+			if ls.status != NpcLifeState.Status.SETTLED:
+				return "REQUEST_REQUIRES_SETTLEMENT"
+			if not intent.payload.is_empty():
+				return "INVALID_COMPANION_REQUEST_INTENT"
+			return Party.request_refusal(world)
 		PlayerIntent.Action.HIRE_COMPANION:
 			if ls.status != NpcLifeState.Status.SETTLED:
 				return "HIRING_REQUIRES_SETTLEMENT"
@@ -2937,9 +2959,27 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.RESPOND_COMPANION_REQUEST:
+			var response_evt := EventRecord.new(world.current_day, "COMPANION_REQUEST_RESPONDED", intent.player_id, StringName(Party.ABBAN), {"companion_id": Party.ABBAN, "response": String(intent.payload.response)})
+			world.record_event(response_evt)
+			if tick_events != null:
+				tick_events.append(response_evt)
+			return {"success": true, "response": String(intent.payload.response)}
+		PlayerIntent.Action.FULFILL_COMPANION_REQUEST:
+			var removed: Dictionary = world.player.item_inventory.remove_item("wrench", 1)
+			if not removed.success:
+				return removed
+			var request_receipt := {"companion_id": Party.ABBAN, "item_id": "wrench", "quantity": 1,
+				"recovery_index": int(Party.personal_state(world).shared.recovery_index), "fee_before": 50, "fee_after": Party.FRIEND_FEE,
+				"settlement_id": String(world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id)}
+			var request_evt := EventRecord.new(world.current_day, "COMPANION_REQUEST_COMPLETED", intent.player_id, StringName(Party.ABBAN), request_receipt)
+			world.record_event(request_evt)
+			if tick_events != null:
+				tick_events.append(request_evt)
+			return {"success": true, "request": request_receipt}
 		PlayerIntent.Action.HIRE_COMPANION:
 			var hired := String(intent.payload.companion_id)
-			var hire_fee := int(Party.info(hired).fee)
+			var hire_fee := Party.hire_fee(world, hired)
 			world.player.money -= hire_fee
 			var joined := EventRecord.new(world.current_day, "COMPANION_JOINED", intent.player_id, &"character", {"companion_id": hired, "fee": hire_fee})
 			world.record_event(joined)
