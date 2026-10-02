@@ -56,6 +56,7 @@ const VALID_OBJECTIVE_TYPES: Array[StringName] = [
 	# rather than something they carry, checked against committed FIELD_RESULT
 	# receipts on the named road.
 	&"WIN_ROAD_COMBAT",
+	&"REPAIR_EQUIPMENT",
 ]
 const VALID_OBJECTIVE_RESOURCES: Array[String] = ["water", "food", "scrap", "fuel"]
 
@@ -224,6 +225,9 @@ static func _validate_objective(obj: Variant, seen: Dictionary) -> String:
 			var flag: Variant = obj.get("flag")
 			if typeof(flag) != TYPE_STRING or flag.is_empty():
 				return "QUEST_OBJ_INVALID_FLAG"
+		&"REPAIR_EQUIPMENT":
+			if obj.get("equipment_id") != "old_well_pump" or typeof(obj.get("quantity")) not in [TYPE_INT, TYPE_FLOAT] or obj.quantity != 1:
+				return "QUEST_OBJ_INVALID_EQUIPMENT"
 		&"VISIT_LOCATION":
 			if not _stable_id(obj.get("settlement_id")):
 				return "QUEST_OBJ_INVALID_SETTLEMENT_ID"

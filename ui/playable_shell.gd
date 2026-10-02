@@ -2368,7 +2368,7 @@ func _render_quests(rows: Array) -> void:
 		var state_label: String = {"AVAILABLE": "可接", "ACTIVE": "進行中", "RESOLVED": "已完成", "EXPIRED": "已過期", "FAILED": "已失敗"}.get(String(option.status), "未開放")
 		# FUN-1: without the kind and the danger on the row itself, three very
 		# different jobs read as three identical tickets.
-		var kind_label: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞"}.get(String(option.get("archetype", "")), "委託")
+		var kind_label: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞", "REPAIR": "修理"}.get(String(option.get("archetype", "")), "委託")
 		var stars := String(option.get("risk_stars", ""))
 		quest_selector.add_item("%s %d/%d · %s%s · %s" % [
 			kind_label, i + 1, rows.size(), state_label,
@@ -2378,7 +2378,7 @@ func _render_quests(rows: Array) -> void:
 	quest_selector.visible = rows.size() > 1
 	var row: Dictionary = rows[selected_index]
 	quest_id_shown = String(row.id)
-	var row_kind: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞"}.get(String(row.get("archetype", "")), "委託")
+	var row_kind: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞", "REPAIR": "修理"}.get(String(row.get("archetype", "")), "委託")
 	var row_stars := String(row.get("risk_stars", ""))
 	quest_title.text = "%s · %s%s" % [row_kind, String(row.title), "　危險 " + row_stars if row_stars != "" else ""]
 	quest_description.text = String(row.description)
@@ -2400,6 +2400,10 @@ func _render_quests(rows: Array) -> void:
 		else:
 			quest_progress.text = {"EXPIRED": "已過期 · 未完成測繪", "FAILED": "已失敗 · 未完成測繪"}.get(status, "目前不可接")
 		quest_button.text = "回報測繪" if status == "ACTIVE" else "接受委託"
+	elif String(row.get("objective_type", "")) == "REPAIR_EQUIPMENT":
+		var repaired: bool = int(row.held) >= 1
+		quest_progress.text = "井泵：%s\n需機械 2、扳手、3 廢料；現地修理耗時 1 天。\n%s\n報酬：%d 瓶蓋、%d XP" % ["已運轉，回委託鎮領酬" if repaired else "故障，沿灰谷—乾井公路回井邊修理", "接下後 %d 天內完成並回報" % int(row.deadline_days) if status == "AVAILABLE" else "第 %d 天截止" % int(row.deadline_day), int(row.reward_caps), int(row.reward_xp)]
+		quest_button.text = "接受修理委託" if status == "AVAILABLE" else "回報修復，領取報酬"
 	elif String(row.get("objective_type", "")) == "WIN_ROAD_COMBAT":
 		var cleared: bool = int(row.held) >= 1
 		# PLAY-3B: name who, and which road - the raider only waits on the
@@ -2450,6 +2454,8 @@ func _render_quests(rows: Array) -> void:
 	elif status == "ACTIVE" and String(row.get("objective_type", "")) in ["DELIVER_ITEM", "DELIVER_RESOURCE"] and int(row.held) < int(row.required):
 		quest_button.text = "還差 %d 份%s" % [int(row.required) - int(row.held), String(row.item_name)]
 	quest_button.tooltip_text = ("抵達新希望後回乾井回報，並保留軍用背包；期限內方可完成。" if bool(row.get("is_survey", false)) else "需要持有足量物品、抵達交付地點，且仍在期限內。") if status == "ACTIVE" and quest_button.disabled else ""
+	if String(row.get("objective_type", "")) == "REPAIR_EQUIPMENT" and status == "ACTIVE":
+		quest_button.tooltip_text = "先在井邊修好抽水泵，再於期限內返回委託鎮。"
 
 # REP-1: keeping consigned goods is a real choice, so it is asked plainly and
 # the price is named before the player commits.
@@ -2760,6 +2766,9 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 	if bool(option.get("locked", false)):
 		return "目前能力未達需求：" + String(option.get("requirement_label", ""))
 	var reason := String(option.get("blocked_reason", ""))
+	var repair_reasons: Dictionary = {"REPAIR_SITE_REQUIRED": "需要到枯河井泵現場", "REPAIR_CONTRACT_REQUIRED": "需先到水井所屬鎮接下修理委託", "REPAIR_DEADLINE_TOO_CLOSE": "期限內已來不及完成一天修理", "EQUIPMENT_ALREADY_REPAIRED": "抽水泵已修好", "ITEM_NOT_HELD": "缺少所需工具：" + String(option.get("requirement_label", ""))}
+	if repair_reasons.has(reason.get_slice(":", 0)):
+		return String(repair_reasons[reason.get_slice(":", 0)])
 	for code in {"INSUFFICIENT_WATER": "水不足", "INSUFFICIENT_FOOD": "食物不足", "INSUFFICIENT_SCRAP": "廢料不足", "INSUFFICIENT_MONEY": "瓶蓋不足", "BACKPACK_FULL": "背包容量不足"}:
 		if reason.begins_with(code):
 			return {"INSUFFICIENT_WATER": "水不足", "INSUFFICIENT_FOOD": "食物不足", "INSUFFICIENT_SCRAP": "廢料不足", "INSUFFICIENT_MONEY": "瓶蓋不足", "BACKPACK_FULL": "背包容量不足"}[code]

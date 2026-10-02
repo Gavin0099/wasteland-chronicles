@@ -182,6 +182,7 @@ static func postings(world, settlement_id: StringName) -> Array:
 		_salvage(world, settlement, window),
 		_bounty(world, settlement, window),
 		_consignment(world, settlement, window),
+		preload("res://simulation/well_repair.gd").posting(world, settlement, window),
 	]
 	built.append_array(_item_requests(world, settlement, window))
 	if _short(String(settlement_id)) == "new_hope":

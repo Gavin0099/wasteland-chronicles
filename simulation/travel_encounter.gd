@@ -78,7 +78,7 @@ static func practice_skill(encounter_type: StringName, option_id: StringName) ->
 		PLACE_VISIT:
 			if option_id == &"SEARCH_SITE":
 				return "SCAVENGING"
-			if option_id == &"OPEN_ARMORY":
+			if option_id in [&"OPEN_ARMORY", &"REPAIR_PUMP"]:
 				return "MECHANICS"
 			if option_id == &"BRIDGE_ARMORY":
 				return "ELECTRONICS"
