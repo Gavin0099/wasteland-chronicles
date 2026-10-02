@@ -2649,6 +2649,10 @@ func _on_quest_pressed() -> void:
 		# PLAY-3C: what the cargo did to the town, read from the receipt.
 		for effect in result.get("settlement_effects", []):
 			receipt.dialog_text += "\n\n" + PlayerUIProjection.delivery_effect_text(world, effect)
+		for effect in result.get("item_effects", []):
+			var delivered_item: Dictionary = ItemRegistry.resolve(String(effect.item_id))
+			var town: SettlementState = world.get_settlement(StringName(effect.settlement_id))
+			receipt.dialog_text += "\n\n%s的%s庫存：%d → %d" % [town.name, delivered_item.definition.display_name_zh, int(effect.stock_before), int(effect.stock_after)]
 	receipt.ok_button_text = "繼續旅程"
 	receipt.confirmed.connect(receipt.queue_free)
 	receipt.canceled.connect(receipt.queue_free)

@@ -195,24 +195,21 @@ func run() -> void:
 	market.refresh()
 	market._trade("food", false, true, 1)
 	check(market.notice_label.visible and market.notice_label.text.contains("瓶蓋不夠"), "M: a refused trade says why: %s" % market.notice_label.text)
-	# Hand-play: "任務物品直接可以在市場買到 感覺很怪".
+	# ECON-1 replaces the temporary acceptance-triggered shortage with real stock.
 	mw.player.money = 500
 	for entry in Board.postings(mw, &"settlement:gray_valley"):
 		if entry.archetype == "SALVAGE":
 			check(engine.commit_player_intent(mw, PlayerIntent.create_accept_quest(mw.player.npc_id, String(entry.definition.id))).success, "M: take Gray Valley's salvage job")
-	var wanted: Dictionary = Board.wanted_items(mw, &"settlement:gray_valley")
-	var asked := ""
-	for item_id in wanted:
-		asked = String(item_id)
-	if asked != "":
-		var refused := engine.commit_player_intent(mw, PlayerIntent.create_buy_item(mw.player.npc_id, StringName(asked), 1))
-		check(not refused.success and String(refused.error).begins_with("ITEM_WANTED_HERE"), "M: what Gray Valley is asking for cannot be bought in Gray Valley (%s)" % asked)
-		ms.refresh_ui()
-		market.refresh()
-		var row: Dictionary = market.entry(asked)
-		check(row.is_empty() or (bool(row.wanted) and int(row.stock) == 0), "M: and the market shows it as 正缺")
-	else:
-		check(false, "M: Gray Valley should be asking for some item")
+	var town: SettlementState = mw.get_settlement(&"settlement:gray_valley")
+	check(not Board.wanted_items(mw, town.id).has("rope"), "M: accepting a recovery order does not empty the shop")
+	town.item_market = ItemMarketState.seeded_for(town.id)
+	town.item_market.set_quantity("rope", 0)
+	var refused: Dictionary = engine.commit_player_intent(mw, PlayerIntent.create_buy_item(mw.player.npc_id, &"rope", 1))
+	check(not refused.success and String(refused.error).begins_with("INSUFFICIENT_ITEM_STOCK"), "M: real zero stock prevents purchase")
+	ms.refresh_ui()
+	market.refresh()
+	var row: Dictionary = market.entry("rope")
+	check(not row.is_empty() and bool(row.wanted) and int(row.stock) == 0, "M: market shows actual shortage")
 	ms.queue_free()
 
 	print("FIXES-0928: %s; assertions=%d failures=%d" % ["PASS" if failures == 0 else "FAIL", assertions, failures])

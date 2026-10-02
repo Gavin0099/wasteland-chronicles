@@ -183,6 +183,7 @@ static func postings(world, settlement_id: StringName) -> Array:
 		_bounty(world, settlement, window),
 		_consignment(world, settlement, window),
 	]
+	built.append_array(_item_requests(world, settlement, window))
 	if _short(String(settlement_id)) == "new_hope":
 		built.append(_standing_raider(world, settlement, window))
 	var out: Array = []
@@ -216,27 +217,45 @@ static func all_postings(world) -> Array:
 			out.append(entry)
 	return out
 
-# Hand-play: "任務物品直接可以在市場買到 感覺很怪" - Gray Valley posted a job for
-# a wrench while its own stalls sold wrenches. A town that is asking for
-# something is a town that does not have it: every item a job the player has
-# TAKEN (or an authored commission) wants delivered HERE is out of stock
-# here. It can still be bought elsewhere and carried in (that is an errand),
-# or dug out of a wreck. Postings nobody has taken do not empty the stalls,
-# or the opening rope errand could not buy its rope.
+# ECON-1: shortages are world facts, independent of quest acceptance.
 static func wanted_items(world, settlement_id: StringName) -> Dictionary:
-	var here := _short(String(settlement_id))
-	var definitions: Array = []
-	for quest_id in world.accepted_jobs:
-		definitions.append(world.accepted_jobs[quest_id])
-	definitions.append_array(preload("res://simulation/quest_registry.gd").all_definitions())
-	var out := {}
-	for definition in definitions:
-		var qs = world.quest_state.get_quest(String(definition.id))
-		if qs != null and String(qs.status) in ["RESOLVED", "EXPIRED", "FAILED"]:
-			continue
-		for objective in definition.objectives:
-			if String(objective.get("type", "")) == "DELIVER_ITEM" and String(objective.get("settlement_id", definition.settlement_id)) == here:
-				out[String(objective.item_id)] = true
+	var town = world.get_settlement(settlement_id)
+	var out: Dictionary = {}
+	if town == null:
+		return out
+	var market: RefCounted = town.item_market if town.item_market != null else ItemMarketState.seeded_for(settlement_id)
+	# One unit is the minimum stock for the existing recoverable workshop tools.
+	# Queries never materialize a market or change its stock.
+	for item_id: String in SALVAGE_ITEMS:
+		var profile: Dictionary = ItemMarketCatalogue.profile_for(item_id, settlement_id)
+		if profile.success and String(profile.demand) != "none" and market.quantity(item_id) == 0:
+			out[item_id] = true
+	return out
+
+static func _item_requests(world, settlement, window: int) -> Array:
+	var out: Array = []
+	var ids: Array = wanted_items(world, settlement.id).keys()
+	ids.sort()
+	for item_id: String in ids:
+		var definition: Dictionary = ItemRegistry.resolve(item_id).definition
+		var short_id: String = _short(String(settlement.id))
+		out.append({
+			"definition": {
+				"id": "%s%s_item_request_%s_%d" % [JOB_ID_PREFIX, short_id, item_id, window],
+				"title_zh": "%s缺貨求購：%s" % [settlement.name, definition.display_name_zh],
+				"description_zh": "%s的%s庫存為 0，需要補到 1 件。可到別鎮買現成品交件，或親自搜刮；交件會補入本鎮庫存。接單後按約付酬，不受後來補貨影響。" % [settlement.name, definition.display_name_zh],
+				"settlement_id": short_id, "issuer_npc_id": "",
+				"availability": {"required_day": 0, "required_flags": []},
+				"deadline_days": SALVAGE_DEADLINE_DAYS,
+				"objectives": [{"id": "restock_" + item_id, "type": "DELIVER_ITEM", "item_id": item_id, "quantity": 1, "settlement_id": short_id}],
+				"outcomes": {
+					"resolved": {"rewards": [{"type": "CURRENCY", "amount": int(definition.base_value) + 12}, {"type": "XP", "amount": 3}], "world_effects": []},
+					"failed": {"rewards": [], "world_effects": []}, "expired": {"rewards": [], "world_effects": []},
+				},
+			},
+			"archetype": "ITEM_REQUEST", "risk": RISK_CALM, "route_days": 0, "urgent": true,
+			"summary": "補入一件%s（庫存 0 → 1）" % definition.display_name_zh,
+		})
 	return out
 
 static func find_posting(world, quest_id: String) -> Dictionary:
