@@ -29,3 +29,5 @@
 - ECON-1 locally verified at 018cd8e (100 suites); GitHub review/CI/merge pending, then GUN-1. Five-slice sequential delivery authorized; FP2-B open. <!-- memory_record_projection:active-task-summary:9c6ace95d1ed7106409d3038ab09b823d89312bc796a48f2ba6984084bfa3937 -->
 
 - Authorized five-slice delivery: ECON-1 merged PR46; GUN-1 locally verified and independently reviewed, remote review/CI/merge pending; remaining three slices unstarted. FP2-B still open. <!-- memory_record_projection:active-task-summary:1451b94b63706f7fcff229c9d53318de92b9fa8dba631b9437ebf89ca1e7d830 -->
+
+- ECON-1 PR46 and GUN-1 PR47 merged. ELEC-1 locally verified and independently reviewed; PR/CI/merge pending. JOB-ADV-1 and PARTY-2A unstarted, FP2-B open. <!-- memory_record_projection:active-task-summary:2f7e00f4319dc905b62632d96ac263e0a990e3589a8278e5f537a224a738cb61 -->

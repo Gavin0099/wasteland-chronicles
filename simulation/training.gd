@@ -32,6 +32,7 @@ const PRICE_BY_RANK := {1: 60, 2: 120}
 
 const TEACHERS := {
 	"settlement:gray_valley": {
+		"ELECTRONICS": "電器修補匠",
 		"MECHANICS": "老焊工阿強",
 		"SCAVENGING": "拾荒頭子老鼠",
 	},
@@ -45,7 +46,7 @@ const TEACHERS := {
 	},
 }
 
-const SKILL_NAMES := {"MECHANICS": "機械", "SCAVENGING": "拾荒", "SURVIVAL": "求生", "BARTER": "交易", "MELEE": "格鬥", "SPEECH": "口才"}
+const SKILL_NAMES := {"ELECTRONICS": "電子", "MECHANICS": "機械", "SCAVENGING": "拾荒", "SURVIVAL": "求生", "BARTER": "交易", "MELEE": "格鬥", "SPEECH": "口才"}
 const RANK_NAMES := {0: "外行", 1: "略懂", 2: "熟練", 3: "精通", 4: "專家", 5: "大師"}
 
 static func teaches(settlement_id: String, skill_id: String) -> bool:
