@@ -10,7 +10,7 @@ const MAX_HP := 12
 const ENEMY_HP := 8
 const BANDIT_HP := 8
 const KIT_WEIGHT := 2
-const COMMANDS := ["CRAFT", "EQUIP", "UNEQUIP", "START", "ATTACK", "DEFEND", "FLEE", "OPEN", "REST", "TREAT", "CONFIRM"]
+const COMMANDS := ["CRAFT", "EQUIP", "UNEQUIP", "START", "ATTACK", "SHOOT", "DEFEND", "FLEE", "OPEN", "REST", "TREAT", "CONFIRM"]
 
 static func new_kit() -> Dictionary:
 	return {"hp": MAX_HP, "crowbar": false, "equipped": false}
@@ -97,18 +97,25 @@ static func validate_wire(data: Dictionary) -> String:
 		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT", "FIELD_ACTION"]:
 			continue
 		var event_payload: Variant = raw_event.get("payload", {})
+		var shot: bool = raw_event.type == "FIELD_TURN" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "SHOOT"
+		if shot and (event_payload.get("weapon_id") != "old_revolver" or event_payload.get("ammo_item_id") != "revolver_round" or not integer(event_payload.get("ammo_spent"), 1, 1) or not integer(event_payload.get("ammo_remaining"), 0, 99)):
+			return "INVALID_FIREARM_RECEIPT"
+		if raw_event.type == "FIELD_RESULT" and event_index > 0:
+			var previous_event: Variant = events[event_index - 1]
+			if typeof(previous_event) == TYPE_DICTIONARY and typeof(previous_event.get("payload")) == TYPE_DICTIONARY:
+				shot = previous_event.payload.get("command") == "SHOOT"
 		if raw_event.type == "FIELD_ACTION" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "TREAT" and (event_payload.get("item_id") != "first_aid_kit" or not integer(event_payload.get("healed"), 1, 4)):
 			return "INVALID_FIELD_TREATMENT_RECEIPT"
 		if typeof(event_payload) != TYPE_DICTIONARY or not event_payload.has("skill_practice"):
 			continue
-		var expected_skill := ("MEDICINE" if event_payload.get("command") == "TREAT" else "MECHANICS") if raw_event.type == "FIELD_ACTION" else "MELEE"
+		var expected_skill := ("MEDICINE" if event_payload.get("command") == "TREAT" else "MECHANICS") if raw_event.type == "FIELD_ACTION" else ("FIREARMS" if shot else "MELEE")
 		if not Capability.valid_practice_award(event_payload.skill_practice, expected_skill):
 			return "INVALID_FIELD_PRACTICE_RECEIPT"
 		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") not in ["CRAFT", "TREAT"]:
 			return "INVALID_FIELD_PRACTICE_ACTION"
 		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") == "TREAT" and (event_payload.get("item_id") != "first_aid_kit" or not integer(event_payload.get("healed"), 1, 4)):
 			return "INVALID_FIELD_PRACTICE_ACTION"
-		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") != "ATTACK" or not integer(event_payload.get("dealt"), 1, Enemies.highest_hp())):
+		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") not in ["ATTACK", "SHOOT"] or not integer(event_payload.get("dealt"), 1, Enemies.highest_hp())):
 			return "INVALID_FIELD_PRACTICE_TURN"
 		if raw_event.type == "FIELD_RESULT" and event_payload.get("outcome") != "VICTORY":
 			return "INVALID_FIELD_PRACTICE_RESULT"
@@ -119,7 +126,7 @@ static func validate_wire(data: Dictionary) -> String:
 			if typeof(previous) != TYPE_DICTIONARY or previous.get("type") != "FIELD_TURN" or previous.get("actor_id") != raw_event.get("actor_id") or previous.get("day") != raw_event.get("day"):
 				return "INVALID_FIELD_PRACTICE_RESULT"
 			var turn_payload: Variant = previous.get("payload", {})
-			if typeof(turn_payload) != TYPE_DICTIONARY or turn_payload.get("command") != "ATTACK" or turn_payload.get("enemy_hp") != 0 or turn_payload.get("skill_practice", {}) != event_payload.skill_practice:
+			if typeof(turn_payload) != TYPE_DICTIONARY or turn_payload.get("command") not in ["ATTACK", "SHOOT"] or turn_payload.get("enemy_hp") != 0 or turn_payload.get("skill_practice", {}) != event_payload.skill_practice:
 				return "INVALID_FIELD_PRACTICE_RESULT"
 	var player = data.get("player", {})
 	if not data.has("field_schema_version"):
@@ -202,9 +209,14 @@ static func authorize(world, payload: Dictionary) -> String:
 	else:
 		if not life.is_alive() or life.status != NpcLifeState.Status.SETTLED:
 			return "FIELD_REQUIRES_LIVING_SETTLED_PLAYER"
-	if command in ["ATTACK", "DEFEND", "FLEE"]:
+	if command in ["ATTACK", "SHOOT", "DEFEND", "FLEE"]:
 		if state.battle.is_empty() or payload.size() != 3 or typeof(payload.get("battle_id")) != TYPE_INT or typeof(payload.get("turn")) != TYPE_INT or payload.battle_id != state.battle.id or payload.turn != state.battle.turn:
 			return "STALE_FIELD_TURN"
+		if command == "SHOOT":
+			if player.equipment.equipped_item("main_hand") != "old_revolver" or not player.item_inventory.contains("old_revolver"):
+				return "NEED_EQUIPPED_FIREARM"
+			if not player.item_inventory.contains("revolver_round"):
+				return "NEED_AMMUNITION"
 		return ""
 	if not state.battle.is_empty():
 		return "BATTLE_PENDING"
@@ -253,6 +265,10 @@ static func attack_damage(world) -> int:
 	var bonus = 2 if world.field_state.battle.get("prepared", false) else 0
 	# PARTY-1: a fighter at your side lands a blow of their own.
 	return base + _equipped_main_hand_bonus(world) + int(rank.rank) + bonus + preload("res://simulation/party.gd").attack_bonus(world)
+
+static func shot_damage(world) -> int:
+	var prepared: int = 2 if world.field_state.battle.get("prepared", false) else 0
+	return 6 + world.player.capability.get_rank("FIREARMS") + prepared + preload("res://simulation/party.gd").attack_bonus(world)
 
 static func _equipped_main_hand_bonus(world) -> int:
 	if world == null or world.player == null or world.player.equipment == null:
@@ -469,22 +485,25 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					left[id] = offered - amount
 			state.opened = true
 			finish(world, "CACHE", gains, left)
-		"ATTACK", "DEFEND", "FLEE":
+		"ATTACK", "SHOOT", "DEFEND", "FLEE":
 			var battle = state.battle
 			var turn = battle.turn
 			var source: String = String(battle.get("source", "field"))
 			var is_road: bool = source == "road"
 			var dealt = 0
 			var taken = 0
-			if command == "ATTACK":
-				dealt = mini(state.enemy_hp, attack_damage(world))
+			if command in ["ATTACK", "SHOOT"]:
+				dealt = mini(state.enemy_hp, shot_damage(world) if command == "SHOOT" else attack_damage(world))
+				if command == "SHOOT":
+					player.item_inventory.remove_item("revolver_round", 1)
 				state.enemy_hp -= dealt
 				battle.prepared = false
 			var practice := {}
-			if command == "ATTACK" and dealt > 0 and player.capability != null:
-				var growth: Dictionary = player.capability.grant_practice("MELEE", world.current_day)
+			if command in ["ATTACK", "SHOOT"] and dealt > 0 and player.capability != null:
+				var practiced_skill: String = "FIREARMS" if command == "SHOOT" else "MELEE"
+				var growth: Dictionary = player.capability.grant_practice(practiced_skill, world.current_day)
 				if growth.get("awarded", false):
-					practice = {"skill_id": "MELEE", "rank_up": growth.rank_up,
+					practice = {"skill_id": practiced_skill, "rank_up": growth.rank_up,
 						"from_rank": growth.from_rank, "to_rank": growth.to_rank,
 						"points": growth.points, "required": growth.required}
 			if command == "DEFEND":
@@ -514,6 +533,8 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					container_id = ls.population_container_id
 			var turn_payload := {"battle_id": battle.id, "turn": turn, "command": command,
 				"dealt": dealt, "taken": taken, "hp": player.field_kit.hp, "enemy_hp": state.enemy_hp}
+			if command == "SHOOT":
+				turn_payload.merge({"weapon_id": "old_revolver", "ammo_item_id": "revolver_round", "ammo_spent": 1, "ammo_remaining": player.item_inventory.quantity("revolver_round")})
 			if not practice.is_empty():
 				turn_payload["skill_practice"] = practice
 			world.record_event(EventRecord.new(world.current_day, "FIELD_TURN", player.npc_id, container_id, turn_payload))

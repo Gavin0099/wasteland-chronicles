@@ -254,7 +254,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func payload_for(command: String) -> Dictionary:
 	var data := {"command": command}
-	if command in ["ATTACK", "DEFEND", "FLEE"]:
+	if command in ["ATTACK", "SHOOT", "DEFEND", "FLEE"]:
 		data.battle_id = world.field_state.battle.id
 		data.turn = world.field_state.battle.turn
 	elif command == "CONFIRM":
@@ -278,6 +278,10 @@ func add_action(command: String, title: String) -> void:
 	buttons[command] = button
 
 func reason_text(error: String) -> String:
+	if error == "NEED_EQUIPPED_FIREARM":
+		return "需裝備舊式左輪（新希望有售）"
+	if error == "NEED_AMMUNITION":
+		return "左輪彈藥不足（新希望補給）"
 	if error == "EQUIPMENT_ALREADY_SET":
 		return "裝備狀態已更新，請重新選擇"
 	var names := {"NEED_SCRAP_3": "需要 3 廢料", "NEED_CROWBAR": "需要撬棍", "NEED_FIRST_AID_KIT": "需要急救包", "CROWBAR_ALREADY_OWNED": "已持有", "DOG_GUARDS_CACHE": "野犬仍在看守", "CACHE_ALREADY_OPENED": "已取走", "SITE_ALREADY_CLEARED": "已排除威脅", "RETURN_TO_GRAY_VALLEY": "需返回灰谷", "HEALTH_FULL": "生命已滿", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需存活並停留在聚落", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "PACK_FULL": "背包容量不足", "STALE_FIELD_TURN": "回合已改變，請重新選擇"}
@@ -409,7 +413,8 @@ func refresh() -> void:
 				var practice: Dictionary = event.payload.get("skill_practice", {})
 				if not practice.is_empty():
 					log_label.text += " · " + practice_text(practice)
-		add_action("ATTACK", "攻擊 · 傷害 %d" % Field.attack_damage(world))
+		add_action("ATTACK", "近身攻擊 · 傷害 %d" % Field.attack_damage(world))
+		add_action("SHOOT", "射擊 · 傷害 %d · 彈藥 −1（剩 %d）" % [Field.shot_damage(world), world.player.item_inventory.quantity("revolver_round")])
 		add_action("DEFEND", "架勢防禦 · 減傷 %d，準備反擊" % Field.Enemies.brace_reduction(Field.battle_enemy(state), turn))
 		add_action("FLEE", "逃跑 · 承受 1 傷害")
 	else:
@@ -439,9 +444,9 @@ func _show_intent(preview: Dictionary) -> void:
 	var lines: Array[String] = []
 	lines.append("架勢防禦 → 承受 %d%s" % [int(preview.braced_damage), "（仍會倒下）" if bool(preview.knocks_down_braced) else ""])
 	if bool(preview.attack_kills):
-		lines.append("攻擊 %d → 可擊倒它，它不會出手" % int(preview.attack_damage))
+		lines.append("近身攻擊 %d → 可擊倒它，它不會出手" % int(preview.attack_damage))
 	else:
-		lines.append("攻擊 %d → 它還會出手" % int(preview.attack_damage))
+		lines.append("近身攻擊 %d → 它還會出手" % int(preview.attack_damage))
 	intent_detail_label.text = "\n".join(lines)
 
 func show_receipt_goods(title: String, goods: Dictionary, prefix: String, values: Dictionary) -> void:
@@ -478,7 +483,7 @@ func perform(payload: Dictionary) -> void:
 		close()
 		return
 	if result.success:
-		if payload.command in ["ATTACK", "DEFEND", "FLEE"]:
+		if payload.command in ["ATTACK", "SHOOT", "DEFEND", "FLEE"]:
 			for i in range(world.event_log.size() - 1, -1, -1):
 				var event := world.event_log[i]
 				if event.type == "FIELD_TURN":

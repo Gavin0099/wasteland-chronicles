@@ -4,6 +4,8 @@ extends RefCounted
 # global catalogue, save-owned copy, asset-directory scan or gameplay side effect.
 static func rows() -> Array:
 	return [
+		_row("old_revolver", "舊式左輪", "WEAPON", 1000, "item_old_revolver", ["firearm", "revolver"]),
+		_row("revolver_round", "左輪彈藥", "CONSUMABLE", 20, "item_revolver_round", ["ammunition"], "STACKABLE"),
 		_row("rusted_knife", "生鏽小刀", "WEAPON", 250, "item_rusted_knife", ["blade", "tool"]),
 		_row("hunting_knife", "獵刀", "WEAPON", 400, "item_hunting_knife", ["blade", "hunting", "tool"]),
 		_row("rebar_club", "鋼筋棍", "WEAPON", 1800, "item_rebar_club", ["blunt", "metal"]),

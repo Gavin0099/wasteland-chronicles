@@ -80,9 +80,10 @@ func restock_for(settlement_id: Variant, current_day: int) -> Array[Dictionary]:
 	var normalized := Markets.settlement_key(settlement_id)
 	if normalized.is_empty() or current_day <= 0:
 		return changes
-	var ids: Array = _stock.keys()
-	ids.sort()
-	for item_id in ids:
+	# Catalogue order is stable. An older persisted shop may not contain newly
+	# supplied items; replenish them on the same schedule, never reset stock.
+	for definition: Dictionary in Registry.all_definitions():
+		var item_id: String = definition.item_id
 		var profile := Markets.profile_for(String(item_id), normalized)
 		if not profile.success:
 			continue

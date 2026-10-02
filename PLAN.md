@@ -15,8 +15,8 @@
 
 ## Active Sprint
 
-- [~] ECON-1 — Real item demand implemented and locally verified: stock-derived procurement, pinned accepted contracts, real destination item stock and receipt feedback. 100/100 suites exit 0; 53 focused assertions; independent review no P0/P1. PR review/CI/merge pending; see docs/econ1-real-item-demand.md.
-- [ ] GUN-1 — One usable firearm, one ammunition type, existing combat and firearm practice.
+- [x] ECON-1 — Real item demand delivered in PR #46 (merge 6ac9722): stock-derived procurement, pinned contracts, destination stock and receipts. 100/100 suites exit 0; 53 focused assertions; independent and exact-head GitHub review clear, CI passed. See docs/econ1-real-item-demand.md.
+- [~] GUN-1 — New Hope sells one revolver and rounds; shots consume ammo, use existing enemy turns and award firearm practice. 101 suites exit 0 after catalogue-fixture reruns; focused 175 assertions; two resolutions rendered. Independent review P1 legacy-shop availability fixed and cleared. PR/CI/merge pending; see docs/gun1-first-firearm.md.
 - [ ] ELEC-1 — Electronic armory access, material cost and a reachable learning path; shared one-time prize.
 - [ ] JOB-ADV-1 — One on-site well repair contract with real equipment state and bounded production effect.
 - [ ] PARTY-2A — Abban's personal tool request, one shared experience and a rehire benefit.

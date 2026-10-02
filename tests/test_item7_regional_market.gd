@@ -45,7 +45,7 @@ func _init() -> void:
 	detached_offer.item_id = "forged"
 	detached.offers.clear()
 	var fresh := Markets.offers_for("new_hope")
-	check(fresh.offers.size() == 12, "offer projection is detached")
+	check(fresh.offers.size() == 14, "New Hope includes its two firearm supplies; offer projection is detached")
 	check(String(fresh.offers[0].item_id) != "forged", "nested offer mutation cannot alter registry")
 
 	var before := JSON.stringify(Markets.offers_for("dry_well"), "", true)
@@ -54,7 +54,7 @@ func _init() -> void:
 	var summary := Markets.summary_for("dry_well")
 	check(summary.success and summary.listed_item_count == 12, "summary counts listed items")
 	check(int(summary.supply_counts.high) > 0 and int(summary.supply_counts.low) > 0, "summary preserves regional spread")
-	check(Registry.all_definitions().size() == 14, "registry includes two route-only items without listing them in regular markets")
+	check(Registry.all_definitions().size() == 16, "registry includes route-only and New Hope-only items without listing them in Gray Valley")
 
 	print("ITEM-7 regional market catalogue: ", "PASS" if failures == 0 else "FAIL", "; assertions=", assertions, "; failures=", failures)
 	quit(0 if failures == 0 else 1)

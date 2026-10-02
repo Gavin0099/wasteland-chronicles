@@ -40,9 +40,8 @@ const Perks = preload("res://simulation/perk_catalogue.gd")
 # The reason is stated per skill so the screen can show it rather than silently
 # hiding a choice, and so this list is obviously a statement about CONTENT that
 # exists, not about the skill schema.
-const SPENDABLE := ["BARTER", "MECHANICS", "MELEE", "SCAVENGING", "SPEECH", "STEALTH", "SURVIVAL"]
+const SPENDABLE := ["BARTER", "FIREARMS", "MECHANICS", "MELEE", "SCAVENGING", "SPEECH", "STEALTH", "SURVIVAL"]
 const UNAVAILABLE_REASON := {
-	"FIREARMS": "目前沒有任何遭遇或戰鬥會用到槍械。",
 	"ELECTRONICS": "目前沒有任何遭遇會用到電子。",
 	"MEDICINE": "急救包目前只靠使用來熟練，還沒有需要醫療門檻的場合。",
 }

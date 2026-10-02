@@ -69,7 +69,7 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 		if command == "DEFEND":
 			quick_tween.tween_property(stage.hero, "modulate", Color(1.10, 1.05, 0.82), 0.08)
 			quick_tween.tween_property(stage.hero, "modulate", Color.WHITE, 0.08)
-		elif command == "ATTACK" and dealt > 0:
+		elif command in ["ATTACK", "SHOOT"] and dealt > 0:
 			quick_tween.tween_property(stage.enemy, "modulate", Color(0.76, 0.68, 0.60), 0.06)
 			quick_tween.tween_property(stage.enemy, "modulate", Color.WHITE, 0.08)
 		quick_tween.tween_interval(0.12)
@@ -114,6 +114,14 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 		motion.parallel().tween_property(stage.enemy_actor, "position", stage.enemy_origin, 0.19)
 		motion.parallel().tween_property(stage.enemy, "modulate", Color.WHITE, 0.19)
 
+	elif command == "SHOOT":
+		# Receipt-driven recoil, with the same damage ownership as melee.
+		motion.tween_property(stage.hero_actor, "position", stage.hero_origin + Vector2(-5, 0), 0.06)
+		motion.tween_property(stage.hero_actor, "position", stage.hero_origin, 0.12)
+		if dealt > 0:
+			motion.tween_callback(func(): stage.spawn_damage_popup(stage.enemy_actor, dealt, false, false))
+			motion.tween_property(stage.enemy, "modulate", Color(0.76, 0.68, 0.60), 0.06)
+			motion.tween_property(stage.enemy, "modulate", Color.WHITE, 0.12)
 	elif command == "DEFEND":
 		# TOKEN: PLAYER_BRACE
 		if stage.hero_actor.anim_player != null and stage.hero_actor.anim_player.has_animation("brace"):

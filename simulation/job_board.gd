@@ -676,6 +676,7 @@ static func intel_for(world, entry: Dictionary) -> Array:
 		if fair > caps:
 			lines.append("〔商路熟手〕這趟開 %d 瓶蓋偏低，照路程你估合理價該在 %d 上下。" % [caps, fair])
 	if archetype == "BOUNTY":
+		lines.append("以下估算採連續近身攻擊；射擊傷害與耗彈請見戰鬥行動。")
 		var target_enemy: String = String(entry.get("target_enemy", ""))
 		var enemy_name: String = String(Enemies.resolve(target_enemy).get("name_zh", "目標")) if target_enemy != "" else "攔路敵人"
 		var has_death_tested: bool = player.has_acquired_trait("DEATH_TESTED")

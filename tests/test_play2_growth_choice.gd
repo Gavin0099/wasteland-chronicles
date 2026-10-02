@@ -84,10 +84,10 @@ func run() -> void:
 			check(not bool(row.can_spend), "G4: %s cannot take a point" % row.skill_id)
 			check(String(row.reason) != "", "G4: %s says WHY it cannot, rather than vanishing" % row.skill_id)
 	check(spendable_shown == Growth.SPENDABLE.size(), "G4: the spendable set is exactly the documented one")
-	check(not Growth.is_spendable("FIREARMS") and not Growth.is_spendable("ELECTRONICS") and not Growth.is_spendable("MEDICINE"),
+	check(Growth.is_spendable("FIREARMS") and not Growth.is_spendable("ELECTRONICS") and not Growth.is_spendable("MEDICINE"),
 		"G4: skills with no gameplay outlet are not sold to the player")
 
-	var refused_useless := engine.commit_player_intent(world, PlayerIntent.create_spend_growth_point(id, "FIREARMS"))
+	var refused_useless := engine.commit_player_intent(world, PlayerIntent.create_spend_growth_point(id, "ELECTRONICS"))
 	check(not refused_useless.success, "G4: the authority refuses an unusable skill too, not just the UI")
 
 	# ---- G2 spending really raises the rank ----
@@ -166,7 +166,7 @@ func run() -> void:
 	check(sheet.growth_points_available == Growth.available(world), "the sheet states the real number of points")
 	check(sheet.growth_buttons.size() == Growth.SPENDABLE.size(), "the sheet offers one button per spendable skill")
 	check(sheet.growth_buttons.has("MELEE"), "a usable skill has a button")
-	check(not sheet.growth_buttons.has("FIREARMS"), "an unusable skill has no button")
+	check(not sheet.growth_buttons.has("ELECTRONICS"), "an unusable skill has no button")
 	sheet.growth_buttons["SPEECH"].pressed.emit()
 	check(spend_calls == ["SPEECH"], "pressing the button asks to spend on that skill")
 	sheet.free()
@@ -213,7 +213,7 @@ func run() -> void:
 	var bad_skill: Dictionary = world.to_dict().duplicate(true)
 	for event in bad_skill.events:
 		if event.type == "SKILL_POINT_SPENT":
-			event.payload["skill_id"] = "FIREARMS"
+			event.payload["skill_id"] = "ELECTRONICS"
 	check(String(WorldState.from_dict_checked(bad_skill).error).begins_with("GROWTH_LEDGER"),
 		"G8: a receipt naming an unspendable skill is rejected on load")
 
