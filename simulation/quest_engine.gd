@@ -114,13 +114,38 @@ static func authorize_turn_in(world: WorldState, quest_id: String) -> String:
 			return "QUEST_DELIVERY_LOCATION_REQUIRED"
 		if not _objective_satisfied(world, quest_id, objective):
 			return "QUEST_OBJECTIVE_NOT_MET"
+	# Stage every destination before committing any player inventory or reward.
+	var staged: Dictionary = _stage_item_deliveries(world, definition)
+	if not staged.success:
+		return String(staged.error)
 	return ""
+
+static func _stage_item_deliveries(world: WorldState, definition: Dictionary) -> Dictionary:
+	var markets: Dictionary = {}
+	var effects: Array = []
+	for objective: Dictionary in definition.objectives:
+		if String(objective.type) != "DELIVER_ITEM":
+			continue
+		var town_id: String = "settlement:" + String(objective.settlement_id)
+		var town: SettlementState = world.get_settlement(StringName(town_id))
+		if town == null:
+			return _fail("QUEST_DELIVERY_LOCATION_REQUIRED")
+		if not markets.has(town_id):
+			markets[town_id] = town.item_market.duplicate_state() if town.item_market != null else ItemMarketState.seeded_for(town.id)
+		var market: RefCounted = markets[town_id]
+		var before: int = market.quantity(String(objective.item_id))
+		var added: Dictionary = market.add(String(objective.item_id), int(objective.quantity))
+		if not added.success:
+			return _fail(String(added.error))
+		effects.append({"settlement_id": town_id, "item_id": String(objective.item_id), "stock_before": before, "stock_after": market.quantity(String(objective.item_id))})
+	return {"success": true, "markets": markets, "effects": effects}
 
 static func turn_in(world: WorldState, quest_id: String) -> Dictionary:
 	var error := authorize_turn_in(world, quest_id)
 	if error != "":
 		return _fail(error)
 	var definition: Dictionary = _definition(world, quest_id).definition
+	var staged: Dictionary = _stage_item_deliveries(world, definition)
 	var inventory = world.player.item_inventory.duplicate_state()
 	var delivered: Array = []
 	for objective in definition.objectives:
@@ -149,8 +174,10 @@ static func turn_in(world: WorldState, quest_id: String) -> Dictionary:
 	var result := resolve(world, quest_id)
 	if not result.success:
 		return result
+	for town_id: String in staged.markets:
+		world.get_settlement(StringName(town_id)).item_market = staged.markets[town_id]
 	return {"success": true, "error": "", "delivered": delivered, "handed_over": handed_over,
-		"rewards": definition.outcomes.resolved.rewards.duplicate(true)}
+		"item_effects": staged.effects, "rewards": definition.outcomes.resolved.rewards.duplicate(true)}
 
 # ── Availability ──────────────────────────────────────────────────────────────
 

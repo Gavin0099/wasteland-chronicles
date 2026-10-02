@@ -2,7 +2,7 @@
 <!-- governance-baseline: overridable -->
 <!-- baseline_version: 1.0.0 -->
 
-> **最後更新**: 2026-09-26
+> **最後更新**: 2026-10-03
 > **Owner**: Gavin0099
 > **Freshness**: Sprint (7d)
 
@@ -14,6 +14,13 @@
 - [ ] S4 — Individual NPC Ecology (foundations closed; the remaining S4-F2/F3/G items are parked behind the PLAY track, not in progress)
 
 ## Active Sprint
+
+- [~] ECON-1 — Real item demand implemented and locally verified: stock-derived procurement, pinned accepted contracts, real destination item stock and receipt feedback. 100/100 suites exit 0; 53 focused assertions; independent review no P0/P1. PR review/CI/merge pending; see docs/econ1-real-item-demand.md.
+- [ ] GUN-1 — One usable firearm, one ammunition type, existing combat and firearm practice.
+- [ ] ELEC-1 — Electronic armory access, material cost and a reachable learning path; shared one-time prize.
+- [ ] JOB-ADV-1 — One on-site well repair contract with real equipment state and bounded production effect.
+- [ ] PARTY-2A — Abban's personal tool request, one shared experience and a rehire benefit.
+- Delivery order: finish, test, independent review, PR, current-head GitHub review/CI, merge each slice before starting the next. Owner authorized this sequence on 2026-10-03. FP2-B remains open and follows feature work.
 
 - [x] S4-A : NPC Identity (+ G1.5-B1 Runtime Enforcement) — CLOSED
 - [x] S4-B : NPC Life State (+ G1.5-B2 Lifecycle Atomicity) — CLOSED
@@ -105,6 +112,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-10-03: Owner authorized ECON-1 -> GUN-1 -> ELEC-1 -> JOB-ADV-1 -> PARTY-2A, with one reviewed and merged PR per slice before the next begins. This supersedes the 2026-09-28 feature freeze; it does not claim FP2-B or C2-B player acceptance. ECON-1 separates genuine zero-stock procurement from ordinary workshop recovery orders and preserves accepted contracts after restock.
 
 - 2026-09-28: **Owner ruling after PR #44: keep the three UI changes, treat ITEM_WANTED_HERE as a temporary guard, and stop adding features until FP2-B.** Rumour window, three-panel character window and pick-then-act shop are accepted. The wanted-item rule stays for now because it removes "why not just buy it at the counter next to me" from hand-play, but it is recorded above as a guard with its flaws (Accept creates the shortage; buy-then-accept sidesteps it) and its replacement (requests derived from real regional stock). Next is the owner's own 30–45 minute run from a new character without code changes in between, watching: where do I want to go and why; is there something I cannot do yet and want to come back for; do the three jobs play differently; is there something I want to spend money on; does a rumour make me want to go somewhere, or is it only another window. If it still feels like walking back and forth, the next step comes from that run's actual behaviour - no desire, no worthwhile destination, or reward/growth feedback too weak - not from another guessed feature.
 

@@ -1764,8 +1764,6 @@ func _authorize_item_trade(world: WorldState, settlement: SettlementState, inten
 	if buying:
 		if not profile.is_routinely_supplied:
 			return "ITEM_NOT_SOLD_HERE: %s has no routine supply in %s" % [intent.item_id, settlement.id]
-		if JobBoard.wanted_items(world, settlement.id).has(String(intent.item_id)):
-			return "ITEM_WANTED_HERE: %s is what %s is asking for" % [intent.item_id, settlement.id]
 		if market.quantity(intent.item_id) < intent.quantity:
 			return "INSUFFICIENT_ITEM_STOCK: %s has %d, requested %d" % [intent.item_id, market.quantity(intent.item_id), intent.quantity]
 		var quote := get_item_buy_quote(settlement, intent.item_id, market, LocalTrust.buy_markup(world, String(settlement.id)))
@@ -3025,6 +3023,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 				var effects := _deliver_cargo_to_settlement(world, target, quest_result.handed_over)
 				payload["settlement_effects"] = effects
 				quest_result["settlement_effects"] = effects
+			if not accepting and not Array(quest_result.get("item_effects", [])).is_empty():
+				payload["item_effects"] = quest_result.item_effects
 			if accepting and world.accepted_jobs.has(quest_id) and world.accepted_jobs[quest_id].has("consign_resource"):
 				# REP-1: the goods really leave the town's stores for your pack.
 				var consign: Dictionary = world.accepted_jobs[quest_id]
