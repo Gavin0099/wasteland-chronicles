@@ -36,6 +36,9 @@ func fixtures() -> Array:
 		{"item_id": "flashlight", "display_name_zh": "手電筒", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 400, "asset_id": "item_flashlight", "tags": ["lighting", "tool"]},
 		{"item_id": "wrench", "display_name_zh": "扳手", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 700, "asset_id": "item_wrench", "tags": ["hand_tool", "metal"]},
 		{"item_id": "first_aid_kit", "display_name_zh": "急救包", "category": "CONSUMABLE", "stack_mode": "STACKABLE", "base_weight": 800, "asset_id": "item_first_aid_kit", "tags": ["medical"]},
+		# GUN-1 approved additions; fixed identities and gram weights.
+		{"item_id": "old_revolver", "display_name_zh": "舊式左輪", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 1000, "asset_id": "item_old_revolver", "tags": ["firearm", "revolver"]},
+		{"item_id": "revolver_round", "display_name_zh": "左輪彈藥", "category": "CONSUMABLE", "stack_mode": "STACKABLE", "base_weight": 20, "asset_id": "item_revolver_round", "tags": ["ammunition"]},
 	]
 
 func sorted_fixtures() -> Array:
@@ -59,10 +62,10 @@ func _init() -> void:
 
 func check_definitions() -> void:
 	var rows: Array = Catalogue.all_definitions()
-	check(rows == sorted_fixtures(), "exact fourteen approved records, integer grams and sorted identities")
-	check(rows.size() == 14, "185 images must not create 185 authoritative definitions")
+	check(rows == sorted_fixtures(), "exact sixteen approved records, integer grams and sorted identities")
+	check(rows.size() == 16, "185 images must not create 185 authoritative definitions")
 	var authored: Array = Authored.rows()
-	check(authored.size() == 14, "single authored source contains fourteen records")
+	check(authored.size() == 16, "single authored source contains sixteen records")
 	var paths := {
 		"item_rusted_knife": "rusty_knife", "item_hunting_knife": "hunting_knife",
 		"item_rebar_club": "rebar_club", "item_scrap_machete": "scrap_machete",
@@ -77,7 +80,7 @@ func check_definitions() -> void:
 		check(result.success and result.definition == row and result.error == "", "exact ID lookup: " + row.item_id)
 		check(typeof(result.definition.base_weight) == TYPE_INT, "weight remains int: " + row.item_id)
 		var art: Dictionary = Art.resolve(row.asset_id)
-		var library_paths := {"item_military_backpack": "res://ui/assets/items/library/clothing/military_backpack.png", "item_old_world_saber": "res://ui/assets/items/library/weapons/desert_sabre.png"}
+		var library_paths := {"item_military_backpack": "res://ui/assets/items/library/clothing/military_backpack.png", "item_old_world_saber": "res://ui/assets/items/library/weapons/desert_sabre.png", "item_old_revolver": "res://ui/assets/items/library/weapons/old_revolver.png", "item_revolver_round": "res://ui/assets/items/revolver_round.svg"}
 		var expected_path: String = String(library_paths[row.asset_id]) if library_paths.has(row.asset_id) else "res://ui/assets/items/candidates/%s.png" % paths[row.asset_id]
 		check(art.success and art.path == expected_path and art.error == "", "explicit stable asset binding: " + row.item_id)
 		check(FileAccess.file_exists(expected_path), "asset physically exists: " + expected_path)
@@ -94,12 +97,12 @@ func reject_catalogue(raw: Variant, label: String) -> void:
 	check(Catalogue.all_definitions() == sorted_fixtures(), label + " cannot replace source")
 
 func check_refusals() -> void:
-	for invalid in [null, 1, true, &"rusted_knife", "", "生鏽小刀", "rusty_knife", "medkit", "crowbar", "water", "fuel", "old_revolver", "RUSTED_KNIFE", " rusted_knife", "rusted_knife "]:
+	for invalid in [null, 1, true, &"rusted_knife", "", "生鏽小刀", "rusty_knife", "medkit", "crowbar", "water", "fuel", "unapproved_rifle", "RUSTED_KNIFE", " rusted_knife", "rusted_knife "]:
 		var result: Dictionary = Catalogue.resolve(invalid)
 		check(not result.success and result.has("definition") and result.definition == null and not result.error.is_empty(), "invalid/unknown lookup is not a fallback: " + str(invalid))
 		if typeof(invalid) == TYPE_STRING:
 			check(result.error == "UNKNOWN_ITEM_ID", "unknown exact String ID uses stable refusal")
-	for invalid in [null, true, 2, &"item_rusted_knife", "", "rusted_knife", "item_crowbar", "item_old_revolver", "../../water.png"]:
+	for invalid in [null, true, 2, &"item_rusted_knife", "", "rusted_knife", "item_crowbar", "item_unapproved_rifle", "../../water.png"]:
 		var result: Dictionary = Art.resolve(invalid)
 		check(not result.success and result.path == "" and not result.error.is_empty(), "unknown art key exposes no usable path")
 	for raw in [null, 2, true, "rusted_knife", [], {}]:
@@ -146,7 +149,7 @@ func check_refusals() -> void:
 	thirteenth.append(new_row)
 	reject_catalogue(thirteenth, "unapproved item cannot become authority")
 	var unknown := fixtures()
-	unknown[0].item_id = "old_revolver"
+	unknown[0].item_id = "unapproved_rifle"
 	reject_catalogue(unknown, "unknown but syntactically valid ID")
 	var rebound := fixtures()
 	rebound[0].asset_id = "item_hunting_knife"

@@ -25,6 +25,7 @@ const KNOWN_ENEMIES := ["feral_dog", "bandit", "heavy_raider"]
 # is next to the fighter (icon width / fighter height). The grip is pinned to
 # the fist and the weapon is drawn behind the body, so the fist covers it.
 const WEAPON_GRIPS := {
+	"old_revolver": {"grip": Vector2(0.22, 0.73), "size": 0.20},
 	"crowbar": {"grip": Vector2(0.20, 0.82), "size": 0.34},
 	"rusted_knife": {"grip": Vector2(0.26, 0.77), "size": 0.20},
 	"hunting_knife": {"grip": Vector2(0.26, 0.77), "size": 0.22},

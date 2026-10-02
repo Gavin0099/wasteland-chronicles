@@ -106,8 +106,8 @@ static func progress(world, rumor_id: String) -> Dictionary:
 			const Field = preload("res://simulation/field_adventure.gd")
 			var read: Dictionary = Field.forecast_for_enemy(world, Enemies.HEAVY_RAIDER, true)
 			if read.is_empty() or bool(read.beaten):
-				return {"done": false, "next": "照你現在的身手打不贏他：把格鬥練上去（新希望的護衛隊長有在教），或找一把更好的武器。"}
-			return {"done": false, "next": "你現在打得贏他。去新希望接常駐懸賞，走荒野路。"}
+				return {"done": false, "next": "只靠近身攻擊，你現在打不贏他：把格鬥練上去（新希望的護衛隊長有在教），或換近戰武器；也可在新希望買槍與彈藥，用射擊應戰。"}
+			return {"done": false, "next": "只靠近身攻擊，你現在打得贏他。去新希望接常駐懸賞，走荒野路。"}
 		"rumor:armory":
 			var armory := RoadPlaces.state(world, "place:old_armory")
 			if bool(armory.prize_taken):
