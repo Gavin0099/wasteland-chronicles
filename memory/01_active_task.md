@@ -27,3 +27,5 @@
 - PLAY-3A salvage technically verified in the uncommitted worktree: real market and salvage roundtrip, stable source, checked persistence and SHA replay; 87/87 suites, independent no-P0/P1 review. Human playtest and delivery remain open; existing combat edits preserved. <!-- memory_record_projection:active-task-summary:5ac0290ca8578429aa318d236bcc750c58ed22bb691e39421d737ccda8037a04 -->
 
 - ECON-1 locally verified at 018cd8e (100 suites); GitHub review/CI/merge pending, then GUN-1. Five-slice sequential delivery authorized; FP2-B open. <!-- memory_record_projection:active-task-summary:9c6ace95d1ed7106409d3038ab09b823d89312bc796a48f2ba6984084bfa3937 -->
+
+- Authorized five-slice delivery: ECON-1 merged PR46; GUN-1 locally verified and independently reviewed, remote review/CI/merge pending; remaining three slices unstarted. FP2-B still open. <!-- memory_record_projection:active-task-summary:1451b94b63706f7fcff229c9d53318de92b9fa8dba631b9437ebf89ca1e7d830 -->
