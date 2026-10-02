@@ -54,7 +54,7 @@ func run() -> void:
 	# ---- K1 what each town teaches ----
 	var taught := {}
 	for town in Training.TEACHERS:
-		check(Training.TEACHERS[town].size() == 2, "K1: %s teaches two skills" % town)
+		check(Training.TEACHERS[town].size() == (3 if town == "settlement:gray_valley" else 2), "K1: industrial Gray Valley adds electronics; other towns retain two skills")
 		for skill in Training.TEACHERS[town]:
 			check(not taught.has(skill), "K1: %s is taught in only one town" % skill)
 			check(GrowthPoints.is_spendable(skill), "K1: %s is a skill the world asks for" % skill)

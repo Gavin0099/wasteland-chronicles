@@ -2201,6 +2201,11 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		]
 
 	match option_id:
+		&"OPEN_ARMORY", &"BRIDGE_ARMORY":
+			if bool(RoadPlaces.state(world, "place:old_armory").prize_taken):
+				return "PLACE_ALREADY_CLEARED: armory prize already taken"
+			if option_id == &"BRIDGE_ARMORY" and p.inventory.get_amount("scrap") < RoadPlaces.ARMORY_CIRCUIT_SCRAP:
+				return "INSUFFICIENT_SCRAP: bridging the controller needs 2 scrap"
 		&"CLEAR":
 			if p.inventory.get_amount("scrap") < 1:
 				return "INSUFFICIENT_SCRAP: clearing the road needs 1 scrap"
@@ -2438,10 +2443,12 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered = {String(take_place.resource): int(take_place.take)}
 		&"MARK_A", &"MARK_B":
 			pass
-		&"OPEN_ARMORY":
+		&"OPEN_ARMORY", &"BRIDGE_ARMORY":
 			# ASP-1: the prize is an item the market never sells; if the pack
 			# cannot take it, it stays behind the open door for next time.
 			var armory := RoadPlaces.info(String(enc.context.get("place_id", "")))
+			if option_id == &"BRIDGE_ARMORY":
+				p.inventory.add_amount("scrap", -RoadPlaces.ARMORY_CIRCUIT_SCRAP)
 			offered = {"scrap": 3}
 			offered_items = {String(armory.get("prize", "")): 1}
 			extra_day = true

@@ -38,6 +38,8 @@ const WRECK_SITE := "WRECK_SITE"
 # not sell, behind a condition the player can see but may not meet yet.
 const SECRET := "SECRET"
 const ARMORY_MECHANICS := 2
+const ARMORY_ELECTRONICS := 2
+const ARMORY_CIRCUIT_SCRAP := 2
 
 const CAMP_CLEARED_DAYS := 15
 # Walking past a place is an answer too. It is not asked again for a week, or
@@ -98,7 +100,7 @@ const PLACES := {
 		# Past the raider's camp: the long road, the camp, then this.
 		"day_index": 3,
 		"prize": "old_world_saber",
-		"body_zh": "荒野深處，半埋在沙裡的一道防爆門，門上的漆字還看得出「補給」兩個字。\n控制盒的蓋板用螺絲鎖死，線路還連著——懂機械的人拆得開，一般人只能在門外乾瞪眼。",
+		"body_zh": "荒野深處，半埋在沙裡的一道防爆門，門上的漆字還看得出「補給」兩個字。\n控制盒的蓋板用螺絲鎖死，線路還連著。懂機械的人能拆開；懂電子的人可以用廢料搭接線路。兩條路通向同一間庫房。",
 		"map_t": 0.78,
 	},
 	"place:convoy_wreck": {
@@ -172,7 +174,7 @@ static func state(world, place_id: String) -> Dictionary:
 							out.marked_for = String(evt.payload.get("marked_for", ""))
 					"SEARCH_SITE":
 						last_search = i
-					"OPEN_ARMORY":
+					"OPEN_ARMORY", "BRIDGE_ARMORY":
 						if int((evt.payload.get("items_gained", {}) as Dictionary).get(String(p.get("prize", "")), 0)) > 0:
 							out.prize_taken = true
 					"LEAVE":
@@ -271,7 +273,7 @@ const RESOURCE_NAMES := {"water": "水", "food": "食物", "scrap": "廢料", "f
 
 # Every option id a place can ever offer, for validating a receipt that no
 # longer has its context.
-const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY"]
+const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY"]
 
 static func options(context: Dictionary, world = null) -> Array:
 	var place_id := String(context.get("place_id", ""))
@@ -305,6 +307,9 @@ static func options(context: Dictionary, world = null) -> Array:
 				{"id": &"OPEN_ARMORY", "label": "拆開控制盒，進去", "detail": "耗時 1 天。裡面是什麼，只有進去才知道。",
 					"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": ARMORY_MECHANICS}]},
 					"requirement_label": "機械 %d" % ARMORY_MECHANICS, "gate": "capability"},
+				{"id": &"BRIDGE_ARMORY", "label": "搭接控制線路，進去", "detail": "耗時 1 天，消耗廢料 %d。與拆開控制盒共用同一批藏品。灰谷的電器修補匠教電子。" % ARMORY_CIRCUIT_SCRAP,
+					"requires": {"all": [{"kind": "skill", "skill_id": "ELECTRONICS", "min_rank": ARMORY_ELECTRONICS}]},
+					"requirement_label": "電子 %d、廢料 %d" % [ARMORY_ELECTRONICS, ARMORY_CIRCUIT_SCRAP], "gate": "capability"},
 				{"id": &"LEAVE", "label": "記下位置，改天再來", "detail": "門不會自己打開"},
 			]
 		WRECK_SITE:
@@ -347,5 +352,5 @@ static func status_text(world, place_id: String) -> String:
 		WRECK_SITE:
 			return "約 %d 份廢料" % int(s.scrap) if int(s.scrap) > 0 else "暫時撿空了"
 		SECRET:
-			return "已被你搬空" if bool(s.prize_taken) else "門還鎖著（需要機械 %d）" % ARMORY_MECHANICS
+			return "已被你搬空" if bool(s.prize_taken) else "門還鎖著（機械 %d，或電子 %d＋廢料 %d）" % [ARMORY_MECHANICS, ARMORY_ELECTRONICS, ARMORY_CIRCUIT_SCRAP]
 	return ""
