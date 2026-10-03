@@ -2732,6 +2732,8 @@ func _gear_change_reason(error: String) -> String:
 		return "換裝後會超載；先整理物品或生存補給。"
 	return "目前無法換裝；請確認仍持有這件物品與對應欄位。"
 
+var character_inventory_view: Dictionary = {}
+
 func _show_character(action_notice: String = "") -> void:
 	if world == null or world.player == null:
 		return
@@ -2740,6 +2742,7 @@ func _show_character(action_notice: String = "") -> void:
 	var equip_action := func(item_id: String, slot: String):
 		var result := engine.commit_player_intent(world, PlayerIntent.create_equip_item(world.player.npc_id, StringName(item_id), slot))
 		if result.get("success", false):
+			dialog.hide()
 			dialog.queue_free()
 			refresh_ui()
 			call_deferred("_show_character")
@@ -2748,6 +2751,7 @@ func _show_character(action_notice: String = "") -> void:
 	var unequip_action := func(slot: String):
 		var result := engine.commit_player_intent(world, PlayerIntent.create_unequip_item(world.player.npc_id, slot))
 		if result.get("success", false):
+			dialog.hide()
 			dialog.queue_free()
 			refresh_ui()
 			call_deferred("_show_character")
@@ -2812,7 +2816,8 @@ func _show_character(action_notice: String = "") -> void:
 	add_child(dialog)
 	var sheet_player: Dictionary = PlayerUIProjection.project(world).player.duplicate()
 	sheet_player["party"] = current_projection.get("party", {})
-	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point)
+	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point, Callable(), character_inventory_view)
+	dialog.inventory_view_changed.connect(func(state: Dictionary): character_inventory_view = state.duplicate(true))
 	# Laid out like an RPG character window, so it needs the room of one.
 	var viewport_size := get_viewport_rect().size
 	dialog.popup_centered(Vector2i(int(viewport_size.x * 0.9), int(viewport_size.y * 0.88)))
