@@ -49,7 +49,12 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 	var motion: Tween = stage.create_tween()
 	stage.active_motion = motion
 	if stage.reduced_motion:
-		stage.hero_actor.hold_pose("brace" if command == "DEFEND" else ("aim" if command == "SHOOT" else "strike"))
+		var reduced_pose: String = "retreat_a" if command == "FLEE" else "brace"
+		if command == "ATTACK":
+			reduced_pose = stage.PoseLibrary.attack_poses(style)[1]
+		elif command == "SHOOT":
+			reduced_pose = stage.PoseLibrary.gun_pose(style)
+		stage.hero_actor.hold_pose(reduced_pose)
 		if dealt > 0:
 			stage.spawn_damage_popup(stage.enemy_actor, dealt, false, false)
 		if taken > 0 or command == "DEFEND":
@@ -58,14 +63,20 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 		motion.tween_interval(0.18)
 	else:
 		if command == "ATTACK":
+			motion.tween_callback(func(): stage.hero_actor.play_pose("approach"); stage.feedback_phase.emit("hero_approach"))
+			var approach: Vector2 = stage.hero_origin.lerp(stage.enemy_origin, float(style.reach) * 0.60)
+			motion.tween_property(stage.hero_actor, "position", approach, 0.18)
 			motion.tween_callback(func(): stage.hero_actor.play_attack(style); stage.feedback_phase.emit(style.name + "_windup"))
-			motion.tween_property(stage.hero_actor, "position", stage.hero_origin + Vector2(-10, 2), float(style.windup))
+			motion.tween_property(stage.hero_actor, "position", approach + Vector2(-10, 2), float(style.windup))
 			motion.tween_callback(func(): stage.feedback_phase.emit(style.name + "_strike"))
 			motion.tween_property(stage.hero_actor, "position", stage.hero_origin.lerp(stage.enemy_origin, float(style.reach)), float(style.strike)).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 		elif command == "SHOOT":
-			motion.tween_callback(func(): stage.hero_actor.hold_pose("aim"); stage.hero_actor.aim_weapon(); stage.feedback_phase.emit(style.name + "_aim"))
+			motion.tween_callback(func(): stage.hero_actor.hold_pose(stage.PoseLibrary.gun_pose(style)); stage.feedback_phase.emit(style.name + "_aim"))
 			motion.tween_interval(float(style.windup))
-			motion.tween_callback(func(): stage.emit_weapon_fx(style.name, stage.hero_actor); stage.feedback_phase.emit(style.name + "_flash"))
+			motion.tween_callback(func():
+				stage.emit_weapon_fx(style.name, stage.hero_actor)
+				stage.hero_actor.hold_pose(stage.PoseLibrary.gun_pose(style, true))
+				stage.feedback_phase.emit(style.name + "_flash"))
 			motion.tween_property(stage.hero_actor, "position", stage.hero_origin + Vector2(-12 if style.name == "shotgun" else -5, 0), float(style.strike))
 		elif command == "DEFEND":
 			motion.tween_callback(func(): stage.hero_actor.play_pose("brace"); stage.feedback_phase.emit("brace"))
@@ -80,6 +91,9 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 			motion.tween_property(stage.enemy_actor, "position", stage.enemy_origin + Vector2(7, -3), 0.04)
 			motion.tween_interval(0.06 if style.name == "hammer" else 0.04)
 		if command in ["ATTACK", "SHOOT"]:
+			motion.tween_callback(func():
+				stage.hero_actor.hold_pose("gun_recover" if command == "SHOOT" else stage.PoseLibrary.attack_poses(style)[2])
+				stage.feedback_phase.emit("hero_recover"))
 			motion.tween_property(stage.hero_actor, "position", stage.hero_origin, float(style.recover))
 			motion.parallel().tween_property(stage.enemy_actor, "position", stage.enemy_origin, float(style.recover))
 			motion.tween_callback(func(): stage.hero_actor.hold_pose("rest"))
@@ -90,6 +104,8 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 			var speed: float = float(profile.get("attack_speed", 1.0))
 			var recoil: float = float(profile.get("recoil_strength", 6.0))
 			var defending := command == "DEFEND"
+			motion.tween_callback(func(): stage.enemy_actor.play_pose("approach"); stage.feedback_phase.emit("enemy_approach"))
+			motion.tween_property(stage.enemy_actor, "position", stage.enemy_origin.lerp(stage.hero_origin, float(profile.get("lunge_ratio", 0.38)) * 0.50), 0.18 / speed)
 			motion.tween_callback(func(): stage.enemy_actor.play_pose("heavy_release" if heavy else "attack_pose"); stage.feedback_phase.emit("enemy_windup"))
 			motion.tween_interval(0.14 / speed)
 			motion.tween_property(stage.enemy_actor, "position", stage.enemy_origin.lerp(stage.hero_origin, float(profile.get("lunge_ratio", 0.38))), 0.13 / speed)
@@ -102,17 +118,22 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 			var offset := Vector2(-recoil * (0.45 if defending else (3.0 if heavy else 1.0)), 1 if defending else 4)
 			motion.tween_property(stage.hero_actor, "position", stage.hero_origin + offset, 0.06)
 			motion.tween_interval(0.06 if heavy else 0.04)
+			motion.tween_callback(func(): stage.enemy_actor.hold_pose("recover"); stage.feedback_phase.emit("enemy_recover"))
 			motion.tween_property(stage.enemy_actor, "position", stage.enemy_origin, 0.20 / speed)
 			motion.parallel().tween_property(stage.hero_actor, "position", stage.hero_origin, 0.20 / speed)
+			if enemy_id != "heavy_raider":
+				motion.tween_callback(func(): stage.enemy_actor.hold_pose("settle"))
+				motion.tween_interval(0.08)
 		if command == "FLEE":
 			if taken > 0:
 				motion.tween_callback(func(): stage.spawn_damage_popup(stage.hero_actor, taken, false, false))
-			motion.tween_property(stage.hero_actor, "position", stage.hero_origin + Vector2(-100, 35), 0.25)
-			motion.parallel().tween_property(stage.hero_actor, "modulate:a", 0.0, 0.25)
+			motion.tween_callback(func(): stage.hero_actor.play_pose("retreat"); stage.feedback_phase.emit("hero_retreat"))
+			motion.tween_property(stage.hero_actor, "position", stage.hero_origin + Vector2(-100, 35), 0.32)
+			motion.parallel().tween_property(stage.hero_actor, "modulate:a", 0.0, 0.32)
 	if outcome in ["VICTORY", "DEFEAT", "DEAD"]:
 		motion.tween_callback(func():
 			var actor = stage.enemy_actor if outcome == "VICTORY" else stage.hero_actor
-			actor.hold_pose("fall" if outcome == "VICTORY" or stage.reduced_motion else "kneel")
+			actor.hold_pose("fall" if stage.reduced_motion else "kneel")
 			stage.feedback_phase.emit("enemy_fall" if outcome == "VICTORY" else "hero_fall"))
 		motion.tween_interval(0.08 if stage.reduced_motion else 0.18)
 		motion.tween_callback(func(): stage.present_outcome(outcome); stage.feedback_phase.emit("victory" if outcome == "VICTORY" else "defeat"))
@@ -132,11 +153,9 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 	stage.hero_actor.rotation = 0.0
 	stage.enemy_actor.rotation = 0.0
 	if outcome == "":
-		stage.hero_actor.hold_pose("rest")
+		stage.resume_idle()
 		if next_heavy and bool(stage.VISUAL_PROFILES.get(enemy_id, {}).get("heavy_capable", false)):
 			if stage.reduced_motion:
-				stage.enemy_actor.hold_pose("windup")
+				stage.enemy_actor.hold_pose("charge")
 			else:
 				stage.enemy_actor.play_pose("heavy_charge")
-		else:
-			stage.enemy_actor.hold_pose("rest")

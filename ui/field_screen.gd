@@ -362,7 +362,7 @@ func refresh() -> void:
 	stage.present_outcome(outcome)
 	if outcome == "" and not state.battle.is_empty() and bool(Field.Enemies.action_for(_display_enemy(), int(state.battle.turn)).get("heavy", false)):
 		if stage.reduced_motion:
-			stage.enemy_actor.hold_pose("windup")
+			stage.enemy_actor.hold_pose("charge")
 		else:
 			stage.enemy_actor.play_pose("heavy_charge")
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()

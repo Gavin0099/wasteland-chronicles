@@ -38,7 +38,11 @@ func run() -> void:
 	var loaded := WorldState.from_json_checked(after_commit)
 	check(loaded.success and loaded.world.to_canonical_json() == after_commit, "saving during animation persists committed state")
 	await second.perform(second.payload_for("ATTACK"))
-	await create_timer(1.2).timeout
+	# The complete approach/impact/recovery sequence is longer than the old
+	# standing-sprite tween. Await observable completion with a bounded budget.
+	var deadline: int = Time.get_ticks_msec() + 3000
+	while ui.busy and Time.get_ticks_msec() < deadline:
+		await process_frame
 	check(not ui.busy and main.world.field_state.battle.turn == 2, "animation completes to next turn")
 	check(main.world.to_canonical_json().sha256_text() == twin.to_canonical_json().sha256_text(), "normal/reduced motion dual-track world SHA")
 	check(main.engine.validate_invariants(main.world) == "", "UI action preserves world invariants")
