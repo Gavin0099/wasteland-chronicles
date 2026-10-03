@@ -16,8 +16,8 @@
 ## Active Sprint
 
 - [x] COMBAT-VIS-1 implementation — grounded left/right arena, near-fighter identity/HP/weapon/intent, bottom commands, true highway/wilderness/camp scenery. UI only, L1; no combat rule changes. 105 suites exit 0, 510 focused assertions, 22 OpenGL captures and independent review without P0/P1; Delivered PR #51 (merge 97feb4d), exact-head GitHub review no findings and CI passed. Scope source: docs/rpg-gear-combat-slices.md.
-- [x] GEAR-2A implementation — Tier/Quality definition contract and legacy compatibility; quality is never an automatic stat multiplier. 458 focused assertions pass; 106 suites exit 0; six compatibility captures and independent review no P0/P1. Remote review/CI/merge pending. See docs/gear2a-tier-quality.md.
-- [ ] GEAR-2B — bounded first weapon arsenal, pry/heavy/ammunition decisions; no rifle/SMG scope.
+- [x] GEAR-2A implementation — Tier/Quality definition contract and legacy compatibility; quality is never an automatic stat multiplier. 458 focused assertions pass; 106 suites exit 0; six compatibility captures and independent review no P0/P1. Delivered PR #52 (merge 0dc984f), exact-head GitHub review no findings and CI passed. See docs/gear2a-tier-quality.md.
+- [x] GEAR-2B implementation — bounded nine-weapon core; five new weapons plus shotgun ammunition, heavier hammer retreat and distinct firearm costs. Legacy knives/club retained. 141 focused assertions, all 107 suites exit 0 after two required fixture reruns, ten OpenGL captures and independent review no P0/P1; deferred knife-balance P2 recorded. Remote delivery pending. See docs/gear2b-first-arsenal.md.
 - [ ] GEAR-2C — armor protection and cargo/stealth costs, backpacks and mechanical/electronic physical tools.
 - [ ] GEAR-2D — authored Modified/Rare properties; no random item generation.
 - [ ] GEAR-2E — three uniques total, including saber, with rumor/preparation/retrieval/new-opening chains.

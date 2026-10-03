@@ -3,6 +3,8 @@ extends RefCounted
 # Existing items only. Crowbar is the legacy field-kit item, not a new formal
 # inventory entry. Quality/effect labels describe existing behavior only.
 const TIERS := {
+	"sledgehammer": "T1", "combat_knife": "T2", "reinforced_saber": "T3",
+	"police_revolver": "T2", "short_shotgun": "T2", "shotgun_shell": "T1",
 	"crowbar": "T1", "rusted_knife": "T1", "hunting_knife": "T2",
 	"rebar_club": "T1", "scrap_machete": "T2", "old_revolver": "T1",
 	"old_world_saber": "T4", "work_clothes": "T1", "desert_robe": "T1",

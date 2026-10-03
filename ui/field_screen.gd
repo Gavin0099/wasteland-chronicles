@@ -286,9 +286,11 @@ func add_action(command: String, title: String) -> void:
 
 func reason_text(error: String) -> String:
 	if error == "NEED_EQUIPPED_FIREARM":
-		return "需裝備舊式左輪（新希望有售）"
+		return "需裝備槍械（新希望有售）"
 	if error == "NEED_AMMUNITION":
-		return "左輪彈藥不足（新希望補給）"
+		var firearm := Field.firearm_for(world)
+		var ammo: String = String(firearm.get("ammo_item_id", "revolver_round"))
+		return "%s不足（新希望補給）" % String(ItemRegistry.resolve(ammo).definition.display_name_zh)
 	if error == "EQUIPMENT_ALREADY_SET":
 		return "裝備狀態已更新，請重新選擇"
 	var names := {"NEED_SCRAP_3": "需要 3 廢料", "NEED_CROWBAR": "需要撬棍", "NEED_FIRST_AID_KIT": "需要急救包", "CROWBAR_ALREADY_OWNED": "已持有", "DOG_GUARDS_CACHE": "野犬仍在看守", "CACHE_ALREADY_OPENED": "已取走", "SITE_ALREADY_CLEARED": "已排除威脅", "RETURN_TO_GRAY_VALLEY": "需返回灰谷", "HEALTH_FULL": "生命已滿", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需存活並停留在聚落", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "PACK_FULL": "背包容量不足", "STALE_FIELD_TURN": "回合已改變，請重新選擇"}
@@ -424,9 +426,11 @@ func refresh() -> void:
 				if not practice.is_empty():
 					log_label.text += " · " + practice_text(practice)
 		add_action("ATTACK", "近身攻擊 · 傷害 %d" % Field.attack_damage(world))
-		add_action("SHOOT", "射擊 · 傷害 %d · 彈藥 −1（剩 %d）" % [Field.shot_damage(world), world.player.item_inventory.quantity("revolver_round")])
+		var firearm := Field.firearm_for(world)
+		var ammo_id: String = String(firearm.get("ammo_item_id", "revolver_round"))
+		add_action("SHOOT", "射擊 · 傷害 %d · 彈藥 −%d（剩 %d）" % [Field.shot_damage(world), int(firearm.get("ammo_spent", 1)), world.player.item_inventory.quantity(ammo_id)])
 		add_action("DEFEND", "架勢防禦 · 減傷 %d，準備反擊" % Field.Enemies.brace_reduction(_display_enemy(), turn))
-		add_action("FLEE", "逃跑 · 承受 1 傷害")
+		add_action("FLEE", "逃跑 · 承受 %d 傷害%s" % [Field.flee_damage(world), "（鐵鎚笨重）" if Field.flee_damage(world) > 1 else ""])
 	else:
 		if is_road:
 			log_label.text = "戰鬥已結束，可點擊「返回旅途」。"

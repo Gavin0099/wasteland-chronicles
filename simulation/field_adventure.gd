@@ -4,6 +4,7 @@ const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Capability = preload("res://simulation/capability_profile.gd")
 const ProgressionXp = preload("res://simulation/progression_xp.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
+const Weapons = preload("res://simulation/weapon_rules.gd")
 
 const HOME := "settlement:gray_valley"
 const MAX_HP := 12
@@ -98,8 +99,10 @@ static func validate_wire(data: Dictionary) -> String:
 			continue
 		var event_payload: Variant = raw_event.get("payload", {})
 		var shot: bool = raw_event.type == "FIELD_TURN" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "SHOOT"
-		if shot and (event_payload.get("weapon_id") != "old_revolver" or event_payload.get("ammo_item_id") != "revolver_round" or not integer(event_payload.get("ammo_spent"), 1, 1) or not integer(event_payload.get("ammo_remaining"), 0, 99)):
-			return "INVALID_FIREARM_RECEIPT"
+		if shot:
+			var firearm := Weapons.firearm(event_payload.get("weapon_id"))
+			if firearm.is_empty() or event_payload.get("ammo_item_id") != firearm.ammo_item_id or not integer(event_payload.get("ammo_spent"), int(firearm.ammo_spent), int(firearm.ammo_spent)) or not integer(event_payload.get("ammo_remaining"), 0, 99):
+				return "INVALID_FIREARM_RECEIPT"
 		if raw_event.type == "FIELD_RESULT" and event_index > 0:
 			var previous_event: Variant = events[event_index - 1]
 			if typeof(previous_event) == TYPE_DICTIONARY and typeof(previous_event.get("payload")) == TYPE_DICTIONARY:
@@ -213,9 +216,11 @@ static func authorize(world, payload: Dictionary) -> String:
 		if state.battle.is_empty() or payload.size() != 3 or typeof(payload.get("battle_id")) != TYPE_INT or typeof(payload.get("turn")) != TYPE_INT or payload.battle_id != state.battle.id or payload.turn != state.battle.turn:
 			return "STALE_FIELD_TURN"
 		if command == "SHOOT":
-			if player.equipment.equipped_item("main_hand") != "old_revolver" or not player.item_inventory.contains("old_revolver"):
+			var weapon_id: String = player.equipment.equipped_item("main_hand")
+			var firearm := Weapons.firearm(weapon_id)
+			if firearm.is_empty() or not player.item_inventory.contains(weapon_id):
 				return "NEED_EQUIPPED_FIREARM"
-			if not player.item_inventory.contains("revolver_round"):
+			if player.item_inventory.quantity(firearm.ammo_item_id) < int(firearm.ammo_spent):
 				return "NEED_AMMUNITION"
 		return ""
 	if not state.battle.is_empty():
@@ -268,20 +273,19 @@ static func attack_damage(world) -> int:
 
 static func shot_damage(world) -> int:
 	var prepared: int = 2 if world.field_state.battle.get("prepared", false) else 0
-	return 6 + world.player.capability.get_rank("FIREARMS") + prepared + preload("res://simulation/party.gd").attack_bonus(world)
+	return int(firearm_for(world).get("damage", 6)) + world.player.capability.get_rank("FIREARMS") + prepared + preload("res://simulation/party.gd").attack_bonus(world)
+
+static func firearm_for(world) -> Dictionary:
+	return Weapons.firearm(world.player.equipment.equipped_item("main_hand"))
+
+static func flee_damage(world) -> int:
+	return 2 if world.player.equipment.equipped_item("main_hand") == "sledgehammer" else 1
 
 static func _equipped_main_hand_bonus(world) -> int:
 	if world == null or world.player == null or world.player.equipment == null:
 		return 0
 	var item_id: String = world.player.equipment.equipped_item("main_hand")
-	match item_id:
-		"rusted_knife": return 1
-		"hunting_knife": return 2
-		"rebar_club": return 2
-		"scrap_machete": return 3
-		# ASP-1: the one thing the old armory holds, and no market sells.
-		"old_world_saber": return 5
-		_: return 0
+	return int(Weapons.MELEE_BONUSES.get(item_id, 0))
 
 # Which opponent this battle is against. A battle saved before PLAY-4 carries
 # no enemy, so it is read as whatever that battle used to be rather than being
@@ -495,7 +499,8 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			if command in ["ATTACK", "SHOOT"]:
 				dealt = mini(state.enemy_hp, shot_damage(world) if command == "SHOOT" else attack_damage(world))
 				if command == "SHOOT":
-					player.item_inventory.remove_item("revolver_round", 1)
+					var firearm := firearm_for(world)
+					player.item_inventory.remove_item(firearm.ammo_item_id, int(firearm.ammo_spent))
 				state.enemy_hp -= dealt
 				battle.prepared = false
 			var practice := {}
@@ -513,7 +518,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 				# against the blow that is worth bracing for.
 				var foe := battle_enemy(state)
 				var brace: int = Enemies.brace_reduction(foe, turn) if command == "DEFEND" else 0
-				var raw_damage: int = 1 if command == "FLEE" else maxi(0, enemy_damage(turn, foe) - brace)
+				var raw_damage: int = flee_damage(world) if command == "FLEE" else maxi(0, enemy_damage(turn, foe) - brace)
 				if is_road:
 					if command == "FLEE":
 						taken = mini(raw_damage, maxi(0, player.field_kit.hp - 1))
@@ -534,7 +539,8 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			var turn_payload := {"battle_id": battle.id, "turn": turn, "command": command,
 				"dealt": dealt, "taken": taken, "hp": player.field_kit.hp, "enemy_hp": state.enemy_hp}
 			if command == "SHOOT":
-				turn_payload.merge({"weapon_id": "old_revolver", "ammo_item_id": "revolver_round", "ammo_spent": 1, "ammo_remaining": player.item_inventory.quantity("revolver_round")})
+				var firearm := firearm_for(world)
+				turn_payload.merge({"weapon_id": player.equipment.equipped_item("main_hand"), "ammo_item_id": firearm.ammo_item_id, "ammo_spent": int(firearm.ammo_spent), "ammo_remaining": player.item_inventory.quantity(firearm.ammo_item_id)})
 			if not practice.is_empty():
 				turn_payload["skill_practice"] = practice
 			world.record_event(EventRecord.new(world.current_day, "FIELD_TURN", player.npc_id, container_id, turn_payload))
