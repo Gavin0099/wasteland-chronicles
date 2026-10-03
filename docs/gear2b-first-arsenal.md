@@ -11,7 +11,7 @@ Damage below is unprepared MELEE0/FIREARMS0, solo. Existing skill, preparation a
 | Kit crowbar | T1 | existing kit | existing kit | 3 | Existing cache OPEN; armory still needs its skill method |
 | Sledgehammer | T1 | 3200 | 38 | 6 | Retreat costs 2 HP instead of 1 |
 | Scrap machete | T2 | 1200 | 48 | 5 | Existing dependable melee choice |
-| Combat knife | T2 | 450 | 90 | 4 | Leaves weight budget for supplies/tools |
+| Combat knife | T2 | 450 | 90 | 5 | GEAR-BALANCE-1: +1 over hunting knife; lighter than same-damage machete |
 | Reinforced saber | T3 | 1600 | 200 | 6 | Same hammer damage, lighter, ordinary retreat |
 | Old-world saber | T4 UNIQUE | 1300 | 300 | 7 | Existing armory aspiration, retained |
 | Old revolver | T1 | 1000 | 160 | 6 | One 12-cap revolver round |
