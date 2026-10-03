@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "C:/Users/daish/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/test_creature_hunts.gd",
+  "exit_code": 0,
+  "started_at": "2026-10-03T14:49:14Z",
+  "finished_at": "2026-10-03T14:49:23Z",
+  "runner": "governance_tools.test_evidence_receipt_writer",
+  "linked_commit": "1b91df2169b4d49e2d24446170bd4543540bd955",
+  "output_artifacts": [
+    "artifacts/evidence/test-results/creature-hunts.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}
