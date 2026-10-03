@@ -32,6 +32,9 @@ extends RefCounted
 const FERAL_DOG := "feral_dog"
 const BANDIT := "bandit"
 const HEAVY_RAIDER := "heavy_raider"
+const FERAL_BOAR := "feral_boar"
+const DESERT_SCORPION := "desert_scorpion"
+const ASH_GHOUL := "ash_ghoul"
 const DEFAULT_ENEMY := FERAL_DOG
 
 # Bracing takes a turn of damage off. A telegraphed blow is the one worth
@@ -61,6 +64,18 @@ const ENEMIES := {
 		"can_parley": false,
 		"art": "heavy_raider",
 		"note_zh": "披著焊死的廢鐵板，動作慢，但鐵鎚砸下來能要人命。",
+	},
+	FERAL_BOAR: {
+		"name_zh": "荒原野豬", "hp": 10, "can_parley": false, "art": FERAL_BOAR,
+		"note_zh": "先用獠牙試探，每逢偶數回合重撞；重撞前架勢防禦可減傷 7。",
+	},
+	DESERT_SCORPION: {
+		"name_zh": "沙漠巨蠍", "hp": 8, "can_parley": false, "art": DESERT_SCORPION,
+		"note_zh": "奇數回合尾刺強攻，偶數回合只用螯試探。沒有持續中毒效果。",
+	},
+	ASH_GHOUL: {
+		"name_zh": "灰燼怪", "hp": 12, "can_parley": false, "art": ASH_GHOUL,
+		"note_zh": "四回合一輪：爪擊逐步加重，第四回合猛撲後重新試探。",
 	},
 }
 
@@ -101,6 +116,13 @@ static func action_for(enemy_id: Variant, turn: int) -> Dictionary:
 			# No rhythm to read and no wind-up: it simply keeps biting. The
 			# pressure is that it never lets up, so a wasted turn costs you.
 			return {"damage": 3, "heavy": false, "label_zh": "撲咬"}
+		FERAL_BOAR:
+			return {"damage": 8, "heavy": true, "label_zh": "獠牙重撞"} if safe_turn % 2 == 0 else {"damage": 2, "heavy": false, "label_zh": "獠牙試探"}
+		DESERT_SCORPION:
+			return {"damage": 5, "heavy": false, "label_zh": "尾刺強攻"} if safe_turn % 2 == 1 else {"damage": 1, "heavy": false, "label_zh": "收尾螯擊"}
+		ASH_GHOUL:
+			var phase: int = (safe_turn - 1) % 4
+			return {"damage": [1, 2, 4, 6][phase], "heavy": phase == 3, "label_zh": ["伸爪試探", "爪擊", "連爪", "蓄勢猛撲"][phase]}
 		HEAVY_RAIDER:
 			# Two ordinary swings, then the hammer. Slow enough to see coming,
 			# and hard enough that seeing it matters.
@@ -119,6 +141,8 @@ static func action_for(enemy_id: Variant, turn: int) -> Dictionary:
 static func telegraph(enemy_id: Variant, turn: int) -> String:
 	var action := action_for(enemy_id, turn)
 	var name := display_name(enemy_id)
+	if enemy_id in [FERAL_BOAR, DESERT_SCORPION, ASH_GHOUL]:
+		return "%s準備%s，將造成 %d 傷害。%s" % [name, action.label_zh, int(action.damage), "重擊前架勢防禦可減傷 7。" if bool(action.heavy) else "架勢防禦可減傷 3。"]
 	if bool(action.heavy):
 		return "%s高舉鐵鎚，整個人沉下去——下一擊將造成 %d 傷害。架住它，或是賭你能先把他放倒。" % [name, int(action.damage)]
 	match String(enemy_id) if typeof(enemy_id) == TYPE_STRING else DEFAULT_ENEMY:

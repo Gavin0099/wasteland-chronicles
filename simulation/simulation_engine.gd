@@ -2049,7 +2049,8 @@ func _encounter_context(world: WorldState, facts: Dictionary, encounter_type: St
 			# PLACE-4: a bounty on the raider, met on the road past his camp, IS the
 			# camp fight - winning it clears the camp as well.
 			var bounty_place := String(facts.get("road_place", ""))
-			if bounty_place != "" and String(RoadPlaces.info(bounty_place).kind) == RoadPlaces.CAMP:
+			var opponent: String = WorldState.Field.road_enemy_for({"target_enemy": ctx.get("target_enemy", ""), "route_type": facts.get("route_type", "")})
+			if opponent == "heavy_raider" and bounty_place != "" and String(RoadPlaces.info(bounty_place).kind) == RoadPlaces.CAMP:
 				ctx["place_id"] = bounty_place
 		TravelEncounter.PLACE_VISIT:
 			var place_id := String(facts.get("road_place", ""))

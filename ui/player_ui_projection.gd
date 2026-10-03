@@ -110,6 +110,8 @@ static func _project_quests(world: WorldState) -> Array:
 			held = int(world.player.inventory.get_amount(resource)) if world.player.inventory != null else 0
 		elif objective_type in ["WIN_ROAD_COMBAT", "REPAIR_EQUIPMENT"]:
 			item_name = "擊退劫匪"
+			if objective_type == "WIN_ROAD_COMBAT":
+				item_name = "擊退%s" % preload("res://simulation/enemy_catalogue.gd").display_name(String(definition.get("target_enemy", "bandit")))
 			target = _settlement_name("settlement:" + String(objective.get("destination_id", "")))
 			held = 1 if QuestEngine.evaluate_objectives(world, quest_id) else 0
 		var action := PlayerIntent.create_accept_quest(world.player.npc_id, quest_id) if status == "AVAILABLE" else PlayerIntent.create_turn_in_quest(world.player.npc_id, quest_id)

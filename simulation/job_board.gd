@@ -77,6 +77,14 @@ const STANDING_RAIDER_PREFIX := "new_hope_raider_standing_"
 const STANDING_RAIDER_CAPS := 150
 const STANDING_RAIDER_XP := 18
 
+# One distinct, reachable creature hunt on each original town's board.
+# Contracts reuse WIN_ROAD_COMBAT; no autonomous creatures or new entity lifecycle.
+const HUNTS := {
+	"new_hope": {"enemy": "feral_boar", "destination": "dry_well", "route": "WILDERNESS", "caps": 95, "xp": 10},
+	"dry_well": {"enemy": "desert_scorpion", "destination": "gray_valley", "route": "HIGHWAY", "caps": 75, "xp": 8},
+	"gray_valley": {"enemy": "ash_ghoul", "destination": "new_hope", "route": "HIGHWAY", "caps": 100, "xp": 12},
+}
+
 # Danger is a 1..3 rating, and it is the spine of the whole board: it sets the
 # stars the player reads, the caps, and the experience. Easy work pays rent;
 # only dangerous work teaches you anything.
@@ -181,6 +189,7 @@ static func postings(world, settlement_id: StringName) -> Array:
 		_courier(world, settlement, window),
 		_salvage(world, settlement, window),
 		_bounty(world, settlement, window),
+		_hunt(world, settlement, window),
 		_consignment(world, settlement, window),
 		preload("res://simulation/well_repair.gd").posting(world, settlement, window),
 	]
@@ -627,6 +636,41 @@ static func _bounty(world, settlement, window: int, standing_generation: int = -
 		"summary": summary,
 	}
 
+static func _hunt(world, settlement, window: int) -> Dictionary:
+	var origin: String = _short(String(settlement.id))
+	if not HUNTS.has(origin):
+		return {}
+	var spec: Dictionary = HUNTS[origin]
+	var destination := StringName("settlement:" + String(spec.destination))
+	if world.get_settlement(destination) == null:
+		return {}
+	var enemy: String = spec.enemy
+	var days: int = 2
+	for caravan in world.caravans.values():
+		if (caravan.origin_id == settlement.id and caravan.destination_id == destination) or (caravan.destination_id == settlement.id and caravan.origin_id == destination):
+			days = int(caravan.route_days)
+			break
+	if Route.supports_pair(settlement.id, destination):
+		days = Route.get_route_days(settlement.id, destination, spec.route)
+	var risk: int = road_risk(world, settlement.id, destination, StringName(spec.route))
+	var job_id := "%s%s_hunt_%s_%d" % [JOB_ID_PREFIX, origin, enemy, window]
+	var enemy_name: String = Enemies.display_name(enemy)
+	var route_name: String = "荒野繞路" if spec.route == "WILDERNESS" else "廢棄公路"
+	var title := "狩獵委託：%s（往%s）" % [enemy_name, _name_of(world, destination)]
+	var description := "在往%s的%s擊退%s，回%s交付勝利紀錄領賞。單程 %d 天，期限 %d 天。逃跑不算完成。\n%s" % [_name_of(world, destination), route_name, enemy_name, settlement.name, days, BOUNTY_DEADLINE_DAYS, Enemies.resolve(enemy).note_zh]
+	var definition := {
+		"id": job_id, "title_zh": title, "description_zh": description,
+		"settlement_id": origin, "issuer_npc_id": "",
+		"availability": {"required_day": 0, "required_flags": []}, "deadline_days": BOUNTY_DEADLINE_DAYS,
+		"objectives": [{"id": "hunt_creature", "type": "WIN_ROAD_COMBAT", "origin_id": origin, "destination_id": String(spec.destination), "quantity": 1, "target_enemy": enemy, "bounty_job_id": job_id}],
+		"outcomes": {
+			"resolved": {"rewards": [{"type": "CURRENCY", "amount": int(spec.caps) + 15 * risk}, {"type": "XP", "amount": int(spec.xp) + 2 * risk}], "world_effects": []},
+			"failed": {"rewards": [], "world_effects": []}, "expired": {"rewards": [], "world_effects": []},
+		},
+		"target_enemy": enemy, "target_route_origin": origin, "target_route_destination": String(spec.destination), "target_route_type": String(spec.route), "route_days": days,
+	}
+	return {"definition": definition, "archetype": "HUNT", "risk": risk, "route_days": days, "urgent": false, "target_enemy": enemy, "target_route_origin": origin, "target_route_destination": String(spec.destination), "target_route_type": String(spec.route), "summary": "擊退%s，再回%s領賞" % [enemy_name, settlement.name]}
+
 # The standing raider bounty. It stays on New Hope's board until it is
 # resolved, expires or fails; each ending opens the next generation, so a
 # missed deadline puts the same raider back up rather than losing him. Not
@@ -676,7 +720,7 @@ static func intel_for(world, entry: Dictionary) -> Array:
 		var fair: int = caps + 6 * int(entry.get("route_days", 2))
 		if fair > caps:
 			lines.append("〔商路熟手〕這趟開 %d 瓶蓋偏低，照路程你估合理價該在 %d 上下。" % [caps, fair])
-	if archetype == "BOUNTY":
+	if archetype in ["BOUNTY", "HUNT"]:
 		lines.append("以下估算採連續近身攻擊；射擊傷害與耗彈請見戰鬥行動。")
 		var target_enemy: String = String(entry.get("target_enemy", ""))
 		var enemy_name: String = String(Enemies.resolve(target_enemy).get("name_zh", "目標")) if target_enemy != "" else "攔路敵人"

@@ -20,7 +20,7 @@ const IsometricGround = preload("res://ui/components/isometric_battle_ground.gd"
 #   4. VISUAL_PROFILES is the single source of visual truth.
 # ==============================================================================
 
-const KNOWN_ENEMIES := ["feral_dog", "bandit", "heavy_raider"]
+const KNOWN_ENEMIES := ["feral_dog", "bandit", "heavy_raider", "feral_boar", "desert_scorpion", "ash_ghoul"]
 
 # Hand-play, twice: the weapon floated beside the fighter instead of being held.
 # Each weapon has an authored grip (uv on the source icon) and length relative
@@ -45,6 +45,22 @@ const WEAPON_GRIPS := {
 const DEFAULT_GRIP := {"grip": Vector2(0.24, 0.80), "size": 0.26}
 
 const VISUAL_PROFILES := {
+	"feral_boar": {
+		"actor_id": "feral_boar", "texture_path": "res://ui/assets/combat/feral-boar.png",
+		"foot_anchor_uv": Vector2(0.50, 0.98), "height_ratio": 0.29, "shadow_radius_ratio": 0.34,
+		"modulate": Color.WHITE, "attack_speed": 0.90, "lunge_ratio": 0.46, "recoil_strength": 5.0, "heavy_capable": true,
+	},
+	"desert_scorpion": {
+		"actor_id": "desert_scorpion", "texture_path": "res://ui/assets/combat/desert-scorpion.png",
+		"foot_anchor_uv": Vector2(0.50, 0.94), "height_ratio": 0.26, "shadow_radius_ratio": 0.40,
+		"modulate": Color.WHITE, "attack_speed": 1.10, "lunge_ratio": 0.32, "recoil_strength": 7.0, "heavy_capable": false,
+	},
+	"ash_ghoul": {
+		"actor_id": "ash_ghoul", "texture_path": "res://ui/assets/combat/ash-ghoul.png",
+		# Ground midpoint between the two generated feet, not the canvas center.
+		"foot_anchor_uv": Vector2(0.60, 0.94), "height_ratio": 0.43, "shadow_radius_ratio": 0.22,
+		"modulate": Color.WHITE, "attack_speed": 1.20, "lunge_ratio": 0.42, "recoil_strength": 8.0, "heavy_capable": true,
+	},
 	"drifter": {
 		"texture_path": "res://ui/assets/combat/drifter.png",
 		"foot_anchor_uv": Vector2(0.50, 0.98),
@@ -206,6 +222,7 @@ class ActorNode extends Node2D:
 	var texture_ref: Texture2D = null
 	var anim_player: AnimationPlayer
 	var actor_id := ""
+	var cutout_motion := false
 	var rest_foot := Vector2(0.5, 1.0)
 	var rest_hand := Vector2(0.75, 0.40)
 	var idle_breath_amount: float = 0.0:
@@ -399,6 +416,11 @@ class ActorNode extends Node2D:
 		hand_uv = frame.get("hand", rest_hand)
 		var source_h: float = float(frame.get("reference_height", texture_ref.get_height()))
 		body.scale = Vector2.ONE * target_height / maxf(1.0, source_h)
+		# New creatures retain one authored silhouette through every pose. Bounded
+		# cutout posture belongs to AnimationPlayer's sampled pose; root motion
+		# remains the receipt-driven director's responsibility.
+		if cutout_motion:
+			body.rotation = {"windup": 0.06, "charge": 0.10, "strike": -0.08, "hurt": 0.07, "brace": 0.03, "recover": 0.04, "kneel": -0.35, "fall": -1.10}.get(pose, 0.0)
 		if pose == "rest":
 			body.scale.y *= 1.0 + idle_breath_amount * 0.006
 		body.offset = -body.texture.get_size() * foot_anchor_uv
@@ -470,7 +492,8 @@ class ActorNode extends Node2D:
 		var tex_path: String = profile.get("texture_path", "")
 		var tex: Texture2D = TextureHelper.load_texture_safe(tex_path)
 		texture_ref = tex
-		actor_id = "drifter" if is_hero else {"feral-dog.png": "feral_dog", "road-bandit.png": "bandit", "heavy-raider.png": "heavy_raider"}.get(tex_path.get_file(), "")
+		actor_id = "drifter" if is_hero else String(profile.get("actor_id", {"feral-dog.png": "feral_dog", "road-bandit.png": "bandit", "heavy-raider.png": "heavy_raider"}.get(tex_path.get_file(), "")))
+		cutout_motion = actor_id in ["feral_boar", "desert_scorpion", "ash_ghoul"]
 		rest_foot = profile.get("foot_anchor_uv", Vector2(0.5, 1.0))
 		rest_hand = profile.get("hand_uv", Vector2(0.75, 0.40))
 		foot_anchor_uv = profile.get("foot_anchor_uv", Vector2(0.5, 1.0))
