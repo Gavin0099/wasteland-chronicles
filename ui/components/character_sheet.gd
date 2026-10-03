@@ -50,6 +50,9 @@ var trait_label: Label
 var equipment_action: Callable
 var equipment_unequip_action: Callable
 var item_use_action: Callable
+var item_rumor_action: Callable
+var item_guide_label: Label
+var item_rumor_button: Button
 var perk_action: Callable
 var acquired_action: Callable
 var perk_choice_buttons: Dictionary = {}
@@ -153,6 +156,7 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
 	item_use_action = p_item_use_action
+	item_rumor_action = _p_rumor_action
 	perk_action = p_perk_action
 	acquired_action = p_acquired_action
 	gear_data = character.get("gear", {}).duplicate(true)
@@ -499,7 +503,17 @@ func _detail_button(id: String) -> Button:
 	return button
 
 func _comparison_column(parent: Node, heading: String, name_text: String, stats: Dictionary) -> void:
-	var column := column_in(parent, heading, 1.0)
+	# The complete detail body already scrolls; nested column scrolls collapse here.
+	var panel: PanelContainer = PanelContainer.new()
+	panel.theme_type_variation = "PdaPanel"
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.add_child(panel)
+	var column: VBoxContainer = VBoxContainer.new()
+	column.add_theme_constant_override("separation", Tokens.GAP)
+	panel.add_child(column)
+	var title_label: Label = label_in(column, heading, "PdaMuted")
+	title_label.add_theme_color_override("font_color", Tokens.AMBER)
+	column.add_child(HSeparator.new())
 	label_in(column, name_text, "PdaSection")
 	for line: String in stats.get("lines", []):
 		label_in(column, line)
@@ -523,16 +537,35 @@ func show_item_detail(id: String) -> void:
 	item_detail.add_child(outer)
 	var head := item_row(outer, id)
 	head.add_child(label_in_unparented("%s · %s · %s" % [data.name, data.tier, data.quality], "PdaTitle"))
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	outer.add_child(scroll)
+	var content: VBoxContainer = VBoxContainer.new()
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation", Tokens.GAP)
+	scroll.add_child(content)
 	var compared := HBoxContainer.new()
 	compared.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	compared.add_theme_constant_override("separation", Tokens.PAD)
-	outer.add_child(compared)
+	content.add_child(compared)
 	if String(data.current_id) != id and (String(data.slot) != "" or String(data.current_id) != ""):
 		_comparison_column(compared, "目前裝備" if String(data.slot) != "" else "目前最佳工具", String(data.current_name), data.current)
 	_comparison_column(compared, "已裝備" if bool(data.equipped) else "選取物品", String(data.name), data.candidate)
 	if String(data.slot) == "main_hand":
 		var legend := label_in_unparented("常態傷害含技巧與同行支援；架勢、快拔另依時機生效。", "PdaMuted")
-		outer.add_child(legend)
+		legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		content.add_child(legend)
+	var guidance: Dictionary = data.get("guidance", {})
+	item_guide_label = label_in(content, "%s\n%s\n%s" % [guidance.get("source", ""), guidance.get("use", ""), guidance.get("pursuit", "")])
+	item_rumor_button = null
+	if bool(guidance.get("rumor_entry", false)) and item_rumor_action.is_valid():
+		item_rumor_button = Button.new()
+		item_rumor_button.text = "打開傳聞 · 自行選擇追尋目標"
+		item_rumor_button.theme_type_variation = "PdaCommand"
+		item_rumor_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		outer.add_child(item_rumor_button)
+		item_rumor_button.pressed.connect(item_rumor_action)
 	var can_equip: bool = String(data.slot) != "" and not bool(data.equipped) and equipment_action.is_valid()
 	item_detail.ok_button_text = "裝備到" + _slot_name(String(data.slot)) if can_equip else "返回人物"
 	item_detail.get_ok_button().custom_minimum_size.y = Tokens.COMMAND_HEIGHT

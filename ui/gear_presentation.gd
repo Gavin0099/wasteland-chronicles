@@ -8,6 +8,7 @@ const Properties = preload("res://game_data/gear_property_profiles.gd")
 const Rumors = preload("res://simulation/rumors.gd")
 const Trust = preload("res://simulation/local_trust.gd")
 const Request = preload("res://simulation/companion_request.gd")
+const Guidance = preload("res://ui/item_guidance.gd")
 const QUALITY_NAMES := {"COMMON": "普通", "MODIFIED": "改良", "RARE": "稀有", "UNIQUE": "獨特"}
 
 static func name_for(id: String) -> String:
@@ -69,7 +70,8 @@ static func project(world: WorldState) -> Dictionary:
 		out.details[id] = {"id": id, "name": String(definition.display_name_zh), "tier": String(definition.tier),
 			"quality": QUALITY_NAMES[definition.quality], "slot": slot,
 			"equipped": slot != "" and current == id, "current_id": current,
-			"current_name": name_for(current), "candidate": stats(world, id, slot), "current": stats(world, current, slot)}
+			"current_name": name_for(current), "candidate": stats(world, id, slot), "current": stats(world, current, slot),
+			"guidance": Guidance.project(world, id)}
 	for skill: String in ["MECHANICS", "ELECTRONICS"]:
 		var id: String = Gear.best_tool(world.player, skill)
 		out.tools.append({"skill": skill, "item_id": id, "name": name_for(id) if id != "" else "未持有工具",
