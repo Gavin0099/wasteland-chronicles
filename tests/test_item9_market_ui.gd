@@ -31,7 +31,7 @@ func run() -> void:
 	var shell := PlayableShell.new()
 	root.add_child(shell)
 	shell.setup(world, engine)
-	check(shell.item_market_rows.size() == 42 and not shell.item_market_rows["military_backpack"].visible and not shell.item_market_rows["old_world_saber"].visible and not shell.item_market_rows["old_revolver"].visible and not shell.item_market_rows["revolver_round"].visible and not shell.item_market_rows["short_shotgun"].visible, "Survivor PDA keeps route-only and New Hope-only loot out of Gray Valley shop rows")
+	check(shell.item_market_rows.size() == 44 and not shell.item_market_rows["military_backpack"].visible and not shell.item_market_rows["old_world_saber"].visible and not shell.item_market_rows["old_revolver"].visible and not shell.item_market_rows["revolver_round"].visible and not shell.item_market_rows["short_shotgun"].visible, "Survivor PDA keeps route-only and New Hope-only loot out of Gray Valley shop rows")
 	check(shell.item_market_toggle != null and not shell.item_market_toggle.button_pressed, "item market starts collapsed")
 	shell.item_market_toggle.button_pressed = true
 	shell.item_market_toggle.toggled.emit(true)

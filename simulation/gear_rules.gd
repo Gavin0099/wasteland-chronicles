@@ -4,9 +4,10 @@ extends RefCounted
 const Properties = preload("res://game_data/gear_property_profiles.gd")
 const PROTECTION := {"thick_cloth_coat": 0, "leather_jacket": 1, "reinforced_leather_jacket": 2, "ballistic_vest": 3}
 const PACK_CARGO := {"travel_backpack": 8, "reinforced_travel_backpack": 10, "military_backpack": 12}
-const MECHANICAL_TOOLS := {"wrench": 1, "repair_toolbox": 2, "precision_repair_kit": 3, "fieldrepair_precision_kit": 3, "precision_repair_toolbox": 2}
+const MECHANICAL_TOOLS := {"wrench": 1, "repair_toolbox": 2, "precision_repair_kit": 3, "fieldrepair_precision_kit": 3, "precision_repair_toolbox": 2, "engineer_precision_tools": 3}
 const ELECTRONIC_TOOLS := {"simple_meter": 1, "electronic_repair_kit": 2, "military_electronic_tools": 3}
 const METHOD_TOOLS := {
+	"RECOVER_GAS_MASK": ["MECHANICS", 2], "ENGINEER_OVERHAUL": ["MECHANICS", 3],
 	"OPEN_ARMORY": ["MECHANICS", 2], "BRIDGE_ARMORY": ["ELECTRONICS", 1],
 	"CALIBRATE_ARMORY": ["ELECTRONICS", 3], "REPAIR_PUMP": ["MECHANICS", 1],
 	"OVERHAUL_PUMP": ["MECHANICS", 3], "REWIRE_PUMP": ["ELECTRONICS", 2],
@@ -43,6 +44,8 @@ static func grade_for(id: String, skill: String) -> int:
 	return int(tools.get(id, 0)) + (1 if skill == "MECHANICS" and Properties.has(id, "precision_set") else 0)
 
 static func method_refusal(player, method: String) -> String:
+	if method == "ENGINEER_OVERHAUL" and not player.item_inventory.contains("engineer_precision_tools"):
+		return "TOOL_REQUIRED: engineer precision tools required"
 	if method == "SLIP_PAST" and Properties.base_item(player.equipment.equipped_item("body")) == "ballistic_vest":
 		return "ARMOR_BLOCKS_STEALTH: ballistic vest must be removed before sneaking"
 	if METHOD_TOOLS.has(method):

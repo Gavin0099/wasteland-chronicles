@@ -292,9 +292,13 @@ static func _project_encounter_result(world: WorldState) -> Dictionary:
 		const RoadPlaces = preload("res://simulation/road_places.gd")
 		var place_name := String(RoadPlaces.info(place_id).get("name_zh", ""))
 		match String(result.option):
-			"REPAIR_PUMP", "OVERHAUL_PUMP", "REWIRE_PUMP":
+			"REPAIR_PUMP", "OVERHAUL_PUMP", "REWIRE_PUMP", "ENGINEER_OVERHAUL":
 				var repair: Dictionary = result.get("equipment_repair", {})
 				result["place_note"] = "抽水泵已修復：故障 → 運轉。%s每日產水 %d → %d。期限內回委託鎮領酬。" % [_settlement_name(String(repair.get("settlement_id", ""))), int(repair.get("production_before", 0)), int(repair.get("production_after", 0))]
+			"RECOVER_GAS_MASK":
+				result["place_note"] = "軍規防毒面具已放入背包；帶上面具與2廢料，改走荒野路第一天可進污染工坊。"
+			"ENTER_TOXIC_WORKSHOP":
+				result["place_note"] = "工程師精密工具已放入背包，面具保留；機械2、3廢料、2天可精修委託井泵，產水+2/日。"
 			"MARK_A", "MARK_B":
 				var town := RoadPlaces.town_name(world, String(result.get("marked_for", "")))
 				result["place_note"] = "你記下了%s的位置。走進%s，就能回報給他們。" % [place_name, town]

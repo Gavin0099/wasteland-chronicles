@@ -78,7 +78,7 @@ static func practice_skill(encounter_type: StringName, option_id: StringName) ->
 		PLACE_VISIT:
 			if option_id == &"SEARCH_SITE":
 				return "SCAVENGING"
-			if option_id in [&"OPEN_ARMORY", &"REPAIR_PUMP", &"OVERHAUL_PUMP"]:
+			if option_id in [&"OPEN_ARMORY", &"REPAIR_PUMP", &"OVERHAUL_PUMP", &"ENGINEER_OVERHAUL", &"RECOVER_GAS_MASK"]:
 				return "MECHANICS"
 			if option_id in [&"BRIDGE_ARMORY", &"CALIBRATE_ARMORY", &"REWIRE_PUMP"]:
 				return "ELECTRONICS"
@@ -465,7 +465,7 @@ static func valid_resolution(data: Dictionary) -> bool:
 		if typeof(data.get(field)) != TYPE_STRING:
 			return false
 	var elapsed: Variant = data.get("elapsed_days")
-	if typeof(elapsed) not in [TYPE_INT, TYPE_FLOAT] or (float(elapsed) != 0.0 and float(elapsed) != 1.0):
+	if typeof(elapsed) not in [TYPE_INT, TYPE_FLOAT] or (float(elapsed) != 0.0 and float(elapsed) != 1.0 and not (data.option == "ENGINEER_OVERHAUL" and float(elapsed) == 2.0)):
 		return false
 	for field in ["gained", "spent", "left_behind"]:
 		if typeof(data.get(field)) != TYPE_DICTIONARY:

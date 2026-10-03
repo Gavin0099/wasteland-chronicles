@@ -54,7 +54,7 @@ func _init() -> void:
 	var summary := Markets.summary_for("dry_well")
 	check(summary.success and summary.listed_item_count == 31, "summary counts listed items")
 	check(int(summary.supply_counts.high) > 0 and int(summary.supply_counts.low) > 0, "summary preserves regional spread")
-	check(Registry.all_definitions().size() == 42, "registry includes route-only and New Hope-only items without listing them in Gray Valley")
+	check(Registry.all_definitions().size() == 44, "registry includes route-only and New Hope-only items without listing them in Gray Valley")
 
 	print("ITEM-7 regional market catalogue: ", "PASS" if failures == 0 else "FAIL", "; assertions=", assertions, "; failures=", failures)
 	quit(0 if failures == 0 else 1)

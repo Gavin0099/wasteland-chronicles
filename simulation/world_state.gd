@@ -421,6 +421,9 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 	var repair_error: String = preload("res://simulation/well_repair.gd").validate(w)
 	if repair_error != "":
 		return {"success": false, "world": null, "error": repair_error}
+	var unique_error: String = preload("res://simulation/unique_gear.gd").validate(w)
+	if unique_error != "":
+		return {"success": false, "world": null, "error": unique_error}
 	var companion_error: String = preload("res://simulation/party.gd").validate_personal_history(w)
 	if companion_error != "":
 		return {"success": false, "world": null, "error": companion_error}

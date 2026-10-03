@@ -66,7 +66,9 @@ static func _validate(raw: Variant) -> Dictionary:
 	for field in ["equip_slots", "actions", "tags", "origin_tags", "loot_sources"]:
 		if not _token_array(raw[field], field == "tags"):
 			return _failure("INVALID_ITEM_" + field.to_upper())
-	if not raw.stackable and raw.equip_slots.is_empty() and raw.category in ["WEAPON", "APPAREL", "CONTAINER"]:
+	# The authored mask is used on facility entry; there is no new head slot.
+	var held_mask: bool = raw.item_id == "military_gas_mask" and raw.subtype == "gas_mask" and raw.actions == ["enter_toxic_workshop"]
+	if not raw.stackable and raw.equip_slots.is_empty() and raw.category in ["WEAPON", "APPAREL", "CONTAINER"] and not held_mask:
 		return _failure("INVALID_ITEM_EQUIP_SLOT")
 	for market in MARKETS:
 		if typeof(raw.settlement_supply) != TYPE_DICTIONARY or typeof(raw.settlement_demand) != TYPE_DICTIONARY or not raw.settlement_supply.has(market) or not raw.settlement_demand.has(market) or raw.settlement_supply[market] not in LEVELS or raw.settlement_demand[market] not in LEVELS:

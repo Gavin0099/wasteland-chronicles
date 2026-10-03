@@ -3,7 +3,9 @@ extends RefCounted
 # Existing items only. Crowbar is the legacy field-kit item, not a new formal
 # inventory entry. Quality/effect labels describe existing behavior only.
 const Properties = preload("res://game_data/gear_property_profiles.gd")
+const UNIQUE_EFFECTS := {"old_world_saber": "old_world_edge", "military_gas_mask": "toxic_facility_access", "engineer_precision_tools": "engineer_overhaul"}
 const TIERS := {
+	"military_gas_mask": "T3", "engineer_precision_tools": "T4",
 	"thick_cloth_coat": "T1",
 	"leather_jacket": "T1",
 	"reinforced_leather_jacket": "T2",
@@ -31,5 +33,5 @@ static func resolve(id: Variant) -> Dictionary:
 		return Properties.profile(id)
 	if not TIERS.has(id):
 		return {}
-	return {"tier": TIERS[id], "quality": "UNIQUE" if id == "old_world_saber" else "COMMON",
-		"properties": [], "unique_effect": "old_world_edge" if id == "old_world_saber" else ""}
+	return {"tier": TIERS[id], "quality": "UNIQUE" if UNIQUE_EFFECTS.has(id) else "COMMON",
+		"properties": [], "unique_effect": UNIQUE_EFFECTS.get(id, "")}

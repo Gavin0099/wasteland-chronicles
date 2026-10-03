@@ -46,6 +46,8 @@ static func rows() -> Array:
 		_row("fieldrepair_precision_kit", "現地維修精密組", "TOOL", 1800, "item_precision_repair_kit", ["hand_tool", "precision"]),
 		_row("precision_repair_toolbox", "精密套件工具箱", "TOOL", 2200, "item_repair_toolbox", ["hand_tool"]),
 		_row("expedition_travel_backpack", "旅行遠征包", "CONTAINER", 1400, "item_travel_backpack", ["bag", "travel"]),
+		_row("military_gas_mask", "軍規防毒面具", "APPAREL", 800, "item_military_gas_mask", ["gas_protection", "military"]),
+		_row("engineer_precision_tools", "工程師精密工具組", "TOOL", 1600, "item_engineer_precision_tools", ["hand_tool", "old_world", "precision"]),
 	]
 
 static func _row(id: String, label: String, category: String, grams: int, asset: String, tags: Array, stacking: String = "UNIQUE") -> Dictionary:
