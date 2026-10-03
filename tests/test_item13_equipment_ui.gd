@@ -37,9 +37,12 @@ func run() -> void:
 	root.add_child(sheet)
 	sheet.setup(Presentation.project(world), PlayerUIProjection.project(world).player, equip_action, unequip_action)
 	check(sheet.item_labels.has("rusted_knife"), "character sheet still presents the owned item")
-	var item_row: HBoxContainer = sheet.item_labels.rusted_knife.get_parent()
-	check(item_row.get_child_count() >= 3, "owned equippable item exposes an equipment action")
-	var equip_button: Button = item_row.get_child(item_row.get_child_count() - 1)
+	var equip_buttons: Array[Node] = sheet.inventory_list.find_children("*", "Button", true, false).filter(func(node: Node) -> bool: return (node as Button).text == "裝備到主手")
+	check(equip_buttons.size() == 1, "owned equippable item exposes one visible equipment action")
+	if equip_buttons.size() != 1:
+		quit(1)
+		return
+	var equip_button: Button = equip_buttons[0] as Button
 	equip_button.pressed.emit()
 	check(equip_requests == [{"item_id": "rusted_knife", "slot": "main_hand"}], "equipment button sends the declared slot and item")
 	check(world.player.equipment.equipped_item("main_hand") == "rusted_knife", "equipment intent commits through the authority")

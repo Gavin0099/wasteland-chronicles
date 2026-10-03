@@ -31,6 +31,7 @@ const Perks = preload("res://simulation/perk_catalogue.gd")
 const Gear = preload("res://simulation/gear_rules.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
 const GearPresentation = preload("res://ui/gear_presentation.gd")
+const InventoryPresentation = preload("res://ui/inventory_presentation.gd")
 const PORTRAIT := "res://ui/assets/combat/drifter.png"
 
 var skill_rows: Dictionary = {}
@@ -58,6 +59,19 @@ var experience_labels: Array[Label] = []
 var aspiration_label: Label
 var gear_data: Dictionary = {}
 var item_detail: AcceptDialog
+var inventory_category: OptionButton
+var inventory_order: OptionButton
+var inventory_search: LineEdit
+var inventory_summary: Label
+var inventory_empty: Label
+var inventory_list: VBoxContainer
+var inventory_scroll: ScrollContainer
+var inventory_jump: Button
+var inventory_items: Array = []
+var inventory_state: Dictionary = {}
+var inventory_use_reason: String = ""
+var inventory_requested: bool = false
+signal inventory_view_changed(state: Dictionary)
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -135,13 +149,15 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable(), p_growth_action: Callable = Callable(), _p_rumor_action: Callable = Callable()) -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable(), p_growth_action: Callable = Callable(), _p_rumor_action: Callable = Callable(), p_inventory_state: Dictionary = {}) -> void:
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
 	item_use_action = p_item_use_action
 	perk_action = p_perk_action
 	acquired_action = p_acquired_action
 	gear_data = character.get("gear", {}).duplicate(true)
+	inventory_state = InventoryPresentation.normalize(p_inventory_state)
+	inventory_requested = bool(p_inventory_state.get("show_inventory", false))
 	title = "人物與行囊"
 	theme_type_variation = "PdaDialog"
 	ok_button_text = "返回旅程"
@@ -156,6 +172,7 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	_build_gear(column_in(columns, "裝備與行囊", 1.4), character, player, p_item_use_disabled_reason)
 	_build_skills(column_in(columns, "能力", 1.15), character, p_growth_action)
 	show_notice(p_action_notice)
+	if inventory_requested: call_deferred("_show_inventory")
 	confirmed.connect(queue_free)
 	canceled.connect(queue_free)
 
@@ -313,43 +330,115 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 	crowbar_row.add_child(crowbar)
 	label_in(middle, "行囊", "PdaSection")
 	label_in(middle, "正式物品 %.2f / %.2f 公斤" % [float(player.get("item_load_g", 0)) / 1000.0, float(player.get("item_capacity_g", 12000)) / 1000.0], "PdaMuted")
-	var owned_items: Array = player.get("items", [])
-	if owned_items.is_empty():
-		label_in(middle, "目前沒有額外物品。", "PdaMuted")
-	for entry in owned_items:
-		var item_id := String(entry.get("item_id", ""))
-		var resolved := ItemRegistry.resolve(item_id)
-		if not resolved.success:
-			continue
-		var row_node := item_row(middle, item_id)
-		var item_label := label_in(row_node, "%s ×%d" % [resolved.definition.display_name_zh, int(entry.get("quantity", 0))])
+	inventory_items = player.get("items", []).duplicate(true)
+	inventory_use_reason = item_use_disabled_reason
+	inventory_scroll = middle.get_parent() as ScrollContainer
+	inventory_jump = Button.new()
+	inventory_jump.text = "整理行囊 · %d 種物品" % inventory_items.size()
+	inventory_jump.theme_type_variation = "PdaCommand"
+	inventory_jump.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	var panel_outer: VBoxContainer = inventory_scroll.get_parent() as VBoxContainer
+	panel_outer.add_child(inventory_jump)
+	panel_outer.move_child(inventory_jump, 2)
+	inventory_jump.pressed.connect(_show_inventory)
+	var filters: HBoxContainer = HBoxContainer.new()
+	filters.add_theme_constant_override("separation", Tokens.GAP)
+	middle.add_child(filters)
+	inventory_category = OptionButton.new()
+	inventory_category.accessibility_name = "物品分類"
+	inventory_order = OptionButton.new()
+	inventory_order.accessibility_name = "物品排序"
+	for name_text: String in InventoryPresentation.CATEGORY_NAMES: inventory_category.add_item(name_text)
+	for name_text: String in InventoryPresentation.ORDER_NAMES: inventory_order.add_item(name_text)
+	for selector: OptionButton in [inventory_category, inventory_order]:
+		selector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		selector.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		filters.add_child(selector)
+	inventory_category.select(InventoryPresentation.CATEGORIES.find(inventory_state.category))
+	inventory_order.select(InventoryPresentation.ORDERS.find(inventory_state.order))
+	inventory_search = LineEdit.new()
+	inventory_search.placeholder_text = "搜尋物品名稱或用途"
+	inventory_search.accessibility_name = "搜尋行囊中的物品名稱或用途"
+	inventory_search.clear_button_enabled = true
+	inventory_search.add_theme_stylebox_override("normal", get_theme_stylebox("normal", "Button"))
+	inventory_search.add_theme_stylebox_override("focus", get_theme_stylebox("focus", "Button"))
+	inventory_search.add_theme_color_override("font_color", Tokens.TEXT)
+	inventory_search.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	inventory_search.text = inventory_state.query
+	middle.add_child(inventory_search)
+	inventory_summary = label_in(middle, "", "PdaMuted")
+	inventory_list = VBoxContainer.new()
+	inventory_list.add_theme_constant_override("separation", Tokens.PAD)
+	middle.add_child(inventory_list)
+	inventory_empty = label_in(middle, "", "PdaMuted")
+	inventory_category.item_selected.connect(func(_index: int): _refresh_inventory())
+	inventory_order.item_selected.connect(func(_index: int): _refresh_inventory())
+	inventory_search.text_changed.connect(func(_text: String): _refresh_inventory())
+	_refresh_inventory(false)
+	label_in(middle, "查看人物與行囊不消耗時間。", "PdaMuted")
+
+func _show_inventory() -> void:
+	inventory_requested = true
+	# Align the filter row at the viewport top so results are visible too.
+	inventory_scroll.scroll_vertical = int((inventory_category.get_parent() as Control).position.y)
+	inventory_search.grab_focus()
+	_publish_inventory_view()
+
+func _publish_inventory_view() -> void:
+	var state: Dictionary = inventory_state.duplicate(true)
+	state["show_inventory"] = inventory_requested
+	inventory_view_changed.emit(state)
+
+func _refresh_inventory(user_changed: bool = true) -> void:
+	if user_changed: inventory_requested = true
+	inventory_state = {"category": InventoryPresentation.CATEGORIES[inventory_category.selected],
+		"order": InventoryPresentation.ORDERS[inventory_order.selected], "query": inventory_search.text}
+	for child: Node in inventory_list.get_children(): child.free()
+	item_labels.clear()
+	item_use_buttons.clear()
+	detail_buttons.clear()
+	var visible_items: Array[Dictionary] = InventoryPresentation.rows(inventory_items, inventory_state)
+	var selected_weight: int = 0
+	for entry: Dictionary in visible_items: selected_weight += int(entry.weight_g)
+	inventory_summary.text = "顯示 %d / %d 種 · 此篩選 %.2f 公斤" % [visible_items.size(), inventory_items.size(), float(selected_weight) / 1000.0]
+	inventory_empty.visible = visible_items.is_empty()
+	inventory_empty.text = "目前沒有額外物品。" if inventory_items.is_empty() else "沒有符合分類與搜尋的物品；可清除搜尋或選擇全部物品。"
+	for entry: Dictionary in visible_items:
+		var item_id: String = entry.item_id
+		var definition: Dictionary = entry.definition
+		var block: VBoxContainer = VBoxContainer.new()
+		block.add_theme_constant_override("separation", Tokens.GAP)
+		inventory_list.add_child(block)
+		var row_node: HBoxContainer = item_row(block, item_id)
+		var item_label: Label = label_in(row_node, "%s ×%d · %.2f 公斤\n%s · %s" % [entry.name, entry.quantity, float(entry.weight_g) / 1000.0, definition.tier, {"COMMON": "普通", "MODIFIED": "改良", "RARE": "稀有", "UNIQUE": "獨特"}[definition.quality]])
 		item_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		item_labels[item_id] = item_label
-		var gear_label: String = "%s · %s" % [resolved.definition.tier, {"COMMON": "普通", "MODIFIED": "改良", "RARE": "稀有", "UNIQUE": "獨特"}[resolved.definition.quality]]
-		item_label.text += "　" + gear_label
-		item_label.tooltip_text = String(resolved.definition.description_zh)
-		var inspect := _detail_button(item_id)
-		row_node.add_child(inspect)
+		item_label.tooltip_text = String(definition.description_zh)
+		var actions: HBoxContainer = HBoxContainer.new()
+		actions.add_theme_constant_override("separation", Tokens.GAP)
+		block.add_child(actions)
+		var inspect: Button = _detail_button(item_id)
+		actions.add_child(inspect)
 		detail_buttons[item_id] = inspect
 		if item_id == "first_aid_kit" and item_use_action.is_valid():
 			var use_button := Button.new()
-			use_button.text = "使用 · 生命最多 +4" if item_use_disabled_reason.is_empty() else "急救包 · " + item_use_disabled_reason
+			use_button.text = "使用 · 生命最多 +4" if inventory_use_reason.is_empty() else "急救包 · " + inventory_use_reason
 			use_button.theme_type_variation = "PdaCommand"
 			use_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
-			use_button.disabled = not item_use_disabled_reason.is_empty()
-			use_button.tooltip_text = item_use_disabled_reason
+			use_button.disabled = not inventory_use_reason.is_empty()
+			use_button.tooltip_text = inventory_use_reason
 			use_button.pressed.connect(func(): item_use_action.call("first_aid_kit"))
-			row_node.add_child(use_button)
+			actions.add_child(use_button)
 			item_use_buttons["first_aid_kit"] = use_button
 		if equipment_action.is_valid():
-			for slot in resolved.definition.equip_slots:
+			for slot in definition.equip_slots:
 				var equip_button := Button.new()
 				equip_button.text = "裝備到%s" % _slot_name(String(slot))
 				equip_button.theme_type_variation = "PdaCommand"
 				equip_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 				equip_button.pressed.connect(func(): equipment_action.call(item_id, String(slot)))
-				row_node.add_child(equip_button)
-	label_in(middle, "查看人物與行囊不消耗時間。", "PdaMuted")
+				actions.add_child(equip_button)
+	_publish_inventory_view()
 
 # ── 能力 ───────────────────────────────────────────────────────────────────────
 func _build_skills(right: VBoxContainer, character: Dictionary, p_growth_action: Callable) -> void:
