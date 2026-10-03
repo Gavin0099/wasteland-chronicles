@@ -543,6 +543,12 @@ func _init() -> void:
 	resized.connect(arrange)
 
 func arrange() -> void:
+	if isometric and size.x > 0.0 and size.y > 0.0:
+		# The ground has its own 2:1 projection; let the container follow the
+		# available arena instead of letterboxing it to a fixed camera ratio.
+		var arena_ratio := size.x / size.y
+		if not is_equal_approx(aspect_frame.ratio, arena_ratio):
+			aspect_frame.ratio = arena_ratio
 	# Use stage_canvas size if available; fallback to size
 	var cw: float = stage_canvas.size.x if stage_canvas != null and stage_canvas.size.x > 0.0 else size.x
 	var ch: float = stage_canvas.size.y if stage_canvas != null and stage_canvas.size.y > 0.0 else size.y
@@ -626,6 +632,8 @@ func configure_environment(id: String) -> bool:
 
 func configure_isometric(enabled: bool) -> void:
 	isometric = enabled
+	if not enabled:
+		aspect_frame.ratio = 16.0 / 9.0
 	isometric_ground.visible = enabled
 	for background in [shed_background, road_background, wilderness_background, camp_background]:
 		background.modulate = Color(0.38, 0.38, 0.38) if enabled else Color.WHITE

@@ -30,6 +30,9 @@ func run() -> void:
 			var stage = screen.stage
 			var ground = stage.isometric_ground
 			check(stage.isometric and ground.visible and ground.surface.texture != null, "real screen shows textured isometric ground")
+			check(stage.size.y >= float(resolution.y) * 0.62 and stage.stage_canvas.size.x >= float(resolution.x) * 0.95, "owner correction: battle scene dominates height and fills width")
+			check(ground.span >= float(resolution.x) * 0.65, "owner correction: projected floor occupies at least 65 percent of screen width")
+			check(not screen.history_window.visible, "battle history initially collapsed for larger arena")
 			var corners: PackedVector2Array = ground.corners
 			check(corners.size() == 4 and is_equal_approx(corners[1].x - corners[3].x, 2.0 * (corners[2].y - corners[0].y)), "reference diamond has true 2:1 projection")
 			check(ground.left_edge.polygon.size() == 4 and ground.right_edge.polygon.size() == 4, "raised floor has both opaque front faces")
@@ -44,6 +47,14 @@ func run() -> void:
 			for button in screen.buttons.values():
 				check(viewport_rect.encloses(button.get_global_rect()) and button.global_position.y >= screen.enemy_card.get_global_rect().end.y, "fixed commands remain below status and within viewport")
 			check(world.to_canonical_json() == before, "projection and layout are pure")
+			screen.history_toggle.button_pressed = true
+			for frame in range(12):
+				await process_frame
+			check(screen.history_window.visible and viewport_rect.encloses(screen.history_window.get_global_rect()), "history expands inside viewport")
+			for button in screen.buttons.values():
+				check(viewport_rect.encloses(button.get_global_rect()), "commands remain reachable with expanded history")
+			check(world.to_canonical_json() == before, "expanding history changes no authoritative state")
+			screen.history_toggle.button_pressed = false
 			var twin := world.duplicate_state()
 			var intent := screen.payload_for("SHOOT")
 			check(engine.commit_player_intent(twin, PlayerIntent.create_field_action(twin.player.npc_id, intent)).success, "independent headless reference")
@@ -53,6 +64,10 @@ func run() -> void:
 			check(engine.validate_invariants(world) == "", "global invariants after feedback")
 			var loaded := WorldState.from_json_checked(world.to_canonical_json())
 			check(loaded.success and loaded.world.to_canonical_json() == world.to_canonical_json(), "checked save/resume unchanged")
+			if not world.field_state.battle.is_empty():
+				screen.reduce_motion.button_pressed = true
+				await screen.perform(screen.payload_for("FLEE"))
+			check(screen.history_window.visible and screen.buttons.has("CONFIRM"), "result receipts automatically expand with explicit confirmation")
 			screen.queue_free()
 			await process_frame
 		var named := Fixture.create("shed", false, engine, false)

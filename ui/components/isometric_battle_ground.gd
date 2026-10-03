@@ -25,8 +25,8 @@ func project(point: Vector2) -> Vector2:
 
 func configure(canvas_size: Vector2, terrain: Texture2D, id: String) -> void:
 	environment = id
-	span = minf(canvas_size.x * 0.88, canvas_size.y * 1.70)
-	center = Vector2(canvas_size.x * 0.5, canvas_size.y * 0.56)
+	span = minf(canvas_size.x * 0.94, canvas_size.y * 1.80)
+	center = Vector2(canvas_size.x * 0.5, canvas_size.y * 0.50)
 	depth = maxf(8.0, canvas_size.y * 0.035)
 	corners = PackedVector2Array([project(Vector2(-1, -1)), project(Vector2(1, -1)), project(Vector2(1, 1)), project(Vector2(-1, 1))])
 	surface.polygon = corners

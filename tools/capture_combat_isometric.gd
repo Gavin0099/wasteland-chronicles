@@ -2,7 +2,7 @@ extends SceneTree
 
 const Screen = preload("res://ui/field_screen.gd")
 const Fixture = preload("res://tests/fixtures/combat_vis1_world.gd")
-var output_dir := OS.get_user_data_dir().path_join("captures/combat-isometric")
+var output_dir := OS.get_user_data_dir().path_join("captures/combat-isometric-large")
 var engine := SimulationEngine.new()
 
 func _init() -> void:
@@ -37,6 +37,10 @@ func capture() -> void:
 				ui.setup(world, engine)
 				var label: String = environment + ("_gun" if firearm else "_melee")
 				await save_frame(label)
+				if environment == "highway" and not firearm:
+					ui.history_toggle.button_pressed = true
+					await save_frame("history_expanded")
+					ui.history_toggle.button_pressed = false
 				if environment == "camp" and firearm:
 					ui.reduce_motion.button_pressed = true
 					await ui.perform(ui.payload_for("SHOOT"))
