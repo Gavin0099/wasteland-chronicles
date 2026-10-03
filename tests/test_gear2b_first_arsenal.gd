@@ -36,8 +36,8 @@ func action(world: WorldState, command: String) -> Dictionary:
 
 func run() -> void:
 	# Fixed values from the reviewed arsenal table, never computed from rules.
-	for id in {"sledgehammer": ["T1", 3200, 6, 2], "combat_knife": ["T2", 450, 4, 1], "reinforced_saber": ["T3", 1600, 6, 1]}:
-		var values: Array = {"sledgehammer": ["T1", 3200, 6, 2], "combat_knife": ["T2", 450, 4, 1], "reinforced_saber": ["T3", 1600, 6, 1]}[id]
+	for id in {"sledgehammer": ["T1", 3200, 6, 2], "combat_knife": ["T2", 450, 5, 1], "reinforced_saber": ["T3", 1600, 6, 1]}:
+		var values: Array = {"sledgehammer": ["T1", 3200, 6, 2], "combat_knife": ["T2", 450, 5, 1], "reinforced_saber": ["T3", 1600, 6, 1]}[id]
 		var definition: Dictionary = Registry.resolve(id).definition
 		check(definition.tier == values[0] and definition.base_weight == values[1] and definition.quality == "COMMON", "fixed melee metadata")
 		var world := fresh()

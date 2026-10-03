@@ -37,9 +37,13 @@ static func stats(world: WorldState, id: String, slot: String = "") -> Dictionar
 		if not gun.is_empty():
 			out.lines.append("常態射擊傷害 %d · 每次耗 %s ×%d" % [int(out.shot), name_for(gun.ammo_item_id), int(out.ammo)])
 			out.lines.append("持有彈藥 %d" % copy.player.item_inventory.quantity(gun.ammo_item_id))
+			var ammo_price: int = int(Registry.resolve(gun.ammo_item_id).definition.base_value) * int(gun.ammo_spent)
+			out.lines.append("每次射擊彈藥基價 %d 瓶蓋 · 成交價依當地市場" % ammo_price)
 		else:
 			out.lines.append("無射擊方式")
 		out.lines.append("撤退受傷 %d" % Field.flee_damage(copy))
+		var choice: String = weapon_choice(id)
+		if choice != "": out.lines.append(choice)
 	elif slot == "body":
 		out.protection = Gear.protection(copy.player)
 		out.lines.append("防護 %d · 生存物資容量 %d" % [int(out.protection), copy.player.get_effective_capacity()])
@@ -53,6 +57,21 @@ static func stats(world: WorldState, id: String, slot: String = "") -> Dictionar
 	if found.success:
 		out.lines.append(String(found.definition.description_zh))
 	return out
+
+static func weapon_choice(id: String) -> String:
+	match Properties.base_item(id):
+		"rusted_knife": return "選擇取捨：便宜、輕巧；近戰傷害較低。"
+		"hunting_knife": return "選擇取捨：比戰鬥刀省18瓶蓋基價、輕50克；基礎傷害少1。"
+		"rebar_club": return "選擇取捨：便宜，與獵刀同基礎傷害；更重。"
+		"scrap_machete": return "選擇取捨：與戰鬥刀同基礎傷害、基價較低；多佔750克負重。"
+		"combat_knife": return "選擇取捨：加價換獵刀多1傷害；與砍刀同傷害，但輕750克。"
+		"sledgehammer": return "選擇取捨：高近戰傷害、低基價；重量大，撤退多受1傷害。"
+		"reinforced_saber": return "選擇取捨：與鐵鎚同基礎傷害、較輕且撤退不加傷；基價較高。"
+		"old_world_saber": return "選擇取捨：基礎近戰傷害7、重量1.3公斤；需取得獨特軍刀。"
+		"old_revolver": return "選擇取捨：入門槍械，每次一發左輪彈藥；每發基價12瓶蓋。"
+		"police_revolver": return "選擇取捨：比舊式左輪多1基礎射擊傷害，使用相同彈藥；槍價更高。"
+		"short_shotgun": return "選擇取捨：每擊射傷較高，可能少打一回合；每發基價30瓶蓋且槍更重。"
+	return ""
 
 static func project(world: WorldState) -> Dictionary:
 	var out := {"details": {}, "tools": [], "experiences": [], "aspiration": {}}
