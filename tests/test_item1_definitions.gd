@@ -39,6 +39,13 @@ func fixtures() -> Array:
 		# GUN-1 approved additions; fixed identities and gram weights.
 		{"item_id": "old_revolver", "display_name_zh": "舊式左輪", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 1000, "asset_id": "item_old_revolver", "tags": ["firearm", "revolver"]},
 		{"item_id": "revolver_round", "display_name_zh": "左輪彈藥", "category": "CONSUMABLE", "stack_mode": "STACKABLE", "base_weight": 20, "asset_id": "item_revolver_round", "tags": ["ammunition"]},
+		# GEAR-2B fixed identities from docs/gear2b-first-arsenal.md.
+		{"item_id": "sledgehammer", "display_name_zh": "鐵鎚", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 3200, "asset_id": "item_sledgehammer", "tags": ["blunt", "heavy"]},
+		{"item_id": "combat_knife", "display_name_zh": "戰鬥刀", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 450, "asset_id": "item_combat_knife", "tags": ["blade", "military"]},
+		{"item_id": "reinforced_saber", "display_name_zh": "強化軍刀", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 1600, "asset_id": "item_reinforced_saber", "tags": ["blade", "reinforced"]},
+		{"item_id": "police_revolver", "display_name_zh": "警用左輪", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 1200, "asset_id": "item_police_revolver", "tags": ["firearm", "revolver"]},
+		{"item_id": "short_shotgun", "display_name_zh": "短管霰彈槍", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 2800, "asset_id": "item_short_shotgun", "tags": ["firearm", "shotgun"]},
+		{"item_id": "shotgun_shell", "display_name_zh": "霰彈槍彈藥", "category": "CONSUMABLE", "stack_mode": "STACKABLE", "base_weight": 50, "asset_id": "item_shotgun_shell", "tags": ["ammunition"]},
 	]
 
 func sorted_fixtures() -> Array:
@@ -62,10 +69,10 @@ func _init() -> void:
 
 func check_definitions() -> void:
 	var rows: Array = Catalogue.all_definitions()
-	check(rows == sorted_fixtures(), "exact sixteen approved records, integer grams and sorted identities")
-	check(rows.size() == 16, "185 images must not create 185 authoritative definitions")
+	check(rows == sorted_fixtures(), "exact twenty-two approved records, integer grams and sorted identities")
+	check(rows.size() == 22, "185 images must not create 185 authoritative definitions")
 	var authored: Array = Authored.rows()
-	check(authored.size() == 16, "single authored source contains sixteen records")
+	check(authored.size() == 22, "single authored source contains twenty-two records")
 	var paths := {
 		"item_rusted_knife": "rusty_knife", "item_hunting_knife": "hunting_knife",
 		"item_rebar_club": "rebar_club", "item_scrap_machete": "scrap_machete",
@@ -80,7 +87,7 @@ func check_definitions() -> void:
 		check(result.success and result.definition == row and result.error == "", "exact ID lookup: " + row.item_id)
 		check(typeof(result.definition.base_weight) == TYPE_INT, "weight remains int: " + row.item_id)
 		var art: Dictionary = Art.resolve(row.asset_id)
-		var library_paths := {"item_military_backpack": "res://ui/assets/items/library/clothing/military_backpack.png", "item_old_world_saber": "res://ui/assets/items/library/weapons/desert_sabre.png", "item_old_revolver": "res://ui/assets/items/library/weapons/old_revolver.png", "item_revolver_round": "res://ui/assets/items/revolver_round.svg"}
+		var library_paths := {"item_sledgehammer": "res://ui/assets/items/sledgehammer.png", "item_combat_knife": "res://ui/assets/items/candidates/hunting_knife.png", "item_reinforced_saber": "res://ui/assets/items/library/weapons/desert_sabre.png", "item_police_revolver": "res://ui/assets/items/library/weapons/heavy_revolver.png", "item_short_shotgun": "res://ui/assets/items/library/weapons/double_barrel_shotgun.png", "item_shotgun_shell": "res://ui/assets/items/shotgun_shell.svg", "item_military_backpack": "res://ui/assets/items/library/clothing/military_backpack.png", "item_old_world_saber": "res://ui/assets/items/library/weapons/desert_sabre.png", "item_old_revolver": "res://ui/assets/items/library/weapons/old_revolver.png", "item_revolver_round": "res://ui/assets/items/revolver_round.svg"}
 		var expected_path: String = String(library_paths[row.asset_id]) if library_paths.has(row.asset_id) else "res://ui/assets/items/candidates/%s.png" % paths[row.asset_id]
 		check(art.success and art.path == expected_path and art.error == "", "explicit stable asset binding: " + row.item_id)
 		check(FileAccess.file_exists(expected_path), "asset physically exists: " + expected_path)

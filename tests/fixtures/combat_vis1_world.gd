@@ -1,9 +1,10 @@
 extends RefCounted
 
 const Creation = preload("res://simulation/character_creation_intent.gd")
+const Weapons = preload("res://simulation/weapon_rules.gd")
 
 # Fixtures use real intents. Only road ambush selection is pinned, as in GUN-1.
-static func create(environment: String, firearm: bool, engine: SimulationEngine, start_battle: bool = true) -> WorldState:
+static func create(environment: String, firearm: bool, engine: SimulationEngine, start_battle: bool = true, weapon_id: String = "") -> WorldState:
 	var world := S1WorldData.create_s1_world()
 	engine.commit_character_creation(world, Creation.new({
 		"source_settlement_id": "settlement:gray_valley" if environment == "shed" else "settlement:dry_well",
@@ -11,11 +12,13 @@ static func create(environment: String, firearm: bool, engine: SimulationEngine,
 	}))
 	world.player.inventory.set_amount("water", 8)
 	world.player.inventory.set_amount("food", 8)
-	world.player.item_inventory.pickup_item("old_revolver" if firearm else "scrap_machete", 1)
-	if firearm:
-		world.player.item_inventory.pickup_item("revolver_round", 2)
+	var equipped := weapon_id if not weapon_id.is_empty() else ("old_revolver" if firearm else "scrap_machete")
+	world.player.item_inventory.pickup_item(equipped, 1)
+	var gun := Weapons.firearm(equipped)
+	if not gun.is_empty():
+		world.player.item_inventory.pickup_item(gun.ammo_item_id, 2)
 	engine.commit_player_intent(world, PlayerIntent.create_equip_item(world.player.npc_id,
-		&"old_revolver" if firearm else &"scrap_machete", "main_hand"))
+		StringName(equipped), "main_hand"))
 	if environment == "shed":
 		if start_battle:
 			engine.commit_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "START"}))

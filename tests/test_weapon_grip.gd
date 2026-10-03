@@ -35,7 +35,9 @@ func run() -> void:
 		check(weapon.show_behind_parent, "%s: drawn behind the body, so the fist covers the handle" % weapon_id)
 		# Where the grip is on screen, against where the fist is on screen.
 		var w_size := Vector2(weapon.texture.get_width(), weapon.texture.get_height())
-		var grip_px: Vector2 = w_size * (Stage.WEAPON_GRIPS[weapon_id].grip as Vector2)
+		var source_grip: Vector2 = Stage.WEAPON_GRIPS[weapon_id].grip
+		var displayed_grip := Vector2(1.0 - source_grip.x, source_grip.y) if weapon.flip_h else source_grip
+		var grip_px: Vector2 = w_size * displayed_grip
 		var grip_screen: Vector2 = weapon.get_global_transform() * (weapon.offset + grip_px)
 		var b_size := Vector2(actor.body.texture.get_width(), actor.body.texture.get_height())
 		var fist_screen: Vector2 = actor.body.get_global_transform() * (actor.body.offset + b_size * hand_uv)

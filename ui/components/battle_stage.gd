@@ -20,11 +20,17 @@ const MotionDirector = preload("res://ui/components/battle_motion_director.gd")
 const KNOWN_ENEMIES := ["feral_dog", "bandit", "heavy_raider"]
 
 # Hand-play, twice: the weapon floated beside the fighter instead of being held.
-# Every weapon icon is drawn the same way - handle bottom-left, tip top-right -
-# so each one only needs WHERE ITS HANDLE IS (uv on the icon) and HOW LONG it
+# Each weapon has an authored grip (uv on the source icon) and length relative
+# to the fighter. Left-facing source art is mirrored before its grip is pinned.
+# This supplies WHERE ITS HANDLE IS and HOW LONG it
 # is next to the fighter (icon width / fighter height). The grip is pinned to
 # the fist and the weapon is drawn behind the body, so the fist covers it.
 const WEAPON_GRIPS := {
+	"sledgehammer": {"grip": Vector2(0.17, 0.83), "size": 0.44},
+	"combat_knife": {"grip": Vector2(0.26, 0.77), "size": 0.22},
+	"reinforced_saber": {"grip": Vector2(0.15, 0.84), "size": 0.38},
+	"police_revolver": {"grip": Vector2(0.86, 0.73), "size": 0.22, "flip_h": true},
+	"short_shotgun": {"grip": Vector2(0.70, 0.56), "size": 0.40, "flip_h": true},
 	"old_revolver": {"grip": Vector2(0.22, 0.73), "size": 0.20},
 	"crowbar": {"grip": Vector2(0.20, 0.82), "size": 0.34},
 	"rusted_knife": {"grip": Vector2(0.26, 0.77), "size": 0.20},
@@ -360,7 +366,11 @@ class ActorNode extends Node2D:
 		var w_size := Vector2(float(w_tex.get_width()), float(w_tex.get_height()))
 		var on_screen: float = target_height * float(fit.size) / maxf(1.0, w_size.x)
 		weapon.scale = Vector2.ONE * (on_screen / maxf(0.0001, body.scale.x))
-		weapon.offset = -w_size * (fit.grip as Vector2)
+		weapon.flip_h = bool(fit.get("flip_h", false))
+		var grip: Vector2 = fit.grip
+		if weapon.flip_h:
+			grip.x = 1.0 - grip.x
+		weapon.offset = -w_size * grip
 		var b_size := Vector2(float(body.texture.get_width()), float(body.texture.get_height()))
 		weapon.position = body.offset + b_size * hand_uv
 

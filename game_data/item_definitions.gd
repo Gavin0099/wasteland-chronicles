@@ -20,6 +20,12 @@ static func rows() -> Array:
 		_row("flashlight", "手電筒", "TOOL", 400, "item_flashlight", ["lighting", "tool"]),
 		_row("wrench", "扳手", "TOOL", 700, "item_wrench", ["hand_tool", "metal"]),
 		_row("first_aid_kit", "急救包", "CONSUMABLE", 800, "item_first_aid_kit", ["medical"], "STACKABLE"),
+		_row("sledgehammer","鐵鎚","WEAPON",3200,"item_sledgehammer",["blunt", "heavy"]),
+		_row("combat_knife","戰鬥刀","WEAPON",450,"item_combat_knife",["blade", "military"]),
+		_row("reinforced_saber","強化軍刀","WEAPON",1600,"item_reinforced_saber",["blade", "reinforced"]),
+		_row("police_revolver","警用左輪","WEAPON",1200,"item_police_revolver",["firearm", "revolver"]),
+		_row("short_shotgun","短管霰彈槍","WEAPON",2800,"item_short_shotgun",["firearm", "shotgun"]),
+		_row("shotgun_shell","霰彈槍彈藥","CONSUMABLE",50,"item_shotgun_shell",["ammunition"],"STACKABLE"),
 	]
 
 static func _row(id: String, label: String, category: String, grams: int, asset: String, tags: Array, stacking: String = "UNIQUE") -> Dictionary:
