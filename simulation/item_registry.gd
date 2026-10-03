@@ -10,7 +10,11 @@ const CATEGORIES := ["WEAPON", "APPAREL", "CONTAINER", "TOOL", "CONSUMABLE"]
 const MARKETS := ["new_hope", "gray_valley", "dry_well"]
 const LEVELS := ["none", "low", "medium", "high"]
 
+static var _authored_definitions: Array = []
+
 static func all_definitions() -> Array:
+	if not _authored_definitions.is_empty():
+		return _authored_definitions.duplicate(true)
 	var result: Array = []
 	for raw in Source.rows():
 		var checked := _validate(raw)
@@ -18,6 +22,7 @@ static func all_definitions() -> Array:
 			return []
 		result.append(checked.definition)
 	result.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.item_id < b.item_id)
+	_authored_definitions = result.duplicate(true)
 	return result
 
 static func resolve(item_id: Variant) -> Dictionary:

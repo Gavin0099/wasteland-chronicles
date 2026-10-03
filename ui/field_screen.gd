@@ -379,7 +379,7 @@ func refresh() -> void:
 			turn_window.title_label.text = "對手"
 	# Both health values are on the bars above now; repeating them here was the
 	# same fact three times in one panel.
-	status_label.text = "武器　%s" % weapon
+	status_label.text = "武器　%s　· 防護 %d" % [weapon, Field.Gear.protection(world.player)]
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:

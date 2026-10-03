@@ -290,7 +290,7 @@ static func _project_encounter_result(world: WorldState) -> Dictionary:
 		const RoadPlaces = preload("res://simulation/road_places.gd")
 		var place_name := String(RoadPlaces.info(place_id).get("name_zh", ""))
 		match String(result.option):
-			"REPAIR_PUMP":
+			"REPAIR_PUMP", "OVERHAUL_PUMP", "REWIRE_PUMP":
 				var repair: Dictionary = result.get("equipment_repair", {})
 				result["place_note"] = "抽水泵已修復：故障 → 運轉。%s每日產水 %d → %d。期限內回委託鎮領酬。" % [_settlement_name(String(repair.get("settlement_id", ""))), int(repair.get("production_before", 0)), int(repair.get("production_after", 0))]
 			"MARK_A", "MARK_B":
