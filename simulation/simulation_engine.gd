@@ -2222,9 +2222,11 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 		return gear_refusal
 
 	match option_id:
+		&"RECOVER_GAS_MASK", &"ENTER_TOXIC_WORKSHOP":
+			return preload("res://simulation/unique_gear.gd").refusal(world, String(option_id))
 		&"RECOVER_ABBAN_TOOL":
 			return Party.Request.recovery_refusal(world)
-		&"REPAIR_PUMP", &"OVERHAUL_PUMP", &"REWIRE_PUMP":
+		&"REPAIR_PUMP", &"OVERHAUL_PUMP", &"REWIRE_PUMP", &"ENGINEER_OVERHAUL":
 			return preload("res://simulation/well_repair.gd").refusal(world, String(option_id))
 		&"OPEN_ARMORY", &"BRIDGE_ARMORY", &"CALIBRATE_ARMORY":
 			if bool(RoadPlaces.state(world, "place:old_armory").prize_taken):
@@ -2347,6 +2349,7 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 	var persuasion_success := false
 	var stealth_success := false
 	var equipment_repair: Dictionary = {}
+	var repair_extra_days: int = 1
 	for commodity in COMMODITIES:
 		inventory_before[commodity] = p.inventory.get_amount(commodity)
 
@@ -2469,8 +2472,13 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered = {String(take_place.resource): int(take_place.take)}
 		&"MARK_A", &"MARK_B":
 			pass
-		&"REPAIR_PUMP", &"OVERHAUL_PUMP", &"REWIRE_PUMP":
+		&"REPAIR_PUMP", &"OVERHAUL_PUMP", &"REWIRE_PUMP", &"ENGINEER_OVERHAUL":
 			equipment_repair = preload("res://simulation/well_repair.gd").apply(world, String(option_id))
+			repair_extra_days = preload("res://simulation/well_repair.gd").duration(String(option_id))
+			extra_day = true
+		&"RECOVER_GAS_MASK", &"ENTER_TOXIC_WORKSHOP":
+			p.inventory.add_amount("scrap", -2)
+			offered_items = {String(preload("res://simulation/unique_gear.gd").SITES[String(option_id)].item_id): 1}
 			extra_day = true
 		&"OPEN_ARMORY", &"BRIDGE_ARMORY", &"CALIBRATE_ARMORY":
 			# ASP-1: the prize is an item the market never sells; if the pack
@@ -2505,7 +2513,8 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 
 	world.active_encounter = null
 	if extra_day:
-		_spend_extra_travel_day(world, p.npc_id)
+		for extra: int in range(repair_extra_days):
+			_spend_extra_travel_day(world, p.npc_id)
 
 	var ls_after := world.npc_life_state_registry.get_life_state(p.npc_id)
 	var player_alive: bool = ls_after != null and ls_after.is_alive()

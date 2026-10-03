@@ -79,7 +79,7 @@ func repair(method: String, tool: String, skill: String, rank: int, bonus: int, 
 	return world.to_canonical_json().sha256_text()
 
 func run() -> void:
-	check(Registry.all_definitions().size() == 42 and Catalogue.all_definitions().size() == 42, "42 explicit consistent items")
+	check(Registry.all_definitions().size() == 44 and Catalogue.all_definitions().size() == 44, "44 explicit consistent items")
 	# Caller mutations and rejected candidates cannot install a catalogue.
 	var detached: Array = Registry.all_definitions()
 	var original_properties: Array = detached[0].properties.duplicate()

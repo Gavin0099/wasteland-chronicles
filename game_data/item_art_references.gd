@@ -5,6 +5,8 @@ extends RefCounted
 # index. These references do not register items in UI, ownership or loot tables.
 static func resolve(asset_id: Variant) -> Dictionary:
 	var paths := {
+		"item_military_gas_mask": "res://ui/assets/items/library/clothing/gas_mask.png",
+		"item_engineer_precision_tools": "res://ui/assets/items/library/supplies/welding_tools.png",
 		"item_thick_cloth_coat": "res://ui/assets/items/library/clothing/worker_leather_jacket.png",
 		"item_leather_jacket": "res://ui/assets/items/library/clothing/motorcycle_jacket.png",
 		"item_reinforced_leather_jacket": "res://ui/assets/items/library/clothing/stab_vest.png",

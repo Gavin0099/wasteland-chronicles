@@ -91,7 +91,7 @@ func run() -> void:
 		"precision_repair_toolbox": [2200, 160, "T2", "precision_set"],
 		"expedition_travel_backpack": [1400, 150, "T1", "tool_loops"],
 	}
-	check(Registry.all_definitions().size() == 42, "42 fixed authored definitions")
+	check(Registry.all_definitions().size() == 44, "44 fixed authored definitions")
 	for id: String in specs:
 		var row: Dictionary = Registry.resolve(id).definition
 		check(row.base_weight == specs[id][0] and row.base_value == specs[id][1] and row.tier == specs[id][2], "independent explicit stats " + id)

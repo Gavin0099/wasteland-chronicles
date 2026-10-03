@@ -41,6 +41,7 @@ const ARMORY_MECHANICS := 2
 const ARMORY_ELECTRONICS := 2
 const ARMORY_CIRCUIT_SCRAP := 2
 const Well = preload("res://simulation/well_repair.gd")
+const Unique = preload("res://simulation/unique_gear.gd")
 const CompanionRequest = preload("res://simulation/companion_request.gd")
 
 const CAMP_CLEARED_DAYS := 15
@@ -52,6 +53,18 @@ const WRECK_SCRAP_PER_LOSS := 2
 const WRECK_MAX_SCRAP := 8
 
 const PLACES := {
+	"place:sealed_checkpoint": {
+		"name_zh": "封存防化哨站", "kind": SECRET,
+		"a": "settlement:dry_well", "b": "settlement:new_hope", "route": "HIGHWAY",
+		"rumor_id": "rumor:gas_mask", "day_index": 1, "prize": "military_gas_mask", "map_t": 0.20, "map_label": "below",
+		"body_zh": "公路入口的防化哨站還留著一只密封防護櫃。\n拆開卡死的鎖芯，便能取出軍規面具；改走荒野路的第一天，污染工坊才進得去。",
+	},
+	"place:toxic_workshop": {
+		"name_zh": "毒氣污染工坊", "kind": SECRET,
+		"a": "settlement:dry_well", "b": "settlement:new_hope", "route": "WILDERNESS",
+		"rumor_id": "rumor:engineer_tools", "day_index": 1, "prize": "engineer_precision_tools", "map_t": 0.20, "map_label": "below",
+		"body_zh": "工坊的排氣管仍在漏氣，門內散著刺鼻的酸味。\n有軍規防毒面具才可安全進去，用廢料支起倒塌的工作台，取走工程師留下的精密工具。",
+	},
 	"place:old_well": {
 		"name_zh": "枯河舊水井",
 		"kind": RESOURCE,
@@ -176,7 +189,7 @@ static func state(world, place_id: String) -> Dictionary:
 							out.marked_for = String(evt.payload.get("marked_for", ""))
 					"SEARCH_SITE":
 						last_search = i
-					"OPEN_ARMORY", "BRIDGE_ARMORY", "CALIBRATE_ARMORY":
+					"OPEN_ARMORY", "BRIDGE_ARMORY", "CALIBRATE_ARMORY", "RECOVER_GAS_MASK", "ENTER_TOXIC_WORKSHOP":
 						if int((evt.payload.get("items_gained", {}) as Dictionary).get(String(p.get("prize", "")), 0)) > 0:
 							out.prize_taken = true
 					"LEAVE":
@@ -238,6 +251,9 @@ static func place_for_trip(world, party, travel_day_index: int) -> String:
 		return ""
 	var route_type := String(party.route_type) if party.route_type != &"" else "HIGHWAY"
 	for place_id in ids():
+		# Optional expeditions preserve normal procedural travel opportunities.
+		if info(place_id).has("rumor_id") and Unique.tracked(world) != String(info(place_id).rumor_id):
+			continue
 		if not on_road(place_id, String(party.origin_id), String(party.destination_id), route_type):
 			continue
 		if int(info(place_id).get("day_index", 1)) != travel_day_index:
@@ -279,7 +295,7 @@ const RESOURCE_NAMES := {"water": "水", "food": "食物", "scrap": "廢料", "f
 
 # Every option id a place can ever offer, for validating a receipt that no
 # longer has its context.
-const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY", &"REPAIR_PUMP", &"RECOVER_ABBAN_TOOL", &"OVERHAUL_PUMP", &"REWIRE_PUMP", &"CALIBRATE_ARMORY"]
+const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY", &"REPAIR_PUMP", &"RECOVER_ABBAN_TOOL", &"OVERHAUL_PUMP", &"REWIRE_PUMP", &"CALIBRATE_ARMORY", &"RECOVER_GAS_MASK", &"ENTER_TOXIC_WORKSHOP", &"ENGINEER_OVERHAUL"]
 
 static func repair_option() -> Dictionary:
 	return {"id": &"REPAIR_PUMP", "label": "修復抽水泵", "detail": "工具保留、廢料 −3、耗時 1 天；修好後委託鎮每日產水 +1，再回鎮領酬。",
@@ -292,8 +308,12 @@ static func options(context: Dictionary, world = null) -> Array:
 	if not exists(place_id):
 		return [{"id": &"LEAVE", "label": "不停留", "detail": ""}]
 	var p := info(place_id)
+	if place_id == "place:sealed_checkpoint":
+		return [mask_option(), {"id": &"LEAVE", "label": "先記下位置", "detail": "準備好工具與廢料再來"}]
+	if place_id == "place:toxic_workshop":
+		return [workshop_option(), {"id": &"LEAVE", "label": "先不進去", "detail": "沒有面具，污染設施仍不可進入"}]
 	if place_id == Well.PLACE and bool(context.get("repair_visit", false)):
-		return [repair_option(), overhaul_option(), rewire_option(), {"id": &"LEAVE", "label": "先不修，繼續走", "detail": "設備仍故障；期限內可以再回來"}]
+		return [repair_option(), overhaul_option(), rewire_option(), engineer_option(), {"id": &"LEAVE", "label": "先不修，繼續走", "detail": "設備仍故障；期限內可以再回來"}]
 	if place_id == CompanionRequest.PLACE and bool(context.get("companion_request", false)):
 		return [companion_option(), {"id": &"LEAVE", "label": "這次先走", "detail": "請求保留；下次與阿扳同行時再來"}]
 	match String(p.kind):
@@ -348,7 +368,7 @@ static func calibrate_option() -> Dictionary:
 		"requires": {"all": [{"kind": "skill", "skill_id": "ELECTRONICS", "min_rank": 3}]}, "requirement_label": "電子 3、電子工具 3", "gate": "capability"}
 
 static func all_options() -> Array:
-	var out: Array = [repair_option(), overhaul_option(), rewire_option(), companion_option()]
+	var out: Array = [repair_option(), overhaul_option(), rewire_option(), engineer_option(), companion_option()]
 	for place_id in ids():
 		out.append_array(options({"place_id": place_id}))
 	return out
@@ -370,6 +390,8 @@ static func body(context: Dictionary) -> String:
 static func status_text(world, place_id: String) -> String:
 	var p := info(place_id)
 	var s := state(world, place_id)
+	if place_id in ["place:sealed_checkpoint", "place:toxic_workshop"] and bool(s.discovered):
+		return "裝備已取走" if bool(s.prize_taken) else ("需機械2、工具2、廢料2" if place_id == "place:sealed_checkpoint" else "需軍規防毒面具、廢料2")
 	if not bool(s.discovered):
 		return "未探索"
 	match String(p.kind):
@@ -390,3 +412,16 @@ static func status_text(world, place_id: String) -> String:
 		SECRET:
 			return "已被你搬空" if bool(s.prize_taken) else "門還鎖著（機械 %d＋工具箱，或電子 %d＋電錶＋廢料 %d）" % [ARMORY_MECHANICS, ARMORY_ELECTRONICS, ARMORY_CIRCUIT_SCRAP]
 	return ""
+
+static func mask_option() -> Dictionary:
+	return {"id": &"RECOVER_GAS_MASK", "label": "拆開防護櫃，取走面具", "detail": "廢料 −2、1天；取得軍規面具，可進污染工坊。",
+		"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": 2}]}, "requirement_label": "機械2、機械工具2、廢料2", "gate": "capability"}
+
+static func workshop_option() -> Dictionary:
+	return {"id": &"ENTER_TOXIC_WORKSHOP", "label": "戴面具進去，取走工程師工具", "detail": "面具保留、廢料 −2、1天；取得工程師精密工具。",
+		"requires_item": "military_gas_mask", "requirement_label": "軍規防毒面具、廢料2"}
+
+static func engineer_option() -> Dictionary:
+	return {"id": &"ENGINEER_OVERHAUL", "label": "依工程師程序精修泵頭", "detail": "廢料 −3、2天、產水 +2/日；工具保留。",
+		"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": 2}]}, "requires_item": "engineer_precision_tools",
+		"requirement_label": "機械2、工程師精密工具、廢料3", "gate": "capability"}

@@ -18,9 +18,22 @@ extends RefCounted
 # ==============================================================================
 
 const RoadPlaces = preload("res://simulation/road_places.gd")
+const Unique = preload("res://simulation/unique_gear.gd")
+const Gear = preload("res://simulation/gear_rules.gd")
+const Party = preload("res://simulation/party.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
 
 const RUMORS := {
+	"rumor:gas_mask": {
+		"title_zh": "封鎖站的防毒面具",
+		"text_zh": "乾井到新希望的路，公路第一天會經過封鎖站。防護櫃裡留著軍規面具，能讓人走進荒野路第一天路旁的污染工坊。",
+		"heard_in": ["settlement:dry_well", "settlement:new_hope"], "place_id": "place:sealed_checkpoint",
+	},
+	"rumor:engineer_tools": {
+		"title_zh": "污染工坊的工程師",
+		"text_zh": "工坊裡留著舊世工程師的精密工具。照他的程序修泵，機械熟練者也能精修；多花一天，就能讓井泵每天多出兩份水。",
+		"heard_in": ["settlement:dry_well", "settlement:new_hope"], "place_id": "place:toxic_workshop",
+	},
 	"rumor:raider": {
 		"title_zh": "披鐵甲的傢伙",
 		"text_zh": "新希望貼著一張常駐賞單：一個拖鐵鎚的重裝掠奪者在乾井和新希望之間的荒野路上紮營，商隊都繞著走。",
@@ -100,6 +113,20 @@ static func _raider_beaten(world) -> bool:
 # thing that stands between the player and it right now.
 static func progress(world, rumor_id: String) -> Dictionary:
 	match rumor_id:
+		"rumor:gas_mask":
+			if Unique.taken(world, "RECOVER_GAS_MASK"):
+				return {"done": true, "next": "面具已取走；攜帶它與2廢料，可進荒野路第一天的污染工坊。" if world.player.item_inventory.contains("military_gas_mask") else "面具已取走，目前未持有；進污染工坊仍需帶上它。"}
+			if Party.skill_rank(world, "MECHANICS") < 2:
+				return {"done": false, "next": "需機械2；灰谷老焊工能教，阿扳同行也能幫忙。仍需實體工具2、廢料2。"}
+			if Gear.tool_grade(world.player, "MECHANICS") < 2:
+				return {"done": false, "next": "缺機械工具2；帶修理工具箱，再選「追這個」走乾井—新希望公路。"}
+			return {"done": false, "next": "帶2廢料、足夠水糧，選「追這個」後走乾井—新希望公路第一天；開櫃另耗1天。"}
+		"rumor:engineer_tools":
+			if Unique.taken(world, "ENTER_TOXIC_WORKSHOP"):
+				return {"done": true, "next": "工具已取走；持有它、機械2、3廢料，可花2天精修委託井泵，產水+2/日。"}
+			if not world.player.item_inventory.contains("military_gas_mask"):
+				return {"done": false, "next": "缺軍規防毒面具；先去公路第一天的封鎖站，再選擇追尋工坊，走荒野路第一天。"}
+			return {"done": false, "next": "帶面具、2廢料與足夠水糧，選「追這個」後去荒野路第一天的污染工坊；取工具另耗1天。"}
 		"rumor:raider":
 			if _raider_beaten(world):
 				return {"done": true, "next": "你把他打下來了。"}
@@ -112,7 +139,6 @@ static func progress(world, rumor_id: String) -> Dictionary:
 			var armory := RoadPlaces.state(world, "place:old_armory")
 			if bool(armory.prize_taken):
 				return {"done": true, "next": "軍械庫裡的東西已經在你手上。"}
-			const Party = preload("res://simulation/party.gd")
 			var rank: int = Party.skill_rank(world, "MECHANICS")
 			if Party.skill_rank(world, "ELECTRONICS") >= RoadPlaces.ARMORY_ELECTRONICS:
 				return {"done": false, "next": "你的電子夠了。帶電錶（或更好的電子工具）、廢料 %d 與足夠水糧，走乾井—新希望的荒野路，第三天搭接軍械庫線路；開門另耗 1 天。" % RoadPlaces.ARMORY_CIRCUIT_SCRAP}
