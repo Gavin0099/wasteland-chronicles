@@ -96,8 +96,60 @@ func battle_world(spec: Dictionary, weapon: String = "rusted_knife") -> WorldSta
 	check(engine.commit_player_intent(world, PlayerIntent.create_resolve_encounter(world.player.npc_id, &"FIGHT")).success, "real fight handoff")
 	return world
 
+func stacked_hunts(second_enemy: String = "feral_boar") -> void:
+	# Reproduce GitHub P1 with real three-day rollover, two accepted contracts,
+	# real travel and two victories. A coincident road place is not the enemy.
+	var spec: Dictionary = SPECS[0]
+	var world: WorldState = hunter(spec, "sledgehammer")
+	var first: Dictionary = posting(world, spec)
+	check(engine.commit_player_intent(world, PlayerIntent.create_accept_quest(world.player.npc_id, first.definition.id)).success, "stack first hunt")
+	var second: Dictionary = {}
+	if second_enemy == "feral_boar":
+		for day: int in range(3):
+			check(engine.commit_player_intent(world, PlayerIntent.create_wait(world.player.npc_id)).success, "real posting rollover day")
+		second = posting(world, spec)
+	else:
+		for entry: Dictionary in Board.postings(world, &"settlement:new_hope"):
+			if entry.get("standing", false) and entry.get("target_enemy") == second_enemy: second = entry
+	check(first.definition.id != second.definition.id, "different reviewed posting identities")
+	check(engine.commit_player_intent(world, PlayerIntent.create_accept_quest(world.player.npc_id, second.definition.id)).success, "stack second hunt")
+	var saved: Dictionary = WorldState.from_json_checked(world.to_canonical_json())
+	check(saved.success, "stacked accepted contracts load")
+	if not saved.success: return
+	var twin: WorldState = saved.world
+	check(reach_target(world, spec, first.definition.id) and reach_target(twin, spec, first.definition.id), "both real stacked journeys reach first hunt")
+	for accepted: Dictionary in [first, second]:
+		var job_id: String = accepted.definition.id
+		var expected_enemy: String = accepted.target_enemy
+		check(world.active_encounter != null and twin.active_encounter != null, "stacked target interrupted journey")
+		if world.active_encounter == null or twin.active_encounter == null: return
+		check(world.active_encounter.context.bounty_job_id == job_id and world.active_encounter.context.target_enemy == expected_enemy, "actual stacked target attribution")
+		if job_id == second.definition.id:
+			check(world.active_encounter.travel_day_index == 2, "second target coincides with camp road day")
+		check(engine.commit_player_intent(world, PlayerIntent.create_resolve_encounter(world.player.npc_id, &"FIGHT")).success and engine.commit_player_intent(twin, PlayerIntent.create_resolve_encounter(twin.player.npc_id, &"FIGHT")).success, "stacked real fight")
+		for turn: int in range(8):
+			if world.field_state.battle.is_empty(): break
+			check(act(world, "ATTACK").success and act(twin, "ATTACK").success, "stacked real hammer attack")
+			parity(world, twin, "stacked hunt turn")
+		check(world.field_state.receipt >= 0, "stacked victory receipt")
+		if world.field_state.receipt < 0: return
+		var result: Dictionary = world.event_log[world.field_state.receipt].payload
+		check(result.outcome == "VICTORY" and result.enemy == expected_enemy and result.bounty_job_id == job_id, "stacked victory exact accepted hunt")
+		var camp_victory: bool = expected_enemy == "heavy_raider"
+		check((result.get("place_id", "") == "place:hammer_camp") == camp_victory and preload("res://simulation/road_places.gd").camp_cleared(world) == camp_victory, "only actual camp raider victory clears camp")
+		if camp_victory:
+			check(preload("res://simulation/road_places.gd").state(world, "place:hammer_camp").cleared_until == world.current_day + 15, "real raider victory retains exact fifteen-day quiet period")
+		var raider_exists := false
+		for entry: Dictionary in Board.postings(world, &"settlement:new_hope"):
+			if entry.get("standing", false) and entry.get("target_enemy") == "heavy_raider": raider_exists = true
+		check(raider_exists != camp_victory, "standing raider availability follows actual raider victory only")
+		check(act(world, "CONFIRM").success and act(twin, "CONFIRM").success, "stacked journey resumes")
+		parity(world, twin, "stacked confirmation")
+
 func run() -> void:
 	root.size = Vector2i(1280, 720)
+	stacked_hunts()
+	stacked_hunts("heavy_raider")
 	for spec: Dictionary in SPECS:
 		check(Enemies.exists(spec.enemy) and Enemies.max_hp(spec.enemy) == spec.hp, "independent creature roster")
 	if failures > 0:
