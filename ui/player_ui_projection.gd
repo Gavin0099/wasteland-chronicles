@@ -42,6 +42,7 @@ static func project(world: WorldState, debug_feed_enabled: bool = true) -> Dicti
 		"quest_history": _project_quest_history(world),
 		"road_places": _project_road_places(world),
 		"trust": _project_trust(world),
+		"factions": _project_factions(world),
 		"party": {"companion_id": preload("res://simulation/party.gd").current(world), "summary": preload("res://simulation/party.gd").summary(world)},
 		"rumors": preload("res://simulation/rumors.gd").project(world),
 	}
@@ -235,7 +236,24 @@ static func _project_trust(world: WorldState) -> Dictionary:
 	towns.sort()
 	for town_id in towns:
 		var town := String(town_id)
-		out[town] = {"tier": LocalTrust.tier(world, town), "name": LocalTrust.tier_name(world, town), "summary": LocalTrust.summary(world, town)}
+		var faction: String = Factions.faction_id(town)
+		var faction_hint := "%s：%s" % [Factions.faction_name(town), LocalTrust.FACTION_NAMES[LocalTrust.faction_tier(world, faction)]] if not faction.is_empty() else ""
+		out[town] = {"tier": LocalTrust.tier(world, town), "name": LocalTrust.tier_name(world, town), "summary": LocalTrust.summary(world, town), "faction_summary": LocalTrust.faction_summary(world, town), "faction_hint": faction_hint}
+	return out
+
+# Public affiliation plus the player's own history; never remote economics.
+static func _project_factions(world: WorldState) -> Array:
+	var out: Array = []
+	var ids: Array = Factions.FACTIONS.keys()
+	ids.sort()
+	for faction: String in ids:
+		var content: Dictionary = Factions.FACTIONS[faction]
+		var members: Array = []
+		for town: String in content.towns:
+			if world.get_settlement(StringName(town)) == null: continue
+			members.append({"id": town, "name": Factions.town_name(town), "score": LocalTrust.score(world, town), "pay_bonus": int(round((LocalTrust.reward_multiplier(world, town) - 1.0) * 100)), "buy_markup": int(round((LocalTrust.buy_markup(world, town) - 1.0) * 100)), "services_open": LocalTrust.gives_work(world, town)})
+		if members.is_empty(): continue
+		out.append({"id": faction, "name": content.name, "purpose": content.purpose, "score": LocalTrust.faction_score(world, faction), "standing": LocalTrust.FACTION_NAMES[LocalTrust.faction_tier(world, faction)], "pay_bonus": int(round((LocalTrust.faction_reward_multiplier(world, faction) - 1.0) * 100)), "buy_markup": int(round((LocalTrust.faction_buy_markup(world, faction) - 1.0) * 100)), "services_open": LocalTrust.faction_tier(world, faction) != LocalTrust.FACTION_RESIST, "members": members})
 	return out
 
 # Completed and otherwise-ended work, counted from the authoritative quest state

@@ -134,6 +134,7 @@ var btn_local_market: Button
 var market_window: AcceptDialog
 # The open rumour window, if any.
 var rumor_window: AcceptDialog
+var faction_window: AcceptDialog
 # TRAIN-1: the town's teachers.
 var btn_local_train: Button
 var quest_close_button: Button
@@ -975,6 +976,8 @@ func _render_local_actions(proj: Dictionary) -> void:
 	var trust: Dictionary = proj.get("trust", {}).get(location, {})
 	if not trust.is_empty():
 		lbl_local_hint.text += "\n" + String(trust.summary)
+		var faction_hint: String = String(trust.get("faction_hint", ""))
+		if not faction_hint.is_empty(): lbl_local_hint.text += "　" + faction_hint
 
 # Every refusal the engine issues has to reach the player. The authority still
 # decides; this only stops the screen from pretending nothing was asked.
@@ -1853,7 +1856,7 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	var toolbar_row := HBoxContainer.new()
 	toolbar_row.add_theme_constant_override("separation", 4)
 	toolbar.add_child(toolbar_row)
-	for command in [{"label": "場景", "action": _show_desktop_scene}, {"label": "資訊", "action": _show_desktop_details}, {"label": "委託", "action": _on_quest_access_pressed}, {"label": "市場", "action": _show_local_market}, {"label": "人物", "action": _show_character}, {"label": "近郊", "action": _show_field}]:
+	for command in [{"label": "場景", "action": _show_desktop_scene}, {"label": "資訊", "action": _show_desktop_details}, {"label": "委託", "action": _on_quest_access_pressed}, {"label": "市場", "action": _show_local_market}, {"label": "陣營", "action": _show_factions}, {"label": "人物", "action": _show_character}, {"label": "近郊", "action": _show_field}]:
 		var button := DesktopWindow.toolbar_button(command.label)
 		button.pressed.connect(command.action)
 		toolbar_row.add_child(button)
@@ -2851,6 +2854,18 @@ func _show_rumors() -> void:
 			call_deferred("_show_rumors"))
 	var viewport_size := get_viewport_rect().size
 	rumor_window.popup_centered(Vector2i(mini(640, int(viewport_size.x) - 40), int(viewport_size.y * 0.8)))
+
+func _show_factions() -> void:
+	if world == null or world.player == null: return
+	if is_instance_valid(faction_window):
+		faction_window.hide()
+		faction_window.queue_free()
+	faction_window = preload("res://ui/components/faction_window.gd").new()
+	add_child(faction_window)
+	faction_window.setup(PlayerUIProjection.project(world, false).get("factions", []))
+	var viewport_size := get_viewport_rect().size
+	faction_window.popup_centered(Vector2i(mini(760, int(viewport_size.x) - 40), int(viewport_size.y * 0.85)))
+	faction_window.get_ok_button().grab_focus()
 
 func _encounter_blocked_text(option: Dictionary) -> String:
 	if bool(option.get("locked", false)):

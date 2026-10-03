@@ -3,7 +3,7 @@ extends RefCounted
 # ==============================================================================
 # REP-1: LOCAL TRUST
 # ==============================================================================
-# Owner ruling: not a world reputation and not a good/evil meter. Three towns,
+# Owner ruling: not a world reputation and not a good/evil meter. Each town,
 # each remembering what the player did FOR it and TO it:
 #
 #   不受歡迎 <= -5    the town gives you no work, and sells to you dear
@@ -42,6 +42,44 @@ const TRUSTED := "TRUSTED"
 const TIER_NAMES := {UNWELCOME: "不受歡迎", STRANGER: "陌生", REGULAR: "熟客", TRUSTED: "信任"}
 
 const UNWELCOME_MARKUP := 1.25
+const Factions = preload("res://game_data/faction_catalogue.gd")
+const FACTION_RESIST := "RESIST"
+const FACTION_WATCH := "WATCH"
+const FACTION_COOPERATE := "COOPERATE"
+const FACTION_ALLY := "ALLY"
+const FACTION_NAMES := {FACTION_RESIST: "抵制", FACTION_WATCH: "觀望", FACTION_COOPERATE: "合作", FACTION_ALLY: "盟友"}
+
+# FACTION-1 shares existing local receipts across actual public members.
+# No second ledger, saved counter or recursively applied regional modifier.
+static func faction_score(world, faction_id: String) -> int:
+	if world == null or not Factions.FACTIONS.has(faction_id):
+		return 0
+	var total := 0
+	for town: String in Factions.FACTIONS[faction_id].towns:
+		if world.get_settlement(StringName(town)) != null:
+			total += score(world, town)
+	return total
+
+static func faction_tier(world, faction_id: String) -> String:
+	var standing := faction_score(world, faction_id)
+	if standing <= -10: return FACTION_RESIST
+	if standing >= 10: return FACTION_ALLY
+	if standing >= 4: return FACTION_COOPERATE
+	return FACTION_WATCH
+
+static func faction_reward_multiplier(world, faction_id: String) -> float:
+	match faction_tier(world, faction_id):
+		FACTION_ALLY: return 1.10
+		FACTION_COOPERATE: return 1.05
+	return 1.0
+
+static func faction_buy_markup(world, faction_id: String) -> float:
+	return 1.15 if faction_tier(world, faction_id) == FACTION_RESIST else 1.0
+
+static func faction_summary(world, settlement_id: String) -> String:
+	var faction := Factions.faction_id(_full(settlement_id))
+	if faction.is_empty(): return ""
+	return "%s：%s · 往來 %d（詳見陣營）" % [Factions.FACTIONS[faction].name, FACTION_NAMES[faction_tier(world, faction)], faction_score(world, faction)]
 
 static func _short(settlement_id: String) -> String:
 	return settlement_id.replace("settlement:", "")
@@ -102,17 +140,19 @@ static func tier_name(world, settlement_id: String) -> String:
 
 # How much more (or less) a town's own jobs pay you.
 static func reward_multiplier(world, settlement_id: String) -> float:
+	var local := 1.0
 	match tier(world, settlement_id):
-		TRUSTED: return 1.2
-		REGULAR: return 1.1
-	return 1.0
+		TRUSTED: local = 1.2
+		REGULAR: local = 1.1
+	return maxf(local, faction_reward_multiplier(world, Factions.faction_id(_full(settlement_id))))
 
 # What a town charges you on top of the market price.
 static func buy_markup(world, settlement_id: String) -> float:
-	return UNWELCOME_MARKUP if world != null and tier(world, settlement_id) == UNWELCOME else 1.0
+	var local := UNWELCOME_MARKUP if world != null and tier(world, settlement_id) == UNWELCOME else 1.0
+	return maxf(local, faction_buy_markup(world, Factions.faction_id(_full(settlement_id))))
 
 static func gives_work(world, settlement_id: String) -> bool:
-	return tier(world, settlement_id) != UNWELCOME
+	return tier(world, settlement_id) != UNWELCOME and faction_tier(world, Factions.faction_id(_full(settlement_id))) != FACTION_RESIST
 
 # One line for the town panel and the board.
 static func summary(world, settlement_id: String) -> String:
