@@ -1379,6 +1379,11 @@ func validate_invariants(world: WorldState) -> String:
 			return "S5-A: Player npc_id %s has no life state" % p.npc_id
 		if p.money < 0:
 			return "S5-A: Player has negative money: %d" % p.money
+		var equipment_error: String = EquipmentState.validate_serialized(p.equipment.to_dict(), p.item_inventory)
+		if equipment_error != "":
+			return equipment_error
+		if p.item_inventory.total_weight_g() > p.item_inventory.capacity_grams(p.equipment.equipped_item("back")):
+			return "ITEM_CAPACITY_EXCEEDED"
 		if p.capacity_total <= 0:
 			return "S5-A: Player has non-positive capacity: %d" % p.capacity_total
 		if p.inventory != null:
@@ -1722,6 +1727,8 @@ func _authorize_equipment_intent(world: WorldState, intent: PlayerIntent, equipp
 			return String(removed.error)
 	var candidate_player: PlayerState = world.player.duplicate_state()
 	candidate_player.equipment = candidate
+	if candidate_player.item_inventory.total_weight_g() > candidate_player.item_inventory.capacity_grams(candidate.equipped_item("back")):
+		return "ITEM_CAPACITY_EXCEEDED"
 	if candidate_player.get_total_inventory_load() > candidate_player.get_effective_capacity():
 		return "INSUFFICIENT_CAPACITY: Cargo load %d exceeds capacity %d" % [
 			candidate_player.get_total_inventory_load(), candidate_player.get_effective_capacity()
@@ -1777,7 +1784,7 @@ func _authorize_item_trade(world: WorldState, settlement: SettlementState, inten
 		if world.player.money < total_cost:
 			return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [world.player.money, total_cost]
 		var candidate: RefCounted = world.player.item_inventory.duplicate_state()
-		var pickup: Dictionary = candidate.pickup_item(String(intent.item_id), intent.quantity)
+		var pickup: Dictionary = candidate.pickup_item(String(intent.item_id), intent.quantity, world.player.equipment.equipped_item("back"))
 		if not pickup.success:
 			return String(pickup.error)
 		return ""
@@ -1804,7 +1811,7 @@ func _commit_item_trade(world: WorldState, intent: PlayerIntent, tick_events: Ar
 	var total := quote * intent.quantity
 	if buying:
 		market.remove(String(intent.item_id), intent.quantity)
-		player_items.pickup_item(String(intent.item_id), intent.quantity)
+		player_items.pickup_item(String(intent.item_id), intent.quantity, world.player.equipment.equipped_item("back"))
 		settlement.market_cash += total
 		world.player.money -= total
 	else:
@@ -2614,7 +2621,7 @@ func _give_player_goods(p: PlayerState, goods: Dictionary) -> Dictionary:
 	var received: Dictionary = {}
 	for key in goods:
 		var wanted: int = int(goods[key])
-		var room: int = p.get_effective_capacity() - p.get_total_inventory_load()
+		var room: int = p.cargo_room(String(key))
 		var actual: int = clampi(wanted, 0, maxi(room, 0))
 		if actual > 0:
 			p.inventory.add_amount(String(key), actual)
@@ -2802,7 +2809,7 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 				return "INSUFFICIENT_FUNDS: Player has %d caps, total cost is %d" % [
 					world.player.money, total_cost
 				]
-			if not world.player.has_cargo_capacity(intent.quantity):
+			if not world.player.has_cargo_capacity(intent.quantity, String(intent.commodity)):
 				return "INSUFFICIENT_CAPACITY: Player carrying %d/%d, cannot fit %d" % [
 					world.player.get_total_inventory_load(), world.player.get_effective_capacity(), intent.quantity
 				]

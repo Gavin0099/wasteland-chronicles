@@ -2457,6 +2457,9 @@ func _render_quests(rows: Array) -> void:
 	elif status == "ACTIVE" and String(row.get("objective_type", "")) in ["DELIVER_ITEM", "DELIVER_RESOURCE"] and int(row.held) < int(row.required):
 		quest_button.text = "還差 %d 份%s" % [int(row.required) - int(row.held), String(row.item_name)]
 	quest_button.tooltip_text = ("抵達新希望後回乾井回報，並保留軍用背包；期限內方可完成。" if bool(row.get("is_survey", false)) else "需要持有足量物品、抵達交付地點，且仍在期限內。") if status == "ACTIVE" and quest_button.disabled else ""
+	if status == "ACTIVE" and bool(row.get("equipped_delivery", false)):
+		quest_button.text = "先卸下%s再交付" % String(row.item_name)
+		quest_button.tooltip_text = "在人物頁卸下這件裝備，再回來交付；查看與卸下不耗時。"
 	if String(row.get("objective_type", "")) == "REPAIR_EQUIPMENT" and status == "ACTIVE":
 		quest_button.tooltip_text = "先在井邊修好抽水泵，再於期限內返回委託鎮。"
 

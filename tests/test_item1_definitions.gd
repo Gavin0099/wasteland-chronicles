@@ -57,6 +57,17 @@ func fixtures() -> Array:
 		{"item_id": "simple_meter", "display_name_zh": "簡易電錶", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 500, "asset_id": "item_simple_meter", "tags": ["electric"]},
 		{"item_id": "electronic_repair_kit", "display_name_zh": "電子修理組", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 1700, "asset_id": "item_electronic_repair_kit", "tags": ["electric"]},
 		{"item_id": "military_electronic_tools", "display_name_zh": "軍用電子工具", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 2500, "asset_id": "item_military_electronic_tools", "tags": ["electric", "military"]},
+		# GEAR-2D independent fixed identities, base-art reuse and gram values.
+		{"item_id": "quickdraw_police_revolver", "display_name_zh": "快拔警用左輪", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 1200, "asset_id": "item_police_revolver", "tags": ["firearm", "revolver"]},
+		{"item_id": "heavyhead_sledgehammer", "display_name_zh": "重鎚頭鐵鎚", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 3400, "asset_id": "item_sledgehammer", "tags": ["blunt", "heavy"]},
+		{"item_id": "balanced_combat_knife", "display_name_zh": "平衡戰鬥刀", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 450, "asset_id": "item_combat_knife", "tags": ["blade", "military"]},
+		{"item_id": "toolloop_travel_backpack", "display_name_zh": "工具環旅行包", "category": "CONTAINER", "stack_mode": "UNIQUE", "base_weight": 1200, "asset_id": "item_travel_backpack", "tags": ["bag", "travel"]},
+		{"item_id": "waterpouch_travel_backpack", "display_name_zh": "水袋旅行包", "category": "CONTAINER", "stack_mode": "UNIQUE", "base_weight": 1250, "asset_id": "item_travel_backpack", "tags": ["bag", "travel"]},
+		{"item_id": "lightweight_ballistic_vest", "display_name_zh": "輕量防彈背心", "category": "APPAREL", "stack_mode": "UNIQUE", "base_weight": 2400, "asset_id": "item_ballistic_vest", "tags": ["heavy", "military"]},
+		{"item_id": "plated_leather_jacket", "display_name_zh": "加甲強化皮甲", "category": "APPAREL", "stack_mode": "UNIQUE", "base_weight": 2400, "asset_id": "item_reinforced_leather_jacket", "tags": ["leather", "reinforced"]},
+		{"item_id": "fieldrepair_precision_kit", "display_name_zh": "現地維修精密組", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 1800, "asset_id": "item_precision_repair_kit", "tags": ["hand_tool", "precision"]},
+		{"item_id": "precision_repair_toolbox", "display_name_zh": "精密套件工具箱", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 2200, "asset_id": "item_repair_toolbox", "tags": ["hand_tool"]},
+		{"item_id": "expedition_travel_backpack", "display_name_zh": "旅行遠征包", "category": "CONTAINER", "stack_mode": "UNIQUE", "base_weight": 1400, "asset_id": "item_travel_backpack", "tags": ["bag", "travel"]},
 	]
 
 func sorted_fixtures() -> Array:
@@ -80,10 +91,10 @@ func _init() -> void:
 
 func check_definitions() -> void:
 	var rows: Array = Catalogue.all_definitions()
-	check(rows == sorted_fixtures(), "exact thirty-two approved records, integer grams and sorted identities")
-	check(rows.size() == 32, "185 images must not create 185 authoritative definitions")
+	check(rows == sorted_fixtures(), "exact forty-two approved records, integer grams and sorted identities")
+	check(rows.size() == 42, "185 images must not create 185 authoritative definitions")
 	var authored: Array = Authored.rows()
-	check(authored.size() == 32, "single authored source contains thirty-two records")
+	check(authored.size() == 42, "single authored source contains forty-two records")
 	var paths := {
 		"item_rusted_knife": "rusty_knife", "item_hunting_knife": "hunting_knife",
 		"item_rebar_club": "rebar_club", "item_scrap_machete": "scrap_machete",

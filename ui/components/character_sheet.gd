@@ -288,6 +288,7 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 	crowbar.text = "撬棍 " + ("已裝備" if character.field_kit.equipped else ("持有" if character.field_kit.crowbar else "—"))
 	crowbar_row.add_child(crowbar)
 	label_in(middle, "行囊", "PdaSection")
+	label_in(middle, "正式物品 %.2f / %.2f 公斤" % [float(player.get("item_load_g", 0)) / 1000.0, float(player.get("item_capacity_g", 12000)) / 1000.0], "PdaMuted")
 	var owned_items: Array = player.get("items", [])
 	if owned_items.is_empty():
 		label_in(middle, "目前沒有額外物品。", "PdaMuted")
@@ -300,7 +301,12 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 		var item_label := label_in(row_node, "%s ×%d" % [resolved.definition.display_name_zh, int(entry.get("quantity", 0))])
 		item_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		item_labels[item_id] = item_label
+		var gear_label: String = "%s · %s" % [resolved.definition.tier, {"COMMON": "普通", "MODIFIED": "改良", "RARE": "稀有", "UNIQUE": "獨特"}[resolved.definition.quality]]
+		item_label.text += "　" + gear_label
 		item_label.tooltip_text = String(resolved.definition.description_zh)
+		if not resolved.definition.properties.is_empty():
+			for property: String in resolved.definition.properties:
+				label_in(middle, String(preload("res://game_data/gear_property_profiles.gd").DESCRIPTIONS[property]), "PdaMuted")
 		if Gear.PROTECTION.has(item_id) or Gear.PACK_CARGO.has(item_id) or Gear.MECHANICAL_TOOLS.has(item_id) or Gear.ELECTRONIC_TOOLS.has(item_id):
 			label_in(middle, String(resolved.definition.description_zh), "PdaMuted")
 		if item_id == "first_aid_kit" and item_use_action.is_valid():

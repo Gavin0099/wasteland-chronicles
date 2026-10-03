@@ -113,7 +113,8 @@ static func _project_quests(world: WorldState) -> Array:
 			target = _settlement_name("settlement:" + String(objective.get("destination_id", "")))
 			held = 1 if QuestEngine.evaluate_objectives(world, quest_id) else 0
 		var action := PlayerIntent.create_accept_quest(world.player.npc_id, quest_id) if status == "AVAILABLE" else PlayerIntent.create_turn_in_quest(world.player.npc_id, quest_id)
-		var can_act := status in ["AVAILABLE", "ACTIVE"] and SimulationEngine.new().authorize_player_intent(world, action) == ""
+		var refusal: String = SimulationEngine.new().authorize_player_intent(world, action) if status in ["AVAILABLE", "ACTIVE"] else ""
+		var can_act := status in ["AVAILABLE", "ACTIVE"] and refusal == ""
 		var reward_caps := 0
 		var reward_xp := 0
 		for reward in definition.outcomes.resolved.rewards:
@@ -126,6 +127,7 @@ static func _project_quests(world: WorldState) -> Array:
 			"status": status, "deadline_day": state.deadline_day if state != null else -1,
 			"deadline_days": int(definition.deadline_days), "target": target, "item_name": item_name,
 			"required": required, "held": held, "can_act": can_act,
+			"equipped_delivery": refusal == "ITEM_EQUIPPED",
 			# Hand-play: "明明就有資源 但是不能交付" and "打完獵犬任務也沒有通過" -
 			# the work was done but the player stood in the wrong town, and nothing
 			# said so. Deliveries are handed in where they go; everything else back
@@ -315,6 +317,11 @@ static func _project_encounter(world: WorldState) -> Dictionary:
 	var options: Array = []
 	var engine := SimulationEngine.new()
 	for o in TravelEncounter.options(enc.encounter_type, enc.context):
+		const Well = preload("res://simulation/well_repair.gd")
+		if String(o.id) in Well.METHODS and Well.material_cost(world, String(o.id)) == 2:
+			o = o.duplicate(true)
+			o.detail = "現地維修 · 廢料 −2 · 1 天 · 產水 +%d/日；工具保留，回鎮領酬。" % int(Well.METHODS[String(o.id)][2])
+			o.requirement_label = String(o.requirement_label).replace("廢料 3", "廢料 2")
 		var option_id: StringName = o["id"]
 		var reason := engine.authorize_encounter_option(world, option_id)
 		if reason.begins_with("PERK_NOT_OWNED") or reason.begins_with("ACQUIRED_TRAIT_NOT_OWNED"):
@@ -459,6 +466,8 @@ static func _project_player(world: WorldState) -> Dictionary:
 		"name": p_name,
 		"money": p.money,
 		"health": p.field_kit.hp if p.field_kit != null else 12,
+		"item_load_g": p.item_inventory.total_weight_g(),
+		"item_capacity_g": p.item_inventory.capacity_grams(p.equipment.equipped_item("back")),
 		"status": status_str,
 		"is_in_transit": is_in_transit,
 		"location_display": location_display,

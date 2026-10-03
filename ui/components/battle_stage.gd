@@ -362,7 +362,7 @@ class ActorNode extends Node2D:
 	func fit_weapon() -> void:
 		if weapon == null or weapon.texture == null or body.texture == null:
 			return
-		var fit: Dictionary = WEAPON_GRIPS.get(weapon_id, DEFAULT_GRIP)
+		var fit: Dictionary = WEAPON_GRIPS.get(preload("res://game_data/gear_property_profiles.gd").base_item(weapon_id), DEFAULT_GRIP)
 		var w_tex: Texture2D = weapon.texture
 		var w_size := Vector2(float(w_tex.get_width()), float(w_tex.get_height()))
 		var on_screen: float = target_height * float(fit.size) / maxf(1.0, w_size.x)

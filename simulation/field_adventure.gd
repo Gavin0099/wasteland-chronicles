@@ -4,6 +4,7 @@ const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Capability = preload("res://simulation/capability_profile.gd")
 const ProgressionXp = preload("res://simulation/progression_xp.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
+const Properties = preload("res://game_data/gear_property_profiles.gd")
 const Gear = preload("res://simulation/gear_rules.gd")
 const Weapons = preload("res://simulation/weapon_rules.gd")
 
@@ -268,25 +269,29 @@ static func authorize(world, payload: Dictionary) -> String:
 static func attack_damage(world) -> int:
 	var base = 3 if world.player.field_kit.equipped else 2
 	var rank = world.player.capability.get_skill_rank("MELEE")
-	var bonus = 2 if world.field_state.battle.get("prepared", false) else 0
+	var bonus = (3 if Properties.has(world.player.equipment.equipped_item("main_hand"), "heavy_head") else 2) if world.field_state.battle.get("prepared", false) else 0
 	# PARTY-1: a fighter at your side lands a blow of their own.
 	return base + _equipped_main_hand_bonus(world) + int(rank.rank) + bonus + preload("res://simulation/party.gd").attack_bonus(world)
 
 static func shot_damage(world) -> int:
 	var prepared: int = 2 if world.field_state.battle.get("prepared", false) else 0
-	return int(firearm_for(world).get("damage", 6)) + world.player.capability.get_rank("FIREARMS") + prepared + preload("res://simulation/party.gd").attack_bonus(world)
+	var quick: int = 2 if int(world.field_state.battle.get("turn", 0)) == 1 and Properties.has(world.player.equipment.equipped_item("main_hand"), "quick_draw") else 0
+	return quick + int(firearm_for(world).get("damage", 6)) + world.player.capability.get_rank("FIREARMS") + prepared + preload("res://simulation/party.gd").attack_bonus(world)
 
 static func firearm_for(world) -> Dictionary:
 	return Weapons.firearm(world.player.equipment.equipped_item("main_hand"))
 
+static func attack_reduction(world) -> int:
+	return 1 if Properties.has(world.player.equipment.equipped_item("main_hand"), "balanced") else 0
+
 static func flee_damage(world) -> int:
-	return 2 if world.player.equipment.equipped_item("main_hand") == "sledgehammer" else 1
+	return 2 if Properties.base_item(world.player.equipment.equipped_item("main_hand")) == "sledgehammer" else 1
 
 static func _equipped_main_hand_bonus(world) -> int:
 	if world == null or world.player == null or world.player.equipment == null:
 		return 0
 	var item_id: String = world.player.equipment.equipped_item("main_hand")
-	return int(Weapons.MELEE_BONUSES.get(item_id, 0))
+	return int(Weapons.MELEE_BONUSES.get(Properties.base_item(item_id), 0))
 
 # Which opponent this battle is against. A battle saved before PLAY-4 carries
 # no enemy, so it is read as whatever that battle used to be rather than being
@@ -325,7 +330,7 @@ static func forecast_for_enemy(world, enemy_id: String, is_road: bool = true) ->
 	var turns: int = int(ceil(float(Enemies.max_hp(forecast_enemy)) / float(per_hit)))
 	var incoming := 0
 	for turn in range(1, turns):
-		incoming += maxi(0, enemy_damage(turn, forecast_enemy) - Gear.protection(world.player))
+		incoming += maxi(0, enemy_damage(turn, forecast_enemy) - Gear.protection(world.player) - attack_reduction(world))
 	var hp: int = world.player.field_kit.hp
 	var floor_hp: int = 1 if is_road else 0
 	var hp_after: int = maxi(floor_hp, hp - incoming)
@@ -357,7 +362,7 @@ static func intent_preview(world) -> Dictionary:
 	var action: Dictionary = Enemies.action_for(foe, turn)
 	var is_road: bool = String(state.battle.get("source", "field")) == "road"
 	var hp: int = int(world.player.field_kit.hp)
-	var raw: int = maxi(0, int(action.damage) - Gear.protection(world.player))
+	var raw: int = maxi(0, int(action.damage) - Gear.protection(world.player) - attack_reduction(world))
 	var braced_raw: int = maxi(0, int(action.damage) - Enemies.brace_reduction(foe, turn) - Gear.protection(world.player))
 	var per_hit: int = attack_damage(world)
 	return {
@@ -519,7 +524,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 				# against the blow that is worth bracing for.
 				var foe := battle_enemy(state)
 				var brace: int = Enemies.brace_reduction(foe, turn) if command == "DEFEND" else 0
-				var raw_damage: int = flee_damage(world) if command == "FLEE" else maxi(0, enemy_damage(turn, foe) - brace - Gear.protection(player))
+				var raw_damage: int = flee_damage(world) if command == "FLEE" else maxi(0, enemy_damage(turn, foe) - brace - Gear.protection(player) - (attack_reduction(world) if command == "ATTACK" else 0))
 				if is_road:
 					if command == "FLEE":
 						taken = mini(raw_damage, maxi(0, player.field_kit.hp - 1))
@@ -561,7 +566,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					finish(world, "VICTORY", gains, left, "road", 5, practice)
 				elif command == "FLEE":
 					finish(world, "ESCAPED", {}, {}, "road")
-				elif player.field_kit.hp == 1 and (enemy_damage(turn, battle_enemy(state)) - (Enemies.brace_reduction(battle_enemy(state), turn) if command == "DEFEND" else 0) - Gear.protection(player)) >= 1:
+				elif player.field_kit.hp == 1 and (enemy_damage(turn, battle_enemy(state)) - (Enemies.brace_reduction(battle_enemy(state), turn) if command == "DEFEND" else 0) - Gear.protection(player) - (attack_reduction(world) if command == "ATTACK" else 0)) >= 1:
 					var water_lost: int = clampi(Gear.defeat_water_loss(player), 0, player.inventory.get_amount("water"))
 					var food_lost: int = clampi(1, 0, player.inventory.get_amount("food"))
 					var caps_lost: int = clampi(10, 0, player.money)

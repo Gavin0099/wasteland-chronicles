@@ -36,6 +36,16 @@ static func rows() -> Array:
 		_row("simple_meter", "簡易電錶", "TOOL", 500, "item_simple_meter", ["electric"]),
 		_row("electronic_repair_kit", "電子修理組", "TOOL", 1700, "item_electronic_repair_kit", ["electric"]),
 		_row("military_electronic_tools", "軍用電子工具", "TOOL", 2500, "item_military_electronic_tools", ["electric", "military"]),
+		_row("quickdraw_police_revolver","快拔警用左輪","WEAPON",1200,"item_police_revolver",["firearm", "revolver"]),
+		_row("heavyhead_sledgehammer","重鎚頭鐵鎚","WEAPON",3400,"item_sledgehammer",["blunt", "heavy"]),
+		_row("balanced_combat_knife","平衡戰鬥刀","WEAPON",450,"item_combat_knife",["blade", "military"]),
+		_row("toolloop_travel_backpack", "工具環旅行包", "CONTAINER", 1200, "item_travel_backpack", ["bag", "travel"]),
+		_row("waterpouch_travel_backpack", "水袋旅行包", "CONTAINER", 1250, "item_travel_backpack", ["bag", "travel"]),
+		_row("lightweight_ballistic_vest", "輕量防彈背心", "APPAREL", 2400, "item_ballistic_vest", ["heavy", "military"]),
+		_row("plated_leather_jacket", "加甲強化皮甲", "APPAREL", 2400, "item_reinforced_leather_jacket", ["leather", "reinforced"]),
+		_row("fieldrepair_precision_kit", "現地維修精密組", "TOOL", 1800, "item_precision_repair_kit", ["hand_tool", "precision"]),
+		_row("precision_repair_toolbox", "精密套件工具箱", "TOOL", 2200, "item_repair_toolbox", ["hand_tool"]),
+		_row("expedition_travel_backpack", "旅行遠征包", "CONTAINER", 1400, "item_travel_backpack", ["bag", "travel"]),
 	]
 
 static func _row(id: String, label: String, category: String, grams: int, asset: String, tags: Array, stacking: String = "UNIQUE") -> Dictionary:

@@ -129,6 +129,9 @@ static func _stage_item_deliveries(world: WorldState, definition: Dictionary) ->
 	for objective: Dictionary in definition.objectives:
 		if String(objective.type) != "DELIVER_ITEM":
 			continue
+		for slot: String in world.player.equipment.SLOTS:
+			if world.player.equipment.equipped_item(slot) == String(objective.item_id):
+				return _fail("ITEM_EQUIPPED")
 		var town_id: String = "settlement:" + String(objective.settlement_id)
 		var town: SettlementState = world.get_settlement(StringName(town_id))
 		if town == null:
