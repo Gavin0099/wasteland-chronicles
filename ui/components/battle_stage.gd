@@ -3,6 +3,8 @@ class_name BattleStage
 
 const ItemIcon = preload("res://ui/components/item_icon.gd")
 const MotionDirector = preload("res://ui/components/battle_motion_director.gd")
+const PoseLibrary = preload("res://ui/components/battle_pose_library.gd")
+const WeaponFx = preload("res://ui/components/battle_weapon_fx.gd")
 const IsometricGround = preload("res://ui/components/isometric_battle_ground.gd")
 
 # ==============================================================================
@@ -203,6 +205,15 @@ class ActorNode extends Node2D:
 	var target_height := 160.0
 	var texture_ref: Texture2D = null
 	var anim_player: AnimationPlayer
+	var actor_id := ""
+	var rest_foot := Vector2(0.5, 1.0)
+	var rest_hand := Vector2(0.75, 0.40)
+	var pose := "rest":
+		set(value):
+			pose = value
+			_apply_pose()
+			pose_changed.emit(value)
+	signal pose_changed(value: String)
 
 	func _init(p_is_hero: bool = false) -> void:
 		is_hero = p_is_hero
@@ -274,7 +285,7 @@ class ActorNode extends Node2D:
 		var t_hit_mod := a_hit.add_track(Animation.TYPE_VALUE)
 		a_hit.track_set_path(t_hit_mod, NodePath("Body:modulate"))
 		a_hit.track_insert_key(t_hit_mod, 0.0, Color.WHITE)
-		a_hit.track_insert_key(t_hit_mod, 0.06, Color(0.76, 0.68, 0.60))
+		a_hit.track_insert_key(t_hit_mod, 0.06, Color(1.7, 1.6, 1.4))
 		a_hit.track_insert_key(t_hit_mod, 0.25, Color.WHITE)
 		lib.add_animation("hit_reaction", a_hit)
 
@@ -331,12 +342,82 @@ class ActorNode extends Node2D:
 		a_rel.track_insert_key(t_rel_mod, 0.40, Color.WHITE)
 		lib.add_animation("heavy_release", a_rel)
 
+		# Discrete texture poses share AnimationPlayer authority with local rotation.
+		for clip in ["rest", "attack_pose", "hit_reaction", "brace", "heavy_charge", "heavy_release"]:
+			var animation: Animation = lib.get_animation(clip)
+			var track := animation.add_track(Animation.TYPE_VALUE)
+			animation.track_set_path(track, NodePath(".:pose"))
+			animation.value_track_set_update_mode(track, Animation.UPDATE_DISCRETE)
+			match clip:
+				"rest": animation.track_insert_key(track, 0.0, "rest")
+				"attack_pose", "heavy_release":
+					animation.track_insert_key(track, 0.0, "windup")
+					animation.track_insert_key(track, animation.length * 0.3, "strike")
+					animation.track_insert_key(track, animation.length, "rest")
+				"hit_reaction":
+					animation.track_insert_key(track, 0.0, "hurt")
+					animation.track_insert_key(track, animation.length, "rest")
+				"brace": animation.track_insert_key(track, 0.0, "brace")
+				"heavy_charge": animation.track_insert_key(track, 0.0, "windup")
 		anim_player.add_animation_library("", lib)
+
+	func _apply_pose() -> void:
+		if body == null or texture_ref == null:
+			return
+		var frame: Dictionary = PoseLibrary.frame(actor_id, pose) if pose != "rest" else {}
+		body.texture = frame.get("texture", texture_ref)
+		foot_anchor_uv = frame.get("foot", rest_foot)
+		hand_uv = frame.get("hand", rest_hand)
+		var source_h: float = float(frame.get("reference_height", texture_ref.get_height()))
+		body.scale = Vector2.ONE * target_height / maxf(1.0, source_h)
+		body.offset = -body.texture.get_size() * foot_anchor_uv
+		fit_weapon()
+		if weapon != null:
+			weapon.visible = weapon.texture != null and weapon_id != "" and pose not in ["kneel", "fall"]
+
+	func hold_pose(value: String) -> void:
+		anim_player.stop()
+		body.rotation = 0.0
+		body.modulate = Color.WHITE
+		if weapon != null:
+			weapon.rotation = 0.0
+		pose = value
+
+	func play_pose(clip: String, speed: float = 1.0) -> void:
+		anim_player.play(clip, -1, speed)
+		anim_player.advance(0.0) # Sample the authored first frame immediately.
+
+
+	func play_attack(style: Dictionary) -> void:
+		var clip: Animation = anim_player.get_animation("attack_pose")
+		var total: float = float(style.windup) + float(style.strike) + float(style.recover)
+		clip.length = total
+		for track in range(clip.get_track_count()):
+			if String(clip.track_get_path(track)) == ".:pose":
+				clip.track_set_key_time(track, 1, float(style.windup))
+				clip.track_set_key_time(track, 2, total)
+			elif String(clip.track_get_path(track)) == "Body/Weapon:rotation":
+				clip.track_set_key_time(track, 1, float(style.windup) * 0.7)
+				clip.track_set_key_time(track, 2, float(style.windup) + float(style.strike))
+				clip.track_set_key_time(track, 3, total)
+				clip.track_set_key_value(track, 1, -0.65)
+				clip.track_set_key_value(track, 2, float(style.angle))
+		play_pose("attack_pose")
+
+	func aim_weapon() -> void:
+		if weapon == null or weapon.texture == null:
+			return
+		# Source icons have different authored barrel directions.
+		var base: String = preload("res://game_data/gear_property_profiles.gd").base_item(weapon_id)
+		weapon.rotation = -0.20 if base == "short_shotgun" else 0.20
 
 	func apply_profile(profile: Dictionary, canvas_h: float) -> void:
 		var tex_path: String = profile.get("texture_path", "")
 		var tex: Texture2D = TextureHelper.load_texture_safe(tex_path)
 		texture_ref = tex
+		actor_id = "drifter" if is_hero else {"feral-dog.png": "feral_dog", "road-bandit.png": "bandit", "heavy-raider.png": "heavy_raider"}.get(tex_path.get_file(), "")
+		rest_foot = profile.get("foot_anchor_uv", Vector2(0.5, 1.0))
+		rest_hand = profile.get("hand_uv", Vector2(0.75, 0.40))
 		foot_anchor_uv = profile.get("foot_anchor_uv", Vector2(0.5, 1.0))
 		var h_ratio: float = float(profile.get("height_ratio", 0.40))
 		target_height = canvas_h * h_ratio
@@ -354,7 +435,7 @@ class ActorNode extends Node2D:
 			body.modulate = profile.get("modulate", Color.WHITE)
 
 			hand_uv = profile.get("hand_uv", Vector2(0.75, 0.40))
-			fit_weapon()
+			_apply_pose()
 
 	# Pins the weapon's grip to the fist. Body-local coordinates are the body
 	# texture's pixels shifted by its offset; the weapon's own scale is divided
@@ -434,6 +515,72 @@ var showing_placeholder := false
 var current_enemy_id := ""
 var current_weapon_id := ""
 var is_road_stage := false
+var active_motion: Tween
+var motion_generation := 0
+var terminal_outcome := ""
+signal feedback_phase(phase: String)
+
+func cancel_motion(reset: bool = true) -> void:
+	motion_generation += 1
+	if active_motion != null and active_motion.is_valid():
+		active_motion.kill()
+	active_motion = null
+	if not reset:
+		return
+	for actor in [hero_actor, enemy_actor]:
+		if is_instance_valid(actor):
+			actor.hold_pose("rest")
+			actor.rotation = 0.0
+			actor.modulate = Color.WHITE
+	if is_instance_valid(hero_actor):
+		hero_actor.position = hero_origin
+	if is_instance_valid(enemy_actor):
+		enemy_actor.position = enemy_origin
+	if is_instance_valid(fx_layer):
+		for child in fx_layer.get_children():
+			child.queue_free()
+
+func _exit_tree() -> void:
+	cancel_motion()
+
+func present_outcome(outcome: String) -> void:
+	terminal_outcome = outcome
+	enemy.visible = (enemy_alive or outcome == "VICTORY") and not showing_placeholder
+	enemy_shadow.visible = enemy_alive or outcome == "VICTORY"
+	if outcome == "VICTORY":
+		enemy_actor.hold_pose("fall")
+		enemy.visible = not showing_placeholder
+		enemy_shadow.visible = true
+	elif outcome in ["DEFEAT", "DEAD"]:
+		hero_actor.hold_pose("fall")
+	elif outcome == "":
+		hero_actor.hold_pose("rest")
+		enemy_actor.hold_pose("rest")
+
+func emit_weapon_fx(kind: String, target: ActorNode) -> void:
+	if reduced_motion:
+		return
+	var effect := WeaponFx.new()
+	effect.kind = kind
+	effect.extent = 22.0 if kind == "revolver" else 35.0
+	if kind in ["revolver", "shotgun"] and target.weapon != null:
+		var muzzle := Vector2(target.weapon.texture.get_width(), target.weapon.texture.get_height() * 0.35)
+		effect.position = target.weapon.to_global(target.weapon.offset + muzzle) - fx_layer.global_position
+		effect.rotation = -0.22
+	else:
+		effect.position = target.position + Vector2(24, -target.target_height * 0.65)
+	fx_layer.add_child(effect)
+	var fade := effect.create_tween()
+	fade.tween_interval(0.07 if kind == "revolver" else 0.12)
+	fade.tween_callback(effect.queue_free)
+
+func show_empty_weapon() -> void:
+	# Rejection feedback has no FIELD_TURN and cannot consume a turn or ammo.
+	floating.text = "彈藥不足 · 補給後才能射擊"
+	floating.position = hero_origin + Vector2(-110, -hero_actor.target_height - 24)
+	floating.show()
+	feedback_phase.emit("empty_weapon")
+
 
 static func load_texture_safe(path: String) -> Texture2D:
 	if ResourceLoader.exists(path):
@@ -543,6 +690,8 @@ func _init() -> void:
 	resized.connect(arrange)
 
 func arrange() -> void:
+	if active_motion != null and active_motion.is_valid() and active_motion.is_running():
+		cancel_motion()
 	if isometric and size.x > 0.0 and size.y > 0.0:
 		# The ground has its own 2:1 projection; let the container follow the
 		# available arena instead of letterboxing it to a fixed camera ratio.
@@ -593,9 +742,9 @@ func _update_enemy_visuals(canvas_h: float) -> void:
 			enemy_actor.apply_profile(profile, canvas_h)
 
 	showing_placeholder = not has_art
-	enemy.visible = enemy_alive and has_art
+	enemy.visible = (enemy_alive or terminal_outcome == "VICTORY") and has_art
 	enemy_placeholder.visible = enemy_alive and showing_placeholder
-	enemy_shadow.visible = enemy_alive
+	enemy_shadow.visible = enemy_alive or terminal_outcome == "VICTORY"
 
 	if not has_art:
 		var enemy_h := canvas_h * 0.40
@@ -645,6 +794,9 @@ func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> bool:
 		push_error("BVIS-1B: unregistered enemy_id '%s' rejected" % enemy_id)
 		return false
 
+	if current_enemy_id != enemy_id or current_weapon_id != weapon_item_id:
+		cancel_motion()
+		terminal_outcome = ""
 	current_enemy_id = enemy_id
 	current_weapon_id = weapon_item_id
 	is_road_stage = is_road
@@ -657,8 +809,7 @@ func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> bool:
 		art = ItemIcon.texture_for(weapon_item_id)
 	if art == null and weapon_item_id == "crowbar":
 		art = ItemIcon.texture_for("crowbar")
-	if art != null:
-		weapon.texture = art
+	weapon.texture = art
 	hero_actor.weapon_id = weapon_item_id
 	armed = art != null
 	weapon.visible = armed
@@ -677,6 +828,7 @@ func refresh(equipped: bool, alive: bool) -> void:
 	enemy_actor.rotation = 0.0
 	hero_actor.modulate.a = 1.0
 	arrange()
+	present_outcome(terminal_outcome)
 
 func animate_turn(command: String, dealt: int, taken: int, context: Dictionary = {}) -> void:
 	var receipt := context.duplicate()
@@ -730,8 +882,11 @@ func spawn_damage_popup(target_actor: ActorNode, amount: int, is_heavy: bool, is
 	var target_parent: Node = fx_layer if fx_layer != null else stage_canvas
 	target_parent.add_child(label)
 
-	var popup_tween := create_tween()
-	popup_tween.tween_property(label, "position:y", spawn_pos.y - 28.0, 0.55).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	var popup_tween := label.create_tween()
+	if not reduced_motion:
+		popup_tween.tween_property(label, "position:y", spawn_pos.y - 28.0, 0.55).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	else:
+		popup_tween.tween_interval(0.55)
 	popup_tween.parallel().tween_property(label, "modulate:a", 0.0, 0.40).set_delay(0.20)
 	popup_tween.tween_callback(label.queue_free)
 

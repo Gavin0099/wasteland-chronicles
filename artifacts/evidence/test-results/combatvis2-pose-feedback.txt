@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COMBAT-VIS-2 pose feedback: PASS; assertions=218 failures=0

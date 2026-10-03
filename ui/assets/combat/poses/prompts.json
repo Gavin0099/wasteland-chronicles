@@ -1,0 +1,34 @@
+{
+  "mode": "built-in image_gen",
+  "created": "2026-10-03",
+  "assets": [
+    {
+      "file": "drifter-poses.png",
+      "reference": "../drifter.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent 2D RPG combat pose atlas. Input image is a character identity/style reference, not a target to overwrite. Create EIGHT distinct full-body poses of this exact brown-haired wasteland drifter with patched olive jacket, brown trousers, leather boots and small backpack, same painted retro isometric game style. Layout: exactly FOUR equal columns by TWO equal rows, generous transparent gaps, each full character entirely contained in its cell. Every character faces screen-right in the same three-quarter back isometric angle as the reference. Same head/body scale in all cells. Upper row left-to-right: 1 idle fighting stance with empty fists; 2 overhead melee windup, right fist raised high behind head; 3 fully extended forward melee strike, right fist reaching toward screen-right; 4 firearm aiming pose with both empty hands forward at shoulder height ready to hold a weapon overlay. Lower row left-to-right: 5 crouched defensive brace with forearms shielding chest; 6 recoiling in pain with torso bent backward; 7 collapsing onto one knee; 8 lying exhausted on side, alive, no blood. Hands EMPTY in ALL poses, no weapons baked in because the game overlays actual equipment. True transparent alpha background. No ground, shadows, scenery, text, labels, dividers, gridlines, watermark. Prioritize clearly different articulated limb silhouettes, consistent costume and sharp small-scale readability. Canvas landscape 2048x1536 if possible. Feet baseline within each standing cell near 90% cell height, bodies fit without clipping.",
+      "sha256": "61ec4286abb17f5ffcaa9c1ab771fe7b04efd756aa89ab1111a44df4a0cb9e7b",
+      "reference_sha256": "c810dbb7ee59362aac6d1654965e222318b13868b245e9361d388c86c7ac9c91"
+    },
+    {
+      "file": "feral-dog-poses.png",
+      "reference": "../feral-dog.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent isometric 2D RPG enemy animation atlas. Input image is an identity/style reference. Generate FOUR distinctly articulated full-body combat poses of the exact feral brown dog from the reference, same fur/face/paws. Same painted retro RPG style, muted wasteland colors. Layout exactly FOUR equal columns in ONE horizontal row, generous transparent gaps, same anatomical scale in all four cells, feet near 90% of cell height in standing poses. All face screen-LEFT in a three-quarter front isometric view, looking toward opponent at lower-left. Left-to-right poses: 1 crouched poised to pounce; 2 leaping forward to bite with mouth open; 3 recoiling wounded but alive, paws braced; 4 fallen on its side, no blood. Each entire pose including weapon/tail contained inside its own cell without clipping. Actual transparent alpha background. No ground or cast shadows, scenery, text, labels, cell lines, watermark. Preserve identity and costume. Clear attack, hit and fall silhouettes; readable at small game scale. Wide landscape atlas.",
+      "sha256": "420e88c599cf0bb85083fd28c496a1c45005df615e97eedcddb5712e733c9c16",
+      "reference_sha256": "6e7e976f05aebd0e5b31015981726919610d195d2e331f3df59f440c78d385dd"
+    },
+    {
+      "file": "road-bandit-poses.png",
+      "reference": "../road-bandit.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent isometric 2D RPG enemy animation atlas. Input image is an identity/style reference. Generate FOUR distinctly articulated full-body combat poses of the exact lean road bandit from the reference, goggles on forehead, patched brown long coat, scrap armor, metal pipe. Same painted retro RPG style, muted wasteland colors. Layout exactly FOUR equal columns in ONE horizontal row, generous transparent gaps, same anatomical scale in all four cells, feet near 90% of cell height in standing poses. All face screen-LEFT in a three-quarter front isometric view, looking toward opponent at lower-left. Left-to-right poses: 1 windup with pipe pulled back; 2 powerful forward pipe strike; 3 recoiling from impact with torso bent back; 4 collapsed on side, no blood. Each entire pose including weapon/tail contained inside its own cell without clipping. Actual transparent alpha background. No ground or cast shadows, scenery, text, labels, cell lines, watermark. Preserve identity and costume. Clear attack, hit and fall silhouettes; readable at small game scale. Wide landscape atlas.\nLayout correction: use a SQUARE canvas with TWO columns by TWO rows instead of a horizontal row. Put the entire character AND ENTIRE PIPE inside each quarter. At least 80 transparent pixels between every pose bounding box. Do not let pipe cross into adjacent pose space. Pose order upper-left windup, upper-right strike, lower-left hurt, lower-right fallen. Preserve actual transparent background.",
+      "sha256": "7f9e92fba0a26d41ce878f11b25bef3f55631dfe9ba2fa40581bf93154dbf29d",
+      "reference_sha256": "4bd0b7b9ae623800e21300bf0fb52f2b453af4a737bbfb6b16c662768761f93d"
+    },
+    {
+      "file": "heavy-raider-poses.png",
+      "reference": "../heavy-raider.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent isometric 2D RPG enemy animation atlas. Input image is an identity/style reference. Generate FOUR distinctly articulated full-body combat poses of the exact bulky heavy raider from the reference, caged metal helmet, rusty spiked shoulder armor, patched blue trousers, huge spiked club. Same painted retro RPG style, muted wasteland colors. Layout exactly FOUR equal columns in ONE horizontal row, generous transparent gaps, same anatomical scale in all four cells, feet near 90% of cell height in standing poses. All face screen-LEFT in a three-quarter front isometric view, looking toward opponent at lower-left. Left-to-right poses: 1 menacing overhead charge with club raised above head; 2 two-handed downward smash; 3 hunched wounded recoil; 4 fallen on side, no blood. Each entire pose including weapon/tail contained inside its own cell without clipping. Actual transparent alpha background. No ground or cast shadows, scenery, text, labels, cell lines, watermark. Preserve identity and costume. Clear attack, hit and fall silhouettes; readable at small game scale. Wide landscape atlas.",
+      "sha256": "51542169d0690ecacdd96f38101cab0bfbd69435a96e9e018679227f7d9ea226",
+      "reference_sha256": "eceda58a3298c7689445fb093b230da76cbd9ef9881818dd36c44ee428582ae0"
+    }
+  ]
+}
