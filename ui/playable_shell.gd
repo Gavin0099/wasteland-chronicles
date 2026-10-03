@@ -2725,6 +2725,13 @@ func _on_quest_pressed() -> void:
 	add_child(receipt)
 	receipt.popup_centered()
 
+func _gear_change_reason(error: String) -> String:
+	if error.begins_with("INVALID_STATUS"):
+		return "抵達聚落後才能換裝。"
+	if error.begins_with("INSUFFICIENT_CAPACITY") or error.begins_with("ITEM_CAPACITY_EXCEEDED"):
+		return "換裝後會超載；先整理物品或生存補給。"
+	return "目前無法換裝；請確認仍持有這件物品與對應欄位。"
+
 func _show_character(action_notice: String = "") -> void:
 	if world == null or world.player == null:
 		return
@@ -2736,12 +2743,16 @@ func _show_character(action_notice: String = "") -> void:
 			dialog.queue_free()
 			refresh_ui()
 			call_deferred("_show_character")
+		else:
+			dialog.show_notice(_gear_change_reason(String(result.get("error", ""))))
 	var unequip_action := func(slot: String):
 		var result := engine.commit_player_intent(world, PlayerIntent.create_unequip_item(world.player.npc_id, slot))
 		if result.get("success", false):
 			dialog.queue_free()
 			refresh_ui()
 			call_deferred("_show_character")
+		else:
+			dialog.show_notice(_gear_change_reason(String(result.get("error", ""))))
 	var use_action := func(item_id: String):
 		if item_id != "first_aid_kit":
 			return
