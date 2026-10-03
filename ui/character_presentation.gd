@@ -185,6 +185,7 @@ static func project(world: WorldState) -> Dictionary:
 		"acquired_candidates": Acquired.candidates(world.event_log, world.player.npc_id, world.current_day).filter(func(id: String) -> bool: return not world.player.has_acquired_trait(id)),
 		"growth_points": Growth.available(world),
 		"growth_choices": Growth.choices(world),
+		"gear": preload("res://ui/gear_presentation.gd").project(world),
 		"legacy": data.creation_origin == "LEGACY_MIGRATION"}
 
 static func background_name(id: String) -> String:

@@ -30,6 +30,7 @@ const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
 const Gear = preload("res://simulation/gear_rules.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
+const GearPresentation = preload("res://ui/gear_presentation.gd")
 const PORTRAIT := "res://ui/assets/combat/drifter.png"
 
 var skill_rows: Dictionary = {}
@@ -51,6 +52,12 @@ var item_use_action: Callable
 var perk_action: Callable
 var acquired_action: Callable
 var perk_choice_buttons: Dictionary = {}
+var detail_buttons: Dictionary = {}
+var tool_labels: Dictionary = {}
+var experience_labels: Array[Label] = []
+var aspiration_label: Label
+var gear_data: Dictionary = {}
+var item_detail: AcceptDialog
 
 func label_in(parent: Node, text: String, variant: String = "") -> Label:
 	var label := Label.new()
@@ -134,6 +141,7 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	item_use_action = p_item_use_action
 	perk_action = p_perk_action
 	acquired_action = p_acquired_action
+	gear_data = character.get("gear", {}).duplicate(true)
 	title = "人物與行囊"
 	theme_type_variation = "PdaDialog"
 	ok_button_text = "返回旅程"
@@ -142,10 +150,10 @@ func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callab
 	get_ok_button().theme_type_variation = "PdaPrimary"
 	var columns := HBoxContainer.new()
 	columns.add_theme_constant_override("separation", Tokens.GAP)
-	columns.custom_minimum_size = Vector2(760, 440)
+	columns.custom_minimum_size = Vector2(920, 440)
 	add_child(columns)
 	_build_person(column_in(columns, "人物", 1.0), character, player)
-	_build_gear(column_in(columns, "裝備與行囊", 1.05), character, player, p_item_use_disabled_reason)
+	_build_gear(column_in(columns, "裝備與行囊", 1.4), character, player, p_item_use_disabled_reason)
 	_build_skills(column_in(columns, "能力", 1.15), character, p_growth_action)
 	show_notice(p_action_notice)
 	confirmed.connect(queue_free)
@@ -172,22 +180,30 @@ func _build_person(left: VBoxContainer, character: Dictionary, player: Dictionar
 	var who := VBoxContainer.new()
 	who.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(who)
-	identity_label = label_in(who, "%s · %d 歲" % [character.name, character.age], "PdaTitle")
-	identity_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	identity_label.clip_text = true
-	label_in(who, Presentation.background_name(character.background_id), "PdaMuted")
+	identity_label = label_in(who, String(character.name), "PdaTitle")
+	label_in(who, "%d 歲 · %s" % [int(character.age), Presentation.background_name(character.background_id)], "PdaMuted")
 	label_in(who, "Lv.%d" % int(character.level))
 	label_in(who, "瓶蓋 %d" % int(player.money))
 	bar_in(left, "生命", int(character.field_kit.hp), 12, Tokens.CRITICAL)
 	bar_in(left, "歷練", int(character.xp), int(character.next_level_xp), Tokens.AMBER)
 	var bp: Dictionary = player.backpack
-	capacity_label = bar_in(left, "負重", int(bp.load), int(bp.capacity), Color("#6B8F71"))
+	capacity_label = bar_in(left, "負重", int(bp.load), int(bp.capacity), Tokens.AMBER)
 	var party: Dictionary = player.get("party", {})
 	if String(party.get("summary", "")) != "":
 		label_in(left, "同行夥伴", "PdaSection")
 		label_in(left, String(party.summary).replace("同行：", ""))
 	action_notice_label = label_in(left, "", "PdaSection")
 	action_notice_label.visible = false
+	label_in(left, "正在追尋", "PdaSection")
+	var aim: Dictionary = gear_data.get("aspiration", {})
+	aspiration_label = label_in(left, String(aim.get("title", "尚未選擇目標；可到傳聞頁選擇。")))
+	if not aim.is_empty():
+		label_in(left, ("已達成 · " if bool(aim.get("done", false)) else "下一步 · ") + String(aim.get("next", "")), "PdaMuted")
+	label_in(left, "經歷", "PdaSection")
+	for line: String in gear_data.get("experiences", []):
+		experience_labels.append(label_in(left, "· " + line))
+	if experience_labels.is_empty():
+		label_in(left, "還沒有留下聚落或同行的經歷。", "PdaMuted")
 	label_in(left, "人物特質", "PdaSection")
 	trait_label = label_in(left, Presentation.trait_text(character.traits))
 	label_in(left, "部分特質會提供不同的遭遇處理方式。", "PdaMuted")
@@ -249,6 +265,8 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 		box.add_child(equipped_row)
 		if equipped_id != "":
 			equipped_row.add_child(ItemIcon.new(equipped_id, 40))
+			var inspect := _detail_button(equipped_id)
+			equipped_row.add_child(inspect)
 		else:
 			var empty_slot := Control.new()
 			empty_slot.custom_minimum_size = Vector2(40, 40)
@@ -256,7 +274,7 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 		var equipment_label := label_in(equipped_row, "%s　%s" % [slot_names[slot], _item_display_name(equipped_id)])
 		equipment_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		if equipped_id == "":
-			equipment_label.add_theme_color_override("font_color", Tokens.DIM)
+			equipment_label.add_theme_color_override("font_color", Tokens.SECONDARY)
 		equipment_labels[slot] = equipment_label
 		if not equipped_id.is_empty() and equipment_unequip_action.is_valid():
 			var unequip_button := Button.new()
@@ -265,6 +283,12 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 			unequip_button.custom_minimum_size = Vector2(56, Tokens.COMMAND_HEIGHT)
 			unequip_button.pressed.connect(func(): equipment_unequip_action.call(slot))
 			equipped_row.add_child(unequip_button)
+	label_in(middle, "隨身工具 · 持有即可用", "PdaSection")
+	for tool: Dictionary in gear_data.get("tools", []):
+		var row := item_row(middle, String(tool.item_id))
+		var tool_label := label_in(row, "%s知識 %d · 工具 %d\n%s" % ["機械" if tool.skill == "MECHANICS" else "電子", int(tool.rank), int(tool.grade), String(tool.name)])
+		tool_labels[tool.skill] = tool_label
+		if tool.item_id != "": row.add_child(_detail_button(String(tool.item_id)))
 	label_in(middle, "隨身補給", "PdaSection")
 	var bp: Dictionary = player.backpack
 	var supplies := GridContainer.new()
@@ -304,11 +328,9 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 		var gear_label: String = "%s · %s" % [resolved.definition.tier, {"COMMON": "普通", "MODIFIED": "改良", "RARE": "稀有", "UNIQUE": "獨特"}[resolved.definition.quality]]
 		item_label.text += "　" + gear_label
 		item_label.tooltip_text = String(resolved.definition.description_zh)
-		if not resolved.definition.properties.is_empty():
-			for property: String in resolved.definition.properties:
-				label_in(middle, String(preload("res://game_data/gear_property_profiles.gd").DESCRIPTIONS[property]), "PdaMuted")
-		if Gear.PROTECTION.has(item_id) or Gear.PACK_CARGO.has(item_id) or Gear.MECHANICAL_TOOLS.has(item_id) or Gear.ELECTRONIC_TOOLS.has(item_id):
-			label_in(middle, String(resolved.definition.description_zh), "PdaMuted")
+		var inspect := _detail_button(item_id)
+		row_node.add_child(inspect)
+		detail_buttons[item_id] = inspect
 		if item_id == "first_aid_kit" and item_use_action.is_valid():
 			var use_button := Button.new()
 			use_button.text = "使用 · 生命最多 +4" if item_use_disabled_reason.is_empty() else "急救包 · " + item_use_disabled_reason
@@ -377,6 +399,71 @@ func _build_skills(right: VBoxContainer, character: Dictionary, p_growth_action:
 		cell.add_child(spend)
 	if growth_points_available > 0:
 		label_in(right, "灰色的「＋1」是現在還用不到的能力，滑鼠停在上面看原因。", "PdaMuted")
+
+func _detail_button(id: String) -> Button:
+	var button := Button.new()
+	button.text = "查看"
+	button.theme_type_variation = "PdaCommand"
+	button.custom_minimum_size = Vector2(56, Tokens.COMMAND_HEIGHT)
+	button.accessibility_name = "查看" + _item_display_name(id) + "的用途與比較"
+	button.pressed.connect(func(): show_item_detail(id))
+	return button
+
+func _comparison_column(parent: Node, heading: String, name_text: String, stats: Dictionary) -> void:
+	var column := column_in(parent, heading, 1.0)
+	label_in(column, name_text, "PdaSection")
+	for line: String in stats.get("lines", []):
+		label_in(column, line)
+	for property: String in stats.get("properties", []):
+		label_in(column, property, "PdaMuted")
+
+func show_item_detail(id: String) -> void:
+	if not gear_data.get("details", {}).has(id):
+		return
+	if is_instance_valid(item_detail):
+		item_detail.queue_free()
+	var data: Dictionary = gear_data.details[id]
+	item_detail = AcceptDialog.new()
+	item_detail.title = "裝備詳情 · " + String(data.name)
+	item_detail.theme_type_variation = "PdaDialog"
+	item_detail.wrap_controls = false
+	add_child(item_detail)
+	var outer := VBoxContainer.new()
+	outer.custom_minimum_size = Vector2(640, 360)
+	outer.add_theme_constant_override("separation", Tokens.GAP)
+	item_detail.add_child(outer)
+	var head := item_row(outer, id)
+	head.add_child(label_in_unparented("%s · %s · %s" % [data.name, data.tier, data.quality], "PdaTitle"))
+	var compared := HBoxContainer.new()
+	compared.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	compared.add_theme_constant_override("separation", Tokens.PAD)
+	outer.add_child(compared)
+	if String(data.current_id) != id and (String(data.slot) != "" or String(data.current_id) != ""):
+		_comparison_column(compared, "目前裝備" if String(data.slot) != "" else "目前最佳工具", String(data.current_name), data.current)
+	_comparison_column(compared, "已裝備" if bool(data.equipped) else "選取物品", String(data.name), data.candidate)
+	if String(data.slot) == "main_hand":
+		var legend := label_in_unparented("常態傷害含技巧與同行支援；架勢、快拔另依時機生效。", "PdaMuted")
+		outer.add_child(legend)
+	var can_equip: bool = String(data.slot) != "" and not bool(data.equipped) and equipment_action.is_valid()
+	item_detail.ok_button_text = "裝備到" + _slot_name(String(data.slot)) if can_equip else "返回人物"
+	item_detail.get_ok_button().custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	item_detail.get_ok_button().theme_type_variation = "PdaPrimary"
+	var detail: AcceptDialog = item_detail
+	detail.confirmed.connect(func():
+		if can_equip: equipment_action.call(id, String(data.slot))
+		detail.queue_free())
+	detail.canceled.connect(detail.queue_free)
+	var viewport_size: Vector2 = Vector2(get_tree().root.size)
+	detail.popup_centered(Vector2i(int(viewport_size.x * 0.7), int(viewport_size.y * 0.7)))
+	detail.get_ok_button().grab_focus()
+
+func label_in_unparented(text: String, variant: String) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.theme_type_variation = variant
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	return label
 
 func show_notice(text: String) -> void:
 	if action_notice_label == null:
