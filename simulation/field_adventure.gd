@@ -36,12 +36,14 @@ static func road_enemy_for(context: Dictionary) -> String:
 static func begin_road_battle(world, enc_context: Dictionary = {}) -> Dictionary:
 	var state: Dictionary = world.field_state
 	var enemy_id := road_enemy_for(enc_context)
+	var site_enemy_hp: int = int(state.enemy_hp)
 	state.battle = {
 		"id": state.next_id,
 		"turn": 1,
 		"prepared": false,
 		"source": "road",
 		"enemy": enemy_id,
+		"site_enemy_hp": site_enemy_hp,
 	}
 	if enc_context.has("bounty_job_id") and String(enc_context.bounty_job_id) != "":
 		state.battle["bounty_job_id"] = String(enc_context.bounty_job_id)
@@ -72,9 +74,14 @@ static func validate_state(state: Variant) -> String:
 		return "INVALID_FIELD_STATE"
 	if not integer(state.get("enemy_hp"), 0, Enemies.highest_hp()) or typeof(state.get("opened")) != TYPE_BOOL or not integer(state.get("next_id"), 1, 2147483647) or not integer(state.get("receipt"), -1, 2147483647) or typeof(state.get("battle")) != TYPE_DICTIONARY:
 		return "INVALID_FIELD_STATE"
-	if state.opened and state.enemy_hp > 0:
-		return "INVALID_FIELD_SITE"
 	var battle = state.battle
+	var road_battle: bool = not battle.is_empty() and battle.get("source", "field") == "road"
+	# enemy_hp belongs to the active opponent; opened belongs to the home cache.
+	# Pending receipts are checked against their actual source in validate_world.
+	if state.opened and state.enemy_hp > 0 and not road_battle and state.receipt < 0:
+		return "INVALID_FIELD_SITE"
+	if not valid_site_snapshot(battle, bool(state.opened)):
+		return "INVALID_FIELD_SITE_SNAPSHOT"
 	if not battle.is_empty():
 		if battle.has("source") and typeof(battle.get("source")) != TYPE_STRING:
 			return "INVALID_FIELD_BATTLE"
@@ -92,6 +99,11 @@ static func validate_state(state: Variant) -> String:
 			return "INVALID_FIELD_BATTLE"
 	return ""
 
+static func valid_site_snapshot(payload: Dictionary, opened: bool) -> bool:
+	if not payload.has("site_enemy_hp"):
+		return true # Legacy road battles/receipts did not retain this snapshot.
+	return payload.get("source", "field") == "road" and integer(payload.site_enemy_hp, 0, Enemies.highest_hp()) and (not opened or payload.site_enemy_hp == 0)
+
 static func validate_wire(data: Dictionary) -> String:
 	var events: Variant = data.get("events", [])
 	if typeof(events) != TYPE_ARRAY:
@@ -101,6 +113,8 @@ static func validate_wire(data: Dictionary) -> String:
 		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT", "FIELD_ACTION"]:
 			continue
 		var event_payload: Variant = raw_event.get("payload", {})
+		if raw_event.type == "FIELD_RESULT" and typeof(event_payload) == TYPE_DICTIONARY and not valid_site_snapshot(event_payload, false):
+			return "INVALID_FIELD_SITE_SNAPSHOT"
 		var shot: bool = raw_event.type == "FIELD_TURN" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "SHOOT"
 		if shot:
 			var firearm := Weapons.firearm(event_payload.get("weapon_id"))
@@ -155,6 +169,8 @@ static func normalize_state(state: Dictionary) -> Dictionary:
 	if not out.battle.is_empty():
 		out.battle.id = int(out.battle.id)
 		out.battle.turn = int(out.battle.turn)
+		if out.battle.has("site_enemy_hp"):
+			out.battle.site_enemy_hp = int(out.battle.site_enemy_hp)
 	return out
 
 static func validate_world(world) -> String:
@@ -186,6 +202,10 @@ static func validate_world(world) -> String:
 		if state.receipt >= world.event_log.size() or world.active_encounter != null or world.pending_encounter_result >= 0:
 			return "INVALID_FIELD_RECEIPT"
 		var event = world.event_log[state.receipt]
+		if not valid_site_snapshot(event.payload, bool(state.opened)):
+			return "INVALID_FIELD_SITE_SNAPSHOT"
+		if state.opened and state.enemy_hp > 0 and event.payload.get("source", "field") != "road":
+			return "INVALID_FIELD_SITE"
 		if event.type != "FIELD_RESULT" or event.actor_id != world.player.npc_id or event.payload.get("hp") != world.player.field_kit.hp or event.payload.get("outcome") not in ["VICTORY", "ESCAPED", "DEAD", "CACHE", "DEFEAT"]:
 			return "INVALID_FIELD_RECEIPT"
 	return ""
@@ -437,6 +457,8 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 		payload["route_type"] = String(active_battle.route_type)
 	if is_road:
 		payload["source"] = "road"
+		if active_battle.has("site_enemy_hp"):
+			payload["site_enemy_hp"] = int(active_battle.site_enemy_hp)
 		if outcome == "DEFEAT":
 			payload["lost"] = left
 		if caps_gained > 0:
@@ -461,6 +483,11 @@ static func apply(world, engine, payload: Dictionary) -> String:
 	var action_payload := {"command": command}
 	match command:
 		"CONFIRM":
+			var receipt_payload: Dictionary = world.event_log[state.receipt].payload
+			if receipt_payload.get("source", "field") == "road":
+				# Opened legacy homes are known clear. Unknown unopened legacy site
+				# health retains its previous fallback; new receipts restore it exactly.
+				state.enemy_hp = int(receipt_payload.get("site_enemy_hp", 0 if state.opened else state.enemy_hp))
 			state.receipt = -1
 		"CRAFT":
 			player.inventory.scrap -= 3
