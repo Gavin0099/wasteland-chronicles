@@ -115,10 +115,10 @@ static func progress(world, rumor_id: String) -> Dictionary:
 			const Party = preload("res://simulation/party.gd")
 			var rank: int = Party.skill_rank(world, "MECHANICS")
 			if Party.skill_rank(world, "ELECTRONICS") >= RoadPlaces.ARMORY_ELECTRONICS:
-				return {"done": false, "next": "你的電子夠了。帶廢料 %d 與足夠水糧，走乾井—新希望的荒野路，第三天搭接軍械庫線路；開門另耗 1 天。" % RoadPlaces.ARMORY_CIRCUIT_SCRAP}
+				return {"done": false, "next": "你的電子夠了。帶電錶（或更好的電子工具）、廢料 %d 與足夠水糧，走乾井—新希望的荒野路，第三天搭接軍械庫線路；開門另耗 1 天。" % RoadPlaces.ARMORY_CIRCUIT_SCRAP}
 			if rank < RoadPlaces.ARMORY_MECHANICS:
-				return {"done": false, "next": "門要機械 %d 才拆得開，你現在是 %d。灰谷的老焊工教機械，灰谷的技師阿扳也拆得開。也能用電子 %d 加廢料 %d 搭接：灰谷的電器修補匠教電子。" % [RoadPlaces.ARMORY_MECHANICS, rank, RoadPlaces.ARMORY_ELECTRONICS, RoadPlaces.ARMORY_CIRCUIT_SCRAP]}
-			return {"done": false, "next": "你的機械夠了。走乾井—新希望的荒野路，第三天。帶足水糧，路上有他的營地。"}
+				return {"done": false, "next": "門要機械 %d 才拆得開，你現在是 %d。灰谷的老焊工教機械，灰谷的技師阿扳能提供技能；仍需攜帶修理工具箱。也能用電子 %d 加廢料 %d 搭接：灰谷的電器修補匠教電子。" % [RoadPlaces.ARMORY_MECHANICS, rank, RoadPlaces.ARMORY_ELECTRONICS, RoadPlaces.ARMORY_CIRCUIT_SCRAP]}
+			return {"done": false, "next": "你的機械夠了。帶修理工具箱（或精密修理組），走乾井—新希望的荒野路，第三天。帶足水糧，路上有他的營地。"}
 		"rumor:old_well", "rumor:fuel_station":
 			var place_id := String(RUMORS[rumor_id].place_id)
 			var s := RoadPlaces.state(world, place_id)

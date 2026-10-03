@@ -78,9 +78,9 @@ static func practice_skill(encounter_type: StringName, option_id: StringName) ->
 		PLACE_VISIT:
 			if option_id == &"SEARCH_SITE":
 				return "SCAVENGING"
-			if option_id in [&"OPEN_ARMORY", &"REPAIR_PUMP"]:
+			if option_id in [&"OPEN_ARMORY", &"REPAIR_PUMP", &"OVERHAUL_PUMP"]:
 				return "MECHANICS"
-			if option_id == &"BRIDGE_ARMORY":
+			if option_id in [&"BRIDGE_ARMORY", &"CALIBRATE_ARMORY", &"REWIRE_PUMP"]:
 				return "ELECTRONICS"
 		WRECK:
 			if option_id in [&"SEARCH", &"QUICK_PICK", &"SORT_WRECK"]:
@@ -483,6 +483,8 @@ static func valid_resolution(data: Dictionary) -> bool:
 		StringName(data.encounter_type), StringName(data.option)):
 		return false
 	if data.option == "BRIDGE_ARMORY" and (data.encounter_type != "PLACE_VISIT" or data.get("place_id") != "place:old_armory" or data.spent.get("scrap") != RoadPlaces.ARMORY_CIRCUIT_SCRAP or int(elapsed) != 1):
+		return false
+	if data.option == "CALIBRATE_ARMORY" and (data.encounter_type != "PLACE_VISIT" or data.get("place_id") != "place:old_armory" or int(elapsed) != 1 or data.spent.has("scrap")):
 		return false
 	return true
 

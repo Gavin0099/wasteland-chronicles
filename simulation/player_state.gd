@@ -7,6 +7,7 @@ const Equipment = preload("res://simulation/equipment_state.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
 var capability: RefCounted
+const Gear = preload("res://simulation/gear_rules.gd")
 const Field = preload("res://simulation/field_adventure.gd")
 var field_kit: Dictionary = Field.new_kit()
 
@@ -94,12 +95,7 @@ func get_total_inventory_load() -> int:
 	return inventory.water + inventory.food + inventory.scrap + inventory.fuel + (Field.KIT_WEIGHT if field_kit.crowbar else 0)
 
 func get_effective_capacity() -> int:
-	var bonus := 0
-	if equipment != null and equipment.equipped_item("back") == "travel_backpack":
-		bonus = 8
-	elif equipment != null and equipment.equipped_item("back") == "military_backpack":
-		bonus = 12
-	return capacity_total + bonus
+	return capacity_total + (Gear.cargo_bonus(self) if equipment != null else 0)
 
 func has_cargo_capacity(amount: int) -> bool:
 	return get_total_inventory_load() + amount <= get_effective_capacity()

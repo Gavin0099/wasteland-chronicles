@@ -2192,6 +2192,9 @@ func _render_encounter_result(result: Dictionary) -> void:
 	lbl_encounter_route.text = String(result.route_label)
 	lbl_encounter_title.text = "%s · 結算結果" % String(result.title)
 	var descriptions := {
+		"REPAIR_PUMP": String(result.get("place_note", "抽水泵已修復。")),
+		"OVERHAUL_PUMP": String(result.get("place_note", "抽水泵已精修。")),
+		"REWIRE_PUMP": String(result.get("place_note", "抽水泵線路已重接。")),
 		"SEARCH": "你花了一天搜尋貨車殘骸。", "LEAVE": "你決定離開。",
 		"CLEAR": "你用廢料墊出了通道。", "DETOUR": "你花了一天繞過障礙。",
 		"PAY": "你付了過路費。", "GIVE_WATER": "你交給旅人一份水。",
@@ -2243,7 +2246,7 @@ func _render_encounter_result(result: Dictionary) -> void:
 		if slot_entry.get("slot") == "back":
 			equipped_back = String(slot_entry.get("item_id", ""))
 			break
-	if String(result.get("place_note", "")) != "":
+	if String(result.get("place_note", "")) != "" and result.option not in ["REPAIR_PUMP", "OVERHAUL_PUMP", "REWIRE_PUMP"]:
 		lbl_encounter_body.text += "\n\n" + String(result.place_note)
 	if result.has("attribution") and String(result.attribution) != "":
 		lbl_encounter_body.text += "\n\n" + String(result.attribution)
@@ -2816,7 +2819,7 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 	if bool(option.get("locked", false)):
 		return "目前能力未達需求：" + String(option.get("requirement_label", ""))
 	var reason := String(option.get("blocked_reason", ""))
-	var repair_reasons: Dictionary = {"REPAIR_SITE_REQUIRED": "需要到枯河井泵現場", "REPAIR_CONTRACT_REQUIRED": "需先到水井所屬鎮接下修理委託", "REPAIR_DEADLINE_TOO_CLOSE": "期限內已來不及完成一天修理", "EQUIPMENT_ALREADY_REPAIRED": "抽水泵已修好", "ITEM_NOT_HELD": "缺少所需工具：" + String(option.get("requirement_label", ""))}
+	var repair_reasons: Dictionary = {"REPAIR_SITE_REQUIRED": "需要到枯河井泵現場", "REPAIR_CONTRACT_REQUIRED": "需先到水井所屬鎮接下修理委託", "REPAIR_DEADLINE_TOO_CLOSE": "期限內已來不及完成一天修理", "EQUIPMENT_ALREADY_REPAIRED": "抽水泵已修好", "ARMOR_BLOCKS_STEALTH": "防彈背心限制動作；出發前先卸下才能潛行", "TOOL_REQUIRED": "缺少實體工具：" + String(option.get("requirement_label", "")), "ITEM_NOT_HELD": "缺少所需工具：" + String(option.get("requirement_label", ""))}
 	repair_reasons.merge({"WRENCH_ALREADY_CARRIED": "背包只能帶一把扳手；先處理原本那把，再回來找", "ITEM_CAPACITY_EXCEEDED": "工具背包空間不足", "NO_ACCEPTED_COMPANION_REQUEST": "需要阿扳同行，並先答應他的請求", "COMPANION_WRONG_SITE": "需要到灰谷—新希望公路的商隊殘骸"})
 	if repair_reasons.has(reason.get_slice(":", 0)):
 		return String(repair_reasons[reason.get_slice(":", 0)])

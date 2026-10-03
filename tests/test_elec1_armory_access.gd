@@ -71,6 +71,7 @@ func track(resume: bool) -> String:
 			world = reload(world)
 	check(world.current_day == 4 and world.player.money == 320 and world.player.capability.get_rank("ELECTRONICS") == 2, "two lessons cost180 caps and4 days")
 	check(world.player.capability.get_rank("MECHANICS") == 0, "electronic path needs no mechanics")
+	check(engine.commit_player_intent(world, PlayerIntent.create_buy_item(world.player.npc_id, &"simple_meter", 1)).success, "GEAR-2C buy actual physical meter after unchanged lesson-cost assertion")
 	check(travel(world, &"settlement:dry_well", ""), "reach Dry Well via actual road")
 	if resume:
 		world = reload(world)
@@ -116,6 +117,7 @@ func run() -> void:
 	check(not denied.success and String(denied.error).begins_with("CAPABILITY_NOT_MET") and world.to_canonical_json() == before, "insufficient electronics refuses without state change")
 	world.player.capability.raise_rank_by_point("ELECTRONICS")
 	world.player.capability.raise_rank_by_point("ELECTRONICS")
+	check(world.player.pickup_item("simple_meter").success, "GEAR-2C meter held for material refusal fixture")
 	world.player.inventory.set_amount("scrap", 1)
 	before = world.to_canonical_json()
 	denied = answer(world, &"BRIDGE_ARMORY")

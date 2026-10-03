@@ -22,6 +22,7 @@ func capture() -> void:
 			engine.commit_character_creation(world, Creation.new({"source_settlement_id": town, "character_name": "電器學徒", "age": 28, "background_id": "SCAVENGER", "trait_ids": []}))
 			world.player.money = 500
 			if mode != "teacher":
+				world.player.pickup_item("simple_meter")
 				world.player.capability.raise_rank_by_point("ELECTRONICS")
 				world.player.capability.raise_rank_by_point("ELECTRONICS")
 				world.player.inventory.set_amount("scrap", 2)

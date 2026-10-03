@@ -5,6 +5,16 @@ extends RefCounted
 # index. These references do not register items in UI, ownership or loot tables.
 static func resolve(asset_id: Variant) -> Dictionary:
 	var paths := {
+		"item_thick_cloth_coat": "res://ui/assets/items/library/clothing/worker_leather_jacket.png",
+		"item_leather_jacket": "res://ui/assets/items/library/clothing/motorcycle_jacket.png",
+		"item_reinforced_leather_jacket": "res://ui/assets/items/library/clothing/stab_vest.png",
+		"item_ballistic_vest": "res://ui/assets/items/library/clothing/police_ballistic_vest.png",
+		"item_reinforced_travel_backpack": "res://ui/assets/items/library/clothing/hiking_backpack.png",
+		"item_repair_toolbox": "res://ui/assets/items/library/supplies/toolbox.png",
+		"item_precision_repair_kit": "res://ui/assets/items/library/supplies/welding_tools.png",
+		"item_simple_meter": "res://ui/assets/items/library/supplies/multimeter.png",
+		"item_electronic_repair_kit": "res://ui/assets/items/library/supplies/toolbox.png",
+		"item_military_electronic_tools": "res://ui/assets/items/library/supplies/signal_receiver.png",
 		"item_sledgehammer": "res://ui/assets/items/sledgehammer.png",
 		"item_combat_knife": "res://ui/assets/items/candidates/hunting_knife.png",
 		"item_reinforced_saber": "res://ui/assets/items/library/weapons/desert_sabre.png",

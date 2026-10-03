@@ -28,6 +28,7 @@ const SkillRow = preload("res://ui/components/skill_rank_row.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
+const Gear = preload("res://simulation/gear_rules.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
 const PORTRAIT := "res://ui/assets/combat/drifter.png"
 
@@ -299,6 +300,9 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 		var item_label := label_in(row_node, "%s ×%d" % [resolved.definition.display_name_zh, int(entry.get("quantity", 0))])
 		item_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		item_labels[item_id] = item_label
+		item_label.tooltip_text = String(resolved.definition.description_zh)
+		if Gear.PROTECTION.has(item_id) or Gear.PACK_CARGO.has(item_id) or Gear.MECHANICAL_TOOLS.has(item_id) or Gear.ELECTRONIC_TOOLS.has(item_id):
+			label_in(middle, String(resolved.definition.description_zh), "PdaMuted")
 		if item_id == "first_aid_kit" and item_use_action.is_valid():
 			var use_button := Button.new()
 			use_button.text = "使用 · 生命最多 +4" if item_use_disabled_reason.is_empty() else "急救包 · " + item_use_disabled_reason

@@ -176,7 +176,7 @@ static func state(world, place_id: String) -> Dictionary:
 							out.marked_for = String(evt.payload.get("marked_for", ""))
 					"SEARCH_SITE":
 						last_search = i
-					"OPEN_ARMORY", "BRIDGE_ARMORY":
+					"OPEN_ARMORY", "BRIDGE_ARMORY", "CALIBRATE_ARMORY":
 						if int((evt.payload.get("items_gained", {}) as Dictionary).get(String(p.get("prize", "")), 0)) > 0:
 							out.prize_taken = true
 					"LEAVE":
@@ -279,11 +279,11 @@ const RESOURCE_NAMES := {"water": "水", "food": "食物", "scrap": "廢料", "f
 
 # Every option id a place can ever offer, for validating a receipt that no
 # longer has its context.
-const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY", &"REPAIR_PUMP", &"RECOVER_ABBAN_TOOL"]
+const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY", &"REPAIR_PUMP", &"RECOVER_ABBAN_TOOL", &"OVERHAUL_PUMP", &"REWIRE_PUMP", &"CALIBRATE_ARMORY"]
 
 static func repair_option() -> Dictionary:
 	return {"id": &"REPAIR_PUMP", "label": "修復抽水泵", "detail": "扳手保留、廢料 −3、耗時 1 天；修好後委託鎮每日產水 +1，再回鎮領酬。",
-		"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": 2}]}, "requires_item": "wrench", "requirement_label": "機械 2、扳手、廢料 3", "gate": "capability"}
+		"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": 2}]}, "requirement_label": "機械 2、機械工具 1、廢料 3", "gate": "capability"}
 
 static func options(context: Dictionary, world = null) -> Array:
 	var place_id := String(context.get("place_id", ""))
@@ -293,7 +293,7 @@ static func options(context: Dictionary, world = null) -> Array:
 		return [{"id": &"LEAVE", "label": "不停留", "detail": ""}]
 	var p := info(place_id)
 	if place_id == Well.PLACE and bool(context.get("repair_visit", false)):
-		return [repair_option(), {"id": &"LEAVE", "label": "先不修，繼續走", "detail": "設備仍故障；期限內可以再回來"}]
+		return [repair_option(), overhaul_option(), rewire_option(), {"id": &"LEAVE", "label": "先不修，繼續走", "detail": "設備仍故障；期限內可以再回來"}]
 	if place_id == CompanionRequest.PLACE and bool(context.get("companion_request", false)):
 		return [companion_option(), {"id": &"LEAVE", "label": "這次先走", "detail": "請求保留；下次與阿扳同行時再來"}]
 	match String(p.kind):
@@ -320,10 +320,11 @@ static func options(context: Dictionary, world = null) -> Array:
 			return [
 				{"id": &"OPEN_ARMORY", "label": "拆開控制盒，進去", "detail": "耗時 1 天。裡面是什麼，只有進去才知道。",
 					"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": ARMORY_MECHANICS}]},
-					"requirement_label": "機械 %d" % ARMORY_MECHANICS, "gate": "capability"},
+					"requirement_label": "機械 %d、機械工具 2" % ARMORY_MECHANICS, "gate": "capability"},
 				{"id": &"BRIDGE_ARMORY", "label": "搭接控制線路，進去", "detail": "耗時 1 天，消耗廢料 %d。與拆開控制盒共用同一批藏品。灰谷的電器修補匠教電子。" % ARMORY_CIRCUIT_SCRAP,
 					"requires": {"all": [{"kind": "skill", "skill_id": "ELECTRONICS", "min_rank": ARMORY_ELECTRONICS}]},
-					"requirement_label": "電子 %d、廢料 %d" % [ARMORY_ELECTRONICS, ARMORY_CIRCUIT_SCRAP], "gate": "capability"},
+					"requirement_label": "電子 %d、電子工具 1、廢料 %d" % [ARMORY_ELECTRONICS, ARMORY_CIRCUIT_SCRAP], "gate": "capability"},
+				calibrate_option(),
 				{"id": &"LEAVE", "label": "記下位置，改天再來", "detail": "門不會自己打開"},
 			]
 		WRECK_SITE:
@@ -334,8 +335,20 @@ static func options(context: Dictionary, world = null) -> Array:
 			]
 	return []
 
+static func overhaul_option() -> Dictionary:
+	return {"id": &"OVERHAUL_PUMP", "label": "精修泵頭，提升出水", "detail": "消耗廢料 3、耗時 1 天；修好後每日產水 +2。與其他修法共用一次性委託。",
+		"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": 3}]}, "requirement_label": "機械 3、機械工具 3、廢料 3", "gate": "capability"}
+
+static func rewire_option() -> Dictionary:
+	return {"id": &"REWIRE_PUMP", "label": "重接井泵線路", "detail": "消耗廢料 3、耗時 1 天；修好後每日產水 +1。與其他修法共用一次性委託。",
+		"requires": {"all": [{"kind": "skill", "skill_id": "ELECTRONICS", "min_rank": 2}]}, "requirement_label": "電子 2、電子工具 2、廢料 3", "gate": "capability"}
+
+static func calibrate_option() -> Dictionary:
+	return {"id": &"CALIBRATE_ARMORY", "label": "校準控制器，進去", "detail": "耗時 1 天，不消耗廢料；三條路共用同一批藏品。",
+		"requires": {"all": [{"kind": "skill", "skill_id": "ELECTRONICS", "min_rank": 3}]}, "requirement_label": "電子 3、電子工具 3", "gate": "capability"}
+
 static func all_options() -> Array:
-	var out: Array = [repair_option(), companion_option()]
+	var out: Array = [repair_option(), overhaul_option(), rewire_option(), companion_option()]
 	for place_id in ids():
 		out.append_array(options({"place_id": place_id}))
 	return out
@@ -365,7 +378,7 @@ static func status_text(world, place_id: String) -> String:
 				"STRIPPED": return "已被你搬空"
 				"MARKED": return "待回報%s" % town_name(world, String(s.marked_for))
 				"CLAIMED":
-					var pump_note: String = " · 井泵運轉（產水 +1/日）" if Well.state(world).status == "WORKING" else " · 井泵故障，鎮上有修理委託"
+					var pump_note: String = " · 井泵運轉（產水 +%d/日）" % int(Well.state(world).get("bonus", 1)) if Well.state(world).status == "WORKING" else " · 井泵故障，鎮上有修理委託"
 					return "歸%s%s" % [town_name(world, String(s.claimed_by)), pump_note if place_id == Well.PLACE else ""]
 			return "無人接手"
 		CAMP:
@@ -375,5 +388,5 @@ static func status_text(world, place_id: String) -> String:
 		WRECK_SITE:
 			return "約 %d 份廢料" % int(s.scrap) if int(s.scrap) > 0 else "暫時撿空了"
 		SECRET:
-			return "已被你搬空" if bool(s.prize_taken) else "門還鎖著（機械 %d，或電子 %d＋廢料 %d）" % [ARMORY_MECHANICS, ARMORY_ELECTRONICS, ARMORY_CIRCUIT_SCRAP]
+			return "已被你搬空" if bool(s.prize_taken) else "門還鎖著（機械 %d＋工具箱，或電子 %d＋電錶＋廢料 %d）" % [ARMORY_MECHANICS, ARMORY_ELECTRONICS, ARMORY_CIRCUIT_SCRAP]
 	return ""

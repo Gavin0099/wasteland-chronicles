@@ -6,10 +6,19 @@ const Source = preload("res://game_data/item_definitions.gd")
 const Art = preload("res://game_data/item_art_references.gd")
 const VERSION := 1
 
+# Only the immutable authored source is cached; candidates are still checked
+# afresh. Every public result is detached, so caller edits cannot publish data.
+static var _authored: Dictionary = {}
+
+static func _authored_result() -> Dictionary:
+	if _authored.is_empty():
+		_authored = canonicalize(Source.rows())
+	return _authored.duplicate(true)
+
 static func resolve(item_id: Variant) -> Dictionary:
 	if typeof(item_id) != TYPE_STRING:
 		return {"success": false, "definition": null, "error": "UNKNOWN_ITEM_ID"}
-	var checked := canonicalize(Source.rows())
+	var checked := _authored_result()
 	if not checked.success:
 		return {"success": false, "definition": null, "error": checked.error}
 	for definition in checked.definitions:
@@ -18,7 +27,7 @@ static func resolve(item_id: Variant) -> Dictionary:
 	return {"success": false, "definition": null, "error": "UNKNOWN_ITEM_ID"}
 
 static func all_definitions() -> Array:
-	var checked := canonicalize(Source.rows())
+	var checked := _authored_result()
 	return checked.definitions
 
 # Pure candidate validation/fingerprinting, never a catalogue installer. The

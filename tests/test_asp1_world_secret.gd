@@ -49,6 +49,7 @@ func fresh_world(mechanics: int = 0) -> WorldState:
 		"age": 30, "background_id": "SCAVENGER", "trait_ids": [],
 	})).success, "character creation succeeds")
 	world.player.capability._data.skill_ranks["MECHANICS"] = mechanics
+	check(world.player.pickup_item("repair_toolbox").success, "GEAR-2C physical toolbox fixture; skill remains independently gated")
 	world.player.inventory.set_amount("water", 8)
 	world.player.inventory.set_amount("food", 8)
 	return world

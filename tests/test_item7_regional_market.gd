@@ -19,7 +19,7 @@ func _init() -> void:
 	check(Markets.settlement_key("settlement:unknown") == "", "unknown settlement fails closed")
 
 	var gray := Markets.offers_for("settlement:gray_valley")
-	check(gray.success and gray.offers.size() == 14, "Gray Valley retains its twelve supplies and adds hammer/combat knife")
+	check(gray.success and gray.offers.size() == 24, "Gray Valley retains its twelve supplies and adds arsenal and ten GEAR-2C supplies")
 	var gray_ids: Array[String] = []
 	var gray_seen := {}
 	for offer in gray.offers:
@@ -45,16 +45,16 @@ func _init() -> void:
 	detached_offer.item_id = "forged"
 	detached.offers.clear()
 	var fresh := Markets.offers_for("new_hope")
-	check(fresh.offers.size() == 20, "New Hope includes the six arsenal additions; offer projection is detached")
+	check(fresh.offers.size() == 30, "New Hope includes six arsenal and ten GEAR-2C additions; offer projection is detached")
 	check(String(fresh.offers[0].item_id) != "forged", "nested offer mutation cannot alter registry")
 
 	var before := JSON.stringify(Markets.offers_for("dry_well"), "", true)
 	var after := JSON.stringify(Markets.offers_for("dry_well"), "", true)
 	check(before == after, "market projection is deterministic")
 	var summary := Markets.summary_for("dry_well")
-	check(summary.success and summary.listed_item_count == 13, "summary counts listed items")
+	check(summary.success and summary.listed_item_count == 23, "summary counts listed items")
 	check(int(summary.supply_counts.high) > 0 and int(summary.supply_counts.low) > 0, "summary preserves regional spread")
-	check(Registry.all_definitions().size() == 22, "registry includes route-only and New Hope-only items without listing them in Gray Valley")
+	check(Registry.all_definitions().size() == 32, "registry includes route-only and New Hope-only items without listing them in Gray Valley")
 
 	print("ITEM-7 regional market catalogue: ", "PASS" if failures == 0 else "FAIL", "; assertions=", assertions, "; failures=", failures)
 	quit(0 if failures == 0 else 1)

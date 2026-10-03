@@ -2210,12 +2210,16 @@ func authorize_encounter_option(world: WorldState, option_id: StringName) -> Str
 			option_id, TravelEncounter.option_requirement_label(enc.encounter_type, option_id)
 		]
 
+	var gear_refusal: String = preload("res://simulation/gear_rules.gd").method_refusal(p, String(option_id))
+	if gear_refusal != "":
+		return gear_refusal
+
 	match option_id:
 		&"RECOVER_ABBAN_TOOL":
 			return Party.Request.recovery_refusal(world)
-		&"REPAIR_PUMP":
-			return preload("res://simulation/well_repair.gd").refusal(world)
-		&"OPEN_ARMORY", &"BRIDGE_ARMORY":
+		&"REPAIR_PUMP", &"OVERHAUL_PUMP", &"REWIRE_PUMP":
+			return preload("res://simulation/well_repair.gd").refusal(world, String(option_id))
+		&"OPEN_ARMORY", &"BRIDGE_ARMORY", &"CALIBRATE_ARMORY":
 			if bool(RoadPlaces.state(world, "place:old_armory").prize_taken):
 				return "PLACE_ALREADY_CLEARED: armory prize already taken"
 			if option_id == &"BRIDGE_ARMORY" and p.inventory.get_amount("scrap") < RoadPlaces.ARMORY_CIRCUIT_SCRAP:
@@ -2458,10 +2462,10 @@ func commit_encounter_choice(world: WorldState, option_id: StringName) -> Dictio
 			offered = {String(take_place.resource): int(take_place.take)}
 		&"MARK_A", &"MARK_B":
 			pass
-		&"REPAIR_PUMP":
-			equipment_repair = preload("res://simulation/well_repair.gd").apply(world)
+		&"REPAIR_PUMP", &"OVERHAUL_PUMP", &"REWIRE_PUMP":
+			equipment_repair = preload("res://simulation/well_repair.gd").apply(world, String(option_id))
 			extra_day = true
-		&"OPEN_ARMORY", &"BRIDGE_ARMORY":
+		&"OPEN_ARMORY", &"BRIDGE_ARMORY", &"CALIBRATE_ARMORY":
 			# ASP-1: the prize is an item the market never sells; if the pack
 			# cannot take it, it stays behind the open door for next time.
 			var armory := RoadPlaces.info(String(enc.context.get("place_id", "")))

@@ -18,8 +18,8 @@
 - [x] COMBAT-VIS-1 implementation — grounded left/right arena, near-fighter identity/HP/weapon/intent, bottom commands, true highway/wilderness/camp scenery. UI only, L1; no combat rule changes. 105 suites exit 0, 510 focused assertions, 22 OpenGL captures and independent review without P0/P1; Delivered PR #51 (merge 97feb4d), exact-head GitHub review no findings and CI passed. Scope source: docs/rpg-gear-combat-slices.md.
 - [x] GEAR-2A implementation — Tier/Quality definition contract and legacy compatibility; quality is never an automatic stat multiplier. 458 focused assertions pass; 106 suites exit 0; six compatibility captures and independent review no P0/P1. Delivered PR #52 (merge 0dc984f), exact-head GitHub review no findings and CI passed. See docs/gear2a-tier-quality.md.
 - [x] GEAR-2B implementation — bounded nine-weapon core; five new weapons plus shotgun ammunition, heavier hammer retreat and distinct firearm costs. Legacy knives/club retained. 141 focused assertions, all 107 suites exit 0 after two required fixture reruns, ten OpenGL captures and independent review no P0/P1; deferred knife-balance P2 recorded. Delivered PR #53 (merge 1bb8b12), exact-head GitHub review no findings and CI passed. See docs/gear2b-first-arsenal.md.
-- [x] COMBAT-VIS-1C implementation — owner screenshot steering inserts elevated 2:1 diamond arena and fixed bottom HUD before GEAR-2C. Owner size correction now fills the available arena, shares HP/bar rows and folds history during combat. Original108 full suites passed before the UI-only correction; current focused260 and nine relevant suites exit0, 26 new actual captures inspected. Current correction review/remote delivery pending in PR54. See docs/combat-isometric-reference.md.
-- [ ] GEAR-2C — armor protection and cargo/stealth costs, backpacks and mechanical/electronic physical tools.
+- [x] COMBAT-VIS-1C implementation — owner screenshot steering inserts elevated 2:1 diamond arena and fixed bottom HUD before GEAR-2C. Owner size correction now fills the available arena, shares HP/bar rows and folds history during combat. Original108 full suites passed before the UI-only correction; current focused260 and nine relevant suites exit0, 26 new actual captures inspected. Delivered PR54 (merge002a5a7); independent and exact-head GitHub review clear of P0/P1, CI passed. Deferred scene-palette and DEFEND detail P2s recorded. See docs/combat-isometric-reference.md.
+- [x] GEAR-2C implementation — four armor levels, atomic cargo cost/stealth restriction, reinforced bag defeat protection, separate physical MECH/ELEC tool grades and higher-tool pump/armory methods. 303 focused assertions; all109 suites exit0 after fixed-count fixture reconciliation; 12 actual OpenGL captures inspected, independent review no P0/P1. Remote delivery pending. See docs/gear2c-armor-packs-tools.md.
 - [ ] GEAR-2D — authored Modified/Rare properties; no random item generation.
 - [ ] GEAR-2E — three uniques total, including saber, with rumor/preparation/retrieval/new-opening chains.
 - [ ] CHAR-2 — real gear/skill/experience/aspiration sheet and meaningful item comparison.
@@ -279,6 +279,8 @@
 - 2026-09-20: **Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` ACCEPTED_FOR_WORK** — Owner disposition: dedicated slice **S4-C.2 Snapshot Numeric Canonicality**, activated before S4-D Traits. Traits are explicitly on WAIT until persistence continuity is proven.
 
 ## Known Risks
+
+- PR54 deferred P2: terrain/slab/grid lighting uses scene colors outside shared PDA UI tokens; no current actionable text/readability failure. Central scene palette follow-up recorded. DEFEND +2/nonstacking display stays in COMBAT-VIS-2 scope.
 
 - **NPC Population Inflation**: Identity materialization must remain strictly representational, not demographic.
 - **Identity Duplication / Floating Entities**: Enforce Single Population Membership invariant (exactly one container per alive NPC).
