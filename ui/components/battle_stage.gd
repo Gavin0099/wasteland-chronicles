@@ -3,6 +3,7 @@ class_name BattleStage
 
 const ItemIcon = preload("res://ui/components/item_icon.gd")
 const MotionDirector = preload("res://ui/components/battle_motion_director.gd")
+const IsometricGround = preload("res://ui/components/isometric_battle_ground.gd")
 
 # ==============================================================================
 # BVIS-1B: BATTLE STAGE CONTRACT & ASSET INTEGRATION
@@ -406,6 +407,8 @@ var road_background: TextureRect
 var wilderness_background: TextureRect
 var camp_background: TextureRect
 var environment_id := "shed"
+var isometric := false
+var isometric_ground: Node2D
 var road_fallback: PlaceholderBackdrop
 var actor_layer: Node2D
 var fx_layer: Control
@@ -491,6 +494,9 @@ func _init() -> void:
 	stage_canvas.add_child(shed_background)
 	wilderness_background = _environment_texture("res://ui/assets/combat/wilderness.png")
 	camp_background = _environment_texture("res://ui/assets/combat/raider-camp.png")
+	isometric_ground = IsometricGround.new()
+	isometric_ground.hide()
+	stage_canvas.add_child(isometric_ground)
 
 	# 3. Actor Layer with native Y-sorting
 	actor_layer = Node2D.new()
@@ -537,6 +543,12 @@ func _init() -> void:
 	resized.connect(arrange)
 
 func arrange() -> void:
+	if isometric and size.x > 0.0 and size.y > 0.0:
+		# The ground has its own 2:1 projection; let the container follow the
+		# available arena instead of letterboxing it to a fixed camera ratio.
+		var arena_ratio := size.x / size.y
+		if not is_equal_approx(aspect_frame.ratio, arena_ratio):
+			aspect_frame.ratio = arena_ratio
 	# Use stage_canvas size if available; fallback to size
 	var cw: float = stage_canvas.size.x if stage_canvas != null and stage_canvas.size.x > 0.0 else size.x
 	var ch: float = stage_canvas.size.y if stage_canvas != null and stage_canvas.size.y > 0.0 else size.y
@@ -550,6 +562,11 @@ func arrange() -> void:
 	# Both authored feet rest on the same ground line; left/right never swap.
 	hero_origin = Vector2(cw * 0.28, ch * 0.92)
 	enemy_origin = Vector2(cw * 0.72, ch * 0.92)
+	if isometric:
+		var terrain: Texture2D = {"shed": shed_background, "highway": road_background, "wilderness": wilderness_background, "camp": camp_background}[environment_id].texture
+		isometric_ground.configure(Vector2(cw, ch), terrain, environment_id)
+		hero_origin = isometric_ground.project(Vector2(0.20, 0.95))
+		enemy_origin = isometric_ground.project(Vector2(0.70, -0.40))
 
 	hero_actor.position = hero_origin
 	enemy_actor.position = enemy_origin
@@ -610,7 +627,17 @@ func configure_environment(id: String) -> bool:
 	wilderness_background.visible = id == "wilderness"
 	camp_background.visible = id == "camp"
 	road_fallback.visible = id == "highway" and road_background.texture == null
+	arrange()
 	return true
+
+func configure_isometric(enabled: bool) -> void:
+	isometric = enabled
+	if not enabled:
+		aspect_frame.ratio = 16.0 / 9.0
+	isometric_ground.visible = enabled
+	for background in [shed_background, road_background, wilderness_background, camp_background]:
+		background.modulate = Color(0.38, 0.38, 0.38) if enabled else Color.WHITE
+	arrange()
 
 func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> bool:
 	# FAIL-CLOSED: Unregistered enemy IDs are rejected

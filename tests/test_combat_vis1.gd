@@ -41,7 +41,7 @@ func run() -> void:
 				check(stage.wilderness_background.texture != null and stage.camp_background.texture != null, "authored environment assets load")
 				check(stage.environment_id == environment, "stage uses projected environment")
 				check(not stage.configure_environment("invented_arena") and stage.environment_id == environment, "unknown environment rejected without changing scene")
-				check(stage.hero_origin.x < stage.enemy_origin.x and is_equal_approx(stage.hero_origin.y, stage.enemy_origin.y), "left/right and shared ground")
+				check(stage.hero_origin.x < stage.enemy_origin.x and stage.hero_origin.y > stage.enemy_origin.y, "reference revision: player front-left, opponent back-right")
 				check(ui.player_bar.get_meta("caption").text.contains("荒原旅人"), "real player identity near fighter")
 				check(ui.intent_label.get_parent() == ui.enemy_bar.get_parent().get_parent(), "intent belongs to enemy card")
 				check(ui.status_label.text.contains("左輪" if firearm else "砍刀"), "actual weapon label")
@@ -53,8 +53,7 @@ func run() -> void:
 				for pair in [[ui.player_card, stage.hero_actor], [ui.enemy_card, stage.enemy_actor]]:
 					var card: Control = pair[0]
 					var actor = pair[1]
-					var head_y: float = stage.stage_canvas.global_position.y + actor.position.y - actor.target_height
-					check(card.get_global_rect().end.y <= head_y + 2, "HUD never covers actor head")
+					check(card.global_position.y >= stage.global_position.y + stage.size.y, "reference revision: fixed HUD below the arena")
 				check(not ui.player_card.get_global_rect().intersects(ui.enemy_card.get_global_rect()), "combatant cards never overlap")
 				var twin := world.duplicate_state()
 				var command := "SHOOT" if firearm else "ATTACK"

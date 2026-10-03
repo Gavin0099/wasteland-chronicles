@@ -35,13 +35,15 @@ var player_bar: ProgressBar
 var enemy_bar: ProgressBar
 var intent_label: Label
 var intent_detail_label: Label
+var history_toggle: CheckBox
+var history_window: Control
 
 # One combatant, one row: who, how much is left, and a bar wide enough to feel
 # at a glance. The number stays beside the bar, so nothing essential is carried
 # by colour or length alone.
 func _make_bar(parent: Node, fill: Color) -> ProgressBar:
-	var row := VBoxContainer.new()
-	row.add_theme_constant_override("separation", 2)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", Tokens.GAP)
 	row.size_flags_horizontal = SIZE_EXPAND_FILL
 	parent.add_child(row)
 	var caption := Label.new()
@@ -49,9 +51,11 @@ func _make_bar(parent: Node, fill: Color) -> ProgressBar:
 	caption.add_theme_color_override("font_color", Tokens.TEXT)
 	caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	caption.size_flags_horizontal = SIZE_EXPAND_FILL
+	caption.size_flags_stretch_ratio = 2.0
 	row.add_child(caption)
 	var bar := ProgressBar.new()
-	bar.custom_minimum_size = Vector2(0, 14)
+	bar.custom_minimum_size = Vector2(120, 10)
+	bar.size_flags_vertical = SIZE_SHRINK_CENTER
 	bar.show_percentage = false
 	bar.size_flags_horizontal = SIZE_EXPAND_FILL
 	var background := StyleBoxFlat.new()
@@ -114,6 +118,10 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	reduce_motion.text = "減少動態"
 	reduce_motion.toggled.connect(func(value: bool): stage.reduced_motion = value)
 	heading.add_child(reduce_motion)
+	history_toggle = CheckBox.new()
+	history_toggle.text = "戰鬥紀錄"
+	history_toggle.toggled.connect(func(_value: bool): _refresh_history_visibility())
+	heading.add_child(history_toggle)
 	close_button = Button.new()
 	close_button.text = "返回地圖"
 	close_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
@@ -152,7 +160,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	_install_desktop_layout(root, heading, body, stage, status_label, log_label, receipt_items, actions_box, error_label, note_label)
 	refresh()
 
-# The arena owns both combatant cards; commands stay outside the history scroll.
+# A clear isometric arena; status and commands remain in a fixed bottom dock.
 func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_body: HBoxContainer, battle_stage: Control, status: Label, log: Label, receipts: VBoxContainer, actions: GridContainer, errors: Label, note: Label) -> void:
 	var backdrop := DesktopBackdrop.new()
 	backdrop.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
@@ -180,29 +188,35 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	battle_stage.reparent(arena)
 	battle_stage.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	battle_stage.custom_minimum_size.y = 200
-	# A wide arena fits the two cards and grounded fighters above bottom commands.
-	battle_stage.aspect_frame.ratio = 3.0
-	player_card = _combatant_card(battle_stage.stage_canvas, false)
+	# Isometric projection owns its ground ratio; the scene fills the arena.
+	battle_stage.configure_isometric(true)
+	var combatant_dock := HBoxContainer.new()
+	combatant_dock.add_theme_constant_override("separation", Tokens.GAP)
+	root.add_child(combatant_dock)
+	player_card = _combatant_card(combatant_dock, false)
 	player_bar = _make_bar(player_card.body, Tokens.AMBER)
 	status.reparent(player_card.body)
 	status.add_theme_font_size_override("font_size", Tokens.BODY)
-	enemy_card = _combatant_card(battle_stage.stage_canvas, true)
+	enemy_card = _combatant_card(combatant_dock, true)
 	turn_window = enemy_card
 	enemy_bar = _make_bar(enemy_card.body, Tokens.CRITICAL)
 	intent_label = label_in(enemy_card.body, "", "PdaSection")
+	intent_label.add_theme_font_size_override("font_size", Tokens.BODY)
 	intent_detail_label = label_in(enemy_card.body, "", "PdaMuted")
 	battle_map_label = label_in(enemy_card.body, "", "PdaMuted")
 	# The narrated posture is redundant during a turn: actual action and numbers
 	# remain visible directly under the opponent's HP, rather than in history.
-	var command_window := DesktopWindow.new("行動指令")
-	root.add_child(command_window)
-	actions.reparent(command_window.body)
-	actions.columns = 2
+	actions.reparent(root)
+	root.move_child(actions, root.get_child_count() - 1)
+	actions.columns = 4
 	var message_window := DesktopWindow.new("戰鬥訊息")
 	message_window.custom_minimum_size.y = 72
+	history_window = message_window
 	root.add_child(message_window)
 	growth_notice_label = label_in(message_window.body, "", "PdaSection")
 	growth_notice_label.hide()
+	growth_notice_label.reparent(root)
+	root.move_child(growth_notice_label, actions.get_index())
 	var message_scroll := ScrollContainer.new()
 	message_scroll.size_flags_vertical = SIZE_EXPAND_FILL
 	message_scroll.custom_minimum_size.y = 26
@@ -217,16 +231,19 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	note.reparent(message_lines)
 	old_body.queue_free()
 
+func _refresh_history_visibility() -> void:
+	if history_window != null:
+		# Decisions stay beside commands. History can expand on demand; preparation
+		# and committed results always show their explanations and receipts.
+		history_window.visible = world.field_state.battle.is_empty() or history_toggle.button_pressed or error_label.visible
+
 func _combatant_card(canvas: Control, on_right: bool) -> Control:
 	var card := DesktopWindow.new("對手" if on_right else "你的角色")
 	# Identity is already the HP caption. Avoid a duplicate header consuming
 	# the headroom needed by the tallest fighter at 648p.
 	card.title_bar.hide()
 	canvas.add_child(card)
-	card.anchor_left = 0.55 if on_right else 0.04
-	card.anchor_right = 0.96 if on_right else 0.45
-	card.offset_top = 8
-	card.grow_vertical = GROW_DIRECTION_END
+	card.size_flags_horizontal = SIZE_EXPAND_FILL
 	return card
 
 static func environment_for(current_world: WorldState) -> String:
@@ -314,7 +331,7 @@ func refresh() -> void:
 		child.queue_free()
 	buttons.clear()
 	var state := world.field_state
-	actions_box.columns = 3 if state.battle.is_empty() and state.receipt < 0 else 2
+	actions_box.columns = 3 if state.battle.is_empty() and state.receipt < 0 else 4
 	var kit := world.player.field_kit
 	var is_road: bool = false
 	if not state.battle.is_empty():
@@ -402,7 +419,7 @@ func refresh() -> void:
 		add_action("CONFIRM", confirm_text)
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
-		status_label.text += "\n第 %d 回合 · 你的行動" % turn
+		status_label.text += "　／　第 %d 回合 · 你的行動" % turn
 		# PLAY-4: the telegraph is the whole reason bracing is a decision, so it
 		# comes from the enemy catalogue and states exactly what this turn's
 		# blow will be and what bracing against it would actually save.
@@ -442,6 +459,7 @@ func refresh() -> void:
 			add_action("OPEN", "使用撬棍 · 打開補給棚")
 			add_action("REST", "休養 1 天 · 生命 +4")
 			add_action("TREAT", "使用急救包 · 生命最多 +4")
+	_refresh_history_visibility()
 
 func _show_intent(preview: Dictionary) -> void:
 	if intent_label == null:
@@ -461,7 +479,7 @@ func _show_intent(preview: Dictionary) -> void:
 		lines.append("近身攻擊 %d → 可擊倒它，它不會出手" % int(preview.attack_damage))
 	else:
 		lines.append("近身攻擊 %d → 它還會出手" % int(preview.attack_damage))
-	intent_detail_label.text = "\n".join(lines)
+	intent_detail_label.text = "　／　".join(lines)
 
 func show_receipt_goods(title: String, goods: Dictionary, prefix: String, values: Dictionary) -> void:
 	label_in(receipt_items, title, "PdaSection")
