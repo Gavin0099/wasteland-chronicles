@@ -24,6 +24,7 @@ extends AcceptDialog
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
+const ItemDescription = preload("res://ui/item_description.gd")
 
 const COMMODITIES := [
 	{"key": "water", "name": "水", "text": "喝的。路上每天一份，沒有就撐不久。"},
@@ -209,7 +210,7 @@ func entries() -> Array:
 	for c in COMMODITIES:
 		var key := String(c.key)
 		out.append({
-			"key": key, "name": String(c.name), "item": false, "tab": "SUPPLY", "text": String(c.text),
+			"key": key, "name": String(c.name), "item": false, "tab": "SUPPLY", "text": ItemDescription.text(key),
 			"stock": int(town.get(key, 0)), "owned": int(pack.get(key, 0)),
 			"buy": int(town.get("quote_buy_" + key, 0)), "sell": int(town.get("quote_sell_" + key, 0)),
 			"sold_here": true, "wanted": false, "stackable": true,
@@ -223,7 +224,7 @@ func entries() -> Array:
 		out.append({
 			"key": String(offer.item_id), "name": String(offer.display_name_zh), "item": true,
 			"tab": String(CATEGORY_TAB.get(String(offer.category), "TOOL")),
-			"text": String(resolved.definition.description_zh) if resolved.success else "",
+			"text": ItemDescription.text(String(offer.item_id)),
 			"stock": int(offer.stock), "owned": int(offer.owned),
 			"buy": int(offer.quote_buy) if sold_here else 0, "sell": int(offer.quote_sell),
 			"sold_here": sold_here, "wanted": wanted,

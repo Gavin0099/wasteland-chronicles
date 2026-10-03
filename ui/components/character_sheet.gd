@@ -33,6 +33,7 @@ const Gear = preload("res://simulation/gear_rules.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
 const GearPresentation = preload("res://ui/gear_presentation.gd")
 const InventoryPresentation = preload("res://ui/inventory_presentation.gd")
+const ItemDescription = preload("res://ui/item_description.gd")
 const PORTRAIT := "res://ui/assets/combat/drifter.png"
 
 var skill_rows: Dictionary = {}
@@ -42,6 +43,7 @@ var rumor_buttons: Dictionary = {}
 var growth_points_available: int = 0
 var resource_values: Dictionary = {}
 var item_labels: Dictionary = {}
+var item_descriptions: Dictionary = {}
 var equipment_labels: Dictionary = {}
 var item_use_buttons: Dictionary = {}
 var action_notice_label: Label
@@ -335,6 +337,7 @@ func _build_gear(middle: VBoxContainer, character: Dictionary, player: Dictionar
 	var crowbar := Label.new()
 	crowbar.text = "撬棍 " + ("已裝備" if character.field_kit.equipped else ("持有" if character.field_kit.crowbar else "—"))
 	crowbar_row.add_child(crowbar)
+	label_in(middle, "水／食物：旅途每天消耗。廢料：製作與維修。燃料：交易與運補。撬棍：裝備後強化近戰，可開灰谷補給箱。", "PdaMuted")
 	label_in(middle, "行囊", "PdaSection")
 	label_in(middle, "正式物品 %.2f / %.2f 公斤" % [float(player.get("item_load_g", 0)) / 1000.0, float(player.get("item_capacity_g", 12000)) / 1000.0], "PdaMuted")
 	inventory_items = player.get("items", []).duplicate(true)
@@ -402,6 +405,7 @@ func _refresh_inventory(user_changed: bool = true) -> void:
 		"order": InventoryPresentation.ORDERS[inventory_order.selected], "query": inventory_search.text}
 	for child: Node in inventory_list.get_children(): child.free()
 	item_labels.clear()
+	item_descriptions.clear()
 	item_use_buttons.clear()
 	detail_buttons.clear()
 	var visible_items: Array[Dictionary] = InventoryPresentation.rows(inventory_items, inventory_state)
@@ -421,6 +425,7 @@ func _refresh_inventory(user_changed: bool = true) -> void:
 		item_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		item_labels[item_id] = item_label
 		item_label.tooltip_text = String(definition.description_zh)
+		item_descriptions[item_id] = label_in(block, ItemDescription.text(item_id), "PdaMuted")
 		var actions: HBoxContainer = HBoxContainer.new()
 		actions.add_theme_constant_override("separation", Tokens.GAP)
 		block.add_child(actions)
@@ -499,7 +504,7 @@ func _build_skills(right: VBoxContainer, character: Dictionary, p_growth_action:
 
 func _detail_button(id: String) -> Button:
 	var button := Button.new()
-	button.text = "查看"
+	button.text = "詳細說明"
 	button.theme_type_variation = "PdaCommand"
 	button.custom_minimum_size = Vector2(56, Tokens.COMMAND_HEIGHT)
 	button.accessibility_name = "查看" + _item_display_name(id) + "的用途與比較"
