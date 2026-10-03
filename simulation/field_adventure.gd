@@ -13,6 +13,7 @@ const MAX_HP := 12
 const ENEMY_HP := 8
 const BANDIT_HP := 8
 const KIT_WEIGHT := 2
+const TREATMENT_HEALING := {"first_aid_kit": 4, "bandage": 2}
 const COMMANDS := ["CRAFT", "EQUIP", "UNEQUIP", "START", "ATTACK", "SHOOT", "DEFEND", "FLEE", "OPEN", "REST", "TREAT", "CONFIRM"]
 
 static func new_kit() -> Dictionary:
@@ -109,7 +110,7 @@ static func validate_wire(data: Dictionary) -> String:
 			var previous_event: Variant = events[event_index - 1]
 			if typeof(previous_event) == TYPE_DICTIONARY and typeof(previous_event.get("payload")) == TYPE_DICTIONARY:
 				shot = previous_event.payload.get("command") == "SHOOT"
-		if raw_event.type == "FIELD_ACTION" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "TREAT" and (event_payload.get("item_id") != "first_aid_kit" or not integer(event_payload.get("healed"), 1, 4)):
+		if raw_event.type == "FIELD_ACTION" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "TREAT" and not valid_treatment_receipt(event_payload):
 			return "INVALID_FIELD_TREATMENT_RECEIPT"
 		if typeof(event_payload) != TYPE_DICTIONARY or not event_payload.has("skill_practice"):
 			continue
@@ -118,7 +119,7 @@ static func validate_wire(data: Dictionary) -> String:
 			return "INVALID_FIELD_PRACTICE_RECEIPT"
 		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") not in ["CRAFT", "TREAT"]:
 			return "INVALID_FIELD_PRACTICE_ACTION"
-		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") == "TREAT" and (event_payload.get("item_id") != "first_aid_kit" or not integer(event_payload.get("healed"), 1, 4)):
+		if raw_event.type == "FIELD_ACTION" and event_payload.get("command") == "TREAT" and not valid_treatment_receipt(event_payload):
 			return "INVALID_FIELD_PRACTICE_ACTION"
 		if raw_event.type == "FIELD_TURN" and (event_payload.get("command") not in ["ATTACK", "SHOOT"] or not integer(event_payload.get("dealt"), 1, Enemies.highest_hp())):
 			return "INVALID_FIELD_PRACTICE_TURN"
@@ -189,6 +190,10 @@ static func validate_world(world) -> String:
 			return "INVALID_FIELD_RECEIPT"
 	return ""
 
+static func valid_treatment_receipt(payload: Dictionary) -> bool:
+	var id: Variant = payload.get("item_id")
+	return typeof(id) == TYPE_STRING and TREATMENT_HEALING.has(id) and integer(payload.get("healed"), 1, int(TREATMENT_HEALING[id]))
+
 static func authorize(world, payload: Dictionary) -> String:
 	var error = validate_world(world)
 	if error != "":
@@ -229,7 +234,13 @@ static func authorize(world, payload: Dictionary) -> String:
 		return "BATTLE_PENDING"
 	if is_road:
 		return "INVALID_ROAD_COMMAND"
-	if payload.size() != 1:
+	if command == "TREAT":
+		# Old one-field intents retain first-aid behavior; only an explicit known item is added.
+		if payload.size() not in [1, 2] or (payload.size() == 2 and not payload.has("item_id")):
+			return "INVALID_FIELD_PAYLOAD"
+		if payload.has("item_id") and (typeof(payload.item_id) != TYPE_STRING or not TREATMENT_HEALING.has(payload.item_id)):
+			return "INVALID_FIELD_PAYLOAD"
+	elif payload.size() != 1:
 		return "INVALID_FIELD_PAYLOAD"
 	match command:
 		"CRAFT":
@@ -262,8 +273,9 @@ static func authorize(world, payload: Dictionary) -> String:
 		"TREAT":
 			if player.field_kit.hp >= MAX_HP:
 				return "HEALTH_FULL"
-			if not player.item_inventory.contains("first_aid_kit"):
-				return "NEED_FIRST_AID_KIT"
+			var treatment_id: String = String(payload.get("item_id", "first_aid_kit"))
+			if not player.item_inventory.contains(treatment_id):
+				return "NEED_FIRST_AID_KIT" if treatment_id == "first_aid_kit" else "NEED_BANDAGE"
 	return ""
 
 static func attack_damage(world) -> int:
@@ -469,12 +481,13 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			if world.npc_life_state_registry.get_life_state(player.npc_id).is_alive():
 				player.field_kit.hp = mini(MAX_HP, player.field_kit.hp + 4)
 		"TREAT":
-			var removed: Dictionary = player.item_inventory.remove_item("first_aid_kit", 1)
+			var treatment_id: String = String(payload.get("item_id", "first_aid_kit"))
+			var removed: Dictionary = player.item_inventory.remove_item(treatment_id, 1)
 			if not removed.success:
 				return String(removed.error)
-			var healed: int = mini(4, MAX_HP - player.field_kit.hp)
+			var healed: int = mini(int(TREATMENT_HEALING[treatment_id]), MAX_HP - player.field_kit.hp)
 			player.field_kit.hp += healed
-			action_payload["item_id"] = "first_aid_kit"
+			action_payload["item_id"] = treatment_id
 			action_payload["healed"] = healed
 			if player.capability != null:
 				var growth: Dictionary = player.capability.grant_practice("MEDICINE", world.current_day)

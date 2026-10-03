@@ -2758,12 +2758,12 @@ func _show_character(action_notice: String = "") -> void:
 		else:
 			dialog.show_notice(_gear_change_reason(String(result.get("error", ""))))
 	var use_action := func(item_id: String):
-		if item_id != "first_aid_kit":
+		if not WorldState.Field.TREATMENT_HEALING.has(item_id):
 			return
-		var result := engine.commit_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "TREAT"}))
+		var result := engine.commit_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "TREAT", "item_id": item_id}))
 		if result.get("success", false):
 			var healed: int = int(world.event_log.back().payload.get("healed", 0))
-			var notice := "急救包 −1 · 生命 +%d" % healed
+			var notice: String = "%s −1 · 生命 +%d" % [preload("res://ui/gear_presentation.gd").name_for(item_id), healed]
 			var practice: Dictionary = result.get("skill_practice", {})
 			if not practice.is_empty():
 				if practice.rank_up:
@@ -2775,7 +2775,7 @@ func _show_character(action_notice: String = "") -> void:
 			refresh_ui()
 			call_deferred("_show_character", notice)
 		else:
-			dialog.action_notice_label.text = "目前無法使用急救包，請確認生命、位置與事件狀態。"
+			dialog.action_notice_label.text = "目前無法使用此治療道具，請確認生命、位置與事件狀態。"
 			dialog.action_notice_label.visible = true
 	var treat_error := engine.authorize_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "TREAT"}))
 	var choose_perk := func(perk_id: String):
@@ -2813,6 +2813,10 @@ func _show_character(action_notice: String = "") -> void:
 			dialog.action_notice_label.text = "目前無法投入成長點，請確認點數與目前位置。"
 			dialog.action_notice_label.visible = true
 	var treat_reason: String = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落"}.get(treat_error, "目前無法使用")) if treat_error != "" else ""
+	var treatment_reasons: Dictionary = {}
+	for treatment_id: String in WorldState.Field.TREATMENT_HEALING:
+		var error: String = engine.authorize_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, {"command": "TREAT", "item_id": treatment_id}))
+		treatment_reasons[treatment_id] = String({"HEALTH_FULL": "生命已滿", "BATTLE_PENDING": "戰鬥中不可使用", "FIELD_RESULT_PENDING": "先確認戰鬥結果", "ROAD_ENCOUNTER_PENDING": "先完成路上遭遇", "FIELD_REQUIRES_LIVING_SETTLED_PLAYER": "需停留在聚落", "NEED_FIRST_AID_KIT": "未持有急救包", "NEED_BANDAGE": "未持有繃帶"}.get(error, "目前無法使用")) if error != "" else ""
 	add_child(dialog)
 	var sheet_player: Dictionary = PlayerUIProjection.project(world).player.duplicate()
 	sheet_player["party"] = current_projection.get("party", {})
@@ -2821,7 +2825,7 @@ func _show_character(action_notice: String = "") -> void:
 		dialog.hide()
 		dialog.queue_free()
 		call_deferred("_show_rumors")
-	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point, open_item_rumors, character_inventory_view)
+	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point, open_item_rumors, character_inventory_view, treatment_reasons)
 	dialog.inventory_view_changed.connect(func(state: Dictionary): character_inventory_view = state.duplicate(true))
 	# Laid out like an RPG character window, so it needs the room of one.
 	var viewport_size := get_viewport_rect().size

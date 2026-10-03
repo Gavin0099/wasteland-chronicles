@@ -36,6 +36,8 @@ func fixtures() -> Array:
 		{"item_id": "flashlight", "display_name_zh": "手電筒", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 400, "asset_id": "item_flashlight", "tags": ["lighting", "tool"]},
 		{"item_id": "wrench", "display_name_zh": "扳手", "category": "TOOL", "stack_mode": "UNIQUE", "base_weight": 700, "asset_id": "item_wrench", "tags": ["hand_tool", "metal"]},
 		{"item_id": "first_aid_kit", "display_name_zh": "急救包", "category": "CONSUMABLE", "stack_mode": "STACKABLE", "base_weight": 800, "asset_id": "item_first_aid_kit", "tags": ["medical"]},
+		# AID-1 independently specified lighter medical alternative.
+		{"item_id": "bandage", "display_name_zh": "繃帶", "category": "CONSUMABLE", "stack_mode": "STACKABLE", "base_weight": 200, "asset_id": "item_bandage", "tags": ["medical"]},
 		# GUN-1 approved additions; fixed identities and gram weights.
 		{"item_id": "old_revolver", "display_name_zh": "舊式左輪", "category": "WEAPON", "stack_mode": "UNIQUE", "base_weight": 1000, "asset_id": "item_old_revolver", "tags": ["firearm", "revolver"]},
 		{"item_id": "revolver_round", "display_name_zh": "左輪彈藥", "category": "CONSUMABLE", "stack_mode": "STACKABLE", "base_weight": 20, "asset_id": "item_revolver_round", "tags": ["ammunition"]},
@@ -94,10 +96,10 @@ func _init() -> void:
 
 func check_definitions() -> void:
 	var rows: Array = Catalogue.all_definitions()
-	check(rows == sorted_fixtures(), "exact forty-four approved records, integer grams and sorted identities")
-	check(rows.size() == 44, "185 images must not create 185 authoritative definitions")
+	check(rows == sorted_fixtures(), "exact forty-five scoped records, integer grams and sorted identities")
+	check(rows.size() == 45, "AID-1 adds only the specified bandage; 185 images must not activate the full library")
 	var authored: Array = Authored.rows()
-	check(authored.size() == 44, "single authored source contains forty-four records")
+	check(authored.size() == 45, "single authored source contains forty-five scoped records")
 	var paths := {
 		"item_rusted_knife": "rusty_knife", "item_hunting_knife": "hunting_knife",
 		"item_rebar_club": "rebar_club", "item_scrap_machete": "scrap_machete",
@@ -113,6 +115,7 @@ func check_definitions() -> void:
 		check(typeof(result.definition.base_weight) == TYPE_INT, "weight remains int: " + row.item_id)
 		var art: Dictionary = Art.resolve(row.asset_id)
 		var library_paths := {"item_military_gas_mask": "res://ui/assets/items/library/clothing/gas_mask.png", "item_engineer_precision_tools": "res://ui/assets/items/library/supplies/welding_tools.png", "item_thick_cloth_coat": "res://ui/assets/items/library/clothing/worker_leather_jacket.png", "item_leather_jacket": "res://ui/assets/items/library/clothing/motorcycle_jacket.png", "item_reinforced_leather_jacket": "res://ui/assets/items/library/clothing/stab_vest.png", "item_ballistic_vest": "res://ui/assets/items/library/clothing/police_ballistic_vest.png", "item_reinforced_travel_backpack": "res://ui/assets/items/library/clothing/hiking_backpack.png", "item_repair_toolbox": "res://ui/assets/items/library/supplies/toolbox.png", "item_precision_repair_kit": "res://ui/assets/items/library/supplies/welding_tools.png", "item_simple_meter": "res://ui/assets/items/library/supplies/multimeter.png", "item_electronic_repair_kit": "res://ui/assets/items/library/supplies/toolbox.png", "item_military_electronic_tools": "res://ui/assets/items/library/supplies/signal_receiver.png", "item_sledgehammer": "res://ui/assets/items/sledgehammer.png", "item_combat_knife": "res://ui/assets/items/candidates/hunting_knife.png", "item_reinforced_saber": "res://ui/assets/items/library/weapons/desert_sabre.png", "item_police_revolver": "res://ui/assets/items/library/weapons/heavy_revolver.png", "item_short_shotgun": "res://ui/assets/items/library/weapons/double_barrel_shotgun.png", "item_shotgun_shell": "res://ui/assets/items/shotgun_shell.svg", "item_military_backpack": "res://ui/assets/items/library/clothing/military_backpack.png", "item_old_world_saber": "res://ui/assets/items/library/weapons/desert_sabre.png", "item_old_revolver": "res://ui/assets/items/library/weapons/old_revolver.png", "item_revolver_round": "res://ui/assets/items/revolver_round.svg"}
+		library_paths["item_bandage"] = "res://ui/assets/items/library/supplies/bandage.png"
 		var expected_path: String = String(library_paths[row.asset_id]) if library_paths.has(row.asset_id) else "res://ui/assets/items/candidates/%s.png" % paths[row.asset_id]
 		check(art.success and art.path == expected_path and art.error == "", "explicit stable asset binding: " + row.item_id)
 		check(FileAccess.file_exists(expected_path), "asset physically exists: " + expected_path)
