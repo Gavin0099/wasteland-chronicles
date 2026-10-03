@@ -15,8 +15,8 @@
 
 ## Active Sprint
 
-- [x] COMBAT-VIS-1 implementation — grounded left/right arena, near-fighter identity/HP/weapon/intent, bottom commands, true highway/wilderness/camp scenery. UI only, L1; no combat rule changes. 105 suites exit 0, 510 focused assertions, 22 OpenGL captures and independent review without P0/P1; PR/remote review/CI/merge pending. Scope source: docs/rpg-gear-combat-slices.md.
-- [ ] GEAR-2A — Tier/Quality contract and legacy compatibility; quality is never an automatic stat multiplier.
+- [x] COMBAT-VIS-1 implementation — grounded left/right arena, near-fighter identity/HP/weapon/intent, bottom commands, true highway/wilderness/camp scenery. UI only, L1; no combat rule changes. 105 suites exit 0, 510 focused assertions, 22 OpenGL captures and independent review without P0/P1; Delivered PR #51 (merge 97feb4d), exact-head GitHub review no findings and CI passed. Scope source: docs/rpg-gear-combat-slices.md.
+- [x] GEAR-2A implementation — Tier/Quality definition contract and legacy compatibility; quality is never an automatic stat multiplier. 458 focused assertions pass; 106 suites exit 0; six compatibility captures and independent review no P0/P1. Remote review/CI/merge pending. See docs/gear2a-tier-quality.md.
 - [ ] GEAR-2B — bounded first weapon arsenal, pry/heavy/ammunition decisions; no rifle/SMG scope.
 - [ ] GEAR-2C — armor protection and cargo/stealth costs, backpacks and mechanical/electronic physical tools.
 - [ ] GEAR-2D — authored Modified/Rare properties; no random item generation.

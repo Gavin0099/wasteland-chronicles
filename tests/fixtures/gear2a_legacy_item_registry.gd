@@ -1,7 +1,5 @@
 extends RefCounted
 
-const GearProfiles = preload("res://game_data/item_gear_profiles.gd")
-
 ## Canonical item metadata. This is a detached authored source;
 ## actions, slots, markets and condition fields are metadata until their
 ## gameplay authorities are implemented by later slices.
@@ -26,7 +24,7 @@ static func rows() -> Array:
 	]
 
 static func _row(id: String, label: String, category: String, subtype: String, weight: int, value: int, stackable: bool, max_stack: int, slots: Array, actions: Array, tags: Array, origins: Array, loot: Array, supply: Dictionary, demand: Dictionary, description: String, asset: String) -> Dictionary:
-	var row := {
+	return {
 		"item_id": id, "display_name_zh": label, "category": category, "subtype": subtype,
 		"base_weight": weight, "base_value": value, "stackable": stackable, "max_stack": max_stack,
 		"condition": null, "max_condition": null, "equip_slots": slots, "actions": actions,
@@ -34,5 +32,3 @@ static func _row(id: String, label: String, category: String, subtype: String, w
 		"settlement_supply": supply, "settlement_demand": demand,
 		"description_zh": description, "asset_id": asset
 	}
-	row.merge(GearProfiles.resolve(id))
-	return row
