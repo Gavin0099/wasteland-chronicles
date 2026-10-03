@@ -15,11 +15,22 @@
 
 ## Active Sprint
 
+- [x] COMBAT-VIS-1 implementation — grounded left/right arena, near-fighter identity/HP/weapon/intent, bottom commands, true highway/wilderness/camp scenery. UI only, L1; no combat rule changes. 105 suites exit 0, 510 focused assertions, 22 OpenGL captures and independent review without P0/P1; PR/remote review/CI/merge pending. Scope source: docs/rpg-gear-combat-slices.md.
+- [ ] GEAR-2A — Tier/Quality contract and legacy compatibility; quality is never an automatic stat multiplier.
+- [ ] GEAR-2B — bounded first weapon arsenal, pry/heavy/ammunition decisions; no rifle/SMG scope.
+- [ ] GEAR-2C — armor protection and cargo/stealth costs, backpacks and mechanical/electronic physical tools.
+- [ ] GEAR-2D — authored Modified/Rare properties; no random item generation.
+- [ ] GEAR-2E — three uniques total, including saber, with rumor/preparation/retrieval/new-opening chains.
+- [ ] CHAR-2 — real gear/skill/experience/aspiration sheet and meaningful item comparison.
+- [ ] COMBAT-VIS-2 — weapon-specific post-commit feedback and reduced-motion equivalence.
+- Eight-slice delivery is sequential: each slice receives focused/replay/invariant tests, full regression, rendered two-resolution checks, independent review, exact-head GitHub Codex/CI, and merge before the next starts. FP2-B is an owner hand-play gate, not automated acceptance.
+
+
 - [x] ECON-1 — Real item demand delivered in PR #46 (merge 6ac9722): stock-derived procurement, pinned contracts, destination stock and receipts. 100/100 suites exit 0; 53 focused assertions; independent and exact-head GitHub review clear, CI passed. See docs/econ1-real-item-demand.md.
 - [x] GUN-1 — Delivered in PR #47 (merge 1e56c9b), independent and exact-head GitHub review clear, CI passed. 101 suites exit 0 after fixture reruns; 175 focused assertions; rendered at two resolutions. Includes legacy-shop supply compatibility; see docs/gun1-first-firearm.md.
 - [x] ELEC-1 — Delivered PR #48 (merge 32b878c), CI passed and exact-head GitHub review has no P0/P1. 102 suites exit 0, 50 focused assertions, six rendered views. Three P2 follow-ups recorded in PR: historical bridge receipt validation, growth opening hints, dual-skill rumor guidance. See docs/elec1-armory-access.md.
 - [x] JOB-ADV-1 — Delivered PR #49 (merge b64ec85). 103 suites exit 0, 116 focused assertions, six rendered views; independent and exact-head GitHub review have no P0/P1; CI passed. Two P2 follow-ups in PR: generic reward wording and missing paired encounter receipt on load. See docs/job-adv1-well-repair.md.
-- [x] PARTY-2A implementation — Abban offers accept/defer/refuse for recovering his wrench at the existing convoy wreck; a real detour and one-day search create the shared experience, then handing over the tool reduces future Gray Valley hire fee from 50 to 25. 104 suites exit 0, 205 focused assertions, dual-track SHA and 12 rendered views; independent review has no P0/P1. Reviewed PR delivery is tracked on GitHub; see docs/party2a-abban-request.md.
+- [x] PARTY-2A implementation — Abban offers accept/defer/refuse for recovering his wrench at the existing convoy wreck; a real detour and one-day search create the shared experience, then handing over the tool reduces future Gray Valley hire fee from 50 to 25. 104 suites exit 0, 205 focused assertions, dual-track SHA and 12 rendered views; independent review has no P0/P1. Delivered PR #50 (merge 3758b0c), CI and exact-head review passed; see docs/party2a-abban-request.md.
 - Delivery order: finish, test, independent review, PR, current-head GitHub review/CI, merge each slice before starting the next. Owner authorized this sequence on 2026-10-03. FP2-B remains open and follows feature work.
 
 - [x] S4-A : NPC Identity (+ G1.5-B1 Runtime Enforcement) — CLOSED
