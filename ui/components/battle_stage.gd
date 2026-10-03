@@ -32,9 +32,9 @@ const WEAPON_GRIPS := {
 	"sledgehammer": {"grip": Vector2(0.17, 0.83), "size": 0.44},
 	"combat_knife": {"grip": Vector2(0.26, 0.77), "size": 0.22},
 	"reinforced_saber": {"grip": Vector2(0.15, 0.84), "size": 0.38},
-	"police_revolver": {"grip": Vector2(0.86, 0.73), "size": 0.22, "flip_h": true},
-	"short_shotgun": {"grip": Vector2(0.70, 0.56), "size": 0.40, "flip_h": true},
-	"old_revolver": {"grip": Vector2(0.22, 0.73), "size": 0.20},
+	"police_revolver": {"grip": Vector2(0.86, 0.73), "muzzle": Vector2(0.06, 0.23), "size": 0.22, "flip_h": true},
+	"short_shotgun": {"grip": Vector2(0.70, 0.56), "muzzle": Vector2(0.06, 0.20), "size": 0.40, "flip_h": true},
+	"old_revolver": {"grip": Vector2(0.22, 0.73), "muzzle": Vector2(0.94, 0.23), "size": 0.20},
 	"crowbar": {"grip": Vector2(0.20, 0.82), "size": 0.34},
 	"rusted_knife": {"grip": Vector2(0.26, 0.77), "size": 0.20},
 	"hunting_knife": {"grip": Vector2(0.26, 0.77), "size": 0.22},
@@ -102,7 +102,7 @@ class TextureHelper:
 				return imported
 		if FileAccess.file_exists(path):
 			var bitmap := Image.load_from_file(path)
-			if bitmap != null:
+			if bitmap != null and not bitmap.is_empty():
 				return ImageTexture.create_from_image(bitmap)
 		return null
 
@@ -358,8 +358,24 @@ class ActorNode extends Node2D:
 					animation.track_insert_key(track, 0.0, "hurt")
 					animation.track_insert_key(track, animation.length, "rest")
 				"brace": animation.track_insert_key(track, 0.0, "brace")
-				"heavy_charge": animation.track_insert_key(track, 0.0, "windup")
+				"heavy_charge":
+					animation.track_insert_key(track, 0.0, "charge")
+					animation.track_insert_key(track, 0.25, "windup")
 		anim_player.add_animation_library("", lib)
+		_add_pose_clip(lib, "idle", ["rest", "idle_breath", "rest"], [0.0, 0.75, 1.5], 1.5, true)
+		_add_pose_clip(lib, "approach", ["step_a", "step_b"], [0.0, 0.09], 0.18, true)
+		_add_pose_clip(lib, "retreat", ["retreat_a", "retreat_b"], [0.0, 0.10], 0.20, true)
+
+	func _add_pose_clip(lib: AnimationLibrary, clip: String, poses: Array, times: Array, duration: float, looped: bool) -> void:
+		var animation: Animation = Animation.new()
+		animation.length = duration
+		animation.loop_mode = Animation.LOOP_LINEAR if looped else Animation.LOOP_NONE
+		var track: int = animation.add_track(Animation.TYPE_VALUE)
+		animation.track_set_path(track, NodePath(".:pose"))
+		animation.value_track_set_update_mode(track, Animation.UPDATE_DISCRETE)
+		for index in range(poses.size()):
+			animation.track_insert_key(track, float(times[index]), String(poses[index]))
+		lib.add_animation(clip, animation)
 
 	func _apply_pose() -> void:
 		if body == null or texture_ref == null:
@@ -374,6 +390,10 @@ class ActorNode extends Node2D:
 		fit_weapon()
 		if weapon != null:
 			weapon.visible = weapon.texture != null and weapon_id != "" and pose not in ["kneel", "fall"]
+			if pose in ["revolver_aim", "revolver_recoil", "shotgun_aim", "shotgun_recoil"]:
+				aim_weapon()
+			elif pose in ["empty_gun", "gun_recover"]:
+				aim_weapon(0.65)
 
 	func hold_pose(value: String) -> void:
 		anim_player.stop()
@@ -390,12 +410,18 @@ class ActorNode extends Node2D:
 
 	func play_attack(style: Dictionary) -> void:
 		var clip: Animation = anim_player.get_animation("attack_pose")
+		var poses: Array[String] = PoseLibrary.attack_poses(style)
 		var total: float = float(style.windup) + float(style.strike) + float(style.recover)
 		clip.length = total
 		for track in range(clip.get_track_count()):
 			if String(clip.track_get_path(track)) == ".:pose":
-				clip.track_set_key_time(track, 1, float(style.windup))
-				clip.track_set_key_time(track, 2, total)
+				# Rebuild keys so every weapon receives windup, strike and recovery.
+				while clip.track_get_key_count(track) > 0:
+					clip.track_remove_key(track, 0)
+				clip.track_insert_key(track, 0.0, poses[0])
+				clip.track_insert_key(track, float(style.windup), poses[1])
+				clip.track_insert_key(track, float(style.windup) + float(style.strike), poses[2])
+				clip.track_insert_key(track, total, "rest")
 			elif String(clip.track_get_path(track)) == "Body/Weapon:rotation":
 				clip.track_set_key_time(track, 1, float(style.windup) * 0.7)
 				clip.track_set_key_time(track, 2, float(style.windup) + float(style.strike))
@@ -404,12 +430,24 @@ class ActorNode extends Node2D:
 				clip.track_set_key_value(track, 2, float(style.angle))
 		play_pose("attack_pose")
 
-	func aim_weapon() -> void:
+	func aim_weapon(direction: float = -0.12) -> void:
 		if weapon == null or weapon.texture == null:
 			return
-		# Source icons have different authored barrel directions.
 		var base: String = preload("res://game_data/gear_property_profiles.gd").base_item(weapon_id)
-		weapon.rotation = -0.20 if base == "short_shotgun" else 0.20
+		var fit: Dictionary = WEAPON_GRIPS.get(base, {})
+		if not fit.has("muzzle"):
+			return
+		var barrel: Vector2 = (fit.muzzle - fit.grip) * weapon.texture.get_size()
+		if weapon.flip_h:
+			barrel.x = -barrel.x
+		weapon.rotation = direction - barrel.angle()
+
+	func muzzle_local() -> Vector2:
+		var base: String = preload("res://game_data/gear_property_profiles.gd").base_item(weapon_id)
+		var point: Vector2 = WEAPON_GRIPS.get(base, {}).get("muzzle", Vector2.ONE * 0.5)
+		if weapon.flip_h:
+			point.x = 1.0 - point.x
+		return weapon.offset + point * weapon.texture.get_size()
 
 	func apply_profile(profile: Dictionary, canvas_h: float) -> void:
 		var tex_path: String = profile.get("texture_path", "")
@@ -446,7 +484,11 @@ class ActorNode extends Node2D:
 		var fit: Dictionary = WEAPON_GRIPS.get(preload("res://game_data/gear_property_profiles.gd").base_item(weapon_id), DEFAULT_GRIP)
 		var w_tex: Texture2D = weapon.texture
 		var w_size := Vector2(float(w_tex.get_width()), float(w_tex.get_height()))
-		var on_screen: float = target_height * float(fit.size) / maxf(1.0, w_size.x)
+		# The new broadside two-handed pose needs a longer projected silhouette
+		# than the original resting pose; its forward support fist must clear the
+		# barrel. Keep the hand-played original rest proportions intact.
+		var projected_size: float = 0.60 if pose in ["shotgun_aim", "shotgun_recoil"] else float(fit.size)
+		var on_screen: float = target_height * projected_size / maxf(1.0, w_size.x)
 		weapon.scale = Vector2.ONE * (on_screen / maxf(0.0001, body.scale.x))
 		weapon.flip_h = bool(fit.get("flip_h", false))
 		var grip: Vector2 = fit.grip
@@ -508,7 +550,12 @@ var floating: Label
 
 var hero_origin := Vector2.ZERO
 var enemy_origin := Vector2.ZERO
-var reduced_motion := false
+var reduced_motion := false:
+	set(value):
+		reduced_motion = value
+		if is_inside_tree() and is_instance_valid(hero_actor):
+			cancel_motion()
+			present_outcome(terminal_outcome)
 var enemy_alive := true
 var armed := false
 var showing_placeholder := false
@@ -545,6 +592,7 @@ func _exit_tree() -> void:
 
 func present_outcome(outcome: String) -> void:
 	terminal_outcome = outcome
+	hero_actor.visible = outcome != "ESCAPED"
 	enemy.visible = (enemy_alive or outcome == "VICTORY") and not showing_placeholder
 	enemy_shadow.visible = enemy_alive or outcome == "VICTORY"
 	if outcome == "VICTORY":
@@ -553,9 +601,17 @@ func present_outcome(outcome: String) -> void:
 		enemy_shadow.visible = true
 	elif outcome in ["DEFEAT", "DEAD"]:
 		hero_actor.hold_pose("fall")
-	elif outcome == "":
-		hero_actor.hold_pose("rest")
+	elif outcome == "ESCAPED":
+		hero_actor.hold_pose("retreat_a")
 		enemy_actor.hold_pose("rest")
+	elif outcome == "":
+		resume_idle()
+
+func resume_idle() -> void:
+	for actor in [hero_actor, enemy_actor]:
+		actor.hold_pose("rest")
+		if not reduced_motion and terminal_outcome == "" and (actor == hero_actor or enemy_alive):
+			actor.play_pose("idle")
 
 func emit_weapon_fx(kind: String, target: ActorNode) -> void:
 	if reduced_motion:
@@ -564,9 +620,10 @@ func emit_weapon_fx(kind: String, target: ActorNode) -> void:
 	effect.kind = kind
 	effect.extent = 22.0 if kind == "revolver" else 35.0
 	if kind in ["revolver", "shotgun"] and target.weapon != null:
-		var muzzle := Vector2(target.weapon.texture.get_width(), target.weapon.texture.get_height() * 0.35)
-		effect.position = target.weapon.to_global(target.weapon.offset + muzzle) - fx_layer.global_position
-		effect.rotation = -0.22
+		var muzzle: Vector2 = target.weapon.to_global(target.muzzle_local())
+		effect.position = muzzle - fx_layer.global_position
+		var grip: Vector2 = target.weapon.to_global(Vector2.ZERO)
+		effect.rotation = (muzzle - grip).angle()
 	else:
 		effect.position = target.position + Vector2(24, -target.target_height * 0.65)
 	fx_layer.add_child(effect)
@@ -576,6 +633,7 @@ func emit_weapon_fx(kind: String, target: ActorNode) -> void:
 
 func show_empty_weapon() -> void:
 	# Rejection feedback has no FIELD_TURN and cannot consume a turn or ammo.
+	hero_actor.hold_pose("empty_gun")
 	floating.text = "彈藥不足 · 補給後才能射擊"
 	floating.position = hero_origin + Vector2(-110, -hero_actor.target_height - 24)
 	floating.show()
@@ -589,7 +647,7 @@ static func load_texture_safe(path: String) -> Texture2D:
 			return imported
 	if FileAccess.file_exists(path):
 		var bitmap := Image.load_from_file(path)
-		if bitmap != null:
+		if bitmap != null and not bitmap.is_empty():
 			return ImageTexture.create_from_image(bitmap)
 	return null
 
