@@ -79,11 +79,12 @@ func repair(method: String, tool: String, skill: String, rank: int, bonus: int, 
 	return world.to_canonical_json().sha256_text()
 
 func run() -> void:
-	check(Registry.all_definitions().size() == 32 and Catalogue.all_definitions().size() == 32, "32 explicit consistent items")
+	check(Registry.all_definitions().size() == 42 and Catalogue.all_definitions().size() == 42, "42 explicit consistent items")
 	# Caller mutations and rejected candidates cannot install a catalogue.
 	var detached: Array = Registry.all_definitions()
+	var original_properties: Array = detached[0].properties.duplicate()
 	detached[0].properties.append("forged")
-	check(Registry.resolve(String(detached[0].item_id)).definition.properties.is_empty(), "rich cache deeply detached")
+	check(Registry.resolve(String(detached[0].item_id)).definition.properties == original_properties, "rich cache deeply detached")
 	var candidate: Array = Catalogue.all_definitions()
 	candidate[0].asset_id = "forged"
 	check(not Catalogue.canonicalize(candidate).success and Catalogue.resolve(String(candidate[0].item_id)).success, "candidate validation does not poison canonical cache")

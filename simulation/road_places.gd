@@ -282,7 +282,7 @@ const RESOURCE_NAMES := {"water": "水", "food": "食物", "scrap": "廢料", "f
 const ALL_OPTION_IDS := [&"TAKE_RESOURCE", &"MARK_A", &"MARK_B", &"LEAVE", &"FIGHT", &"SEARCH_SITE", &"OPEN_ARMORY", &"BRIDGE_ARMORY", &"REPAIR_PUMP", &"RECOVER_ABBAN_TOOL", &"OVERHAUL_PUMP", &"REWIRE_PUMP", &"CALIBRATE_ARMORY"]
 
 static func repair_option() -> Dictionary:
-	return {"id": &"REPAIR_PUMP", "label": "修復抽水泵", "detail": "扳手保留、廢料 −3、耗時 1 天；修好後委託鎮每日產水 +1，再回鎮領酬。",
+	return {"id": &"REPAIR_PUMP", "label": "修復抽水泵", "detail": "工具保留、廢料 −3、耗時 1 天；修好後委託鎮每日產水 +1，再回鎮領酬。",
 		"requires": {"all": [{"kind": "skill", "skill_id": "MECHANICS", "min_rank": 2}]}, "requirement_label": "機械 2、機械工具 1、廢料 3", "gate": "capability"}
 
 static func options(context: Dictionary, world = null) -> Array:

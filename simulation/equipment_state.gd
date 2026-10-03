@@ -59,6 +59,13 @@ func duplicate_state() -> RefCounted:
 	copy._slots = _slots.duplicate(true)
 	return copy
 
+static func back_item_from_serialized(data: Variant) -> String:
+	if typeof(data) == TYPE_DICTIONARY and typeof(data.get("slots")) == TYPE_ARRAY:
+		for entry in data.slots:
+			if typeof(entry) == TYPE_DICTIONARY and entry.get("slot") == "back" and typeof(entry.get("item_id")) == TYPE_STRING:
+				return entry.item_id
+	return ""
+
 static func validate_serialized(data: Variant, inventory: RefCounted) -> String:
 	if typeof(data) != TYPE_DICTIONARY or data.size() != 1 or not data.has("slots") or typeof(data.slots) != TYPE_ARRAY:
 		return "INVALID_EQUIPMENT"

@@ -7,6 +7,7 @@ const Equipment = preload("res://simulation/equipment_state.gd")
 const Perks = preload("res://simulation/perk_catalogue.gd")
 const Acquired = preload("res://simulation/acquired_traits.gd")
 var capability: RefCounted
+const Properties = preload("res://game_data/gear_property_profiles.gd")
 const Gear = preload("res://simulation/gear_rules.gd")
 const Field = preload("res://simulation/field_adventure.gd")
 var field_kit: Dictionary = Field.new_kit()
@@ -75,7 +76,7 @@ func _init(
 	capability = Capability.legacy(npc_id) if npc_id != &"" else null
 
 func pickup_item(item_id: Variant, quantity: int = 1) -> Dictionary:
-	return item_inventory.pickup_item(item_id, quantity)
+	return item_inventory.pickup_item(item_id, quantity, equipment.equipped_item("back"))
 
 func drop_item(item_id: Variant, quantity: int = 1) -> Dictionary:
 	return item_inventory.drop_item(item_id, quantity)
@@ -92,13 +93,20 @@ func unequip_item(slot: String) -> Dictionary:
 func get_total_inventory_load() -> int:
 	if inventory == null:
 		return 0
-	return inventory.water + inventory.food + inventory.scrap + inventory.fuel + (Field.KIT_WEIGHT if field_kit.crowbar else 0)
+	return inventory.water + inventory.food + inventory.scrap + inventory.fuel + (Field.KIT_WEIGHT if field_kit.crowbar else 0) - mini(inventory.water, water_allowance())
 
 func get_effective_capacity() -> int:
 	return capacity_total + (Gear.cargo_bonus(self) if equipment != null else 0)
 
-func has_cargo_capacity(amount: int) -> bool:
-	return get_total_inventory_load() + amount <= get_effective_capacity()
+func water_allowance() -> int:
+	var back: String = equipment.equipped_item("back") if equipment != null else ""
+	return 2 if item_inventory.contains(back) and Properties.has(back, "water_pouch") else 0
+
+func cargo_room(commodity: String = "") -> int:
+	return maxi(0, get_effective_capacity() - get_total_inventory_load() + (maxi(0, water_allowance() - inventory.water) if commodity == "water" else 0))
+
+func has_cargo_capacity(amount: int, commodity: String = "") -> bool:
+	return amount <= cargo_room(commodity)
 
 func duplicate_state() -> PlayerState:
 	var copy := PlayerState.new(npc_id, capacity_total, money)
@@ -164,7 +172,7 @@ static func from_dict(data: Dictionary) -> PlayerState:
 	else:
 		p.inventory = ResourceState.new()
 	if data.has("item_inventory"):
-		p.item_inventory = ItemInventory.from_dict(data["item_inventory"])
+		p.item_inventory = ItemInventory.from_dict(data["item_inventory"], Equipment.back_item_from_serialized(data.get("equipment", {})))
 	else:
 		p.item_inventory = ItemInventory.new()
 	if data.has("equipment"):

@@ -311,7 +311,10 @@ func test_gate_5_physical_loot_and_capacity() -> void:
 		TravelEncounter.WRECK, world_full.current_day, &"settlement:gray_valley", dest_full, 0,
 		{"salvage_job_id": job_entry.definition.id, "salvage_target_item": target_item, "site_name": "拋錨車輛", "source_wreck_id": source_wreck_id}
 	)
-	world_full.player.item_inventory._quantities["military_backpack"] = 5 # 12000g
+	# Valid near-full holdings: four distinct items plus the retained 700g wrench.
+	for id: String in ["sledgehammer", "ballistic_vest", "military_backpack", "repair_toolbox"]:
+		check(world_full.player.pickup_item(id).success, "G5: Valid capacity fixture adds " + id)
+	check(world_full.player.item_inventory.total_weight_g() == 11500 and engine.validate_invariants(world_full) == "", "G5: 11.5kg fixture is physically valid before searching")
 	var res_full := engine.commit_player_intent(world_full, PlayerIntent.create_resolve_encounter(world_full.player.npc_id, effective_verb))
 	check(res_full.success, "G5: Effective verb resolved while full")
 	check(res_full.has("items_left_behind") and res_full.items_left_behind.has(target_item), "G5: When full, target item drops to items_left_behind")

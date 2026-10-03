@@ -1,5 +1,7 @@
 extends RefCounted
 
+const Gear = preload("res://simulation/gear_rules.gd")
+const Properties = preload("res://game_data/gear_property_profiles.gd")
 const EQUIPMENT := "old_well_pump"
 const PLACE := "place:old_well"
 const SCRAP_COST := 3
@@ -38,12 +40,21 @@ static func posting(world, town, window: int) -> Dictionary:
 	return {"definition": {
 		"id": "job_%s_repair_pump_%d" % [short_id, window],
 		"title_zh": "現地修復：枯河井抽水泵",
-		"description_zh": "%s已接手枯河舊水井，但抽水泵仍故障。帶扳手和 3 廢料，沿灰谷—乾井公路回井邊修理；需機械 2、耗時 1 天。扳手保留，廢料消耗，普通修理後本鎮每日多產 1 水。帶精密修理組、機械 3 可精修多產 2 水；電子 2 與電子修理組也能重接線路多產 1 水。期限內回本鎮領酬；逾期不付酬，已修好的泵仍運轉。" % town.name,
+		"description_zh": "%s已接手枯河舊水井，但抽水泵仍故障。帶扳手和 3 廢料，沿灰谷—乾井公路回井邊修理；需機械 2、耗時 1 天。工具保留，廢料消耗，普通修理後本鎮每日多產 1 水。帶精密修理組、機械 3 可精修多產 2 水；電子 2 與電子修理組也能重接線路多產 1 水。期限內回本鎮領酬；逾期不付酬，已修好的泵仍運轉。" % town.name,
 		"settlement_id": short_id, "issuer_npc_id": "",
 		"availability": {"required_day": 0, "required_flags": []}, "deadline_days": 8,
 		"objectives": [{"id": "repair_pump", "type": "REPAIR_EQUIPMENT", "equipment_id": EQUIPMENT, "quantity": 1}],
 		"outcomes": {"resolved": {"rewards": [{"type": "CURRENCY", "amount": 80}, {"type": "XP", "amount": 12}], "world_effects": []}, "failed": {"rewards": [], "world_effects": []}, "expired": {"rewards": [], "world_effects": []}},
 	}, "archetype": "REPAIR", "risk": 1, "route_days": 2, "urgent": false, "summary": "井泵故障 → 運轉，普通修理每日產水 +1；機械精修 +2"}
+
+static func discount_tool(world, method: String) -> String:
+	if not METHODS.has(method) or METHODS[method][0] != "MECHANICS":
+		return ""
+	var id: String = Gear.best_tool(world.player, "MECHANICS")
+	return id if Properties.has(id, "field_repair") else ""
+
+static func material_cost(world, method: String) -> int:
+	return 2 if discount_tool(world, method) != "" else SCRAP_COST
 
 static func refusal(world, method: String = "REPAIR_PUMP") -> String:
 	if not METHODS.has(method):
@@ -63,20 +74,24 @@ static func refusal(world, method: String = "REPAIR_PUMP") -> String:
 		return "REPAIR_CONTRACT_REQUIRED"
 	if world.current_day + 1 > world.quest_state.get_quest(job).deadline_day:
 		return "REPAIR_DEADLINE_TOO_CLOSE"
-	if world.player.inventory.get_amount("scrap") < SCRAP_COST:
-		return "INSUFFICIENT_SCRAP: pump repair needs 3 scrap"
+	if world.player.inventory.get_amount("scrap") < material_cost(world, method):
+		return "INSUFFICIENT_SCRAP: pump repair needs %d scrap" % material_cost(world, method)
 	return ""
 
 static func apply(world, method: String = "REPAIR_PUMP") -> Dictionary:
 	var bonus: int = int(METHODS[method][2])
+	var cost: int = material_cost(world, method)
+	var tool: String = discount_tool(world, method)
 	var equipment: Dictionary = state(world)
 	var town = world.get_settlement(StringName(equipment.owner))
 	var before: int = town.production.get_amount("water")
-	world.player.inventory.add_amount("scrap", -SCRAP_COST)
+	world.player.inventory.add_amount("scrap", -cost)
 	town.production.add_amount("water", bonus)
-	var receipt: Dictionary = {"equipment_id": EQUIPMENT, "place_id": PLACE, "quest_id": active_job(world), "settlement_id": equipment.owner, "from_state": "BROKEN", "to_state": "WORKING", "resource": "water", "production_before": before, "production_after": before + bonus, "scrap_spent": SCRAP_COST}
-	if method != "REPAIR_PUMP":
+	var receipt: Dictionary = {"equipment_id": EQUIPMENT, "place_id": PLACE, "quest_id": active_job(world), "settlement_id": equipment.owner, "from_state": "BROKEN", "to_state": "WORKING", "resource": "water", "production_before": before, "production_after": before + bonus, "scrap_spent": cost}
+	if method != "REPAIR_PUMP" or tool != "":
 		receipt["method"] = method
+	if tool != "":
+		receipt["tool_id"] = tool
 	world.record_event(EventRecord.new(world.current_day, "EQUIPMENT_REPAIRED", world.player.npc_id, StringName(equipment.owner), receipt))
 	return receipt
 
@@ -97,11 +112,14 @@ static func validate(world) -> String:
 			accepted[String(p.get("quest_id", ""))] = true
 		if event.type == "EQUIPMENT_REPAIRED":
 			var method: Variant = p.get("method", "REPAIR_PUMP")
-			if typeof(method) != TYPE_STRING or not METHODS.has(method) or (p.has("method") and method == "REPAIR_PUMP"):
+			var discounted: bool = p.has("tool_id")
+			if typeof(method) != TYPE_STRING or not METHODS.has(method) or (p.has("method") and method == "REPAIR_PUMP" and not discounted):
 				return "REPAIR_LEDGER_INVALID_METHOD"
-			if not repaired.is_empty() or world.player == null or event.actor_id != world.player.npc_id or p.size() != (10 if method == "REPAIR_PUMP" else 11) or p.get("equipment_id") != EQUIPMENT or p.get("place_id") != PLACE or p.get("settlement_id") != owner or String(event.target_id) != owner or p.get("from_state") != "BROKEN" or p.get("to_state") != "WORKING" or p.get("resource") != "water":
+			if discounted and (not p.has("method") or typeof(p.tool_id) != TYPE_STRING or not Properties.has(p.tool_id, "field_repair") or METHODS[method][0] != "MECHANICS" or Gear.grade_for(p.tool_id, "MECHANICS") < int(Gear.METHOD_TOOLS[method][1])):
+				return "REPAIR_LEDGER_INVALID_TOOL"
+			if not repaired.is_empty() or world.player == null or event.actor_id != world.player.npc_id or p.size() != (12 if discounted else (10 if method == "REPAIR_PUMP" else 11)) or p.get("equipment_id") != EQUIPMENT or p.get("place_id") != PLACE or p.get("settlement_id") != owner or String(event.target_id) != owner or p.get("from_state") != "BROKEN" or p.get("to_state") != "WORKING" or p.get("resource") != "water":
 				return "REPAIR_LEDGER_INVALID_EQUIPMENT"
-			if not _integer(p.get("production_before")) or not _integer(p.get("production_after")) or not _integer(p.get("scrap_spent")) or p.production_after != p.production_before + int(METHODS[method][2]) or p.scrap_spent != SCRAP_COST:
+			if not _integer(p.get("production_before")) or not _integer(p.get("production_after")) or not _integer(p.get("scrap_spent")) or p.production_after != p.production_before + int(METHODS[method][2]) or p.scrap_spent != (2 if discounted else SCRAP_COST):
 				return "REPAIR_LEDGER_INVALID_EFFECT"
 			var job: Variant = p.get("quest_id")
 			if typeof(job) != TYPE_STRING or not accepted.has(job) or not world.accepted_jobs.has(job) or not is_contract(world.accepted_jobs[job]) or owner != "settlement:" + String(world.accepted_jobs[job].settlement_id):
@@ -115,7 +133,7 @@ static func validate(world) -> String:
 			repaired = p
 			repaired_day = event.day
 		if event.type == "TRAVEL_ENCOUNTER_RESOLVED" and p.get("option") in METHODS:
-			if resolution_seen or repaired.is_empty() or p.option != repaired.get("method", "REPAIR_PUMP") or p.get("equipment_repair") != repaired or p.get("place_id") != PLACE or p.get("encounter_type") != "PLACE_VISIT" or p.get("elapsed_days") != 1 or typeof(p.get("spent")) != TYPE_DICTIONARY or p.spent.get("scrap") != SCRAP_COST or event.day != repaired_day + 1 or event.actor_id != world.player.npc_id:
+			if resolution_seen or repaired.is_empty() or p.option != repaired.get("method", "REPAIR_PUMP") or p.get("equipment_repair") != repaired or p.get("place_id") != PLACE or p.get("encounter_type") != "PLACE_VISIT" or p.get("elapsed_days") != 1 or typeof(p.get("spent")) != TYPE_DICTIONARY or p.spent.get("scrap") != int(repaired.scrap_spent) or event.day != repaired_day + 1 or event.actor_id != world.player.npc_id:
 				return "REPAIR_LEDGER_INVALID_RESOLUTION"
 			resolution_seen = true
 	return ""

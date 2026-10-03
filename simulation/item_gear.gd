@@ -5,6 +5,7 @@ const FIELDS := ["tier", "quality", "properties", "unique_effect"]
 const TIERS := ["T1", "T2", "T3", "T4"]
 const QUALITIES := ["COMMON", "MODIFIED", "RARE", "UNIQUE"]
 const PROPERTY_COUNTS := {"COMMON": 0, "MODIFIED": 1, "RARE": 2, "UNIQUE": 0}
+const Properties = preload("res://game_data/gear_property_profiles.gd")
 const Identity = preload("res://simulation/item_definition.gd")
 
 static func validate(raw: Variant) -> String:
@@ -21,7 +22,7 @@ static func validate(raw: Variant) -> String:
 		return "INVALID_GEAR_PROPERTIES"
 	var seen := {}
 	for property in raw.properties:
-		if not Identity.is_stable_id(property) or seen.has(property):
+		if not Identity.is_stable_id(property) or not Properties.DESCRIPTIONS.has(property) or seen.has(property):
 			return "INVALID_GEAR_PROPERTIES"
 		seen[property] = true
 	if typeof(raw.unique_effect) != TYPE_STRING:

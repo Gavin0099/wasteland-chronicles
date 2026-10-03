@@ -5,6 +5,7 @@ extends RefCounted
 ## Stored values are only stable item IDs and quantities; every definition is
 ## resolved through ItemRegistry at the authority boundary.
 
+const Properties = preload("res://game_data/gear_property_profiles.gd")
 const Registry = preload("res://simulation/item_registry.gd")
 const DEFAULT_CAPACITY_GRAMS: int = 12000
 
@@ -30,18 +31,30 @@ func total_weight_g() -> int:
 		total += int(resolved.definition.base_weight) * int(_quantities[item_id])
 	return total
 
-func capacity_grams() -> int:
-	return DEFAULT_CAPACITY_GRAMS
+func tool_weight_g() -> int:
+	var total: int = 0
+	for id in _quantities:
+		var resolved: Dictionary = Registry.resolve(id)
+		if resolved.success and resolved.definition.category == "TOOL":
+			total += int(resolved.definition.base_weight) * int(_quantities[id])
+	return total
 
-func has_capacity_for(item_id: Variant, requested: int = 1) -> bool:
+func capacity_grams(back_item: String = "") -> int:
+	return DEFAULT_CAPACITY_GRAMS + (mini(2000, tool_weight_g()) if contains(back_item) and Properties.has(back_item, "tool_loops") else 0)
+
+func has_capacity_for(item_id: Variant, requested: int = 1, back_item: String = "") -> bool:
 	if requested <= 0:
 		return false
 	var resolved := Registry.resolve(item_id)
 	if not resolved.success:
 		return false
-	return total_weight_g() + int(resolved.definition.base_weight) * requested <= capacity_grams()
+	var extra_weight: int = int(resolved.definition.base_weight) * requested
+	var allowance: int = 0
+	if contains(back_item) and Properties.has(back_item, "tool_loops"):
+		allowance = mini(2000, tool_weight_g() + (extra_weight if resolved.definition.category == "TOOL" else 0))
+	return total_weight_g() + extra_weight <= DEFAULT_CAPACITY_GRAMS + allowance
 
-func add_item(item_id: Variant, requested: int = 1) -> Dictionary:
+func add_item(item_id: Variant, requested: int = 1, back_item: String = "") -> Dictionary:
 	var resolved := Registry.resolve(item_id)
 	if not resolved.success:
 		return _failure("UNKNOWN_ITEM_ID")
@@ -56,7 +69,7 @@ func add_item(item_id: Variant, requested: int = 1) -> Dictionary:
 	else:
 		if current > 0 or requested != 1:
 			return _failure("UNIQUE_ITEM_DUPLICATE")
-	if not has_capacity_for(item_id, requested):
+	if not has_capacity_for(item_id, requested, back_item):
 		return _failure("ITEM_CAPACITY_EXCEEDED")
 	_quantities[item_id] = next_quantity
 	return _success(item_id)
@@ -76,8 +89,8 @@ func remove_item(item_id: Variant, requested: int = 1) -> Dictionary:
 		_quantities[item_id] = next_quantity
 	return _success(item_id)
 
-func pickup_item(item_id: Variant, requested: int = 1) -> Dictionary:
-	return add_item(item_id, requested)
+func pickup_item(item_id: Variant, requested: int = 1, back_item: String = "") -> Dictionary:
+	return add_item(item_id, requested, back_item)
 
 func drop_item(item_id: Variant, requested: int = 1) -> Dictionary:
 	return remove_item(item_id, requested)
@@ -109,7 +122,7 @@ func duplicate_state() -> RefCounted:
 	copy._quantities = _quantities.duplicate(true)
 	return copy
 
-static func validate_serialized(data: Variant) -> String:
+static func validate_serialized(data: Variant, back_item: String = "") -> String:
 	if typeof(data) != TYPE_DICTIONARY or data.size() != 1 or not data.has("items") or typeof(data.items) != TYPE_ARRAY:
 		return "INVALID_ITEM_INVENTORY"
 	var seen := {}
@@ -132,12 +145,12 @@ static func validate_serialized(data: Variant) -> String:
 	var candidate := new()
 	for entry in data.items:
 		candidate._quantities[entry.item_id] = entry.quantity
-	if candidate.total_weight_g() > candidate.capacity_grams():
+	if candidate.total_weight_g() > candidate.capacity_grams(back_item):
 		return "ITEM_CAPACITY_EXCEEDED"
 	return ""
 
-static func from_dict_checked(data: Variant) -> Dictionary:
-	var error := validate_serialized(data)
+static func from_dict_checked(data: Variant, back_item: String = "") -> Dictionary:
+	var error := validate_serialized(data, back_item)
 	if error != "":
 		return {"success": false, "inventory": null, "error": error}
 	var inventory := new()
@@ -145,8 +158,8 @@ static func from_dict_checked(data: Variant) -> Dictionary:
 		inventory._quantities[entry.item_id] = int(entry.quantity)
 	return {"success": true, "inventory": inventory, "error": ""}
 
-static func from_dict(data: Variant) -> RefCounted:
-	var checked := from_dict_checked(data)
+static func from_dict(data: Variant, back_item: String = "") -> RefCounted:
+	var checked := from_dict_checked(data, back_item)
 	return checked.inventory if checked.success else new()
 
 func _success(item_id: String) -> Dictionary:

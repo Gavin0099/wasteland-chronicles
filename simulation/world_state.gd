@@ -318,12 +318,12 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 		if acquired_error != "":
 			return {"success": false, "world": null, "error": acquired_error}
 		if player_data.has("item_inventory"):
-			var item_inventory_error := ItemInventory.validate_serialized(player_data.item_inventory)
+			var item_inventory_error := ItemInventory.validate_serialized(player_data.item_inventory, Equipment.back_item_from_serialized(player_data.get("equipment", {})))
 			if item_inventory_error != "":
 				return {"success": false, "world": null, "error": item_inventory_error}
 		if player_data.has("equipment"):
 			var item_inventory_data: Variant = player_data.get("item_inventory", {"items": []})
-			var checked_inventory := ItemInventory.from_dict_checked(item_inventory_data)
+			var checked_inventory := ItemInventory.from_dict_checked(item_inventory_data, Equipment.back_item_from_serialized(player_data.get("equipment", {})))
 			if not checked_inventory.success:
 				return {"success": false, "world": null, "error": checked_inventory.error}
 			var equipment_error := Equipment.validate_serialized(player_data.equipment, checked_inventory.inventory)
