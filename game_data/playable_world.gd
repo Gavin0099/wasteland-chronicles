@@ -19,4 +19,7 @@ static func create_world() -> WorldState:
 		&"settlement:spring_ford", &"settlement:new_hope", ResourceState.new(20, 15, 0, 0), 40, 2, 2))
 	world.add_caravan(CaravanState.new(&"caravan:c_iron_gray", "山口-灰谷商隊",
 		&"settlement:iron_pass", &"settlement:gray_valley", ResourceState.new(0, 0, 20, 15), 40, 2, 2))
+	# Owner approved the physical cross-faction supply route after the collapse probe.
+	world.add_caravan(CaravanState.new(&"caravan:c_spring_iron", "渡口-山口商隊",
+		&"settlement:spring_ford", &"settlement:iron_pass", ResourceState.new(25, 15, 0, 0), 40, 3, 3))
 	return world

@@ -25,7 +25,7 @@ func pair_intent(world: WorldState, twin: WorldState, intent: PlayerIntent, labe
 	parity(world, twin, label)
 	return result
 
-func walk_pair(world: WorldState, twin: WorldState, destination: String) -> void:
+func walk_pair(world: WorldState, twin: WorldState, destination: String, expected_days: int = 2) -> void:
 	pair_intent(world, twin, PlayerIntent.create_travel(world.player.npc_id, StringName(destination)), "real neighbouring road")
 	for stop: int in range(18):
 		if world.pending_encounter_result >= 0:
@@ -42,7 +42,7 @@ func walk_pair(world: WorldState, twin: WorldState, destination: String) -> void
 	check(life.status == NpcLifeState.Status.SETTLED and String(life.population_container_id) == destination, "arrival in actual new town")
 	for event: EventRecord in world.event_log:
 		if event.type == "PLAYER_TRAVEL_STARTED" and String(event.target_id) == destination:
-			check(int(event.payload.route_days) == 2, "authored spur exactly two days")
+			check(int(event.payload.route_days) == expected_days, "authored road duration in actual receipt")
 
 func town_trip(spec: Dictionary) -> void:
 	var world: WorldState = fresh_towns(spec.hub)
@@ -73,8 +73,12 @@ func town_trip(spec: Dictionary) -> void:
 		check(Definition.validate_definition(entry.definition) == "", "new board validates actual definition")
 		if entry.archetype == "SALVAGE": salvage = entry
 		if entry.archetype == "CONSIGNMENT":
-			check("settlement:" + String(entry.definition.consign_to) == spec.hub and entry.route_days == 2, "new town ships real surplus along its physical road")
-	check(not salvage.is_empty() and "settlement:" + String(salvage.target_route_destination) == spec.hub and salvage.route_days == 2, "reachable salvage work at new town")
+			var target := "settlement:" + String(entry.definition.consign_to)
+			var peer: String = "settlement:spring_ford" if spec.id == "settlement:iron_pass" else "settlement:iron_pass"
+			check(target in [spec.hub, peer] and entry.route_days == (2 if target == spec.hub else 3), "new town ships real surplus along authored physical roads")
+	var salvage_target := "settlement:" + String(salvage.get("target_route_destination", ""))
+	var peer: String = "settlement:spring_ford" if spec.id == "settlement:iron_pass" else "settlement:iron_pass"
+	check(not salvage.is_empty() and salvage_target in [spec.hub, peer] and salvage.route_days == (2 if salvage_target == spec.hub else 3), "reachable salvage work at new town")
 	if salvage.is_empty(): return
 	var item: String = salvage.target_item_id
 	# Independent fixture for obtaining a work part; delivery itself uses authority.
@@ -124,7 +128,9 @@ func boundaries() -> void:
 func stability() -> void:
 	var world: WorldState = PlayableWorld.create_world()
 	var twin: WorldState = WorldState.from_json_checked(world.to_canonical_json()).world
-	check(world.settlements.size() == 5 and world.caravans.size() == 5, "five authored towns/five physical roads")
+	check(world.settlements.size() == 5 and world.caravans.size() == 6, "five authored towns/six physical roads")
+	var supply: CaravanState = world.get_caravan(&"caravan:c_spring_iron")
+	check(supply != null and supply.origin_id == &"settlement:spring_ford" and supply.destination_id == &"settlement:iron_pass" and supply.route_days == 3, "approved producer-to-consumer road exists in live factory")
 	for spec: Dictionary in TOWN_SPECS:
 		check(world.get_settlement(StringName(spec.id)).population == spec.population, "authored initial population")
 	for day: int in range(180):
@@ -141,11 +147,21 @@ func stability() -> void:
 		print("Town day180: %s population=%d deaths=%d water=%d food=%d pressures=%.1f/%.1f" % [town.id, town.population, town.cumulative_deaths, town.inventory.water, town.inventory.food, town.water_pressure, town.food_pressure])
 		check(town.population > 0, "no settlement extinction: " + String(town.id))
 	print("Town stability day180: living=%d deaths=%d refugee_parties=%d" % [living, deaths, world.refugees.size()])
+	check(living == 470 and deaths == 0, "approved network preserves all470 lives at180days")
+	for spec: Dictionary in TOWN_SPECS:
+		check(world.get_settlement(StringName(spec.id)).population == spec.population, "new town retains authored population at180days")
 	check(living > 0, "no total extinction")
 	check(WorldState.from_json_checked(world.to_canonical_json()).success, "extended180-day checked save")
 
 func run() -> void:
 	for spec: Dictionary in TOWN_SPECS: town_trip(spec)
+	var crossing: WorldState = fresh_towns("settlement:spring_ford")
+	var twin: WorldState = WorldState.from_json_checked(crossing.to_canonical_json()).world
+	for destination: Dictionary in UiProjection.project(crossing, false).destinations:
+		if destination.id == "settlement:iron_pass":
+			check(destination.can_travel and destination.route_days == 3, "approved cross-faction route is publicly reachable")
+	walk_pair(crossing, twin, "settlement:iron_pass", 3)
+	walk_pair(crossing, twin, "settlement:spring_ford", 3)
 	await boundaries()
 	stability()
 	print("Two towns: assertions=%d failures=%d" % [assertions, failures])

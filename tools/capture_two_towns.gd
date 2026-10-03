@@ -52,5 +52,25 @@ func capture() -> void:
 		assert(shell.btn_travel.disabled and shell.lbl_settlement_details.text.contains("新希望"))
 		shell.queue_free()
 		await process_frame
+		world = fresh_towns("settlement:spring_ford")
+		twin = WorldState.from_json_checked(world.to_canonical_json()).world
+		shell = Shell.new()
+		root.add_child(shell)
+		shell.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		shell.setup(world, engine)
+		shell._show_desktop_details()
+		shell.select_settlement("settlement:iron_pass")
+		assert(not shell.btn_travel.disabled and shell.btn_travel.text.contains("3 天"))
+		await frame("cross_faction_supply_route", world, twin)
+		shell.queue_free()
+		await process_frame
+		walk_pair(world, twin, "settlement:iron_pass", 3)
+		shell = Shell.new()
+		root.add_child(shell)
+		shell.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		shell.setup(world, engine)
+		await frame("cross_faction_arrival", world, twin)
+		shell.queue_free()
+		await process_frame
 	print("Town captures: saves=%d assertions=%d failures=%d" % [captures, assertions, failures])
 	quit(0 if failures == 0 else 1)

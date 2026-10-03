@@ -52,7 +52,8 @@ const ROUTES := [
 		"label": "2 天"
 	},
 	{"from": "settlement:spring_ford", "to": "settlement:new_hope", "days": 2, "label": "渡口路 (2 天)"},
-	{"from": "settlement:iron_pass", "to": "settlement:gray_valley", "days": 2, "label": "山口路 (2 天)"}
+	{"from": "settlement:iron_pass", "to": "settlement:gray_valley", "days": 2, "label": "山口路 (2 天)"},
+	{"from": "settlement:iron_pass", "to": "settlement:spring_ford", "days": 3, "label": "商路 (3 天)"}
 ]
 
 var map_texture: Texture2D = null
