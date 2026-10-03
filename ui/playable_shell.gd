@@ -2375,7 +2375,7 @@ func _render_quests(rows: Array) -> void:
 		var state_label: String = {"AVAILABLE": "可接", "ACTIVE": "進行中", "RESOLVED": "已完成", "EXPIRED": "已過期", "FAILED": "已失敗"}.get(String(option.status), "未開放")
 		# FUN-1: without the kind and the danger on the row itself, three very
 		# different jobs read as three identical tickets.
-		var kind_label: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞", "REPAIR": "修理"}.get(String(option.get("archetype", "")), "委託")
+		var kind_label: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞", "HUNT": "狩獵", "REPAIR": "修理"}.get(String(option.get("archetype", "")), "委託")
 		var stars := String(option.get("risk_stars", ""))
 		quest_selector.add_item("%s %d/%d · %s%s · %s" % [
 			kind_label, i + 1, rows.size(), state_label,
@@ -2385,7 +2385,7 @@ func _render_quests(rows: Array) -> void:
 	quest_selector.visible = rows.size() > 1
 	var row: Dictionary = rows[selected_index]
 	quest_id_shown = String(row.id)
-	var row_kind: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞", "REPAIR": "修理"}.get(String(row.get("archetype", "")), "委託")
+	var row_kind: String = {"COURIER": "運補", "SALVAGE": "回收", "BOUNTY": "懸賞", "HUNT": "狩獵", "REPAIR": "修理"}.get(String(row.get("archetype", "")), "委託")
 	var row_stars := String(row.get("risk_stars", ""))
 	quest_title.text = "%s · %s%s" % [row_kind, String(row.title), "　危險 " + row_stars if row_stars != "" else ""]
 	quest_description.text = String(row.description)

@@ -1,5 +1,9 @@
 # Original combat assets — 2026-09-22
 
+## Creature hunts — 2026-10-03
+
+Three original, distinct transparent cutouts: `feral-boar.png`, `desert-scorpion.png`, `ash-ghoul.png`. Generated with built-in imagegen and copied from the generated-images store without raster editing. Full prompts and SHA-256 source identities are in `creature-prompts.json`. No third-party sprites or previous enemy image is reused for these subjects. BattleStage profiles own their authored ground anchors, scale and motion speed; the original silhouette is retained for breathing/attack/hit/charge/collapse with procedural cutout posture and root motion. This is not a multi-pose frame library or a skeletal animation claim. Actual rule/route/job scope: `docs/creature-hunting-contracts.md`.
+
 Generated with the built-in image generation tool for this project, following the
 owner-confirmed elevated battle-screen direction of **俠客遊・前途道標**. No original
 game screenshot, sprite, logo, UI frame or third-party asset pack is incorporated.

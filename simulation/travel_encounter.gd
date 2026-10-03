@@ -250,6 +250,8 @@ static func body(encounter_type: StringName, context: Dictionary = {}) -> String
 		PLACE_VISIT: return RoadPlaces.body(context)
 		BANDIT_AMBUSH:
 			var target_enemy := String(context.get("target_enemy", ""))
+			if target_enemy in [Enemies.FERAL_BOAR, Enemies.DESERT_SCORPION, Enemies.ASH_GHOUL]:
+				return "你找到委託上的%s，牠正擋在路前。\n%s\n可以迎戰，也能付出繞行一天的水糧逃離；牠不接受金錢或談判。" % [Enemies.display_name(target_enemy), Enemies.resolve(target_enemy).note_zh]
 			if target_enemy == "feral_dog":
 				return "路旁的岩縫間傳來低沉的咆哮，一隻骨瘦如柴的野犬死死盯著你，露出泛黃的獠牙。\n它根本聽不懂人話，撲上來就不會鬆口。"
 			elif target_enemy == "heavy_raider":

@@ -1,0 +1,22 @@
+{
+  "generation_tool": "built-in image_gen",
+  "transparent_background": true,
+  "postprocessing": "none; original output copied unchanged into workspace",
+  "assets": [
+    {
+      "file": "feral-boar.png",
+      "sha256": "bc65651f8fff948a99ce25eae665446d3ef69500bc7293051198c321b4a63f63",
+      "prompt": "Use case: stylized-concept. Asset type: original transparent single creature cutout for Wasteland Chronicles, a 2D isometric RPG. Subject: one feral wasteland boar, thick dusty brown bristles, compact muscular body, worn ivory tusks, four anatomically coherent hooves firmly planted, alert lowered head facing screen lower-left in three-quarter front view. Elevated camera 30–35 degrees looking down, matching hand-painted realistic muted ink-and-paint 1990s PC RPG illustration, crisp textured fur and clear silhouette, olive brown ochre charcoal palette, soft upper-left natural light. Full creature centered with 8 percent clear margin, feet toward bottom, no cropped tusks or tail. This is a resting battle actor, not a landscape. Genuinely transparent alpha background. No cast shadow, floor, effects, text, UI, borders, other subjects, weapons, logos, gore, or photorealistic photography."
+    },
+    {
+      "file": "desert-scorpion.png",
+      "sha256": "847df152a50d8916ec5610d711152d4826d5c43f9cc8be29861a2718782f65d0",
+      "prompt": "Use case: stylized-concept. Asset type: original transparent single creature cutout for Wasteland Chronicles, a 2D isometric RPG. Subject: ONE giant wasteland desert scorpion, dusty ochre and dark brown segmented chitin, two distinct large pincers, eight anatomically coherent legs supporting a low squat body, ONE curled segmented tail with a small natural stinger, no fantasy glow. Face and pincers point screen lower-left in a three-quarter front view. Elevated camera 30–35 degrees looking down. Hand-painted realistic muted ink-and-paint 1990s PC RPG illustration, detailed matte shell and clear silhouette; ochre charcoal brown palette, soft upper-left natural light. Full body, tail and every pincer visible, centered with clear margins, feet toward bottom. Resting battle actor. Genuinely transparent alpha background. No cast shadow, floor, landscape, poison effects, extra creatures, text, UI, frames, logos, gore, or photorealistic photography."
+    },
+    {
+      "file": "ash-ghoul.png",
+      "sha256": "5aaab08d9d4739ba4598e0575bec655ddc1e55bc1567e93334101fbf45b19144",
+      "prompt": "Use case: stylized-concept. Asset type: original transparent single creature cutout for Wasteland Chronicles, a 2D isometric RPG. Subject: ONE ash ghoul, an original nonhuman ash-grey lanky feral wasteland humanoid creature, hunched but upright, long coherent forearms and clawed hands, two firmly planted bare clawed feet, ragged dark ochre waist wraps, cracked dry clay-like hide, stern hollow face. Clearly distinct from a human bandit, no weapons. Facing screen lower-left in three-quarter front view, elevated 30–35 degree camera looking down. Hand-painted realistic muted ink-and-paint 1990s PC RPG illustration, tactile dusty hide, restrained charcoal grey olive and ochre palette, soft upper-left natural light, clear readable silhouette. Whole body centered with clear margins, feet at bottom; alert RESTING battle actor, shoulders poised to spring. Genuinely transparent alpha background. No cast shadow, floor, environment, effects, text, interface, frames, other subjects, logos, exposed organs, blood, gore, or photographic look."
+    }
+  ]
+}
