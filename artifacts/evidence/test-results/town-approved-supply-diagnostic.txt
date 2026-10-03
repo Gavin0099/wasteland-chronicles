@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+with_supply_road=false town=settlement:new_hope population=120 deaths=0 water=239 food=122 pressures=0.0/0.0
+with_supply_road=false town=settlement:gray_valley population=100 deaths=0 water=12 food=48 pressures=0.0/0.0
+with_supply_road=false town=settlement:dry_well population=80 deaths=0 water=60 food=60 pressures=0.0/0.0
+with_supply_road=false town=settlement:spring_ford population=126 deaths=0 water=1211 food=1014 pressures=0.0/0.0
+with_supply_road=false town=settlement:iron_pass population=9 deaths=35 water=0 food=0 pressures=0.0/0.0
+Diagnostic day180: with_supply_road=false living=435 deaths=35 initial=470 twin_sha256=0a6e1dbe9caaab46be84c129d89c3ba5168b8534e8d9dbdcb9755f5b01d20d5a
+with_supply_road=true town=settlement:new_hope population=120 deaths=0 water=276 food=137 pressures=0.0/0.0
+with_supply_road=true town=settlement:gray_valley population=100 deaths=0 water=10 food=47 pressures=0.0/0.0
+with_supply_road=true town=settlement:dry_well population=80 deaths=0 water=46 food=46 pressures=0.0/0.0
+with_supply_road=true town=settlement:spring_ford population=90 deaths=0 water=765 food=557 pressures=0.0/0.0
+with_supply_road=true town=settlement:iron_pass population=80 deaths=0 water=8 food=8 pressures=0.0/0.0
+Diagnostic day180: with_supply_road=true living=470 deaths=0 initial=470 twin_sha256=5389cde52fc84f950e31dce57ad9bea1ad2b5af0f5cef4f67fa052c07ba342ba
+Diagnostic replay/invariants passed; approved road is in the live factory.
