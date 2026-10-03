@@ -10,6 +10,7 @@ extends RefCounted
 const Registry = preload("res://simulation/item_registry.gd")
 
 const SETTLEMENTS: Array[String] = ["new_hope", "gray_valley", "dry_well"]
+const REGION_ALIASES := {"spring_ford": "new_hope", "iron_pass": "gray_valley"}
 const SUPPLY_LEVELS: Array[String] = ["none", "low", "medium", "high"]
 
 static func settlement_key(value: Variant) -> String:
@@ -18,7 +19,11 @@ static func settlement_key(value: Variant) -> String:
 	var key := String(value)
 	if key.begins_with("settlement:"):
 		key = key.trim_prefix("settlement:")
-	return key if key in SETTLEMENTS else ""
+	return key if key in SETTLEMENTS or REGION_ALIASES.has(key) else ""
+
+static func region_key(settlement_id: Variant) -> String:
+	var key := settlement_key(settlement_id)
+	return String(REGION_ALIASES.get(key, key))
 
 static func profile_for(item_id: Variant, settlement_id: Variant) -> Dictionary:
 	var settlement := settlement_key(settlement_id)
@@ -29,6 +34,7 @@ static func profile_for(item_id: Variant, settlement_id: Variant) -> Dictionary:
 	if not resolved.success:
 		return _failure("UNKNOWN_ITEM_ID")
 	var definition: Dictionary = resolved.definition
+	var region := region_key(settlement)
 	return {
 		"success": true,
 		"error": "",
@@ -37,9 +43,9 @@ static func profile_for(item_id: Variant, settlement_id: Variant) -> Dictionary:
 		"display_name_zh": definition.display_name_zh,
 		"category": definition.category,
 		"asset_id": definition.asset_id,
-		"supply": String(definition.settlement_supply[settlement]),
-		"demand": String(definition.settlement_demand[settlement]),
-		"is_routinely_supplied": definition.settlement_supply[settlement] != "none",
+		"supply": String(definition.settlement_supply[region]),
+		"demand": String(definition.settlement_demand[region]),
+		"is_routinely_supplied": definition.settlement_supply[region] != "none",
 	}
 
 static func offers_for(settlement_id: Variant) -> Dictionary:
@@ -47,8 +53,9 @@ static func offers_for(settlement_id: Variant) -> Dictionary:
 	if settlement.is_empty():
 		return _failure("UNKNOWN_SETTLEMENT")
 	var offers: Array[Dictionary] = []
+	var region := region_key(settlement)
 	for definition in Registry.all_definitions():
-		var supply := String(definition.settlement_supply[settlement])
+		var supply := String(definition.settlement_supply[region])
 		if supply == "none":
 			continue
 		offers.append({
@@ -57,7 +64,7 @@ static func offers_for(settlement_id: Variant) -> Dictionary:
 			"category": definition.category,
 			"asset_id": definition.asset_id,
 			"supply": supply,
-			"demand": String(definition.settlement_demand[settlement]),
+			"demand": String(definition.settlement_demand[region]),
 		})
 	offers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return String(a.item_id) < String(b.item_id)

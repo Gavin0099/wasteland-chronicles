@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-03",
+  "method": "builtin image_gen, original opaque outputs copied unchanged; no raster editing",
+  "assets": [
+    {
+      "file": "spring_ford_scene.png",
+      "source": "C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-805c5a14-7154-4fae-a520-259d993f4f47.png",
+      "sha256": "5d553ac3f0c09e37e17934ab83ac50b76ec1ea10c8d2597976ba6f533b8f91e2",
+      "prompt": "Create one original 16:9 landscape game environment illustration for Wasteland Chronicles, Spring Ford (泉渡), a reclaimed water and farming settlement. Late-1990s hand-painted computer RPG scenic background, detailed painterly earthy ochre and olive, muted sunlight, high isometric three-quarter aerial angle looking down over the entire town, consistent with classic isometric post-apocalyptic RPGs. This is a NEW settlement image, not a UI screenshot. A wide shallow river crossing runs left foreground to right middle with an old repaired stone ford and narrow salvaged footbridge; a modest pumping station and settling basins, irrigation terraces with grain and vegetables, simple patched sheet-metal homes, reed beds, a small market awning and caravan layby. Emphasize a water-producing agricultural crossing community, distinct from a greenhouse/water-tower town. Dry rocky hills in the distance. Lived-in and plausible, warm dusty atmosphere, no neon or futuristic metropolis. Full-bleed richly detailed environment with usable contrast as a scenic panel; no people, no monsters, no readable writing, no text, no logos, no UI, no frame, no labels, no map markers. Opaque background. Wide landscape composition, 16:9."
+    },
+    {
+      "file": "iron_pass_scene.png",
+      "source": "C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-d66cc1a0-4c2c-4eb8-8c10-761124d60ac9.png",
+      "sha256": "718482280291f8751cd313c7e64b9d194f1ce39a36539b826118f2a0ebb17ce5",
+      "prompt": "Create one original 16:9 landscape game environment illustration for Wasteland Chronicles, Iron Pass (鐵關), a salvaged metalworking town controlling a rocky western mountain pass. Late-1990s hand-painted computer RPG scenic background, richly detailed painterly muted earthy rust, ochre and charcoal with subtle cool shadows, high isometric three-quarter aerial angle overlooking the whole settlement. Distinct from a flat scrapyard town: a narrow mountain ravine, reinforced gate towers formed from old industrial steel, terraced welding yards, sorting bins of scrap, a covered forge/workshop and modest furnace, a small fuel processing shed with storage drums, winding dirt caravan road into the pass, patched stone and corrugated metal homes with small market awnings. Few modest workshop chimneys, believable repaired old infrastructure and dusty rocks, no futuristic city. Cliff walls behind and open caravan layby foreground. Warm afternoon dusty light, cohesive original post-apocalyptic RPG art. Full-bleed wide landscape 16:9 illustration used as a scenic game panel. No people, no monsters, no readable writing, no text, no signage letters, no logos, no UI, no frame, no labels, no map markers. Opaque background."
+    }
+  ]
+}
