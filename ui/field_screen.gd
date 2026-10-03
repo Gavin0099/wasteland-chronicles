@@ -152,7 +152,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	_install_desktop_layout(root, heading, body, stage, status_label, log_label, receipt_items, actions_box, error_label, note_label)
 	refresh()
 
-# The arena owns both combatant cards; commands stay outside the history scroll.
+# A clear isometric arena; status and commands remain in a fixed bottom dock.
 func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_body: HBoxContainer, battle_stage: Control, status: Label, log: Label, receipts: VBoxContainer, actions: GridContainer, errors: Label, note: Label) -> void:
 	var backdrop := DesktopBackdrop.new()
 	backdrop.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
@@ -180,13 +180,17 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	battle_stage.reparent(arena)
 	battle_stage.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	battle_stage.custom_minimum_size.y = 200
-	# A wide arena fits the two cards and grounded fighters above bottom commands.
+	# Width fills the frame; a bounded 2:1 diamond supplies the actual ground.
 	battle_stage.aspect_frame.ratio = 3.0
-	player_card = _combatant_card(battle_stage.stage_canvas, false)
+	battle_stage.configure_isometric(true)
+	var combatant_dock := HBoxContainer.new()
+	combatant_dock.add_theme_constant_override("separation", Tokens.GAP)
+	root.add_child(combatant_dock)
+	player_card = _combatant_card(combatant_dock, false)
 	player_bar = _make_bar(player_card.body, Tokens.AMBER)
 	status.reparent(player_card.body)
 	status.add_theme_font_size_override("font_size", Tokens.BODY)
-	enemy_card = _combatant_card(battle_stage.stage_canvas, true)
+	enemy_card = _combatant_card(combatant_dock, true)
 	turn_window = enemy_card
 	enemy_bar = _make_bar(enemy_card.body, Tokens.CRITICAL)
 	intent_label = label_in(enemy_card.body, "", "PdaSection")
@@ -197,7 +201,7 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	var command_window := DesktopWindow.new("行動指令")
 	root.add_child(command_window)
 	actions.reparent(command_window.body)
-	actions.columns = 2
+	actions.columns = 4
 	var message_window := DesktopWindow.new("戰鬥訊息")
 	message_window.custom_minimum_size.y = 72
 	root.add_child(message_window)
@@ -223,10 +227,7 @@ func _combatant_card(canvas: Control, on_right: bool) -> Control:
 	# the headroom needed by the tallest fighter at 648p.
 	card.title_bar.hide()
 	canvas.add_child(card)
-	card.anchor_left = 0.55 if on_right else 0.04
-	card.anchor_right = 0.96 if on_right else 0.45
-	card.offset_top = 8
-	card.grow_vertical = GROW_DIRECTION_END
+	card.size_flags_horizontal = SIZE_EXPAND_FILL
 	return card
 
 static func environment_for(current_world: WorldState) -> String:
@@ -314,7 +315,7 @@ func refresh() -> void:
 		child.queue_free()
 	buttons.clear()
 	var state := world.field_state
-	actions_box.columns = 3 if state.battle.is_empty() and state.receipt < 0 else 2
+	actions_box.columns = 3 if state.battle.is_empty() and state.receipt < 0 else 4
 	var kit := world.player.field_kit
 	var is_road: bool = false
 	if not state.battle.is_empty():
@@ -402,7 +403,7 @@ func refresh() -> void:
 		add_action("CONFIRM", confirm_text)
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
-		status_label.text += "\n第 %d 回合 · 你的行動" % turn
+		status_label.text += "　／　第 %d 回合 · 你的行動" % turn
 		# PLAY-4: the telegraph is the whole reason bracing is a decision, so it
 		# comes from the enemy catalogue and states exactly what this turn's
 		# blow will be and what bracing against it would actually save.
@@ -461,7 +462,7 @@ func _show_intent(preview: Dictionary) -> void:
 		lines.append("近身攻擊 %d → 可擊倒它，它不會出手" % int(preview.attack_damage))
 	else:
 		lines.append("近身攻擊 %d → 它還會出手" % int(preview.attack_damage))
-	intent_detail_label.text = "\n".join(lines)
+	intent_detail_label.text = "　／　".join(lines)
 
 func show_receipt_goods(title: String, goods: Dictionary, prefix: String, values: Dictionary) -> void:
 	label_in(receipt_items, title, "PdaSection")
