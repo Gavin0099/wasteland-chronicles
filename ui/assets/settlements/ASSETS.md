@@ -9,3 +9,5 @@ These are original, non-authoritative scene backgrounds generated with the built
 | `new_hope_scene.png` | Isometric, reclaimed agricultural settlement with irrigation, greenhouses and water tower; no UI or characters. |
 
 Generated with `image_gen` in built-in mode. Each prompt requested an original 16:9 hand-painted late-1990s computer-RPG scene with distinct explorable locations and expressly excluded window frames, text, labels, map markers, people, monsters and logos. Source PNGs were copied into this directory; no screenshot of the reference game was used as an edit target.
+
+2026-10-03 expansion: `spring_ford_scene.png` depicts a repaired river ford, pumping/settling basins and terraced farming; `iron_pass_scene.png` depicts a mountain gate, metalworking terraces and modest fuel processing. Both are original opaque 16:9 built-in generations, copied unchanged with original outputs retained. Full prompts, source paths and SHA-256 hashes are in `expansion-prompts.json`. Affiliations, population, prices and route information remain actual projected Godot text.

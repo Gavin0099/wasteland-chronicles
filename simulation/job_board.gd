@@ -53,6 +53,7 @@ const Enemies = preload("res://simulation/enemy_catalogue.gd")
 const FieldAdventure = preload("res://simulation/field_adventure.gd")
 const RoadPlaces = preload("res://simulation/road_places.gd")
 const LocalTrust = preload("res://simulation/local_trust.gd")
+const TownRoads = preload("res://simulation/town_roads.gd")
 
 # The board turns over on a cadence rather than daily, so work the player walked
 # past yesterday is usually still there when they come back for it.
@@ -160,6 +161,8 @@ static func _worst_neighbour(world, settlement_id: StringName) -> String:
 	for other_id in _sorted_settlement_ids(world):
 		if other_id == String(settlement_id):
 			continue
+		if not TownRoads.permits(world, settlement_id, StringName(other_id)):
+			continue
 		var other = world.get_settlement(StringName(other_id))
 		if other == null:
 			continue
@@ -173,6 +176,8 @@ static func _worst_neighbour(world, settlement_id: StringName) -> String:
 
 static func _route_days(world, origin_id: StringName, destination_id: StringName) -> int:
 	var days := Route.get_route_days(origin_id, destination_id, Route.ROUTE_HIGHWAY)
+	if days < 1 and TownRoads.extended(world):
+		return SimulationEngine.new().get_route_days_between(world, origin_id, destination_id)
 	return days if days > 0 else 2
 
 # ── Generation ────────────────────────────────────────────────────────────────
@@ -355,6 +360,8 @@ static func _consignment(world, settlement, window: int) -> Dictionary:
 			continue
 		for other_id in _sorted_settlement_ids(world):
 			if other_id == String(origin_id):
+				continue
+			if not TownRoads.permits(world, origin_id, StringName(other_id)):
 				continue
 			var other = world.get_settlement(StringName(other_id))
 			# Need is today's gap, or failing that the town's standing deficit.

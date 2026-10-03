@@ -7,6 +7,8 @@ const QuestRegistry = preload("res://simulation/quest_registry.gd")
 const QuestEngine = preload("res://simulation/quest_engine.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const TravelRoute = preload("res://simulation/travel_route.gd")
+const TownRoads = preload("res://simulation/town_roads.gd")
+const Factions = preload("res://game_data/faction_catalogue.gd")
 
 # ==============================================================================
 # S5-A.2: PLAYER UI PROJECTION (ISOLATION LAYER)
@@ -229,7 +231,10 @@ static func _turn_in_settlement(definition: Dictionary, objective: Dictionary) -
 # REP-1: what each town thinks of the player, in one line each.
 static func _project_trust(world: WorldState) -> Dictionary:
 	var out := {}
-	for town in LocalTrust.TOWNS:
+	var towns: Array = world.settlements.keys()
+	towns.sort()
+	for town_id in towns:
+		var town := String(town_id)
 		out[town] = {"tier": LocalTrust.tier(world, town), "name": LocalTrust.tier_name(world, town), "summary": LocalTrust.summary(world, town)}
 	return out
 
@@ -605,12 +610,13 @@ static func _project_destinations(world: WorldState) -> Array[Dictionary]:
 	for s_id in sorted_keys:
 		var s: SettlementState = world.settlements[s_id]
 		var is_here: bool = (StringName(s_id) == current_loc)
+		var direct_road := TownRoads.permits(world, current_loc, StringName(s_id))
 		var route_days := 0
-		if not is_here and is_settled:
+		if not is_here and is_settled and direct_road:
 			route_days = _calc_route_days(world, current_loc, StringName(s_id))
 
 		var routes: Array[Dictionary] = []
-		if not is_here and is_settled:
+		if not is_here and is_settled and direct_road:
 			routes = TravelRoute.get_available_routes(current_loc, StringName(s_id))
 
 		# Remote settlement projection: ONLY name, route availability, distance.
@@ -621,7 +627,9 @@ static func _project_destinations(world: WorldState) -> Array[Dictionary]:
 			"route_days": route_days,
 			"routes": routes,
 			"is_current": is_here,
-			"can_travel": (not is_here and is_settled)
+			"faction_name": Factions.faction_name(String(s.id)),
+			"route_note": TownRoads.hint(world, current_loc, StringName(s_id)) if not is_here and is_settled else "",
+			"can_travel": (not is_here and is_settled and direct_road)
 		})
 
 	return list
@@ -666,6 +674,8 @@ static func _settlement_name(raw_id: String) -> String:
 		"settlement:gray_valley": return "灰谷"
 		"settlement:dry_well": return "乾井"
 		"settlement:new_hope": return "新希望"
+		"settlement:spring_ford": return "泉渡"
+		"settlement:iron_pass": return "鐵關"
 	if raw_id.begins_with("settlement:"):
 		return raw_id.replace("settlement:", "").replace("_", " ").capitalize()
 	if raw_id.begins_with("refugee:"):

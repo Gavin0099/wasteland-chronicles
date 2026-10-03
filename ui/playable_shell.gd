@@ -5,6 +5,7 @@ const ItemRegistry = preload("res://simulation/item_registry.gd")
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const CharacterPresentation = preload("res://ui/character_presentation.gd")
 const TravelRoute = preload("res://simulation/travel_route.gd")
+const Factions = preload("res://game_data/faction_catalogue.gd")
 
 # ==============================================================================
 # S5: PLAYABLE UI SHELL (SURVIVOR PDA FAST-LANE) — UX-P1
@@ -763,11 +764,14 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					"地表行軍距離：約 %d 天步程\n" +
 					"遠端情報有限；抵達後可查看倉儲與市場行情。"
 				) % [route_days]
+			if not bool(dest_info.get("can_travel", false)):
+				lbl_settlement_details.text = String(dest_info.get("route_note", "目前無法出發。"))
 
 			if btn_travel != null:
 				btn_travel.visible = true
-				btn_travel.disabled = false
+				btn_travel.disabled = not bool(dest_info.get("can_travel", false))
 				btn_travel.text = "走%s前往 %s · %d 天" % [String(active_route.get("name_zh", "既有路線")), sel_name, route_days] if not active_route.is_empty() else "前往 %s · %d 天" % [sel_name, route_days]
+				if btn_travel.disabled: btn_travel.text = "先抵達相鄰城鎮"
 
 		if btn_wait != null:
 			btn_wait.text = "[ 原地等待 1 天 ]"
@@ -869,13 +873,13 @@ func _security_word(security: float) -> String:
 	return "動盪"
 
 func _settlement_flavour(settlement_id: String) -> String:
-	match settlement_id:
-		"settlement:gray_valley": return "工業聚落 · 西部荒谷"
-		"settlement:dry_well": return "水井小鎮 · 南方乾原"
-		"settlement:new_hope": return "農業聚落 · 東部綠帶"
-	return "荒土聚落"
+	var info: Dictionary = Factions.TOWNS.get(settlement_id, {})
+	return "%s · %s" % [String(info.get("flavour", "荒土聚落")), Factions.faction_name(settlement_id)]
 
 func _get_settlement_name(settlement_id: String) -> String:
+	if Factions.TOWNS.has(settlement_id):
+		var info: Dictionary = Factions.TOWNS[settlement_id]
+		return "%s %s" % [String(info.name), String(info.en)]
 	match settlement_id:
 		"settlement:gray_valley": return "灰谷 Gray Valley"
 		"settlement:dry_well": return "乾井 Dry Well"
@@ -2060,7 +2064,7 @@ func _sync_desktop(proj: Dictionary) -> void:
 			desktop_message.text = "%s　·　%s" % [_get_settlement_name(current_id), _settlement_flavour(current_id)]
 	if current_id.begins_with("settlement:"):
 		desktop_scene_window.title_label.text = "%s｜聚落場景" % _get_settlement_name(current_id)
-		var scene_file: String = {"settlement:gray_valley": "gray_valley_scene.png", "settlement:dry_well": "dry_well_scene.png", "settlement:new_hope": "new_hope_scene.png"}.get(current_id, "")
+		var scene_file: String = String(Factions.TOWNS.get(current_id, {}).get("scene", ""))
 		if scene_file != "" and desktop_scene_art.get_meta("scene_file", "") != scene_file:
 			var img := Image.load_from_file(ProjectSettings.globalize_path("res://ui/assets/settlements/" + scene_file))
 			if img != null:

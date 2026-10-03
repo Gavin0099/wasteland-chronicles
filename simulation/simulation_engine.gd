@@ -13,6 +13,7 @@ const GrowthPoints = preload("res://simulation/growth_points.gd")
 const RoadPlaces = preload("res://simulation/road_places.gd")
 const Rumors = preload("res://simulation/rumors.gd")
 const LocalTrust = preload("res://simulation/local_trust.gd")
+const TownRoads = preload("res://simulation/town_roads.gd")
 const Training = preload("res://simulation/training.gd")
 const Party = preload("res://simulation/party.gd")
 const JobBoard = preload("res://simulation/job_board.gd")
@@ -2790,6 +2791,8 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 			var origin: SettlementState = world.get_settlement(ls.population_container_id)
 			if origin == null:
 				return "INVALID_ORIGIN: Origin settlement %s does not exist" % ls.population_container_id
+			if not TownRoads.permits(world, origin.id, intent.destination_id):
+				return "INVALID_DESTINATION: No direct caravan road; travel via the neighbouring hub"
 			if origin.population <= MIGRATION_MIN_POPULATION:
 				return "PRECONDITION_CHANGED: Origin population (%d) is at or below minimum (%d)" % [
 					origin.population, MIGRATION_MIN_POPULATION
@@ -2865,6 +2868,8 @@ func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: A
 		return {"success": false, "error": "INVALID_PLAYER: no life state"}
 	var origin_id: StringName = ls.population_container_id
 	var dest_id: StringName = intent.destination_id
+	if not TownRoads.permits(world, origin_id, dest_id):
+		return {"success": false, "error": "INVALID_DESTINATION: No direct caravan road"}
 	var route_type_str := String(intent.payload.get("route_type", ""))
 	var route_type := StringName(route_type_str) if route_type_str != "" else &""
 	var route_days: int = get_route_days_between(world, origin_id, dest_id)

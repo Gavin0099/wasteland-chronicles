@@ -23,7 +23,7 @@ static func default_quantity(supply: String) -> int:
 
 static func seeded_for(settlement_id: Variant) -> RefCounted:
 	var state := new()
-	var normalized := Markets.settlement_key(settlement_id)
+	var normalized := Markets.region_key(settlement_id)
 	if normalized.is_empty():
 		return state
 	for definition in Registry.all_definitions():

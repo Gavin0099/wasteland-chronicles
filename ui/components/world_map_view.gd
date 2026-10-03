@@ -13,26 +13,31 @@ extends Control
 # ==============================================================================
 
 signal node_selected(settlement_id: String)
+const Factions = preload("res://game_data/faction_catalogue.gd")
 
 const SETTLEMENT_NAMES := {
 	"settlement:gray_valley": {"zh": "灰谷", "en": "Gray Valley"},
 	"settlement:dry_well": {"zh": "乾井", "en": "Dry Well"},
-	"settlement:new_hope": {"zh": "新希望", "en": "New Hope"}
+	"settlement:new_hope": {"zh": "新希望", "en": "New Hope"},
+	"settlement:spring_ford": {"zh": "泉渡", "en": "Spring Ford"},
+	"settlement:iron_pass": {"zh": "鐵關", "en": "Iron Pass"}
 }
 
 # Aligned with wasteland sector illustration landmarks
 const NODE_POSITIONS := {
 	"settlement:gray_valley": Vector2(0.28, 0.28),
 	"settlement:dry_well": Vector2(0.68, 0.36),
-	"settlement:new_hope": Vector2(0.86, 0.69)
+	"settlement:new_hope": Vector2(0.86, 0.69),
+	"settlement:spring_ford": Vector2(0.53, 0.88),
+	"settlement:iron_pass": Vector2(0.10, 0.59)
 }
 
 const ROUTES := [
 	{
 		"from": "settlement:gray_valley",
 		"to": "settlement:dry_well",
-		"days": 2,
-		"label": "2 天"
+		"days": 3,
+		"label": "3 天"
 	},
 	{
 		"from": "settlement:gray_valley",
@@ -45,7 +50,9 @@ const ROUTES := [
 		"to": "settlement:new_hope",
 		"days": 2,
 		"label": "2 天"
-	}
+	},
+	{"from": "settlement:spring_ford", "to": "settlement:new_hope", "days": 2, "label": "渡口路 (2 天)"},
+	{"from": "settlement:iron_pass", "to": "settlement:gray_valley", "days": 2, "label": "山口路 (2 天)"}
 ]
 
 var map_texture: Texture2D = null
@@ -95,10 +102,16 @@ func _gui_input(event: InputEvent) -> void:
 
 func _get_node_at_position(pos: Vector2) -> String:
 	for node_id in NODE_POSITIONS:
+		if not _present(node_id): continue
 		var node_pos := _get_pixel_pos(NODE_POSITIONS[node_id])
 		if pos.distance_to(node_pos) <= 28.0:
 			return node_id
 	return ""
+
+func _present(town_id: String) -> bool:
+	for destination in destinations:
+		if String(destination.get("id", "")) == town_id: return true
+	return false
 
 func _get_pixel_pos(norm: Vector2) -> Vector2:
 	var pad := 36.0
@@ -138,6 +151,7 @@ func _draw() -> void:
 	# 3. Draw Routes (Roads)
 	for r_variant in ROUTES:
 		var route: Dictionary = r_variant
+		if not _present(String(route["from"])) or not _present(String(route["to"])): continue
 		var p1 := _get_pixel_pos(NODE_POSITIONS[route["from"]])
 		var p2 := _get_pixel_pos(NODE_POSITIONS[route["to"]])
 
@@ -172,6 +186,7 @@ func _draw() -> void:
 	# 4. Draw Settlement Nodes
 	for node_key in NODE_POSITIONS:
 		var node_id := String(node_key)
+		if not _present(node_id): continue
 		var node_pos := _get_pixel_pos(NODE_POSITIONS[node_id])
 
 		var is_here: bool = (node_id == cur_loc_id and not is_in_transit)
@@ -217,6 +232,11 @@ func _draw() -> void:
 		var border_color := Color("#39D353") if is_here else (Color("#D9822B") if is_destination else (Color("#D8D3C8") if is_selected else Color("#363D4E")))
 		draw_rect(name_rect, border_color, false, 1.0)
 		draw_string(default_font, Vector2(node_pos.x - (n_size.x * 0.5), node_pos.y - 18), display_title, HORIZONTAL_ALIGNMENT_CENTER, -1, 12, Color("#F0ECE1"))
+		var affiliation := Factions.faction_name(node_id)
+		var affiliation_size := default_font.get_string_size(affiliation, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+		var affiliation_rect := Rect2(node_pos.x - affiliation_size.x * 0.5 - 5, node_pos.y - 51, affiliation_size.x + 10, 17)
+		draw_rect(affiliation_rect, Color(0.08, 0.09, 0.12, 0.92))
+		draw_string(default_font, Vector2(node_pos.x - affiliation_size.x * 0.5, node_pos.y - 38), affiliation, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color("#D8D3C8"))
 
 		# --- C. Status Badge (Fixed BELOW node: node_pos.y + 14) ---
 		var status_tag := ""
@@ -296,6 +316,8 @@ func _short_name(settlement_id: String) -> String:
 		"settlement:gray_valley": return "灰谷"
 		"settlement:dry_well": return "乾井"
 		"settlement:new_hope": return "新希望"
+		"settlement:spring_ford": return "泉渡"
+		"settlement:iron_pass": return "鐵關"
 	return settlement_id.replace("settlement:", "").replace("_", " ").capitalize()
 
 # PLACE-4: each place sits on its road; the camp sits off the Dry Well - New Hope
