@@ -23,7 +23,7 @@ const TIERS := {
 	"old_world_saber": "T4", "work_clothes": "T1", "desert_robe": "T1",
 	"caravan_coat": "T2", "travel_backpack": "T1", "military_backpack": "T3",
 	"rope": "T1", "flashlight": "T1", "wrench": "T1",
-	"first_aid_kit": "T1", "revolver_round": "T1",
+	"first_aid_kit": "T1", "bandage": "T1", "revolver_round": "T1",
 }
 
 static func resolve(id: Variant) -> Dictionary:

@@ -39,6 +39,7 @@ static func resolve(asset_id: Variant) -> Dictionary:
 		"item_flashlight": "res://ui/assets/items/candidates/flashlight.png",
 		"item_wrench": "res://ui/assets/items/candidates/wrench.png",
 		"item_first_aid_kit": "res://ui/assets/items/candidates/medkit.png",
+		"item_bandage": "res://ui/assets/items/library/supplies/bandage.png",
 	}
 	if typeof(asset_id) != TYPE_STRING or not paths.has(asset_id):
 		return {"success": false, "path": "", "error": "UNKNOWN_ITEM_ASSET"}

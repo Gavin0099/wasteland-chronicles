@@ -91,13 +91,13 @@ func run() -> void:
 		"precision_repair_toolbox": [2200, 160, "T2", "precision_set"],
 		"expedition_travel_backpack": [1400, 150, "T1", "tool_loops"],
 	}
-	check(Registry.all_definitions().size() == 44, "44 fixed authored definitions")
+	check(Registry.all_definitions().size() == 45, "44 gear identities plus explicit AID-1 bandage")
 	for id: String in specs:
 		var row: Dictionary = Registry.resolve(id).definition
 		check(row.base_weight == specs[id][0] and row.base_value == specs[id][1] and row.tier == specs[id][2], "independent explicit stats " + id)
 		check(row.quality == ("RARE" if id == "expedition_travel_backpack" else "MODIFIED") and row.properties == (["tool_loops", "water_pouch"] if id == "expedition_travel_backpack" else [specs[id][3]]), "explicit quality cardinality " + id)
-	for town: String in {"gray_valley": 33, "new_hope": 40, "dry_well": 31}:
-		check(Market.offers_for(town).offers.size() == {"gray_valley": 33, "new_hope": 40, "dry_well": 31}[town], "specified regional supply")
+	for town: String in {"gray_valley": 34, "new_hope": 41, "dry_well": 32}:
+		check(Market.offers_for(town).offers.size() == {"gray_valley": 34, "new_hope": 41, "dry_well": 32}[town], "specified regional supply plus AID-1 bandage")
 	check(ItemGear.validate({"tier": "T1", "quality": "MODIFIED", "properties": ["forged"], "unique_effect": ""}) != "", "unknown effect rejected")
 	# First-turn firearm advantage is consumed by the turn, not by firing.
 	for first_command: String in ["SHOOT", "DEFEND"]:

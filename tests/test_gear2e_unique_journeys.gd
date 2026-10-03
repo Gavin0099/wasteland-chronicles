@@ -62,7 +62,7 @@ func forged_retrieval(world: WorldState, method: String) -> void:
 		check(not WorldState.from_json_checked(JSON.stringify(wire)).success, "checked loader rejects forged retrieval " + fault)
 
 func run() -> void:
-	check(Registry.all_definitions().size() == 44, "44 authored identities")
+	check(Registry.all_definitions().size() == 45, "44 gear identities plus explicit AID-1 bandage")
 	for id: String in ["military_gas_mask", "engineer_precision_tools", "old_world_saber"]:
 		var definition: Dictionary = Registry.resolve(id).definition
 		check(definition.quality == "UNIQUE" and definition.properties == [] and definition.unique_effect != "", "unique fixed single effect " + id)

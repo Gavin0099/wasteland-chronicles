@@ -23,6 +23,7 @@ extends AcceptDialog
 # ==============================================================================
 
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
+const Field = preload("res://simulation/field_adventure.gd")
 const Presentation = preload("res://ui/character_presentation.gd")
 const SkillRow = preload("res://ui/components/skill_rank_row.gd")
 const ItemIcon = preload("res://ui/components/item_icon.gd")
@@ -73,6 +74,7 @@ var inventory_jump: Button
 var inventory_items: Array = []
 var inventory_state: Dictionary = {}
 var inventory_use_reason: String = ""
+var inventory_use_reasons: Dictionary = {}
 var inventory_requested: bool = false
 signal inventory_view_changed(state: Dictionary)
 
@@ -152,10 +154,11 @@ func item_row(parent: Node, id: String) -> HBoxContainer:
 	row.add_child(ItemIcon.new(id, 32))
 	return row
 
-func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable(), p_growth_action: Callable = Callable(), _p_rumor_action: Callable = Callable(), p_inventory_state: Dictionary = {}) -> void:
+func setup(character: Dictionary, player: Dictionary, p_equipment_action: Callable = Callable(), p_unequip_action: Callable = Callable(), p_item_use_action: Callable = Callable(), p_item_use_disabled_reason: String = "", p_action_notice: String = "", p_perk_action: Callable = Callable(), p_acquired_action: Callable = Callable(), p_growth_action: Callable = Callable(), _p_rumor_action: Callable = Callable(), p_inventory_state: Dictionary = {}, p_item_use_reasons: Dictionary = {}) -> void:
 	equipment_action = p_equipment_action
 	equipment_unequip_action = p_unequip_action
 	item_use_action = p_item_use_action
+	inventory_use_reasons = p_item_use_reasons.duplicate(true)
 	item_rumor_action = _p_rumor_action
 	perk_action = p_perk_action
 	acquired_action = p_acquired_action
@@ -424,16 +427,17 @@ func _refresh_inventory(user_changed: bool = true) -> void:
 		var inspect: Button = _detail_button(item_id)
 		actions.add_child(inspect)
 		detail_buttons[item_id] = inspect
-		if item_id == "first_aid_kit" and item_use_action.is_valid():
+		if Field.TREATMENT_HEALING.has(item_id) and item_use_action.is_valid():
+			var use_reason: String = String(inventory_use_reasons.get(item_id, inventory_use_reason))
 			var use_button := Button.new()
-			use_button.text = "使用 · 生命最多 +4" if inventory_use_reason.is_empty() else "急救包 · " + inventory_use_reason
+			use_button.text = "使用 · 生命最多 +%d" % int(Field.TREATMENT_HEALING[item_id]) if use_reason.is_empty() else _item_display_name(item_id) + " · " + use_reason
 			use_button.theme_type_variation = "PdaCommand"
 			use_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
-			use_button.disabled = not inventory_use_reason.is_empty()
-			use_button.tooltip_text = inventory_use_reason
-			use_button.pressed.connect(func(): item_use_action.call("first_aid_kit"))
+			use_button.disabled = not use_reason.is_empty()
+			use_button.tooltip_text = use_reason
+			use_button.pressed.connect(func(): item_use_action.call(item_id))
 			actions.add_child(use_button)
-			item_use_buttons["first_aid_kit"] = use_button
+			item_use_buttons[item_id] = use_button
 		if equipment_action.is_valid():
 			for slot in definition.equip_slots:
 				var equip_button := Button.new()
