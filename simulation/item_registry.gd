@@ -3,7 +3,9 @@ extends RefCounted
 
 const Source = preload("res://game_data/item_registry.gd")
 const Catalogue = preload("res://simulation/item_catalogue.gd")
-const ID_FIELDS := ["item_id", "display_name_zh", "category", "subtype", "base_weight", "base_value", "stackable", "max_stack", "condition", "max_condition", "equip_slots", "actions", "tags", "origin_tags", "loot_sources", "settlement_supply", "settlement_demand", "description_zh", "asset_id"]
+const Gear = preload("res://simulation/item_gear.gd")
+const GearProfiles = preload("res://game_data/item_gear_profiles.gd")
+const ID_FIELDS := ["item_id", "display_name_zh", "category", "subtype", "base_weight", "base_value", "stackable", "max_stack", "condition", "max_condition", "equip_slots", "actions", "tags", "origin_tags", "loot_sources", "settlement_supply", "settlement_demand", "description_zh", "asset_id", "tier", "quality", "properties", "unique_effect"]
 const CATEGORIES := ["WEAPON", "APPAREL", "CONTAINER", "TOOL", "CONSUMABLE"]
 const MARKETS := ["new_hope", "gray_valley", "dry_well"]
 const LEVELS := ["none", "low", "medium", "high"]
@@ -30,12 +32,22 @@ static func validate(raw: Variant) -> String:
 	var checked := _validate(raw)
 	return "" if checked.success else checked.error
 
+static func gear_profile(item_id: Variant) -> Dictionary:
+	# The field kit retains its existing ownership and equip authority.
+	if typeof(item_id) == TYPE_STRING and item_id == "crowbar":
+		return GearProfiles.resolve(item_id)
+	var result := resolve(item_id)
+	return Gear.project(result.definition) if result.success else {}
+
 static func _validate(raw: Variant) -> Dictionary:
 	if typeof(raw) != TYPE_DICTIONARY or raw.size() != ID_FIELDS.size():
 		return _failure("INVALID_ITEM_REGISTRY_FIELDS")
 	for field in ID_FIELDS:
 		if not raw.has(field):
 			return _failure("INVALID_ITEM_REGISTRY_FIELDS")
+	var gear_error := Gear.validate(Gear.project(raw))
+	if not gear_error.is_empty():
+		return _failure(gear_error)
 	if not _stable_id(raw.item_id) or typeof(raw.display_name_zh) != TYPE_STRING or raw.display_name_zh.strip_edges().is_empty():
 		return _failure("INVALID_ITEM_IDENTITY")
 	if typeof(raw.category) != TYPE_STRING or not raw.category in CATEGORIES or not _stable_id(raw.subtype):
