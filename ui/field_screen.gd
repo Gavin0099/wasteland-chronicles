@@ -358,6 +358,13 @@ func refresh() -> void:
 	stage.configure(Field.Enemies.resolve(_display_enemy()).art, weapon_item, is_road)
 	stage.configure_environment(environment_for(world))
 	stage.refresh(kit.equipped, state.enemy_hp > 0)
+	var outcome: String = String(world.event_log[state.receipt].payload.get("outcome", "")) if state.receipt >= 0 else ""
+	stage.present_outcome(outcome)
+	if outcome == "" and not state.battle.is_empty() and bool(Field.Enemies.action_for(_display_enemy(), int(state.battle.turn)).get("heavy", false)):
+		if stage.reduced_motion:
+			stage.enemy_actor.hold_pose("windup")
+		else:
+			stage.enemy_actor.play_pose("heavy_charge")
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
 	# PLAY-4: the name and the health bar come from whoever is actually there.
 	var current_foe := _display_enemy()
@@ -384,20 +391,20 @@ func refresh() -> void:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:
 		var receipt: Dictionary = world.event_log[state.receipt].payload
-		var outcome: String = ""
+		var result_text: String = ""
 		if is_road:
 			match String(receipt.outcome):
 				"VICTORY":
-					outcome = "戰鬥勝利！%s已被擊退。" % enemy_name
+					result_text = "戰鬥勝利！%s已被擊退。" % enemy_name
 					if receipt.has("attribution") and String(receipt.attribution) != "":
-						outcome += "\n" + String(receipt.attribution)
-					outcome += "\n你在現場收集了遺留的物資。\n\n你仍可以繼續行動。"
-				"DEFEAT": outcome = "你被%s擊倒，身受重傷（生命剩餘 1）。\n你的物資在混亂中被搶走或散落。\n\n你仍可以繼續行動。" % enemy_name
-				"ESCAPED": outcome = "你擺脫了%s，成功逃離了戰場。\n\n你仍可以繼續行動。" % enemy_name
-				_: outcome = "戰鬥已結束。"
+						result_text += "\n" + String(receipt.attribution)
+					result_text += "\n你在現場收集了遺留的物資。\n\n你仍可以繼續行動。"
+				"DEFEAT": result_text = "你被%s擊倒，身受重傷（生命剩餘 1）。\n你的物資在混亂中被搶走或散落。\n\n你仍可以繼續行動。" % enemy_name
+				"ESCAPED": result_text = "你擺脫了%s，成功逃離了戰場。\n\n你仍可以繼續行動。" % enemy_name
+				_: result_text = "戰鬥已結束。"
 		else:
-			outcome = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}.get(receipt.outcome, "")
-		log_label.text = "%s\n\n經過時間：0 天\n生命剩餘：%d / 12" % [outcome, kit.hp]
+			result_text = {"VICTORY": "野犬倒下了。補給棚的門仍鎖著。", "ESCAPED": "你退出了戰鬥，野犬仍守在這裡。", "DEAD": "你倒在了補給棚前。旅程到此結束。", "CACHE": "你用撬棍打開了補給棚。"}.get(receipt.outcome, "")
+		log_label.text = "%s\n\n經過時間：0 天\n生命剩餘：%d / 12" % [result_text, kit.hp]
 		if int(receipt.get("xp_gained", 0)) > 0:
 			log_label.text += "\n歷練：+%d XP" % int(receipt.xp_gained)
 		var finishing_practice: Dictionary = receipt.get("skill_practice", {})
@@ -420,6 +427,8 @@ func refresh() -> void:
 	elif not state.battle.is_empty():
 		var turn: int = state.battle.turn
 		status_label.text += "　／　第 %d 回合 · 你的行動" % turn
+		if bool(state.battle.get("prepared", false)):
+			status_label.text += " · 已蓄勢 +%d（不累加）" % (3 if preload("res://game_data/gear_property_profiles.gd").has(weapon_item, "heavy_head") else 2)
 		# PLAY-4: the telegraph is the whole reason bracing is a decision, so it
 		# comes from the enemy catalogue and states exactly what this turn's
 		# blow will be and what bracing against it would actually save.
@@ -445,8 +454,10 @@ func refresh() -> void:
 		add_action("ATTACK", "近身攻擊 · 傷害 %d" % Field.attack_damage(world))
 		var firearm := Field.firearm_for(world)
 		var ammo_id: String = String(firearm.get("ammo_item_id", "revolver_round"))
+		if not firearm.is_empty() and world.player.item_inventory.quantity(ammo_id) < int(firearm.get("ammo_spent", 1)):
+			stage.show_empty_weapon()
 		add_action("SHOOT", "射擊 · 傷害 %d · 彈藥 −%d（剩 %d）" % [Field.shot_damage(world), int(firearm.get("ammo_spent", 1)), world.player.item_inventory.quantity(ammo_id)])
-		add_action("DEFEND", "架勢防禦 · 減傷 %d，準備反擊" % Field.Enemies.brace_reduction(_display_enemy(), turn))
+		add_action("DEFEND", "架勢防禦 · 減傷 %d · 下次攻擊 +%d（不累加）" % [Field.Enemies.brace_reduction(_display_enemy(), turn), 3 if preload("res://game_data/gear_property_profiles.gd").has(weapon_item, "heavy_head") else 2])
 		add_action("FLEE", "逃跑 · 承受 %d 傷害%s" % [Field.flee_damage(world), "（鐵鎚笨重）" if Field.flee_damage(world) > 1 else ""])
 	else:
 		if is_road:
@@ -521,11 +532,17 @@ func perform(payload: Dictionary) -> void:
 				if event.type == "FIELD_TURN":
 					var ctx: Dictionary = event.payload.duplicate()
 					ctx["enemy_id"] = _display_enemy()
+					if world.field_state.receipt >= 0:
+						ctx["outcome"] = String(world.event_log[world.field_state.receipt].payload.get("outcome", ""))
 					await stage.animate_turn(payload.command, int(event.payload.dealt), int(event.payload.taken), ctx)
+					if not is_instance_valid(self) or not is_inside_tree():
+						return
 					break
 		error_label.hide()
 		world_changed.emit()
 	else:
+		if result.error == "NEED_AMMUNITION":
+			stage.show_empty_weapon()
 		error_label.text = reason_text(result.error)
 		error_label.show()
 	busy = false

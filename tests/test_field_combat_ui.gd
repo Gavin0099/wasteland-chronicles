@@ -45,7 +45,7 @@ func run() -> void:
 	ui.reduce_motion.button_pressed = true
 	await ui.perform(ui.payload_for("DEFEND"))
 	await ui.perform(ui.payload_for("ATTACK"))
-	check(main.world.field_state.receipt >= 0 and ui.buttons.has("CONFIRM") and not ui.stage.enemy.visible, "victory receipt and enemy removal")
+	check(main.world.field_state.receipt >= 0 and ui.buttons.has("CONFIRM") and ui.stage.enemy.visible and ui.stage.enemy_actor.pose == "fall", "victory receipt holds fallen enemy until confirmation")
 	check(ui.log_label.text.contains("歷練：+15 XP"), "first victory receipt displays earned XP")
 	check(ui.buttons.CONFIRM.text.contains("歷練 +15 XP"), "earned XP remains visible in the fixed action area")
 	if "--capture" in OS.get_cmdline_user_args():
@@ -59,6 +59,7 @@ func run() -> void:
 			check(root.get_texture().get_image().save_png(path) == OK, "real renderer captures victory XP receipt")
 			print("CAPTURED " + path)
 	await ui.perform(ui.payload_for("CONFIRM"))
+	check(not ui.stage.enemy.visible, "confirming victory removes the fallen enemy")
 	await ui.perform({"command": "OPEN"})
 	check(ui.gain_values.water.text == "水 +4" and ui.gain_values.food.text == "食物 +2", "actual cache receipt names and quantities visible alongside icons")
 	await ui.perform(ui.payload_for("CONFIRM"))
