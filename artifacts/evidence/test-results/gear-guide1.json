@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "C:/Users/daish/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/test_gear_guide1.gd",
+  "exit_code": 0,
+  "started_at": "2026-10-03T11:20:00Z",
+  "finished_at": "2026-10-03T11:20:04Z",
+  "runner": "governance_tools.test_evidence_receipt_writer",
+  "linked_commit": "d01cd62cef51eb76de96d4aa2796f2b8c860f610",
+  "output_artifacts": [
+    "artifacts/evidence/test-results/gear-guide1.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}

@@ -16,7 +16,7 @@
 ## Active Sprint
 
 - [x] PACK-1 implementation — inventory category/search/sort and retained action context, with 31 focused assertions, 115 passing suites, ten OpenGL captures and independent review without P0/P1. Current-head GitHub review/actual CI/merge remain required. No new item or world authority. See docs/item-experience-slices.md.
-- [ ] GEAR-GUIDE-1 — item sources/use guidance and mask-to-engineer pursuit, after PACK-1 merge.
+- [x] GEAR-GUIDE-1 implementation — authored item sources/use guidance and real rumor-page entry for mask-to-engineer pursuit. 25 focused assertions, 116 passing suites, twelve actual captures and independent review without P0/P1; current-head remote gates/merge required. PACK-1 delivered PR #61 (608c443), exact-head review/actual CI passed; nonblocking P2 manual-scroll return position recorded in that PR for follow-up. Guide P2 completed-mask hint recorded in docs/gear-guide1.md.
 - [ ] GEAR-BALANCE-1 — bounded combat-knife tradeoff and actual core-weapon cost checks, after guide merge.
 - [ ] AID-1 — one lighter bandage treatment alternative via existing authority, after balance merge. Human 30–45 minute acceptance remains open; new owner authorization prioritizes these four feature slices.
 

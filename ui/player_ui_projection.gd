@@ -296,7 +296,7 @@ static func _project_encounter_result(world: WorldState) -> Dictionary:
 				var repair: Dictionary = result.get("equipment_repair", {})
 				result["place_note"] = "抽水泵已修復：故障 → 運轉。%s每日產水 %d → %d。期限內回委託鎮領酬。" % [_settlement_name(String(repair.get("settlement_id", ""))), int(repair.get("production_before", 0)), int(repair.get("production_after", 0))]
 			"RECOVER_GAS_MASK":
-				result["place_note"] = "軍規防毒面具已放入背包；帶上面具與2廢料，改走荒野路第一天可進污染工坊。"
+				result["place_note"] = "軍規防毒面具已放入背包；到傳聞頁改追「污染工坊的工程師」，再帶面具與2廢料走乾井—新希望荒野路第一天，才會停留污染工坊。"
 			"ENTER_TOXIC_WORKSHOP":
 				result["place_note"] = "工程師精密工具已放入背包，面具保留；機械2、3廢料、2天可精修委託井泵，產水+2/日。"
 			"MARK_A", "MARK_B":

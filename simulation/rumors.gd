@@ -115,7 +115,7 @@ static func progress(world, rumor_id: String) -> Dictionary:
 	match rumor_id:
 		"rumor:gas_mask":
 			if Unique.taken(world, "RECOVER_GAS_MASK"):
-				return {"done": true, "next": "面具已取走；攜帶它與2廢料，可進荒野路第一天的污染工坊。" if world.player.item_inventory.contains("military_gas_mask") else "面具已取走，目前未持有；進污染工坊仍需帶上它。"}
+				return {"done": true, "next": "面具已取走；在傳聞頁改追「污染工坊的工程師」，再帶它與2廢料走乾井—新希望荒野路第一天，才會停留污染工坊。" if world.player.item_inventory.contains("military_gas_mask") else "面具已取走，目前未持有；進污染工坊仍需帶上它，並改追工程師傳聞。"}
 			if Party.skill_rank(world, "MECHANICS") < 2:
 				return {"done": false, "next": "需機械2；灰谷老焊工能教，阿扳同行也能幫忙。仍需實體工具2、廢料2。"}
 			if Gear.tool_grade(world.player, "MECHANICS") < 2:

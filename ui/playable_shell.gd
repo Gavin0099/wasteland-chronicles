@@ -2816,7 +2816,12 @@ func _show_character(action_notice: String = "") -> void:
 	add_child(dialog)
 	var sheet_player: Dictionary = PlayerUIProjection.project(world).player.duplicate()
 	sheet_player["party"] = current_projection.get("party", {})
-	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point, Callable(), character_inventory_view)
+	var open_item_rumors: Callable = func():
+		if is_instance_valid(dialog.item_detail): dialog.item_detail.hide()
+		dialog.hide()
+		dialog.queue_free()
+		call_deferred("_show_rumors")
+	dialog.setup(presentation.project(world), sheet_player, equip_action, unequip_action, use_action, treat_reason, action_notice, choose_perk, accept_acquired, spend_point, open_item_rumors, character_inventory_view)
 	dialog.inventory_view_changed.connect(func(state: Dictionary): character_inventory_view = state.duplicate(true))
 	# Laid out like an RPG character window, so it needs the room of one.
 	var viewport_size := get_viewport_rect().size
@@ -2827,6 +2832,7 @@ func _show_rumors() -> void:
 	if world == null or world.player == null:
 		return
 	if is_instance_valid(rumor_window):
+		rumor_window.hide()
 		rumor_window.queue_free()
 	rumor_window = preload("res://ui/components/rumor_window.gd").new()
 	add_child(rumor_window)
