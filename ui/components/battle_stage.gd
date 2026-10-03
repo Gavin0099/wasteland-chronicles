@@ -393,6 +393,9 @@ var stage_canvas: Control
 
 var shed_background: TextureRect
 var road_background: TextureRect
+var wilderness_background: TextureRect
+var camp_background: TextureRect
+var environment_id := "shed"
 var road_fallback: PlaceholderBackdrop
 var actor_layer: Node2D
 var fx_layer: Control
@@ -476,6 +479,8 @@ func _init() -> void:
 	shed_background.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
 	shed_background.visible = true
 	stage_canvas.add_child(shed_background)
+	wilderness_background = _environment_texture("res://ui/assets/combat/wilderness.png")
+	camp_background = _environment_texture("res://ui/assets/combat/raider-camp.png")
 
 	# 3. Actor Layer with native Y-sorting
 	actor_layer = Node2D.new()
@@ -532,8 +537,9 @@ func arrange() -> void:
 	# Hero ground position: (cw * 0.35, ch * 0.76)
 	# Enemy ground position: (cw * 0.64, ch * 0.68)
 	# Vertical delta is 8% of canvas height (intimate duel band on open road).
-	hero_origin = Vector2(cw * 0.35, ch * 0.76)
-	enemy_origin = Vector2(cw * 0.64, ch * 0.68)
+	# Both authored feet rest on the same ground line; left/right never swap.
+	hero_origin = Vector2(cw * 0.28, ch * 0.92)
+	enemy_origin = Vector2(cw * 0.72, ch * 0.92)
 
 	hero_actor.position = hero_origin
 	enemy_actor.position = enemy_origin
@@ -575,6 +581,27 @@ func _update_enemy_visuals(canvas_h: float) -> void:
 	if placeholder_note != null:
 		placeholder_note.visible = showing_placeholder
 
+func _environment_texture(path: String) -> TextureRect:
+	var backdrop := TextureRect.new()
+	backdrop.texture = load_texture_safe(path)
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	backdrop.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	backdrop.hide()
+	stage_canvas.add_child(backdrop)
+	return backdrop
+
+func configure_environment(id: String) -> bool:
+	if id not in ["shed", "highway", "wilderness", "camp"]:
+		return false
+	environment_id = id
+	shed_background.visible = id == "shed"
+	road_background.visible = id == "highway" and road_background.texture != null
+	wilderness_background.visible = id == "wilderness"
+	camp_background.visible = id == "camp"
+	road_fallback.visible = id == "highway" and road_background.texture == null
+	return true
+
 func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> bool:
 	# FAIL-CLOSED: Unregistered enemy IDs are rejected
 	if not enemy_id in KNOWN_ENEMIES:
@@ -585,14 +612,7 @@ func configure(enemy_id: String, weapon_item_id: String, is_road: bool) -> bool:
 	current_weapon_id = weapon_item_id
 	is_road_stage = is_road
 
-	# Background switching
-	if shed_background != null:
-		shed_background.visible = not is_road
-	if road_background != null:
-		var has_road_tex := road_background.texture != null
-		road_background.visible = is_road and has_road_tex
-		if road_fallback != null:
-			road_fallback.visible = is_road and not has_road_tex
+	configure_environment("highway" if is_road else "shed")
 
 	# Weapon display
 	var art: Texture2D = null

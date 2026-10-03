@@ -29,6 +29,8 @@ var reduce_motion: CheckBox
 var battle_map_label: Label
 # The window around battle_map_label: "這一回合" during a turn, "對手" otherwise.
 var turn_window: Control
+var player_card: Control
+var enemy_card: Control
 var player_bar: ProgressBar
 var enemy_bar: ProgressBar
 var intent_label: Label
@@ -45,6 +47,8 @@ func _make_bar(parent: Node, fill: Color) -> ProgressBar:
 	var caption := Label.new()
 	caption.add_theme_font_size_override("font_size", Tokens.BODY)
 	caption.add_theme_color_override("font_color", Tokens.TEXT)
+	caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	caption.size_flags_horizontal = SIZE_EXPAND_FILL
 	row.add_child(caption)
 	var bar := ProgressBar.new()
 	bar.custom_minimum_size = Vector2(0, 14)
@@ -148,6 +152,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	_install_desktop_layout(root, heading, body, stage, status_label, log_label, receipt_items, actions_box, error_label, note_label)
 	refresh()
 
+# The arena owns both combatant cards; commands stay outside the history scroll.
 func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_body: HBoxContainer, battle_stage: Control, status: Label, log: Label, receipts: VBoxContainer, actions: GridContainer, errors: Label, note: Label) -> void:
 	var backdrop := DesktopBackdrop.new()
 	backdrop.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
@@ -167,34 +172,40 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	root.move_child(toolbar, 0)
 	heading.reparent(toolbar)
 	heading_label.add_theme_color_override("font_color", Tokens.TEXT)
-	var columns := HBoxContainer.new()
-	columns.size_flags_vertical = SIZE_EXPAND_FILL
-	columns.add_theme_constant_override("separation", 12)
-	root.add_child(columns)
-	root.move_child(columns, 1)
-	var main := VBoxContainer.new()
-	main.size_flags_horizontal = SIZE_EXPAND_FILL
-	main.size_flags_vertical = SIZE_EXPAND_FILL
-	main.size_flags_stretch_ratio = 1.8
-	main.add_theme_constant_override("separation", 8)
-	columns.add_child(main)
-	var side := VBoxContainer.new()
-	side.size_flags_horizontal = SIZE_EXPAND_FILL
-	side.size_flags_vertical = SIZE_EXPAND_FILL
-	side.size_flags_stretch_ratio = 0.9
-	side.add_theme_constant_override("separation", 8)
-	columns.add_child(side)
-	var scene_window := DesktopWindow.new("戰鬥場景")
-	scene_window.size_flags_vertical = SIZE_EXPAND_FILL
-	main.add_child(scene_window)
-	battle_stage.reparent(scene_window.body)
+	var arena := Control.new()
+	arena.custom_minimum_size.y = 200
+	arena.size_flags_vertical = SIZE_EXPAND_FILL
+	root.add_child(arena)
+	root.move_child(arena, 1)
+	battle_stage.reparent(arena)
+	battle_stage.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	battle_stage.custom_minimum_size.y = 200
+	# A wide arena fits the two cards and grounded fighters above bottom commands.
+	battle_stage.aspect_frame.ratio = 3.0
+	player_card = _combatant_card(battle_stage.stage_canvas, false)
+	player_bar = _make_bar(player_card.body, Tokens.AMBER)
+	status.reparent(player_card.body)
+	status.add_theme_font_size_override("font_size", Tokens.BODY)
+	enemy_card = _combatant_card(battle_stage.stage_canvas, true)
+	turn_window = enemy_card
+	enemy_bar = _make_bar(enemy_card.body, Tokens.CRITICAL)
+	intent_label = label_in(enemy_card.body, "", "PdaSection")
+	intent_detail_label = label_in(enemy_card.body, "", "PdaMuted")
+	battle_map_label = label_in(enemy_card.body, "", "PdaMuted")
+	# The narrated posture is redundant during a turn: actual action and numbers
+	# remain visible directly under the opponent's HP, rather than in history.
+	var command_window := DesktopWindow.new("行動指令")
+	root.add_child(command_window)
+	actions.reparent(command_window.body)
+	actions.columns = 2
 	var message_window := DesktopWindow.new("戰鬥訊息")
-	message_window.custom_minimum_size.y = 112
-	main.add_child(message_window)
+	message_window.custom_minimum_size.y = 72
+	root.add_child(message_window)
 	growth_notice_label = label_in(message_window.body, "", "PdaSection")
-	growth_notice_label.visible = false
+	growth_notice_label.hide()
 	var message_scroll := ScrollContainer.new()
 	message_scroll.size_flags_vertical = SIZE_EXPAND_FILL
+	message_scroll.custom_minimum_size.y = 26
 	message_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	message_window.body.add_child(message_scroll)
 	var message_lines := VBoxContainer.new()
@@ -203,43 +214,39 @@ func _install_desktop_layout(root: VBoxContainer, heading: HBoxContainer, old_bo
 	log.reparent(message_lines)
 	receipts.reparent(message_lines)
 	errors.reparent(message_window.body)
-	note.reparent(message_window.body)
-	var person_window := DesktopWindow.new("人物與對手")
-	side.add_child(person_window)
-	# Numbers alone make the player do arithmetic before they can feel how bad
-	# it is. The bar carries the feeling; the number beside it stays authoritative,
-	# so nothing essential is encoded in colour alone.
-	player_bar = _make_bar(person_window.body, Tokens.AMBER)
-	enemy_bar = _make_bar(person_window.body, Tokens.CRITICAL)
-	# COMBAT-READ: the enemy's next move and its damage sit directly under its
-	# health bar, as numbers, because that is the fact this turn is decided on.
-	intent_label = label_in(person_window.body, "", "PdaSection")
-	intent_label.add_theme_font_size_override("font_size", Tokens.SECTION)
-	intent_label.visible = false
-	intent_detail_label = label_in(person_window.body, "")
-	intent_detail_label.add_theme_font_size_override("font_size", Tokens.SMALL)
-	intent_detail_label.add_theme_color_override("font_color", Tokens.SECONDARY)
-	intent_detail_label.visible = false
-	status.reparent(person_window.body)
-	var tools_window := DesktopWindow.new("行動指令")
-	side.add_child(tools_window)
-	actions.reparent(tools_window.body)
-	actions.columns = 1
-	# The side column used to end in a panel that said "you ↔ the dog" and then
-	# left most of a screen-height empty, while the one fact that decides this
-	# turn - what is about to hit you and how hard - sat as body text at the
-	# bottom of a scrolling log. They have swapped places: the incoming blow is
-	# now directly above the commands, which is the order the player reads in.
-	var map_window := DesktopWindow.new("這一回合")
-	turn_window = map_window
-	side.add_child(map_window)
-	side.move_child(map_window, side.get_child_count() - 2)
-	battle_map_label = Label.new()
-	battle_map_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	battle_map_label.size_flags_horizontal = SIZE_EXPAND_FILL
-	battle_map_label.add_theme_font_size_override("font_size", Tokens.BODY)
-	map_window.body.add_child(battle_map_label)
+	note.reparent(message_lines)
 	old_body.queue_free()
+
+func _combatant_card(canvas: Control, on_right: bool) -> Control:
+	var card := DesktopWindow.new("對手" if on_right else "你的角色")
+	# Identity is already the HP caption. Avoid a duplicate header consuming
+	# the headroom needed by the tallest fighter at 648p.
+	card.title_bar.hide()
+	canvas.add_child(card)
+	card.anchor_left = 0.55 if on_right else 0.04
+	card.anchor_right = 0.96 if on_right else 0.45
+	card.offset_top = 8
+	card.grow_vertical = GROW_DIRECTION_END
+	return card
+
+static func environment_for(current_world: WorldState) -> String:
+	var context: Dictionary = current_world.field_state.battle
+	if context.is_empty() and current_world.field_state.receipt >= 0:
+		context = current_world.event_log[current_world.field_state.receipt].payload
+	if String(context.get("place_id", "")) == "place:hammer_camp":
+		return "camp"
+	if String(context.get("route_type", "")) == "WILDERNESS":
+		return "wilderness"
+	return "highway" if String(context.get("source", "field")) == "road" else "shed"
+
+# Once battle state is cleared, the committed result still names the opponent.
+func _display_enemy() -> String:
+	var state := world.field_state
+	if state.battle.is_empty() and state.receipt >= 0 and state.receipt < world.event_log.size():
+		var id: String = String(world.event_log[state.receipt].payload.get("enemy", ""))
+		if Field.Enemies.exists(id):
+			return id
+	return Field.battle_enemy(state)
 
 func close() -> void:
 	if busy or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
@@ -271,7 +278,7 @@ func add_action(command: String, title: String) -> void:
 	var error := engine.authorize_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, payload))
 	button.disabled = error != ""
 	if error != "":
-		button.text += " · " + reason_text(error)
+		button.text += "\n" + reason_text(error)
 		button.tooltip_text = reason_text(error)
 	button.pressed.connect(perform.bind(payload))
 	actions_box.add_child(button)
@@ -305,6 +312,7 @@ func refresh() -> void:
 		child.queue_free()
 	buttons.clear()
 	var state := world.field_state
+	actions_box.columns = 3 if state.battle.is_empty() and state.receipt < 0 else 2
 	var kit := world.player.field_kit
 	var is_road: bool = false
 	if not state.battle.is_empty():
@@ -313,7 +321,7 @@ func refresh() -> void:
 		is_road = String(world.event_log[state.receipt].payload.get("source", "field")) == "road"
 
 	if heading_label != null:
-		heading_label.text = ("荒原道路 / %s" % Field.Enemies.display_name(Field.battle_enemy(state))) if is_road else "灰谷近郊 / 舊補給棚"
+		heading_label.text = "%s / %s" % [{"highway": "廢棄公路", "wilderness": "荒野路", "camp": "鐵鎚幫營地", "shed": "灰谷近郊"}[environment_for(world)], Field.Enemies.display_name(_display_enemy())]
 	close_button.text = "返回旅途" if is_road else "返回地圖"
 	close_button.disabled = not state.battle.is_empty() or state.receipt >= 0
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
@@ -328,17 +336,19 @@ func refresh() -> void:
 				weapon_item = main_hand
 	# PLAY-1: the stage is told what this battle actually is, instead of always
 	# drawing a dog in a supply shed holding a crowbar.
-	stage.configure(Field.Enemies.resolve(Field.battle_enemy(state)).art, weapon_item, is_road)
+	stage.configure(Field.Enemies.resolve(_display_enemy()).art, weapon_item, is_road)
+	stage.configure_environment(environment_for(world))
 	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var alive := world.npc_life_state_registry.get_life_state(world.player.npc_id).is_alive()
 	# PLAY-4: the name and the health bar come from whoever is actually there.
-	var current_foe := Field.battle_enemy(state)
+	var current_foe := _display_enemy()
 	var enemy_name := Field.Enemies.display_name(current_foe)
 	if growth_notice_label != null:
 		growth_notice_label.visible = false
-	_set_bar(player_bar, "你", int(kit.hp), Field.MAX_HP)
+	_set_bar(player_bar, "你 · " + String(world.npc_registry.get_npc(world.player.npc_id).name), int(kit.hp), Field.MAX_HP)
 	_set_bar(enemy_bar, enemy_name, int(state.enemy_hp), Field.Enemies.max_hp(current_foe))
 	_show_intent(Field.intent_preview(world))
+	battle_map_label.visible = state.battle.is_empty()
 	if battle_map_label != null:
 		# Overwritten below when a turn is actually waiting on the player. This
 		# panel is about the decision in front of you, not a standing diagram.
@@ -350,7 +360,7 @@ func refresh() -> void:
 			turn_window.title_label.text = "對手"
 	# Both health values are on the bars above now; repeating them here was the
 	# same fact three times in one panel.
-	status_label.text = "武器　%s　·　負重 %d / %d" % [weapon, world.player.get_total_inventory_load(), world.player.get_effective_capacity()]
+	status_label.text = "武器　%s" % weapon
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:
@@ -394,7 +404,7 @@ func refresh() -> void:
 		# PLAY-4: the telegraph is the whole reason bracing is a decision, so it
 		# comes from the enemy catalogue and states exactly what this turn's
 		# blow will be and what bracing against it would actually save.
-		var foe := Field.battle_enemy(state)
+		var foe := _display_enemy()
 		var incoming: Dictionary = Field.Enemies.action_for(foe, turn)
 		# The single fact that decides this turn sits beside the commands, and
 		# takes the danger colour only when it really is one.
@@ -415,7 +425,7 @@ func refresh() -> void:
 					log_label.text += " · " + practice_text(practice)
 		add_action("ATTACK", "近身攻擊 · 傷害 %d" % Field.attack_damage(world))
 		add_action("SHOOT", "射擊 · 傷害 %d · 彈藥 −1（剩 %d）" % [Field.shot_damage(world), world.player.item_inventory.quantity("revolver_round")])
-		add_action("DEFEND", "架勢防禦 · 減傷 %d，準備反擊" % Field.Enemies.brace_reduction(Field.battle_enemy(state), turn))
+		add_action("DEFEND", "架勢防禦 · 減傷 %d，準備反擊" % Field.Enemies.brace_reduction(_display_enemy(), turn))
 		add_action("FLEE", "逃跑 · 承受 1 傷害")
 	else:
 		if is_road:
@@ -488,7 +498,7 @@ func perform(payload: Dictionary) -> void:
 				var event := world.event_log[i]
 				if event.type == "FIELD_TURN":
 					var ctx: Dictionary = event.payload.duplicate()
-					ctx["enemy_id"] = Field.battle_enemy(world.field_state)
+					ctx["enemy_id"] = _display_enemy()
 					await stage.animate_turn(payload.command, int(event.payload.dealt), int(event.payload.taken), ctx)
 					break
 		error_label.hide()

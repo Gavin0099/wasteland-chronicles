@@ -52,11 +52,9 @@ func run() -> void:
 	check(stage.enemy_actor.get_parent() == stage.actor_layer, "G3: enemy_actor is direct child of actor_layer")
 	check(stage.hero_actor.z_index == stage.enemy_actor.z_index, "G3: actors share same z_index for valid Y-sorting")
 
-	# Normalized duel band check:
-	# Hero Y should be deeper than Enemy Y by approx 7% of stage height
-	var y_delta: float = stage.hero_origin.y - stage.enemy_origin.y
-	var y_ratio: float = y_delta / stage.size.y
-	check(y_ratio >= 0.05 and y_ratio <= 0.12, "G3: duel band vertical offset is normalized (7%%-11%% of height, got %.3f)" % y_ratio)
+	# COMBAT-VIS-1 owner contract: both feet share one ground line.
+	check(is_equal_approx(stage.hero_origin.y, stage.enemy_origin.y), "G3: shared ground line")
+	check(stage.hero_origin.x < stage.enemy_origin.x, "G3: player stays on left")
 
 	# ---- G4 Unified Tween Motion ----
 	# Run a turn animation with reduced_motion = false and verify coordinates
