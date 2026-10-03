@@ -208,6 +208,10 @@ class ActorNode extends Node2D:
 	var actor_id := ""
 	var rest_foot := Vector2(0.5, 1.0)
 	var rest_hand := Vector2(0.75, 0.40)
+	var idle_breath_amount: float = 0.0:
+		set(value):
+			idle_breath_amount = clampf(value, 0.0, 1.0)
+			_apply_pose()
 	var pose := "rest":
 		set(value):
 			pose = value
@@ -362,7 +366,16 @@ class ActorNode extends Node2D:
 					animation.track_insert_key(track, 0.0, "charge")
 					animation.track_insert_key(track, 0.25, "windup")
 		anim_player.add_animation_library("", lib)
-		_add_pose_clip(lib, "idle", ["rest", "idle_breath", "rest"], [0.0, 0.75, 1.5], 1.5, true)
+		# Separate generated poses do not preserve the resting silhouette/camera.
+		# Breathe with the original cutout around its planted foot instead.
+		_add_pose_clip(lib, "idle", ["rest"], [0.0], 1.5, true)
+		var idle: Animation = lib.get_animation("idle")
+		var breath_track: int = idle.add_track(Animation.TYPE_VALUE)
+		idle.track_set_path(breath_track, NodePath(".:idle_breath_amount"))
+		idle.track_set_interpolation_type(breath_track, Animation.INTERPOLATION_CUBIC)
+		idle.track_insert_key(breath_track, 0.0, 0.0)
+		idle.track_insert_key(breath_track, 0.75, 1.0)
+		idle.track_insert_key(breath_track, 1.5, 0.0)
 		_add_pose_clip(lib, "approach", ["step_a", "step_b"], [0.0, 0.09], 0.18, true)
 		_add_pose_clip(lib, "retreat", ["retreat_a", "retreat_b"], [0.0, 0.10], 0.20, true)
 
@@ -386,6 +399,8 @@ class ActorNode extends Node2D:
 		hand_uv = frame.get("hand", rest_hand)
 		var source_h: float = float(frame.get("reference_height", texture_ref.get_height()))
 		body.scale = Vector2.ONE * target_height / maxf(1.0, source_h)
+		if pose == "rest":
+			body.scale.y *= 1.0 + idle_breath_amount * 0.006
 		body.offset = -body.texture.get_size() * foot_anchor_uv
 		fit_weapon()
 		if weapon != null:
@@ -397,6 +412,7 @@ class ActorNode extends Node2D:
 
 	func hold_pose(value: String) -> void:
 		anim_player.stop()
+		idle_breath_amount = 0.0
 		body.rotation = 0.0
 		body.modulate = Color.WHITE
 		if weapon != null:
@@ -404,6 +420,7 @@ class ActorNode extends Node2D:
 		pose = value
 
 	func play_pose(clip: String, speed: float = 1.0) -> void:
+		idle_breath_amount = 0.0
 		anim_player.play(clip, -1, speed)
 		anim_player.advance(0.0) # Sample the authored first frame immediately.
 

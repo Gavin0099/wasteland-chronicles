@@ -64,7 +64,7 @@ func run() -> void:
 	var ui: Control = screen(world)
 	await process_frame
 	ui.stage.hero_actor.anim_player.advance(0.8)
-	check(ui.stage.hero_actor.pose == "idle_breath", "waiting hero plays an actual breathing frame")
+	check(ui.stage.hero_actor.body.texture == ui.stage.hero_actor.texture_ref and ui.stage.hero_actor.idle_breath_amount > 0.0, "waiting hero breathes without changing its resting identity")
 	check(world.to_canonical_json() == before, "idle is read-only")
 	ui.reduce_motion.button_pressed = true
 	check(not ui.stage.hero_actor.anim_player.is_playing() and ui.stage.hero_actor.pose == "rest", "reduced motion stops idle immediately")
