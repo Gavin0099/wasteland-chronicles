@@ -7,6 +7,8 @@ signal closed
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Dungeon = preload("res://simulation/dungeon_exploration.gd")
 const RoomView = preload("res://ui/components/dungeon_room_view.gd")
+const MapView = preload("res://ui/components/dungeon_map_view.gd")
+const Layout = preload("res://ui/components/dungeon_room_layout.gd")
 var world: WorldState
 var engine: SimulationEngine
 var view: Control
@@ -15,6 +17,9 @@ var message: Label
 var interact_button: Button
 var guide_button: Button
 var reduce_motion: CheckButton
+var route_choice: OptionButton
+var map_button: Button
+var map_dialog: AcceptDialog
 
 func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	world = p_world
@@ -41,6 +46,12 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	reduce_motion.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	reduce_motion.toggled.connect(func(value: bool) -> void: view.reduced_motion = value)
 	toolbar.add_child(reduce_motion)
+	map_button = Button.new()
+	map_button.text = "探索地圖 · M"
+	map_button.theme_type_variation = "PdaCommand"
+	map_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	map_button.pressed.connect(_show_map)
+	toolbar.add_child(map_button)
 	var save_button: Button = Button.new()
 	save_button.text = "存讀檔"
 	save_button.theme_type_variation = "PdaCommand"
@@ -57,6 +68,11 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	column.add_child(message)
 	var commands: HBoxContainer = HBoxContainer.new()
 	column.add_child(commands)
+	route_choice = OptionButton.new()
+	route_choice.theme_type_variation = "PdaCommand"
+	route_choice.custom_minimum_size = Vector2(220, Tokens.COMMAND_HEIGHT)
+	commands.add_child(route_choice)
+	route_choice.item_selected.connect(func(_index: int) -> void: _refresh_guide_label())
 	guide_button = Button.new()
 	guide_button.theme_type_variation = "PdaCommand"
 	guide_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
@@ -70,7 +86,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	interact_button.pressed.connect(interact)
 	commands.add_child(interact_button)
 	var instructions: Label = Label.new()
-	instructions.text = "點地面移動／WASD／方向鍵　·　靠近出口後按 E 或 Enter　·　Esc 開啟存讀檔"
+	instructions.text = "點地面／WASD／方向鍵　·　靠近門後 E／Enter　·　M 探索地圖　·　Esc 存讀檔"
 	instructions.theme_type_variation = "PdaMuted"
 	column.add_child(instructions)
 	refresh_room()
@@ -80,9 +96,14 @@ func refresh_room() -> void:
 	if not checkpoint.active:
 		return
 	title_label.text = "封存地下水廠 / " + String(Dungeon.ROOMS[checkpoint.room_id])
-	guide_button.text = "走向設備前廳" if checkpoint.room_id == "entrance" else "走回入口"
-	message.text = "樓梯仍通往灰谷；穿過北側門可查看設備前廳。" if checkpoint.room_id == "entrance" else "廢棄水泵占據兩側。返回入口的樓梯在南側。"
 	view.setup(checkpoint)
+	route_choice.clear()
+	for door: Dictionary in view.doors:
+		route_choice.add_item(door.label)
+	_refresh_guide_label()
+	message.text = Layout.HINTS[checkpoint.room_id]
+	if checkpoint.shortcut_open and checkpoint.room_id in ["control", "entrance"]:
+		message.text = "返回門已開啟，入口與控制室可以直接往返。"
 	view.grab_focus()
 	refresh_interaction()
 
@@ -94,7 +115,42 @@ func refresh_interaction() -> void:
 	interact_button.text = "靠近出口以互動" if door.is_empty() else door.label + " · E / Enter"
 
 func _guide() -> void:
-	view.walk_to(Vector2(500, 132) if view.room_id == "entrance" else Vector2(500, 395))
+	if route_choice.selected >= 0:
+		view.guide_to(view.doors[route_choice.selected])
+
+func _refresh_guide_label() -> void:
+	guide_button.text = "走向選取的門"
+	guide_button.tooltip_text = "經過房間中間的通道，走到「%s」附近。" % route_choice.get_item_text(route_choice.selected) if route_choice.selected >= 0 else ""
+
+func _show_map() -> void:
+	if not view.enabled or is_instance_valid(map_dialog): return
+	map_dialog = AcceptDialog.new()
+	map_dialog.theme_type_variation = "PdaMapDialog"
+	map_dialog.title = "封存地下水廠 · 探索地圖"
+	map_dialog.ok_button_text = "返回探索"
+	map_dialog.wrap_controls = true
+	add_child(map_dialog)
+	var column: VBoxContainer = VBoxContainer.new()
+	column.add_theme_constant_override("separation", Tokens.GAP)
+	map_dialog.add_child(column)
+	var legend: Label = Label.new()
+	legend.text = "● 目前房間　·　門外尚未走過：未探索　·　橙色連線：已開啟的返回捷徑"
+	legend.theme_type_variation = "PdaMuted"
+	column.add_child(legend)
+	var map_view: Control = MapView.new()
+	column.add_child(map_view)
+	map_view.setup(Dungeon.state(world))
+	map_dialog.confirmed.connect(_close_map)
+	map_dialog.canceled.connect(_close_map)
+	set_paused(true)
+	map_dialog.popup_centered(Vector2i(720, 440))
+	map_dialog.get_ok_button().grab_focus()
+
+func _close_map() -> void:
+	map_dialog.hide()
+	map_dialog.queue_free()
+	map_dialog = null
+	set_paused(false)
 
 func interact() -> void:
 	if not view.enabled:
@@ -121,7 +177,10 @@ func interact() -> void:
 func set_paused(value: bool) -> void:
 	view.enabled = not value
 	view.target_position = Vector2(-1, -1)
+	view.guide_path.clear()
 	guide_button.disabled = value
+	route_choice.disabled = value
+	map_button.disabled = value
 	refresh_interaction()
 	if not value and view.is_inside_tree():
 		view.grab_focus()
@@ -131,6 +190,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if event.keycode == KEY_ESCAPE:
 		save_menu_requested.emit()
+		get_viewport().set_input_as_handled()
+	elif event.keycode == KEY_M:
+		_show_map()
 		get_viewport().set_input_as_handled()
 	elif event.keycode in [KEY_E, KEY_ENTER] and view.has_focus():
 		interact()

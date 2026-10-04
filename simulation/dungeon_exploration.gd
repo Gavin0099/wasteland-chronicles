@@ -1,13 +1,19 @@
 extends RefCounted
 
-# DUN-1: the ledger owns room checkpoints. Walking inside a room is presentation.
+# The ledger owns room checkpoints, discovery and the return shortcut.
 const SITE: String = "dungeon:sealed_waterworks"
 const HOME: StringName = &"settlement:gray_valley"
-const ROOMS: Dictionary = {"entrance": "水廠入口", "foyer": "設備前廳"}
-const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT"]
+const ROOMS: Dictionary = {"entrance": "水廠入口", "foyer": "設備前廳", "guard": "警衛區", "maintenance": "維修廊", "pump": "泵房", "control": "控制室", "parts_store": "零件庫", "polluted_store": "污染庫房"}
+const PASSAGES: Dictionary = {
+	"entrance": ["foyer"], "foyer": ["entrance", "guard", "maintenance", "parts_store"],
+	"guard": ["foyer", "pump"], "maintenance": ["foyer", "pump"],
+	"pump": ["guard", "maintenance", "control", "polluted_store"],
+	"control": ["pump"], "parts_store": ["foyer"], "polluted_store": ["pump"]
+}
+const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT", "DUNGEON_SHORTCUT_OPENED"]
 
 static func state(world: WorldState) -> Dictionary:
-	var result: Dictionary = {"active": false, "room_id": "", "from_room_id": ""}
+	var result: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "shortcut_open": false}
 	if world == null or world.player == null:
 		return result
 	for event: EventRecord in world.event_log:
@@ -15,16 +21,26 @@ static func state(world: WorldState) -> Dictionary:
 			continue
 		match event.type:
 			"DUNGEON_ENTERED":
-				result = {"active": true, "room_id": "entrance", "from_room_id": "outside"}
+				result.active = true
+				result.room_id = "entrance"
+				result.from_room_id = "outside"
 			"DUNGEON_ROOM_ENTERED":
-				result = {"active": true, "room_id": event.payload.get("room_id", ""), "from_room_id": event.payload.get("from_room_id", "")}
+				result.room_id = event.payload.get("room_id", "")
+				result.from_room_id = event.payload.get("from_room_id", "")
 			"DUNGEON_LEFT":
-				result = {"active": false, "room_id": "", "from_room_id": ""}
+				result.active = false
+				result.room_id = ""
+				result.from_room_id = ""
+			"DUNGEON_SHORTCUT_OPENED":
+				result.shortcut_open = true
+		if result.active and result.room_id not in result.visited:
+			result.visited.append(result.room_id)
 	return result
 
 static func validate_world(world: WorldState) -> String:
 	var room: String = ""
 	var last_day: int = -1
+	var shortcut_open: bool = false
 	for event: EventRecord in world.event_log:
 		if not event.type.begins_with("DUNGEON_"):
 			continue
@@ -43,13 +59,17 @@ static func validate_world(world: WorldState) -> String:
 					return "DUNGEON_INVALID_ENTRY"
 				room = "entrance"
 			"DUNGEON_ROOM_ENTERED":
-				if typeof(payload.get("from_room_id")) != TYPE_STRING or payload.from_room_id != room or not adjacent(room, payload.room_id):
+				if typeof(payload.get("from_room_id")) != TYPE_STRING or payload.from_room_id != room or not adjacent(room, payload.room_id, shortcut_open):
 					return "DUNGEON_INVALID_ROOM_TRANSITION"
 				room = payload.room_id
 			"DUNGEON_LEFT":
 				if room != "entrance" or payload.room_id != "entrance":
 					return "DUNGEON_INVALID_EXIT"
 				room = ""
+			"DUNGEON_SHORTCUT_OPENED":
+				if room != "control" or payload.room_id != "control" or shortcut_open:
+					return "DUNGEON_INVALID_SHORTCUT"
+				shortcut_open = true
 	if room != "":
 		var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 		if life == null or life.status != NpcLifeState.Status.SETTLED or life.population_container_id != HOME:
@@ -58,8 +78,12 @@ static func validate_world(world: WorldState) -> String:
 			return "DUNGEON_CONFLICTING_ACTIVITY"
 	return ""
 
-static func adjacent(from_room: String, to_room: String) -> bool:
-	return (from_room == "entrance" and to_room == "foyer") or (from_room == "foyer" and to_room == "entrance")
+static func adjacent(from_room: String, to_room: String, shortcut_open: bool = false) -> bool:
+	if from_room not in ROOMS or to_room not in ROOMS:
+		return false
+	if to_room in PASSAGES[from_room]:
+		return true
+	return shortcut_open and ((from_room == "entrance" and to_room == "control") or (from_room == "control" and to_room == "entrance"))
 
 static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var history_error: String = validate_world(world)
@@ -83,13 +107,17 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 		"MOVE":
 			if payload.size() != 3 or typeof(payload.get("from_room_id")) != TYPE_STRING or typeof(payload.get("room_id")) != TYPE_STRING:
 				return "DUNGEON_INVALID_INTENT"
-			if not current.active or payload.from_room_id != current.room_id or not adjacent(current.room_id, payload.room_id):
+			if not current.active or payload.from_room_id != current.room_id or not adjacent(current.room_id, payload.room_id, current.shortcut_open):
 				return "DUNGEON_INVALID_ROOM_TRANSITION"
 			return ""
 		"EXIT":
 			if payload.size() != 1:
 				return "DUNGEON_INVALID_INTENT"
 			return "" if current.active and current.room_id == "entrance" else "DUNGEON_EXIT_REQUIRES_ENTRANCE"
+		"OPEN_SHORTCUT":
+			if payload.size() != 1:
+				return "DUNGEON_INVALID_INTENT"
+			return "" if current.active and current.room_id == "control" and not current.shortcut_open else "DUNGEON_SHORTCUT_UNAVAILABLE"
 	return "DUNGEON_UNAUTHORIZED_COMMAND"
 
 static func commit(world: WorldState, payload: Dictionary, tick_events: Array[EventRecord]) -> Dictionary:
@@ -105,6 +133,9 @@ static func commit(world: WorldState, payload: Dictionary, tick_events: Array[Ev
 			facts.from_room_id = payload.from_room_id
 		"EXIT":
 			event_type = "DUNGEON_LEFT"
+		"OPEN_SHORTCUT":
+			event_type = "DUNGEON_SHORTCUT_OPENED"
+			facts.room_id = "control"
 	var event: EventRecord = EventRecord.new(world.current_day, event_type, world.player.npc_id, StringName(SITE), facts)
 	world.record_event(event)
 	if tick_events != null:

@@ -144,6 +144,8 @@ func _init() -> void:
 	frame.expand_margin_top = 32
 	theme.set_stylebox("panel", "PdaDialog", frame)
 	theme.set_stylebox("embedded_border", "PdaDialog", frame)
+	theme.set_type_variation("PdaMapDialog", "PdaDialog")
+	theme.set_constant("buttons_min_height", "PdaMapDialog", Tokens.COMMAND_HEIGHT)
 
 	# Ensure directory exists
 	DirAccess.make_dir_recursive_absolute("res://ui/theme")
