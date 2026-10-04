@@ -15,7 +15,8 @@
 
 ## Active Sprint
 
-- [~] FACTION-1 implementation — receipt-derived regional standing, future-job +5/+10%, -10 shared resistance closes work/teaching/hiring and adds15% buying markup. Local/shared take max; accepted pay immutable, no new save counter/autonomous life. Real authority/persistence/decay/legacy571focusedPASS;20actualVulkancaptures/676assertions inspected, realtoolbar/Esc/scroll/purePASS. IndependentreviewzeroP0/P1. Finalall124PASS after compact presentation-only hint; canonicalcompanion/current-headremotegates required before merge. AdjacentcompactgrowthdesktopcapacitylineP2/shutdownwarningsqualified; see docs/shared-faction-consequences.md.
+- [x] FACTION-1 — delivered PR70 (merge782ca1bf24e60be98986d9858b775c1f378cac8b). 571 focused assertions; all124 suites PASS;20actualVulkancaptures/676assertions. Independent and exact-head GitHub Codex clear of P0/P1; actual CI passed. Allied-betrayal confirmation wording and adjacent compact growth clipping P2 deferred; see docs/shared-faction-consequences.md.
+- [~] SAVE-1 locally verified — actual single-slot manual save/load/Continue, recoverable backup replacement and checked world handoff; preserves travel/battle/receipts. Independent Windows rename P1 fixed before commit.271focused/all125PASS,32actualVulkancaptures/234assertions inspected; lint0errors/oldFieldScreenwarning,driftPASS. Fresh in-transit scene picture P2 deferred; final review/canonicalcompanion/exact-headGitHubreview/CI/merge pending. Contract and qualified shutdown evidence in docs/player-save-load.md.
 - [x] TOWN-1 delivered PR #69 (5331c21): owner-approved sixth physical three-day supply road;510/all123/18Vulkan captures/130assertions and independent review PASS. Finalhead9180d11 Codex completed with deferred bounty-durationP2; actual CI37145215161 runner1000022354/allsevenstepsPASS. Main5331c21 synchronized clean, readonly guard0. Historical five-road collapse and canonical receipts retained.
 - [x] CREATURE-HUNTS delivered PR #68 (dbba03a): six enemies/original art/actual hunt contracts; blocking camp attribution repaired in bd5c561,417 focused/all122 rerun pass, independent review clear, exact-head d66e94a Codex completed without major findings and actual CI37133010578 runner1000022293/seven steps PASS. Main synchronized/clean; canonical post-merge readonly guard0. Accepted-HUNT category/risk P2 remains recorded.
 
@@ -142,6 +143,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-10-04: SAVE-1 (owner authorized) uses the existing checked canonical WorldState, with Main replacing the world only after validation. Save replacement retains a sibling backup because installed Windows Godot deletes an existing rename destination before moving. No population/travel formula/new autonomous lifecycle changes; manual local single-slot scope, not cloud/autosave or filesystem power-loss certification. See docs/player-save-load.md.
 
 - 2026-10-03: Owner authorized ECON-1 -> GUN-1 -> ELEC-1 -> JOB-ADV-1 -> PARTY-2A, with one reviewed and merged PR per slice before the next begins. This supersedes the 2026-09-28 feature freeze; it does not claim FP2-B or C2-B player acceptance. ECON-1 separates genuine zero-stock procurement from ordinary workshop recovery orders and preserves accepted contracts after restock.
 

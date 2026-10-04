@@ -2,6 +2,7 @@ extends Control
 
 signal closed
 signal world_changed
+signal save_menu_requested
 const Field = preload("res://simulation/field_adventure.gd")
 const ItemRegistry = preload("res://simulation/item_registry.gd")
 const DesktopWindow = preload("res://ui/components/desktop_window.gd")
@@ -122,6 +123,9 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	history_toggle.text = "戰鬥紀錄"
 	history_toggle.toggled.connect(func(_value: bool): _refresh_history_visibility())
 	heading.add_child(history_toggle)
+	var save_menu_button: Button = DesktopWindow.toolbar_button("存讀檔")
+	save_menu_button.pressed.connect(func() -> void: save_menu_requested.emit())
+	heading.add_child(save_menu_button)
 	close_button = Button.new()
 	close_button.text = "返回地圖"
 	close_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
