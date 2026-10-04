@@ -8,6 +8,12 @@ signal interaction_requested
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Poses = preload("res://ui/components/battle_pose_library.gd")
 const Layout = preload("res://ui/components/dungeon_room_layout.gd")
+const Stage = preload("res://ui/components/battle_stage.gd")
+const Enemies = preload("res://simulation/enemy_catalogue.gd")
+const ENEMY_POINT: Vector2 = Vector2(650, 266)
+var enemy_id: String = ""
+var enemy_pose: Dictionary = {}
+var enemy_texture: Texture2D
 const FLOOR_PATH: String = "res://ui/assets/dungeon/waterworks-floor.png"
 const WALK_AREA: Rect2 = Rect2(96, 112, 808, 310)
 const SPEED: float = 180.0
@@ -45,6 +51,12 @@ func setup(checkpoint: Dictionary) -> void:
 	walking = false
 	current_pose = "recover"
 	doors = Layout.doors(room_id, checkpoint.get("shortcut_open", false))
+	enemy_id = String(checkpoint.get("enemy", ""))
+	enemy_pose = Poses.frame(enemy_id, "recover")
+	enemy_texture = null
+	if not enemy_id.is_empty():
+		if enemy_pose.is_empty(): enemy_texture = Poses.load_atlas(Stage.VISUAL_PROFILES[enemy_id].texture_path)
+		doors.append({"command": "FIGHT", "room_id": room_id, "label": "迎戰 " + Enemies.display_name(enemy_id), "point": ENEMY_POINT})
 	actor_position = Layout.arrival(doors, checkpoint.from_room_id)
 	obstacles = Layout.obstacles(room_id)
 	queue_redraw()
@@ -153,6 +165,9 @@ func _draw() -> void:
 			draw_texture_rect(texture, obstacle, false)
 	for door: Dictionary in doors:
 		var point: Vector2 = door.point
+		if door.command == "FIGHT":
+			_draw_enemy()
+			continue
 		if point == Layout.WEST or point == Layout.EAST:
 			draw_rect(Rect2(point - Vector2(17, 56), Vector2(34, 112)), Tokens.BASE)
 			draw_rect(Rect2(point - Vector2(17, 56), Vector2(34, 112)), Tokens.AMBER, false, 2)
@@ -177,3 +192,26 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, 15, Color(0, 0, 0, 0.3))
 		draw_texture_rect(texture, Rect2(-foot, draw_size), false)
 		draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+
+func _draw_enemy() -> void:
+	var pose: Dictionary = enemy_pose
+	var texture: Texture2D
+	var anchor: Vector2
+	var height: float = 76.0
+	if not pose.is_empty():
+		texture = pose.texture
+		anchor = pose.foot
+		height = float(pose.reference_height)
+	else:
+		var profile: Dictionary = Stage.VISUAL_PROFILES[enemy_id]
+		texture = enemy_texture
+		anchor = profile.foot_anchor_uv
+		if texture != null: height = texture.get_height()
+	if texture != null:
+		var draw_size: Vector2 = texture.get_size() * (76.0 / height)
+		draw_circle(ENEMY_POINT, 17, Color(0, 0, 0, 0.35))
+		draw_texture_rect(texture, Rect2(ENEMY_POINT - anchor * draw_size, draw_size), false)
+	draw_arc(ENEMY_POINT, 24, 0, TAU, 32, Tokens.CRITICAL, 2, true)
+	var caption: Vector2 = ENEMY_POINT + Vector2(-100, -102)
+	draw_rect(Rect2(caption - Vector2(0, 20), Vector2(200, 28)), Tokens.PANEL)
+	draw_string(get_theme_default_font(), caption, "迎戰 " + Enemies.display_name(enemy_id), HORIZONTAL_ALIGNMENT_CENTER, 200, 16, Tokens.TEXT)

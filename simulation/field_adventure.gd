@@ -56,6 +56,25 @@ static func begin_road_battle(world, enc_context: Dictionary = {}) -> Dictionary
 	state.receipt = -1
 	return state.battle.duplicate(true)
 
+static func begin_dungeon_battle(world: WorldState, room: String, tick_events: Array[EventRecord] = []) -> Dictionary:
+	var error: String = SimulationEngine.Dungeon.authorize(world, {"command": "FIGHT", "room_id": room})
+	if error != "": return {"success": false, "error": error}
+	var state: Dictionary = world.field_state
+	var enemy: String = SimulationEngine.Dungeon.ROOM_ENEMIES[room]
+	var site_hp: int = int(state.enemy_hp)
+	state.battle = {"id": state.next_id, "turn": 1, "prepared": false, "source": "dungeon", "enemy": enemy, "site_enemy_hp": site_hp, "dungeon_id": SimulationEngine.Dungeon.SITE, "room_id": room}
+	state.enemy_hp = Enemies.max_hp(enemy)
+	state.next_id += 1
+	var fact: EventRecord = EventRecord.new(world.current_day, "DUNGEON_BATTLE_STARTED", world.player.npc_id, StringName(SimulationEngine.Dungeon.SITE), {"dungeon_id": SimulationEngine.Dungeon.SITE, "room_id": room, "battle_id": state.battle.id, "enemy": enemy, "site_enemy_hp": site_hp, "hp": world.player.field_kit.hp})
+	world.record_event(fact)
+	if tick_events != null: tick_events.append(fact)
+	return {"success": true, "action": "DUNGEON_ACTION", "exploration": SimulationEngine.Dungeon.state(world)}
+
+static func is_dungeon_activity(world: WorldState) -> bool:
+	var context: Dictionary = world.field_state.battle
+	if context.is_empty() and world.field_state.receipt >= 0 and world.field_state.receipt < world.event_log.size(): context = world.event_log[world.field_state.receipt].payload
+	return context.get("source", "field") == "dungeon"
+
 static func integer(value: Variant, low: int, high: int) -> bool:
 	return typeof(value) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(value)) and value == floor(float(value)) and value >= low and value <= high
 
@@ -75,7 +94,7 @@ static func validate_state(state: Variant) -> String:
 	if not integer(state.get("enemy_hp"), 0, Enemies.highest_hp()) or typeof(state.get("opened")) != TYPE_BOOL or not integer(state.get("next_id"), 1, 2147483647) or not integer(state.get("receipt"), -1, 2147483647) or typeof(state.get("battle")) != TYPE_DICTIONARY:
 		return "INVALID_FIELD_STATE"
 	var battle = state.battle
-	var road_battle: bool = not battle.is_empty() and battle.get("source", "field") == "road"
+	var road_battle: bool = not battle.is_empty() and battle.get("source", "field") in ["road", "dungeon"]
 	# enemy_hp belongs to the active opponent; opened belongs to the home cache.
 	# Pending receipts are checked against their actual source in validate_world.
 	if state.opened and state.enemy_hp > 0 and not road_battle and state.receipt < 0:
@@ -85,6 +104,7 @@ static func validate_state(state: Variant) -> String:
 	if not battle.is_empty():
 		if battle.has("source") and typeof(battle.get("source")) != TYPE_STRING:
 			return "INVALID_FIELD_BATTLE"
+		if battle.get("source", "field") not in ["field", "road", "dungeon"]: return "INVALID_FIELD_BATTLE"
 		# PLAY-4: the opponent is part of the battle, not the site. Absent means
 		# a battle saved before this existed, which is read as the old single
 		# enemy rather than rejected.
@@ -102,7 +122,7 @@ static func validate_state(state: Variant) -> String:
 static func valid_site_snapshot(payload: Dictionary, opened: bool) -> bool:
 	if not payload.has("site_enemy_hp"):
 		return true # Legacy road battles/receipts did not retain this snapshot.
-	return payload.get("source", "field") == "road" and integer(payload.site_enemy_hp, 0, Enemies.highest_hp()) and (not opened or payload.site_enemy_hp == 0)
+	return payload.get("source", "field") in ["road", "dungeon"] and integer(payload.site_enemy_hp, 0, Enemies.highest_hp()) and (not opened or payload.site_enemy_hp == 0)
 
 static func validate_wire(data: Dictionary) -> String:
 	var events: Variant = data.get("events", [])
@@ -204,7 +224,7 @@ static func validate_world(world) -> String:
 		var event = world.event_log[state.receipt]
 		if not valid_site_snapshot(event.payload, bool(state.opened)):
 			return "INVALID_FIELD_SITE_SNAPSHOT"
-		if state.opened and state.enemy_hp > 0 and event.payload.get("source", "field") != "road":
+		if state.opened and state.enemy_hp > 0 and event.payload.get("source", "field") not in ["road", "dungeon"]:
 			return "INVALID_FIELD_SITE"
 		if event.type != "FIELD_RESULT" or event.actor_id != world.player.npc_id or event.payload.get("hp") != world.player.field_kit.hp or event.payload.get("outcome") not in ["VICTORY", "ESCAPED", "DEAD", "CACHE", "DEFEAT"]:
 			return "INVALID_FIELD_RECEIPT"
@@ -215,7 +235,8 @@ static func valid_treatment_receipt(payload: Dictionary) -> bool:
 	return typeof(id) == TYPE_STRING and TREATMENT_HEALING.has(id) and integer(payload.get("healed"), 1, int(TREATMENT_HEALING[id]))
 
 static func authorize(world, payload: Dictionary) -> String:
-	if SimulationEngine.Dungeon.state(world).active:
+	var exploring: bool = SimulationEngine.Dungeon.state(world).active
+	if exploring and not is_dungeon_activity(world):
 		return "DUNGEON_EXPLORATION_PENDING"
 	var error = validate_world(world)
 	if error != "":
@@ -223,6 +244,7 @@ static func authorize(world, payload: Dictionary) -> String:
 	var command = payload.get("command")
 	if typeof(command) != TYPE_STRING or command not in COMMANDS:
 		return "INVALID_FIELD_COMMAND"
+	if exploring and command not in ["ATTACK", "SHOOT", "DEFEND", "FLEE", "CONFIRM"]: return "DUNGEON_EXPLORATION_PENDING"
 	var state = world.field_state
 	if command == "CONFIRM":
 		if payload.size() != 2 or typeof(payload.get("receipt")) != TYPE_INT or payload.receipt != state.receipt or state.receipt < 0:
@@ -457,6 +479,9 @@ static func finish(world, outcome: String, gains: Dictionary = {}, left: Diction
 		payload["place_id"] = String(active_battle.place_id)
 	if active_battle.has("route_type") and String(active_battle.route_type) != "":
 		payload["route_type"] = String(active_battle.route_type)
+	if source == "dungeon":
+		payload.merge({"source": "dungeon", "dungeon_id": active_battle.dungeon_id, "room_id": active_battle.room_id, "battle_id": active_battle.id, "site_enemy_hp": int(active_battle.site_enemy_hp)})
+		if caps_gained > 0: payload.caps_gained = caps_gained
 	if is_road:
 		payload["source"] = "road"
 		if active_battle.has("site_enemy_hp"):
@@ -486,7 +511,9 @@ static func apply(world, engine, payload: Dictionary) -> String:
 	match command:
 		"CONFIRM":
 			var receipt_payload: Dictionary = world.event_log[state.receipt].payload
-			if receipt_payload.get("source", "field") == "road":
+			if receipt_payload.get("source", "field") == "dungeon":
+				world.record_event(EventRecord.new(world.current_day, "DUNGEON_BATTLE_CONFIRMED", player.npc_id, StringName(SimulationEngine.Dungeon.SITE), {"dungeon_id": receipt_payload.dungeon_id, "room_id": receipt_payload.room_id, "battle_id": receipt_payload.battle_id, "result_index": state.receipt}))
+			if receipt_payload.get("source", "field") in ["road", "dungeon"]:
 				# Opened legacy homes are known clear. Unknown unopened legacy site
 				# health retains its previous fallback; new receipts restore it exactly.
 				state.enemy_hp = int(receipt_payload.get("site_enemy_hp", 0 if state.opened else state.enemy_hp))
@@ -586,6 +613,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					container_id = ls.population_container_id
 			var turn_payload := {"battle_id": battle.id, "turn": turn, "command": command,
 				"dealt": dealt, "taken": taken, "hp": player.field_kit.hp, "enemy_hp": state.enemy_hp}
+			if source == "dungeon": turn_payload.merge({"source": "dungeon", "dungeon_id": battle.dungeon_id, "room_id": battle.room_id})
 			if command == "SHOOT":
 				var firearm := firearm_for(world)
 				turn_payload.merge({"weapon_id": player.equipment.equipped_item("main_hand"), "ammo_item_id": firearm.ammo_item_id, "ammo_spent": int(firearm.ammo_spent), "ammo_remaining": player.item_inventory.quantity(firearm.ammo_item_id)})
@@ -630,12 +658,24 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					var death = world.npc_life_state_registry.commit_named_death(world, player.npc_id)
 					if not death.success:
 						return death.error
-					world.record_event(EventRecord.new(world.current_day, "PLAYER_DIED", player.npc_id, StringName(HOME), {"cause": "field_combat", "days_survived": world.current_day, "in_transit": false}))
-					finish(world, "DEAD")
+					world.record_event(EventRecord.new(world.current_day, "PLAYER_DIED", player.npc_id, StringName(HOME), {"cause": "dungeon_combat" if source == "dungeon" else "field_combat", "days_survived": world.current_day, "in_transit": false}))
+					finish(world, "DEAD", {}, {}, source)
 				elif state.enemy_hp == 0:
-					finish(world, "VICTORY", {}, {}, "field", 0, practice)
+					var gains: Dictionary = {}
+					var left: Dictionary = {}
+					var caps: int = 0
+					if source == "dungeon":
+						var reward: Dictionary = SimulationEngine.Dungeon.REWARDS[battle.room_id]
+						var carried: int = mini(int(reward.scrap), maxi(0, player.get_effective_capacity() - player.get_total_inventory_load()))
+						if carried > 0:
+							player.inventory.add_amount("scrap", carried)
+							gains.scrap = carried
+						if carried < int(reward.scrap): left.scrap = int(reward.scrap) - carried
+						caps = int(reward.caps)
+						player.money += caps
+					finish(world, "VICTORY", gains, left, source, caps, practice)
 				elif command == "FLEE":
-					finish(world, "ESCAPED")
+					finish(world, "ESCAPED", {}, {}, source)
 				else:
 					battle.turn += 1
 			world.record_event(EventRecord.new(world.current_day, "FIELD_ACTION", player.npc_id, container_id, {"command": command}))

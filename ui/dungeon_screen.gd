@@ -9,6 +9,9 @@ const Dungeon = preload("res://simulation/dungeon_exploration.gd")
 const RoomView = preload("res://ui/components/dungeon_room_view.gd")
 const MapView = preload("res://ui/components/dungeon_map_view.gd")
 const Layout = preload("res://ui/components/dungeon_room_layout.gd")
+const Field = preload("res://simulation/field_adventure.gd")
+const FieldScreen = preload("res://ui/field_screen.gd")
+var combat_screen: Control
 var world: WorldState
 var engine: SimulationEngine
 var view: Control
@@ -90,12 +93,16 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	instructions.theme_type_variation = "PdaMuted"
 	column.add_child(instructions)
 	refresh_room()
+	if Field.is_dungeon_activity(world):
+		_open_combat()
 
 func refresh_room() -> void:
 	var checkpoint: Dictionary = Dungeon.state(world)
 	if not checkpoint.active:
 		return
 	title_label.text = "封存地下水廠 / " + String(Dungeon.ROOMS[checkpoint.room_id])
+	var enemy: String = "" if checkpoint.room_id in checkpoint.cleared else String(Dungeon.ROOM_ENEMIES.get(checkpoint.room_id, ""))
+	checkpoint.enemy = enemy
 	view.setup(checkpoint)
 	route_choice.clear()
 	for door: Dictionary in view.doors:
@@ -104,7 +111,11 @@ func refresh_room() -> void:
 	message.text = Layout.HINTS[checkpoint.room_id]
 	if checkpoint.shortcut_open and checkpoint.room_id in ["control", "entrance"]:
 		message.text = "返回門已開啟，入口與控制室可以直接往返。"
-	view.grab_focus()
+	if not enemy.is_empty():
+		message.text += "　·　" + Field.Enemies.display_name(enemy) + "仍在這裡；靠近後可選擇迎戰。"
+	elif checkpoint.room_id in checkpoint.cleared:
+		message.text += "　·　威脅已排除，戰利品已結算。"
+	if not is_instance_valid(combat_screen): view.grab_focus()
 	refresh_interaction()
 
 func refresh_interaction() -> void:
@@ -119,7 +130,7 @@ func _guide() -> void:
 		view.guide_to(view.doors[route_choice.selected])
 
 func _refresh_guide_label() -> void:
-	guide_button.text = "走向選取的門"
+	guide_button.text = "走向選取的互動點"
 	guide_button.tooltip_text = "經過房間中間的通道，走到「%s」附近。" % route_choice.get_item_text(route_choice.selected) if route_choice.selected >= 0 else ""
 
 func _show_map() -> void:
@@ -159,7 +170,9 @@ func interact() -> void:
 	if door.is_empty():
 		return
 	var payload: Dictionary = {"command": door.command}
-	if door.command == "MOVE":
+	if door.command == "FIGHT":
+		payload.room_id = view.room_id
+	elif door.command == "MOVE":
 		payload.from_room_id = view.room_id
 		payload.room_id = door.room_id
 	var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, payload))
@@ -167,6 +180,9 @@ func interact() -> void:
 		message.text = "目前無法通過出口。請存檔後重新讀取，或從可用樓梯返回。"
 		return
 	world_changed.emit()
+	if Field.is_dungeon_activity(world):
+		_open_combat()
+		return
 	if not Dungeon.state(world).active:
 		view.enabled = false
 		closed.emit()
@@ -174,7 +190,30 @@ func interact() -> void:
 	else:
 		refresh_room()
 
+func _open_combat() -> void:
+	if is_instance_valid(combat_screen): return
+	combat_screen = FieldScreen.new()
+	combat_screen.name = "DungeonCombat"
+	combat_screen.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	add_child(combat_screen)
+	combat_screen.world_changed.connect(func() -> void: world_changed.emit())
+	combat_screen.save_menu_requested.connect(func() -> void: save_menu_requested.emit())
+	combat_screen.closed.connect(func() -> void: call_deferred("_resume_exploration"))
+	combat_screen.setup(world, engine)
+	set_paused(true)
+	view.release_focus()
+
+func _resume_exploration() -> void:
+	combat_screen = null
+	if not Dungeon.state(world).active:
+		closed.emit()
+		queue_free()
+		return
+	refresh_room()
+	set_paused(false)
+
 func set_paused(value: bool) -> void:
+	value = value or is_instance_valid(combat_screen)
 	view.enabled = not value
 	view.target_position = Vector2(-1, -1)
 	view.guide_path.clear()
