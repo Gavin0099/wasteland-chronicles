@@ -17,6 +17,7 @@ var enemy_id: String = ""
 var enemy_pose: Dictionary = {}
 var enemy_texture: Texture2D
 var tool_texture: Texture2D
+var device_texture: Texture2D
 const FLOOR_PATH: String = "res://ui/assets/dungeon/waterworks-floor.png"
 const WALK_AREA: Rect2 = Rect2(96, 112, 808, 310)
 const SPEED: float = 180.0
@@ -68,6 +69,9 @@ func setup(checkpoint: Dictionary) -> void:
 		doors.append({"command": "FIGHT", "room_id": room_id, "label": "迎戰 " + Enemies.display_name(enemy_id), "point": ENEMY_POINT})
 	if room_id == "polluted_store" and checkpoint.get("deep_rules", 0) == 1 and not checkpoint.get("tools_recovered", false):
 		doors.append({"command": "RECOVER_TOOLS", "label": "取走維修精密組", "point": TOOL_POINT, "refusal": checkpoint.get("recovery_refusal", "")})
+	if room_id == "control" and checkpoint.get("device_rules", 0) == 1:
+		device_texture = crate_texture if checkpoint.device_choice == "SALVAGE" else pump_texture
+		doors.append({"command": "DEVICE", "label": "修復台 · 去留" if checkpoint.device_choice == "" else ("修復台 · 已保留" if checkpoint.device_choice == "PRESERVE" else "殘骸 · 已拆解"), "point": TOOL_POINT})
 	actor_position = Layout.arrival(doors, checkpoint.from_room_id)
 	obstacles = Layout.obstacles(room_id)
 	queue_redraw()
@@ -183,6 +187,11 @@ func _draw() -> void:
 			draw_arc(point, 30, 0, TAU, 32, Tokens.AMBER, 2, true)
 			if tool_texture != null: draw_texture_rect(tool_texture, Rect2(point - Vector2(26, 50), Vector2(52, 52)), false)
 			draw_string(get_theme_default_font(), point + Vector2(-125, -76), "現地維修精密組 · 1.8kg", HORIZONTAL_ALIGNMENT_CENTER, 250, 16, Tokens.TEXT)
+			continue
+		if door.command == "DEVICE":
+			draw_arc(point, 34, 0, TAU, 32, Tokens.AMBER, 2, true)
+			if device_texture != null: draw_texture_rect(device_texture, Rect2(point - Vector2(42, 67), Vector2(84, 68)), false)
+			draw_string(get_theme_default_font(), point + Vector2(-130, -79), door.label, HORIZONTAL_ALIGNMENT_CENTER, 260, 16, Tokens.TEXT)
 			continue
 		if point == Layout.WEST or point == Layout.EAST:
 			draw_rect(Rect2(point - Vector2(17, 56), Vector2(34, 112)), Tokens.BASE)

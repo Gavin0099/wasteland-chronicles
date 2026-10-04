@@ -12,6 +12,7 @@ const Layout = preload("res://ui/components/dungeon_room_layout.gd")
 const Field = preload("res://simulation/field_adventure.gd")
 const FieldScreen = preload("res://ui/field_screen.gd")
 const SuppliesDialog = preload("res://ui/components/dungeon_supplies_dialog.gd")
+const DeviceDialog = preload("res://ui/components/dungeon_device_dialog.gd")
 var combat_screen: Control
 var world: WorldState
 var engine: SimulationEngine
@@ -29,6 +30,7 @@ var maintenance_buttons: Dictionary = {}
 var supplies_button: Button
 var supplies_dialog: SuppliesDialog
 var supplies_status: Label
+var device_dialog: AcceptDialog
 
 func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	world = p_world
@@ -150,6 +152,8 @@ func refresh_room() -> void:
 		message.text += "　·　東側污染庫房需攜帶軍規面具；裡面的現地維修精密組重1.8公斤。"
 	if checkpoint.deep_rules == 1 and checkpoint.room_id == "polluted_store":
 		message.text += "　·　" + ("精密組已取走，返回泵房後可經控制室捷徑離開。" if checkpoint.tools_recovered else "排除威脅、確認戰果後，走近中央精密組取走；機械工具3，修井少耗1廢料。")
+	if checkpoint.device_rules == 1 and checkpoint.room_id == "control":
+		message.text += "　·　" + (Dungeon.device_note(world) if checkpoint.device_choice != "" else "中央修復台可保留改甲，或拆成廢料；走近後查看兩種代價，也可準備好再回來。")
 	if not is_instance_valid(combat_screen): view.grab_focus()
 	refresh_interaction()
 
@@ -280,6 +284,9 @@ func interact() -> void:
 	var door: Dictionary = view.nearest_door()
 	if door.is_empty():
 		return
+	if door.command == "DEVICE":
+		_show_device()
+		return
 	var position_before: Vector2 = view.actor_position
 	var payload: Dictionary = {"command": door.command}
 	if door.command == "FIGHT":
@@ -305,6 +312,37 @@ func interact() -> void:
 			view.actor_position = position_before
 			view.queue_redraw()
 			refresh_interaction()
+
+func _show_device() -> void:
+	if not view.enabled or is_instance_valid(device_dialog): return
+	device_dialog = DeviceDialog.new()
+	add_child(device_dialog)
+	device_dialog.setup(world)
+	device_dialog.choice_requested.connect(_decide_device)
+	device_dialog.confirmed.connect(_close_device)
+	device_dialog.canceled.connect(_close_device)
+	set_paused(true)
+	device_dialog.popup_centered(Vector2i(700, 350))
+	device_dialog.get_ok_button().grab_focus()
+
+func _close_device() -> void:
+	device_dialog.hide()
+	device_dialog.queue_free()
+	device_dialog = null
+	set_paused(false)
+
+func _decide_device(choice: String) -> void:
+	var position_before: Vector2 = view.actor_position
+	var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, {"command": "DECIDE_DEVICE", "choice": choice}))
+	if not result.success:
+		device_dialog.detail.text = DeviceDialog.explain(result.error)
+		return
+	_close_device()
+	world_changed.emit()
+	refresh_room()
+	if view.walkable(position_before): view.actor_position = position_before
+	view.queue_redraw()
+	refresh_interaction()
 
 func _open_combat() -> void:
 	if is_instance_valid(combat_screen): return

@@ -111,7 +111,9 @@ func first_visit_and_legacy() -> void:
 	world = disk_copy(world, "actual changed-capability reward disk")
 	var legacy: WorldState = deep_fixture(false)
 	for event: EventRecord in legacy.event_log:
-		if event.type == "DUNGEON_ENTERED": event.payload.erase("deep_rules") # Reviewed valid four-key DUN-5 checkpoint.
+		if event.type == "DUNGEON_ENTERED":
+			event.payload.erase("deep_rules") # Reviewed valid four-key DUN-5 checkpoint.
+			event.payload.erase("device_rules")
 	to_pump(legacy)
 	check(engine.commit_player_intent(legacy, dungeon_intent(legacy, "MOVE", "pump", "polluted_store")).success and legacy.current_day == 1, "old costed trip keeps original wing access without new mask requirement")
 	legacy = disk_copy(legacy, "actual valid old polluted-room checkpoint")
@@ -366,7 +368,9 @@ func deep_ui() -> void:
 		if variant == "full": check(world.player.pickup_item("first_aid_kit", 11).success, "actual full-cache UI fixture")
 		else:
 			for event: EventRecord in world.event_log:
-				if event.type == "DUNGEON_ENTERED": event.payload.erase("deep_rules")
+				if event.type == "DUNGEON_ENTERED":
+					event.payload.erase("deep_rules")
+					event.payload.erase("device_rules")
 			to_pump(world)
 		check(store.save_game(world).success, "actual variant deep UI save " + variant)
 		main = new_main()
