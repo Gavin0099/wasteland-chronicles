@@ -100,3 +100,15 @@ and later visits retain the permanent device outcome.
 Focused:`godot --headless --path . --script res://tests/test_dungeon_device_choice.gd`.
 Capture:`godot --path . --script res://tools/capture_dungeon_device_choice.gd --fixed-fps 60 --disable-vsync`.
 Both use private dungeon test save slots.
+
+## Delivered
+
+PR78:implementation63f9abfd2f305b04fe4fca879b9abb985f8eab83, separately
+reviewed companioned3ffff1ded313ca40be30dac5d12980401b0208. Bound748/0/exit0.
+Exacted3ffff Codex completed2026-10-04T12:42:37Z with one P2:device-note
+projection omits Tieniu/Shahu participation in salvage, although the event
+retains the actual companion. Acknowledged/deferred in comment5980049541.
+CI37202788363/job111437713084 runner1000022595, all seven steps successful.
+Merged2026-10-04T12:43:49Z asd20a0628fe21407f7ed0606e76a69a08fdcc2915.
+Main synced clean, readonlyguard0/current and repoB0=0/mismatch0/unbound0.
+Both independent reviews had zero unresolvedP0/P1. No post-merge writer ran.

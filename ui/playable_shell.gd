@@ -67,6 +67,8 @@ var chip_scrap: ResourceChip
 var chip_fuel: ResourceChip
 var pb_backpack: ProgressBar
 var lbl_backpack_status: Label
+var waterworks_return_button: Button
+var waterworks_return_dialog: AcceptDialog
 
 # Market Rows
 var market_rows: Dictionary = {}
@@ -952,6 +954,7 @@ func _render_local_actions(proj: Dictionary) -> void:
 	var encounter_active := not encounter.is_empty() or not encounter_result.is_empty()
 	local_action_panel.visible = not encounter_active
 	if in_transit:
+		waterworks_return_button.visible = false
 		lbl_local_context.text = "目前：旅途中"
 		lbl_local_hint.text = "抵達聚落後可查看當地委託與可探索地點。"
 		btn_return_local.visible = false
@@ -960,6 +963,7 @@ func _render_local_actions(proj: Dictionary) -> void:
 			btn_local_train.visible = false
 		return
 	lbl_local_context.text = "目前：%s" % _get_settlement_name(location)
+	waterworks_return_button.visible = location == String(engine.Dungeon.HOME) and not engine.Dungeon.state(world).visited.is_empty()
 	btn_return_local.visible = selected_settlement_id != location
 	btn_local_market.visible = true
 	if btn_local_train != null:
@@ -1310,6 +1314,13 @@ func _build_ui_layout_if_needed() -> void:
 	btn_local_train.size_flags_horizontal = SIZE_EXPAND_FILL
 	btn_local_train.pressed.connect(_show_training)
 	action_row.add_child(btn_local_train)
+	waterworks_return_button = Button.new()
+	waterworks_return_button.text = "水廠紀錄"
+	waterworks_return_button.theme_type_variation = "PdaCommand"
+	waterworks_return_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	waterworks_return_button.size_flags_horizontal = SIZE_EXPAND_FILL
+	waterworks_return_button.pressed.connect(_show_waterworks_return)
+	action_row.add_child(waterworks_return_button)
 	field_button = Button.new()
 	field_button.theme_type_variation = "PdaCommand"
 	field_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
@@ -2926,6 +2937,44 @@ func _enter_dungeon() -> void:
 			return
 	refresh_ui()
 	_show_dungeon()
+
+func _show_waterworks_return() -> void:
+	if is_instance_valid(waterworks_return_dialog) or world == null or world.player == null: return
+	waterworks_return_dialog = preload("res://ui/components/dungeon_return_dialog.gd").new()
+	add_child(waterworks_return_dialog)
+	waterworks_return_dialog.setup(world)
+	waterworks_return_dialog.action_requested.connect(_waterworks_return_action)
+	waterworks_return_dialog.confirmed.connect(_close_waterworks_return)
+	waterworks_return_dialog.canceled.connect(_close_waterworks_return)
+	waterworks_return_dialog.popup_centered(Vector2i(740, 510))
+	waterworks_return_dialog.get_ok_button().grab_focus()
+
+func _close_waterworks_return() -> void:
+	waterworks_return_dialog.hide()
+	waterworks_return_dialog.queue_free()
+	waterworks_return_dialog = null
+
+func _waterworks_return_action(action: String) -> void:
+	if action == "REPORT":
+		var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, {"command": "REPORT"}))
+		if not result.success:
+			waterworks_return_dialog.detail.text = preload("res://ui/components/dungeon_return_dialog.gd").explain(result.error)
+			return
+		_close_waterworks_return()
+		refresh_ui()
+		_show_waterworks_return()
+	elif action == "WELL":
+		var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_track_rumor(world.player.npc_id, "rumor:old_well"))
+		if not result.success:
+			_report_action_result(result)
+			return
+		_close_waterworks_return()
+		refresh_ui()
+		_show_rumors()
+	else:
+		_close_waterworks_return()
+		if action == "MARKET": _show_local_market()
+		elif action == "REVISIT": _enter_dungeon()
 
 func _show_dungeon() -> void:
 	if not engine.Dungeon.state(world).active or find_child("DungeonScreen", false, false) != null:
