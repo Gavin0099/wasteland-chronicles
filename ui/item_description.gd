@@ -30,7 +30,7 @@ static func text(id: String) -> String:
 	elif base in ["revolver_round", "shotgun_shell"]:
 		use = "裝備對應的%s後射擊，每次消耗1發；沒有彈藥仍可近戰或撤退。" % ("左輪槍" if base == "revolver_round" else "霰彈槍")
 	elif id == "military_gas_mask":
-		use = "攜帶可進入污染工坊；需先追尋對應傳聞並準備場景成本。使用後保留，不提供戰鬥防護。"
+		use = "攜帶可進入污染工坊與水廠污染庫房；工坊需先追尋對應傳聞並準備場景成本。使用後保留，不提供戰鬥防護。"
 	elif "body" in definition.equip_slots:
 		use = "裝備到身體：基礎防護%d，每次敵方反擊減傷；使用後保留。" % int(Gear.PROTECTION.get(base, 0))
 	elif "back" in definition.equip_slots:

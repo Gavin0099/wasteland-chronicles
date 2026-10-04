@@ -115,8 +115,14 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	if Field.is_dungeon_activity(world):
 		_open_combat()
 
-func refresh_room() -> void:
+func projected_checkpoint() -> Dictionary:
 	var checkpoint: Dictionary = Dungeon.state(world)
+	checkpoint.has_mask = world.player.item_inventory.contains(Dungeon.PROTECTION_ITEM)
+	checkpoint.recovery_refusal = Dungeon.recovery_requirement(world)
+	return checkpoint
+
+func refresh_room() -> void:
+	var checkpoint: Dictionary = projected_checkpoint()
 	if not checkpoint.active:
 		return
 	supplies_status.text = "生命%d/12 · %s · 水%d／食物%d · 已過%d日 · 再換房%d次消耗一日補給" % [world.player.field_kit.hp, SuppliesDialog.load_text(world.player), world.player.inventory.water, world.player.inventory.food, checkpoint.trip_days, Dungeon.MOVES_PER_DAY - int(checkpoint.work_units)] if checkpoint.trip_rules == 1 else "舊旅程仍沿用原本耗時；下次探訪開始消耗隨身補給。"
@@ -140,6 +146,10 @@ func refresh_room() -> void:
 		message.text += "　·　北門由劫匪看守；可迎戰，或返回前廳走維修廊。"
 	if checkpoint.maintenance_open and checkpoint.room_id in ["maintenance", "pump"]:
 		message.text += "　·　維修門已開啟（%s · 已付 %d 廢料）。" % [method_name(checkpoint.maintenance_method), Dungeon.MAINTENANCE_COSTS[checkpoint.maintenance_method]]
+	if checkpoint.deep_rules == 1 and checkpoint.room_id == "pump":
+		message.text += "　·　東側污染庫房需攜帶軍規面具；裡面的現地維修精密組重1.8公斤。"
+	if checkpoint.deep_rules == 1 and checkpoint.room_id == "polluted_store":
+		message.text += "　·　" + ("精密組已取走，返回泵房後可經控制室捷徑離開。" if checkpoint.tools_recovered else "排除威脅、確認戰果後，走近中央精密組取走；機械工具3，修井少耗1廢料。")
 	if not is_instance_valid(combat_screen): view.grab_focus()
 	refresh_interaction()
 
@@ -161,7 +171,7 @@ func method_name(method: String) -> String:
 	return {"SKILL": "機械熟練", "TOOL": "工具開門", "ABBAN": "阿扳協助"}.get(method, "維修門")
 
 func refusal_text(refusal: String) -> String:
-	return {"": "", "DUNGEON_GUARD_BLOCKS_ROUTE": "先排除警衛，或返回前廳走維修廊。", "DUNGEON_MAINTENANCE_CLOSED": "維修門尚未開啟，請在維修廊選擇開門方式。", "DUNGEON_NEED_MECHANICS_2": "需要自己的機械技能 ≥2。", "DUNGEON_NEED_TOOL": "需要撬棍或扳手。", "DUNGEON_NEED_ABBAN": "需要阿扳同行。", "DUNGEON_NEED_SCRAP": "背包中的廢料不足。"}.get(refusal, "目前條件已改變，請重新選擇可用行動。")
+	return {"": "", "DUNGEON_GUARD_BLOCKS_ROUTE": "先排除警衛，或返回前廳走維修廊。", "DUNGEON_MAINTENANCE_CLOSED": "維修門尚未開啟，請在維修廊選擇開門方式。", "DUNGEON_NEED_MECHANICS_2": "需要自己的機械技能 ≥2。", "DUNGEON_NEED_TOOL": "需要撬棍或扳手。", "DUNGEON_NEED_ABBAN": "需要阿扳同行。", "DUNGEON_NEED_SCRAP": "背包中的廢料不足。", "DUNGEON_NEED_GAS_MASK": "污染庫房需要攜帶軍規防毒面具；可先返灰谷準備。", "DUNGEON_CLEAR_POLLUTED_ROOM": "先排除污染庫房威脅並確認戰果。", "DUNGEON_TOOL_ALREADY_OWNED": "已持有同一精密組，請先回鎮整理。", "DUNGEON_TOOLS_ALREADY_RECOVERED": "這組工具已取走。", "ITEM_CAPACITY_EXCEEDED": "正式道具容量不足；精密組需1.8公斤空間。"}.get(refusal, "目前條件已改變，請重新選擇可用行動。")
 
 func _refresh_maintenance(checkpoint: Dictionary) -> void:
 	for child: Node in maintenance_actions.get_children():
@@ -224,7 +234,7 @@ func _show_map() -> void:
 	column.add_child(legend)
 	var map_view: Control = MapView.new()
 	column.add_child(map_view)
-	map_view.setup(Dungeon.state(world))
+	map_view.setup(projected_checkpoint())
 	map_dialog.confirmed.connect(_close_map)
 	map_dialog.canceled.connect(_close_map)
 	set_paused(true)
@@ -270,6 +280,7 @@ func interact() -> void:
 	var door: Dictionary = view.nearest_door()
 	if door.is_empty():
 		return
+	var position_before: Vector2 = view.actor_position
 	var payload: Dictionary = {"command": door.command}
 	if door.command == "FIGHT":
 		payload.room_id = view.room_id
@@ -290,6 +301,10 @@ func interact() -> void:
 		queue_free()
 	else:
 		refresh_room()
+		if door.command == "RECOVER_TOOLS" and view.walkable(position_before):
+			view.actor_position = position_before
+			view.queue_redraw()
+			refresh_interaction()
 
 func _open_combat() -> void:
 	if is_instance_valid(combat_screen): return

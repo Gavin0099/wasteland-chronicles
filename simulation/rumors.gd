@@ -24,6 +24,11 @@ const Party = preload("res://simulation/party.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
 
 const RUMORS := {
+	"rumor:waterworks_tools": {
+		"title_zh": "水廠深處的維修精密組",
+		"text_zh": "灰谷封存水廠的污染庫房留著現地維修精密組：機械工具3，修井泵少耗1廢料。軍規面具才能進污染區；警衛正門或維修廊都能到泵房，控制室可開返程捷徑。",
+		"heard_in": ["settlement:gray_valley"], "dungeon_id": "dungeon:sealed_waterworks",
+	},
 	"rumor:gas_mask": {
 		"title_zh": "封鎖站的防毒面具",
 		"text_zh": "乾井到新希望的路，公路第一天會經過封鎖站。防護櫃裡留著軍規面具，能讓人走進荒野路第一天路旁的污染工坊。",
@@ -113,6 +118,12 @@ static func _raider_beaten(world) -> bool:
 # thing that stands between the player and it right now.
 static func progress(world, rumor_id: String) -> Dictionary:
 	match rumor_id:
+		"rumor:waterworks_tools":
+			var dungeon: Dictionary = SimulationEngine.Dungeon.state(world)
+			if dungeon.tools_recovered: return {"done": true, "next": "精密組已取走；持有它可提供機械工具3，使用它修井泵少耗1廢料，技能仍須達標。"}
+			if not world.player.item_inventory.contains("military_gas_mask"): return {"done": false, "next": "缺軍規防毒面具；先到乾井／新希望追封鎖站傳聞，在兩鎮公路第一天取面具。仍可先探索水廠、開維修廊與返回捷徑，再回灰谷準備。"}
+			if not world.player.item_inventory.has_capacity_for("fieldrepair_precision_kit", 1, world.player.equipment.equipped_item("back")): return {"done": false, "next": "精密組重1.8公斤；先騰出正式道具容量。水糧另計，四次換房過一天，同伴也需口糧。"}
+			return {"done": false, "next": "帶面具、足夠水糧與醫療道具進灰谷水廠；選正門戰鬥或付廢料開維修廊，排除泵房與污染庫房威脅後，走近精密組明確取走。預備好可一趟完成。"}
 		"rumor:gas_mask":
 			if Unique.taken(world, "RECOVER_GAS_MASK"):
 				return {"done": true, "next": "面具已取走；在傳聞頁改追「污染工坊的工程師」，再帶它與2廢料走乾井—新希望荒野路第一天，才會停留污染工坊。" if world.player.item_inventory.contains("military_gas_mask") else "面具已取走，目前未持有；進污染工坊仍需帶上它，並改追工程師傳聞。"}

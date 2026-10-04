@@ -10,10 +10,13 @@ const Poses = preload("res://ui/components/battle_pose_library.gd")
 const Layout = preload("res://ui/components/dungeon_room_layout.gd")
 const Stage = preload("res://ui/components/battle_stage.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
+const Icon = preload("res://ui/components/item_icon.gd")
 const ENEMY_POINT: Vector2 = Vector2(650, 266)
+const TOOL_POINT: Vector2 = Vector2(500, 266)
 var enemy_id: String = ""
 var enemy_pose: Dictionary = {}
 var enemy_texture: Texture2D
+var tool_texture: Texture2D
 const FLOOR_PATH: String = "res://ui/assets/dungeon/waterworks-floor.png"
 const WALK_AREA: Rect2 = Rect2(96, 112, 808, 310)
 const SPEED: float = 180.0
@@ -42,6 +45,7 @@ func _init() -> void:
 	floor_texture = Poses.load_atlas(FLOOR_PATH)
 	pump_texture = Poses.load_atlas("res://ui/assets/dungeon/waterworks-pump.png")
 	crate_texture = Poses.load_atlas("res://ui/assets/items/library/clothing/sealed_cargo_crate.png")
+	tool_texture = Icon.texture_for("fieldrepair_precision_kit")
 
 func setup(checkpoint: Dictionary) -> void:
 	room_id = checkpoint.room_id
@@ -53,15 +57,17 @@ func setup(checkpoint: Dictionary) -> void:
 	doors = Layout.doors(room_id, checkpoint.get("shortcut_open", false))
 	for passage: Dictionary in doors:
 		if passage.command != "MOVE": continue
-		passage.refusal = SimulationEngine.Dungeon.passage_refusal(room_id, passage.room_id, int(checkpoint.get("route_rules", 0)), checkpoint.get("cleared", []), checkpoint.get("maintenance_open", false))
+		passage.refusal = SimulationEngine.Dungeon.passage_refusal(room_id, passage.room_id, int(checkpoint.get("route_rules", 0)), checkpoint.get("cleared", []), checkpoint.get("maintenance_open", false), int(checkpoint.get("deep_rules", 0)), checkpoint.get("has_mask", false))
 		if passage.refusal != "":
-			passage.label += " · " + ("先排除警衛" if passage.refusal == "DUNGEON_GUARD_BLOCKS_ROUTE" else "維修門鎖住")
+			passage.label += " · " + {"DUNGEON_GUARD_BLOCKS_ROUTE": "先排除警衛", "DUNGEON_MAINTENANCE_CLOSED": "維修門鎖住", "DUNGEON_NEED_GAS_MASK": "需軍規面具"}.get(passage.refusal, "尚未開啟")
 	enemy_id = String(checkpoint.get("enemy", ""))
 	enemy_pose = Poses.frame(enemy_id, "recover")
 	enemy_texture = null
 	if not enemy_id.is_empty():
 		if enemy_pose.is_empty(): enemy_texture = Poses.load_atlas(Stage.VISUAL_PROFILES[enemy_id].texture_path)
 		doors.append({"command": "FIGHT", "room_id": room_id, "label": "迎戰 " + Enemies.display_name(enemy_id), "point": ENEMY_POINT})
+	if room_id == "polluted_store" and checkpoint.get("deep_rules", 0) == 1 and not checkpoint.get("tools_recovered", false):
+		doors.append({"command": "RECOVER_TOOLS", "label": "取走維修精密組", "point": TOOL_POINT, "refusal": checkpoint.get("recovery_refusal", "")})
 	actor_position = Layout.arrival(doors, checkpoint.from_room_id)
 	obstacles = Layout.obstacles(room_id)
 	queue_redraw()
@@ -172,6 +178,11 @@ func _draw() -> void:
 		var point: Vector2 = door.point
 		if door.command == "FIGHT":
 			_draw_enemy()
+			continue
+		if door.command == "RECOVER_TOOLS":
+			draw_arc(point, 30, 0, TAU, 32, Tokens.AMBER, 2, true)
+			if tool_texture != null: draw_texture_rect(tool_texture, Rect2(point - Vector2(26, 50), Vector2(52, 52)), false)
+			draw_string(get_theme_default_font(), point + Vector2(-125, -76), "現地維修精密組 · 1.8kg", HORIZONTAL_ALIGNMENT_CENTER, 250, 16, Tokens.TEXT)
 			continue
 		if point == Layout.WEST or point == Layout.EAST:
 			draw_rect(Rect2(point - Vector2(17, 56), Vector2(34, 112)), Tokens.BASE)
