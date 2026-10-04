@@ -23,6 +23,8 @@ var reduce_motion: CheckButton
 var route_choice: OptionButton
 var map_button: Button
 var map_dialog: AcceptDialog
+var maintenance_actions: HBoxContainer
+var maintenance_buttons: Dictionary = {}
 
 func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	world = p_world
@@ -69,6 +71,9 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	message.theme_type_variation = "PdaMuted"
 	column.add_child(message)
+	maintenance_actions = HBoxContainer.new()
+	maintenance_actions.add_theme_constant_override("separation", Tokens.GAP)
+	column.add_child(maintenance_actions)
 	var commands: HBoxContainer = HBoxContainer.new()
 	column.add_child(commands)
 	route_choice = OptionButton.new()
@@ -115,6 +120,11 @@ func refresh_room() -> void:
 		message.text += "　·　" + Field.Enemies.display_name(enemy) + "仍在這裡；靠近後可選擇迎戰。"
 	elif checkpoint.room_id in checkpoint.cleared:
 		message.text += "　·　威脅已排除，戰利品已結算。"
+	_refresh_maintenance(checkpoint)
+	if checkpoint.room_id == "guard" and checkpoint.route_rules == 1 and checkpoint.room_id not in checkpoint.cleared:
+		message.text += "　·　北門由劫匪看守；可迎戰，或返回前廳走維修廊。"
+	if checkpoint.maintenance_open and checkpoint.room_id in ["maintenance", "pump"]:
+		message.text += "　·　維修門已開啟（%s · 已付 %d 廢料）。" % [method_name(checkpoint.maintenance_method), Dungeon.MAINTENANCE_COSTS[checkpoint.maintenance_method]]
 	if not is_instance_valid(combat_screen): view.grab_focus()
 	refresh_interaction()
 
@@ -122,8 +132,57 @@ func refresh_interaction() -> void:
 	if interact_button == null:
 		return
 	var door: Dictionary = view.nearest_door()
-	interact_button.disabled = door.is_empty() or not view.enabled
+	interact_button.disabled = door.is_empty() or not view.enabled or door.get("refusal", "") != ""
 	interact_button.text = "靠近出口以互動" if door.is_empty() else door.label + " · E / Enter"
+	interact_button.tooltip_text = refusal_text(door.get("refusal", ""))
+	var near_gate: bool = not door.is_empty() and door.get("room_id", "") == "pump" and door.command == "MOVE"
+	for method: String in maintenance_buttons:
+		var button: Button = maintenance_buttons[method]
+		var refusal: String = button.get_meta("refusal")
+		button.disabled = not view.enabled or not near_gate or refusal != ""
+		button.tooltip_text = refusal_text(refusal) if refusal != "" else ("靠近北側維修門後使用。" if not near_gate else "開門後可從維修廊往返泵房。")
+
+func method_name(method: String) -> String:
+	return {"SKILL": "機械熟練", "TOOL": "工具開門", "ABBAN": "阿扳協助"}.get(method, "維修門")
+
+func refusal_text(refusal: String) -> String:
+	return {"": "", "DUNGEON_GUARD_BLOCKS_ROUTE": "先排除警衛，或返回前廳走維修廊。", "DUNGEON_MAINTENANCE_CLOSED": "維修門尚未開啟，請在維修廊選擇開門方式。", "DUNGEON_NEED_MECHANICS_2": "需要自己的機械技能 ≥2。", "DUNGEON_NEED_TOOL": "需要撬棍或扳手。", "DUNGEON_NEED_ABBAN": "需要阿扳同行。", "DUNGEON_NEED_SCRAP": "背包中的廢料不足。"}.get(refusal, "目前條件已改變，請重新選擇可用行動。")
+
+func _refresh_maintenance(checkpoint: Dictionary) -> void:
+	for child: Node in maintenance_actions.get_children():
+		maintenance_actions.remove_child(child)
+		child.queue_free()
+	maintenance_buttons.clear()
+	maintenance_actions.visible = checkpoint.room_id == "maintenance" and checkpoint.route_rules == 1 and not checkpoint.maintenance_open
+	if not maintenance_actions.visible: return
+	message.text += "　·　北側維修門需要開啟；先走近門，再選擇方式。"
+	for method: String in ["SKILL", "TOOL", "ABBAN"]:
+		var button: Button = Button.new()
+		button.theme_type_variation = "PdaCommand"
+		button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+		button.size_flags_horizontal = SIZE_EXPAND_FILL
+		var refusal: String = Dungeon.maintenance_requirement(world, method)
+		button.text = "%s · 廢料 −%d" % [method_name(method), Dungeon.MAINTENANCE_COSTS[method]]
+		button.text += "\n" + ("機械 ≥2" if method == "SKILL" else ("撬棍／扳手" if method == "TOOL" else "阿扳同行"))
+		if refusal != "": button.text += " · " + refusal_text(refusal)
+		button.set_meta("refusal", refusal)
+		button.pressed.connect(open_maintenance.bind(method))
+		maintenance_actions.add_child(button)
+		maintenance_buttons[method] = button
+
+func open_maintenance(method: String) -> void:
+	var door: Dictionary = view.nearest_door()
+	if not view.enabled or door.is_empty() or door.get("room_id", "") != "pump" or door.command != "MOVE": return
+	var actor_position: Vector2 = view.actor_position
+	var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, {"command": "OPEN_MAINTENANCE", "method": method}))
+	if not result.success:
+		message.text = refusal_text(result.error)
+		return
+	world_changed.emit()
+	refresh_room()
+	if view.walkable(actor_position): view.actor_position = actor_position
+	view.queue_redraw()
+	refresh_interaction()
 
 func _guide() -> void:
 	if route_choice.selected >= 0:
@@ -145,7 +204,7 @@ func _show_map() -> void:
 	column.add_theme_constant_override("separation", Tokens.GAP)
 	map_dialog.add_child(column)
 	var legend: Label = Label.new()
-	legend.text = "● 目前房間　·　門外尚未走過：未探索　·　橙色連線：已開啟的返回捷徑"
+	legend.text = "● 目前房間 · 未探索：門外房間 · 橙線：捷徑 · 紅線：門未開"
 	legend.theme_type_variation = "PdaMuted"
 	column.add_child(legend)
 	var map_view: Control = MapView.new()
@@ -177,7 +236,7 @@ func interact() -> void:
 		payload.room_id = door.room_id
 	var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, payload))
 	if not result.success:
-		message.text = "目前無法通過出口。請存檔後重新讀取，或從可用樓梯返回。"
+		message.text = refusal_text(result.error)
 		return
 	world_changed.emit()
 	if Field.is_dungeon_activity(world):

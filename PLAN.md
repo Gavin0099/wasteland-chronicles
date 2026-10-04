@@ -17,8 +17,8 @@
 
 - [x] DUN-1 delivered PR72 (merge0a81b63aef8d0f1e89ce101a14606d0c4d048475): two walkable rooms, room-checkpoint save/load/Continue and original pump/floor art.178focused/all126PASS;26Vulkancaptures/156assertions; independent implementation/companion clear of P0/P1. Exact-head0102849 GitHub Codex completed with no findings; real CI37185248014 runner1000022517/seven steps passed. Main synchronized clean; readonly memory guard exit0. Fixed-height save-summary overlapP2 remains deferred; see docs/dungeon-entry.md.
 - [x] DUN-2 delivered PR73 (mergeeb9b07ee715a26d250443bff36da3b088abdee95): eight fixed rooms, both branches, remembered exploration, frontier-only map and control-side return shortcut.430focused/all127PASS; final map-height refinement rechecked430focused/34distinctVulkanPNG/340assertions. Independent implementation/companion zero P0/P1; exact-head166584ca GitHub Codex completed with no findings and real CI37186948571 runner1000022533/seven steps passed. Main synchronized clean; readonly guard exit0. Arbitrary-start guide collisionP2 deferred; see docs/dungeon-layout.md.
-- [~] DUN-3 locally verified — chosen real room fights, exact source-room restoration, escape/death, one-shot caps/scrap and carrying-limit receipts. All128 suites PASS on the final core snapshot; subsequent UI bitmap-lifetime correction/test warning cleanup rechecked479focused/34distinctVulkanPNG/290assertions. Final evidence/memory and remote delivery gates pending; result-window scrolling P2 deferred. See docs/dungeon-combat.md.
-- [ ] DUN-4 — combat front route versus skill/tool/Abban maintenance route, visible requirements and real costs.
+- [x] DUN-3 delivered PR74 (merge373a63ecd7acf0c83fb9b2009c7ed58607d9b16a): chosen real room fights, exact source-room restoration, escape/death, one-shot caps/scrap and carrying-limit receipts. All128 suites PASS on the final core snapshot; subsequent UI bitmap-lifetime correction/test warning cleanup rechecked479focused/34distinctVulkanPNG/290assertions. Independent implementation/companion zero P0/P1; exact-heada621db6 Codex completed with one acknowledged damage-history P2; real CI37189586669 runner1000022546/seven steps PASS. Main synchronized clean, readonly guard0. Result-window scrolling P2 also deferred. See docs/dungeon-combat.md.
+- [~] DUN-4 locally verified — combat front route versus skill/tool/Abban maintenance route, visible requirements and actual once-only scrap spending. Current ENTER facts activate guarded passages; valid old trips finish under legacy rules. Malformed combat-history type comparisons found during acceptance now fail closed;1028focused/all129PASS without SCRIPT ERROR.54distinctVulkanPNG/754assertions inspected at both resolutions on the final core/UI snapshot. Final independent review and same-PR evidence/memory/remote gates pending. Map color-only distinction P2 deferred. See docs/dungeon-route-choice.md.
 - [ ] DUN-5 — trip time, owned pack supplies, capacity, treatment and safe-route retreat.
 - [ ] DUN-6 — gated polluted wing, useful deep reward, rumor pursuit and capability-based revisit.
 - [ ] DUN-7 — Abban device-preservation/salvage choice, durable shared history and actual equipment consequences.
@@ -153,6 +153,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-10-04: DUN-4 versions route authorization on ENTER facts rather than rewriting valid DUN-1/2/3 histories. Front access requires a verified guard victory; bypass opening explicitly selects own MECHANICS2/owned crowbar or wrench/current Abban, with fixed once-only scrap cost and no free practice/XP/day. Both passage directions and historical gate facts are validated. An actual source=false probe exposed a typed-comparison crash whose empty return let checked loading succeed; string and exact-number guards now precede comparisons, including the pre-Dungeon Field wire/result validator. This fixes malformed types, not PR74's deferred plausible-damage reconstruction P2.
 
 - 2026-10-04: DUN-3 reuses existing Field combat and monotonic battle IDs, binding chosen room encounters to START/TURN/RESULT/CONFIRM ledger phases. Cleared rooms derive from verified victory receipts; no additional snapshot schema or NPC lifecycle exists. Fatal dungeon combat uses existing field mortality rather than the protected road floor. Pending fatal receipts remain in the combat screen until acknowledged, then end exploration without revival. Room bitmap references are retained across deferred drawing. Trip costs, route gates, deeper gear and relationship consequences remain DUN-4 onward.
 
@@ -316,6 +318,9 @@
 - 2026-09-20: **Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` ACCEPTED_FOR_WORK** — Owner disposition: dedicated slice **S4-C.2 Snapshot Numeric Canonicality**, activated before S4-D Traits. Traits are explicitly on WAIT until persistence continuity is proven.
 
 ## Known Risks
+
+- DUN-4 independent P2: blocked map edges differ by red/grey color alone, without a distinct line pattern. Door captions, disabled interaction and explicit missing-requirement text remain available; map accessibility refinement is deferred under the reviewed-delivery threshold.
+- DUN-3/PR74 deferred P2: the compact result window initially shows room/enemy and needs scrolling for the full outcome/reward receipt. Historical attack validation proves arithmetic HP consistency but does not reconstruct gear/ammo/preparation inputs, so coordinated plausible damage edits can pass; no full save anti-tamper claim. Both findings are acknowledged; typed malformed metadata rejection is a separate concrete acceptance fix in DUN-4.
 
 - Combat animation completion addresses the previously deferred reduced FLEE strike pose and PR59 exported atlas loading; packed resource-runtime checks qualify asset loading, not a signed standalone platform release or owner hand-play acceptance.
 
