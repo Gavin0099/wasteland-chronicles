@@ -79,7 +79,7 @@ func item_row(item_id: String, caption: String, description: String) -> void:
 	row.add_child(text)
 
 func refresh() -> void:
-	var checkpoint: Dictionary = Dungeon.state(world)
+	var checkpoint: Dictionary = Dungeon.current_checkpoint(world)
 	var companion: String = Dungeon.Party.current(world)
 	var allowance: String = "獨行：每天水1、食物1。"
 	if companion != "":

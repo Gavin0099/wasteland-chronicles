@@ -24,6 +24,11 @@ const Party = preload("res://simulation/party.gd")
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
 
 const RUMORS := {
+	"rumor:relay_backpack": {
+		"title_zh": "中繼站保管室的軍用背包",
+		"text_zh": "灰谷郊外的舊中繼站，值勤文件裡還留著保管室門禁卡。軍用背包能裝32份物資；野犬守著正門，牆邊拖痕可能通往維修道。帶工具和2廢料可繞路。",
+		"heard_in": ["settlement:gray_valley"], "dungeon_id": "dungeon:buried_relay",
+	},
 	"rumor:waterworks_tools": {
 		"title_zh": "水廠深處的維修精密組",
 		"text_zh": "灰谷封存水廠的污染庫房留著現地維修精密組：機械工具3，修井泵少耗1廢料。軍規面具才能進污染區；警衛正門或維修廊都能到泵房，控制室可開返程捷徑。",
@@ -117,6 +122,10 @@ static func _raider_beaten(world) -> bool:
 # {done, next}: whether the world has settled this rumour, and if not, the one
 # thing that stands between the player and it right now.
 static func progress(world, rumor_id: String) -> Dictionary:
+	if rumor_id == "rumor:relay_backpack":
+		var relay: Dictionary = SimulationEngine.Relay.state(world)
+		if relay.prize_taken: return {"done": true, "next": "保管室的背包已取走。裝備後容量32；可帶更多補給深入水廠，或接乾井的軍用背包調查委託。"}
+		return {"done": false, "next": "到灰谷選「中繼站」。正門需迎戰野犬；側道先查看入口拖痕，帶扳手或撬棍與2廢料。四次換房過一天，帶水糧；取背包還需2.4kg道具空間。"}
 	match rumor_id:
 		"rumor:waterworks_tools":
 			var dungeon: Dictionary = SimulationEngine.Dungeon.state(world)

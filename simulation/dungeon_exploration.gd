@@ -40,7 +40,7 @@ static func state(world: WorldState) -> Dictionary:
 	for event: EventRecord in world.event_log:
 		if event.actor_id != world.player.npc_id:
 			continue
-		if event.type == "FIELD_RESULT" and text_is(event.payload.get("source", "field"), "dungeon") and text_is(event.payload.get("outcome"), "VICTORY"):
+		if event.type == "FIELD_RESULT" and text_is(event.payload.get("source", "field"), "dungeon") and text_is(event.payload.get("dungeon_id"), SITE) and text_is(event.payload.get("outcome"), "VICTORY"):
 			if event.payload.room_id not in result.cleared: result.cleared.append(event.payload.room_id)
 		if event.type not in EVENTS: continue
 		match event.type:
@@ -131,6 +131,7 @@ static func validate_world(world: WorldState) -> String:
 			var source: Variant = event.payload.get("source", "field")
 			if typeof(source) != TYPE_STRING or source not in ["field", "road", "dungeon"]: return "DUNGEON_INVALID_COMBAT_SOURCE"
 			if source != "dungeon": continue
+			if text_is(event.payload.get("dungeon_id"), SimulationEngine.Relay.SITE): continue
 			if world.player == null or event.actor_id != world.player.npc_id or event.target_id != HOME or combat.is_empty() or not text_is(event.payload.get("dungeon_id"), SITE) or not text_is(event.payload.get("room_id"), room) or not number(event.payload.get("battle_id"), int(combat.id), int(combat.id)):
 				return "DUNGEON_INVALID_COMBAT_CONTEXT"
 			if event.day < last_day or event.day < 0 or event.day > world.current_day: return "DUNGEON_INVALID_EVENT_DAY"
@@ -254,7 +255,17 @@ static func validate_world(world: WorldState) -> String:
 			return "DUNGEON_CONFLICTING_ACTIVITY"
 		if combat.is_empty() and (not world.field_state.battle.is_empty() or world.field_state.receipt >= 0): return "DUNGEON_CONFLICTING_ACTIVITY"
 	if work_units >= MOVES_PER_DAY: return "DUNGEON_DAY_PENDING"
-	return _snapshot(world, room, combat)
+	var snapshot_error: String = _snapshot(world, room, combat)
+	return snapshot_error if snapshot_error != "" else SimulationEngine.Relay.validate_world(world)
+
+static func is_exploring(world: WorldState) -> bool:
+	return state(world).active or SimulationEngine.Relay.state(world).active
+
+static func active_site(world: WorldState) -> String:
+	return SimulationEngine.Relay.SITE if SimulationEngine.Relay.state(world).active else SITE
+
+static func current_checkpoint(world: WorldState) -> Dictionary:
+	return SimulationEngine.Relay.state(world) if SimulationEngine.Relay.state(world).active else state(world)
 
 static func ration_budget(water: int, food: int, companion: String) -> Dictionary:
 	var after: Dictionary = {"water": maxi(0, water - 1), "food": maxi(0, food - 1), "fed": false}
@@ -279,11 +290,13 @@ static func validate_day(world: WorldState, index: int, payload: Dictionary, com
 	return ""
 
 static func has_trip_costs(world: WorldState) -> bool:
+	if SimulationEngine.Relay.state(world).active: return true
 	var checkpoint: Dictionary = state(world)
 	return checkpoint.active and checkpoint.trip_rules == 1
 
 # Called by the engine's existing personal-needs phase, before mortality.
 static func consume_daily_supplies(world: WorldState, day: int, tick_events: Array[EventRecord]) -> Dictionary:
+	if SimulationEngine.Relay.state(world).active: return SimulationEngine.Relay.consume_daily_supplies(world, day, tick_events)
 	var water: int = world.player.inventory.water
 	var food: int = world.player.inventory.food
 	var companion: String = Party.current(world)
@@ -301,6 +314,9 @@ static func consume_daily_supplies(world: WorldState, day: int, tick_events: Arr
 	return {"water_unmet": 1.0 if water == 0 else 0.0, "food_unmet": 1.0 if food == 0 else 0.0}
 
 static func end_deprivation_trip(world: WorldState, day: int, tick_events: Array[EventRecord]) -> void:
+	if SimulationEngine.Relay.state(world).active:
+		SimulationEngine.Relay.end_deprivation_trip(world, day, tick_events)
+		return
 	if not has_trip_costs(world): return
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if life != null and not life.is_alive():
@@ -347,7 +363,7 @@ static func _snapshot(world: WorldState, room: String, combat: Dictionary) -> St
 	if combat.is_empty():
 		var context: Dictionary = field.battle
 		if context.is_empty() and field.receipt >= 0 and field.receipt < world.event_log.size(): context = world.event_log[field.receipt].payload
-		return "DUNGEON_ORPHAN_COMBAT" if text_is(context.get("source", "field"), "dungeon") else ""
+		return "DUNGEON_ORPHAN_COMBAT" if text_is(context.get("source", "field"), "dungeon") and not text_is(context.get("dungeon_id"), SimulationEngine.Relay.SITE) else ""
 	if world.player.field_kit.hp != combat.hp or field.enemy_hp != combat.enemy_hp: return "DUNGEON_INVALID_COMBAT_SNAPSHOT"
 	if combat.result_index >= 0:
 		return "" if field.battle.is_empty() and field.receipt == combat.result_index else "DUNGEON_INVALID_COMBAT_SNAPSHOT"
@@ -436,6 +452,9 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var history_error: String = validate_world(world)
 	if history_error != "":
 		return history_error
+	if payload.has("site_id"):
+		return SimulationEngine.Relay.authorize(world, payload)
+	if SimulationEngine.Relay.state(world).active: return "DUNGEON_EXPLORATION_PENDING"
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if life == null or not life.is_alive():
 		return "DUNGEON_PLAYER_NOT_ALIVE"
@@ -487,6 +506,7 @@ static func commit(world: WorldState, payload: Dictionary, tick_events: Array[Ev
 	var refusal: String = authorize(world, payload)
 	if refusal != "":
 		return {"success": false, "error": refusal}
+	if payload.has("site_id"): return SimulationEngine.Relay.commit(world, payload, tick_events, engine)
 	if payload.command == "FIGHT":
 		return WorldState.Field.begin_dungeon_battle(world, payload.room_id, tick_events)
 	var checkpoint: Dictionary = state(world)

@@ -79,3 +79,15 @@ painted drifter and dog beside it, and no amount of drawing code will: the gap
 between a stylised vector figure and a painted cutout is a style gap, not a
 detail gap. Replacing either placeholder remains a drop-in: supply real art and
 switch the `configure()` branch to a TextureRect, exactly as the dog already is.
+
+## RLY-1 original relay environment — 2026-10-05
+
+`buried-relay.png` is an original opaque 1672×941 image generated with the built-in image generation tool for the authorized first relay expedition. It is used by the walkable relay room view and the existing battle stage. Runtime actors, labels, doors and committed-state props are drawn separately. No turret, wanted person or mechanical dog is painted into the scene.
+
+- SHA-256: `947f53f22bc58abbcdbafb268768e089cb968c2fe4c6d0978aa9a831a6cc2f96`.
+- Generation source: `C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-2399143f-f82e-4ed2-b96a-0a05bb54de48.png`, copied without image editing into this directory.
+- Transparency: false. No third-party game art was copied.
+
+Generation prompt:
+
+> Create one original landscape 16:9 opaque environment bitmap for the Wasteland Chronicles RPG, a sand-buried abandoned military radio relay station interior. Classic late-1990s hand-painted RPG scenery, finely inked worn concrete, dull olive steel communications racks and unpowered radio equipment, frayed cables and dusty storage cases at the back and side walls, a little windblown sand. Elevated three-quarter perspective suitable for an isometric duel arena. Keep central and lower two thirds mostly open flat dusty concrete so runtime fighters and a diamond floor can be added separately. Machinery remains near edges. Subdued brown-grey earth palette, believable scale and perspective. Full bleed opaque backdrop, modest dusty lighting. No people, monsters, robot dogs, turrets, guns, weapons, HUD, menus, typography, logos, bright green glow, neon or checkerboard. No water pumps or water-treatment tanks. Save generated artifact normally; intended project asset is ui/assets/combat/buried-relay.png.

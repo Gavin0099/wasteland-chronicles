@@ -1879,6 +1879,10 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	dungeon_button.tooltip_text = "灰谷郊外的封存地下水廠"
 	dungeon_button.pressed.connect(_enter_dungeon)
 	toolbar_row.add_child(dungeon_button)
+	var relay_button: Button = DesktopWindow.toolbar_button("中繼站")
+	relay_button.tooltip_text = "灰谷郊外；傳聞中的軍用背包、野犬正門與隱藏維修道"
+	relay_button.pressed.connect(_enter_relay)
+	toolbar_row.add_child(relay_button)
 	var toolbar_spacer := Control.new()
 	toolbar_spacer.size_flags_horizontal = SIZE_EXPAND_FILL
 	toolbar_row.add_child(toolbar_spacer)
@@ -2902,6 +2906,9 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 	return "目前無法採取這個做法，請查看需求與消耗。"
 
 func _show_field() -> void:
+	if engine.Relay.state(world).active:
+		_show_relay()
+		return
 	if engine.Dungeon.state(world).active:
 		_show_dungeon()
 		return
@@ -2992,3 +2999,33 @@ func set_exploration_paused(value: bool) -> void:
 	var screen: Control = find_child("DungeonScreen", false, false) as Control
 	if screen != null:
 		screen.set_paused(value)
+	var relay_screen: Control = find_child("RelayScreen", false, false) as Control
+	if relay_screen != null: relay_screen.set_paused(value)
+
+func _enter_relay() -> void:
+	if world == null or world.player == null: return
+	if not engine.Relay.state(world).active:
+		var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, {"command": "ENTER", "site_id": engine.Relay.SITE}))
+		if not result.success:
+			var dialog: AcceptDialog = AcceptDialog.new()
+			dialog.title = "中繼站入口"
+			dialog.theme_type_variation = "PdaMapDialog"
+			dialog.dialog_text = preload("res://ui/relay_screen.gd").explain(result.error)
+			dialog.confirmed.connect(dialog.queue_free)
+			dialog.canceled.connect(dialog.queue_free)
+			add_child(dialog)
+			dialog.popup_centered(Vector2i(520, 220))
+			return
+	refresh_ui()
+	_show_relay()
+
+func _show_relay() -> void:
+	if not engine.Relay.state(world).active or find_child("RelayScreen", false, false) != null: return
+	var screen: Control = preload("res://ui/relay_screen.gd").new()
+	screen.name = "RelayScreen"
+	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(screen)
+	screen.setup(world, engine)
+	screen.world_changed.connect(refresh_ui)
+	screen.closed.connect(refresh_ui)
+	screen.save_menu_requested.connect(func() -> void: save_menu_requested.emit())

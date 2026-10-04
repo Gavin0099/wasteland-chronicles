@@ -255,7 +255,7 @@ static func environment_for(current_world: WorldState) -> String:
 	if context.is_empty() and current_world.field_state.receipt >= 0:
 		context = current_world.event_log[current_world.field_state.receipt].payload
 	if String(context.get("source", "field")) == "dungeon":
-		return "waterworks"
+		return "relay" if context.get("dungeon_id") == SimulationEngine.Relay.SITE else "waterworks"
 	if String(context.get("place_id", "")) == "place:hammer_camp":
 		return "camp"
 	if String(context.get("route_type", "")) == "WILDERNESS":
@@ -347,7 +347,7 @@ func refresh() -> void:
 		is_road = String(world.event_log[state.receipt].payload.get("source", "field")) == "road"
 
 	if heading_label != null:
-		heading_label.text = "%s / %s" % [{"highway": "廢棄公路", "wilderness": "荒野路", "camp": "鐵鎚幫營地", "shed": "灰谷近郊", "waterworks": "封存地下水廠"}[environment_for(world)], Field.Enemies.display_name(_display_enemy())]
+		heading_label.text = "%s / %s" % [{"highway": "廢棄公路", "wilderness": "荒野路", "camp": "鐵鎚幫營地", "shed": "灰谷近郊", "waterworks": "封存地下水廠", "relay": "舊中繼站"}[environment_for(world)], Field.Enemies.display_name(_display_enemy())]
 	close_button.text = "返回探索" if is_dungeon else ("返回旅途" if is_road else "返回地圖")
 	close_button.disabled = not state.battle.is_empty() or state.receipt >= 0
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
@@ -428,8 +428,9 @@ func refresh() -> void:
 		if not receipt.left_behind.is_empty():
 			show_receipt_goods("容量不足，未帶走", receipt.left_behind, "", left_values)
 		if is_dungeon:
-			var room_name: String = String(SimulationEngine.Dungeon.ROOMS[receipt.room_id])
-			log_label.text = "%s · %s\n%s" % [room_name, enemy_name, {"VICTORY": "威脅已排除。戰利品只結算一次；確認後回到這個房間。", "ESCAPED": "已逃離交戰，沒有獲得戰利品。確認後回到這個房間，敵人仍在。", "DEAD": "你在地下水廠倒下了。確認結果後查看旅程結束。"}.get(outcome, "確認這次交戰結果。")]
+			var rooms: Dictionary = SimulationEngine.Relay.ROOMS if receipt.dungeon_id == SimulationEngine.Relay.SITE else SimulationEngine.Dungeon.ROOMS
+			var room_name: String = String(rooms[receipt.room_id])
+			log_label.text = "%s · %s\n%s" % [room_name, enemy_name, {"VICTORY": "威脅已排除。戰利品只結算一次；確認後回到這個房間。", "ESCAPED": "已逃離交戰，沒有獲得戰利品。確認後回到這個房間，敵人仍在。", "DEAD": "你在這裡倒下了。確認結果後查看旅程結束。"}.get(outcome, "確認這次交戰結果。")]
 		var confirm_text := "確認結果並返回" if is_road or is_dungeon else "確認結果"
 		if int(receipt.get("xp_gained", 0)) > 0:
 			confirm_text += " · 歷練 +%d XP" % int(receipt.xp_gained)

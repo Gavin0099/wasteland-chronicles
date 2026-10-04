@@ -1,0 +1,34 @@
+{
+  "debugger": {
+    "ok": true,
+    "checked": 339,
+    "failed": 0,
+    "counts": {
+      "total": 167,
+      "errors": 0,
+      "parse_errors": 0,
+      "warnings": 167,
+      "info": 0
+    },
+    "node_config": {
+      "warnings": 0,
+      "hints": 0
+    },
+    "relay_warnings": 0
+  },
+  "lint": {
+    "total": 1,
+    "errors": 0,
+    "warnings": 1,
+    "parse_errors": 0
+  },
+  "smoke": {
+    "scenes": 2,
+    "passed": 2,
+    "failed": 0,
+    "errors": 0,
+    "warnings": 110,
+    "findings": 1
+  },
+  "runtime_qualification": "Existing baseline warnings and exit-time RID/ObjectDB diagnostics remain; no clean-shutdown, full save anti-tamper or human pacing claim."
+}
