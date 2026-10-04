@@ -124,7 +124,10 @@ func _init() -> void:
 		# PARTY-2A: the owner-authorized personal request only records an answer
 		# or transfers one actually recovered tool; no money, XP or people minted.
 		PlayerIntent.Action.RESPOND_COMPANION_REQUEST,
-		PlayerIntent.Action.FULFILL_COMPANION_REQUEST
+		PlayerIntent.Action.FULFILL_COMPANION_REQUEST,
+		# DUN-1: owner-approved local entrance, adjacent room and stairs intents.
+		# Closed subcommands record checkpoints; they grant no travel or reward API.
+		PlayerIntent.Action.DUNGEON_ACTION
 	]
 	for act in PlayerIntent.AUTHORIZED_ACTIONS:
 		if not act in legal_actions:

@@ -44,9 +44,10 @@ enum Action {
 	# PARTY-2A: answer Abban, then transfer an owned wrench after actual recovery.
 	FULFILL_COMPANION_REQUEST = 19,
 	RESPOND_COMPANION_REQUEST = 20,
+	DUNGEON_ACTION = 21,
 }
 
-const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT, Action.TRACK_RUMOR, Action.BETRAY_JOB, Action.TRAIN_SKILL, Action.HIRE_COMPANION, Action.DISMISS_COMPANION, Action.FULFILL_COMPANION_REQUEST, Action.RESPOND_COMPANION_REQUEST]
+const AUTHORIZED_ACTIONS: Array[int] = [Action.WAIT, Action.TRAVEL, Action.BUY, Action.SELL, Action.RESOLVE_ENCOUNTER, Action.CONTINUE_JOURNEY, Action.FIELD_ACTION, Action.EQUIP_ITEM, Action.UNEQUIP_ITEM, Action.ACCEPT_QUEST, Action.TURN_IN_QUEST, Action.SELECT_PERK, Action.ACCEPT_ACQUIRED_TRAIT, Action.SPEND_GROWTH_POINT, Action.TRACK_RUMOR, Action.BETRAY_JOB, Action.TRAIN_SKILL, Action.HIRE_COMPANION, Action.DISMISS_COMPANION, Action.FULFILL_COMPANION_REQUEST, Action.RESPOND_COMPANION_REQUEST, Action.DUNGEON_ACTION]
 
 var action: int = Action.WAIT
 var player_id: StringName = &""
@@ -75,6 +76,7 @@ func _init(
 
 static func action_name(value: int) -> String:
 	match value:
+		Action.DUNGEON_ACTION: return "DUNGEON_ACTION"
 		Action.FIELD_ACTION: return "FIELD_ACTION"
 		Action.EQUIP_ITEM: return "EQUIP_ITEM"
 		Action.UNEQUIP_ITEM: return "UNEQUIP_ITEM"
@@ -100,6 +102,9 @@ static func action_name(value: int) -> String:
 
 static func is_authorized_action(value: int) -> bool:
 	return value in AUTHORIZED_ACTIONS
+
+static func create_dungeon_action(p_player_id: StringName, p_payload: Dictionary) -> PlayerIntent:
+	return PlayerIntent.new(Action.DUNGEON_ACTION, p_player_id, &"", p_payload)
 
 static func create_wait(p_player_id: StringName) -> PlayerIntent:
 	return PlayerIntent.new(Action.WAIT, p_player_id, &"", {})

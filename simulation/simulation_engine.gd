@@ -17,6 +17,7 @@ const TownRoads = preload("res://simulation/town_roads.gd")
 const Training = preload("res://simulation/training.gd")
 const Party = preload("res://simulation/party.gd")
 const JobBoard = preload("res://simulation/job_board.gd")
+const Dungeon = preload("res://simulation/dungeon_exploration.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -1106,6 +1107,9 @@ func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -
 	return ""
 
 func validate_invariants(world: WorldState) -> String:
+	var dungeon_error: String = Dungeon.validate_world(world)
+	if dungeon_error != "":
+		return dungeon_error
 	var companion_error: String = Party.validate_personal_history(world)
 	if companion_error != "":
 		return companion_error
@@ -2649,6 +2653,10 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	if not PlayerIntent.is_authorized_action(intent.action):
 		return "UNAUTHORIZED_ACTION: %s is outside the S5-B2 closed action space" % PlayerIntent.action_name(intent.action)
 
+	if intent.action == PlayerIntent.Action.DUNGEON_ACTION:
+		return Dungeon.authorize(world, intent.payload)
+	if Dungeon.state(world).active:
+		return "DUNGEON_EXPLORATION_PENDING"
 	if intent.action == PlayerIntent.Action.FIELD_ACTION:
 		return WorldState.Field.authorize(world, intent.payload)
 	if not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
@@ -2863,6 +2871,8 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 # mechanics themselves (departure accounting, Axiom 9 arrival timing, backpack
 # consumption) are verified one day at a time.
 func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
+	if Dungeon.state(world).active:
+		return {"success": false, "error": "DUNGEON_EXPLORATION_PENDING"}
 	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 	if ls == null:
 		return {"success": false, "error": "INVALID_PLAYER: no life state"}
@@ -2985,6 +2995,8 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 		return {"success": false, "error": auth_err}
 
 	match intent.action:
+		PlayerIntent.Action.DUNGEON_ACTION:
+			return Dungeon.commit(world, intent.payload, tick_events)
 		PlayerIntent.Action.RESPOND_COMPANION_REQUEST:
 			var response_evt := EventRecord.new(world.current_day, "COMPANION_REQUEST_RESPONDED", intent.player_id, StringName(Party.ABBAN), {"companion_id": Party.ABBAN, "response": String(intent.payload.response)})
 			world.record_event(response_evt)

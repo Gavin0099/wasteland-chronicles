@@ -1864,6 +1864,10 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	var save_menu_button: Button = DesktopWindow.toolbar_button("存讀檔")
 	save_menu_button.pressed.connect(func() -> void: save_menu_requested.emit())
 	toolbar_row.add_child(save_menu_button)
+	var dungeon_button: Button = DesktopWindow.toolbar_button("水廠")
+	dungeon_button.tooltip_text = "灰谷郊外的封存地下水廠"
+	dungeon_button.pressed.connect(_enter_dungeon)
+	toolbar_row.add_child(dungeon_button)
 	var toolbar_spacer := Control.new()
 	toolbar_spacer.size_flags_horizontal = SIZE_EXPAND_FILL
 	toolbar_row.add_child(toolbar_spacer)
@@ -2885,6 +2889,9 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 	return "目前無法採取這個做法，請查看需求與消耗。"
 
 func _show_field() -> void:
+	if engine.Dungeon.state(world).active:
+		_show_dungeon()
+		return
 	if world == null or world.player == null or get_node_or_null("FieldScreen") != null:
 		return
 	var battle_or_receipt: bool = not world.field_state.battle.is_empty() or world.field_state.receipt >= 0
@@ -2898,3 +2905,39 @@ func _show_field() -> void:
 	screen.world_changed.connect(refresh_ui)
 	screen.closed.connect(refresh_ui)
 	screen.save_menu_requested.connect(func() -> void: save_menu_requested.emit())
+
+func _enter_dungeon() -> void:
+	if world == null or world.player == null:
+		return
+	if not engine.Dungeon.state(world).active:
+		var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, {"command": "ENTER"}))
+		if not result.success:
+			var dialog: AcceptDialog = AcceptDialog.new()
+			dialog.theme_type_variation = "PdaDialog"
+			dialog.title = "水廠入口"
+			dialog.dialog_text = "請先停留在灰谷，並完成目前的遭遇或戰鬥，再進入郊外水廠。"
+			dialog.ok_button_text = "知道了"
+			dialog.confirmed.connect(dialog.queue_free)
+			dialog.canceled.connect(dialog.queue_free)
+			add_child(dialog)
+			dialog.popup_centered(Vector2i(520, 220))
+			return
+	refresh_ui()
+	_show_dungeon()
+
+func _show_dungeon() -> void:
+	if not engine.Dungeon.state(world).active or find_child("DungeonScreen", false, false) != null:
+		return
+	var screen: Control = preload("res://ui/dungeon_screen.gd").new()
+	screen.name = "DungeonScreen"
+	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(screen)
+	screen.setup(world, engine)
+	screen.world_changed.connect(refresh_ui)
+	screen.closed.connect(refresh_ui)
+	screen.save_menu_requested.connect(func() -> void: save_menu_requested.emit())
+
+func set_exploration_paused(value: bool) -> void:
+	var screen: Control = find_child("DungeonScreen", false, false) as Control
+	if screen != null:
+		screen.set_paused(value)
