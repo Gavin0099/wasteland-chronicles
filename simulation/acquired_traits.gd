@@ -93,6 +93,16 @@ static func validate_selection(raw: Variant) -> String:
 		previous = id
 	return ""
 
+static func dungeon_need_receipt(prefix: Array[EventRecord], need: EventRecord, water: float, food: float) -> bool:
+	for index: int in range(prefix.size() - 1, -1, -1):
+		var event: EventRecord = prefix[index]
+		if event.type != "DUNGEON_DAY_SPENT" or event.actor_id != need.actor_id or event.target_id != need.target_id or event.day != need.day: continue
+		var before_water: Variant = event.payload.get("water_before")
+		var before_food: Variant = event.payload.get("food_before")
+		if typeof(before_water) not in [TYPE_INT, TYPE_FLOAT] or typeof(before_food) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(before_water)) or not is_finite(float(before_food)) or float(before_water) != floor(float(before_water)) or float(before_food) != floor(float(before_food)) or float(before_water) < 0.0 or float(before_food) < 0.0: return false
+		return water == (1.0 if before_water == 0 else 0.0) and food == (1.0 if before_food == 0 else 0.0)
+	return false
+
 static func validate_history(ids: Array[String], events: Array[EventRecord], player_id: StringName, current_day: int) -> String:
 	var seen: Array[String] = []
 	var prefix: Array[EventRecord] = []
@@ -103,8 +113,9 @@ static func validate_history(ids: Array[String], events: Array[EventRecord], pla
 		if event.actor_id == player_id and event.type == "PLAYER_NEED_UNMET":
 			var water: Variant = event.payload.get("water_unmet")
 			var food: Variant = event.payload.get("food_unmet")
-			if event.target_id != &"road" or event.payload.size() != 2 or typeof(water) not in [TYPE_FLOAT, TYPE_INT] or typeof(food) not in [TYPE_FLOAT, TYPE_INT] or not is_finite(float(water)) or not is_finite(float(food)) or float(water) < 0.0 or float(water) > 1.0 or float(food) < 0.0 or float(food) > 1.0 or (float(water) == 0.0 and float(food) == 0.0) or need_days.has(event.day):
+			if event.target_id not in [&"road", &"dungeon:sealed_waterworks"] or event.payload.size() != 2 or typeof(water) not in [TYPE_FLOAT, TYPE_INT] or typeof(food) not in [TYPE_FLOAT, TYPE_INT] or not is_finite(float(water)) or not is_finite(float(food)) or float(water) < 0.0 or float(water) > 1.0 or float(food) < 0.0 or float(food) > 1.0 or (float(water) == 0.0 and float(food) == 0.0) or need_days.has(event.day):
 				return "ACQUIRED_TRAIT_NEED_LEDGER_MALFORMED"
+			if event.target_id == &"dungeon:sealed_waterworks" and not dungeon_need_receipt(prefix, event, float(water), float(food)): return "ACQUIRED_TRAIT_NEED_LEDGER_MALFORMED"
 			need_days[event.day] = true
 		if event.actor_id == player_id and event.type == "ACQUIRED_TRAIT_ACCEPTED":
 			var id: Variant = event.payload.get("trait_id")

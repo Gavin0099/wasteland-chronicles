@@ -97,8 +97,14 @@ Whole129 Godot regression PASS with no SCRIPT ERROR against the final core,
 1028 and Vulkan54/754 are also on this final core/UI snapshot. The earlier129
 run had one failing animation suite because36 imported pose references were
 absent; actual editor import restored them before the passing full run.
-Same-PR evidence/canonical memory, final independent review and exact-head
-GitHub/CI/merge gates remain pending. No human pacing/fun acceptance is claimed.
+Delivered PR75: implementation63588da91bd93a30f4302716c34a9bfda3dc62b0 and
+bound evidence/canonical companion10981e859f0397535d9c8950bb8e4bb48a006ca1.
+Independent implementation/companion zero unresolved P0/P1; exact-head Codex
+completed2026-10-04 09:36:22Z with no findings and bot+1 confirmation. Real
+CI37192485908/job111407421011 runner1000022557/seven steps PASS. Merged
+34d7ea13bf7a61a821640abe3c11d230e9ae379a at09:38:31Z; main synchronized clean,
+readonly memory guard exit0. No post-merge writer/session_end, second closeout
+PR or human pacing/fun acceptance is claimed.
 
 Independent P2 recorded/deferred: map closed passages use only red versus grey
 lines, so color-impaired users cannot distinguish that map cue. Actual door
