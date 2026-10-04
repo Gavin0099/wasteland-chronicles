@@ -16,8 +16,8 @@
 ## Active Sprint
 
 - [x] DUN-1 delivered PR72 (merge0a81b63aef8d0f1e89ce101a14606d0c4d048475): two walkable rooms, room-checkpoint save/load/Continue and original pump/floor art.178focused/all126PASS;26Vulkancaptures/156assertions; independent implementation/companion clear of P0/P1. Exact-head0102849 GitHub Codex completed with no findings; real CI37185248014 runner1000022517/seven steps passed. Main synchronized clean; readonly memory guard exit0. Fixed-height save-summary overlapP2 remains deferred; see docs/dungeon-entry.md.
-- [~] DUN-2 locally verified — eight fixed rooms, both branches, remembered exploration, frontier-only map and control-side return shortcut.430focused/all127PASS;34distinct actualVulkanPNG/340assertions inspected. Independent review zero P0/P1; arbitrary-start guide collisionP2 deferred. Same-PR evidence/memory and remote gates pending; see docs/dungeon-layout.md.
-- [ ] DUN-3 — real room combat, exact room restoration, escape/death and one-shot rewards.
+- [x] DUN-2 delivered PR73 (mergeeb9b07ee715a26d250443bff36da3b088abdee95): eight fixed rooms, both branches, remembered exploration, frontier-only map and control-side return shortcut.430focused/all127PASS; final map-height refinement rechecked430focused/34distinctVulkanPNG/340assertions. Independent implementation/companion zero P0/P1; exact-head166584ca GitHub Codex completed with no findings and real CI37186948571 runner1000022533/seven steps passed. Main synchronized clean; readonly guard exit0. Arbitrary-start guide collisionP2 deferred; see docs/dungeon-layout.md.
+- [~] DUN-3 locally verified — chosen real room fights, exact source-room restoration, escape/death, one-shot caps/scrap and carrying-limit receipts. All128 suites PASS on the final core snapshot; subsequent UI bitmap-lifetime correction/test warning cleanup rechecked479focused/34distinctVulkanPNG/290assertions. Final evidence/memory and remote delivery gates pending; result-window scrolling P2 deferred. See docs/dungeon-combat.md.
 - [ ] DUN-4 — combat front route versus skill/tool/Abban maintenance route, visible requirements and real costs.
 - [ ] DUN-5 — trip time, owned pack supplies, capacity, treatment and safe-route retreat.
 - [ ] DUN-6 — gated polluted wing, useful deep reward, rumor pursuit and capability-based revisit.
@@ -153,6 +153,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-10-04: DUN-3 reuses existing Field combat and monotonic battle IDs, binding chosen room encounters to START/TURN/RESULT/CONFIRM ledger phases. Cleared rooms derive from verified victory receipts; no additional snapshot schema or NPC lifecycle exists. Fatal dungeon combat uses existing field mortality rather than the protected road floor. Pending fatal receipts remain in the combat screen until acknowledged, then end exploration without revival. Room bitmap references are retained across deferred drawing. Trip costs, route gates, deeper gear and relationship consequences remain DUN-4 onward.
 
 - 2026-10-04: DUN-2 adds visited-room knowledge and the control-to-entrance latch as projections of the existing committed dungeon ledger. Fixed adjacency is a domain contract; pixel collision/door placement are local presentation. The validator checks the latch before allowing each historical shortcut traversal. No snapshot schema, population membership, day formula, supplies or reward changes. Doorway guides follow an authored central corridor; arbitrary-start automatic pathfinding is not delivered. See docs/dungeon-layout.md.
 

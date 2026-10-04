@@ -2656,7 +2656,8 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 	if intent.action == PlayerIntent.Action.DUNGEON_ACTION:
 		return Dungeon.authorize(world, intent.payload)
 	if Dungeon.state(world).active:
-		return "DUNGEON_EXPLORATION_PENDING"
+		if intent.action != PlayerIntent.Action.FIELD_ACTION:
+			return "DUNGEON_EXPLORATION_PENDING"
 	if intent.action == PlayerIntent.Action.FIELD_ACTION:
 		return WorldState.Field.authorize(world, intent.payload)
 	if not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:

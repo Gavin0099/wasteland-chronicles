@@ -254,6 +254,8 @@ static func environment_for(current_world: WorldState) -> String:
 	var context: Dictionary = current_world.field_state.battle
 	if context.is_empty() and current_world.field_state.receipt >= 0:
 		context = current_world.event_log[current_world.field_state.receipt].payload
+	if String(context.get("source", "field")) == "dungeon":
+		return "waterworks"
 	if String(context.get("place_id", "")) == "place:hammer_camp":
 		return "camp"
 	if String(context.get("route_type", "")) == "WILDERNESS":
@@ -337,6 +339,7 @@ func refresh() -> void:
 	var state := world.field_state
 	actions_box.columns = 3 if state.battle.is_empty() and state.receipt < 0 else 4
 	var kit := world.player.field_kit
+	var is_dungeon: bool = Field.is_dungeon_activity(world)
 	var is_road: bool = false
 	if not state.battle.is_empty():
 		is_road = String(state.battle.get("source", "field")) == "road"
@@ -344,8 +347,8 @@ func refresh() -> void:
 		is_road = String(world.event_log[state.receipt].payload.get("source", "field")) == "road"
 
 	if heading_label != null:
-		heading_label.text = "%s / %s" % [{"highway": "廢棄公路", "wilderness": "荒野路", "camp": "鐵鎚幫營地", "shed": "灰谷近郊"}[environment_for(world)], Field.Enemies.display_name(_display_enemy())]
-	close_button.text = "返回旅途" if is_road else "返回地圖"
+		heading_label.text = "%s / %s" % [{"highway": "廢棄公路", "wilderness": "荒野路", "camp": "鐵鎚幫營地", "shed": "灰谷近郊", "waterworks": "封存地下水廠"}[environment_for(world)], Field.Enemies.display_name(_display_enemy())]
+	close_button.text = "返回探索" if is_dungeon else ("返回旅途" if is_road else "返回地圖")
 	close_button.disabled = not state.battle.is_empty() or state.receipt >= 0
 	close_button.tooltip_text = "請先完成戰鬥或逃跑，並確認結果。" if close_button.disabled else ""
 	var weapon := "撬棍" if kit.equipped else "徒手"
@@ -424,7 +427,10 @@ func refresh() -> void:
 			show_receipt_goods("失去物資", receipt.lost, "−", left_values)
 		if not receipt.left_behind.is_empty():
 			show_receipt_goods("容量不足，未帶走", receipt.left_behind, "", left_values)
-		var confirm_text := "確認結果並返回" if is_road else "確認結果"
+		if is_dungeon:
+			var room_name: String = String(SimulationEngine.Dungeon.ROOMS[receipt.room_id])
+			log_label.text = "%s · %s\n%s" % [room_name, enemy_name, {"VICTORY": "威脅已排除。戰利品只結算一次；確認後回到這個房間。", "ESCAPED": "已逃離交戰，沒有獲得戰利品。確認後回到這個房間，敵人仍在。", "DEAD": "你在地下水廠倒下了。確認結果後查看旅程結束。"}.get(outcome, "確認這次交戰結果。")]
+		var confirm_text := "確認結果並返回" if is_road or is_dungeon else "確認結果"
 		if int(receipt.get("xp_gained", 0)) > 0:
 			confirm_text += " · 歷練 +%d XP" % int(receipt.xp_gained)
 		add_action("CONFIRM", confirm_text)
@@ -521,10 +527,10 @@ func perform(payload: Dictionary) -> void:
 	# said it had been a road fight any more, so the screen fell back to the
 	# Gray Valley shed with every command refused. A confirmed road result
 	# ends the road fight: go back to the journey.
-	var confirming_road: bool = String(payload.get("command", "")) == "CONFIRM" and world.field_state.receipt >= 0 \
-		and String(world.event_log[world.field_state.receipt].payload.get("source", "field")) == "road"
+	var confirming_external: bool = String(payload.get("command", "")) == "CONFIRM" and world.field_state.receipt >= 0 \
+		and String(world.event_log[world.field_state.receipt].payload.get("source", "field")) in ["road", "dungeon"]
 	var result := engine.commit_player_intent(world, PlayerIntent.create_field_action(world.player.npc_id, payload))
-	if result.success and confirming_road:
+	if result.success and confirming_external:
 		busy = false
 		world_changed.emit()
 		close()
