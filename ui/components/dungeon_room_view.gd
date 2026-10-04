@@ -7,12 +7,14 @@ signal interaction_requested
 
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Poses = preload("res://ui/components/battle_pose_library.gd")
+const Layout = preload("res://ui/components/dungeon_room_layout.gd")
 const FLOOR_PATH: String = "res://ui/assets/dungeon/waterworks-floor.png"
 const WALK_AREA: Rect2 = Rect2(96, 112, 808, 310)
 const SPEED: float = 180.0
 var room_id: String = "entrance"
 var actor_position: Vector2 = Vector2(500, 348)
 var target_position: Vector2 = Vector2(-1, -1)
+var guide_path: Array[Vector2] = []
 var obstacles: Array[Rect2] = []
 var doors: Array[Dictionary] = []
 var enabled: bool = true
@@ -22,6 +24,7 @@ var walking: bool = false
 var animation_time: float = 0.0
 var floor_texture: Texture2D
 var pump_texture: Texture2D
+var crate_texture: Texture2D
 var current_pose: String = "recover"
 
 func _init() -> void:
@@ -32,21 +35,18 @@ func _init() -> void:
 	mouse_default_cursor_shape = CURSOR_POINTING_HAND
 	floor_texture = Poses.load_atlas(FLOOR_PATH)
 	pump_texture = Poses.load_atlas("res://ui/assets/dungeon/waterworks-pump.png")
+	crate_texture = Poses.load_atlas("res://ui/assets/items/library/clothing/sealed_cargo_crate.png")
 
 func setup(checkpoint: Dictionary) -> void:
 	room_id = checkpoint.room_id
 	target_position = Vector2(-1, -1)
+	guide_path.clear()
 	animation_time = 0.0
 	walking = false
 	current_pose = "recover"
-	if room_id == "entrance":
-		actor_position = Vector2(500, 150) if checkpoint.from_room_id == "foyer" else Vector2(500, 348)
-		obstacles = [Rect2(140, 155, 168, 100), Rect2(742, 285, 104, 85)]
-		doors = [{"label": "設備前廳", "command": "MOVE", "room_id": "foyer", "point": Vector2(500, 116)}, {"label": "樓梯・返回灰谷", "command": "EXIT", "point": Vector2(500, 416)}]
-	else:
-		actor_position = Vector2(500, 348)
-		obstacles = [Rect2(165, 155, 200, 125), Rect2(675, 170, 140, 105)]
-		doors = [{"label": "返回水廠入口", "command": "MOVE", "room_id": "entrance", "point": Vector2(500, 416)}]
+	doors = Layout.doors(room_id, checkpoint.get("shortcut_open", false))
+	actor_position = Layout.arrival(doors, checkpoint.from_room_id)
+	obstacles = Layout.obstacles(room_id)
 	queue_redraw()
 	interaction_changed.emit()
 
@@ -94,9 +94,16 @@ func nearest_door() -> Dictionary:
 
 func walk_to(point: Vector2) -> void:
 	if enabled and walkable(point):
+		guide_path.clear()
 		target_position = point
 		grab_focus()
 		queue_redraw()
+
+func guide_to(passage: Dictionary) -> void:
+	if enabled:
+		guide_path = [Vector2(500, 266), Layout.approach(passage)]
+		target_position = guide_path.pop_front()
+		grab_focus()
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.keycode in [KEY_W, KEY_A, KEY_S, KEY_D, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]:
@@ -115,10 +122,12 @@ func _process(delta: float) -> void:
 	var direction: Vector2 = Vector2(float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)), float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
 	if direction != Vector2.ZERO:
 		target_position = Vector2(-1, -1)
+		guide_path.clear()
 	elif target_position.x >= 0:
-		direction = actor_position.direction_to(target_position) if actor_position.distance_to(target_position) > 5 else Vector2.ZERO
+		var remaining: float = actor_position.distance_to(target_position)
+		direction = actor_position.direction_to(target_position) * minf(1.0, remaining / maxf(0.001, SPEED * minf(delta, 0.08))) if remaining > 5 else Vector2.ZERO
 		if direction == Vector2.ZERO:
-			target_position = Vector2(-1, -1)
+			target_position = guide_path.pop_front() if not guide_path.is_empty() else Vector2(-1, -1)
 	move_actor(direction, delta)
 
 func _draw() -> void:
@@ -139,10 +148,19 @@ func _draw() -> void:
 		draw_line(Vector2(x, 48), Vector2(x, 96), Tokens.BORDER_STRONG, 2)
 	# Wall pipe and pump geometry share the very same obstacle rectangles.
 	for obstacle: Rect2 in obstacles:
-		if pump_texture != null:
-			draw_texture_rect(pump_texture, obstacle, false)
+		var texture: Texture2D = crate_texture if room_id in ["guard", "parts_store", "control"] else pump_texture
+		if texture != null:
+			draw_texture_rect(texture, obstacle, false)
 	for door: Dictionary in doors:
 		var point: Vector2 = door.point
+		if point == Layout.WEST or point == Layout.EAST:
+			draw_rect(Rect2(point - Vector2(17, 56), Vector2(34, 112)), Tokens.BASE)
+			draw_rect(Rect2(point - Vector2(17, 56), Vector2(34, 112)), Tokens.AMBER, false, 2)
+			# Keep side-door destination text inside the room rather than the wall.
+			var label_origin: Vector2 = point + Vector2(22 if point == Layout.WEST else -222, -70)
+			draw_rect(Rect2(label_origin - Vector2(0, 20), Vector2(200, 28)), Tokens.PANEL)
+			draw_string(get_theme_default_font(), label_origin, door.label, HORIZONTAL_ALIGNMENT_CENTER, 200, 16, Tokens.TEXT)
+			continue
 		draw_rect(Rect2(point - Vector2(56, 17), Vector2(112, 34)), Tokens.BASE)
 		draw_rect(Rect2(point - Vector2(56, 17), Vector2(112, 34)), Tokens.AMBER, false, 2)
 		for offset: int in [-9, 0, 9]:

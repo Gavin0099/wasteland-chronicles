@@ -15,8 +15,8 @@
 
 ## Active Sprint
 
-- [~] DUN-1 locally verified — owner-authorized Gray Valley entrance, two walkable rooms, original pump/floor plus reused authored strides, adjacent-room intents, backtrack/exit and saved room checkpoints.178focused/0; all126 suites exit0;26actualVulkancaptures/156assertions inspected. Independent review has zero P0/P1; fixed-height save-summary overlapP2 deferred. Same-PR bound evidence/memory and exact-head GitHub review/CI/merge remain required; see docs/dungeon-entry.md.
-- [ ] DUN-2 — expand to eight fixed rooms, route choice, explored-area memory and an opened return shortcut.
+- [x] DUN-1 delivered PR72 (merge0a81b63aef8d0f1e89ce101a14606d0c4d048475): two walkable rooms, room-checkpoint save/load/Continue and original pump/floor art.178focused/all126PASS;26Vulkancaptures/156assertions; independent implementation/companion clear of P0/P1. Exact-head0102849 GitHub Codex completed with no findings; real CI37185248014 runner1000022517/seven steps passed. Main synchronized clean; readonly memory guard exit0. Fixed-height save-summary overlapP2 remains deferred; see docs/dungeon-entry.md.
+- [~] DUN-2 locally verified — eight fixed rooms, both branches, remembered exploration, frontier-only map and control-side return shortcut.430focused/all127PASS;34distinct actualVulkanPNG/340assertions inspected. Independent review zero P0/P1; arbitrary-start guide collisionP2 deferred. Same-PR evidence/memory and remote gates pending; see docs/dungeon-layout.md.
 - [ ] DUN-3 — real room combat, exact room restoration, escape/death and one-shot rewards.
 - [ ] DUN-4 — combat front route versus skill/tool/Abban maintenance route, visible requirements and real costs.
 - [ ] DUN-5 — trip time, owned pack supplies, capacity, treatment and safe-route retreat.
@@ -153,6 +153,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-10-04: DUN-2 adds visited-room knowledge and the control-to-entrance latch as projections of the existing committed dungeon ledger. Fixed adjacency is a domain contract; pixel collision/door placement are local presentation. The validator checks the latch before allowing each historical shortcut traversal. No snapshot schema, population membership, day formula, supplies or reward changes. Doorway guides follow an authored central corridor; arbitrary-start automatic pathfinding is not delivered. See docs/dungeon-layout.md.
 
 - 2026-10-04: Owner approved the eight-slice first-dungeon plan and requested sequential reviewed delivery. DUN-1 persists room checkpoints through committed local-place events while leaving Gray Valley population membership unchanged. Within-room walking belongs to presentation; load places the traveller at a validated doorway. Entry and traversal have no simulation-day/resource cost in DUN-1. Authoritative trip costs, encounters and rewards remain their own next slices; this milestone does not claim a complete adventure or human pacing acceptance. See docs/dungeon-entry.md.
 
