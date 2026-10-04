@@ -24,6 +24,7 @@ const Factions = preload("res://game_data/faction_catalogue.gd")
 # ==============================================================================
 
 signal ui_refreshed(projection_data: Dictionary)
+signal save_menu_requested
 signal travel_triggered(destination_id: String, success: bool)
 signal wait_triggered(result: Dictionary)
 signal trade_triggered(action_name: String, commodity: String, quantity: int, result: Dictionary)
@@ -1860,6 +1861,9 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 		var button := DesktopWindow.toolbar_button(command.label)
 		button.pressed.connect(command.action)
 		toolbar_row.add_child(button)
+	var save_menu_button: Button = DesktopWindow.toolbar_button("存讀檔")
+	save_menu_button.pressed.connect(func() -> void: save_menu_requested.emit())
+	toolbar_row.add_child(save_menu_button)
 	var toolbar_spacer := Control.new()
 	toolbar_spacer.size_flags_horizontal = SIZE_EXPAND_FILL
 	toolbar_row.add_child(toolbar_spacer)
@@ -2893,3 +2897,4 @@ func _show_field() -> void:
 	screen.setup(world, engine)
 	screen.world_changed.connect(refresh_ui)
 	screen.closed.connect(refresh_ui)
+	screen.save_menu_requested.connect(func() -> void: save_menu_requested.emit())
