@@ -27,7 +27,7 @@ func setup(world: WorldState) -> void:
 	detail.custom_minimum_size.x = 530
 	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	detail.text = "阿扳想保留修復台。協助修復：皮甲1400g → 強化皮甲1900g，防護1 → 2；穿著的皮甲會保持穿著。拆解：帶走4廢料。這是一次決定，離開後仍會保留。"
+	detail.text = "阿扳想保留修復台。協助修復：皮甲1400g → 強化皮甲1900g，防護1 → 2；穿著的皮甲會保持穿著。拆解：帶走4廢料。一次決定，離開後仍保留。回城自願回報：保留+3／拆解−3熔爐協約往來；也可暫不回報。"
 	var checkpoint: Dictionary = Dungeon.state(world)
 	if checkpoint.device_choice != "": detail.text = Dungeon.device_note(world)
 	row.add_child(detail)

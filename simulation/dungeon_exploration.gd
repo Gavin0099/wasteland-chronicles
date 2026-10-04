@@ -13,6 +13,8 @@ const DEVICE_ARMOR: String = "leather_jacket"
 const DEVICE_REWARD: String = "reinforced_leather_jacket"
 const DEVICE_COST: int = 3
 const DEVICE_SALVAGE: int = 4
+const REPORT_STANDING: int = 3
+const REPORT_FACTION: String = "forge"
 const ROOM_ENEMIES: Dictionary = {"guard": "bandit", "pump": "feral_dog", "polluted_store": "ash_ghoul"}
 const REWARDS: Dictionary = {"guard": {"caps": 5, "scrap": 2}, "pump": {"caps": 0, "scrap": 2}, "polluted_store": {"caps": 10, "scrap": 3}}
 const ROOMS: Dictionary = {"entrance": "水廠入口", "foyer": "設備前廳", "guard": "警衛區", "maintenance": "維修廊", "pump": "泵房", "control": "控制室", "parts_store": "零件庫", "polluted_store": "污染庫房"}
@@ -22,7 +24,7 @@ const PASSAGES: Dictionary = {
 	"pump": ["guard", "maintenance", "control", "polluted_store"],
 	"control": ["pump"], "parts_store": ["foyer"], "polluted_store": ["pump"]
 }
-const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT", "DUNGEON_SHORTCUT_OPENED", "DUNGEON_BATTLE_STARTED", "DUNGEON_BATTLE_CONFIRMED", "DUNGEON_MAINTENANCE_OPENED", "DUNGEON_DAY_SPENT", "DUNGEON_TRIP_ENDED", "DUNGEON_TOOLS_RECOVERED", "DUNGEON_DEVICE_DECIDED"]
+const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT", "DUNGEON_SHORTCUT_OPENED", "DUNGEON_BATTLE_STARTED", "DUNGEON_BATTLE_CONFIRMED", "DUNGEON_MAINTENANCE_OPENED", "DUNGEON_DAY_SPENT", "DUNGEON_TRIP_ENDED", "DUNGEON_TOOLS_RECOVERED", "DUNGEON_DEVICE_DECIDED", "DUNGEON_REPORTED"]
 
 static func state(world: WorldState) -> Dictionary:
 	var result: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "shortcut_open": false, "cleared": [], "route_rules": 0, "maintenance_open": false, "maintenance_method": "", "trip_rules": 0, "work_units": 0, "trip_moves": 0, "trip_days": 0, "deep_rules": 0, "tools_recovered": false}
@@ -30,6 +32,9 @@ static func state(world: WorldState) -> Dictionary:
 	result.device_choice = ""
 	result.device_day = -1
 	result.device_companion = ""
+	result.device_index = -1
+	result.returned = false
+	result.reported = false
 	if world == null or world.player == null:
 		return result
 	for event: EventRecord in world.event_log:
@@ -62,6 +67,7 @@ static func state(world: WorldState) -> Dictionary:
 				result.active = false
 				result.room_id = ""
 				result.from_room_id = ""
+				if event.type == "DUNGEON_LEFT" and result.device_choice != "": result.returned = true
 			"DUNGEON_SHORTCUT_OPENED":
 				result.shortcut_open = true
 			"DUNGEON_MAINTENANCE_OPENED":
@@ -73,6 +79,9 @@ static func state(world: WorldState) -> Dictionary:
 				result.device_choice = event.payload.choice
 				result.device_day = event.day
 				result.device_companion = event.payload.companion_id
+				result.device_index = world.event_log.find(event)
+			"DUNGEON_REPORTED":
+				result.reported = true
 			"DUNGEON_BATTLE_CONFIRMED":
 				var receipt: Variant = event.payload.get("result_index", -1)
 				if number(receipt, 0, world.event_log.size() - 1) and text_is(world.event_log[int(receipt)].payload.get("outcome"), "DEAD"):
@@ -104,11 +113,20 @@ static func validate_world(world: WorldState) -> String:
 	var tools_recovered: bool = false
 	var device_rules: int = 0
 	var device_decided: bool = false
+	var device_choice: String = ""
+	var device_index: int = -1
+	var device_exited: bool = false
+	var outside_home: bool = false
+	var reported: bool = false
+	var player_dead: bool = false
 	for index: int in range(world.event_log.size()):
 		var event: EventRecord = world.event_log[index]
 		if world.player != null and event.actor_id == world.player.npc_id:
 			if event.type == "COMPANION_JOINED": companion = String(event.payload.get("companion_id", ""))
 			elif event.type == "COMPANION_LEFT": companion = ""
+			elif event.type == "PLAYER_TRAVEL_STARTED": outside_home = false
+			elif event.type == "NAMED_MIGRATION_COMPLETED": outside_home = device_exited and event.target_id == HOME
+			elif event.type == "PLAYER_DIED": player_dead = true
 		if event.type in ["FIELD_TURN", "FIELD_RESULT"]:
 			var source: Variant = event.payload.get("source", "field")
 			if typeof(source) != TYPE_STRING or source not in ["field", "road", "dungeon"]: return "DUNGEON_INVALID_COMBAT_SOURCE"
@@ -140,6 +158,7 @@ static func validate_world(world: WorldState) -> String:
 			expected_size += 1
 			if not payload.has("deep_rules") or not number(payload.device_rules, 1, 1): return "DUNGEON_INVALID_DEVICE_RULES"
 		if event.type == "DUNGEON_DEVICE_DECIDED": expected_size = 9
+		if event.type == "DUNGEON_REPORTED": expected_size = 7
 		if event.type == "DUNGEON_ROOM_ENTERED" and deep_rules == 1 and text_is(payload.get("room_id"), "polluted_store"):
 			expected_size += 1
 			if not text_is(payload.get("protection_item"), PROTECTION_ITEM): return "DUNGEON_INVALID_PROTECTION_PROOF"
@@ -164,12 +183,21 @@ static func validate_world(world: WorldState) -> String:
 				trip_rules = int(payload.get("trip_rules", 0))
 				deep_rules = int(payload.get("deep_rules", 0))
 				device_rules = int(payload.get("device_rules", 0))
+				outside_home = false
 			"DUNGEON_DEVICE_DECIDED":
 				if device_rules != 1 or room != "control" or payload.room_id != room or device_decided: return "DUNGEON_INVALID_DEVICE_CONTEXT"
 				if typeof(payload.get("choice")) != TYPE_STRING or payload.choice not in ["PRESERVE", "SALVAGE"] or not text_is(payload.get("companion_id"), companion) or typeof(payload.get("worn")) != TYPE_BOOL: return "DUNGEON_INVALID_DEVICE_PROOF"
 				var preserve: bool = payload.choice == "PRESERVE"
 				if (preserve and companion != Party.ABBAN) or (not preserve and payload.worn) or not number(payload.get("scrap_spent"), DEVICE_COST if preserve else 0, DEVICE_COST if preserve else 0) or not number(payload.get("scrap_gained"), 0 if preserve else DEVICE_SALVAGE, 0 if preserve else DEVICE_SALVAGE) or not text_is(payload.get("item_spent"), DEVICE_ARMOR if preserve else "") or not text_is(payload.get("item_gained"), DEVICE_REWARD if preserve else ""): return "DUNGEON_INVALID_DEVICE_PROOF"
 				device_decided = true
+				device_choice = payload.choice
+				device_index = index
+				device_exited = false
+			"DUNGEON_REPORTED":
+				if room != "" or not device_exited or not outside_home or player_dead or reported or device_index < 0 or payload.room_id != "outside": return "DUNGEON_INVALID_REPORT_CONTEXT"
+				var delta: int = REPORT_STANDING if device_choice == "PRESERVE" else -REPORT_STANDING
+				if not number(payload.get("decision_index"), device_index, device_index) or not text_is(payload.get("choice"), device_choice) or not text_is(payload.get("settlement_id"), String(HOME)) or not text_is(payload.get("faction_id"), REPORT_FACTION) or not number(payload.get("standing_delta"), delta, delta): return "DUNGEON_INVALID_REPORT_PROOF"
+				reported = true
 			"DUNGEON_ROOM_ENTERED":
 				if typeof(payload.get("from_room_id")) != TYPE_STRING or payload.from_room_id != room or not adjacent(room, payload.room_id, shortcut_open):
 					return "DUNGEON_INVALID_ROOM_TRANSITION"
@@ -195,6 +223,8 @@ static func validate_world(world: WorldState) -> String:
 				if room != "entrance" or payload.room_id != "entrance":
 					return "DUNGEON_INVALID_EXIT"
 				room = ""
+				device_exited = device_decided
+				outside_home = true
 			"DUNGEON_SHORTCUT_OPENED":
 				if room != "control" or payload.room_id != "control" or shortcut_open:
 					return "DUNGEON_INVALID_SHORTCUT"
@@ -379,6 +409,18 @@ static func device_note(world: WorldState) -> String:
 	var shared: String = "你和阿扳" if checkpoint.device_companion == Party.ABBAN else "你"
 	return "共同經歷｜第%d天，%s在封存水廠%s" % [checkpoint.device_day, shared, "保留修復台，花3廢料把皮甲改成強化皮甲；設備仍保留。" if checkpoint.device_choice == "PRESERVE" else "拆解修復台，帶走4廢料；再也無法在這裡改甲。"]
 
+static func report_requirement(world: WorldState) -> String:
+	if world == null or world.player == null: return "DUNGEON_PLAYER_NOT_ALIVE"
+	var checkpoint: Dictionary = state(world)
+	if checkpoint.reported: return "DUNGEON_ALREADY_REPORTED"
+	if checkpoint.device_choice == "": return "DUNGEON_DECISION_REQUIRED"
+	if checkpoint.active or not checkpoint.returned: return "DUNGEON_RETURN_REQUIRED"
+	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if life == null or not life.is_alive(): return "DUNGEON_PLAYER_NOT_ALIVE"
+	if life.status != NpcLifeState.Status.SETTLED or life.population_container_id != HOME: return "DUNGEON_REQUIRES_GRAY_VALLEY"
+	if world.active_encounter != null or world.pending_encounter_result >= 0 or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0: return "DUNGEON_ACTIVITY_PENDING"
+	return ""
+
 static func maintenance_requirement(world: WorldState, method: String) -> String:
 	if method not in MAINTENANCE_COSTS: return "DUNGEON_INVALID_METHOD"
 	if method == "SKILL" and (world.player.capability == null or world.player.capability.get_rank("MECHANICS") < 2): return "DUNGEON_NEED_MECHANICS_2"
@@ -436,6 +478,9 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 		"DECIDE_DEVICE":
 			if payload.size() != 2 or typeof(payload.get("choice")) != TYPE_STRING: return "DUNGEON_INVALID_INTENT"
 			return device_requirement(world, payload.choice)
+		"REPORT":
+			if payload.size() != 1: return "DUNGEON_INVALID_INTENT"
+			return report_requirement(world)
 	return "DUNGEON_UNAUTHORIZED_COMMAND"
 
 static func commit(world: WorldState, payload: Dictionary, tick_events: Array[EventRecord], engine: SimulationEngine = null) -> Dictionary:
@@ -496,6 +541,14 @@ static func commit(world: WorldState, payload: Dictionary, tick_events: Array[Ev
 			facts.scrap_gained = 0 if preserve else DEVICE_SALVAGE
 			facts.item_spent = DEVICE_ARMOR if preserve else ""
 			facts.item_gained = DEVICE_REWARD if preserve else ""
+		"REPORT":
+			event_type = "DUNGEON_REPORTED"
+			facts.room_id = "outside"
+			facts.choice = checkpoint.device_choice
+			facts.decision_index = checkpoint.device_index
+			facts.settlement_id = String(HOME)
+			facts.faction_id = REPORT_FACTION
+			facts.standing_delta = REPORT_STANDING if checkpoint.device_choice == "PRESERVE" else -REPORT_STANDING
 	var event: EventRecord = EventRecord.new(world.current_day, event_type, world.player.npc_id, StringName(SITE), facts)
 	world.record_event(event)
 	if tick_events != null:
