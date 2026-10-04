@@ -2543,6 +2543,8 @@ func _show_training() -> void:
 	if with_you == PartyScript.ABBAN or here == "settlement:gray_valley":
 		var personal := Label.new()
 		personal.text = PartyScript.personal_note(world)
+		var device_memory: String = engine.Dungeon.device_note(world)
+		if device_memory != "": personal.text += "\n" + device_memory
 		personal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		personal.theme_type_variation = "PdaMuted"
 		box.add_child(personal)

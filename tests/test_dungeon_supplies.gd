@@ -279,6 +279,7 @@ func supply_variants_ui() -> void:
 		if variant == "legacy":
 			world.event_log.back().payload.erase("trip_rules") # Reviewed DUN-4 three-key checkpoint.
 			world.event_log.back().payload.erase("deep_rules")
+			world.event_log.back().payload.erase("device_rules")
 		check(store.save_game(world).success, "actual variant UI slot " + variant)
 		var main: Node = new_main()
 		await frames()

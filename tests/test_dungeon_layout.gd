@@ -21,6 +21,7 @@ func enter_legacy_graph(world: WorldState) -> void:
 	world.event_log.back().payload.erase("route_rules")
 	world.event_log.back().payload.erase("trip_rules")
 	world.event_log.back().payload.erase("deep_rules")
+	world.event_log.back().payload.erase("device_rules")
 	check(Dungeon.state(world).route_rules == 0 and engine.validate_invariants(world) == "", "reviewed legacy rules0 entry fixture validates")
 
 func layout_replay() -> void:

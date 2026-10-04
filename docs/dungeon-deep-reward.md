@@ -102,3 +102,15 @@ Save/Continue and later visits retain clearance and the once-only reward.
 Focused check:`godot --headless --path . --script res://tests/test_dungeon_deep_reward.gd`.
 Actual capture:`godot --path . --script res://tools/capture_dungeon_deep_reward.gd --fixed-fps 60 --disable-vsync`.
 The harness uses its own dungeon test save slot.
+
+## Delivered
+
+PR77:implementationff43d0d454017958d70e2fa7e5aafe27c7bbcb09 and separately
+reviewed companion3918471b26fb61193cc2415aea853e9a0d8f3bf7. Bound receipt
+614/0/exit0. Exact3918471 Codex completed2026-10-04T12:09:47Z with one P2:
+rumor guidance omits an already-owned unique kit although real pickup refuses
+correctly. Acknowledged/deferred in PR comment5979779726 without head change.
+CI37200901449/job111432198692 ran on runner1000022589, seven successful steps.
+Merged2026-10-04T12:10:47Z as90e1468ad443b5c4abf05b57bfb7e8110ac2bbf1;
+main synced clean, readonly guard0/current and repo B0=0/mismatch0/unbound0.
+No post-merge writer ran. Both independent reviews had zero unresolved P0/P1.
