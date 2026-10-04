@@ -133,6 +133,11 @@ static func validate_wire(data: Dictionary) -> String:
 		if typeof(raw_event) != TYPE_DICTIONARY or raw_event.get("type") not in ["FIELD_TURN", "FIELD_RESULT", "FIELD_ACTION"]:
 			continue
 		var event_payload: Variant = raw_event.get("payload", {})
+		# Reject malformed metadata before comparisons in this wire validator.
+		if typeof(event_payload) == TYPE_DICTIONARY:
+			for text_key: String in ["source", "command", "outcome"]:
+				if event_payload.has(text_key) and typeof(event_payload[text_key]) != TYPE_STRING:
+					return "INVALID_FIELD_EVENT_METADATA"
 		if raw_event.type == "FIELD_RESULT" and typeof(event_payload) == TYPE_DICTIONARY and not valid_site_snapshot(event_payload, false):
 			return "INVALID_FIELD_SITE_SNAPSHOT"
 		var shot: bool = raw_event.type == "FIELD_TURN" and typeof(event_payload) == TYPE_DICTIONARY and event_payload.get("command") == "SHOOT"
@@ -226,7 +231,7 @@ static func validate_world(world) -> String:
 			return "INVALID_FIELD_SITE_SNAPSHOT"
 		if state.opened and state.enemy_hp > 0 and event.payload.get("source", "field") not in ["road", "dungeon"]:
 			return "INVALID_FIELD_SITE"
-		if event.type != "FIELD_RESULT" or event.actor_id != world.player.npc_id or event.payload.get("hp") != world.player.field_kit.hp or event.payload.get("outcome") not in ["VICTORY", "ESCAPED", "DEAD", "CACHE", "DEFEAT"]:
+		if event.type != "FIELD_RESULT" or event.actor_id != world.player.npc_id or not integer(event.payload.get("hp"), int(world.player.field_kit.hp), int(world.player.field_kit.hp)) or typeof(event.payload.get("outcome")) != TYPE_STRING or event.payload.get("outcome") not in ["VICTORY", "ESCAPED", "DEAD", "CACHE", "DEFEAT"]:
 			return "INVALID_FIELD_RECEIPT"
 	return ""
 

@@ -4,6 +4,8 @@ extends RefCounted
 const SITE: String = "dungeon:sealed_waterworks"
 const HOME: StringName = &"settlement:gray_valley"
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
+const Party = preload("res://simulation/party.gd")
+const MAINTENANCE_COSTS: Dictionary = {"SKILL": 1, "TOOL": 2, "ABBAN": 1}
 const ROOM_ENEMIES: Dictionary = {"guard": "bandit", "pump": "feral_dog", "polluted_store": "ash_ghoul"}
 const REWARDS: Dictionary = {"guard": {"caps": 5, "scrap": 2}, "pump": {"caps": 0, "scrap": 2}, "polluted_store": {"caps": 10, "scrap": 3}}
 const ROOMS: Dictionary = {"entrance": "水廠入口", "foyer": "設備前廳", "guard": "警衛區", "maintenance": "維修廊", "pump": "泵房", "control": "控制室", "parts_store": "零件庫", "polluted_store": "污染庫房"}
@@ -13,20 +15,21 @@ const PASSAGES: Dictionary = {
 	"pump": ["guard", "maintenance", "control", "polluted_store"],
 	"control": ["pump"], "parts_store": ["foyer"], "polluted_store": ["pump"]
 }
-const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT", "DUNGEON_SHORTCUT_OPENED", "DUNGEON_BATTLE_STARTED", "DUNGEON_BATTLE_CONFIRMED"]
+const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT", "DUNGEON_SHORTCUT_OPENED", "DUNGEON_BATTLE_STARTED", "DUNGEON_BATTLE_CONFIRMED", "DUNGEON_MAINTENANCE_OPENED"]
 
 static func state(world: WorldState) -> Dictionary:
-	var result: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "shortcut_open": false, "cleared": []}
+	var result: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "shortcut_open": false, "cleared": [], "route_rules": 0, "maintenance_open": false, "maintenance_method": ""}
 	if world == null or world.player == null:
 		return result
 	for event: EventRecord in world.event_log:
 		if event.actor_id != world.player.npc_id:
 			continue
-		if event.type == "FIELD_RESULT" and event.payload.get("source", "field") == "dungeon" and event.payload.get("outcome") == "VICTORY":
+		if event.type == "FIELD_RESULT" and text_is(event.payload.get("source", "field"), "dungeon") and text_is(event.payload.get("outcome"), "VICTORY"):
 			if event.payload.room_id not in result.cleared: result.cleared.append(event.payload.room_id)
 		if event.type not in EVENTS: continue
 		match event.type:
 			"DUNGEON_ENTERED":
+				result.route_rules = int(event.payload.get("route_rules", 0))
 				result.active = true
 				result.room_id = "entrance"
 				result.from_room_id = "outside"
@@ -39,9 +42,12 @@ static func state(world: WorldState) -> Dictionary:
 				result.from_room_id = ""
 			"DUNGEON_SHORTCUT_OPENED":
 				result.shortcut_open = true
+			"DUNGEON_MAINTENANCE_OPENED":
+				result.maintenance_open = true
+				result.maintenance_method = event.payload.get("method", "")
 			"DUNGEON_BATTLE_CONFIRMED":
 				var receipt: Variant = event.payload.get("result_index", -1)
-				if number(receipt, 0, world.event_log.size() - 1) and world.event_log[int(receipt)].payload.get("outcome") == "DEAD":
+				if number(receipt, 0, world.event_log.size() - 1) and text_is(world.event_log[int(receipt)].payload.get("outcome"), "DEAD"):
 					result.active = false
 					result.room_id = ""
 					result.from_room_id = ""
@@ -61,10 +67,19 @@ static func validate_world(world: WorldState) -> String:
 	var combat: Dictionary = {}
 	var cleared: Array[String] = []
 	var last_battle: int = 0
+	var route_rules: int = 0
+	var maintenance_open: bool = false
+	var companion: String = ""
 	for index: int in range(world.event_log.size()):
 		var event: EventRecord = world.event_log[index]
-		if event.type in ["FIELD_TURN", "FIELD_RESULT"] and event.payload.get("source", "field") == "dungeon":
-			if world.player == null or event.actor_id != world.player.npc_id or event.target_id != HOME or combat.is_empty() or event.payload.get("dungeon_id") != SITE or event.payload.get("room_id") != room or event.payload.get("battle_id") != combat.id:
+		if world.player != null and event.actor_id == world.player.npc_id:
+			if event.type == "COMPANION_JOINED": companion = String(event.payload.get("companion_id", ""))
+			elif event.type == "COMPANION_LEFT": companion = ""
+		if event.type in ["FIELD_TURN", "FIELD_RESULT"]:
+			var source: Variant = event.payload.get("source", "field")
+			if typeof(source) != TYPE_STRING or source not in ["field", "road", "dungeon"]: return "DUNGEON_INVALID_COMBAT_SOURCE"
+			if source != "dungeon": continue
+			if world.player == null or event.actor_id != world.player.npc_id or event.target_id != HOME or combat.is_empty() or not text_is(event.payload.get("dungeon_id"), SITE) or not text_is(event.payload.get("room_id"), room) or not number(event.payload.get("battle_id"), int(combat.id), int(combat.id)):
 				return "DUNGEON_INVALID_COMBAT_CONTEXT"
 			if event.day < last_day or event.day < 0 or event.day > world.current_day: return "DUNGEON_INVALID_EVENT_DAY"
 			last_day = event.day
@@ -77,8 +92,11 @@ static func validate_world(world: WorldState) -> String:
 		if event.type not in EVENTS or world.player == null or event.actor_id != world.player.npc_id or event.target_id != StringName(SITE):
 			return "DUNGEON_INVALID_EVENT_OWNER"
 		var payload: Dictionary = event.payload
-		var expected_size: int = {"DUNGEON_ROOM_ENTERED": 3, "DUNGEON_BATTLE_STARTED": 6, "DUNGEON_BATTLE_CONFIRMED": 4}.get(event.type, 2)
-		if payload.size() != expected_size or payload.get("dungeon_id") != SITE or typeof(payload.get("room_id")) != TYPE_STRING:
+		var expected_size: int = {"DUNGEON_ROOM_ENTERED": 3, "DUNGEON_BATTLE_STARTED": 6, "DUNGEON_BATTLE_CONFIRMED": 4, "DUNGEON_MAINTENANCE_OPENED": 5}.get(event.type, 2)
+		if event.type == "DUNGEON_ENTERED" and payload.has("route_rules"):
+			expected_size = 3
+			if not number(payload.route_rules, 1, 1): return "DUNGEON_INVALID_ROUTE_RULES"
+		if payload.size() != expected_size or not text_is(payload.get("dungeon_id"), SITE) or typeof(payload.get("room_id")) != TYPE_STRING:
 			return "DUNGEON_INVALID_EVENT_PAYLOAD"
 		if event.day < last_day or event.day < 0 or event.day > world.current_day:
 			return "DUNGEON_INVALID_EVENT_DAY"
@@ -88,10 +106,13 @@ static func validate_world(world: WorldState) -> String:
 			"DUNGEON_ENTERED":
 				if room != "" or payload.room_id != "entrance":
 					return "DUNGEON_INVALID_ENTRY"
+				if route_rules == 1 and not payload.has("route_rules"): return "DUNGEON_ROUTE_RULES_DOWNGRADE"
 				room = "entrance"
+				route_rules = int(payload.get("route_rules", 0))
 			"DUNGEON_ROOM_ENTERED":
 				if typeof(payload.get("from_room_id")) != TYPE_STRING or payload.from_room_id != room or not adjacent(room, payload.room_id, shortcut_open):
 					return "DUNGEON_INVALID_ROOM_TRANSITION"
+				if passage_refusal(room, payload.room_id, route_rules, cleared, maintenance_open) != "": return "DUNGEON_CLOSED_ROUTE_HISTORY"
 				room = payload.room_id
 			"DUNGEON_LEFT":
 				if room != "entrance" or payload.room_id != "entrance":
@@ -101,13 +122,19 @@ static func validate_world(world: WorldState) -> String:
 				if room != "control" or payload.room_id != "control" or shortcut_open:
 					return "DUNGEON_INVALID_SHORTCUT"
 				shortcut_open = true
+			"DUNGEON_MAINTENANCE_OPENED":
+				if room != "maintenance" or payload.room_id != room or route_rules != 1 or maintenance_open or typeof(payload.get("method")) != TYPE_STRING or payload.method not in MAINTENANCE_COSTS or not number(payload.get("scrap_spent"), int(MAINTENANCE_COSTS.get(payload.get("method"), 0)), int(MAINTENANCE_COSTS.get(payload.get("method"), 0))):
+					return "DUNGEON_INVALID_MAINTENANCE_HISTORY"
+				if (payload.method == "SKILL" and not number(payload.get("proof"), 2, 5)) or (payload.method == "TOOL" and (typeof(payload.get("proof")) != TYPE_STRING or payload.proof not in ["crowbar", "wrench"])) or (payload.method == "ABBAN" and (typeof(payload.get("proof")) != TYPE_STRING or payload.proof != Party.ABBAN)): return "DUNGEON_INVALID_MAINTENANCE_PROOF"
+				if payload.method == "ABBAN" and companion != Party.ABBAN: return "DUNGEON_INVALID_MAINTENANCE_PROOF"
+				maintenance_open = true
 			"DUNGEON_BATTLE_STARTED":
-				if room not in ROOM_ENEMIES or payload.room_id != room or room in cleared or payload.get("enemy") != ROOM_ENEMIES[room] or not number(payload.get("battle_id"), last_battle + 1, 2147483647) or not number(payload.get("hp"), 1, 12) or not number(payload.get("site_enemy_hp"), 0, Enemies.highest_hp()):
+				if room not in ROOM_ENEMIES or payload.room_id != room or room in cleared or not text_is(payload.get("enemy"), ROOM_ENEMIES[room]) or not number(payload.get("battle_id"), last_battle + 1, 2147483647) or not number(payload.get("hp"), 1, 12) or not number(payload.get("site_enemy_hp"), 0, Enemies.highest_hp()):
 					return "DUNGEON_INVALID_BATTLE_START"
 				last_battle = int(payload.battle_id)
 				combat = {"id": last_battle, "enemy": payload.enemy, "turn": 1, "prepared": false, "hp": int(payload.hp), "enemy_hp": Enemies.max_hp(payload.enemy), "site_enemy_hp": int(payload.site_enemy_hp), "outcome": "", "result_index": -1}
 			"DUNGEON_BATTLE_CONFIRMED":
-				if combat.is_empty() or combat.result_index < 0 or payload.room_id != room or payload.get("battle_id") != combat.id or payload.get("result_index") != combat.result_index:
+				if combat.is_empty() or combat.result_index < 0 or payload.room_id != room or not number(payload.get("battle_id"), int(combat.id), int(combat.id)) or not number(payload.get("result_index"), int(combat.result_index), int(combat.result_index)):
 					return "DUNGEON_INVALID_BATTLE_CONFIRMATION"
 				if combat.outcome == "DEAD": room = ""
 				combat = {}
@@ -124,10 +151,13 @@ static func validate_world(world: WorldState) -> String:
 static func number(value: Variant, low: int, high: int) -> bool:
 	return typeof(value) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(value)) and value == floor(float(value)) and value >= low and value <= high
 
+static func text_is(value: Variant, expected: String) -> bool:
+	return typeof(value) == TYPE_STRING and value == expected
+
 static func _turn(combat: Dictionary, payload: Dictionary) -> String:
-	if combat.outcome != "" or payload.get("turn") != combat.turn or payload.get("command") not in ["ATTACK", "SHOOT", "DEFEND", "FLEE"] or not number(payload.get("dealt"), 0, int(combat.enemy_hp)) or not number(payload.get("taken"), 0, int(combat.hp)):
+	if combat.outcome != "" or not number(payload.get("turn"), int(combat.turn), int(combat.turn)) or typeof(payload.get("command")) != TYPE_STRING or payload.get("command") not in ["ATTACK", "SHOOT", "DEFEND", "FLEE"] or not number(payload.get("dealt"), 0, int(combat.enemy_hp)) or not number(payload.get("taken"), 0, int(combat.hp)):
 		return "DUNGEON_INVALID_COMBAT_TURN"
-	if payload.get("hp") != combat.hp - payload.taken or payload.get("enemy_hp") != combat.enemy_hp - payload.dealt or (payload.command in ["DEFEND", "FLEE"] and payload.dealt != 0): return "DUNGEON_INVALID_COMBAT_HEALTH"
+	if not number(payload.get("hp"), int(combat.hp - payload.taken), int(combat.hp - payload.taken)) or not number(payload.get("enemy_hp"), int(combat.enemy_hp - payload.dealt), int(combat.enemy_hp - payload.dealt)) or (payload.command in ["DEFEND", "FLEE"] and payload.dealt != 0): return "DUNGEON_INVALID_COMBAT_HEALTH"
 	combat.hp = int(payload.hp)
 	combat.enemy_hp = int(payload.enemy_hp)
 	combat.prepared = payload.command == "DEFEND"
@@ -138,15 +168,15 @@ static func _turn(combat: Dictionary, payload: Dictionary) -> String:
 	return ""
 
 static func _result(combat: Dictionary, payload: Dictionary, room: String, index: int) -> String:
-	if combat.result_index >= 0 or combat.outcome == "" or payload.get("outcome") != combat.outcome or payload.get("hp") != combat.hp or payload.get("enemy") != combat.enemy or payload.get("site_enemy_hp") != combat.site_enemy_hp or typeof(payload.get("gained")) != TYPE_DICTIONARY or typeof(payload.get("left_behind")) != TYPE_DICTIONARY:
+	if combat.result_index >= 0 or combat.outcome == "" or not text_is(payload.get("outcome"), combat.outcome) or not number(payload.get("hp"), int(combat.hp), int(combat.hp)) or not text_is(payload.get("enemy"), combat.enemy) or not number(payload.get("site_enemy_hp"), int(combat.site_enemy_hp), int(combat.site_enemy_hp)) or typeof(payload.get("gained")) != TYPE_DICTIONARY or typeof(payload.get("left_behind")) != TYPE_DICTIONARY:
 		return "DUNGEON_INVALID_COMBAT_RESULT"
 	var gains: Dictionary = payload.gained
 	var left: Dictionary = payload.left_behind
 	if combat.outcome == "VICTORY":
 		var reward: Dictionary = REWARDS[room]
-		if payload.get("caps_gained", 0) != reward.caps or gains.size() > 1 or left.size() > 1 or (not gains.is_empty() and not gains.has("scrap")) or (not left.is_empty() and not left.has("scrap")) or not number(gains.get("scrap", 0), 0, int(reward.scrap)) or not number(left.get("scrap", 0), 0, int(reward.scrap)) or gains.get("scrap", 0) + left.get("scrap", 0) != reward.scrap:
+		if not number(payload.get("caps_gained", 0), int(reward.caps), int(reward.caps)) or gains.size() > 1 or left.size() > 1 or (not gains.is_empty() and not gains.has("scrap")) or (not left.is_empty() and not left.has("scrap")) or not number(gains.get("scrap", 0), 0, int(reward.scrap)) or not number(left.get("scrap", 0), 0, int(reward.scrap)) or gains.get("scrap", 0) + left.get("scrap", 0) != reward.scrap:
 			return "DUNGEON_INVALID_COMBAT_REWARD"
-	elif not gains.is_empty() or not left.is_empty() or payload.get("caps_gained", 0) != 0:
+	elif not gains.is_empty() or not left.is_empty() or not number(payload.get("caps_gained", 0), 0, 0):
 		return "DUNGEON_INVALID_COMBAT_REWARD"
 	combat.result_index = index
 	return ""
@@ -156,12 +186,12 @@ static func _snapshot(world: WorldState, room: String, combat: Dictionary) -> St
 	if combat.is_empty():
 		var context: Dictionary = field.battle
 		if context.is_empty() and field.receipt >= 0 and field.receipt < world.event_log.size(): context = world.event_log[field.receipt].payload
-		return "DUNGEON_ORPHAN_COMBAT" if context.get("source", "field") == "dungeon" else ""
+		return "DUNGEON_ORPHAN_COMBAT" if text_is(context.get("source", "field"), "dungeon") else ""
 	if world.player.field_kit.hp != combat.hp or field.enemy_hp != combat.enemy_hp: return "DUNGEON_INVALID_COMBAT_SNAPSHOT"
 	if combat.result_index >= 0:
 		return "" if field.battle.is_empty() and field.receipt == combat.result_index else "DUNGEON_INVALID_COMBAT_SNAPSHOT"
 	var battle: Dictionary = field.battle
-	if battle.size() != 8 or field.receipt >= 0 or battle.get("source") != "dungeon" or battle.get("dungeon_id") != SITE or battle.get("room_id") != room or battle.get("id") != combat.id or battle.get("enemy") != combat.enemy or battle.get("turn") != combat.turn or battle.get("prepared") != combat.prepared or battle.get("site_enemy_hp") != combat.site_enemy_hp:
+	if battle.size() != 8 or field.receipt >= 0 or not text_is(battle.get("source"), "dungeon") or not text_is(battle.get("dungeon_id"), SITE) or not text_is(battle.get("room_id"), room) or not number(battle.get("id"), int(combat.id), int(combat.id)) or not text_is(battle.get("enemy"), combat.enemy) or not number(battle.get("turn"), int(combat.turn), int(combat.turn)) or battle.get("prepared") != combat.prepared or not number(battle.get("site_enemy_hp"), int(combat.site_enemy_hp), int(combat.site_enemy_hp)):
 		return "DUNGEON_INVALID_COMBAT_SNAPSHOT"
 	return ""
 
@@ -171,6 +201,23 @@ static func adjacent(from_room: String, to_room: String, shortcut_open: bool = f
 	if to_room in PASSAGES[from_room]:
 		return true
 	return shortcut_open and ((from_room == "entrance" and to_room == "control") or (from_room == "control" and to_room == "entrance"))
+
+static func passage_refusal(from_room: String, to_room: String, rules: int, cleared: Array, opened: bool) -> String:
+	if rules == 0: return ""
+	if ((from_room == "guard" and to_room == "pump") or (from_room == "pump" and to_room == "guard")) and "guard" not in cleared: return "DUNGEON_GUARD_BLOCKS_ROUTE"
+	if ((from_room == "maintenance" and to_room == "pump") or (from_room == "pump" and to_room == "maintenance")) and not opened: return "DUNGEON_MAINTENANCE_CLOSED"
+	return ""
+
+static func maintenance_requirement(world: WorldState, method: String) -> String:
+	if method not in MAINTENANCE_COSTS: return "DUNGEON_INVALID_METHOD"
+	if method == "SKILL" and (world.player.capability == null or world.player.capability.get_rank("MECHANICS") < 2): return "DUNGEON_NEED_MECHANICS_2"
+	if method == "TOOL" and maintenance_tool(world) == "": return "DUNGEON_NEED_TOOL"
+	if method == "ABBAN" and Party.current(world) != Party.ABBAN: return "DUNGEON_NEED_ABBAN"
+	return "DUNGEON_NEED_SCRAP" if world.player.inventory.scrap < int(MAINTENANCE_COSTS[method]) else ""
+
+static func maintenance_tool(world: WorldState) -> String:
+	if world.player.field_kit.crowbar: return "crowbar"
+	return "wrench" if world.player.item_inventory.contains("wrench") else ""
 
 static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var history_error: String = validate_world(world)
@@ -196,7 +243,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 				return "DUNGEON_INVALID_INTENT"
 			if not current.active or payload.from_room_id != current.room_id or not adjacent(current.room_id, payload.room_id, current.shortcut_open):
 				return "DUNGEON_INVALID_ROOM_TRANSITION"
-			return ""
+			return passage_refusal(current.room_id, payload.room_id, current.route_rules, current.cleared, current.maintenance_open)
 		"EXIT":
 			if payload.size() != 1:
 				return "DUNGEON_INVALID_INTENT"
@@ -208,6 +255,10 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 		"FIGHT":
 			if payload.size() != 2 or typeof(payload.get("room_id")) != TYPE_STRING: return "DUNGEON_INVALID_INTENT"
 			return "" if current.active and payload.room_id == current.room_id and current.room_id in ROOM_ENEMIES and current.room_id not in current.cleared else "DUNGEON_FIGHT_UNAVAILABLE"
+		"OPEN_MAINTENANCE":
+			if payload.size() != 2 or typeof(payload.get("method")) != TYPE_STRING: return "DUNGEON_INVALID_INTENT"
+			if not current.active or current.room_id != "maintenance" or current.route_rules != 1 or current.maintenance_open: return "DUNGEON_MAINTENANCE_UNAVAILABLE"
+			return maintenance_requirement(world, payload.method)
 	return "DUNGEON_UNAUTHORIZED_COMMAND"
 
 static func commit(world: WorldState, payload: Dictionary, tick_events: Array[EventRecord]) -> Dictionary:
@@ -218,6 +269,7 @@ static func commit(world: WorldState, payload: Dictionary, tick_events: Array[Ev
 		return WorldState.Field.begin_dungeon_battle(world, payload.room_id, tick_events)
 	var event_type: String = "DUNGEON_ENTERED"
 	var facts: Dictionary = {"dungeon_id": SITE, "room_id": "entrance"}
+	if payload.command == "ENTER": facts.route_rules = 1
 	match payload.command:
 		"MOVE":
 			event_type = "DUNGEON_ROOM_ENTERED"
@@ -228,6 +280,13 @@ static func commit(world: WorldState, payload: Dictionary, tick_events: Array[Ev
 		"OPEN_SHORTCUT":
 			event_type = "DUNGEON_SHORTCUT_OPENED"
 			facts.room_id = "control"
+		"OPEN_MAINTENANCE":
+			event_type = "DUNGEON_MAINTENANCE_OPENED"
+			facts.room_id = "maintenance"
+			facts.method = payload.method
+			facts.scrap_spent = int(MAINTENANCE_COSTS[payload.method])
+			facts.proof = world.player.capability.get_rank("MECHANICS") if payload.method == "SKILL" else (maintenance_tool(world) if payload.method == "TOOL" else Party.ABBAN)
+			world.player.inventory.scrap -= int(facts.scrap_spent)
 	var event: EventRecord = EventRecord.new(world.current_day, event_type, world.player.npc_id, StringName(SITE), facts)
 	world.record_event(event)
 	if tick_events != null:

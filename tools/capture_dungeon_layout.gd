@@ -58,12 +58,11 @@ func capture_layout() -> void:
 		root.size = resolution
 		clear_slot()
 		var fixture: WorldState = fresh_towns("settlement:gray_valley")
+		enter_legacy_graph(fixture) # Historical DUN-2 topology/checkpoint renderer.
 		check(store.save_game(fixture).success, "renderer real legacy slot")
 		var main: Node = new_main()
 		await frames()
 		main.save_dialog.load_button.pressed.emit()
-		await frames()
-		find_command(main.shell, "水廠").pressed.emit()
 		await frames()
 		var screen: Control = main.shell.find_child("DungeonScreen", false, false)
 		await capture_frame("entrance", main)

@@ -107,8 +107,14 @@ This run executed the final core simulation snapshot (DUN-3 focused478).
 Subsequent UI-only ghoul texture retention and test variable-warning cleanup
 were rechecked through final focused479, Vulkan34/290 and whole debugger167
 existing warnings/0 errors. The entire suite was not repeated after those
-UI/test-only changes. Same-PR evidence/memory, final independent review and
-exact-head GitHub Codex/actual CI/merge remain pending.
+UI/test-only changes. Delivered in PR74: implementation3804074691d4e2201cbdf44f154f4b7df70d7588,
+bound evidence/canonical-memory companiona621db6462e555d9d7d9717d1ff4b68b0f335c0b,
+merge373a63ecd7acf0c83fb9b2009c7ed58607d9b16a (2026-10-04 08:45:39Z).
+Independent implementation and companion reviews report zero unresolved P0/P1.
+GitHub Codex completed on exact companion head with one acknowledged P2;
+CI37189586669/job111398802897 ran on runner1000022546 with all seven steps
+successful. Main synchronized clean, readonly memory guard exited0. No post-merge
+writer/session_end or owner pacing acceptance is claimed.
 
 Non-blocking P2 from independent review: at 1152px the battle result history
 window initially shows the room/enemy first line; full outcome text and actual
@@ -118,3 +124,10 @@ fixed-height SAVE-1 summary overlap and arbitrary-start DUN-2 guide collision
 remain outside this slice. No autonomous pathfinding or human pacing acceptance
 is claimed. Pump/floor/waterworks images are original; ghoul uses the existing
 cutout and procedural combat motion, not a newly authored sprite atlas.
+
+Exact-head GitHub P2: historical turn checks prove arithmetical health
+consistency, but coordinated plausible damage and snapshot changes can still
+pass without reconstructing the original gear/ammo/preparation inputs. Recorded
+and deferred in PR74 issuecomment-5978225626; no complete save anti-tamper claim.
+Malformed metadata types that crash comparison are a separate acceptance bug
+addressed and regression-tested by DUN-4, not a reconstruction of these inputs.

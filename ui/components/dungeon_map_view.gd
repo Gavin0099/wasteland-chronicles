@@ -13,6 +13,7 @@ func _init() -> void:
 static func project(checkpoint: Dictionary) -> Dictionary:
 	var rooms: Dictionary = {}
 	var edges: Array[Array] = []
+	var locked: Array[Array] = []
 	for room: String in checkpoint.visited:
 		rooms[room] = {"label": Dungeon.ROOMS[room], "visited": true, "current": checkpoint.active and checkpoint.room_id == room}
 	for room: String in checkpoint.visited:
@@ -20,9 +21,10 @@ static func project(checkpoint: Dictionary) -> Dictionary:
 			if not rooms.has(neighbour): rooms[neighbour] = {"label": "未探索", "visited": false, "current": false}
 			if room < neighbour or neighbour not in checkpoint.visited:
 				edges.append([room, neighbour])
+				if Dungeon.passage_refusal(room, neighbour, int(checkpoint.get("route_rules", 0)), checkpoint.get("cleared", []), checkpoint.get("maintenance_open", false)) != "": locked.append([room, neighbour])
 	if checkpoint.shortcut_open:
 		edges.append(["control", "entrance"])
-	return {"rooms": rooms, "edges": edges, "shortcut_open": checkpoint.shortcut_open}
+	return {"rooms": rooms, "edges": edges, "shortcut_open": checkpoint.shortcut_open, "locked": locked}
 
 func setup(checkpoint: Dictionary) -> void:
 	projected = project(checkpoint)
@@ -41,7 +43,7 @@ func _draw() -> void:
 			draw_polyline(line, Tokens.AMBER, 3, true)
 			draw_string(get_theme_default_font(), Vector2(230, 24), "已開啟的返回捷徑", HORIZONTAL_ALIGNMENT_CENTER, 240, Tokens.SMALL, Tokens.TEXT)
 		else:
-			draw_line(POINTS[edge[0]], POINTS[edge[1]], Tokens.BORDER_STRONG, 2, true)
+			draw_line(POINTS[edge[0]], POINTS[edge[1]], Tokens.CRITICAL if edge in projected.locked else Tokens.BORDER_STRONG, 2, true)
 	for room: String in projected.rooms:
 		var entry: Dictionary = projected.rooms[room]
 		var point: Vector2 = POINTS[room]

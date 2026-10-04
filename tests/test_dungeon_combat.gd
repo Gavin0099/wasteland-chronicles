@@ -17,7 +17,7 @@ func combat_intent(world: WorldState, action: String) -> PlayerIntent:
 
 func room_world(route: Array[String]) -> WorldState:
 	var world: WorldState = fresh_towns("settlement:gray_valley")
-	check(engine.commit_player_intent(world, dungeon_intent(world, "ENTER")).success, "actual combat trip entry")
+	enter_legacy_graph(world) # DUN-3 old checkpoint compatibility; DUN-4 tests new entry rules.
 	for destination: String in route:
 		check(engine.commit_player_intent(world, dungeon_intent(world, "MOVE", Dungeon.state(world).room_id, destination)).success, "actual combat approach " + destination)
 	return world

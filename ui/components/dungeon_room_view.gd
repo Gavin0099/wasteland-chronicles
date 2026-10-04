@@ -51,6 +51,11 @@ func setup(checkpoint: Dictionary) -> void:
 	walking = false
 	current_pose = "recover"
 	doors = Layout.doors(room_id, checkpoint.get("shortcut_open", false))
+	for passage: Dictionary in doors:
+		if passage.command != "MOVE": continue
+		passage.refusal = SimulationEngine.Dungeon.passage_refusal(room_id, passage.room_id, int(checkpoint.get("route_rules", 0)), checkpoint.get("cleared", []), checkpoint.get("maintenance_open", false))
+		if passage.refusal != "":
+			passage.label += " · " + ("先排除警衛" if passage.refusal == "DUNGEON_GUARD_BLOCKS_ROUTE" else "維修門鎖住")
 	enemy_id = String(checkpoint.get("enemy", ""))
 	enemy_pose = Poses.frame(enemy_id, "recover")
 	enemy_texture = null
@@ -180,7 +185,10 @@ func _draw() -> void:
 		draw_rect(Rect2(point - Vector2(56, 17), Vector2(112, 34)), Tokens.AMBER, false, 2)
 		for offset: int in [-9, 0, 9]:
 			draw_line(point + Vector2(-44, offset), point + Vector2(44, offset), Tokens.BORDER_STRONG, 2)
-		draw_string(get_theme_default_font(), point + Vector2(-100, -25), door.label, HORIZONTAL_ALIGNMENT_CENTER, 200, 16, Tokens.TEXT)
+		# Keep the longer gate requirement beside the north doorway, clear of the
+		# traveller's head when its feet have reached the interaction point.
+		var caption_offset: float = -280.0 if point == Layout.NORTH and door.get("refusal", "") != "" else -100.0
+		draw_string(get_theme_default_font(), point + Vector2(caption_offset, -25), door.label, HORIZONTAL_ALIGNMENT_CENTER, 200, 16, Tokens.TEXT)
 	if target_position.x >= 0:
 		draw_arc(target_position, 12, 0, TAU, 24, Tokens.AMBER, 2, true)
 	var pose: Dictionary = Poses.frame("drifter", current_pose)
