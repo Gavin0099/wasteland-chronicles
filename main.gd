@@ -39,7 +39,9 @@ func _install_shell() -> void:
 	add_child(shell)
 	shell.setup(world, engine)
 	shell.save_menu_requested.connect(_open_save_menu)
-	if not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
+	if engine.Dungeon.state(world).active:
+		shell._show_dungeon()
+	elif not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
 		shell._show_field()
 
 func _begin_new_journey() -> void:
@@ -52,10 +54,14 @@ func _close_save_menu() -> void:
 		save_dialog.hide()
 		save_dialog.queue_free()
 	save_dialog = null
+	if is_instance_valid(shell):
+		shell.set_exploration_paused(false)
 
 func _open_save_menu(opening: bool = false) -> void:
 	if is_instance_valid(save_dialog):
 		return
+	if is_instance_valid(shell):
+		shell.set_exploration_paused(true)
 	save_dialog = SaveDialog.new()
 	add_child(save_dialog)
 	save_dialog.setup(opening, save_store.load_game())

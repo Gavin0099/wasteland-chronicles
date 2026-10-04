@@ -15,8 +15,18 @@
 
 ## Active Sprint
 
+- [~] DUN-1 locally verified — owner-authorized Gray Valley entrance, two walkable rooms, original pump/floor plus reused authored strides, adjacent-room intents, backtrack/exit and saved room checkpoints.178focused/0; all126 suites exit0;26actualVulkancaptures/156assertions inspected. Independent review has zero P0/P1; fixed-height save-summary overlapP2 deferred. Same-PR bound evidence/memory and exact-head GitHub review/CI/merge remain required; see docs/dungeon-entry.md.
+- [ ] DUN-2 — expand to eight fixed rooms, route choice, explored-area memory and an opened return shortcut.
+- [ ] DUN-3 — real room combat, exact room restoration, escape/death and one-shot rewards.
+- [ ] DUN-4 — combat front route versus skill/tool/Abban maintenance route, visible requirements and real costs.
+- [ ] DUN-5 — trip time, owned pack supplies, capacity, treatment and safe-route retreat.
+- [ ] DUN-6 — gated polluted wing, useful deep reward, rumor pursuit and capability-based revisit.
+- [ ] DUN-7 — Abban device-preservation/salvage choice, durable shared history and actual equipment consequences.
+- [ ] DUN-8 — returned loot sale/local repair/faction reaction, revisit guidance and complete loop verification.
+- Dungeon delivery is sequential: independent review → same-PR bound evidence/memory → exact-head GitHub Codex and real successful CI → merge/sync → next slice. Art/motion/rendered checks ship with the corresponding slice. Owner-authorized scope does not include new NPC lifecycles, family, aging, inheritance or random dungeon generation.
+
 - [x] FACTION-1 — delivered PR70 (merge782ca1bf24e60be98986d9858b775c1f378cac8b). 571 focused assertions; all124 suites PASS;20actualVulkancaptures/676assertions. Independent and exact-head GitHub Codex clear of P0/P1; actual CI passed. Allied-betrayal confirmation wording and adjacent compact growth clipping P2 deferred; see docs/shared-faction-consequences.md.
-- [~] SAVE-1 locally verified — actual single-slot manual save/load/Continue, recoverable backup replacement and checked world handoff; preserves travel/battle/receipts. Independent Windows rename P1 fixed before commit.271focused/all125PASS,32actualVulkancaptures/234assertions inspected; lint0errors/oldFieldScreenwarning,driftPASS. Fresh in-transit scene picture P2 deferred; final review/canonicalcompanion/exact-headGitHubreview/CI/merge pending. Contract and qualified shutdown evidence in docs/player-save-load.md.
+- [x] SAVE-1 delivered PR71 (merge9b83f40d3d1c90c7a9c375de7df873d4577f59cb): actual single-slot manual save/load/Continue and recoverable backup replacement;271focused/all125PASS,32actualVulkancaptures/234assertions. Independent/final-head GitHub review clear of P0/P1; real CI37175828436 runner1000022456/seven steps passed. Main synchronized clean. Fresh in-transit scene-pictureP2 deferred; see docs/player-save-load.md.
 - [x] TOWN-1 delivered PR #69 (5331c21): owner-approved sixth physical three-day supply road;510/all123/18Vulkan captures/130assertions and independent review PASS. Finalhead9180d11 Codex completed with deferred bounty-durationP2; actual CI37145215161 runner1000022354/allsevenstepsPASS. Main5331c21 synchronized clean, readonly guard0. Historical five-road collapse and canonical receipts retained.
 - [x] CREATURE-HUNTS delivered PR #68 (dbba03a): six enemies/original art/actual hunt contracts; blocking camp attribution repaired in bd5c561,417 focused/all122 rerun pass, independent review clear, exact-head d66e94a Codex completed without major findings and actual CI37133010578 runner1000022293/seven steps PASS. Main synchronized/clean; canonical post-merge readonly guard0. Accepted-HUNT category/risk P2 remains recorded.
 
@@ -143,6 +153,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-10-04: Owner approved the eight-slice first-dungeon plan and requested sequential reviewed delivery. DUN-1 persists room checkpoints through committed local-place events while leaving Gray Valley population membership unchanged. Within-room walking belongs to presentation; load places the traveller at a validated doorway. Entry and traversal have no simulation-day/resource cost in DUN-1. Authoritative trip costs, encounters and rewards remain their own next slices; this milestone does not claim a complete adventure or human pacing acceptance. See docs/dungeon-entry.md.
 
 - 2026-10-04: SAVE-1 (owner authorized) uses the existing checked canonical WorldState, with Main replacing the world only after validation. Save replacement retains a sibling backup because installed Windows Godot deletes an existing rename destination before moving. No population/travel formula/new autonomous lifecycle changes; manual local single-slot scope, not cloud/autosave or filesystem power-loss certification. See docs/player-save-load.md.
 

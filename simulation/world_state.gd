@@ -437,6 +437,9 @@ static func from_dict_checked(data: Dictionary) -> Dictionary:
 	if typeof(receipt) not in [TYPE_INT, TYPE_FLOAT] or not is_finite(float(receipt)) or float(receipt) != floor(float(receipt)) or float(receipt) < -1 or float(receipt) >= w.event_log.size():
 		return {"success": false, "world": null, "error": "ENCOUNTER_RESULT_MALFORMED: invalid ledger reference"}
 	w.pending_encounter_result = int(receipt)
+	var dungeon_error: String = SimulationEngine.Dungeon.validate_world(w)
+	if dungeon_error != "":
+		return {"success": false, "world": null, "error": dungeon_error}
 	if w.pending_encounter_result >= 0:
 		var evt := w.event_log[w.pending_encounter_result]
 		if w.active_encounter != null or w.player == null or evt.actor_id != w.player.npc_id or evt.type != "TRAVEL_ENCOUNTER_RESOLVED" or not TravelEncounter.valid_resolution(evt.payload):

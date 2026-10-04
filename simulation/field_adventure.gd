@@ -215,6 +215,8 @@ static func valid_treatment_receipt(payload: Dictionary) -> bool:
 	return typeof(id) == TYPE_STRING and TREATMENT_HEALING.has(id) and integer(payload.get("healed"), 1, int(TREATMENT_HEALING[id]))
 
 static func authorize(world, payload: Dictionary) -> String:
+	if SimulationEngine.Dungeon.state(world).active:
+		return "DUNGEON_EXPLORATION_PENDING"
 	var error = validate_world(world)
 	if error != "":
 		return error
