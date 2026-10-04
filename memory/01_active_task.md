@@ -87,3 +87,5 @@
 - DUN-1 implementation f0e1bae pushed; local and independent gates passed. Canonical companion and current-head GitHub review/CI/merge remain required. Dungeon DUN-2–8 are authorized sequentially but not yet implemented; no post-merge memory write or session-end inference. <!-- memory_record_projection:active-task-summary:9dc4c5b8f81569c3330d293c50ce049e7fb74bab781e2a53f864b9955efa7bf5 -->
 
 - DUN-2 implementation518a241 pushed: eight remembered rooms/map/return shortcut;430focused/all127PASS/34Vulkan340assertions. Independent implementation0P0/P1; companion and remote gates pending before merge, then DUN-3. P2 arbitrary-start guide collision deferred; no human pacing acceptance. <!-- memory_record_projection:active-task-summary:1bc9105f6b60124e262519fa09069dbbff0d03e6c00226295083bf4232904374 -->
+
+- DUN-3 implementation3804074 pushed; focused479/full128(core)/Vulkan34-290/debugger pass, final independent P0/P1=0. Evidence/memory companion pending review; exact-head remote gates/merge pending. DUN-4 remains next after merge. <!-- memory_record_projection:active-task-summary:ab44cb82bc41c674da518a970eae3d29b5bbd6818d762375fbf5776a02ec5392 -->
