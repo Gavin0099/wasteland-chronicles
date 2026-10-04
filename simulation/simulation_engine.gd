@@ -77,6 +77,7 @@ var enable_transit_predation: bool = true
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
+	if Dungeon.state(world).active and WorldState.Field.is_dungeon_activity(world): return tick_events
 	world.current_day += 1
 	var current_day := world.current_day
 
@@ -1446,8 +1447,13 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 
 	var water_unmet_ratio := 0.0
 	var food_unmet_ratio := 0.0
+	var dungeon_day: bool = Dungeon.has_trip_costs(world)
 
-	if ls.status == NpcLifeState.Status.IN_TRANSIT:
+	if dungeon_day:
+		var unmet: Dictionary = Dungeon.consume_daily_supplies(world, current_day, tick_events)
+		water_unmet_ratio = float(unmet.water_unmet)
+		food_unmet_ratio = float(unmet.food_unmet)
+	elif ls.status == NpcLifeState.Status.IN_TRANSIT:
 		# Requested one of each per day, met from the backpack.
 		# PARTY-1: a guide finds water on the road, so nobody drinks from the pack.
 		var guided: bool = Party.current(world) != "" and bool(Party.info(Party.current(world)).finds_water)
@@ -1488,14 +1494,15 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 	_apply_player_need_outcome(p, water_unmet_ratio, food_unmet_ratio)
 	if ls.status == NpcLifeState.Status.IN_TRANSIT:
 		_feed_companion_on_road(world, p, current_day, tick_events)
-	if ls.status == NpcLifeState.Status.IN_TRANSIT and (water_unmet_ratio > 0.0 or food_unmet_ratio > 0.0):
-		var need_event := EventRecord.new(current_day, "PLAYER_NEED_UNMET", p.npc_id, &"road", {
+	if (ls.status == NpcLifeState.Status.IN_TRANSIT or dungeon_day) and (water_unmet_ratio > 0.0 or food_unmet_ratio > 0.0):
+		var need_event := EventRecord.new(current_day, "PLAYER_NEED_UNMET", p.npc_id, StringName(Dungeon.SITE) if dungeon_day else &"road", {
 			"water_unmet": water_unmet_ratio, "food_unmet": food_unmet_ratio,
 		})
 		world.record_event(need_event)
 		if tick_events != null:
 			tick_events.append(need_event)
 	_check_player_mortality(world, p, ls, current_day, tick_events)
+	if dungeon_day: Dungeon.end_deprivation_trip(world, current_day, tick_events)
 
 # PARTY-1: on a travel day a companion eats from your pack after you do (a
 # guide finds their own water, and yours - see process_player_daily_needs).
@@ -2997,7 +3004,7 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 
 	match intent.action:
 		PlayerIntent.Action.DUNGEON_ACTION:
-			return Dungeon.commit(world, intent.payload, tick_events)
+			return Dungeon.commit(world, intent.payload, tick_events, self)
 		PlayerIntent.Action.RESPOND_COMPANION_REQUEST:
 			var response_evt := EventRecord.new(world.current_day, "COMPANION_REQUEST_RESPONDED", intent.player_id, StringName(Party.ABBAN), {"companion_id": Party.ABBAN, "response": String(intent.payload.response)})
 			world.record_event(response_evt)

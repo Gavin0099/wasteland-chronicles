@@ -22,7 +22,7 @@ static func text(id: String) -> String:
 	var use: String = ""
 	var gun: Dictionary = Weapons.firearm(id)
 	if Field.TREATMENT_HEALING.has(id):
-		use = "聚落休整時使用，消耗1個、恢復最多%d生命；戰鬥與待確認事件中不能使用。" % int(Field.TREATMENT_HEALING[id])
+		use = "聚落休整或迷宮戰鬥間使用，消耗1個、恢復最多%d生命；戰鬥與待確認事件中不能使用。" % int(Field.TREATMENT_HEALING[id])
 	elif not gun.is_empty():
 		use = "裝備到主手：基礎射擊傷害%d，再加槍械等級；每次消耗%s×%d。" % [int(gun.damage), Registry.resolve(String(gun.ammo_item_id)).definition.display_name_zh, int(gun.ammo_spent)]
 	elif Weapons.MELEE_BONUSES.has(base):

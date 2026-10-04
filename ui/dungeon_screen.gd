@@ -11,6 +11,7 @@ const MapView = preload("res://ui/components/dungeon_map_view.gd")
 const Layout = preload("res://ui/components/dungeon_room_layout.gd")
 const Field = preload("res://simulation/field_adventure.gd")
 const FieldScreen = preload("res://ui/field_screen.gd")
+const SuppliesDialog = preload("res://ui/components/dungeon_supplies_dialog.gd")
 var combat_screen: Control
 var world: WorldState
 var engine: SimulationEngine
@@ -25,6 +26,9 @@ var map_button: Button
 var map_dialog: AcceptDialog
 var maintenance_actions: HBoxContainer
 var maintenance_buttons: Dictionary = {}
+var supplies_button: Button
+var supplies_dialog: SuppliesDialog
+var supplies_status: Label
 
 func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	world = p_world
@@ -57,12 +61,22 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	map_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	map_button.pressed.connect(_show_map)
 	toolbar.add_child(map_button)
+	supplies_button = Button.new()
+	supplies_button.text = "背包 · B"
+	supplies_button.theme_type_variation = "PdaCommand"
+	supplies_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	supplies_button.pressed.connect(_show_supplies)
+	toolbar.add_child(supplies_button)
 	var save_button: Button = Button.new()
 	save_button.text = "存讀檔"
 	save_button.theme_type_variation = "PdaCommand"
 	save_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	save_button.pressed.connect(func() -> void: save_menu_requested.emit())
 	toolbar.add_child(save_button)
+	supplies_status = Label.new()
+	supplies_status.theme_type_variation = "PdaMuted"
+	supplies_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(supplies_status)
 	view = RoomView.new()
 	column.add_child(view)
 	view.interaction_changed.connect(refresh_interaction)
@@ -105,6 +119,7 @@ func refresh_room() -> void:
 	var checkpoint: Dictionary = Dungeon.state(world)
 	if not checkpoint.active:
 		return
+	supplies_status.text = "生命%d/12 · %s · 水%d／食物%d · 已過%d日 · 再換房%d次消耗一日補給" % [world.player.field_kit.hp, SuppliesDialog.load_text(world.player), world.player.inventory.water, world.player.inventory.food, checkpoint.trip_days, Dungeon.MOVES_PER_DAY - int(checkpoint.work_units)] if checkpoint.trip_rules == 1 else "舊旅程仍沿用原本耗時；下次探訪開始消耗隨身補給。"
 	title_label.text = "封存地下水廠 / " + String(Dungeon.ROOMS[checkpoint.room_id])
 	var enemy: String = "" if checkpoint.room_id in checkpoint.cleared else String(Dungeon.ROOM_ENEMIES.get(checkpoint.room_id, ""))
 	checkpoint.enemy = enemy
@@ -216,6 +231,33 @@ func _show_map() -> void:
 	map_dialog.popup_centered(Vector2i(720, 440))
 	map_dialog.get_ok_button().grab_focus()
 
+func _show_supplies() -> void:
+	if not view.enabled or is_instance_valid(supplies_dialog): return
+	supplies_dialog = SuppliesDialog.new()
+	add_child(supplies_dialog)
+	supplies_dialog.setup(world, engine)
+	supplies_dialog.confirmed.connect(_close_supplies)
+	supplies_dialog.canceled.connect(_close_supplies)
+	supplies_dialog.world_changed.connect(_supplies_changed)
+	set_paused(true)
+	supplies_dialog.popup_centered(Vector2i(780, 480))
+	supplies_dialog.get_ok_button().grab_focus()
+
+func _supplies_changed() -> void:
+	var position_before: Vector2 = view.actor_position
+	world_changed.emit()
+	refresh_room()
+	if view.walkable(position_before): view.actor_position = position_before
+	view.queue_redraw()
+	set_paused(true)
+	supplies_dialog.get_ok_button().grab_focus()
+
+func _close_supplies() -> void:
+	supplies_dialog.hide()
+	supplies_dialog.queue_free()
+	supplies_dialog = null
+	set_paused(false)
+
 func _close_map() -> void:
 	map_dialog.hide()
 	map_dialog.queue_free()
@@ -279,6 +321,7 @@ func set_paused(value: bool) -> void:
 	guide_button.disabled = value
 	route_choice.disabled = value
 	map_button.disabled = value
+	supplies_button.disabled = value
 	refresh_interaction()
 	if not value and view.is_inside_tree():
 		view.grab_focus()
@@ -291,6 +334,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif event.keycode == KEY_M:
 		_show_map()
+		get_viewport().set_input_as_handled()
+	elif event.keycode == KEY_B:
+		_show_supplies()
 		get_viewport().set_input_as_handled()
 	elif event.keycode in [KEY_E, KEY_ENTER] and view.has_focus():
 		interact()

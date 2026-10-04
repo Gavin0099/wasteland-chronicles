@@ -6,6 +6,7 @@ const HOME: StringName = &"settlement:gray_valley"
 const Enemies = preload("res://simulation/enemy_catalogue.gd")
 const Party = preload("res://simulation/party.gd")
 const MAINTENANCE_COSTS: Dictionary = {"SKILL": 1, "TOOL": 2, "ABBAN": 1}
+const MOVES_PER_DAY: int = 4
 const ROOM_ENEMIES: Dictionary = {"guard": "bandit", "pump": "feral_dog", "polluted_store": "ash_ghoul"}
 const REWARDS: Dictionary = {"guard": {"caps": 5, "scrap": 2}, "pump": {"caps": 0, "scrap": 2}, "polluted_store": {"caps": 10, "scrap": 3}}
 const ROOMS: Dictionary = {"entrance": "水廠入口", "foyer": "設備前廳", "guard": "警衛區", "maintenance": "維修廊", "pump": "泵房", "control": "控制室", "parts_store": "零件庫", "polluted_store": "污染庫房"}
@@ -15,10 +16,10 @@ const PASSAGES: Dictionary = {
 	"pump": ["guard", "maintenance", "control", "polluted_store"],
 	"control": ["pump"], "parts_store": ["foyer"], "polluted_store": ["pump"]
 }
-const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT", "DUNGEON_SHORTCUT_OPENED", "DUNGEON_BATTLE_STARTED", "DUNGEON_BATTLE_CONFIRMED", "DUNGEON_MAINTENANCE_OPENED"]
+const EVENTS: Array[String] = ["DUNGEON_ENTERED", "DUNGEON_ROOM_ENTERED", "DUNGEON_LEFT", "DUNGEON_SHORTCUT_OPENED", "DUNGEON_BATTLE_STARTED", "DUNGEON_BATTLE_CONFIRMED", "DUNGEON_MAINTENANCE_OPENED", "DUNGEON_DAY_SPENT", "DUNGEON_TRIP_ENDED"]
 
 static func state(world: WorldState) -> Dictionary:
-	var result: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "shortcut_open": false, "cleared": [], "route_rules": 0, "maintenance_open": false, "maintenance_method": ""}
+	var result: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "shortcut_open": false, "cleared": [], "route_rules": 0, "maintenance_open": false, "maintenance_method": "", "trip_rules": 0, "work_units": 0, "trip_moves": 0, "trip_days": 0}
 	if world == null or world.player == null:
 		return result
 	for event: EventRecord in world.event_log:
@@ -30,13 +31,22 @@ static func state(world: WorldState) -> Dictionary:
 		match event.type:
 			"DUNGEON_ENTERED":
 				result.route_rules = int(event.payload.get("route_rules", 0))
+				result.trip_rules = int(event.payload.get("trip_rules", 0))
+				result.trip_moves = 0
+				result.trip_days = 0
 				result.active = true
 				result.room_id = "entrance"
 				result.from_room_id = "outside"
 			"DUNGEON_ROOM_ENTERED":
 				result.room_id = event.payload.get("room_id", "")
 				result.from_room_id = event.payload.get("from_room_id", "")
-			"DUNGEON_LEFT":
+				if result.trip_rules == 1:
+					result.work_units += 1
+					result.trip_moves += 1
+			"DUNGEON_DAY_SPENT":
+				result.work_units = 0
+				result.trip_days += 1
+			"DUNGEON_LEFT", "DUNGEON_TRIP_ENDED":
 				result.active = false
 				result.room_id = ""
 				result.from_room_id = ""
@@ -70,6 +80,8 @@ static func validate_world(world: WorldState) -> String:
 	var route_rules: int = 0
 	var maintenance_open: bool = false
 	var companion: String = ""
+	var trip_rules: int = 0
+	var work_units: int = 0
 	for index: int in range(world.event_log.size()):
 		var event: EventRecord = world.event_log[index]
 		if world.player != null and event.actor_id == world.player.npc_id:
@@ -92,28 +104,48 @@ static func validate_world(world: WorldState) -> String:
 		if event.type not in EVENTS or world.player == null or event.actor_id != world.player.npc_id or event.target_id != StringName(SITE):
 			return "DUNGEON_INVALID_EVENT_OWNER"
 		var payload: Dictionary = event.payload
-		var expected_size: int = {"DUNGEON_ROOM_ENTERED": 3, "DUNGEON_BATTLE_STARTED": 6, "DUNGEON_BATTLE_CONFIRMED": 4, "DUNGEON_MAINTENANCE_OPENED": 5}.get(event.type, 2)
+		var expected_size: int = {"DUNGEON_ROOM_ENTERED": 3, "DUNGEON_BATTLE_STARTED": 6, "DUNGEON_BATTLE_CONFIRMED": 4, "DUNGEON_MAINTENANCE_OPENED": 5, "DUNGEON_DAY_SPENT": 8, "DUNGEON_TRIP_ENDED": 3}.get(event.type, 2)
 		if event.type == "DUNGEON_ENTERED" and payload.has("route_rules"):
 			expected_size = 3
 			if not number(payload.route_rules, 1, 1): return "DUNGEON_INVALID_ROUTE_RULES"
+		if event.type == "DUNGEON_ENTERED" and payload.has("trip_rules"):
+			expected_size += 1
+			if not payload.has("route_rules") or not number(payload.trip_rules, 1, 1): return "DUNGEON_INVALID_TRIP_RULES"
 		if payload.size() != expected_size or not text_is(payload.get("dungeon_id"), SITE) or typeof(payload.get("room_id")) != TYPE_STRING:
 			return "DUNGEON_INVALID_EVENT_PAYLOAD"
 		if event.day < last_day or event.day < 0 or event.day > world.current_day:
 			return "DUNGEON_INVALID_EVENT_DAY"
+		var previous_day: int = last_day
 		last_day = event.day
 		if not combat.is_empty() and event.type != "DUNGEON_BATTLE_CONFIRMED": return "DUNGEON_COMBAT_PENDING"
+		if work_units >= MOVES_PER_DAY and event.type != "DUNGEON_DAY_SPENT": return "DUNGEON_DAY_PENDING"
 		match event.type:
 			"DUNGEON_ENTERED":
 				if room != "" or payload.room_id != "entrance":
 					return "DUNGEON_INVALID_ENTRY"
 				if route_rules == 1 and not payload.has("route_rules"): return "DUNGEON_ROUTE_RULES_DOWNGRADE"
+				if trip_rules == 1 and not payload.has("trip_rules"): return "DUNGEON_TRIP_RULES_DOWNGRADE"
 				room = "entrance"
 				route_rules = int(payload.get("route_rules", 0))
+				trip_rules = int(payload.get("trip_rules", 0))
 			"DUNGEON_ROOM_ENTERED":
 				if typeof(payload.get("from_room_id")) != TYPE_STRING or payload.from_room_id != room or not adjacent(room, payload.room_id, shortcut_open):
 					return "DUNGEON_INVALID_ROOM_TRANSITION"
 				if passage_refusal(room, payload.room_id, route_rules, cleared, maintenance_open) != "": return "DUNGEON_CLOSED_ROUTE_HISTORY"
 				room = payload.room_id
+				if trip_rules == 1: work_units += 1
+			"DUNGEON_DAY_SPENT":
+				if room == "" or payload.room_id != room or trip_rules != 1 or event.day != previous_day + 1: return "DUNGEON_INVALID_DAY_CONTEXT"
+				var day_error: String = validate_day(world, index, payload, companion)
+				if day_error != "": return day_error
+				work_units = 0
+			"DUNGEON_TRIP_ENDED":
+				if room == "" or payload.room_id != room or trip_rules != 1 or index == 0 or typeof(payload.get("cause")) != TYPE_STRING or payload.cause not in ["dehydration", "starvation"]: return "DUNGEON_INVALID_TRIP_END"
+				var death: EventRecord = world.event_log[index - 1]
+				if death.type != "PLAYER_DIED" or death.actor_id != world.player.npc_id or death.target_id != HOME or death.day != event.day or not text_is(death.payload.get("cause"), payload.cause): return "DUNGEON_INVALID_TRIP_END"
+				var ended_life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+				if ended_life == null or ended_life.is_alive(): return "DUNGEON_INVALID_TRIP_END"
+				room = ""
 			"DUNGEON_LEFT":
 				if room != "entrance" or payload.room_id != "entrance":
 					return "DUNGEON_INVALID_EXIT"
@@ -146,7 +178,61 @@ static func validate_world(world: WorldState) -> String:
 		if world.active_encounter != null or world.pending_encounter_result >= 0:
 			return "DUNGEON_CONFLICTING_ACTIVITY"
 		if combat.is_empty() and (not world.field_state.battle.is_empty() or world.field_state.receipt >= 0): return "DUNGEON_CONFLICTING_ACTIVITY"
+	if work_units >= MOVES_PER_DAY: return "DUNGEON_DAY_PENDING"
 	return _snapshot(world, room, combat)
+
+static func ration_budget(water: int, food: int, companion: String) -> Dictionary:
+	var after: Dictionary = {"water": maxi(0, water - 1), "food": maxi(0, food - 1), "fed": false}
+	if companion != "":
+		var info: Dictionary = Party.info(companion)
+		if after.water >= int(info.road_water) and after.food >= int(info.road_food):
+			after.water -= int(info.road_water)
+			after.food -= int(info.road_food)
+			after.fed = true
+	return after
+
+static func validate_day(world: WorldState, index: int, payload: Dictionary, companion: String) -> String:
+	for key: String in ["water_before", "food_before", "water_after", "food_after"]:
+		if not number(payload.get(key), 0, 2147483647): return "DUNGEON_INVALID_DAY_SUPPLIES"
+	if not text_is(payload.get("companion_id"), companion) or (companion != "" and not Party.exists(companion)) or typeof(payload.get("companion_fed")) != TYPE_BOOL: return "DUNGEON_INVALID_DAY_COMPANION"
+	var budget: Dictionary = ration_budget(int(payload.water_before), int(payload.food_before), companion)
+	if payload.water_after != budget.water or payload.food_after != budget.food or payload.companion_fed != budget.fed: return "DUNGEON_INVALID_DAY_SUPPLIES"
+	if companion != "" and not budget.fed:
+		if index + 1 >= world.event_log.size(): return "DUNGEON_MISSING_HUNGER_DEPARTURE"
+		var leave: EventRecord = world.event_log[index + 1]
+		if leave.type != "COMPANION_LEFT" or leave.actor_id != world.player.npc_id or leave.target_id != StringName(SITE) or leave.day != world.event_log[index].day or leave.payload.size() != 2 or not text_is(leave.payload.get("companion_id"), companion) or not text_is(leave.payload.get("reason"), "HUNGER"): return "DUNGEON_MISSING_HUNGER_DEPARTURE"
+	return ""
+
+static func has_trip_costs(world: WorldState) -> bool:
+	var checkpoint: Dictionary = state(world)
+	return checkpoint.active and checkpoint.trip_rules == 1
+
+# Called by the engine's existing personal-needs phase, before mortality.
+static func consume_daily_supplies(world: WorldState, day: int, tick_events: Array[EventRecord]) -> Dictionary:
+	var water: int = world.player.inventory.water
+	var food: int = world.player.inventory.food
+	var companion: String = Party.current(world)
+	var budget: Dictionary = ration_budget(water, food, companion)
+	world.player.inventory.water = int(budget.water)
+	world.player.inventory.food = int(budget.food)
+	var payload: Dictionary = {"dungeon_id": SITE, "room_id": state(world).room_id, "water_before": water, "food_before": food, "water_after": budget.water, "food_after": budget.food, "companion_id": companion, "companion_fed": budget.fed}
+	var event: EventRecord = EventRecord.new(day, "DUNGEON_DAY_SPENT", world.player.npc_id, StringName(SITE), payload)
+	world.record_event(event)
+	tick_events.append(event)
+	if companion != "" and not budget.fed:
+		var leave: EventRecord = EventRecord.new(day, "COMPANION_LEFT", world.player.npc_id, StringName(SITE), {"companion_id": companion, "reason": "HUNGER"})
+		world.record_event(leave)
+		tick_events.append(leave)
+	return {"water_unmet": 1.0 if water == 0 else 0.0, "food_unmet": 1.0 if food == 0 else 0.0}
+
+static func end_deprivation_trip(world: WorldState, day: int, tick_events: Array[EventRecord]) -> void:
+	if not has_trip_costs(world): return
+	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if life != null and not life.is_alive():
+		var death: EventRecord = world.event_log.back()
+		var event: EventRecord = EventRecord.new(day, "DUNGEON_TRIP_ENDED", world.player.npc_id, StringName(SITE), {"dungeon_id": SITE, "room_id": state(world).room_id, "cause": death.payload.cause})
+		world.record_event(event)
+		tick_events.append(event)
 
 static func number(value: Variant, low: int, high: int) -> bool:
 	return typeof(value) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(value)) and value == floor(float(value)) and value >= low and value <= high
@@ -261,15 +347,19 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 			return maintenance_requirement(world, payload.method)
 	return "DUNGEON_UNAUTHORIZED_COMMAND"
 
-static func commit(world: WorldState, payload: Dictionary, tick_events: Array[EventRecord]) -> Dictionary:
+static func commit(world: WorldState, payload: Dictionary, tick_events: Array[EventRecord], engine: SimulationEngine = null) -> Dictionary:
 	var refusal: String = authorize(world, payload)
 	if refusal != "":
 		return {"success": false, "error": refusal}
 	if payload.command == "FIGHT":
 		return WorldState.Field.begin_dungeon_battle(world, payload.room_id, tick_events)
+	var checkpoint: Dictionary = state(world)
+	if payload.command == "MOVE" and checkpoint.trip_rules == 1 and checkpoint.work_units == MOVES_PER_DAY - 1 and engine == null: return {"success": false, "error": "DUNGEON_CLOCK_REQUIRED"}
 	var event_type: String = "DUNGEON_ENTERED"
 	var facts: Dictionary = {"dungeon_id": SITE, "room_id": "entrance"}
-	if payload.command == "ENTER": facts.route_rules = 1
+	if payload.command == "ENTER":
+		facts.route_rules = 1
+		facts.trip_rules = 1
 	match payload.command:
 		"MOVE":
 			event_type = "DUNGEON_ROOM_ENTERED"
@@ -291,4 +381,7 @@ static func commit(world: WorldState, payload: Dictionary, tick_events: Array[Ev
 	world.record_event(event)
 	if tick_events != null:
 		tick_events.append(event)
+	if payload.command == "MOVE" and state(world).trip_rules == 1 and state(world).work_units == MOVES_PER_DAY:
+		var daily_events: Array[EventRecord] = engine.tick(world)
+		if tick_events != null: tick_events.append_array(daily_events)
 	return {"success": true, "action": "DUNGEON_ACTION", "exploration": state(world)}

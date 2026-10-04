@@ -241,7 +241,8 @@ static func valid_treatment_receipt(payload: Dictionary) -> bool:
 
 static func authorize(world, payload: Dictionary) -> String:
 	var exploring: bool = SimulationEngine.Dungeon.state(world).active
-	if exploring and not is_dungeon_activity(world):
+	var treatment_between_fights: bool = exploring and typeof(payload.get("command")) == TYPE_STRING and payload.command == "TREAT" and not is_dungeon_activity(world)
+	if exploring and not is_dungeon_activity(world) and not treatment_between_fights:
 		return "DUNGEON_EXPLORATION_PENDING"
 	var error = validate_world(world)
 	if error != "":
@@ -249,7 +250,7 @@ static func authorize(world, payload: Dictionary) -> String:
 	var command = payload.get("command")
 	if typeof(command) != TYPE_STRING or command not in COMMANDS:
 		return "INVALID_FIELD_COMMAND"
-	if exploring and command not in ["ATTACK", "SHOOT", "DEFEND", "FLEE", "CONFIRM"]: return "DUNGEON_EXPLORATION_PENDING"
+	if exploring and command not in ["ATTACK", "SHOOT", "DEFEND", "FLEE", "CONFIRM"] and not treatment_between_fights: return "DUNGEON_EXPLORATION_PENDING"
 	var state = world.field_state
 	if command == "CONFIRM":
 		if payload.size() != 2 or typeof(payload.get("receipt")) != TYPE_INT or payload.receipt != state.receipt or state.receipt < 0:
