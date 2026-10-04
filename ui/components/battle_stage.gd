@@ -570,6 +570,7 @@ var road_background: TextureRect
 var wilderness_background: TextureRect
 var camp_background: TextureRect
 var waterworks_background: TextureRect
+var relay_background: TextureRect
 var environment_id := "shed"
 var isometric := false
 var isometric_ground: Node2D
@@ -741,6 +742,7 @@ func _init() -> void:
 	wilderness_background = _environment_texture("res://ui/assets/combat/wilderness.png")
 	camp_background = _environment_texture("res://ui/assets/combat/raider-camp.png")
 	waterworks_background = _environment_texture("res://ui/assets/combat/waterworks.png")
+	relay_background = _environment_texture("res://ui/assets/combat/buried-relay.png")
 	isometric_ground = IsometricGround.new()
 	isometric_ground.hide()
 	stage_canvas.add_child(isometric_ground)
@@ -812,7 +814,7 @@ func arrange() -> void:
 	hero_origin = Vector2(cw * 0.28, ch * 0.92)
 	enemy_origin = Vector2(cw * 0.72, ch * 0.92)
 	if isometric:
-		var terrain: Texture2D = {"shed": shed_background, "highway": road_background, "wilderness": wilderness_background, "camp": camp_background, "waterworks": waterworks_background}[environment_id].texture
+		var terrain: Texture2D = {"shed": shed_background, "highway": road_background, "wilderness": wilderness_background, "camp": camp_background, "waterworks": waterworks_background, "relay": relay_background}[environment_id].texture
 		isometric_ground.configure(Vector2(cw, ch), terrain, environment_id)
 		hero_origin = isometric_ground.project(Vector2(0.20, 0.95))
 		enemy_origin = isometric_ground.project(Vector2(0.70, -0.40))
@@ -868,7 +870,7 @@ func _environment_texture(path: String) -> TextureRect:
 	return backdrop
 
 func configure_environment(id: String) -> bool:
-	if id not in ["shed", "highway", "wilderness", "camp", "waterworks"]:
+	if id not in ["shed", "highway", "wilderness", "camp", "waterworks", "relay"]:
 		return false
 	environment_id = id
 	shed_background.visible = id == "shed"
@@ -876,6 +878,7 @@ func configure_environment(id: String) -> bool:
 	wilderness_background.visible = id == "wilderness"
 	camp_background.visible = id == "camp"
 	waterworks_background.visible = id == "waterworks"
+	relay_background.visible = id == "relay"
 	road_fallback.visible = id == "highway" and road_background.texture == null
 	arrange()
 	return true
@@ -885,7 +888,7 @@ func configure_isometric(enabled: bool) -> void:
 	if not enabled:
 		aspect_frame.ratio = 16.0 / 9.0
 	isometric_ground.visible = enabled
-	for background in [shed_background, road_background, wilderness_background, camp_background, waterworks_background]:
+	for background in [shed_background, road_background, wilderness_background, camp_background, waterworks_background, relay_background]:
 		background.modulate = Color(0.38, 0.38, 0.38) if enabled else Color.WHITE
 	arrange()
 

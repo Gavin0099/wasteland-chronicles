@@ -75,6 +75,17 @@ static func is_dungeon_activity(world: WorldState) -> bool:
 	if context.is_empty() and world.field_state.receipt >= 0 and world.field_state.receipt < world.event_log.size(): context = world.event_log[world.field_state.receipt].payload
 	return context.get("source", "field") == "dungeon"
 
+static func begin_relay_battle(world: WorldState, tick_events: Array[EventRecord]) -> Dictionary:
+	var error: String = SimulationEngine.Relay.authorize(world, {"command": "FIGHT", "site_id": SimulationEngine.Relay.SITE})
+	if error != "": return {"success": false, "error": error}
+	var state: Dictionary = world.field_state
+	var site_hp: int = int(state.enemy_hp)
+	state.battle = {"id": state.next_id, "turn": 1, "prepared": false, "source": "dungeon", "enemy": "feral_dog", "site_enemy_hp": site_hp, "dungeon_id": SimulationEngine.Relay.SITE, "room_id": "relay_corridor"}
+	state.enemy_hp = Enemies.max_hp("feral_dog")
+	state.next_id += 1
+	SimulationEngine.Relay.record(world, "RELAY_BATTLE_STARTED", {"dungeon_id": SimulationEngine.Relay.SITE, "room_id": "relay_corridor", "battle_id": state.battle.id, "enemy": "feral_dog", "site_enemy_hp": site_hp, "hp": world.player.field_kit.hp}, world.current_day, tick_events)
+	return {"success": true, "action": "DUNGEON_ACTION", "exploration": SimulationEngine.Relay.state(world)}
+
 static func integer(value: Variant, low: int, high: int) -> bool:
 	return typeof(value) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(value)) and value == floor(float(value)) and value >= low and value <= high
 
@@ -240,7 +251,7 @@ static func valid_treatment_receipt(payload: Dictionary) -> bool:
 	return typeof(id) == TYPE_STRING and TREATMENT_HEALING.has(id) and integer(payload.get("healed"), 1, int(TREATMENT_HEALING[id]))
 
 static func authorize(world, payload: Dictionary) -> String:
-	var exploring: bool = SimulationEngine.Dungeon.state(world).active
+	var exploring: bool = SimulationEngine.Dungeon.is_exploring(world)
 	var treatment_between_fights: bool = exploring and typeof(payload.get("command")) == TYPE_STRING and payload.command == "TREAT" and not is_dungeon_activity(world)
 	if exploring and not is_dungeon_activity(world) and not treatment_between_fights:
 		return "DUNGEON_EXPLORATION_PENDING"
@@ -518,7 +529,8 @@ static func apply(world, engine, payload: Dictionary) -> String:
 		"CONFIRM":
 			var receipt_payload: Dictionary = world.event_log[state.receipt].payload
 			if receipt_payload.get("source", "field") == "dungeon":
-				world.record_event(EventRecord.new(world.current_day, "DUNGEON_BATTLE_CONFIRMED", player.npc_id, StringName(SimulationEngine.Dungeon.SITE), {"dungeon_id": receipt_payload.dungeon_id, "room_id": receipt_payload.room_id, "battle_id": receipt_payload.battle_id, "result_index": state.receipt}))
+				var relay: bool = receipt_payload.dungeon_id == SimulationEngine.Relay.SITE
+				world.record_event(EventRecord.new(world.current_day, "RELAY_BATTLE_CONFIRMED" if relay else "DUNGEON_BATTLE_CONFIRMED", player.npc_id, StringName(receipt_payload.dungeon_id), {"dungeon_id": receipt_payload.dungeon_id, "room_id": receipt_payload.room_id, "battle_id": receipt_payload.battle_id, "result_index": state.receipt}))
 			if receipt_payload.get("source", "field") in ["road", "dungeon"]:
 				# Opened legacy homes are known clear. Unknown unopened legacy site
 				# health retains its previous fallback; new receipts restore it exactly.
@@ -671,7 +683,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					var left: Dictionary = {}
 					var caps: int = 0
 					if source == "dungeon":
-						var reward: Dictionary = SimulationEngine.Dungeon.REWARDS[battle.room_id]
+						var reward: Dictionary = SimulationEngine.Relay.REWARDS[battle.room_id] if battle.dungeon_id == SimulationEngine.Relay.SITE else SimulationEngine.Dungeon.REWARDS[battle.room_id]
 						var carried: int = mini(int(reward.scrap), maxi(0, player.get_effective_capacity() - player.get_total_inventory_load()))
 						if carried > 0:
 							player.inventory.add_amount("scrap", carried)

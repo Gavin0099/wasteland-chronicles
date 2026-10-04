@@ -2,7 +2,7 @@
 <!-- governance-baseline: overridable -->
 <!-- baseline_version: 1.0.0 -->
 
-> **最後更新**: 2026-10-04
+> **最後更新**: 2026-10-05
 > **Owner**: Gavin0099
 > **Freshness**: Sprint (7d)
 
@@ -15,6 +15,16 @@
 
 ## Active Sprint
 
+- [x] RLY-1 local implementation/verification complete: first fixed, walkable relay ruin with a real guard fight or discovered tool/scrap side route, once-only access card and military backpack, actual day/supply/death/companion rules and checked save/Continue.819focused/0;all134suitesPASS/exit0/no SCRIPT ERROR;28Vulkan captures(26distincthashes)/847/0 at1280×720 and1152×648. Debug339/0errors/167baselinewarnings/zeroRelaywarnings; lint/smokes/driftPASS. Independent code review zeroP0/P1 with walker-resetP2 deferred. Same-PR bound evidence/memory, exact-head GitHub review and real CI precede merge; these remote gates remain pending. See docs/relay-first-expedition.md.
+- [ ] RLY-2 named target investigation/escape; own lifecycle/identity contract before implementation.
+- [ ] RLY-3 actual turret/power control and resource tradeoffs.
+- [ ] RLY-4 disarm and live capture, with explicit custody authority.
+- [ ] RLY-5 alive/dead/released disposition and sourced consequences.
+- [ ] RLY-6 repaired mechanical dog with useful actions and energy costs.
+- [ ] RLY-7 return reactions tied to the expedition and current local facts.
+- [ ] RLY-8 normal new-character full journey and player pacing evaluation.
+- Owner approved this shared-ruin direction on2026-10-05: bounty hunter, ruin hunter and mechanical hacker are compatible ways to approach real situations. Deliver one slice through review/PR/CI/merge before implementing the next; no six complete profession trees or future mechanics in RLY-1.
+
 - [x] DUN-1 delivered PR72 (merge0a81b63aef8d0f1e89ce101a14606d0c4d048475): two walkable rooms, room-checkpoint save/load/Continue and original pump/floor art.178focused/all126PASS;26Vulkancaptures/156assertions; independent implementation/companion clear of P0/P1. Exact-head0102849 GitHub Codex completed with no findings; real CI37185248014 runner1000022517/seven steps passed. Main synchronized clean; readonly memory guard exit0. Fixed-height save-summary overlapP2 remains deferred; see docs/dungeon-entry.md.
 - [x] DUN-2 delivered PR73 (mergeeb9b07ee715a26d250443bff36da3b088abdee95): eight fixed rooms, both branches, remembered exploration, frontier-only map and control-side return shortcut.430focused/all127PASS; final map-height refinement rechecked430focused/34distinctVulkanPNG/340assertions. Independent implementation/companion zero P0/P1; exact-head166584ca GitHub Codex completed with no findings and real CI37186948571 runner1000022533/seven steps passed. Main synchronized clean; readonly guard exit0. Arbitrary-start guide collisionP2 deferred; see docs/dungeon-layout.md.
 - [x] DUN-3 delivered PR74 (merge373a63ecd7acf0c83fb9b2009c7ed58607d9b16a): chosen real room fights, exact source-room restoration, escape/death, one-shot caps/scrap and carrying-limit receipts. All128 suites PASS on the final core snapshot; subsequent UI bitmap-lifetime correction/test warning cleanup rechecked479focused/34distinctVulkanPNG/290assertions. Independent implementation/companion zero P0/P1; exact-heada621db6 Codex completed with one acknowledged damage-history P2; real CI37189586669 runner1000022546/seven steps PASS. Main synchronized clean, readonly guard0. Result-window scrolling P2 also deferred. See docs/dungeon-combat.md.
@@ -22,7 +32,7 @@
 - [x] DUN-5 delivered PR76 (merge1531361396bdfe7e5cd1ed78d4dfa4e582f6b439):owned supplies, four-transition day clock/carry-over, separate cargo/item budgets, actual treatment and retreat/deprivation closeout.634focused/all130PASS/no SCRIPT ERROR;38Vulkan captures/626assertions/0. Independent implementation/companion zero P0/P1; exact-head2a87f72 Codex completed without findings; CI37195811437 runner1000022573/seven steps PASS. Main synced clean and readonly guard0. Companion text P3 deferred; see docs/dungeon-supplies.md.
 - [x] DUN-6 delivered PR77 (merge90e1468ad443b5c4abf05b57bfb7e8110ac2bbf1):mask gate/useful once-only deep tool/optional rumor/revisit.614focused/all131PASS/no SCRIPT ERROR;38distinctVulkan/628/0. Independent implementation/companion zero P0/P1; exact3918471 Codex completed with one P2 acknowledged/deferred; CI37200901449 runner1000022589/seven steps PASS. Main synced clean, readonlyguard0. See docs/dungeon-deep-reward.md.
 - [x] DUN-7 delivered PR78 (merged20a0628fe21407f7ed0606e76a69a08fdcc2915):Abban device choice/real armor/shared history.748focused/all132PASS/no SCRIPT ERROR;34Vulkan/662/0, actualsharedtheme/40pxreturn. Independent implementation/companion zeroP0/P1; exacted3ffff Codex complete with oneP2 acknowledged/deferred; CI37202788363 runner1000022595/seven stepsPASS. Main syncedclean/readonlyguard0; see docs/dungeon-device-choice.md.
-- [x] DUN-8 implementation/local verification complete:optional returned-device report +3/-3 existingforge standing, real loot sale/retained-tool well repair, Continue/revisit and full-loop twin SHA/global invariants.1134focused/0 and all133suitesPASS/no SCRIPT ERROR on final production; extra final refusal tests separately1134/0.28distinctVulkan/744/0, debugger335/0errors/167existingwarnings, lint/smokes/driftPASS. Independent implementation zeroP0/P1; oneP3 deferred. Same-PR bound companion/exact-head Codex/real CI/merge/sync/readonlyguard are pending remote delivery gates, not claimed passed here; see docs/dungeon-return-loop.md.
+- [x] DUN-8 delivered PR79 (merge38e295ef3037162f1850017f18d34939bab8f14e): optional returned-device report +3/-3 existingforge standing, real loot sale/retained-tool well repair, Continue/revisit and full-loop twin SHA/global invariants.1134focused/0, all133suitesPASS/no SCRIPT ERROR on final production,28distinctVulkan/744/0. Independent implementation/companion zeroP0/P1; exact-head706c1327 Codex complete with oneP2 deferred; real CI37205072369 runner1000022600/seven stepsPASS. Main synchronized clean, readonlyguard0. Merge verified on2026-10-05; see docs/dungeon-return-loop.md.
 - Dungeon delivery is sequential: independent review → same-PR bound evidence/memory → exact-head GitHub Codex and real successful CI → merge/sync → next slice. Art/motion/rendered checks ship with the corresponding slice. Owner-authorized scope does not include new NPC lifecycles, family, aging, inheritance or random dungeon generation.
 
 - [x] FACTION-1 — delivered PR70 (merge782ca1bf24e60be98986d9858b775c1f378cac8b). 571 focused assertions; all124 suites PASS;20actualVulkancaptures/676assertions. Independent and exact-head GitHub Codex clear of P0/P1; actual CI passed. Allied-betrayal confirmation wording and adjacent compact growth clipping P2 deferred; see docs/shared-faction-consequences.md.
@@ -153,6 +163,8 @@
 - P2: S8 — Vertical Slice (30~60 min Emergent Simulation RPG)
 
 ## Decision Log
+
+- 2026-10-05:Owner approved the RLY-1–8 shared-ruin adventure direction. RLY-1 uses existing DUNGEON_ACTION with an exact optional site_id and a separate RELAY ledger, retaining legacy waterworks saves. Site card is journal ownership that opens a real vault; backpack is an existing physical item. Both real combat and owned-tool/scrap bypass, companion rations and the global daily tick are active. No human NPC lifecycle, turret, capture or mechanical dog is implemented ahead of its slice. See docs/relay-first-expedition.md.
 
 - 2026-10-04: DUN-4 versions route authorization on ENTER facts rather than rewriting valid DUN-1/2/3 histories. Front access requires a verified guard victory; bypass opening explicitly selects own MECHANICS2/owned crowbar or wrench/current Abban, with fixed once-only scrap cost and no free practice/XP/day. Both passage directions and historical gate facts are validated. An actual source=false probe exposed a typed-comparison crash whose empty return let checked loading succeed; string and exact-number guards now precede comparisons, including the pre-Dungeon Field wire/result validator. This fixes malformed types, not PR74's deferred plausible-damage reconstruction P2.
 
@@ -318,6 +330,8 @@
 - 2026-09-20: **Finding `NON_LEDGER_STATE_NOT_ROUNDTRIPPED` ACCEPTED_FOR_WORK** — Owner disposition: dedicated slice **S4-C.2 Snapshot Numeric Canonicality**, activated before S4-D Traits. Traits are explicitly on WAIT until persistence continuity is proven.
 
 ## Known Risks
+
+- RLY-1 independentP2:closing supplies or treating refreshes the room and resets the presentation-only walker to the arrival point; the authoritative room/checkpoint, time and discoveries are unchanged. Deferred under the review threshold. No human pacing/fun or full historical gear anti-tamper protection is claimed.
 
 - DUN-7/PR78 P2:device-note wording names actual Abban but renders other actual salvage companions as solo. The authoritative event retains their IDs; projection refinement acknowledged/deferred. No full relationship simulation or human pacing acceptance is claimed.
 - DUN-8 independentP3:already-reported return window retains general optional-report/defer wording. Actual once-only button is disabled and standing is correct; copy refinement acknowledged/deferred.

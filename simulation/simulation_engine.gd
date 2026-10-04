@@ -18,6 +18,7 @@ const Training = preload("res://simulation/training.gd")
 const Party = preload("res://simulation/party.gd")
 const JobBoard = preload("res://simulation/job_board.gd")
 const Dungeon = preload("res://simulation/dungeon_exploration.gd")
+const Relay = preload("res://simulation/relay_exploration.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -77,7 +78,7 @@ var enable_transit_predation: bool = true
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
-	if Dungeon.state(world).active and WorldState.Field.is_dungeon_activity(world): return tick_events
+	if Dungeon.is_exploring(world) and WorldState.Field.is_dungeon_activity(world): return tick_events
 	world.current_day += 1
 	var current_day := world.current_day
 
@@ -1495,7 +1496,7 @@ func process_player_daily_needs(world: WorldState, current_day: int, tick_events
 	if ls.status == NpcLifeState.Status.IN_TRANSIT:
 		_feed_companion_on_road(world, p, current_day, tick_events)
 	if (ls.status == NpcLifeState.Status.IN_TRANSIT or dungeon_day) and (water_unmet_ratio > 0.0 or food_unmet_ratio > 0.0):
-		var need_event := EventRecord.new(current_day, "PLAYER_NEED_UNMET", p.npc_id, StringName(Dungeon.SITE) if dungeon_day else &"road", {
+		var need_event := EventRecord.new(current_day, "PLAYER_NEED_UNMET", p.npc_id, StringName(Dungeon.active_site(world)) if dungeon_day else &"road", {
 			"water_unmet": water_unmet_ratio, "food_unmet": food_unmet_ratio,
 		})
 		world.record_event(need_event)
@@ -2662,7 +2663,7 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 
 	if intent.action == PlayerIntent.Action.DUNGEON_ACTION:
 		return Dungeon.authorize(world, intent.payload)
-	if Dungeon.state(world).active:
+	if Dungeon.is_exploring(world):
 		if intent.action != PlayerIntent.Action.FIELD_ACTION:
 			return "DUNGEON_EXPLORATION_PENDING"
 	if intent.action == PlayerIntent.Action.FIELD_ACTION:
@@ -2879,7 +2880,7 @@ func authorize_player_intent(world: WorldState, intent: PlayerIntent) -> String:
 # mechanics themselves (departure accounting, Axiom 9 arrival timing, backpack
 # consumption) are verified one day at a time.
 func begin_player_travel(world: WorldState, intent: PlayerIntent, tick_events: Array[EventRecord] = []) -> Dictionary:
-	if Dungeon.state(world).active:
+	if Dungeon.is_exploring(world):
 		return {"success": false, "error": "DUNGEON_EXPLORATION_PENDING"}
 	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.player_id)
 	if ls == null:

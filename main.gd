@@ -39,7 +39,9 @@ func _install_shell() -> void:
 	add_child(shell)
 	shell.setup(world, engine)
 	shell.save_menu_requested.connect(_open_save_menu)
-	if engine.Dungeon.state(world).active:
+	if engine.Relay.state(world).active:
+		shell._show_relay()
+	elif engine.Dungeon.state(world).active:
 		shell._show_dungeon()
 	elif not world.field_state.battle.is_empty() or world.field_state.receipt >= 0:
 		shell._show_field()

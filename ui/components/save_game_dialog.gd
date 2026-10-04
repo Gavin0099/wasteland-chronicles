@@ -57,14 +57,16 @@ static func describe(world: WorldState) -> String:
 	var projected: Dictionary = UiProjection.project(world, false)
 	var player: Dictionary = projected.player
 	var state: String = "旅途中" if player.get("is_in_transit", false) else "停留中"
-	var exploration: Dictionary = SimulationEngine.Dungeon.state(world)
+	var relay: bool = SimulationEngine.Relay.state(world).active
+	var exploration: Dictionary = SimulationEngine.Dungeon.current_checkpoint(world)
 	if exploration.active:
 		var continuation: String = "讀檔後從房間入口繼續。"
 		if not world.field_state.battle.is_empty():
 			continuation = "戰鬥中 · 第 %d 回合 · 讀檔後繼續交戰。" % int(world.field_state.battle.turn)
 		elif world.field_state.receipt >= 0:
 			continuation = "戰鬥結果待確認 · 讀檔後查看結果。"
-		return "%s · 第 %d 天\n封存地下水廠 · %s\n%s" % [player.name, world.current_day, SimulationEngine.Dungeon.ROOMS[exploration.room_id], continuation]
+		var rooms: Dictionary = SimulationEngine.Relay.ROOMS if relay else SimulationEngine.Dungeon.ROOMS
+		return "%s · 第 %d 天\n%s · %s\n%s" % [player.name, world.current_day, "舊中繼站" if relay else "封存地下水廠", rooms[exploration.room_id], continuation]
 	if not world.field_state.battle.is_empty():
 		state = "戰鬥中 · 第 %d 回合" % int(world.field_state.battle.turn)
 	elif world.field_state.receipt >= 0 or world.pending_encounter_result >= 0:
