@@ -21,7 +21,7 @@ static func project(checkpoint: Dictionary) -> Dictionary:
 			if not rooms.has(neighbour): rooms[neighbour] = {"label": "未探索", "visited": false, "current": false}
 			if room < neighbour or neighbour not in checkpoint.visited:
 				edges.append([room, neighbour])
-				if Dungeon.passage_refusal(room, neighbour, int(checkpoint.get("route_rules", 0)), checkpoint.get("cleared", []), checkpoint.get("maintenance_open", false)) != "": locked.append([room, neighbour])
+				if Dungeon.passage_refusal(room, neighbour, int(checkpoint.get("route_rules", 0)), checkpoint.get("cleared", []), checkpoint.get("maintenance_open", false), int(checkpoint.get("deep_rules", 0)), checkpoint.get("has_mask", false)) != "": locked.append([room, neighbour])
 	if checkpoint.shortcut_open:
 		edges.append(["control", "entrance"])
 	return {"rooms": rooms, "edges": edges, "shortcut_open": checkpoint.shortcut_open, "locked": locked}

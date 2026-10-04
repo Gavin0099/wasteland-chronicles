@@ -20,6 +20,7 @@ func enter_legacy_graph(world: WorldState) -> void:
 	# old graph/save expectations; DUN-4 independently tests every current gate.
 	world.event_log.back().payload.erase("route_rules")
 	world.event_log.back().payload.erase("trip_rules")
+	world.event_log.back().payload.erase("deep_rules")
 	check(Dungeon.state(world).route_rules == 0 and engine.validate_invariants(world) == "", "reviewed legacy rules0 entry fixture validates")
 
 func layout_replay() -> void:

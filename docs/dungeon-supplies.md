@@ -110,7 +110,14 @@ Independent final implementation review:zero unresolved P0/P1. P3 recorded
 and deferred:the companion allowance line still begins with「獨行」before its
 actual companion name and additional costs; no deduction or ownership error.
 All130 Godot suites then passed on the final core/UI/test snapshot with no
-SCRIPT ERROR. Same-PR bound evidence/memory and remote gates remain pending.
+SCRIPT ERROR. Delivered PR76:implementation8358d31b2b4b241c04431ec7d50e93655b87736d,
+bound companion2a87f722f9941113137b13e12d288e0741e77e33, independently reviewed
+with zero unresolved P0/P1. Exact-head Codex completed2026-10-04T10:40:02Z
+without findings; CI37195811437/job111417313995 ran on runner1000022573 with
+all seven steps successful. Merged2026-10-04T10:41:08Z as
+1531361396bdfe7e5cd1ed78d4dfa4e582f6b439. Main synchronized clean and readonly
+memory guard returned0/current and repo B0=0/mismatch0/unbound0. No post-merge
+writer ran.
 
 Claim boundaries:town aggregate metabolism/membership remain coarse and
 unchanged; historical supply receipts prove internal deduction/need context,
