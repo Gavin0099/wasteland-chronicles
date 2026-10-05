@@ -10,6 +10,7 @@ const FRAMES := {
 		"unarmed": [Rect2(139, 512, 309, 487), Vector2(190, 994), Vector2.ZERO, 485.0, "grey-crow-capture"],
 		"hurt": [Rect2(628, 519, 318, 477), Vector2(672, 992), Vector2.ZERO, 485.0, "grey-crow-capture"],
 		"kneel": [Rect2(1174, 613, 255, 347), Vector2(1305, 956), Vector2.ZERO, 485.0, "grey-crow-capture"],
+		"fall": [Rect2(70, 280, 1410, 532), Vector2(760, 790), Vector2.ZERO, 1380.0, "grey-crow-aftermath"],
 	},
 	"bandit": {
 		"idle_breath": [Rect2(59, 47, 412, 465), Vector2(425, 506), Vector2.ZERO, 450.0, "road-bandit-movement"],

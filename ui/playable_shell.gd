@@ -3025,13 +3025,14 @@ func _enter_relay() -> void:
 
 func _show_relay_target() -> void:
 	if world == null or world.player == null: return
-	var dialog: AcceptDialog = preload("res://ui/components/relay_target_dialog.gd").new()
+	var resolved: Dictionary = engine.RelayDisposition.state(world)
+	var dialog: AcceptDialog = preload("res://ui/components/relay_disposition_dialog.gd").new() if resolved.capture_index >= 0 or resolved.kill_index >= 0 else preload("res://ui/components/relay_target_dialog.gd").new()
 	add_child(dialog)
 	dialog.setup(world, engine)
 	dialog.world_changed.connect(func() -> void: refresh_ui())
 	dialog.confirmed.connect(dialog.queue_free)
 	dialog.canceled.connect(dialog.queue_free)
-	dialog.popup_centered(Vector2i(650, 455))
+	dialog.popup_centered(Vector2i(735, 525) if resolved.capture_index >= 0 or resolved.kill_index >= 0 else Vector2i(650, 455))
 	dialog.get_ok_button().grab_focus()
 
 func _show_relay() -> void:
