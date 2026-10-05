@@ -46,4 +46,6 @@ Final debug checks351resources with0errors/167baselinewarnings and zero new disp
 
 artifacts/evidence/test-results/relay-disposition-full-local.json retains the actual full138 results, raw-log digests and inspected source digests. It is explicitly an unbound local full-run summary, not a canonical receipt or a signed proof. The post-push canonical focused receipt separately binds the implementation commit.
 
+Implementation42419380ac595e0667ed55b7ad21d9440f034e30 was independently cleared and pushed. Canonical test_evidence_receipt_writer actually ran the final focused suite2991/0/exit0/no SCRIPT ERROR at that commit,03:48:23–03:49:06UTC; artifacts/evidence/test-results/relay-disposition.json/.txt retain that binding/output and report-only authenticity boundary. Canonical memory_record wrote daily plus active-task-summary under session codex-20261005-rly5-disposition, bound to the same implementation, in the same feature branch/PR. Companion guard passes; GitHub/actualCI/merge remain pending, with no postmerge writer authorized by this milestone.
+
 Native shutdown retains15Texture,26text,1font,56Canvas and172ObjectDB diagnostics; headless precursor15DummyTexture/26text/1font/56Canvas/187ObjectDB. No zero-leak or runtime-soak claim. These are recorded separately from actual gameplay assertions and exit status.
