@@ -364,6 +364,7 @@ func refresh() -> void:
 	# drawing a dog in a supply shed holding a crowbar.
 	stage.configure(Field.Enemies.resolve(_display_enemy()).art, weapon_item, is_road)
 	stage.configure_environment(environment_for(world))
+	stage.configure_support(environment_for(world) == "relay" and SimulationEngine.RelayPower.state(world).mode == "TURRET")
 	stage.refresh(kit.equipped, state.enemy_hp > 0)
 	var outcome: String = String(world.event_log[state.receipt].payload.get("outcome", "")) if state.receipt >= 0 else ""
 	stage.present_outcome(outcome)
@@ -394,6 +395,7 @@ func refresh() -> void:
 	# Both health values are on the bars above now; repeating them here was the
 	# same fact three times in one panel.
 	status_label.text = "武器　%s　· 防護 %d" % [weapon, Field.Gear.protection(world.player)]
+	if environment_for(world) == "relay" and SimulationEngine.RelayPower.state(world).mode == "TURRET": status_label.text += " · 砲塔剩%d次支援" % SimulationEngine.RelayPower.state(world).charges
 	if not alive:
 		status_label.text = "角色已死亡\n" + status_label.text
 	if state.receipt >= 0:
@@ -459,15 +461,16 @@ func refresh() -> void:
 		for event in world.event_log:
 			if event.type == "FIELD_TURN" and int(event.payload.battle_id) == int(state.battle.id) and event.payload.turn >= turn - 3:
 				log_label.text += "\n\n第 %d 回合：造成 %d / 承受 %d" % [event.payload.turn, event.payload.dealt, event.payload.taken]
+				if event.payload.has("turret_dealt"): log_label.text += "（含砲塔支援%d）" % event.payload.turret_dealt
 				var practice: Dictionary = event.payload.get("skill_practice", {})
 				if not practice.is_empty():
 					log_label.text += " · " + practice_text(practice)
-		add_action("ATTACK", "近身攻擊 · 傷害 %d" % Field.attack_damage(world))
+		add_action("ATTACK", "近身攻擊 · 傷害 %d%s" % [Field.attack_damage(world), "＋砲塔%d" % SimulationEngine.RelayPower.preview(world, Field.attack_damage(world)) if SimulationEngine.RelayPower.preview(world, Field.attack_damage(world)) > 0 else ""])
 		var firearm := Field.firearm_for(world)
 		var ammo_id: String = String(firearm.get("ammo_item_id", "revolver_round"))
 		if not firearm.is_empty() and world.player.item_inventory.quantity(ammo_id) < int(firearm.get("ammo_spent", 1)):
 			stage.show_empty_weapon()
-		add_action("SHOOT", "射擊 · 傷害 %d · 彈藥 −%d（剩 %d）" % [Field.shot_damage(world), int(firearm.get("ammo_spent", 1)), world.player.item_inventory.quantity(ammo_id)])
+		add_action("SHOOT", "射擊 · 傷害 %d%s · 彈藥 −%d（剩 %d）" % [Field.shot_damage(world), "＋砲塔%d" % SimulationEngine.RelayPower.preview(world, Field.shot_damage(world)) if SimulationEngine.RelayPower.preview(world, Field.shot_damage(world)) > 0 else "", int(firearm.get("ammo_spent", 1)), world.player.item_inventory.quantity(ammo_id)])
 		add_action("DEFEND", "架勢防禦 · 減傷 %d · 下次攻擊 +%d（不累加）" % [Field.Enemies.brace_reduction(_display_enemy(), turn), 3 if preload("res://game_data/gear_property_profiles.gd").has(weapon_item, "heavy_head") else 2])
 		add_action("FLEE", "逃跑 · 承受 %d 傷害%s" % [Field.flee_damage(world), "（鐵鎚笨重）" if Field.flee_damage(world) > 1 else ""])
 	else:
