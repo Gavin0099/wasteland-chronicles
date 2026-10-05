@@ -5,6 +5,7 @@ signal save_menu_requested
 signal closed
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Relay = preload("res://simulation/relay_exploration.gd")
+const Target = preload("res://simulation/relay_target.gd")
 const Field = preload("res://simulation/field_adventure.gd")
 const RoomView = preload("res://ui/components/relay_room_view.gd")
 const Supplies = preload("res://ui/components/dungeon_supplies_dialog.gd")
@@ -29,6 +30,7 @@ var supplies_dialog: AcceptDialog
 var map_dialog: AcceptDialog
 
 static func explain(error: String) -> String:
+	if error.begins_with("TARGET_"): return preload("res://ui/components/relay_target_dialog.gd").explain(error)
 	return {"": "", "RELAY_FIND_TUNNEL": "先在入口查看拖痕", "RELAY_DOG_BLOCKS_ROUTE": "先排除走廊野犬並確認戰果", "RELAY_OPEN_TUNNEL": "先用工具與2廢料撬開內門", "RELAY_FIND_CARD": "先檢查檔案室的值勤文件", "RELAY_NEED_TOOL": "缺扳手或撬棍；可回灰谷買工具", "RELAY_NEED_SCRAP": "需要2廢料", "ITEM_CAPACITY_EXCEEDED": "道具空間不足；先回城整理再來取", "RELAY_PRIZE_ALREADY_OWNED": "已持有軍用背包；先回城整理", "RELAY_ACTIVITY_PENDING": "先完成並確認目前的戰鬥或遭遇", "RELAY_REQUIRES_GRAY_VALLEY": "請先到灰谷", "RELAY_PLAYER_DEAD": "這段旅程已結束"}.get(error, "目前無法執行；請確認位置與所需物資")
 
 func button(row: HBoxContainer, caption: String, callback: Callable) -> Button:
@@ -101,12 +103,18 @@ func refresh_room() -> void:
 	if not s.active: return
 	title_label.text = "舊中繼站 / " + Relay.ROOMS[s.room_id]
 	status_label.text = "生命%d/12 · %s · 水%d／食物%d · 再換房%d次過一天%s" % [world.player.field_kit.hp, Supplies.load_text(world.player), world.player.inventory.water, world.player.inventory.food, 4 - int(s.work_units), " · 持有保管室門禁卡" if s.card_found else ""]
+	s["target"] = Target.state(world)
+	s["target_present"] = Target.present_at_relay(world)
 	view.setup(s)
 	route_choice.clear()
 	for door: Dictionary in view.doors: route_choice.add_item(door.label)
 	message.text = HINTS[s.room_id]
 	if s.room_id == "relay_entrance" and s.tunnel_found: message.text = "牆邊的維修道已找到。正門野犬仍在時，可帶工具與2廢料走側道；南側樓梯回灰谷。"
 	if s.room_id == "relay_vault" and s.prize_taken: message.text = "保管室已取空；原路返回。裝備軍用背包後，可準備帶更多物資的旅程。"
+	if s.target.accepted and s.room_id == "relay_records":
+		message.text = "灰鴉在此；先堵維修出口可當面問話。直接露面，他會從商路逃往新希望。" if s.target_present and not s.target.interviewed and not s.target.escaped else Target.describe(world)
+		if s.target.interviewed: message.text = "你已當面問過灰鴉，這不代表拘捕。回灰谷可領一次偵查費；他仍會受外界局勢影響。"
+		elif s.target.escaped: message.text = "灰鴉已從維修出口逃上商路。回灰谷可回報，或追到新希望當面確認。"
 	refresh_interaction()
 	view.grab_focus()
 

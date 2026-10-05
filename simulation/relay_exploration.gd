@@ -63,6 +63,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var history_error: String = SimulationEngine.Dungeon.validate_world(world)
 	if history_error != "": return history_error
 	if typeof(payload.get("site_id")) != TYPE_STRING or payload.site_id != SITE or typeof(payload.get("command")) != TYPE_STRING: return "RELAY_INVALID_INTENT"
+	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.authorize(world, payload)
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if life == null or not life.is_alive(): return "RELAY_PLAYER_DEAD"
 	if life.status != NpcLifeState.Status.SETTLED or life.population_container_id != HOME: return "RELAY_REQUIRES_GRAY_VALLEY"
@@ -93,6 +94,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 static func commit(world: WorldState, payload: Dictionary, events: Array[EventRecord], engine: SimulationEngine) -> Dictionary:
 	var error: String = authorize(world, payload)
 	if error != "": return {"success": false, "error": error}
+	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.commit(world, payload, events, engine)
 	if payload.command == "FIGHT": return WorldState.Field.begin_relay_battle(world, events)
 	var s: Dictionary = state(world)
 	if payload.command == "MOVE" and s.work_units == 3 and engine == null: return {"success": false, "error": "RELAY_CLOCK_REQUIRED"}
@@ -238,7 +240,8 @@ static func validate_world(world: WorldState) -> String:
 		if life == null or (fatal and life.is_alive()) or (not fatal and (not life.is_alive() or life.status != NpcLifeState.Status.SETTLED or life.population_container_id != HOME)): return "RELAY_INVALID_LOCAL_CONTEXT"
 		if world.active_encounter != null or world.pending_encounter_result >= 0 or SimulationEngine.Dungeon.state(world).active: return "RELAY_CONFLICTING_ACTIVITY"
 		if combat.is_empty() and (not world.field_state.battle.is_empty() or world.field_state.receipt >= 0): return "RELAY_CONFLICTING_ACTIVITY"
-	return validate_snapshot(world, s, combat)
+	var snapshot_error: String = validate_snapshot(world, s, combat)
+	return SimulationEngine.RelayTarget.validate_world(world) if snapshot_error == "" else snapshot_error
 
 static func validate_result(combat: Dictionary, p: Dictionary, index: int) -> String:
 	if combat.result_index >= 0 or combat.outcome == "" or not text(p.get("outcome"), combat.outcome) or not number(p.get("hp"), int(combat.hp), int(combat.hp)) or not text(p.get("enemy"), "feral_dog") or not number(p.get("site_enemy_hp"), int(combat.site_enemy_hp), int(combat.site_enemy_hp)) or typeof(p.get("gained")) != TYPE_DICTIONARY or not p.gained.is_empty() or typeof(p.get("left_behind")) != TYPE_DICTIONARY or not p.left_behind.is_empty() or not number(p.get("caps_gained", 0), 0, 0): return "RELAY_INVALID_COMBAT_RESULT"

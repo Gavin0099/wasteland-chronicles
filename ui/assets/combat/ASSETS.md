@@ -91,3 +91,15 @@ switch the `configure()` branch to a TextureRect, exactly as the dog already is.
 Generation prompt:
 
 > Create one original landscape 16:9 opaque environment bitmap for the Wasteland Chronicles RPG, a sand-buried abandoned military radio relay station interior. Classic late-1990s hand-painted RPG scenery, finely inked worn concrete, dull olive steel communications racks and unpowered radio equipment, frayed cables and dusty storage cases at the back and side walls, a little windblown sand. Elevated three-quarter perspective suitable for an isometric duel arena. Keep central and lower two thirds mostly open flat dusty concrete so runtime fighters and a diamond floor can be added separately. Machinery remains near edges. Subdued brown-grey earth palette, believable scale and perspective. Full bleed opaque backdrop, modest dusty lighting. No people, monsters, robot dogs, turrets, guns, weapons, HUD, menus, typography, logos, bright green glow, neon or checkerboard. No water pumps or water-treatment tanks. Save generated artifact normally; intended project asset is ui/assets/combat/buried-relay.png.
+
+## RLY-2 original named target — 2026-10-05
+
+`relay-grey-crow.png` is an original transparent1024×1536 RGBA cutout generated with the built-in image generator. The target dialog uses the unchanged bitmap; the room draws it only when the actual target is alive and settled in the Gray Valley region. Cosmetic breathing never writes world state and stops in reduced-motion mode. Feet retain one planted anchor; runtime labels and shadow are separate. No third-party game art was copied or image editing performed.
+
+- SHA-256: `6a85e5be0b0112425b53ead6f9aaf4ced09b255d0e9a6a0a338405ec83a0ea3b`.
+- Original source: `C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-d5feeec7-6893-4ff4-bd56-2426ad07bd52.png`, copied byte-for-byte.
+- Transparency: true; transparent corner verified by metadata inspection. No weapon/custody animation is implied in this investigation slice.
+
+Generation prompt:
+
+> Create one original game character cutout for Wasteland Chronicles RPG: a named wasteland fugitive called Grey Crow, a lean adult male scavenger aged 28 wearing a weathered dark brown canvas coat, dull grey neck scarf, patched trousers and mismatched dusty work boots, short dark hair and wary expression. Full body including complete feet, standing relaxed but ready to slip away, three-quarter view facing toward the lower left of the picture, seen from slightly above to match a classic 1990s painted isometric RPG. Detailed muted sepia-brown realistic ink and painted cloth, coherent with a hand-painted post-apocalyptic drifter sprite. He carries a small strapped satchel and no visible weapon; this slice is investigation and evasion, not combat. Strong readable silhouette at small game scale, centered single figure with generous transparent margins, no cast shadow, no background, no ground plane, no UI, no lettering, no watermark, no split panel. Transparent PNG. Intended project file ui/assets/combat/relay-grey-crow.png; save the generated artifact normally.
