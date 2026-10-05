@@ -107,3 +107,5 @@
 - RLY-1 PR80 and RLY-2 PR81 delivered; current RLY-3 implementation8a29465 pushed, local complete, bound companion underway. Turret support vs lift changes actual damage/routing using real costs and saved finite state. Complete same-PR remote review/real CI/merge before beginning RLY-4 custody authority. RLY-4 through8 untouched; no profession-tree, target capture or robot companion claimed. <!-- memory_record_projection:active-task-summary:98045f6856365bc4551738ecae9339537146dbb587efcf783cd90c08fce7e8c2 -->
 
 - RLY-4 implemented and independently reviewed; same-PR evidence companion and exact-head remote gates pending, then RLY-5 disposition. <!-- memory_record_projection:active-task-summary:224cf6c67b20b07046aa7dd67cf027f2a5ae2c62013020db61d0d6a058b87ea7 -->
+
+- RLY-4 full137 invocation now passes on committed b9b1a0d; evidence-only PR83 convergence and exact-new-head remote gates pending, then RLY-5. <!-- memory_record_projection:active-task-summary:8bec942cbcc839ff250c229c7c48aadcf99ace9b87d9ec854f3ae41ce9822dbe -->
