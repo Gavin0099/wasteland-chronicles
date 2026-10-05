@@ -6,6 +6,8 @@ const MotionDirector = preload("res://ui/components/battle_motion_director.gd")
 const PoseLibrary = preload("res://ui/components/battle_pose_library.gd")
 const WeaponFx = preload("res://ui/components/battle_weapon_fx.gd")
 const IsometricGround = preload("res://ui/components/isometric_battle_ground.gd")
+const Tokens = preload("res://ui/theme/pda_tokens.gd")
+var support_turret: TextureRect
 
 # ==============================================================================
 # BVIS-1B: BATTLE STAGE CONTRACT & ASSET INTEGRATION
@@ -787,6 +789,13 @@ func _init() -> void:
 	floating.add_theme_constant_override("shadow_offset_y", 2)
 	floating.hide()
 	stage_canvas.add_child(floating)
+	support_turret = TextureRect.new()
+	support_turret.texture = load_texture_safe("res://ui/assets/combat/relay-turret.png")
+	support_turret.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	support_turret.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	support_turret.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	support_turret.hide()
+	stage_canvas.add_child(support_turret)
 
 	stage_canvas.resized.connect(arrange)
 	resized.connect(arrange)
@@ -827,6 +836,9 @@ func arrange() -> void:
 		hero_actor.apply_profile(VISUAL_PROFILES["drifter"], ch)
 
 	_update_enemy_visuals(ch)
+	if support_turret != null:
+		support_turret.size = Vector2.ONE * ch * 0.23
+		support_turret.position = Vector2(cw * 0.31, ch * 0.38) - support_turret.size * 0.5
 
 	if placeholder_note != null:
 		placeholder_note.position = Vector2(8, ch - 18)
@@ -942,6 +954,23 @@ func animate_turn(command: String, dealt: int, taken: int, context: Dictionary =
 	if not receipt.has("enemy_id"):
 		receipt["enemy_id"] = current_enemy_id
 	await MotionDirector.direct_turn(self, receipt)
+
+func configure_support(enabled: bool) -> void:
+	support_turret.visible = enabled and environment_id == "relay"
+
+func emit_turret_support(amount: int) -> void:
+	# A committed receipt supplies the amount; this effect has no simulation access.
+	spawn_damage_popup(enemy_actor, amount, false, false).text = "砲塔 −%d" % amount
+	feedback_phase.emit("turret_support")
+	if reduced_motion: return
+	var beam: Line2D = Line2D.new()
+	beam.width = 2
+	beam.default_color = Tokens.AMBER
+	beam.points = PackedVector2Array([support_turret.position + support_turret.size * Vector2(0.70, 0.38), enemy_origin - Vector2(0, enemy_actor.target_height * 0.5)])
+	fx_layer.add_child(beam)
+	var fade: Tween = beam.create_tween()
+	fade.tween_interval(0.12)
+	fade.tween_callback(beam.queue_free)
 
 func spawn_damage_popup(target_actor: ActorNode, amount: int, is_heavy: bool, is_defended: bool) -> Label:
 	if target_actor == null:

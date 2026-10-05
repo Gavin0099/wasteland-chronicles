@@ -401,6 +401,16 @@ static func forecast_for_enemy(world, enemy_id: String, is_road: bool = true) ->
 		return {}
 	var forecast_enemy := enemy_id if Enemies.exists(enemy_id) else Enemies.DEFAULT_ENEMY
 	var turns: int = int(ceil(float(Enemies.max_hp(forecast_enemy)) / float(per_hit)))
+	if SimulationEngine.RelayPower.supported_battle(world) and forecast_enemy == "feral_dog":
+		var remaining_hp: int = world.field_state.enemy_hp
+		var charges: int = SimulationEngine.RelayPower.state(world).charges
+		turns = 0
+		while remaining_hp > 0:
+			turns += 1
+			remaining_hp = maxi(0, remaining_hp - per_hit)
+			if remaining_hp > 0 and charges > 0:
+				remaining_hp = maxi(0, remaining_hp - 2)
+				charges -= 1
 	var incoming := 0
 	for turn in range(1, turns):
 		incoming += maxi(0, enemy_damage(turn, forecast_enemy) - Gear.protection(world.player) - attack_reduction(world))
@@ -438,6 +448,7 @@ static func intent_preview(world) -> Dictionary:
 	var raw: int = maxi(0, int(action.damage) - Gear.protection(world.player) - attack_reduction(world))
 	var braced_raw: int = maxi(0, int(action.damage) - Enemies.brace_reduction(foe, turn) - Gear.protection(world.player))
 	var per_hit: int = attack_damage(world)
+	var support: int = SimulationEngine.RelayPower.preview(world, per_hit)
 	return {
 		"enemy": foe,
 		"turn": turn,
@@ -449,8 +460,9 @@ static func intent_preview(world) -> Dictionary:
 		"braced_damage": braced_raw,
 		"taken": _taken_preview(raw, hp, is_road),
 		"braced_taken": _taken_preview(braced_raw, hp, is_road),
-		"attack_damage": per_hit,
-		"attack_kills": per_hit >= int(state.enemy_hp),
+		"attack_damage": per_hit + support,
+		"turret_support": support,
+		"attack_kills": per_hit + support >= int(state.enemy_hp),
 		# On the road a blow that would kill leaves you on 1 HP and ends the
 		# fight as a DEFEAT, so "knocked down" is the honest word for it.
 		"knocks_down": is_road and raw >= 1 and hp - _taken_preview(raw, hp, is_road) <= 1,
@@ -588,6 +600,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			var source: String = String(battle.get("source", "field"))
 			var is_road: bool = source == "road"
 			var dealt = 0
+			var turret_dealt: int = 0
 			var taken = 0
 			if command in ["ATTACK", "SHOOT"]:
 				dealt = mini(state.enemy_hp, shot_damage(world) if command == "SHOOT" else attack_damage(world))
@@ -595,6 +608,9 @@ static func apply(world, engine, payload: Dictionary) -> String:
 					var firearm := firearm_for(world)
 					player.item_inventory.remove_item(firearm.ammo_item_id, int(firearm.ammo_spent))
 				state.enemy_hp -= dealt
+				turret_dealt = SimulationEngine.RelayPower.fire_after_strike(world)
+				state.enemy_hp -= turret_dealt
+				dealt += turret_dealt
 				battle.prepared = false
 			var practice := {}
 			if command in ["ATTACK", "SHOOT"] and dealt > 0 and player.capability != null:
@@ -632,6 +648,7 @@ static func apply(world, engine, payload: Dictionary) -> String:
 			var turn_payload := {"battle_id": battle.id, "turn": turn, "command": command,
 				"dealt": dealt, "taken": taken, "hp": player.field_kit.hp, "enemy_hp": state.enemy_hp}
 			if source == "dungeon": turn_payload.merge({"source": "dungeon", "dungeon_id": battle.dungeon_id, "room_id": battle.room_id})
+			if turret_dealt > 0: turn_payload.turret_dealt = turret_dealt
 			if command == "SHOOT":
 				var firearm := firearm_for(world)
 				turn_payload.merge({"weapon_id": player.equipment.equipped_item("main_hand"), "ammo_item_id": firearm.ammo_item_id, "ammo_spent": int(firearm.ammo_spent), "ammo_remaining": player.item_inventory.quantity(firearm.ammo_item_id)})

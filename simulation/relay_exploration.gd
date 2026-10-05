@@ -6,7 +6,7 @@ const HOME: StringName = &"settlement:gray_valley"
 const MOVES_PER_DAY: int = 4
 const PRIZE: String = "military_backpack"
 const ROOMS: Dictionary = {"relay_entrance": "中繼站入口", "relay_corridor": "守望走廊", "relay_tunnel": "掩埋維修道", "relay_records": "值勤檔案室", "relay_vault": "地下保管室"}
-const PASSAGES: Dictionary = {"relay_entrance": ["relay_corridor", "relay_tunnel"], "relay_corridor": ["relay_entrance", "relay_records"], "relay_tunnel": ["relay_entrance", "relay_records"], "relay_records": ["relay_corridor", "relay_tunnel", "relay_vault"], "relay_vault": ["relay_records"]}
+const PASSAGES: Dictionary = {"relay_entrance": ["relay_corridor", "relay_tunnel", "relay_records"], "relay_corridor": ["relay_entrance", "relay_records"], "relay_tunnel": ["relay_entrance", "relay_records"], "relay_records": ["relay_corridor", "relay_tunnel", "relay_vault", "relay_entrance"], "relay_vault": ["relay_records"]}
 const REWARDS: Dictionary = {"relay_corridor": {"caps": 0, "scrap": 0}}
 const EVENTS: Dictionary = {"RELAY_ENTERED": 2, "RELAY_MOVED": 3, "RELAY_LEFT": 2, "RELAY_TUNNEL_FOUND": 2, "RELAY_TUNNEL_OPENED": 4, "RELAY_CARD_FOUND": 2, "RELAY_PRIZE_TAKEN": 4, "RELAY_DAY_SPENT": 8, "RELAY_TRIP_ENDED": 3, "RELAY_BATTLE_STARTED": 6, "RELAY_BATTLE_CONFIRMED": 4}
 
@@ -41,10 +41,12 @@ static func state(world: WorldState) -> Dictionary:
 			"RELAY_BATTLE_CONFIRMED":
 				if world.event_log[int(e.payload.result_index)].payload.outcome == "DEAD": s.active = false
 		if s.active and s.room_id not in s.visited: s.visited.append(s.room_id)
+	s.power = SimulationEngine.RelayPower.state(world)
 	return s
 
 static func gate(from_room: String, to_room: String, s: Dictionary) -> String:
 	if from_room not in PASSAGES or to_room not in PASSAGES[from_room]: return "RELAY_INVALID_PASSAGE"
+	if is_lift(from_room, to_room) and s.get("power", {}).get("mode", "OFF") != "LIFT": return "POWER_LIFT_OFF"
 	if to_room == "relay_tunnel" and not s.tunnel_found: return "RELAY_FIND_TUNNEL"
 	if (from_room == "relay_corridor" and to_room == "relay_records") or (from_room == "relay_records" and to_room == "relay_corridor"):
 		if "relay_corridor" not in s.cleared: return "RELAY_DOG_BLOCKS_ROUTE"
@@ -52,6 +54,9 @@ static func gate(from_room: String, to_room: String, s: Dictionary) -> String:
 		if not s.tunnel_open: return "RELAY_OPEN_TUNNEL"
 	if to_room == "relay_vault" and not s.card_found: return "RELAY_FIND_CARD"
 	return ""
+
+static func is_lift(from_room: String, to_room: String) -> bool:
+	return (from_room == "relay_entrance" and to_room == "relay_records") or (from_room == "relay_records" and to_room == "relay_entrance")
 
 static func tool(world: WorldState) -> String:
 	if world.player.field_kit.crowbar: return "crowbar"
@@ -64,6 +69,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	if history_error != "": return history_error
 	if typeof(payload.get("site_id")) != TYPE_STRING or payload.site_id != SITE or typeof(payload.get("command")) != TYPE_STRING: return "RELAY_INVALID_INTENT"
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.authorize(world, payload)
+	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.authorize(world, payload)
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if life == null or not life.is_alive(): return "RELAY_PLAYER_DEAD"
 	if life.status != NpcLifeState.Status.SETTLED or life.population_container_id != HOME: return "RELAY_REQUIRES_GRAY_VALLEY"
@@ -95,6 +101,7 @@ static func commit(world: WorldState, payload: Dictionary, events: Array[EventRe
 	var error: String = authorize(world, payload)
 	if error != "": return {"success": false, "error": error}
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.commit(world, payload, events, engine)
+	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.commit(world, payload, events, engine)
 	if payload.command == "FIGHT": return WorldState.Field.begin_relay_battle(world, events)
 	var s: Dictionary = state(world)
 	if payload.command == "MOVE" and s.work_units == 3 and engine == null: return {"success": false, "error": "RELAY_CLOCK_REQUIRED"}
@@ -150,7 +157,7 @@ static func text(value: Variant, expected: String) -> bool:
 	return typeof(value) == TYPE_STRING and value == expected
 
 static func validate_world(world: WorldState) -> String:
-	var s: Dictionary = {"active": false, "room_id": "", "tunnel_found": false, "tunnel_open": false, "card_found": false, "prize_taken": false, "cleared": []}
+	var s: Dictionary = {"active": false, "room_id": "", "tunnel_found": false, "tunnel_open": false, "card_found": false, "prize_taken": false, "cleared": [], "power": {"mode": "OFF"}}
 	var combat: Dictionary = {}
 	var units: int = 0
 	var last_day: int = -1
@@ -160,6 +167,12 @@ static func validate_world(world: WorldState) -> String:
 	for index: int in range(world.event_log.size()):
 		var e: EventRecord = world.event_log[index]
 		var p: Dictionary = e.payload
+		# The device validator below checks these facts before the world can publish.
+		# Fold the historical mode here so each lift move uses its contemporaneous gate.
+		if e.type == "STATION_POWER_CONFIGURED":
+			if typeof(p.get("mode")) != TYPE_STRING or p.mode not in ["TURRET", "LIFT"]: return "POWER_INVALID_CONFIGURATION"
+			s.power.mode = p.mode
+		elif e.type == "STATION_POWER_OFF": s.power.mode = "OFF"
 		if world.player != null and e.actor_id == world.player.npc_id:
 			if e.type == "DUNGEON_ENTERED":
 				if s.active: return "RELAY_CONFLICTING_ACTIVITY"
@@ -241,7 +254,9 @@ static func validate_world(world: WorldState) -> String:
 		if world.active_encounter != null or world.pending_encounter_result >= 0 or SimulationEngine.Dungeon.state(world).active: return "RELAY_CONFLICTING_ACTIVITY"
 		if combat.is_empty() and (not world.field_state.battle.is_empty() or world.field_state.receipt >= 0): return "RELAY_CONFLICTING_ACTIVITY"
 	var snapshot_error: String = validate_snapshot(world, s, combat)
-	return SimulationEngine.RelayTarget.validate_world(world) if snapshot_error == "" else snapshot_error
+	if snapshot_error != "": return snapshot_error
+	var target_error: String = SimulationEngine.RelayTarget.validate_world(world)
+	return SimulationEngine.RelayPower.validate_world(world) if target_error == "" else target_error
 
 static func validate_result(combat: Dictionary, p: Dictionary, index: int) -> String:
 	if combat.result_index >= 0 or combat.outcome == "" or not text(p.get("outcome"), combat.outcome) or not number(p.get("hp"), int(combat.hp), int(combat.hp)) or not text(p.get("enemy"), "feral_dog") or not number(p.get("site_enemy_hp"), int(combat.site_enemy_hp), int(combat.site_enemy_hp)) or typeof(p.get("gained")) != TYPE_DICTIONARY or not p.gained.is_empty() or typeof(p.get("left_behind")) != TYPE_DICTIONARY or not p.left_behind.is_empty() or not number(p.get("caps_gained", 0), 0, 0): return "RELAY_INVALID_COMBAT_RESULT"

@@ -103,3 +103,15 @@ Generation prompt:
 Generation prompt:
 
 > Create one original game character cutout for Wasteland Chronicles RPG: a named wasteland fugitive called Grey Crow, a lean adult male scavenger aged 28 wearing a weathered dark brown canvas coat, dull grey neck scarf, patched trousers and mismatched dusty work boots, short dark hair and wary expression. Full body including complete feet, standing relaxed but ready to slip away, three-quarter view facing toward the lower left of the picture, seen from slightly above to match a classic 1990s painted isometric RPG. Detailed muted sepia-brown realistic ink and painted cloth, coherent with a hand-painted post-apocalyptic drifter sprite. He carries a small strapped satchel and no visible weapon; this slice is investigation and evasion, not combat. Strong readable silhouette at small game scale, centered single figure with generous transparent margins, no cast shadow, no background, no ground plane, no UI, no lettering, no watermark, no split panel. Transparent PNG. Intended project file ui/assets/combat/relay-grey-crow.png; save the generated artifact normally.
+
+## RLY-3 original fixed turret — 2026-10-05
+
+`relay-turret.png` is an original transparent1312×1199 RGBA bitmap generated with the built-in image generator and copied unchanged. Transparent corner is verified. It appears in the actual power panel, discovered corridor and controlled relay battle. The runtime support beam and separate damage popup read only the committed turn receipt; reduced motion has no beam and preserves support feedback. This prop implies no autonomous entity or hostile turret encounter.
+
+- SHA-256: `7a8c417ade936c9bf2196abb0d072597152eadd5e1731ca9d9237931a99efd29`.
+- Original source: `C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-ab347cd0-a79d-447d-9ec8-819120c5e608.png`, copied byte-for-byte. No image editing or third-party game art.
+- Generation transparency: true.
+
+Generation prompt:
+
+> Create one original isolated game prop cutout for Wasteland Chronicles: a compact stationary old-world defense turret on a sturdy low tripod/base, two short worn steel barrels, a dull olive-grey mechanical housing and an exposed hinged maintenance panel with a few visible cables. Full object and all base feet visible. Three-quarter elevated view with barrels aiming to the lower right, matching detailed hand-painted late-1990s isometric RPG figures. Realistic dusty and lightly rusted metal, inked edges, muted warm sepia/olive palette, readable at small game scale. Turret is powered off with no bright indicator, muzzle flash or beam. It will be drawn as a runtime fixed prop and post-commit support effect, not a humanoid/robot character. Single coherent object centered with modest transparent margins, no background, ground plane, cast shadow, people, animals, ammunition debris, writing, labels, logo, watermark or panels. Transparent PNG. Intended original asset ui/assets/combat/relay-turret.png; save generated artifact normally.
