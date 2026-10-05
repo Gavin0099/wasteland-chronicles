@@ -256,15 +256,19 @@ static func validate_world(world: WorldState) -> String:
 		if combat.is_empty() and (not world.field_state.battle.is_empty() or world.field_state.receipt >= 0): return "DUNGEON_CONFLICTING_ACTIVITY"
 	if work_units >= MOVES_PER_DAY: return "DUNGEON_DAY_PENDING"
 	var snapshot_error: String = _snapshot(world, room, combat)
-	return snapshot_error if snapshot_error != "" else SimulationEngine.Relay.validate_world(world)
+	if snapshot_error != "": return snapshot_error
+	var relay_error: String = SimulationEngine.Relay.validate_world(world)
+	return relay_error if relay_error != "" else SimulationEngine.Mine.validate_world(world)
 
 static func is_exploring(world: WorldState) -> bool:
-	return state(world).active or SimulationEngine.Relay.state(world).active
+	return state(world).active or SimulationEngine.Relay.state(world).active or SimulationEngine.Mine.state(world).active
 
 static func active_site(world: WorldState) -> String:
+	if SimulationEngine.Mine.state(world).active: return SimulationEngine.Mine.SITE
 	return SimulationEngine.Relay.SITE if SimulationEngine.Relay.state(world).active else SITE
 
 static func current_checkpoint(world: WorldState) -> Dictionary:
+	if SimulationEngine.Mine.state(world).active: return SimulationEngine.Mine.state(world)
 	return SimulationEngine.Relay.state(world) if SimulationEngine.Relay.state(world).active else state(world)
 
 static func ration_budget(water: int, food: int, companion: String) -> Dictionary:
@@ -290,12 +294,13 @@ static func validate_day(world: WorldState, index: int, payload: Dictionary, com
 	return ""
 
 static func has_trip_costs(world: WorldState) -> bool:
-	if SimulationEngine.Relay.state(world).active: return true
+	if SimulationEngine.Relay.state(world).active or SimulationEngine.Mine.state(world).active: return true
 	var checkpoint: Dictionary = state(world)
 	return checkpoint.active and checkpoint.trip_rules == 1
 
 # Called by the engine's existing personal-needs phase, before mortality.
 static func consume_daily_supplies(world: WorldState, day: int, tick_events: Array[EventRecord]) -> Dictionary:
+	if SimulationEngine.Mine.state(world).active: return SimulationEngine.Mine.consume_daily_supplies(world, day, tick_events)
 	if SimulationEngine.Relay.state(world).active: return SimulationEngine.Relay.consume_daily_supplies(world, day, tick_events)
 	var water: int = world.player.inventory.water
 	var food: int = world.player.inventory.food
@@ -314,6 +319,9 @@ static func consume_daily_supplies(world: WorldState, day: int, tick_events: Arr
 	return {"water_unmet": 1.0 if water == 0 else 0.0, "food_unmet": 1.0 if food == 0 else 0.0}
 
 static func end_deprivation_trip(world: WorldState, day: int, tick_events: Array[EventRecord]) -> void:
+	if SimulationEngine.Mine.state(world).active:
+		SimulationEngine.Mine.end_deprivation_trip(world, day, tick_events)
+		return
 	if SimulationEngine.Relay.state(world).active:
 		SimulationEngine.Relay.end_deprivation_trip(world, day, tick_events)
 		return
@@ -453,8 +461,9 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	if history_error != "":
 		return history_error
 	if payload.has("site_id"):
+		if typeof(payload.site_id) == TYPE_STRING and payload.site_id == SimulationEngine.Mine.SITE: return SimulationEngine.Mine.authorize(world, payload)
 		return SimulationEngine.Relay.authorize(world, payload)
-	if SimulationEngine.Relay.state(world).active: return "DUNGEON_EXPLORATION_PENDING"
+	if SimulationEngine.Relay.state(world).active or SimulationEngine.Mine.state(world).active: return "DUNGEON_EXPLORATION_PENDING"
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if life == null or not life.is_alive():
 		return "DUNGEON_PLAYER_NOT_ALIVE"
@@ -506,7 +515,9 @@ static func commit(world: WorldState, payload: Dictionary, tick_events: Array[Ev
 	var refusal: String = authorize(world, payload)
 	if refusal != "":
 		return {"success": false, "error": refusal}
-	if payload.has("site_id"): return SimulationEngine.Relay.commit(world, payload, tick_events, engine)
+	if payload.has("site_id"):
+		if typeof(payload.site_id) == TYPE_STRING and payload.site_id == SimulationEngine.Mine.SITE: return SimulationEngine.Mine.commit(world, payload, tick_events, engine)
+		return SimulationEngine.Relay.commit(world, payload, tick_events, engine)
 	if payload.command == "FIGHT":
 		return WorldState.Field.begin_dungeon_battle(world, payload.room_id, tick_events)
 	var checkpoint: Dictionary = state(world)
