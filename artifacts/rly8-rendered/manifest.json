@@ -1,0 +1,92 @@
+{
+  "kind": "actual native Vulkan Main Continue captures from engine-earned ordinary50 journey",
+  "captures": 10,
+  "distinct_hashes": 10,
+  "assertions": 581,
+  "failures": 0,
+  "exit_code": 0,
+  "script_errors": 0,
+  "root_visual_inspection": "All ten PNGs inspected at both resolutions",
+  "files": [
+    {
+      "file": "artifacts/rly8-rendered/journey_final_rehire_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "cecd85a683a7eec08b4dd43b6ef5f068523b3e11face20697c764e5fb94a987a"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_final_rehire_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "3a1ac157eaf81b6c1fed81d825c1eded2be239818bbee701fe75ceeaedd04218"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_paid_preparation_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "24e6db7a0fcc939b317e286802fcee4462e7abeb51637d87b81b0336e935e2f1"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_paid_preparation_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "84145235f9cc835296cc6bb5d5e406f384defd84733e7707c4385ecf7e5d3b2b"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_pursuit_needs_rope_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "18bc42d4dbebe3560075bae18e0123c4e54a0c7afc639c18a842873554448096"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_pursuit_needs_rope_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "7a38bdfec38f7a0e3837db3c68588236dbee78bec798889ec8cc302c03a0dd57"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_repaired_blocked_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "c93fa329c22f8ce4cacace680bfbbc5bed1a4ee755375b1027dad0a3628cc8bf"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_repaired_blocked_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "66c04f5e161be27ba09ed953e078e2c4d0e03e7e0d485b60fee4852a03da5e1a"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_reported_equipped_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "24c80687d6189327de6524734664a1f8c6469074dbae291ecf376dbd8afd07e1"
+    },
+    {
+      "file": "artifacts/rly8-rendered/journey_reported_equipped_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "f8e0d1568d5240b293ef36e256543b42e98e22d44e4a9974ed2f5e142ea55c2a"
+    }
+  ]
+}
