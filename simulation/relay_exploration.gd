@@ -82,7 +82,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if life == null or not life.is_alive(): return "RELAY_PLAYER_DEAD"
 	if life.status != NpcLifeState.Status.SETTLED or life.population_container_id != HOME: return "RELAY_REQUIRES_GRAY_VALLEY"
-	if SimulationEngine.Dungeon.state(world).active or world.active_encounter != null or world.pending_encounter_result >= 0 or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0: return "RELAY_ACTIVITY_PENDING"
+	if SimulationEngine.Dungeon.state(world).active or SimulationEngine.Mine.state(world).active or world.active_encounter != null or world.pending_encounter_result >= 0 or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0: return "RELAY_ACTIVITY_PENDING"
 	var s: Dictionary = state(world)
 	var expected: int = 4 if payload.command == "MOVE" else 2
 	if payload.size() != expected: return "RELAY_INVALID_INTENT"

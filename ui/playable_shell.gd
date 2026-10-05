@@ -768,6 +768,8 @@ func _render_settlement_panel(proj: Dictionary) -> void:
 					"地表行軍距離：約 %d 天步程\n" +
 					"遠端情報有限；抵達後可查看倉儲與市場行情。"
 				) % [route_days]
+			var mine_note: String = _mine_forecast_note(selected_settlement_id, route_days)
+			if mine_note != "": lbl_settlement_details.text += "\n\n" + mine_note
 			if not bool(dest_info.get("can_travel", false)):
 				lbl_settlement_details.text = String(dest_info.get("route_note", "目前無法出發。"))
 
@@ -1883,6 +1885,10 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	relay_button.tooltip_text = "灰谷郊外；傳聞中的軍用背包、野犬正門與隱藏維修道"
 	relay_button.pressed.connect(_enter_relay)
 	toolbar_row.add_child(relay_button)
+	var mine_button: Button = DesktopWindow.toolbar_button("礦道")
+	mine_button.tooltip_text = "鐵關西側塌掉的舊礦道；只能在鐵關進入，每趟要吃水糧"
+	mine_button.pressed.connect(_enter_mine)
+	toolbar_row.add_child(mine_button)
 	var target_button: Button = DesktopWindow.toolbar_button("追獵")
 	target_button.tooltip_text = "灰谷的具名目標偵查委託；回報親見動向"
 	target_button.pressed.connect(_show_relay_target)
@@ -2917,6 +2923,9 @@ func _encounter_blocked_text(option: Dictionary) -> String:
 	return "目前無法採取這個做法，請查看需求與消耗。"
 
 func _show_field() -> void:
+	if engine.Mine.state(world).active:
+		_show_mine()
+		return
 	if engine.Relay.state(world).active:
 		_show_relay()
 		return
@@ -3029,6 +3038,40 @@ func _enter_relay() -> void:
 			return
 	refresh_ui()
 	_show_relay()
+
+func _enter_mine() -> void:
+	if world == null or world.player == null: return
+	if not engine.Mine.state(world).active:
+		var result: Dictionary = engine.commit_player_intent(world, PlayerIntent.create_dungeon_action(world.player.npc_id, {"command": "ENTER", "site_id": engine.Mine.SITE}))
+		if not result.success:
+			var dialog: AcceptDialog = AcceptDialog.new()
+			dialog.title = "鐵關舊礦道"
+			dialog.theme_type_variation = "PdaMapDialog"
+			dialog.dialog_text = preload("res://ui/mine_screen.gd").explain(result.error)
+			dialog.confirmed.connect(dialog.queue_free)
+			dialog.canceled.connect(dialog.queue_free)
+			add_child(dialog)
+			dialog.popup_centered(Vector2i(520, 220))
+			return
+	refresh_ui()
+	_show_mine()
+
+func _show_mine() -> void:
+	if not engine.Mine.state(world).active or find_child("MineScreen", false, false) != null: return
+	var screen: Control = preload("res://ui/mine_screen.gd").new()
+	screen.name = "MineScreen"
+	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(screen)
+	screen.setup(world, engine)
+	screen.world_changed.connect(refresh_ui)
+	screen.closed.connect(refresh_ui)
+	screen.save_menu_requested.connect(func() -> void: save_menu_requested.emit())
+
+func _mine_forecast_note(destination_id: String, route_days: int) -> String:
+	if world == null or world.player == null or destination_id != String(engine.Mine.HOME): return ""
+	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+	if life == null or life.status != NpcLifeState.Status.SETTLED or life.population_container_id != &"settlement:gray_valley": return ""
+	return "鐵關舊礦道遠行（來回＋礦道一天）\n" + "\n".join(engine.Mine.forecast_lines(engine.Mine.forecast(route_days, SimulationEngine.Party.current(world))))
 
 func _show_relay_hound() -> void:
 	if world == null or world.player == null: return

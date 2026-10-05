@@ -29,6 +29,11 @@ const RUMORS := {
 		"text_zh": "灰谷郊外的舊中繼站，值勤文件裡還留著保管室門禁卡。軍用背包能裝32份物資；野犬守著正門，牆邊拖痕可能通往維修道。帶工具和2廢料可繞路。",
 		"heard_in": ["settlement:gray_valley"], "dungeon_id": "dungeon:buried_relay",
 	},
+	"rumor:collapsed_mine": {
+		"title_zh": "鐵關塌掉的舊礦道",
+		"text_zh": "鐵關西側的舊礦道塌了一段，深處的集水設備跟著停擺。礦工們說不準是設備壞了，還是少了什麼；沒人敢走進去看清楚。",
+		"heard_in": ["settlement:gray_valley", "settlement:iron_pass"], "dungeon_id": "dungeon:collapsed_mine",
+	},
 	"rumor:waterworks_tools": {
 		"title_zh": "水廠深處的維修精密組",
 		"text_zh": "灰谷封存水廠的污染庫房留著現地維修精密組：機械工具3，修井泵少耗1廢料。軍規面具才能進污染區；警衛正門或維修廊都能到泵房，控制室可開返程捷徑。",
@@ -126,6 +131,13 @@ static func progress(world, rumor_id: String) -> Dictionary:
 		var relay: Dictionary = SimulationEngine.Relay.state(world)
 		if relay.prize_taken: return {"done": true, "next": "保管室的背包已取走。裝備後容量32；可帶更多補給深入水廠，或接乾井的軍用背包調查委託。"}
 		return {"done": false, "next": "到灰谷選「中繼站」。正門需迎戰野犬；側道先查看入口拖痕，帶扳手或撬棍與2廢料。四次換房過一天，帶水糧；取背包還需2.4kg道具空間。"}
+	if rumor_id == "rumor:collapsed_mine":
+		var mine: Dictionary = SimulationEngine.Mine.state(world)
+		if mine.discovered: return {"done": true, "next": "你親眼看過：集水設備本體還能修，缺的是控制模組。下一步是找回它；礦道更深處被塌方封住。"}
+		var life = world.npc_life_state_registry.get_life_state(world.player.npc_id)
+		if life != null and life.status == NpcLifeState.Status.SETTLED and life.population_container_id == SimulationEngine.Mine.HOME:
+			return {"done": false, "next": "在鐵關選「礦道」進入；入口會列出預估備量。礦道裡每四次換房過一天，要吃水糧；外段與集水廳各有東西可以看。"}
+		return {"done": false, "next": "走灰谷—鐵關的山口路到鐵關再選「礦道」。出發前的行程說明會列出預估往返備量與建議緩衝；路上事件可能延長行程。"}
 	match rumor_id:
 		"rumor:waterworks_tools":
 			var dungeon: Dictionary = SimulationEngine.Dungeon.state(world)
