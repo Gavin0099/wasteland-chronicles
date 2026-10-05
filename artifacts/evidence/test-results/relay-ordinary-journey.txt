@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+JOURNEY_STAGE {"caps":50,"day":0,"dog_energy":0,"food":5,"fuel":0,"hp":12,"melee":0,"scrap":0,"stage":"ordinary_start","standing":0,"water":5,"world_sha256":"93a2696954a07957b59345933d865fce443455114e3e9a9689b54ed855536bac"}
+JOURNEY_STAGE {"caps":62,"day":0,"dog_energy":0,"food":5,"fuel":0,"hp":6,"melee":0,"scrap":0,"stage":"earned_loot_battle","standing":2,"water":5,"world_sha256":"e3b14e0dbf94d60a8809c77ed2e9d362e3ab5927d20a97907b57b79bae69ec99"}
+JOURNEY_STAGE {"caps":60,"day":2,"dog_energy":0,"food":5,"fuel":1,"hp":12,"melee":0,"scrap":4,"stage":"paid_preparation","standing":2,"water":5,"world_sha256":"d65c64e061b5ecacf718807047b7772c2cee700702bd64f2159bbf16a925a86c"}
+JOURNEY_STAGE {"caps":60,"day":2,"dog_energy":4,"food":5,"fuel":0,"hp":12,"melee":0,"scrap":0,"stage":"repaired_blocked","standing":2,"water":5,"world_sha256":"087a99746517fd33e0f56010d2eb20b5b1807aa89b1c3edfb42f2f8a61086b60"}
+JOURNEY_STAGE {"caps":60,"day":2,"dog_energy":2,"food":5,"fuel":0,"hp":12,"melee":0,"scrap":0,"stage":"real_backpack","standing":2,"water":5,"world_sha256":"5c484f64d4fd4193229f72b8d0b6b771588b19ff1d4e89be56854f910c34a09c"}
+JOURNEY_STAGE {"caps":60,"day":3,"dog_energy":2,"food":4,"fuel":0,"hp":7,"melee":1,"scrap":0,"stage":"pursuit_needs_rope","standing":2,"water":4,"world_sha256":"697b449f6e014c3ba613e14a94f525b906537ceea578337235d1c3c1515bd240"}
+JOURNEY_STAGE {"caps":30,"day":3,"dog_energy":2,"food":4,"fuel":0,"hp":6,"melee":1,"scrap":0,"stage":"binding_preparation","standing":2,"water":4,"world_sha256":"a15fe48694a7d1900894a1679f26ec7138c44fd46b65182e0b9a48b3ce6d40c3"}
+JOURNEY_STAGE {"caps":30,"day":4,"dog_energy":2,"food":3,"fuel":0,"hp":6,"melee":1,"scrap":0,"stage":"capture_pending","standing":2,"water":3,"world_sha256":"c887d0e21e7af16ed6fd7ecf094ae7a50cb5c1e56fc0b8a540cb5ffbdbeb0e5d"}
+JOURNEY_STAGE {"caps":110,"day":4,"dog_energy":2,"food":3,"fuel":0,"hp":6,"melee":1,"scrap":0,"stage":"reported_equipped","standing":6,"water":3,"world_sha256":"cbb318c2aa155ef162f6927045d30f9942972f55c35c7ea16faa8d0fef5c2a1c"}
+JOURNEY_STAGE {"caps":31,"day":5,"dog_energy":2,"food":1,"fuel":0,"hp":6,"melee":1,"scrap":0,"stage":"shared_return","standing":6,"water":1,"world_sha256":"5ad2d3c6837afb667611202b5b935e410ac93a37ba59ae55f1a7d51894a0b864"}
+JOURNEY_STAGE {"caps":6,"day":5,"dog_energy":2,"food":1,"fuel":0,"hp":6,"melee":1,"scrap":0,"stage":"final_rehire","standing":6,"water":1,"world_sha256":"e8b70e5b56be4f27e8217967581f0fd22a51110848756349f6fa51edabf72f83"}
+RLY-8: 570 assertions, 0 failures
+ERROR: 12 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.
+ERROR: 25 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.
+ERROR: 1 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit.
+WARNING: 70 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+WARNING: 205 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
