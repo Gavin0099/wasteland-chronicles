@@ -251,6 +251,7 @@ static func valid_treatment_receipt(payload: Dictionary) -> bool:
 	return typeof(id) == TYPE_STRING and TREATMENT_HEALING.has(id) and integer(payload.get("healed"), 1, int(TREATMENT_HEALING[id]))
 
 static func authorize(world, payload: Dictionary) -> String:
+	if SimulationEngine.RelayCustody.pending(world): return "PURSUIT_ACTIVITY_PENDING"
 	var exploring: bool = SimulationEngine.Dungeon.is_exploring(world)
 	var treatment_between_fights: bool = exploring and typeof(payload.get("command")) == TYPE_STRING and payload.command == "TREAT" and not is_dungeon_activity(world)
 	if exploring and not is_dungeon_activity(world) and not treatment_between_fights:

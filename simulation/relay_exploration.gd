@@ -13,8 +13,11 @@ const EVENTS: Dictionary = {"RELAY_ENTERED": 2, "RELAY_MOVED": 3, "RELAY_LEFT": 
 static func state(world: WorldState) -> Dictionary:
 	var s: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "tunnel_found": false, "tunnel_open": false, "card_found": false, "prize_taken": false, "cleared": [], "work_units": 0, "trip_moves": 0, "trip_days": 0, "trip_rules": 1}
 	if world == null or world.player == null: return s
+	var capture_owner_dead: bool = false
 	for e: EventRecord in world.event_log:
 		if e.actor_id != world.player.npc_id: continue
+		if e.type in ["PLAYER_DIED", "NAMED_NPC_DIED"]: capture_owner_dead = true
+		if e.type == "PURSUIT_CONFIRMED" and (e.payload.get("outcome") == "DEAD" or capture_owner_dead): s.active = false
 		if e.type == "FIELD_RESULT" and e.payload.get("dungeon_id") == SITE and e.payload.get("outcome") == "VICTORY":
 			if e.payload.room_id not in s.cleared: s.cleared.append(e.payload.room_id)
 		if e.type not in EVENTS: continue
@@ -68,6 +71,8 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var history_error: String = SimulationEngine.Dungeon.validate_world(world)
 	if history_error != "": return history_error
 	if typeof(payload.get("site_id")) != TYPE_STRING or payload.site_id != SITE or typeof(payload.get("command")) != TYPE_STRING: return "RELAY_INVALID_INTENT"
+	if payload.command in SimulationEngine.RelayCustody.COMMANDS: return SimulationEngine.RelayCustody.authorize(world, payload)
+	if SimulationEngine.RelayCustody.pending(world): return "PURSUIT_ACTIVITY_PENDING"
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.authorize(world, payload)
 	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.authorize(world, payload)
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
@@ -100,6 +105,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 static func commit(world: WorldState, payload: Dictionary, events: Array[EventRecord], engine: SimulationEngine) -> Dictionary:
 	var error: String = authorize(world, payload)
 	if error != "": return {"success": false, "error": error}
+	if payload.command in SimulationEngine.RelayCustody.COMMANDS: return SimulationEngine.RelayCustody.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.commit(world, payload, events, engine)
 	if payload.command == "FIGHT": return WorldState.Field.begin_relay_battle(world, events)
@@ -164,9 +170,19 @@ static func validate_world(world: WorldState) -> String:
 	var battle_id: int = 0
 	var companion: String = ""
 	var waterworks: bool = false
+	var capture_fatal: bool = false
+	var capture_pending: bool = false
 	for index: int in range(world.event_log.size()):
 		var e: EventRecord = world.event_log[index]
 		var p: Dictionary = e.payload
+		if world.player != null and e.actor_id == world.player.npc_id:
+			if e.type == "PURSUIT_STARTED": capture_pending = true
+			elif e.type in ["PLAYER_DIED", "NAMED_NPC_DIED"] and capture_pending: capture_fatal = true
+			elif e.type == "PURSUIT_RESULT": capture_fatal = text(p.get("outcome"), "DEAD")
+			elif e.type == "PURSUIT_CONFIRMED":
+				if capture_fatal: s.active = false
+				capture_fatal = false
+				capture_pending = false
 		# The device validator below checks these facts before the world can publish.
 		# Fold the historical mode here so each lift move uses its contemporaneous gate.
 		if e.type == "STATION_POWER_CONFIGURED":
@@ -249,14 +265,16 @@ static func validate_world(world: WorldState) -> String:
 	if units >= 4: return "RELAY_DAY_PENDING"
 	if s.active:
 		var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
-		var fatal: bool = not combat.is_empty() and combat.outcome == "DEAD"
+		var fatal: bool = capture_fatal or (not combat.is_empty() and combat.outcome == "DEAD")
 		if life == null or (fatal and life.is_alive()) or (not fatal and (not life.is_alive() or life.status != NpcLifeState.Status.SETTLED or life.population_container_id != HOME)): return "RELAY_INVALID_LOCAL_CONTEXT"
 		if world.active_encounter != null or world.pending_encounter_result >= 0 or SimulationEngine.Dungeon.state(world).active: return "RELAY_CONFLICTING_ACTIVITY"
 		if combat.is_empty() and (not world.field_state.battle.is_empty() or world.field_state.receipt >= 0): return "RELAY_CONFLICTING_ACTIVITY"
 	var snapshot_error: String = validate_snapshot(world, s, combat)
 	if snapshot_error != "": return snapshot_error
 	var target_error: String = SimulationEngine.RelayTarget.validate_world(world)
-	return SimulationEngine.RelayPower.validate_world(world) if target_error == "" else target_error
+	if target_error != "": return target_error
+	var power_error: String = SimulationEngine.RelayPower.validate_world(world)
+	return SimulationEngine.RelayCustody.validate_world(world) if power_error == "" else power_error
 
 static func validate_result(combat: Dictionary, p: Dictionary, index: int) -> String:
 	if combat.result_index >= 0 or combat.outcome == "" or not text(p.get("outcome"), combat.outcome) or not number(p.get("hp"), int(combat.hp), int(combat.hp)) or not text(p.get("enemy"), "feral_dog") or not number(p.get("site_enemy_hp"), int(combat.site_enemy_hp), int(combat.site_enemy_hp)) or typeof(p.get("gained")) != TYPE_DICTIONARY or not p.gained.is_empty() or typeof(p.get("left_behind")) != TYPE_DICTIONARY or not p.left_behind.is_empty() or not number(p.get("caps_gained", 0), 0, 0): return "RELAY_INVALID_COMBAT_RESULT"

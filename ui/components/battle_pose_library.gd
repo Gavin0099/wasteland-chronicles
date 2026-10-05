@@ -3,6 +3,14 @@ extends RefCounted
 # Original generated PNGs remain intact. Rectangles/anchors are authored against
 # their actual alpha silhouettes, rather than assuming a generated uniform grid.
 const FRAMES := {
+	"grey_crow": {
+		"armed": [Rect2(123, 13, 324, 495), Vector2(191, 502), Vector2.ZERO, 485.0, "grey-crow-capture"],
+		"windup": [Rect2(595, 13, 355, 495), Vector2(674, 502), Vector2.ZERO, 485.0, "grey-crow-capture"],
+		"strike": [Rect2(1030, 62, 408, 446), Vector2(1246, 502), Vector2.ZERO, 485.0, "grey-crow-capture"],
+		"unarmed": [Rect2(139, 512, 309, 487), Vector2(190, 994), Vector2.ZERO, 485.0, "grey-crow-capture"],
+		"hurt": [Rect2(628, 519, 318, 477), Vector2(672, 992), Vector2.ZERO, 485.0, "grey-crow-capture"],
+		"kneel": [Rect2(1174, 613, 255, 347), Vector2(1305, 956), Vector2.ZERO, 485.0, "grey-crow-capture"],
+	},
 	"bandit": {
 		"idle_breath": [Rect2(59, 47, 412, 465), Vector2(425, 506), Vector2.ZERO, 450.0, "road-bandit-movement"],
 		"step_a": [Rect2(540, 49, 433, 458), Vector2(660, 501), Vector2.ZERO, 450.0, "road-bandit-movement"],
@@ -67,7 +75,7 @@ const FRAMES := {
 		"fall": [Rect2(1643, 367, 521, 342), Vector2(1890, 706), Vector2.ZERO, 520.0],
 	},
 }
-const FILES := {"drifter": "drifter", "feral_dog": "feral-dog", "bandit": "road-bandit", "heavy_raider": "heavy-raider"}
+const FILES := {"drifter": "drifter", "feral_dog": "feral-dog", "bandit": "road-bandit", "heavy_raider": "heavy-raider", "grey_crow": "grey-crow-capture"}
 static var atlases: Dictionary = {}
 static var textures: Dictionary = {}
 

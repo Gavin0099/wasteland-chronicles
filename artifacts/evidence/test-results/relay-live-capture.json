@@ -1,0 +1,17 @@
+{
+  "receipt_schema": "test_evidence_receipt.v0.1",
+  "status": "report_only",
+  "command": "C:/Users/daish/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.2-stable_win64_console.exe --headless --path . --script res://tests/test_relay_capture.gd",
+  "exit_code": 0,
+  "started_at": "2026-10-05T02:23:48Z",
+  "finished_at": "2026-10-05T02:24:20Z",
+  "runner": "governance_tools.test_evidence_receipt_writer",
+  "linked_commit": "ff6d5203afaf60a8c10c1a814e62fd58bae7d11b",
+  "output_artifacts": [
+    "artifacts/evidence/test-results/relay-live-capture.txt"
+  ],
+  "cannot_claim": [
+    "semantic correctness of the tested behavior",
+    "receipt authenticity: every field is fabricatable by a direct writer"
+  ]
+}

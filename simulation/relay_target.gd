@@ -47,6 +47,7 @@ static func town(world: WorldState) -> StringName:
 static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var invalid: String = SimulationEngine.Dungeon.validate_world(world)
 	if invalid != "": return invalid
+	if SimulationEngine.RelayCustody.pending(world): return "PURSUIT_ACTIVITY_PENDING"
 	if payload.size() != 2 or typeof(payload.get("site_id")) != TYPE_STRING or payload.site_id != SITE or typeof(payload.get("command")) != TYPE_STRING or payload.command not in COMMANDS: return "TARGET_INVALID_INTENT"
 	if town(world) == &"": return "TARGET_REQUIRES_LIVING_TOWN"
 	if SimulationEngine.Dungeon.state(world).active or world.active_encounter != null or world.pending_encounter_result >= 0 or not world.field_state.battle.is_empty() or world.field_state.receipt >= 0: return "TARGET_ACTIVITY_PENDING"
@@ -162,8 +163,8 @@ static func validate_world(world: WorldState) -> String:
 		if world.player != null and e.actor_id == world.player.npc_id:
 			if e.type == "DUNGEON_ENTERED": waterworks = true
 			elif e.type in ["DUNGEON_LEFT", "DUNGEON_TRIP_ENDED"]: waterworks = false
-			elif e.type == "RELAY_BATTLE_STARTED": combat_pending = true
-			elif e.type == "RELAY_BATTLE_CONFIRMED": combat_pending = false
+			elif e.type in ["RELAY_BATTLE_STARTED", "PURSUIT_STARTED"]: combat_pending = true
+			elif e.type in ["RELAY_BATTLE_CONFIRMED", "PURSUIT_CONFIRMED"]: combat_pending = false
 			elif e.type == "PLAYER_DIED": player_dead = true
 			if e.type == "PLAYER_MATERIALIZED": player_city = String(e.target_id)
 			elif e.type == "PLAYER_TRAVEL_STARTED": player_city = ""
@@ -257,7 +258,8 @@ static func describe(world: WorldState) -> String:
 			location = "目標在途，正前往%s；還有%d天。" % [world.get_settlement(party.destination_id).name, party.days_remaining]
 		else:
 			location = "目標目前停留%s。" % world.get_settlement(ls.population_container_id).name
-	if s.interviewed: location += "\n你已堵住維修出口，在檔案室當面問過他；這不代表拘捕。"
+	if SimulationEngine.RelayCustody.state(world).captured: location += "\n" + SimulationEngine.RelayCustody.describe(world)
+	elif s.interviewed: location += "\n你已堵住維修出口，在檔案室當面問過他；尚未拘捕，可帶第二條繩索回去制伏。"
 	elif s.escaped: location += "\n你親眼看見他從維修出口逃上灰谷—新希望商路；可追到城鎮再確認。"
 	elif s.intel: location += "\n居民指認他的破損左靴；他遇到人時會鑽維修出口。先到維修道查出口，繩索＋1廢料可封住。"
 	else: location += "\n先在灰谷打聽習慣，再進中繼站值勤檔案室找人；也可以直接去。"

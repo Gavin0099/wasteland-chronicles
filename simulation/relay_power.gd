@@ -28,6 +28,7 @@ static func method(world: WorldState, mode: String) -> Dictionary:
 static func authorize(world: WorldState, payload: Dictionary) -> String:
 	var invalid: String = SimulationEngine.Dungeon.validate_world(world)
 	if invalid != "": return invalid
+	if SimulationEngine.RelayCustody.pending(world): return "PURSUIT_ACTIVITY_PENDING"
 	if payload.size() != 2 or not SimulationEngine.Relay.text(payload.get("site_id"), SITE) or typeof(payload.get("command")) != TYPE_STRING or payload.command not in COMMANDS: return "POWER_INVALID_INTENT"
 	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	if ls == null or not ls.is_alive(): return "POWER_PLAYER_DEAD"

@@ -47,6 +47,7 @@ func setup(s: Dictionary) -> void:
 		if room_id == "relay_tunnel" and not target.exit_found: doors.append({"command": "INSPECT_EXIT", "label": "查看維修出口與腳印", "point": Vector2(760, 196)})
 		elif room_id == "relay_tunnel" and not target.blocked: doors.append({"command": "BLOCK_EXIT", "label": "封住出口 · 繩索＋1廢料", "point": Vector2(760, 196)})
 		if room_id == "relay_records" and s.get("target_present", false) and not target.interviewed and not target.escaped: doors.append({"command": "CONFRONT_TARGET", "label": "向灰鴉露面 · 問話", "point": Vector2(740, 240)})
+		if room_id == "relay_records" and s.get("target_present", false) and not s.get("capture", {}).get("captured", false): doors.append({"command": "CHALLENGE_TARGET", "label": "制伏灰鴉 · 非致命", "point": Vector2(810, 310)})
 	enemy_id = "feral_dog" if room_id == "relay_corridor" and room_id not in s.cleared else ""
 	enemy_pose = Poses.frame(enemy_id, "recover")
 	if enemy_id != "": doors.append({"command": "FIGHT", "label": "迎戰守路野犬", "point": ENEMY_POINT})
@@ -91,7 +92,11 @@ func _draw() -> void:
 		var breath: float = 1.0 if reduced_motion else 1.0 + sin(target_animation_time * 2.0) * 0.012
 		var target_size: Vector2 = Vector2(53, 80 * breath)
 		draw_circle(point, 14, Color(0, 0, 0, 0.3))
-		draw_texture_rect(target_texture, Rect2(point - Vector2(0.47, 0.963) * target_size, target_size), false)
+		if checkpoint.get("held", false):
+			var captive: Dictionary = Poses.frame("grey_crow", "kneel")
+			var draw_size: Vector2 = captive.texture.get_size() * (80.0 / float(captive.reference_height))
+			draw_texture_rect(captive.texture, Rect2(point - captive.foot * draw_size, draw_size), false)
+		else: draw_texture_rect(target_texture, Rect2(point - Vector2(0.47, 0.963) * target_size, target_size), false)
 	for door: Dictionary in doors:
 		var point: Vector2 = door.point
 		if door.command == "FIGHT":

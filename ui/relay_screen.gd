@@ -6,6 +6,7 @@ signal closed
 const Tokens = preload("res://ui/theme/pda_tokens.gd")
 const Relay = preload("res://simulation/relay_exploration.gd")
 const Target = preload("res://simulation/relay_target.gd")
+const Capture = preload("res://simulation/relay_custody.gd")
 const PowerDialog = preload("res://ui/components/relay_power_dialog.gd")
 const Field = preload("res://simulation/field_adventure.gd")
 const RoomView = preload("res://ui/components/relay_room_view.gd")
@@ -27,11 +28,13 @@ var route_choice: OptionButton
 var interact_button: Button
 var guide_button: Button
 var combat_screen: Control
+var capture_screen: Control
 var supplies_dialog: AcceptDialog
 var map_dialog: AcceptDialog
 var power_dialog: AcceptDialog
 
 static func explain(error: String) -> String:
+	if error.begins_with("PURSUIT_"): return preload("res://ui/relay_capture_screen.gd").explain(error)
 	if error.begins_with("TARGET_"): return preload("res://ui/components/relay_target_dialog.gd").explain(error)
 	if error.begins_with("POWER_"): return PowerDialog.explain(error)
 	return {"": "", "RELAY_FIND_TUNNEL": "先在入口查看拖痕", "RELAY_DOG_BLOCKS_ROUTE": "先排除走廊野犬並確認戰果", "RELAY_OPEN_TUNNEL": "先用工具與2廢料撬開內門", "RELAY_FIND_CARD": "先檢查檔案室的值勤文件", "RELAY_NEED_TOOL": "缺扳手或撬棍；可回灰谷買工具", "RELAY_NEED_SCRAP": "需要2廢料", "ITEM_CAPACITY_EXCEEDED": "道具空間不足；先回城整理再來取", "RELAY_PRIZE_ALREADY_OWNED": "已持有軍用背包；先回城整理", "RELAY_ACTIVITY_PENDING": "先完成並確認目前的戰鬥或遭遇", "RELAY_REQUIRES_GRAY_VALLEY": "請先到灰谷", "RELAY_PLAYER_DEAD": "這段旅程已結束"}.get(error, "目前無法執行；請確認位置與所需物資")
@@ -100,6 +103,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	column.add_child(instructions)
 	refresh_room()
 	if Field.is_dungeon_activity(world): open_combat()
+	elif Capture.pending(world): open_capture()
 
 func refresh_room() -> void:
 	var s: Dictionary = Relay.state(world)
@@ -108,6 +112,8 @@ func refresh_room() -> void:
 	status_label.text = "生命%d/12 · %s · 水%d／食物%d · 再換房%d次過一天%s" % [world.player.field_kit.hp, Supplies.load_text(world.player), world.player.inventory.water, world.player.inventory.food, 4 - int(s.work_units), " · 持有保管室門禁卡" if s.card_found else ""]
 	s["target"] = Target.state(world)
 	s["target_present"] = Target.present_at_relay(world)
+	s["capture"] = Capture.state(world)
+	s["held"] = Capture.held_target(world) != &""
 	view.setup(s)
 	route_choice.clear()
 	for door: Dictionary in view.doors: route_choice.add_item(door.label)
@@ -117,7 +123,8 @@ func refresh_room() -> void:
 	if s.room_id == "relay_vault" and s.prize_taken: message.text = "保管室已取空；原路返回。裝備軍用背包後，可準備帶更多物資的旅程。"
 	if s.target.accepted and s.room_id == "relay_records":
 		message.text = "灰鴉在此；先堵維修出口可當面問話。直接露面，他會從商路逃往新希望。" if s.target_present and not s.target.interviewed and not s.target.escaped else Target.describe(world)
-		if s.target.interviewed: message.text = "你已當面問過灰鴉，這不代表拘捕。回灰谷可領一次偵查費；他仍會受外界局勢影響。"
+		if s.capture.captured: message.text = Capture.describe(world)
+		elif s.target.interviewed: message.text = "你已當面問過灰鴉，尚未拘捕。可再靠近制伏；需要另一條繩索，封出口那條已消耗。"
 		elif s.target.escaped: message.text = "灰鴉已從維修出口逃上商路。回灰谷可回報，或追到新希望當面確認。"
 	refresh_interaction()
 	view.grab_focus()
@@ -156,6 +163,7 @@ func interact() -> void:
 		closed.emit()
 		queue_free()
 	elif door.command == "FIGHT": open_combat()
+	elif door.command == "CHALLENGE_TARGET": open_capture()
 	elif door.command == "INSPECT_POWER":
 		refresh_room()
 		show_power()
@@ -197,8 +205,24 @@ func open_combat() -> void:
 			closed.emit()
 			queue_free())
 
+func open_capture() -> void:
+	if is_instance_valid(capture_screen): return
+	set_paused(true)
+	capture_screen = preload("res://ui/relay_capture_screen.gd").new()
+	capture_screen.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+	add_child(capture_screen)
+	capture_screen.setup(world, engine)
+	capture_screen.world_changed.connect(func() -> void: world_changed.emit())
+	capture_screen.save_menu_requested.connect(func() -> void: save_menu_requested.emit())
+	capture_screen.closed.connect(func() -> void:
+		capture_screen = null
+		if Relay.state(world).active:
+			set_paused(false); refresh_room()
+		else:
+			closed.emit(); queue_free())
+
 func show_supplies() -> void:
-	if is_instance_valid(combat_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
 	set_paused(true)
 	supplies_dialog = Supplies.new()
 	add_child(supplies_dialog)
@@ -216,7 +240,7 @@ func close_supplies() -> void:
 	refresh_room()
 
 func show_map() -> void:
-	if is_instance_valid(combat_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
 	var s: Dictionary = Relay.state(world)
 	var lines: PackedStringArray = ["記錄已走過的房間與眼前通路；地圖不會移動角色。"]
 	for room: String in s.visited:
@@ -241,13 +265,13 @@ func close_map() -> void:
 	set_paused(false)
 
 func set_paused(value: bool) -> void:
-	view.enabled = not value and not is_instance_valid(combat_screen) and not is_instance_valid(supplies_dialog) and not is_instance_valid(map_dialog) and not is_instance_valid(power_dialog)
+	view.enabled = not value and not is_instance_valid(combat_screen) and not is_instance_valid(capture_screen) and not is_instance_valid(supplies_dialog) and not is_instance_valid(map_dialog) and not is_instance_valid(power_dialog)
 	if view.enabled: view.grab_focus()
 	refresh_interaction()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is not InputEventKey or not event.pressed or event.echo: return
-	if is_instance_valid(combat_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
 	match event.keycode:
 		KEY_M: show_map()
 		KEY_B: show_supplies()

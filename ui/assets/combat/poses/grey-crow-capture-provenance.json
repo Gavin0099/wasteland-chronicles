@@ -1,0 +1,13 @@
+{
+  "tool": "image_gen.imagegen",
+  "date": "2026-10-05",
+  "source": "C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-001465f9-c186-4c1c-b232-3e4bec9571dd.png",
+  "runtime": "ui/assets/combat/poses/grey-crow-capture.png",
+  "sha256": "2012d12dbefcb540cae69875acc2bf4e10100c5919494db2f25b8499ff56c9d1",
+  "dimensions": [1536, 1024],
+  "transparent_background": true,
+  "reference": "D:/wasteland-chronicles/ui/assets/combat/relay-grey-crow.png",
+  "reference_sha256": "6a85e5be0b0112425b53ead6f9aaf4ced09b255d0e9a6a0a338405ec83a0ea3b",
+  "prompt": "Create one original transparent PNG animation pose atlas for Wasteland Chronicles using the attached Grey Crow cutout as the exact character reference. Preserve the same adult male face, short dark hair, patched dark brown canvas coat, dull grey scarf, satchel, patched trousers and dusty mismatched boots. This is a late-1990s detailed hand-painted isometric RPG, muted sepia/olive realistic inked cloth, coherent with the attached art. ONE sheet, exactly SIX complete small figures in an evenly spaced THREE-COLUMN TWO-ROW grid; no overlapping figures or props between cells. Elevated three-quarter camera, all figures facing toward the lower left, same camera scale and body proportions in every cell, full feet inside each cell with clear transparent padding. Top row left: standing combat-ready with a small worn knife visibly held low in his right hand. Top row middle: knife-attack windup, weight back and hand drawn up. Top row right: knife-attack extension, modest forward lunge. Bottom row left: unarmed guarded stance, both empty hands raised, NO knife. Bottom row middle: unarmed hurt/recoil pose, still standing with full feet. Bottom row right: alive kneeling captive with wrists tied by a plain rope in front, both boots/legs visible, lowered head; NO knife, no injury gore, no dead body. Keep the kneeling pose physically shorter than the standing poses using the SAME camera distance, do not enlarge it to fill cell. No cell borders, labels, typography, numbers, UI, scene, ground, background, cast shadows, watermark, duplicate faces, or motion blur. Transparent background. This will be an unchanged runtime AtlasTexture source with individually authored rectangles and planted foot anchors, not a uniform automatic crop. Intended original asset ui/assets/combat/poses/grey-crow-capture.png; save generated artifact normally.",
+  "transform": "None. Source copied unchanged; runtime AtlasTexture regions and feet authored separately."
+}
