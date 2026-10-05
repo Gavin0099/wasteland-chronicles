@@ -1,0 +1,38 @@
+{
+ "slice": "MIN-1",
+ "focused_headless": "479 assertions, 0 failures, exit 0, no SCRIPT ERROR",
+ "focused_native_vulkan": "497 assertions, 0 failures, 18 distinct PNGs at 1280x720 and 1152x648",
+ "full_suite": "142 tests/test_*.gd run with 4-way parallelism; 141 exit 0 with 0 SCRIPT ERROR; test_combat_animation_completion exit 1 (43 'imported resource exists' assertions) and fails identically with uncommitted changes stashed (branch simulation commits present; PNG import check, local asset-import state)",
+ "lint": "0 errors, 1 existing dynamic-node warning",
+ "debugger": "167 warnings = baseline, 0 errors, 0 mine-related",
+ "scene_fuzz_smoke": "2/2 pass, 110 existing warnings",
+ "images": {
+  "continue_pumphall_1152x648.png": "b5f026e1c1c0c541ad812b7045401972286130d804dd4bfa2e04642acc84c0c0",
+  "continue_pumphall_1280x720.png": "3b2adbb8cba3cd88cd17578d4d1d21fc9a20fc881ef0873e832f36a221c656d7",
+  "departure_forecast_1152x648.png": "6a93b251673eefc8936b7b27125ee3bf4352d870da2289cbd8f7f6f7c563d0aa",
+  "departure_forecast_1280x720.png": "c991759e4a6ab4591059e41ee3597c39ae77c549efa46b12a4cb414a3c164487",
+  "discovery_1152x648.png": "4f42e19e74b989761125b74a165a28f9a43384366a9b9dc68aa3c748c0ff27f8",
+  "discovery_1280x720.png": "4c3443cc4ee31dde8848eb8cbb703af949b7db23850b9cc6f6fdbce11440f1aa",
+  "entrance_1152x648.png": "724b9c61e007407a1aaf77a5d7ccf651a25936ee5400b9a15eff4437d30d52ee",
+  "entrance_1280x720.png": "cd531327b649f9d22c7376a082dec53fedff007508d9cfa82e00a25d553410fa",
+  "gallery_1152x648.png": "da5910f4f9313e13aa3c9166cb36f4d4c403994a307ca5c9b4922bd410ac9fce",
+  "gallery_1280x720.png": "25cc8bf8fa1a40bd71f59ceaffc55a1b8830f175facfc5944c7ab19e9456b99e",
+  "gallery_observed_1152x648.png": "a9d269c4fe79dec6b9cac0ffc0dc874dadfa8e0a7c2898cebbd6a13409b26c08",
+  "gallery_observed_1280x720.png": "f3866443814ca1c478c1268c2b35231a1440cfc45c186896dec0647d521daff6",
+  "pumphall_1152x648.png": "21337e6dc9e4dccbd9b552a5aaf3d0b064f516f8333b7f5f64c56a532679c9bd",
+  "pumphall_1280x720.png": "0717333cd22d14c7ceb83255fbfae01d51224c3a94266d4879150ccbd78869c3",
+  "supplies_1152x648.png": "e6ad75a515b7eb946dcf7edf09748ca4c84cbbec7ed9bba6b4daf1609a9cd75a",
+  "supplies_1280x720.png": "b959439428f899e764f69f8c28260e1909fa557fabfe40d55a0fa4aa74487549",
+  "wrong_town_refusal_1152x648.png": "ea69710bee61dd54294c051af289e6969b0a951a51617d3783f040f53fb7e932",
+  "wrong_town_refusal_1280x720.png": "5606772bf8447e7b1a4a9ac86edaa6fe02b89a5ec61542eb5c71f36437c0421d"
+ },
+ "not_run": [
+  "governance drift / memory_workflow guard (module not present in this checkout)",
+  "canonical memory writer"
+ ],
+ "not_claimed": [
+  "human pacing or fun",
+  "clean-shutdown (RID/ObjectDB leak diagnostics remain as in other native tests)",
+  "generated art: rooms are code-drawn stand-ins"
+ ]
+}

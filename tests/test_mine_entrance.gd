@@ -168,8 +168,6 @@ func mine_supplies() -> void:
 	check(SimulationEngine.Party.current(hungry) == "" and fact_count(hungry, "COMPANION_LEFT") >= 1 and engine.validate_invariants(hungry) == "", "unfed companion leaves with a ledgered hunger departure")
 
 func walk_to(world: WorldState, destination: StringName, label: String) -> Dictionary:
-	var days: int = 0
-	var extra: int = 0
 	var start_day: int = world.current_day
 	var seen: Array = []
 	check(engine.commit_player_intent(world, PlayerIntent.create_travel(world.player.npc_id, destination)).success, label + " begins the real road")
@@ -254,7 +252,7 @@ func mine_negative_trip() -> void:
 	visit_days(world, 1)
 	check(Mine.state(world).active and world.player.inventory.water == 0 and world.player.inventory.food == 0, "the mine day used the last rations")
 	check(engine.commit_player_intent(world, mine_intent(world, "EXIT")).success, "leave")
-	var back: Dictionary = walk_to(world, GRAY, "minimum-prep return")
+	walk_to(world, GRAY, "minimum-prep return")
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
 	check(life.is_alive() and String(life.population_container_id) == String(GRAY), "alive and back in Gray Valley")
 	check(fact_count(world, "PLAYER_NEED_UNMET") >= 1, "short a ration on the way back, honestly ledgered")
@@ -324,6 +322,135 @@ func mine_negative_history() -> void:
 		relay_reject_fixture(data, "mine overlap forgery " + str(mode))
 	clear_slot()
 
+# --- the real screens ------------------------------------------------------------
+
+func mine_observe(label: String) -> void:
+	await frames()
+	if mine_render_dir != "":
+		await RenderingServer.frame_post_draw
+		var path: String = mine_render_dir.path_join(label + "_%dx%d.png" % [root.size.x, root.size.y])
+		check(root.get_texture().get_image().save_png(path) == OK, "actual native renderer capture " + label)
+
+func mine_button(screen: Control, prefix: String) -> Button:
+	for b: Button in screen.command_buttons:
+		if is_instance_valid(b) and b.text.begins_with(prefix): return b
+	check(false, "actual visible mine command " + prefix)
+	return null
+
+func mine_geometry(screen: Control) -> void:
+	for control: Control in [screen.title_label, screen.status_label, screen.room_view, screen.message, screen.facts_label, screen.commands]:
+		var rect: Rect2 = control.get_global_rect()
+		check(rect.position.x >= 0 and rect.position.y >= 0 and rect.end.x <= root.size.x + 0.1 and rect.end.y <= root.size.y + 0.1, "actual mine layout fits " + control.get_class() + " at %dx%d" % [root.size.x, root.size.y])
+	for b: Button in screen.command_buttons:
+		var rect: Rect2 = b.get_global_rect()
+		check(b.size.y >= 40 and rect.end.x <= root.size.x + 0.1 and rect.end.y <= root.size.y + 0.1, "actual mine command %s meets 40px and fits" % b.text)
+
+func press_mine(screen: Control, prefix: String) -> void:
+	var b: Button = mine_button(screen, prefix)
+	if b == null: return
+	check(not b.disabled, "mine command enabled: " + prefix)
+	b.pressed.emit()
+	await frames()
+
+func mine_ui() -> void:
+	for resolution: Vector2i in [Vector2i(1280, 720), Vector2i(1152, 648)]:
+		root.size = resolution
+		clear_slot()
+		var world: WorldState = iron_start()
+		check(store.save_game(world).success, "real mine UI initial save")
+		var main: Node = new_main()
+		await frames()
+		main.save_dialog.load_button.pressed.emit()
+		await frames()
+		var before: String = main.world.to_canonical_json()
+		var toolbar_button: Button = find_command(main.shell, "礦道")
+		check(toolbar_button != null and toolbar_button.get_global_rect().end.x <= root.size.x, "the town toolbar offers the mine")
+		toolbar_button.pressed.emit()
+		await frames()
+		var screen: Control = main.shell.find_child("MineScreen", false, false)
+		check(screen != null and screen.title_label.text.contains("礦道入口"), "actual Iron Pass entry opens the mine")
+		if screen == null: continue
+		mine_geometry(screen)
+		var expected: Dictionary = Mine.entrance_forecast(main.engine.get_route_days_between(main.world, Mine.HOME, GRAY), "")
+		check(screen.forecast_label.visible and screen.forecast_label.text.contains("%d 水、%d 糧" % [expected.water, expected.food]) and screen.forecast_label.text.contains("%d 瓶蓋" % expected.bribe_caps), "entrance discloses the derived remaining preparation")
+		await mine_observe("entrance")
+		before = main.world.to_canonical_json()
+		screen.show_supplies()
+		await mine_observe("supplies")
+		check(screen.supplies_dialog.summary.text.contains("再換房4次") and main.world.to_canonical_json() == before, "supplies opens with the mine clock and mutates nothing")
+		screen.supplies_dialog.get_ok_button().pressed.emit()
+		await frames()
+		await press_mine(screen, "前往 外段坑道")
+		check(screen.title_label.text.contains("外段坑道") and not screen.forecast_label.visible, "moving shows the gallery without the entrance forecast")
+		mine_geometry(screen)
+		await mine_observe("gallery")
+		await press_mine(screen, "查看 裂開的支柱")
+		check(screen.facts_label.text.contains("● 外段坑道"), "the observed fact is shown")
+		await mine_observe("gallery_observed")
+		await press_mine(screen, "前往 舊集水廳")
+		var locked: Button = mine_button(screen, "查看 控制座")
+		check(locked != null and locked.disabled and locked.text.contains("先看看停擺的泵"), "the controller socket stays locked and readable until the pump is seen")
+		mine_geometry(screen)
+		await mine_observe("pumphall")
+		await press_mine(screen, "查看 停擺的泵")
+		await press_mine(screen, "查看 控制座")
+		check(screen.facts_label.text.contains("新目標") and Mine.state(main.world).discovered, "the last observation shows the permanent new goal")
+		await mine_observe("discovery")
+		check(main.world.player.item_inventory.to_dict().items.is_empty() and fact_count(main.world, "MINE_OBSERVED") == 3, "no controller or loot appears")
+		find_command(screen, "存讀檔").pressed.emit()
+		await frames()
+		before = main.world.to_canonical_json()
+		main.save_dialog.save_button.pressed.emit()
+		check(FileAccess.get_file_as_string(store.path) == before, "actual mine UI save bytes")
+		main.queue_free()
+		await frames()
+		main = new_main()
+		await frames()
+		main.save_dialog.load_button.pressed.emit()
+		await frames()
+		screen = main.shell.find_child("MineScreen", false, false)
+		check(screen != null and Mine.state(main.world).room_id == "mine_pumphall" and main.world.to_canonical_json() == before and screen.facts_label.text.contains("新目標"), "real Continue restores the pump hall with its discovery")
+		await mine_observe("continue_pumphall")
+		for destination: String in ["返回 外段坑道", "返回 礦道入口"]:
+			await press_mine(screen, destination)
+		check(main.world.current_day == 1 and screen.message.text.contains("一天過去"), "the fourth move spends a real day and says so")
+		await press_mine(screen, "離開礦道")
+		check(not Mine.state(main.world).active and main.shell.find_child("MineScreen", false, false) == null, "leaving the mine returns to town")
+		main.queue_free()
+		await frames()
+		# Refusal: away from Iron Pass the entry explains where to go.
+		world = fresh_towns("settlement:gray_valley")
+		check(store.save_game(world).success, "wrong-town UI fixture")
+		main = new_main()
+		await frames()
+		main.save_dialog.load_button.pressed.emit()
+		await frames()
+		before = main.world.to_canonical_json()
+		find_command(main.shell, "礦道").pressed.emit()
+		await frames()
+		var refusal: AcceptDialog
+		for child: Node in main.shell.get_children():
+			if child is AcceptDialog and child.title == "鐵關舊礦道": refusal = child
+		check(refusal != null and refusal.get_ok_button().size.y >= 40 and refusal.dialog_text.contains("鐵關"), "refused entry names the town and its return meets 40px")
+		check(main.world.to_canonical_json() == before and not Mine.state(main.world).active, "refusal preserves the authoritative world")
+		await mine_observe("wrong_town_refusal")
+		refusal.get_ok_button().pressed.emit()
+		await frames()
+		# Pre-departure disclosure on the real travel panel.
+		main.shell.select_settlement("settlement:iron_pass")
+		await frames()
+		var details: String = main.shell.lbl_settlement_details.text
+		var route_days: int = main.engine.get_route_days_between(main.world, GRAY, IRON)
+		var f: Dictionary = Mine.forecast(route_days, "")
+		var disclosed: bool = true
+		for line: String in Mine.forecast_lines(f): disclosed = disclosed and details.contains(line)
+		check(disclosed and details.contains("%d 水、%d 糧" % [f.water, f.food]), "the departure panel shows the derived forecast before leaving Gray Valley")
+		check(main.world.to_canonical_json() == before, "reading the departure panel is read-only")
+		await mine_observe("departure_forecast")
+		main.queue_free()
+		await frames()
+	clear_slot()
+
 func run_mine() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--render-dir="): mine_render_dir = arg.trim_prefix("--render-dir=")
@@ -334,5 +461,8 @@ func run_mine() -> void:
 	mine_forecast()
 	mine_negative_trip()
 	mine_negative_history()
+	root.size = Vector2i(1280, 720)
+	if mine_render_dir != "": DirAccess.make_dir_recursive_absolute(mine_render_dir)
+	await mine_ui()
 	print("MIN-1: %d assertions, %d failures" % [assertions, failures])
 	quit(0 if failures == 0 else 1)
