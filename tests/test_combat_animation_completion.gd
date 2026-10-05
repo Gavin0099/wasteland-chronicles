@@ -30,6 +30,9 @@ func run() -> void:
 	check(Poses.load_atlas("res://ui/assets/combat/poses/missing.png") == null, "missing art fails closed") # lint:ignore res_path
 	check(Poses.frame("unknown", "step_a").is_empty() and Poses.frame("drifter", "unknown").is_empty(), "unknown pose fails closed")
 	var new_frames: int = 0
+	# This milestone's independent fixture is the original six companion atlases.
+	# Later named actors still receive the load/region/import checks below.
+	var completion_atlases: Array[String] = ["drifter-movement", "drifter-melee", "drifter-guns", "feral-dog-movement", "road-bandit-movement", "heavy-raider-movement"]
 	var packed: bool = "--packed-assets" in OS.get_cmdline_user_args()
 	for actor_id in Poses.FRAMES:
 		for pose in Poses.FRAMES[actor_id]:
@@ -41,7 +44,7 @@ func run() -> void:
 			var texture: AtlasTexture = frame.texture
 			check(Rect2(Vector2.ZERO, texture.atlas.get_size()).encloses(texture.region), "atlas region inside actual image")
 			if spec.size() > 4:
-				new_frames += 1
+				if String(spec[4]) in completion_atlases: new_frames += 1
 				var path: String = "res://ui/assets/combat/poses/%s.png" % spec[4]
 				check(ResourceLoader.exists(path), "imported resource exists")
 				if packed:

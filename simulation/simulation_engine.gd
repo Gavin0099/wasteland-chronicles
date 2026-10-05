@@ -21,6 +21,7 @@ const Dungeon = preload("res://simulation/dungeon_exploration.gd")
 const Relay = preload("res://simulation/relay_exploration.gd")
 const RelayTarget = preload("res://simulation/relay_target.gd")
 const RelayPower = preload("res://simulation/relay_power.gd")
+const RelayCustody = preload("res://simulation/relay_custody.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -80,6 +81,7 @@ var enable_transit_predation: bool = true
 # 嚴格依序執行的 7 階段離散 Tick
 func tick(world: WorldState) -> Array[EventRecord]:
 	var tick_events: Array[EventRecord] = []
+	if RelayCustody.pending(world): return tick_events
 	if Dungeon.is_exploring(world) and WorldState.Field.is_dungeon_activity(world): return tick_events
 	world.current_day += 1
 	var current_day := world.current_day
@@ -961,11 +963,13 @@ func run_npc_decision_phase(world: WorldState, current_day: int, tick_events: Ar
 	# would make evaluation order an accident. Gate F6 exists because of this.
 	var decider_ids: Array[StringName] = []
 	var sorted_npc_ids: Array[String] = []
+	var held_id: StringName = RelayCustody.held_target(world)
 	for k in world.npc_life_state_registry.life_states:
 		sorted_npc_ids.append(String(k))
 	sorted_npc_ids.sort()
 	for npc_id_str in sorted_npc_ids:
 		var npc_id := StringName(npc_id_str)
+		if npc_id == held_id: continue
 		# The player is a named NPC in every other respect, but nobody decides for
 		# the player. Without this the decision engine would quietly evacuate them
 		# from a failing town - removing the very choice the game is about.
@@ -1090,6 +1094,7 @@ func build_npc_observation(world: WorldState, npc_id: StringName, current_day: i
 
 # Preconditions re-checked at commit time. Returns "" when the intent may proceed.
 func revalidate_migration_intent(world: WorldState, intent: NpcDecisionIntent) -> String:
+	if RelayCustody.held_target(world) == intent.npc_id: return "PRECONDITION_CHANGED: NPC is in custody"
 	var ls: NpcLifeState = world.npc_life_state_registry.get_life_state(intent.npc_id)
 	if ls == null:
 		return "PRECONDITION_CHANGED: no life state"

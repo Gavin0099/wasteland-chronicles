@@ -89,6 +89,8 @@ func begin_named_migration(
 	route_type: StringName = &""
 ) -> Dictionary:
 	var ls: NpcLifeState = get_life_state(npc_id)
+	if SimulationEngine.RelayCustody.held_target(world) == npc_id:
+		return {"success": false, "error": "NPC_IN_CUSTODY"}
 	if ls == null:
 		return {"success": false, "error": "INVALID_NPC: No life state for %s" % npc_id}
 	if ls.status != NpcLifeState.Status.SETTLED:

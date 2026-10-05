@@ -61,7 +61,12 @@ static func describe(world: WorldState) -> String:
 	var exploration: Dictionary = SimulationEngine.Dungeon.current_checkpoint(world)
 	if exploration.active:
 		var continuation: String = "讀檔後從房間入口繼續。"
-		if not world.field_state.battle.is_empty():
+		var capture: Dictionary = SimulationEngine.RelayCustody.state(world)
+		if capture.active:
+			continuation = "制伏灰鴉中 · 第%d回合 · 目標%d生命 · %s" % [capture.turn, capture.target_hp, "已繳械" if capture.disarmed else "持刀"]
+		elif capture.receipt >= 0:
+			continuation = "制伏結果待確認 · 讀檔後查看結果。"
+		elif not world.field_state.battle.is_empty():
 			continuation = "戰鬥中 · 第 %d 回合 · 讀檔後繼續交戰。" % int(world.field_state.battle.turn)
 		elif world.field_state.receipt >= 0:
 			continuation = "戰鬥結果待確認 · 讀檔後查看結果。"

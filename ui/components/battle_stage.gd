@@ -22,7 +22,7 @@ var support_turret: TextureRect
 #   4. VISUAL_PROFILES is the single source of visual truth.
 # ==============================================================================
 
-const KNOWN_ENEMIES := ["feral_dog", "bandit", "heavy_raider", "feral_boar", "desert_scorpion", "ash_ghoul"]
+const KNOWN_ENEMIES := ["feral_dog", "bandit", "heavy_raider", "feral_boar", "desert_scorpion", "ash_ghoul", "grey_crow"]
 
 # Hand-play, twice: the weapon floated beside the fighter instead of being held.
 # Each weapon has an authored grip (uv on the source icon) and length relative
@@ -47,6 +47,11 @@ const WEAPON_GRIPS := {
 const DEFAULT_GRIP := {"grip": Vector2(0.24, 0.80), "size": 0.26}
 
 const VISUAL_PROFILES := {
+	"grey_crow": {
+		"actor_id": "grey_crow", "texture_path": "res://ui/assets/combat/relay-grey-crow.png",
+		"foot_anchor_uv": Vector2(0.47, 0.963), "height_ratio": 0.41, "shadow_radius_ratio": 0.22,
+		"modulate": Color.WHITE, "attack_speed": 1.0, "lunge_ratio": 0.38, "recoil_strength": 6.0, "heavy_capable": false,
+	},
 	"feral_boar": {
 		"actor_id": "feral_boar", "texture_path": "res://ui/assets/combat/feral-boar.png",
 		"foot_anchor_uv": Vector2(0.50, 0.98), "height_ratio": 0.29, "shadow_radius_ratio": 0.34,
@@ -224,6 +229,7 @@ class ActorNode extends Node2D:
 	var texture_ref: Texture2D = null
 	var anim_player: AnimationPlayer
 	var actor_id := ""
+	var disarmed: bool = false
 	var cutout_motion := false
 	var rest_foot := Vector2(0.5, 1.0)
 	var rest_hand := Vector2(0.75, 0.40)
@@ -412,7 +418,11 @@ class ActorNode extends Node2D:
 	func _apply_pose() -> void:
 		if body == null or texture_ref == null:
 			return
-		var frame: Dictionary = PoseLibrary.frame(actor_id, pose) if pose != "rest" else {}
+		var selected_pose: String = pose
+		if actor_id == "grey_crow":
+			if pose in ["rest", "recover", "settle", "idle_breath", "step_a", "step_b", "brace"]: selected_pose = "unarmed" if disarmed else "armed"
+			elif disarmed and pose in ["windup", "strike"]: selected_pose = "unarmed"
+		var frame: Dictionary = PoseLibrary.frame(actor_id, selected_pose) if selected_pose != "rest" else {}
 		body.texture = frame.get("texture", texture_ref)
 		foot_anchor_uv = frame.get("foot", rest_foot)
 		hand_uv = frame.get("hand", rest_hand)
@@ -648,6 +658,8 @@ func present_outcome(outcome: String) -> void:
 	elif outcome == "ESCAPED":
 		hero_actor.hold_pose("retreat_a")
 		enemy_actor.hold_pose("rest")
+	elif outcome == "CAPTURED":
+		enemy_actor.hold_pose("kneel")
 	elif outcome == "":
 		resume_idle()
 
@@ -945,6 +957,10 @@ func refresh(equipped: bool, alive: bool) -> void:
 	hero_actor.modulate.a = 1.0
 	arrange()
 	present_outcome(terminal_outcome)
+
+func configure_captive(disarmed: bool) -> void:
+	enemy_actor.disarmed = disarmed
+	enemy_actor.hold_pose("rest")
 
 func animate_turn(command: String, dealt: int, taken: int, context: Dictionary = {}) -> void:
 	var receipt := context.duplicate()
