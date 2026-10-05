@@ -73,6 +73,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	if typeof(payload.get("site_id")) != TYPE_STRING or payload.site_id != SITE or typeof(payload.get("command")) != TYPE_STRING: return "RELAY_INVALID_INTENT"
 	if payload.command in SimulationEngine.RelayCustody.COMMANDS: return SimulationEngine.RelayCustody.authorize(world, payload)
 	if SimulationEngine.RelayCustody.pending(world): return "PURSUIT_ACTIVITY_PENDING"
+	if payload.command in SimulationEngine.RelayDisposition.COMMANDS: return SimulationEngine.RelayDisposition.authorize(world, payload)
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.authorize(world, payload)
 	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.authorize(world, payload)
 	var life: NpcLifeState = world.npc_life_state_registry.get_life_state(world.player.npc_id)
@@ -106,6 +107,7 @@ static func commit(world: WorldState, payload: Dictionary, events: Array[EventRe
 	var error: String = authorize(world, payload)
 	if error != "": return {"success": false, "error": error}
 	if payload.command in SimulationEngine.RelayCustody.COMMANDS: return SimulationEngine.RelayCustody.commit(world, payload, events, engine)
+	if payload.command in SimulationEngine.RelayDisposition.COMMANDS: return SimulationEngine.RelayDisposition.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.commit(world, payload, events, engine)
 	if payload.command == "FIGHT": return WorldState.Field.begin_relay_battle(world, events)
@@ -274,7 +276,9 @@ static func validate_world(world: WorldState) -> String:
 	var target_error: String = SimulationEngine.RelayTarget.validate_world(world)
 	if target_error != "": return target_error
 	var power_error: String = SimulationEngine.RelayPower.validate_world(world)
-	return SimulationEngine.RelayCustody.validate_world(world) if power_error == "" else power_error
+	if power_error != "": return power_error
+	var custody_error: String = SimulationEngine.RelayCustody.validate_world(world)
+	return SimulationEngine.RelayDisposition.validate_world(world) if custody_error == "" else custody_error
 
 static func validate_result(combat: Dictionary, p: Dictionary, index: int) -> String:
 	if combat.result_index >= 0 or combat.outcome == "" or not text(p.get("outcome"), combat.outcome) or not number(p.get("hp"), int(combat.hp), int(combat.hp)) or not text(p.get("enemy"), "feral_dog") or not number(p.get("site_enemy_hp"), int(combat.site_enemy_hp), int(combat.site_enemy_hp)) or typeof(p.get("gained")) != TYPE_DICTIONARY or not p.gained.is_empty() or typeof(p.get("left_behind")) != TYPE_DICTIONARY or not p.left_behind.is_empty() or not number(p.get("caps_gained", 0), 0, 0): return "RELAY_INVALID_COMBAT_RESULT"

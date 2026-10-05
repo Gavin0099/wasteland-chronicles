@@ -37,6 +37,7 @@ static func life(world: WorldState) -> NpcLifeState:
 	return world.npc_life_state_registry.get_life_state(StringName(state(world).npc_id))
 
 static func present_at_relay(world: WorldState) -> bool:
+	if SimulationEngine.RelayDisposition.state(world).released: return false
 	var ls: NpcLifeState = life(world)
 	return ls != null and ls.is_alive() and ls.status == NpcLifeState.Status.SETTLED and ls.population_container_id == HOME
 
@@ -249,7 +250,7 @@ static func integer(value: Variant, expected: int) -> bool:
 
 static func describe(world: WorldState) -> String:
 	var s: Dictionary = state(world)
-	if not s.accepted: return "灰谷委託追查灰鴉的藏身處與動向，親自確認後回報可得12瓶蓋。這是偵查費；目前不收俘虜或死訊。"
+	if not s.accepted: return "灰谷委託追查灰鴉的藏身處與動向，親自確認後回報可得12瓶蓋。\n" + SimulationEngine.RelayDisposition.describe(world)
 	var ls: NpcLifeState = life(world)
 	var location: String = "目標已死亡；已有的見證仍可回報。"
 	if ls != null and ls.is_alive():

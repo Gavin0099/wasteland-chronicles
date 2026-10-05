@@ -237,7 +237,7 @@ func target_negative_history(blocked: WorldState, escaped: WorldState) -> void:
 	relay_reject_fixture(illicit, "valid-shaped target action inserted during waterworks fails activity authority")
 
 func target_geometry(dialog: AcceptDialog) -> void:
-	check(dialog.position.x >= 0 and dialog.position.y >= 0 and dialog.position.x + dialog.size.x <= root.size.x and dialog.position.y + dialog.size.y <= root.size.y, "actual target window fits native viewport")
+	check(dialog.position.x >= 0 and dialog.position.y >= 0 and dialog.position.x + dialog.size.x <= root.size.x and dialog.position.y + dialog.size.y <= root.size.y, "actual target window fits native viewport: %s / %s / %s" % [dialog.position, dialog.size, root.size])
 	check(dialog.get_ok_button().size.y >= 40, "actual native target return40px")
 	for command_id: String in dialog.action_buttons: check(dialog.action_buttons[command_id].size.y >= 40, "actual target action40px " + command_id)
 

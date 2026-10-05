@@ -394,7 +394,10 @@ func run_capture() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--render-dir="): render_dir = arg.trim_prefix("--render-dir=")
 	if render_dir != "": DirAccess.make_dir_recursive_absolute(render_dir)
-	check(BattleStage.PoseLibrary.FRAMES.grey_crow.size() == 6, "reviewed RLY4 atlas has exactly six authored poses")
+	var original_poses: int = 0
+	for spec: Array in BattleStage.PoseLibrary.FRAMES.grey_crow.values():
+		if spec.size() > 4 and spec[4] == "grey-crow-capture": original_poses += 1
+	check(original_poses == 6, "reviewed RLY4 original atlas retains exactly six authored poses")
 	for pose: String in ["armed", "windup", "strike", "unarmed", "hurt", "kneel"]:
 		check(not BattleStage.PoseLibrary.frame("grey_crow", pose).is_empty(), "actual generated Grey Crow pose exists " + pose)
 	var world: WorldState = capture_basic()

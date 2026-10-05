@@ -1,0 +1,165 @@
+{
+  "capture": "actual Godot Vulkan renderer",
+  "images": [
+    {
+      "file": "disposition_dead_continue_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "26f2497925d4c8a24d3cdcbbf848ba072071ddb22378d4d0c7588c2a8ee7ef0b"
+    },
+    {
+      "file": "disposition_dead_continue_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "d57491ff76bab129e0fcf496d806b2771980c97a372df3cb320ed2509fe0ae25"
+    },
+    {
+      "file": "disposition_dead_report_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "88cec94cd7c2c82c3a582436f589457e22376a5756f65d035a11e00cb88a00bb"
+    },
+    {
+      "file": "disposition_dead_report_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "41f489b2779a499aed8c8754310810837a916394331c4b0faa0f1faa9fbe4153"
+    },
+    {
+      "file": "disposition_firearm_ready_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "1337a43c9c0a00811c68f75e5346dfb2e887ec413b27814453d2d6a05bd4a24c"
+    },
+    {
+      "file": "disposition_firearm_ready_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "98bc76fd07f00225ad8e2de4178b2dbc4ba339ddad8477a65575d2596df4ce02"
+    },
+    {
+      "file": "disposition_first_shot_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "572f0abb1a85cc90ee14607acb2d1c31b28129737145ef7c0d4e31a53ebe7287"
+    },
+    {
+      "file": "disposition_first_shot_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "f87f967117449c4233fd05a8f78ee4276f15bf9c934f04962ce5fb64f7a82006"
+    },
+    {
+      "file": "disposition_handed_over_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "9f90a2afe842daab2b1844b91a18bd8280a7a6d71493491ef44a1bf06b24a1dc"
+    },
+    {
+      "file": "disposition_handed_over_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "b846806dce0328e7dd11dd8b48858dbf20feda597438ec748f998f8876659ae0"
+    },
+    {
+      "file": "disposition_live_room_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "a45bb3fc78cdc3dd71dceb7b88c26d290e70fd75856f71ee234cf84391a5bf44"
+    },
+    {
+      "file": "disposition_live_room_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "570a721f50e762e72d2bcf754f26f02691e409b8ae2d7aa93cf2085ad4e51a05"
+    },
+    {
+      "file": "disposition_release_confirmation_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "c1380f826702b332c5eeb84c80ddd9358ab753fcd0de21d37c37b8ad9288aa9b"
+    },
+    {
+      "file": "disposition_release_confirmation_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "26d3abfca5a4a89b393874660737242532c127cc6119c917cffbc7b830bcbe11"
+    },
+    {
+      "file": "disposition_release_town_report_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "72de7b4c970bcd0420d9c673c6bc638966d4fcd88bb57a6b5330dfc7e46ebd34"
+    },
+    {
+      "file": "disposition_release_town_report_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "d4b298abba753b2f4a91f987d3ced4e06596544e95455baa74573c9ee586c3a9"
+    },
+    {
+      "file": "disposition_released_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "27a29f40b42a6dae9b08de6abbff814b518ae50bda9120564e8b64b13f214aa5"
+    },
+    {
+      "file": "disposition_released_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "32289c391b787a10ffee85c323c0d2294083d6b9b097b0c769a02166a312f9b7"
+    },
+    {
+      "file": "disposition_target_dead_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "9c61edf6d04e40e35e045416c09bfdad80f7d34fc1d9374346757720d8fc92ea"
+    },
+    {
+      "file": "disposition_target_dead_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "4e9973009a7b84fb10fbf3054883420afc5c81e16923a703cf1d83647bafb9fb"
+    }
+  ]
+}

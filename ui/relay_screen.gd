@@ -29,6 +29,7 @@ var interact_button: Button
 var guide_button: Button
 var combat_screen: Control
 var capture_screen: Control
+var disposition_dialog: AcceptDialog
 var supplies_dialog: AcceptDialog
 var map_dialog: AcceptDialog
 var power_dialog: AcceptDialog
@@ -123,7 +124,7 @@ func refresh_room() -> void:
 	if s.room_id == "relay_vault" and s.prize_taken: message.text = "保管室已取空；原路返回。裝備軍用背包後，可準備帶更多物資的旅程。"
 	if s.target.accepted and s.room_id == "relay_records":
 		message.text = "灰鴉在此；先堵維修出口可當面問話。直接露面，他會從商路逃往新希望。" if s.target_present and not s.target.interviewed and not s.target.escaped else Target.describe(world)
-		if s.capture.captured: message.text = Capture.describe(world)
+		if s.capture.captured or s.capture.killed: message.text = Capture.describe(world)
 		elif s.target.interviewed: message.text = "你已當面問過灰鴉，尚未拘捕。可再靠近制伏；需要另一條繩索，封出口那條已消耗。"
 		elif s.target.escaped: message.text = "灰鴉已從維修出口逃上商路。回灰谷可回報，或追到新希望當面確認。"
 	refresh_interaction()
@@ -142,7 +143,7 @@ func refresh_interaction() -> void:
 	interact_button.disabled = door.is_empty() or not view.enabled
 	interact_button.text = "靠近所選位置後互動 · E"
 	if door.is_empty(): return
-	var error: String = engine.authorize_player_intent(world, intent_for(door))
+	var error: String = "" if door.command == "INSPECT_CAPTIVE" else engine.authorize_player_intent(world, intent_for(door))
 	interact_button.disabled = error != "" or not view.enabled
 	interact_button.text = door.label + (" · " + explain(error) if error != "" else " · E")
 	interact_button.tooltip_text = explain(error)
@@ -154,6 +155,7 @@ func interact() -> void:
 	if not view.enabled: return
 	var door: Dictionary = view.nearest_door()
 	if door.is_empty(): return
+	if door.command == "INSPECT_CAPTIVE": show_disposition(); return
 	var result: Dictionary = engine.commit_player_intent(world, intent_for(door))
 	if not result.success:
 		message.text = explain(result.error)
@@ -168,6 +170,22 @@ func interact() -> void:
 		refresh_room()
 		show_power()
 	else: refresh_room()
+
+func show_disposition() -> void:
+	if is_instance_valid(disposition_dialog): return
+	set_paused(true)
+	disposition_dialog = preload("res://ui/components/relay_disposition_dialog.gd").new()
+	add_child(disposition_dialog)
+	disposition_dialog.setup(world, engine)
+	disposition_dialog.world_changed.connect(func() -> void: world_changed.emit(); refresh_room(); set_paused(true))
+	disposition_dialog.confirmed.connect(close_disposition)
+	disposition_dialog.canceled.connect(close_disposition)
+	disposition_dialog.popup_centered(Vector2i(735, 525))
+	disposition_dialog.get_ok_button().grab_focus()
+
+func close_disposition() -> void:
+	disposition_dialog.queue_free(); disposition_dialog = null
+	set_paused(false); refresh_room()
 
 func show_power() -> void:
 	if is_instance_valid(power_dialog): return
@@ -222,7 +240,7 @@ func open_capture() -> void:
 			closed.emit(); queue_free())
 
 func show_supplies() -> void:
-	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog): return
 	set_paused(true)
 	supplies_dialog = Supplies.new()
 	add_child(supplies_dialog)
@@ -240,7 +258,7 @@ func close_supplies() -> void:
 	refresh_room()
 
 func show_map() -> void:
-	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog): return
 	var s: Dictionary = Relay.state(world)
 	var lines: PackedStringArray = ["記錄已走過的房間與眼前通路；地圖不會移動角色。"]
 	for room: String in s.visited:
@@ -265,13 +283,13 @@ func close_map() -> void:
 	set_paused(false)
 
 func set_paused(value: bool) -> void:
-	view.enabled = not value and not is_instance_valid(combat_screen) and not is_instance_valid(capture_screen) and not is_instance_valid(supplies_dialog) and not is_instance_valid(map_dialog) and not is_instance_valid(power_dialog)
+	view.enabled = not value and not is_instance_valid(combat_screen) and not is_instance_valid(capture_screen) and not is_instance_valid(supplies_dialog) and not is_instance_valid(map_dialog) and not is_instance_valid(power_dialog) and not is_instance_valid(disposition_dialog)
 	if view.enabled: view.grab_focus()
 	refresh_interaction()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is not InputEventKey or not event.pressed or event.echo: return
-	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog): return
 	match event.keycode:
 		KEY_M: show_map()
 		KEY_B: show_supplies()

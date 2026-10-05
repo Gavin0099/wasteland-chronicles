@@ -1,0 +1,16 @@
+{
+  "kind": "original game sprite",
+  "mode": "built-in image_gen",
+  "source": "C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-3f61572a-68de-4bad-b0f7-aa9df898bee2.png",
+  "destination": "ui/assets/combat/poses/grey-crow-aftermath.png",
+  "sha256": "7c937b9fb047f4fbde1307e603aca30c263e02cf60c5b49daf667352a730bd5c",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode_of_image": "RGBA",
+  "reference_image": "ui/assets/combat/relay-grey-crow.png",
+  "reference_role": "character and style only",
+  "prompt": "Create an original transparent-background isometric 2D game sprite asset. Reference image is character/style reference only: Grey Crow, same lean adult man, short messy brown hair, grey scarf, tattered long brown coat, patched trousers, scuffed heavy boots, weathered brown shoulder satchel. Gritty late-1990s hand-painted wasteland RPG sprite style, restrained brown/grey palette, no photorealistic render. NEW full-body fallen pose only, one character, lying motionless on his side on the ground after defeat, body oriented across image from head at left to boots at right, head and torso face toward viewer-left, legs naturally bent, scarf and coat settle with gravity. Isometric camera ~35degrees elevation, same body proportions as reference standing man, clear silhouette, realistic anatomy. No ropes, no kneeling, no extra limb, no blood or wounds, no weapon held, no text, no icons, no floor, no cast shadow, no environment, no opaque/checkerboard background. Generous transparent margin around entire single silhouette. Intended for actual lethal outcome of named combat, not living tied capture. Wide landscape canvas preferred; enough original resolution for ~400px body width in game. Preserve true alpha.",
+  "preservation": "Generated original PNG and alpha unchanged; authored AtlasTexture region/anchor only."
+}

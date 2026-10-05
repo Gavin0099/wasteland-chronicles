@@ -117,6 +117,10 @@ static func score(world, settlement_id: String) -> int:
 				# The dungeon validator owns exact once-only decision/return proof.
 				var delta: Variant = evt.payload.get("standing_delta")
 				if world.player != null and evt.actor_id == world.player.npc_id and typeof(evt.payload.get("settlement_id")) == TYPE_STRING and evt.payload.settlement_id == town and typeof(delta) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(delta)) and (float(delta) == -3.0 or float(delta) == 3.0): total += int(delta)
+			"CUSTODY_REPORTED":
+				# Exact source/once-only authority is validated by RelayDisposition.
+				var delta: Variant = evt.payload.get("standing_delta")
+				if world.player != null and evt.actor_id == world.player.npc_id and typeof(evt.payload.get("city_id")) == TYPE_STRING and evt.payload.city_id == town and typeof(delta) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(delta)) and (delta == -3 or delta == 1 or delta == 4): total += int(delta)
 			"JOB_BETRAYED":
 				if _full(String(evt.payload.get("settlement_id", ""))) == town:
 					total += BETRAYED if int(world.current_day) - int(evt.day) < BETRAYAL_MEMORY_DAYS else BETRAYED_SCAR
