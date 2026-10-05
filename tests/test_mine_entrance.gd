@@ -98,6 +98,24 @@ func mine_visit() -> WorldState:
 	parity(world, twin, "full three-room visit final SHA")
 	return world
 
+# --- partial days carry across visits, like the relay and waterworks -------------
+
+func mine_carry() -> void:
+	var world: WorldState = iron_start()
+	var twin: WorldState = disk_copy(world, "carry start")
+	mine_pair(world, twin, "ENTER")
+	mine_pair(world, twin, "MOVE", "mine_gallery")
+	mine_pair(world, twin, "MOVE", "mine_entrance")
+	mine_pair(world, twin, "EXIT")
+	check(Mine.state(world).work_units == 2 and world.current_day == 0, "two moves are kept after leaving, no day yet")
+	twin = disk_copy(world, "carried work survives disk")
+	mine_pair(world, twin, "ENTER")
+	check(Mine.state(world).work_units == 2, "re-entering keeps the carried moves, like the relay")
+	mine_pair(world, twin, "MOVE", "mine_gallery")
+	mine_pair(world, twin, "MOVE", "mine_entrance")
+	check(world.current_day == 1 and Mine.state(world).work_units == 0, "the second visit completes the day instead of getting free moves")
+	parity(world, twin, "carry final SHA")
+
 # --- refusals ------------------------------------------------------------------
 
 func mine_refusals() -> void:
@@ -131,6 +149,7 @@ func mine_supplies() -> void:
 	check(engine.commit_player_intent(world, mine_intent(world, "ENTER")).success, "enter with no water")
 	visit_days(world, 1)
 	check(fact_count(world, "PLAYER_NEED_UNMET") == 1 and engine.validate_invariants(world) == "" and WorldState.from_json_checked(world.to_canonical_json()).success, "an unmet mine day is ledgered and valid, live and checked")
+	disk_copy(world, "unmet mine day uninterrupted/disk-resumed")
 	var unmet: EventRecord = null
 	for e: EventRecord in world.event_log:
 		if e.type == "PLAYER_NEED_UNMET": unmet = e
@@ -146,6 +165,7 @@ func mine_supplies() -> void:
 	check(not Mine.state(fatal).active and fact_count(fatal, "MINE_TRIP_ENDED") == 1 and fact_count(fatal, "PLAYER_DIED") == 1, "dehydration ends the trip with a death receipt")
 	check(fatal.get_settlement(IRON).population == population - 1 and fatal.get_settlement(IRON).cumulative_deaths == deaths + 1, "death keeps global human conservation")
 	check(engine.validate_invariants(fatal) == "" and WorldState.from_json_checked(fatal.to_canonical_json()).success, "fatal mine history is valid live and checked")
+	disk_copy(fatal, "fatal mine history uninterrupted/disk-resumed")
 	check(not engine.commit_player_intent(fatal, mine_intent(fatal, "ENTER")).success, "the dead cannot re-enter")
 	# Companion rations: Abban joins in Gray Valley, then eats in the mine.
 	var gray: WorldState = fresh_towns("settlement:gray_valley")
@@ -160,12 +180,14 @@ func mine_supplies() -> void:
 	visit_days(party, 1)
 	check(party.player.inventory.water == water - 2 and party.player.inventory.food == food - 2 and SimulationEngine.Party.current(party) == SimulationEngine.Party.ABBAN, "the mine day feeds player and companion")
 	check(engine.validate_invariants(party) == "", "companion mine day invariants")
+	disk_copy(party, "companion mine day uninterrupted/disk-resumed")
 	# Hunger departure: only one food left.
 	var hungry: WorldState = walk_to(WorldState.from_json_checked(hired_json).world, IRON, "abban2").world
 	hungry.player.inventory.set_amount("food", 1)
 	check(engine.commit_player_intent(hungry, mine_intent(hungry, "ENTER")).success, "enter hungry party")
 	visit_days(hungry, 1)
 	check(SimulationEngine.Party.current(hungry) == "" and fact_count(hungry, "COMPANION_LEFT") >= 1 and engine.validate_invariants(hungry) == "", "unfed companion leaves with a ledgered hunger departure")
+	disk_copy(hungry, "hunger departure uninterrupted/disk-resumed")
 
 func walk_to(world: WorldState, destination: StringName, label: String) -> Dictionary:
 	var start_day: int = world.current_day
@@ -214,6 +236,17 @@ func mine_forecast() -> void:
 	var party_road: Dictionary = walk_to(party_world, IRON, "party road")
 	var party_ticks: int = nominal - 1 + (party_road.days - nominal)
 	check(12 - party_world.player.inventory.water == party_ticks * abban.extra_day_water and 12 - party_world.player.inventory.food == party_ticks * abban.extra_day_food, "companion road rate matches the forecast")
+	# The water-finding guide: pin the disclosed per-tick rate against a real road.
+	var guide_rates: Dictionary = Mine.rates("companion:shahu")
+	var dry: WorldState = fresh_towns("settlement:dry_well")
+	dry.player.money = 200
+	dry.player.inventory.set_amount("water", 9)
+	dry.player.inventory.set_amount("food", 9)
+	check(engine.commit_player_intent(dry, PlayerIntent.create_hire_companion(dry.player.npc_id, "companion:shahu")).success, "hire the guide")
+	var nominal_dry: int = engine.get_route_days_between(dry, &"settlement:dry_well", GRAY)
+	var guide_road: Dictionary = walk_to(dry, GRAY, "guide road")
+	var guide_ticks: int = nominal_dry - 1 + (guide_road.days - nominal_dry)
+	check(9 - dry.player.inventory.water == guide_ticks * guide_rates.road_water and 9 - dry.player.inventory.food == guide_ticks * guide_rates.road_food, "the guide's disclosed road rate matches the real engine")
 	# One scrap clears a rockslide: scan departure days for a deterministic rockslide.
 	var found: bool = false
 	for day: int in range(0, 40):
@@ -259,8 +292,26 @@ func mine_negative_trip() -> void:
 	check(engine.validate_invariants(world) == "" and WorldState.from_json_checked(world.to_canonical_json()).success, "no corrupted state after the shortfall")
 	check(engine.commit_player_intent(world, PlayerIntent.create_buy(world.player.npc_id, &"water", 1)).success or world.player.money < 1, "ordinary play continues: Gray Valley shop reachable")
 	check(Mine.state(world).discovered == false and world.player.item_inventory.to_dict().items.is_empty(), "the negative trip needed no reward and left no controller")
+	disk_copy(world, "negative trip uninterrupted/disk-resumed")
 
 # --- forged histories --------------------------------------------------------------
+
+func mine_event(pid: String, day: int, kind: String, payload: Dictionary) -> Dictionary:
+	payload.dungeon_id = Mine.SITE
+	return {"day": day, "type": kind, "actor_id": pid, "target_id": Mine.SITE, "payload": payload}
+
+func forged_visit(pid: String, day: int) -> Array:
+	var out: Array = []
+	out.append(mine_event(pid, day, "MINE_ENTERED", {"room_id": "mine_entrance"}))
+	out.append(mine_event(pid, day, "MINE_MOVED", {"room_id": "mine_gallery", "from_room_id": "mine_entrance"}))
+	out.append(mine_event(pid, day, "MINE_MOVED", {"room_id": "mine_pumphall", "from_room_id": "mine_gallery"}))
+	for fact: String in ["stalled_pump", "controller_missing"]:
+		out.append(mine_event(pid, day, "MINE_OBSERVED", {"room_id": "mine_pumphall", "fact_id": fact}))
+	out.append(mine_event(pid, day, "MINE_MOVED", {"room_id": "mine_gallery", "from_room_id": "mine_pumphall"}))
+	out.append(mine_event(pid, day, "MINE_MOVED", {"room_id": "mine_entrance", "from_room_id": "mine_gallery"}))
+	out.append(mine_event(pid, day + 1, "MINE_DAY_SPENT", {"room_id": "mine_entrance", "water_before": 5, "food_before": 5, "water_after": 4, "food_after": 4, "companion_id": "", "companion_fed": false}))
+	out.append(mine_event(pid, day + 1, "MINE_LEFT", {"room_id": "mine_entrance"}))
+	return out
 
 func swap_fact(data: Dictionary, from_fact: String, to_fact: String) -> void:
 	for e: Dictionary in data.events:
@@ -293,6 +344,26 @@ func mine_negative_history() -> void:
 			18: last_fact(data, "MINE_ENTERED").payload.room_id = "mine_gallery"
 			19: last_fact(data, "MINE_MOVED").payload.erase("from_room_id")
 		relay_reject_fixture(data, "independent MINE malformed fixture " + str(mode))
+	# A complete closed visit forged while the character stands in Gray Valley.
+	var away: WorldState = fresh_towns("settlement:gray_valley")
+	while away.current_day < 3: engine.tick(away)
+	var pid: String = String(away.player.npc_id)
+	for mode: int in range(3):
+		var data: Dictionary = away.to_dict().duplicate(true)
+		var chain: Array = forged_visit(pid, 1)
+		match mode:
+			0: pass
+			1: chain[chain.size() - 1].day = 2
+			2: chain[3].day = 2
+		for e: Dictionary in chain: data.events.append(e)
+		relay_reject_fixture(data, "forged visit away from Iron Pass or with a day jump " + str(mode))
+	# The same chain is legal at Iron Pass (positive control for the forgery builder).
+	var home: WorldState = iron_start()
+	while home.current_day < 3: engine.tick(home)
+	var good: Dictionary = home.to_dict().duplicate(true)
+	for e: Dictionary in forged_visit(String(home.player.npc_id), 1): good.events.append(e)
+	good.event_count = good.events.size()
+	check(WorldState.from_json_checked(JSON.stringify(good)).success, "the same chain is accepted where the character really is: Iron Pass")
 	# Cross-site overlap: a relay or waterworks entry forged while the mine is active.
 	var active: WorldState = iron_start()
 	check(engine.commit_player_intent(active, mine_intent(active, "ENTER")).success and engine.validate_invariants(active) == "", "active mine positive live control")
@@ -456,6 +527,7 @@ func run_mine() -> void:
 		if arg.begins_with("--render-dir="): mine_render_dir = arg.trim_prefix("--render-dir=")
 	clear_slot()
 	mine_visit()
+	mine_carry()
 	mine_refusals()
 	mine_supplies()
 	mine_forecast()

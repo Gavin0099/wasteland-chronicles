@@ -268,8 +268,10 @@ static func active_site(world: WorldState) -> String:
 	return SimulationEngine.Relay.SITE if SimulationEngine.Relay.state(world).active else SITE
 
 static func current_checkpoint(world: WorldState) -> Dictionary:
-	if SimulationEngine.Mine.state(world).active: return SimulationEngine.Mine.state(world)
-	return SimulationEngine.Relay.state(world) if SimulationEngine.Relay.state(world).active else state(world)
+	var mine: Dictionary = SimulationEngine.Mine.state(world)
+	if mine.active: return mine
+	var relay: Dictionary = SimulationEngine.Relay.state(world)
+	return relay if relay.active else state(world)
 
 static func ration_budget(water: int, food: int, companion: String) -> Dictionary:
 	var after: Dictionary = {"water": maxi(0, water - 1), "food": maxi(0, food - 1), "fed": false}

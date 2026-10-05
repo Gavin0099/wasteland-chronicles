@@ -35,7 +35,6 @@ static func state(world: WorldState) -> Dictionary:
 				s.from_room_id = "outside"
 				s.trip_moves = 0
 				s.trip_days = 0
-				s.work_units = 0
 				s.entries += 1
 			"MINE_MOVED":
 				s.room_id = e.payload.room_id
@@ -53,15 +52,28 @@ static func state(world: WorldState) -> Dictionary:
 	return s
 
 static func visit_moves() -> int:
-	# Entrance to the farthest room and back.
-	return 2 * (ROOMS.size() - 1)
+	# Entrance to the farthest room and back, by the shortest passages.
+	var depth: Dictionary = {"mine_entrance": 0}
+	var queue: Array = ["mine_entrance"]
+	var farthest: int = 0
+	while not queue.is_empty():
+		var room: String = queue.pop_front()
+		for next_room: String in PASSAGES[room]:
+			if depth.has(next_room): continue
+			depth[next_room] = int(depth[room]) + 1
+			farthest = maxi(farthest, int(depth[next_room]))
+			queue.append(next_room)
+	return 2 * farthest
 
 # Per-day pack cost on the road and inside the mine, from the same Party data the engine feeds from.
 static func rates(companion: String) -> Dictionary:
 	var info: Dictionary = SimulationEngine.Party.info(companion) if companion != "" and SimulationEngine.Party.exists(companion) else {}
 	var guided: bool = bool(info.get("finds_water", false))
+	# A mine day is priced by Dungeon.ration_budget itself: what one fully fed day takes from a large pack.
+	var plenty: int = 1000
+	var day: Dictionary = SimulationEngine.Dungeon.ration_budget(plenty, plenty, companion)
 	return {"road_water": (0 if guided else 1) + int(info.get("road_water", 0)), "road_food": 1 + int(info.get("road_food", 0)),
-		"mine_water": 1 + int(info.get("road_water", 0)), "mine_food": 1 + int(info.get("road_food", 0))}
+		"mine_water": plenty - int(day.water), "mine_food": plenty - int(day.food)}
 
 # The pre-departure and entrance disclosure. Everything is derived from the same
 # rules the engine applies; nothing here is a promise about a particular road.
@@ -85,11 +97,12 @@ static func forecast(route_days: int, companion: String, legs: int = 2, with_scr
 static func entrance_forecast(route_days: int, companion: String) -> Dictionary:
 	return forecast(route_days, companion, 1, false)
 
+static func advice_lines(f: Dictionary) -> PackedStringArray:
+	return PackedStringArray(["建議額外準備：%d 瓶蓋，或額外 %d 水＋%d 糧" % [f.bribe_caps, f.extra_day_water, f.extra_day_food], "路上事件可能延長行程。"])
+
 static func forecast_lines(f: Dictionary) -> PackedStringArray:
-	var lines: PackedStringArray = []
-	lines.append("預估往返：%d 水、%d 糧、%d 廢料（路程 %d 天；礦道 %d 天）" % [f.water, f.food, f.scrap, f.route_days, f.mine_days])
-	lines.append("建議額外準備：%d 瓶蓋，或額外 %d 水＋%d 糧" % [f.bribe_caps, f.extra_day_water, f.extra_day_food])
-	lines.append("路上事件可能延長行程。")
+	var lines: PackedStringArray = PackedStringArray(["預估往返：%d 水、%d 糧、%d 廢料（路程 %d 天；礦道 %d 天）" % [f.water, f.food, f.scrap, f.route_days, f.mine_days]])
+	lines.append_array(advice_lines(f))
 	return lines
 
 static func authorize(world: WorldState, payload: Dictionary) -> String:
@@ -167,10 +180,10 @@ static func end_deprivation_trip(world: WorldState, day: int, events: Array[Even
 		record(world, "MINE_TRIP_ENDED", {"dungeon_id": SITE, "room_id": state(world).room_id, "cause": world.event_log.back().payload.cause}, day, events)
 
 static func number(value: Variant, low: int, high: int) -> bool:
-	return typeof(value) in [TYPE_INT, TYPE_FLOAT] and is_finite(float(value)) and value == floor(float(value)) and value >= low and value <= high
+	return SimulationEngine.Dungeon.number(value, low, high)
 
 static func text(value: Variant, expected: String) -> bool:
-	return typeof(value) == TYPE_STRING and value == expected
+	return SimulationEngine.Dungeon.text_is(value, expected)
 
 static func validate_world(world: WorldState) -> String:
 	var s: Dictionary = {"active": false, "room_id": "", "observed": []}
@@ -179,10 +192,13 @@ static func validate_world(world: WorldState) -> String:
 	var companion: String = ""
 	var waterworks: bool = false
 	var relay: bool = false
+	var located: String = ""
+	var trip_day: int = -1
 	for index: int in range(world.event_log.size()):
 		var e: EventRecord = world.event_log[index]
 		var p: Dictionary = e.payload
 		var mine_event: bool = e.type.begins_with("MINE_")
+		if world.player != null and e.actor_id == world.player.npc_id and e.type in ["CHARACTER_CREATED", "PLAYER_TRAVEL_STARTED"]: located = String(e.target_id)
 		if world.player != null and e.actor_id == world.player.npc_id:
 			if e.type == "DUNGEON_ENTERED":
 				if s.active: return "MINE_CONFLICTING_ACTIVITY"
@@ -204,11 +220,13 @@ static func validate_world(world: WorldState) -> String:
 		if units >= MOVES_PER_DAY and e.type != "MINE_DAY_SPENT": return "MINE_DAY_PENDING"
 		if e.type == "MINE_ENTERED":
 			if s.active or waterworks or relay or p.room_id != "mine_entrance": return "MINE_INVALID_ENTRY"
+			if located != String(HOME): return "MINE_INVALID_ENTRY_LOCATION"
 			s.active = true
 			s.room_id = p.room_id
-			units = 0
+			trip_day = e.day
 			continue
 		if not s.active or (e.type != "MINE_MOVED" and p.room_id != s.room_id): return "MINE_INVALID_LOCAL_CONTEXT"
+		if e.type != "MINE_DAY_SPENT" and e.day != trip_day: return "MINE_INVALID_EVENT_DAY"
 		match e.type:
 			"MINE_MOVED":
 				if not text(p.get("from_room_id"), s.room_id) or gate(s.room_id, p.room_id) != "": return "MINE_INVALID_PASSAGE_HISTORY"
@@ -232,6 +250,7 @@ static func validate_world(world: WorldState) -> String:
 					var leave: EventRecord = world.event_log[index + 1]
 					if leave.type != "COMPANION_LEFT" or leave.actor_id != e.actor_id or leave.target_id != e.target_id or leave.day != e.day or leave.payload.size() != 2 or not text(leave.payload.get("companion_id"), companion) or not text(leave.payload.get("reason"), "HUNGER"): return "MINE_MISSING_HUNGER_DEPARTURE"
 				units = 0
+				trip_day = e.day
 			"MINE_TRIP_ENDED":
 				if index == 0 or typeof(p.get("cause")) != TYPE_STRING or p.cause not in ["dehydration", "starvation"]: return "MINE_INVALID_DEATH"
 				var death: EventRecord = world.event_log[index - 1]

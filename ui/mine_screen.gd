@@ -141,7 +141,7 @@ func refresh() -> void:
 	if forecast_label.visible:
 		var forecast: Dictionary = Mine.entrance_forecast(route_days_home(), SimulationEngine.Party.current(world))
 		var out: PackedStringArray = ["現在還需要（這一天＋回灰谷）：%d 水、%d 糧　目前攜帶：水%d／食物%d" % [forecast.water, forecast.food, world.player.inventory.water, world.player.inventory.food]]
-		out.append("建議額外準備：%d 瓶蓋，或額外 %d 水＋%d 糧。路上事件可能延長行程。" % [forecast.bribe_caps, forecast.extra_day_water, forecast.extra_day_food])
+		out.append_array(Mine.advice_lines(forecast))
 		forecast_label.text = "\n".join(out)
 	for child: Node in commands.get_children():
 		commands.remove_child(child)

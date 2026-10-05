@@ -171,13 +171,14 @@ MIN-5 設想阿扳共同完成礦道工程：以目前的補給成本，帶他�
 
 第二點是這片最大的風險：MIN-1 沒有物資與控制器，若玩家覺得空，MIN-2 與 MIN-3 的內容才能補上。契約先承認這件事，不以敘述掩蓋。
 
-## 已實作行為與本機證據（未審查、未合併）
+## 已實作行為與本機證據（未經 GitHub 審查、未合併）
 
 分支 `min-1-mine-entrance`。範圍與契約相同；以下是實際做到的：
 
 - **權威**：`simulation/mine_exploration.gd`（獨立 `MINE_*` 帳本與 `validate_world`）。接入點：`Dungeon.validate_world` 鏈、`has_trip_costs`／`consume_daily_supplies`／`end_deprivation_trip`、`is_exploring`／`active_site`／`current_checkpoint`、`Dungeon.authorize／commit` 依 `site_id` 分派、中繼站進入互斥、`acquired_traits` 的缺糧收據驗證、`SimulationEngine.Mine`。`site_id` 非字串時 fail-closed（既有中繼站拒絕測試曾因此暴露一個比較錯誤，已修）。
-- **三房與觀察**：礦道入口、外段坑道、舊集水廳；`cracked_supports`、`stalled_pump`、`controller_missing`（需先看過泵）；最後一項即永久發現。四次換房過一天，扣 1 水 1 糧（帶同伴再扣其口糧）。封住的深處通道只是說明，不可進入。
-- **揭露**：灰谷選鐵關時，出發面板列出由 `Mine.forecast`（讀 `Party.info`、路程天數、`TravelEncounter.BANDIT_BRIBE_CAPS`）算出的預估往返與建議緩衝；礦道入口列出「這一天＋回灰谷」的剩餘備量。數字不是硬編碼，測試對照真實道路消耗與落石 `CLEAR` 的廢料。
+- **三房與觀察**：礦道入口、外段坑道、舊集水廳；`cracked_supports`、`stalled_pump`、`controller_missing`（需先看過泵）；最後一項即永久發現。四次換房過一天，扣 1 水 1 糧（帶同伴再扣其口糧）。**不足一日的換房次數跨探訪保留**（與中繼站、水廠一致）。封住的深處通道只是說明，不可進入。
+- **歷史驗證**：事件擁有者、房間鄰接、一次性觀察、前置觀察、每日收據算術、同伴挨餓離隊收據、死亡收據，加上兩項本輪審查後補上的閉環：**每次 `MINE_ENTERED` 必須能由事件紀錄推出角色當時在鐵關**（`CHARACTER_CREATED`／`PLAYER_TRAVEL_STARTED` 的目標），以及**探訪內每個事件的日期必須等於該探訪當日，只有 `MINE_DAY_SPENT` 能換日**。跨場所重疊（水廠、中繼站、行旅事件）一併拒絕。
+- **揭露**：灰谷選鐵關時，出發面板列出由 `Mine.forecast`（讀 `Party.info`、`Dungeon.ration_budget`、路程天數、`TravelEncounter.BANDIT_BRIBE_CAPS`）算出的預估往返與建議緩衝；礦道入口列出「這一天＋回灰谷」的剩餘備量，建議文字由 `Mine.advice_lines` 同一處產生。數字不是硬編碼，測試對照真實道路消耗（單人、阿扳、水沙狐嚮導）與落石 `CLEAR` 的廢料。
 - **傳聞**：`rumor:collapsed_mine`（灰谷與鐵關皆可聽到），完成後顯示新目標。
 - **畫面**：`ui/mine_screen.gd`、`ui/components/mine_room_view.gd`。房間圖是**以程式繪製的替代圖**（沿用 PDA 色彩 token），不是生成的原創美術；沒有新增圖片資產。
 
@@ -185,27 +186,32 @@ MIN-5 設想阿扳共同完成礦道工程：以目前的補給成本，帶他�
 
 | 項目 | 結果 |
 |---|---|
-| `tests/test_mine_entrance.gd` headless | 479 assertions, 0 failures |
-| 同一腳本 native Vulkan | 497 assertions, 0 failures；18 張不同雜湊的 PNG（1280×720、1152×648） |
-| 全套 `tests/test_*.gd`（142 支，4 路並行） | 141 支 exit 0、0 SCRIPT ERROR；`test_combat_animation_completion` exit 1 |
-| 該失敗 | 43 條 “imported resource exists”；暫存未提交的變更後（分支當時已含模擬層提交，它們不碰動畫素材）以同樣方式失敗；失敗點是 `ResourceLoader.exists` 的 PNG 匯入檢查，判斷為本機素材匯入狀態，未在完全乾淨的 main 檢出上另行重跑 |
+| `tests/test_mine_entrance.gd` headless | 587 assertions, 0 failures, 無 SCRIPT ERROR |
+| 同一腳本 native Vulkan | 605 assertions, 0 failures；18 張不同雜湊的 PNG（1280×720、1152×648） |
+| 全套 `tests/test_*.gd`（142 支，4 路並行），審查修正後重跑 | 141 支 exit 0、0 SCRIPT ERROR；`test_combat_animation_completion` exit 1 |
+| 該失敗 | 43 條 “imported resource exists”。**在完全乾淨的 main（`330d130`、工作樹乾淨、同一個 Godot 4.7.2）上同樣失敗；對 main 執行 `--import` 後通過（276 assertions, 0 failures）**，所以是本機素材匯入狀態，與 MIN-1 無關。匯入產生的 `.import`／`.uid` 檔已清除，未提交 |
 | 靜態 lint | 0 errors，1 條既有 dynamic-node 警告 |
-| Debugger | 167 warnings（與基線相同），0 errors，無 mine 相關 |
+| Debugger（審查修正後重跑） | 0 errors、167 warnings（與基線相同）、無 mine 相關警告 |
 | 兩個場景 fuzz smoke | 通過，110 條既有警告 |
+| 治理 drift checker（`additional/ai-governance-framework`） | ok；3 條既有的 runtime hooks 缺檔警告 |
+| 治理 `memory_workflow --check` | `no_memory_workflow_required`（本分支未改 `memory/**`）；正規記憶寫入器路徑為 NOT FOUND，所以**沒有寫入任何記憶紀錄** |
 
 使用者要求的四個硬點：
 
 1. 中途存檔／Continue 回到正確房間：舊集水廳存檔後以真實 Continue 還原，世界 JSON 逐位元相同，發現仍在。
-2. 偽造 `MINE_*` 歷史被 checked loader 與 live invariant 同時拒絕：20 種單事件偽造＋4 種跨場所重疊偽造（含 `RELAY_ENTERED`／`DUNGEON_ENTERED`／重複進入／行旅事件）。
+2. 偽造 `MINE_*` 歷史被 checked loader 與 live invariant 同時拒絕：20 種單事件偽造、4 種跨場所重疊偽造，加上審查後新增的「在灰谷偽造完整探訪」與「日期跳躍」3 種；另有一條同樣的事件鏈在鐵關合法的對照組。
 3. 礦道日數確實扣水糧：單人 1 水 1 糧、同伴再各 1；缺水有 `PLAYER_NEED_UNMET`（目標為礦道）；真實脫水死亡寫入 `MINE_TRIP_ENDED`，人口守恆。
 4. 發現一次性、MIN-1 沒有控制器或實體獎勵：重複觀察被拒，再訪不新增事實；瓶蓋、廢料、物品與人物序號全部不變。
 
 負向旅程（契約要求）：在 60 天內掃描出確定的去程伏擊日，只備預估最低量、逃跑多耗一天、礦道一天用完最後補給、回灰谷時缺一份水糧；玩家存活、世界合法、能在灰谷繼續買賣。測試以真實道路而非手改狀態重現。
 
+### 本地獨立審查（`code-review`，high）
+
+9 項發現，其中兩項已用腳本驗證為真並已修：(1) 在灰谷偽造的完整探訪會被 checked loader 接受並得到永久發現；(2) 重新進入時換房次數被歸零，與中繼站的保留規則不同，補給畫面上的說明也因此失真。另修正：事件日期閉環、forecast 的礦道日耗量改讀 `Dungeon.ration_budget`、`number`／`text` 改用共用函式、建議文字單一來源、`visit_moves` 改由通道圖推算、`current_checkpoint` 少算一次、單一世界路徑補上「連續跑／存檔讀回」雙軌比對。**未處理**：每次授權與 `is_exploring` 對事件紀錄重複折疊的效能成本（P3，不影響正確性）。
+
 **未執行或不聲稱**：
 
-- 治理框架的 `memory_workflow`／drift guard 與正規記憶寫入器：此 checkout 內沒有該模組，未執行，也未手改 `memory/**`。
 - 人類節奏與樂趣；是否會「想再來」仍待實玩。
 - 關閉時的 RID／ObjectDB 洩漏診斷，與其他 native 測試相同，沒有宣稱乾淨關閉。
-- 獨立審查、GitHub 審查、實際 CI、合併：都還沒有。
+- GitHub 審查、實際 CI、合併：都還沒有。
 - 跨日 probe 取自單一世界種子；這份實作的測試用的是 Day 0 起算的新角色，不是 `shared_return`。
