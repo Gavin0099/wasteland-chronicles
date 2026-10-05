@@ -15,8 +15,8 @@
 
 ## Active Sprint
 
-- [x] RLY-1 local implementation/verification complete: first fixed, walkable relay ruin with a real guard fight or discovered tool/scrap side route, once-only access card and military backpack, actual day/supply/death/companion rules and checked save/Continue.819focused/0;all134suitesPASS/exit0/no SCRIPT ERROR;28Vulkan captures(26distincthashes)/847/0 at1280×720 and1152×648. Debug339/0errors/167baselinewarnings/zeroRelaywarnings; lint/smokes/driftPASS. Independent code review zeroP0/P1 with walker-resetP2 deferred. Same-PR bound evidence/memory, exact-head GitHub review and real CI precede merge; these remote gates remain pending. See docs/relay-first-expedition.md.
-- [ ] RLY-2 named target investigation/escape; own lifecycle/identity contract before implementation.
+- [x] RLY-1 delivered PR80, main a4eb28ee22b83520ae2a62de558db53c714a4d28: first fixed, walkable relay ruin with a real guard fight or discovered tool/scrap side route, once-only access card and military backpack, actual day/supply/death/companion rules and checked save/Continue.819focused/0;all134suitesPASS/exit0/no SCRIPT ERROR;28Vulkan captures(26distincthashes)/847/0 at1280×720 and1152×648. Debug339/0errors/167baselinewarnings/zeroRelaywarnings; lint/smokes/driftPASS. Independent zeroP0/P1; GitHub Codex reviewed exactab91b583642be0d1030dd7095d04e579ec671049. Real CI37218558499/job111484018537/runner1000022619 completed7steps; merge/sync/read-only memory guardPASS. Walker-reset and idle full-history-scanP2 deferred. See docs/relay-first-expedition.md.
+- [x] RLY-2 local implementation/verification complete; remote delivery gates pending: real named Grey Crow from anonymous population, inspect/one-rope-one-scrap exit block, interview or actual3-day flight, ordinary STAY/MIGRATE/death continuity, physical town witness and12caps scouting report once. Final986focused/0;all135suitesexit0/no SCRIPT ERROR (target971/0 plus final test-only negative expansion); native997/0/26PNGs(24distinct)at1280×720 and1152×648. Debug342/0errors/167baselinewarnings/zeroRelaywarnings; lint/smokes/driftPASS. Lifecycle contract before code; no target combat/capture/disposition. Same-PR bound receipt/memory, exact-head review/realCI/merge required. See docs/relay-target-investigation.md.
 - [ ] RLY-3 actual turret/power control and resource tradeoffs.
 - [ ] RLY-4 disarm and live capture, with explicit custody authority.
 - [ ] RLY-5 alive/dead/released disposition and sourced consequences.
@@ -332,6 +332,9 @@
 ## Known Risks
 
 - RLY-1 independentP2:closing supplies or treating refreshes the room and resets the presentation-only walker to the arrival point; the authoritative room/checkpoint, time and discoveries are unchanged. Deferred under the review threshold. No human pacing/fun or full historical gear anti-tamper protection is claimed.
+
+- RLY-1 PR80 remoteP2:near-interaction authorization repeatedly scans full dungeon history on idle frames; comment4178533489 acknowledged in PR comment5982347093 and deferred. No performance scaling claim.
+- RLY-2 independentP2:after escape, the relay room hint continues to suggest New Hope even after later migration/death, and the town window's historical escape paragraph still suggests verification after death. Its primary current-life line and actual authorization remain correct and refuse ghost actions; secondary-hint refinement deferred.
 
 - DUN-7/PR78 P2:device-note wording names actual Abban but renders other actual salvage companions as solo. The authoritative event retains their IDs; projection refinement acknowledged/deferred. No full relationship simulation or human pacing acceptance is claimed.
 - DUN-8 independentP3:already-reported return window retains general optional-report/defer wording. Actual once-only button is disabled and standing is correct; copy refinement acknowledged/deferred.

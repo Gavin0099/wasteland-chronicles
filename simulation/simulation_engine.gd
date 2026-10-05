@@ -19,6 +19,7 @@ const Party = preload("res://simulation/party.gd")
 const JobBoard = preload("res://simulation/job_board.gd")
 const Dungeon = preload("res://simulation/dungeon_exploration.gd")
 const Relay = preload("res://simulation/relay_exploration.gd")
+const RelayTarget = preload("res://simulation/relay_target.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0

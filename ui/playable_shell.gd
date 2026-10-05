@@ -1883,6 +1883,10 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	relay_button.tooltip_text = "灰谷郊外；傳聞中的軍用背包、野犬正門與隱藏維修道"
 	relay_button.pressed.connect(_enter_relay)
 	toolbar_row.add_child(relay_button)
+	var target_button: Button = DesktopWindow.toolbar_button("追獵")
+	target_button.tooltip_text = "灰谷的具名目標偵查委託；回報親見動向"
+	target_button.pressed.connect(_show_relay_target)
+	toolbar_row.add_child(target_button)
 	var toolbar_spacer := Control.new()
 	toolbar_spacer.size_flags_horizontal = SIZE_EXPAND_FILL
 	toolbar_row.add_child(toolbar_spacer)
@@ -3018,6 +3022,17 @@ func _enter_relay() -> void:
 			return
 	refresh_ui()
 	_show_relay()
+
+func _show_relay_target() -> void:
+	if world == null or world.player == null: return
+	var dialog: AcceptDialog = preload("res://ui/components/relay_target_dialog.gd").new()
+	add_child(dialog)
+	dialog.setup(world, engine)
+	dialog.world_changed.connect(func() -> void: refresh_ui())
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	dialog.popup_centered(Vector2i(650, 455))
+	dialog.get_ok_button().grab_focus()
 
 func _show_relay() -> void:
 	if not engine.Relay.state(world).active or find_child("RelayScreen", false, false) != null: return

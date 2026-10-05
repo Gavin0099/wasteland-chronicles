@@ -1,0 +1,38 @@
+# RLY-2 — 追查灰鴉的動向
+
+Owner authorized named-target investigation/escape in the RLY-1–8 direction. RLY-1 delivered PR80 at a4eb28ee22b83520ae2a62de558db53c714a4d28 before this slice began. Risk L2: one named human is materialized from existing population and an explicit confrontation can invoke the existing named-migration lifecycle. This contract defines that authority before implementation; no population or eight-phase travel formula change.
+
+Player aspiration: 「我想先打聽他的習慣、找到退路，再決定要不要堵住出口；如果讓他跑了，就沿真正的路追到下一座城。」
+
+## Bounded deliverable
+
+Gray Valley's investigation notice pays 12 caps once for personally verified movement of 「灰鴉」洛克. It is explicitly a scouting fee, not the later live/dead bounty. Taking the notice materializes one existing anonymous Gray Valley resident as a 28-year-old scavenger; population and initial life total remain unchanged, and the ordinary monotonic NPC sequence is used. Register identity, settled life and biography on a detached staged world, validate, then publish atomically. A refusal consumes no ID or other state. Existing saves without the notice remain unchanged; no new snapshot field.
+
+Town investigation reveals a damaged boot and maintenance-exit habit. The player may inspect a real maintenance exit in the relay tunnel, then spend an owned rope and one scrap to tie the existing crates across it. The rope and scrap are consumed once; opening the RLY-1 route remains a separate tool/two-scrap action. The target is physically presented in the records room only while the target's real life state is settled in the Gray Valley region.
+
+Explicitly confronting him with the exit blocked obtains an interview and proves his location. With an open exit he flees on the actual Gray Valley–New Hope road through the existing atomic named-migration API; Gray Valley loses one resident and the refugee party gains the same one. Travel duration and arrival use the existing route/day formula. The escape receipt proves what the player witnessed; it does not pay the fee or teleport the target. The normal world tick moves this real individual, and existing STAY/MIGRATE decisions remain available; no exemption pins him to the site. If he has already migrated, the UI reports that he is absent and does not draw a ghost.
+
+A town witness action is legal only after the target has really left Gray Valley following acceptance, and when both player and that target are alive and settled in the same actual town. This supports following an escape or later world migration without a fake location; accepting and immediately witnessing in Gray Valley cannot earn a fee. Report the witnessed escape/interview/town location back in Gray Valley to receive the 12 caps once. Reporting and witnessing require the accepted notice; they do not create a second target or complete a capture bounty. The scripted escape is once only; its identity-derived party ID must be absent before staging the departure. A dead target is never recreated or revived; an already obtained witness remains reportable. UI distinguishes dead, in transit and settled elsewhere. There is no target attack/death/custody authority in RLY-2; those remain RLY-4/5.
+
+Every action is an explicit existing DUNGEON_ACTION bound to the relay site. Narrative/art are downstream projections with no mutation rights. Typed exact payloads, owner/context/order, one identity, consumed costs, actual route/party/life receipts and once-only reporting are validated in live invariants and checked disk loading. Target event IDs/party IDs derive from the monotonically minted identity; no RNG/timestamp IDs.
+
+## Verification plan
+
+Use normal-start buying and explicit real intents on two full-world SHA-256 replay tracks. Verify population/no-ID-on-refusal, real rope/scrap consumption, direct/blocked approaches, exact migration headcount and actual three-day arrival on the formal Gray–Hope road, town verification, return/report/no duplicate payment, checked saves during local pursuit and transit, old RLY-1/waterworks isolation. An interaction occurs after the current day snapshot: departure is the next full tick day, and arrival remains departure + route days - 1. Execute malformed owner/type/location/identity/life/party/order/reward/cost fixtures through both live global validation and checked loading. Run all tests/test_*.gd after simulation changes. Original target art, actual walking and source-correct town dialog at both standard window sizes ship here; independent review and exact-head GitHub/real CI precede merge.
+
+Human pacing/fun, target combat/capture/disposition, unrestricted NPC social life, turret and mechanical dog are not claimed.
+
+## Try the slice
+
+Run `godot --path .`, create or continue a living character in Gray Valley, and open 「追獵」. Accept the investigation and ask about Grey Crow's damaged boot and escape habit. Enter 「中繼站」, inspect the wall marks and visit the maintenance passage to examine the exit. Blocking it consumes one rope and one scrap; opening the separate passage to the records room still requires a wrench/crowbar and two scrap. The front route remains an actual guard fight.
+
+Walk to Grey Crow in the records room and interact. A blocked exit produces an interview; an open exit starts a real three-day migration, removes his room sprite, and leaves a personal escape receipt. Return through the entrance to Gray Valley and use 「追獵」 to report for12caps once, or physically travel to the target's actual town to obtain a newer witness first. Existing decisions can move him independently; the town window follows his real life state. Save/Continue retains the named person, exit preparation, personal proof and transit progress. RLY-2 does not accept a prisoner or death bounty.
+
+Focused verification: `godot --headless --path . --script res://tests/test_relay_target.gd`. Native capture: `godot --path . --script res://tests/test_relay_target.gd -- --render-dir=artifacts/rly2-rendered`.
+
+## Local verification — 2026-10-05
+
+- Final focused986assertions/0failures, including two independent full-world SHA-256 tracks, all explicit intents, checked disk checkpoints and live/checked-loader malformed fixtures. All135test_*.gd suites exited0 with no SCRIPT ERROR; the full run's target suite was971/0 before the subsequent test-only fifteen extra assertions for identity/life/context negatives, covered by the final focused run.
+- Native Vulkan997/0 before only that test-only expansion;26PNGcaptures/24distinct hashes at1280×720 and1152×648. Reviewed notice/clue, walking/interview/report, original cutout and ordinary/reduced motion, empty escape/Continue, in-transit/elsewhere/dead views. Native button/return sizes are at least40px and target dialogs fit both actual viewports. Original source/prompt/hash retained in ui/assets/combat/ASSETS.md.
+- Godot debugger342resources checked,0errors,167existingwarnings and no Relay-specific warnings; lint0errors/1existing unresolved dynamic FieldScreen path; both fuzzed scene smokes pass with110existingwarnings and7shellorphans; governance driftPASS. Shutdown resource cleanup is not claimed fixed: native10Texture/28text/1font/56Canvas/164ObjectDB; final focused10DummyTexture/28text/1font/56Canvas/174ObjectDB.
+- Final independent implementation review: unresolvedP0/P1=0, ready to commit. Static escape hint in the room and the town window's historical escape paragraph remain deferredP2 after later migration/death. The town primary life/location line and actual authorization remain correct. Same-PR bound receipt/memory companion review, exact-head GitHub Codex and real CI precede merge. No human pacing/fun or complete historical inventory anti-tamper claim.
