@@ -1,0 +1,203 @@
+{
+  "kind": "actual native Vulkan captures",
+  "captures": 24,
+  "distinct_hashes": 24,
+  "assertions": 2117,
+  "failures": 0,
+  "exit_code": 0,
+  "script_errors": 0,
+  "files": [
+    {
+      "file": "artifacts/rly6-rendered/hound_after_support_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "41d39d118dbe34c9dbf19c53bbeb3f1bcdaea7384e1e37c0ecc7d28d7fa5e242"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_after_support_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "6e5dffd625686cfff9b51445500b940de3237714afbcd696b073dffd98dda9b4"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_battle_ready_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "866ee3b86f5b5296a885b5547aff093da32d4ae3724c06faa54b27fd9587d056"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_battle_ready_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "b5c3c09a4ab0a33cb452efe35ac04885c8115815555c0385a6ad6acf3177a681"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_broken_room_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "3d24f5010fc6da77fb1aaea6c02e3607ff6196c6e847116900b3c68b5139b3ef"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_broken_room_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "3dd5008d4ff5ea785ef5ad48ac88a884978ddfaa521f218d0789120d651b6741"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_continue_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "e59df3d9cc9c49b44426a041bdf493b44c47b36104fd67847b1d133dd7d42d13"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_continue_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "4b9e7360320fe79d04188980aa65b3f9ee30daba38a247ce3a7d80e4942b7ca5"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_opened_door_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "942bb48ecb21d6e0002f3ff89680d65c4a677b6b29e036c8e8100562ff5b9f8f"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_opened_door_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "4f0e8ec7582d875cf81036d6dbaa9cff719aee948d4de3145f55dfcc4517781a"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_repair_locked_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "c25da2abf2fb4f2e0d3454c975292571cf3d41dbb373950019ee09433cebb3dc"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_repair_locked_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "9338caceda08e236a2494d135ffe3eef3ec55ded15e55f667254c4e90c1194d9"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_repaired_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "4068740feccecdf330b50cde9e6928d3dcc2a8de53b6aa53ae9946a162f8cfde"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_repaired_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "aa875db3c1b3818f39a390d90c99df996f138618a7642c38050ca91d030f72fe"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_support_motion_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "861cc56bb992152ac1c3520b849b85622311a903f018667e23fb060f9b397aee"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_support_motion_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "e13df89e38b5ee6eae37193f27ea7451557c0830e7987acecf52d05bf29218e1"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_town_charged_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "36e0795cfd556532e2ffbfcfb09697afc8c498e15552d3f19613ee94802a81c2"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_town_charged_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "65dada2b914de904323a7c7cc24e004398c050a750e411563a24cd6676c4c26d"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_town_empty_fuel_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "3bbfa2420b231380ccd5a654d21f1ffb090546e04c6be75259fb4933f56ae5d0"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_town_empty_fuel_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "985be9aaa5e1e41b241d4751e51d6206da32ff38bddf144fc0c7e99a7ba40e21"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_victory_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "07c98391fab84913469ed9c2fb9faa7b5dc49f4e6719e5219a1fba8f0969b10d"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_victory_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "36133790a283f23b02edf9ab902231642958958830b4942d5a91505ad6a6a00c"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_waterworks_control_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "bf849282f6b93948800623a809c2adf4e39261cafeb02172a1733e34e0bb881e"
+    },
+    {
+      "file": "artifacts/rly6-rendered/hound_waterworks_control_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "7459b378ae42c2e5b6bc7209e4e5b801e8eadd55e3f7e46caf453071b8aefc33"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ const Field = preload("res://simulation/field_adventure.gd")
 const FieldScreen = preload("res://ui/field_screen.gd")
 const SuppliesDialog = preload("res://ui/components/dungeon_supplies_dialog.gd")
 const DeviceDialog = preload("res://ui/components/dungeon_device_dialog.gd")
+const HoundDialog = preload("res://ui/components/relay_hound_dialog.gd")
 var combat_screen: Control
 var world: WorldState
 var engine: SimulationEngine
@@ -31,6 +32,8 @@ var supplies_button: Button
 var supplies_dialog: SuppliesDialog
 var supplies_status: Label
 var device_dialog: AcceptDialog
+var hound_dialog: AcceptDialog
+var hound_button: Button
 
 func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	world = p_world
@@ -69,6 +72,12 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	supplies_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
 	supplies_button.pressed.connect(_show_supplies)
 	toolbar.add_child(supplies_button)
+	hound_button = Button.new()
+	hound_button.text = "機械犬"
+	hound_button.theme_type_variation = "PdaCommand"
+	hound_button.custom_minimum_size.y = Tokens.COMMAND_HEIGHT
+	hound_button.pressed.connect(_show_hound)
+	toolbar.add_child(hound_button)
 	var save_button: Button = Button.new()
 	save_button.text = "存讀檔"
 	save_button.theme_type_variation = "PdaCommand"
@@ -366,8 +375,26 @@ func _resume_exploration() -> void:
 	refresh_room()
 	set_paused(false)
 
+func _show_hound() -> void:
+	if not view.enabled: return
+	hound_dialog = HoundDialog.new()
+	add_child(hound_dialog)
+	hound_dialog.setup(world, engine)
+	hound_dialog.world_changed.connect(func() -> void: world_changed.emit(); refresh_room(); set_paused(true))
+	hound_dialog.confirmed.connect(_close_hound)
+	hound_dialog.canceled.connect(_close_hound)
+	set_paused(true)
+	hound_dialog.popup_centered(Vector2i(720, 560))
+	hound_dialog.get_ok_button().grab_focus()
+
+func _close_hound() -> void:
+	hound_dialog.queue_free()
+	hound_dialog = null
+	set_paused(false)
+	refresh_room()
+
 func set_paused(value: bool) -> void:
-	value = value or is_instance_valid(combat_screen)
+	value = value or is_instance_valid(combat_screen) or is_instance_valid(hound_dialog)
 	view.enabled = not value
 	view.target_position = Vector2(-1, -1)
 	view.guide_path.clear()
@@ -375,6 +402,7 @@ func set_paused(value: bool) -> void:
 	route_choice.disabled = value
 	map_button.disabled = value
 	supplies_button.disabled = value
+	hound_button.disabled = value
 	refresh_interaction()
 	if not value and view.is_inside_tree():
 		view.grab_focus()

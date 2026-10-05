@@ -40,6 +40,7 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 	var command: String = String(receipt.get("command", "ATTACK"))
 	var dealt: int = int(receipt.get("dealt", 0))
 	var support: int = int(receipt.get("turret_dealt", 0))
+	var dog_support: int = int(receipt.get("dog_dealt", 0))
 	var taken: int = int(receipt.get("taken", 0))
 	var enemy_id: String = String(receipt.get("enemy_id", stage.current_enemy_id))
 	var turn: int = int(receipt.get("turn", 1))
@@ -57,7 +58,9 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 			reduced_pose = stage.PoseLibrary.gun_pose(style)
 		stage.hero_actor.hold_pose(reduced_pose)
 		if dealt > 0:
-			stage.spawn_damage_popup(stage.enemy_actor, dealt - support, false, false)
+			stage.spawn_damage_popup(stage.enemy_actor, dealt - support - dog_support, false, false)
+		if dog_support > 0:
+			motion.tween_callback(func(): stage.emit_hound_support(dog_support))
 		if support > 0:
 			motion.tween_callback(func(): stage.emit_turret_support(support))
 		if taken > 0 or command == "DEFEND":
@@ -87,7 +90,7 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 		if dealt > 0:
 			motion.tween_callback(func():
 				stage.enemy_actor.play_pose("hit_reaction")
-				stage.spawn_damage_popup(stage.enemy_actor, dealt - support, false, false)
+				stage.spawn_damage_popup(stage.enemy_actor, dealt - support - dog_support, false, false)
 				if command == "ATTACK":
 					stage.emit_weapon_fx(style.name, stage.enemy_actor)
 				stage.feedback_phase.emit("enemy_hit"))
@@ -100,6 +103,9 @@ static func direct_turn(stage: Control, receipt: Dictionary) -> void:
 			motion.tween_property(stage.hero_actor, "position", stage.hero_origin, float(style.recover))
 			motion.parallel().tween_property(stage.enemy_actor, "position", stage.enemy_origin, float(style.recover))
 			motion.tween_callback(func(): stage.hero_actor.hold_pose("rest"))
+		if dog_support > 0:
+			motion.tween_callback(func(): stage.emit_hound_support(dog_support))
+			motion.tween_interval(0.49)
 		if support > 0:
 			motion.tween_callback(func(): stage.emit_turret_support(support))
 			motion.tween_interval(0.16)
