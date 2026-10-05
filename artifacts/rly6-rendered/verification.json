@@ -1,0 +1,41 @@
+{
+  "debug": {
+    "checked": 355,
+    "counts": {
+      "total": 167,
+      "errors": 0,
+      "parse_errors": 0,
+      "warnings": 167,
+      "info": 0
+    },
+    "new_hound_diagnostics": []
+  },
+  "lint": {
+    "total": 1,
+    "errors": 0,
+    "warnings": 1,
+    "parse_errors": 0
+  },
+  "smoke": {
+    "counts": {
+      "scenes": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "warnings": 111,
+      "findings": 1
+    },
+    "findings": [
+      [],
+      [
+        {
+          "message": "7 node(s) were still alive outside the tree after the scene was freed. A node that is `Node.new()`d and never added to the tree, or `remove_child()`ed and never freed, leaks until the process exits. Add it to the tree, or free it with queue_free()/free().",
+          "orphan_nodes": 7,
+          "severity": "warning",
+          "type": "orphan_nodes"
+        }
+      ]
+    ]
+  },
+  "claim_boundary": "No clean-shutdown or human fun/pacing claim; pre-fight forecast and forged post-result support-history P2 deferred."
+}

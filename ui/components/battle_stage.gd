@@ -591,6 +591,8 @@ var actor_layer: Node2D
 var fx_layer: Control
 var hero_actor: ActorNode
 var enemy_actor: ActorNode
+const HoundSprite = preload("res://ui/components/relay_hound_sprite.gd")
+var hound_actor: HoundSprite
 
 # Backward-compatible references
 var hero: Sprite2D
@@ -622,6 +624,7 @@ var terminal_outcome := ""
 signal feedback_phase(phase: String)
 
 func cancel_motion(reset: bool = true) -> void:
+	if is_instance_valid(hound_actor): hound_actor.cancel()
 	motion_generation += 1
 	if active_motion != null and active_motion.is_valid():
 		active_motion.kill()
@@ -775,6 +778,7 @@ func _init() -> void:
 	# Hero Actor
 	hero_actor = ActorNode.new(true)
 	actor_layer.add_child(hero_actor)
+	hound_actor = HoundSprite.new(); hound_actor.hide(); actor_layer.add_child(hound_actor)
 	hero = hero_actor.body
 	hero_shadow = hero_actor.shadow
 	weapon = hero_actor.weapon
@@ -842,6 +846,8 @@ func arrange() -> void:
 
 	hero_actor.position = hero_origin
 	enemy_actor.position = enemy_origin
+	hound_actor.base_position = hero_origin + Vector2(ch * 0.18, -ch * 0.02)
+	hound_actor.position = hound_actor.base_position; hound_actor.configure(ch * 0.22)
 
 	# Apply Drifter profile
 	if VISUAL_PROFILES.has("drifter"):
@@ -973,6 +979,14 @@ func animate_turn(command: String, dealt: int, taken: int, context: Dictionary =
 
 func configure_support(enabled: bool) -> void:
 	support_turret.visible = enabled and environment_id == "relay"
+
+func configure_hound(present: bool) -> void:
+	hound_actor.visible = present
+
+func emit_hound_support(amount: int) -> void:
+	spawn_damage_popup(enemy_actor, amount, false, false).text = "機械犬 −%d" % amount
+	hound_actor.assist(reduced_motion, enemy_origin)
+	feedback_phase.emit("hound_support")
 
 func emit_turret_support(amount: int) -> void:
 	# A committed receipt supplies the amount; this effect has no simulation access.

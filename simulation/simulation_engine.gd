@@ -23,6 +23,7 @@ const RelayTarget = preload("res://simulation/relay_target.gd")
 const RelayPower = preload("res://simulation/relay_power.gd")
 const RelayCustody = preload("res://simulation/relay_custody.gd")
 const RelayDisposition = preload("res://simulation/relay_disposition.gd")
+const RelayHound = preload("res://simulation/relay_hound.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0

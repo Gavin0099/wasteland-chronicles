@@ -1,0 +1,20 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "sha256": "1cfe82e73a657fc146bcbba6039f691616f022abb7b99cc66421845243410c1f",
+  "size": [1774, 887],
+  "source_path": "C:/Users/daish/.codex/generated_images/01a0fd77-304b-7291-805c-5be0140c2c09/exec-6e8bfec2-ea4d-4da2-94c2-30c79279d1a8.png",
+  "prompt": "Use case: stylized-concept. Asset type: original transparent 2D isometric RPG mechanical hound sprite atlas for Wasteland Chronicles. Input image 1 (feral-dog): reference for painterly detailed hand-inked old RPG lighting and three-quarter perspective only, not an edit target. Input image 2 (relay-turret): reference for worn brown/olive iron, rivets, mechanical construction and art rendering only. Create ONE wide canvas with TWO separately isolated full-body poses of the EXACT SAME small dog-shaped salvage robot, both facing right at a consistent isometric 3/4 side angle, same scale, on truly transparent background with no scenery, shadow plate, words, grid or UI. Left half: calm standing idle robot with four correctly articulated legs resting on the ground, compact olive-brown riveted steel armor, doglike angular muzzle, one very small amber sensor, repaired worn plating, exposed joints, little flexible segmented tail. Right half: same robot lunging forward low for a physical assist, hind legs pushing and front paws reaching, clear believable body/leg motion, no weapons or gun barrels or muzzle flash. Natural matte industrial metal, warm desaturated wasteland brown, same hard ink edges and detailed paint style as references, no neon or sci-fi glow or plastic. Both complete silhouettes including feet and tail, entirely inside their own left/right halves with generous transparent padding, no overlap, identical equipment and anatomy. Readable small-game sprites; avoid stretched anatomy, missing legs or merged poses. Preserve transparent alpha.",
+  "references": [
+    {
+      "path": "ui/assets/combat/feral-dog.png",
+      "role": "style and perspective reference, inspected before generation"
+    },
+    {
+      "path": "ui/assets/combat/relay-turret.png",
+      "role": "worn industrial material reference, inspected before generation"
+    }
+  ],
+  "transparent_background": true,
+  "alpha_preserved": true,
+  "processing": "None: original bytes copied unchanged; Godot AtlasTexture uses authored runtime rectangles."
+}

@@ -111,3 +111,5 @@
 - RLY-4 full137 invocation now passes on committed b9b1a0d; evidence-only PR83 convergence and exact-new-head remote gates pending, then RLY-5. <!-- memory_record_projection:active-task-summary:8bec942cbcc839ff250c229c7c48aadcf99ace9b87d9ec854f3ae41ce9822dbe -->
 
 - RLY-4 delivered PR83; RLY-5 live/dead/release locally verified and pushed, same-PR evidence companion and exact-head GitHub/CI gates pending; RLY-6–8 not started. <!-- memory_record_projection:active-task-summary:67852f2f0934d57e49c33f99fa313a4f7c771c68904a149c25b7c79fa6735aba -->
+
+- RLY-5 delivered PR84/main fa074818; RLY-6 implementation a2022a0 verified and pushed, canonical same-PR companion and exact-head remote gates pending; RLY-7/8 not started. <!-- memory_record_projection:active-task-summary:fa6d5f8e935a4f42f647d7f995bf09b64e8017a530ddc02aabdbf07ffb66e696 -->

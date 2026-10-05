@@ -33,6 +33,7 @@ var disposition_dialog: AcceptDialog
 var supplies_dialog: AcceptDialog
 var map_dialog: AcceptDialog
 var power_dialog: AcceptDialog
+var hound_dialog: AcceptDialog
 
 static func explain(error: String) -> String:
 	if error.begins_with("PURSUIT_"): return preload("res://ui/relay_capture_screen.gd").explain(error)
@@ -75,6 +76,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 	row.add_child(reduce)
 	button(row, "探索地圖 · M", show_map)
 	button(row, "背包 · B", show_supplies)
+	button(row, "機械犬", show_hound)
 	button(row, "存讀檔", func() -> void: save_menu_requested.emit())
 	status_label = Label.new()
 	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -108,6 +110,7 @@ func setup(p_world: WorldState, p_engine: SimulationEngine) -> void:
 
 func refresh_room() -> void:
 	var s: Dictionary = Relay.state(world)
+	s.hound = SimulationEngine.RelayHound.state(world)
 	if not s.active: return
 	title_label.text = "舊中繼站 / " + Relay.ROOMS[s.room_id]
 	status_label.text = "生命%d/12 · %s · 水%d／食物%d · 再換房%d次過一天%s" % [world.player.field_kit.hp, Supplies.load_text(world.player), world.player.inventory.water, world.player.inventory.food, 4 - int(s.work_units), " · 持有保管室門禁卡" if s.card_found else ""]
@@ -131,6 +134,7 @@ func refresh_room() -> void:
 	view.grab_focus()
 
 func intent_for(door: Dictionary) -> PlayerIntent:
+	if door.command in SimulationEngine.RelayHound.COMMANDS: return SimulationEngine.RelayHound.intent(world, door.command)
 	var payload: Dictionary = {"command": door.command, "site_id": Relay.SITE}
 	if door.command == "MOVE":
 		payload.from_room_id = Relay.state(world).room_id
@@ -143,7 +147,7 @@ func refresh_interaction() -> void:
 	interact_button.disabled = door.is_empty() or not view.enabled
 	interact_button.text = "靠近所選位置後互動 · E"
 	if door.is_empty(): return
-	var error: String = "" if door.command == "INSPECT_CAPTIVE" else engine.authorize_player_intent(world, intent_for(door))
+	var error: String = "" if door.command in ["INSPECT_CAPTIVE", "HOUND_WINDOW"] else engine.authorize_player_intent(world, intent_for(door))
 	interact_button.disabled = error != "" or not view.enabled
 	interact_button.text = door.label + (" · " + explain(error) if error != "" else " · E")
 	interact_button.tooltip_text = explain(error)
@@ -156,6 +160,7 @@ func interact() -> void:
 	var door: Dictionary = view.nearest_door()
 	if door.is_empty(): return
 	if door.command == "INSPECT_CAPTIVE": show_disposition(); return
+	if door.command == "HOUND_WINDOW": show_hound(); return
 	var result: Dictionary = engine.commit_player_intent(world, intent_for(door))
 	if not result.success:
 		message.text = explain(result.error)
@@ -166,6 +171,8 @@ func interact() -> void:
 		queue_free()
 	elif door.command == "FIGHT": open_combat()
 	elif door.command == "CHALLENGE_TARGET": open_capture()
+	elif door.command == "INSPECT_HOUND":
+		refresh_room(); show_hound()
 	elif door.command == "INSPECT_POWER":
 		refresh_room()
 		show_power()
@@ -182,6 +189,19 @@ func show_disposition() -> void:
 	disposition_dialog.canceled.connect(close_disposition)
 	disposition_dialog.popup_centered(Vector2i(735, 525))
 	disposition_dialog.get_ok_button().grab_focus()
+
+func show_hound() -> void:
+	if is_instance_valid(hound_dialog): return
+	set_paused(true)
+	hound_dialog = preload("res://ui/components/relay_hound_dialog.gd").new()
+	add_child(hound_dialog); hound_dialog.setup(world, engine)
+	hound_dialog.world_changed.connect(func() -> void: world_changed.emit(); refresh_room(); set_paused(true))
+	hound_dialog.confirmed.connect(close_hound); hound_dialog.canceled.connect(close_hound)
+	hound_dialog.popup_centered(Vector2i(720, 560)); hound_dialog.get_ok_button().grab_focus()
+
+func close_hound() -> void:
+	hound_dialog.queue_free(); hound_dialog = null
+	set_paused(false); refresh_room()
 
 func close_disposition() -> void:
 	disposition_dialog.queue_free(); disposition_dialog = null
@@ -240,7 +260,7 @@ func open_capture() -> void:
 			closed.emit(); queue_free())
 
 func show_supplies() -> void:
-	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog) or is_instance_valid(hound_dialog): return
 	set_paused(true)
 	supplies_dialog = Supplies.new()
 	add_child(supplies_dialog)
@@ -258,7 +278,7 @@ func close_supplies() -> void:
 	refresh_room()
 
 func show_map() -> void:
-	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog) or is_instance_valid(hound_dialog): return
 	var s: Dictionary = Relay.state(world)
 	var lines: PackedStringArray = ["記錄已走過的房間與眼前通路；地圖不會移動角色。"]
 	for room: String in s.visited:
@@ -283,13 +303,13 @@ func close_map() -> void:
 	set_paused(false)
 
 func set_paused(value: bool) -> void:
-	view.enabled = not value and not is_instance_valid(combat_screen) and not is_instance_valid(capture_screen) and not is_instance_valid(supplies_dialog) and not is_instance_valid(map_dialog) and not is_instance_valid(power_dialog) and not is_instance_valid(disposition_dialog)
+	view.enabled = not value and not is_instance_valid(combat_screen) and not is_instance_valid(capture_screen) and not is_instance_valid(supplies_dialog) and not is_instance_valid(map_dialog) and not is_instance_valid(power_dialog) and not is_instance_valid(disposition_dialog) and not is_instance_valid(hound_dialog)
 	if view.enabled: view.grab_focus()
 	refresh_interaction()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is not InputEventKey or not event.pressed or event.echo: return
-	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog): return
+	if is_instance_valid(combat_screen) or is_instance_valid(capture_screen) or is_instance_valid(supplies_dialog) or is_instance_valid(map_dialog) or is_instance_valid(power_dialog) or is_instance_valid(disposition_dialog) or is_instance_valid(hound_dialog): return
 	match event.keycode:
 		KEY_M: show_map()
 		KEY_B: show_supplies()

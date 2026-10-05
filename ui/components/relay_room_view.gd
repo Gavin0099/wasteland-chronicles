@@ -11,6 +11,7 @@ const POINTS: Dictionary = {
 var checkpoint: Dictionary = {}
 var target_texture: Texture2D
 var turret_texture: Texture2D
+var hound_texture: AtlasTexture
 var target_animation_time: float = 0.0
 
 func _init() -> void:
@@ -19,6 +20,9 @@ func _init() -> void:
 	tool_texture = Icon.texture_for(Relay.PRIZE)
 	target_texture = Poses.load_atlas("res://ui/assets/combat/relay-grey-crow.png")
 	turret_texture = Poses.load_atlas("res://ui/assets/combat/relay-turret.png")
+	hound_texture = AtlasTexture.new()
+	hound_texture.atlas = Poses.load_atlas("res://ui/assets/combat/poses/relay-hound-poses.png")
+	hound_texture.region = Rect2(0, 0, 887, 887)
 
 func setup(s: Dictionary) -> void:
 	checkpoint = s.duplicate(true)
@@ -36,7 +40,9 @@ func setup(s: Dictionary) -> void:
 		if lift and not s.power.inspected: continue
 		doors.append({"command": "MOVE", "room_id": target, "point": POINTS[room_id][target], "label": ("貨梯 · " if lift else "") + Relay.ROOMS[target], "refusal": Relay.gate(room_id, target, s)})
 	if room_id == "relay_tunnel": doors.append({"command": "INSPECT_POWER", "label": "查看供電盤 · 砲塔／貨梯", "point": Vector2(440, 360)})
+	if room_id == "relay_tunnel" and not s.tunnel_open: doors.append({"command": "HOUND_WINDOW", "label": "機械犬開內門 · 能源2", "point": Vector2(630, 350)})
 	if room_id == "relay_entrance":
+		doors.append({"command": "INSPECT_HOUND", "label": "查看機械犬 · 修復／能源", "point": Vector2(320, 350)})
 		doors.append({"command": "EXIT", "label": "樓梯 · 返回灰谷", "point": Layout.SOUTH})
 		if not s.tunnel_found: doors.append({"command": "SEARCH", "label": "查看牆邊的拖痕", "point": Vector2(650, 266)})
 	if room_id == "relay_tunnel" and not s.tunnel_open: doors.append({"command": "OPEN_TUNNEL", "label": "撬開內門 · 工具＋2廢料", "point": Vector2(650, 266)})
@@ -83,6 +89,11 @@ func _draw() -> void:
 	draw_rect(room, Tokens.BORDER_STRONG, false, 2)
 	for obstacle: Rect2 in obstacles:
 		if crate_texture != null: draw_texture_rect(crate_texture, obstacle, false)
+	if room_id == "relay_entrance" or checkpoint.get("hound", {}).get("repaired", false):
+		var hound_point: Vector2 = Vector2(320, 350) if not checkpoint.get("hound", {}).get("repaired", false) else actor_position + Vector2(-58, 8)
+		var hound_size: Vector2 = Vector2.ONE * 887.0 * 54.0 / 700.0
+		var hound_color: Color = Color.WHITE if checkpoint.get("hound", {}).get("repaired", false) else Color(0.45, 0.45, 0.45, 1)
+		draw_texture_rect(hound_texture, Rect2(hound_point - Vector2(570, 805) * 54.0 / 700.0, hound_size), false, hound_color)
 	if room_id == "relay_corridor" and checkpoint.power.inspected and turret_texture != null:
 		draw_texture_rect(turret_texture, Rect2(350, 170, 90, 90), false)
 		draw_string(get_theme_default_font(), Vector2(330, 280), "砲塔 · 剩%d次" % checkpoint.power.charges, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Tokens.TEXT)
