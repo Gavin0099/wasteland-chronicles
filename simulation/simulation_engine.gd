@@ -24,6 +24,7 @@ const RelayPower = preload("res://simulation/relay_power.gd")
 const RelayCustody = preload("res://simulation/relay_custody.gd")
 const RelayDisposition = preload("res://simulation/relay_disposition.gd")
 const RelayHound = preload("res://simulation/relay_hound.gd")
+const RelayReturn = preload("res://simulation/relay_return.gd")
 const PRICE_ELASTICITY_K: float = 1.5
 const MIN_PRICE_RATIO: float = 0.2
 const MAX_PRICE_RATIO: float = 5.0
@@ -3026,7 +3027,7 @@ func commit_player_intent(world: WorldState, intent: PlayerIntent, tick_events: 
 			if not removed.success:
 				return removed
 			var request_receipt := {"companion_id": Party.ABBAN, "item_id": "wrench", "quantity": 1,
-				"recovery_index": int(Party.personal_state(world).shared.recovery_index), "fee_before": 50, "fee_after": Party.FRIEND_FEE,
+				"recovery_index": int(Party.personal_state(world).shared.recovery_index), "fee_before": Party.hire_fee(world, Party.ABBAN), "fee_after": Party.FRIEND_FEE,
 				"settlement_id": String(world.npc_life_state_registry.get_life_state(intent.player_id).population_container_id)}
 			var request_evt := EventRecord.new(world.current_day, "COMPANION_REQUEST_COMPLETED", intent.player_id, StringName(Party.ABBAN), request_receipt)
 			world.record_event(request_evt)

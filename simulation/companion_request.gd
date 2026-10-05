@@ -8,7 +8,7 @@ static func integer(value: Variant, expected: int) -> bool:
 
 # One request, one recovered real tool, one shared experience. No saved counter.
 static func state(world) -> Dictionary:
-	var out := {"status": "OFFERED", "shared": {}, "tool_given": false, "with_you": "", "error": ""}
+	var out := {"status": "OFFERED", "shared": {}, "tool_given": false, "with_you": "", "error": "", "relay_friend": false, "fee_before": 50}
 	if world == null or world.player == null:
 		return out
 	var site_day := -1
@@ -23,6 +23,7 @@ static func state(world) -> Dictionary:
 		if not ours:
 			continue
 		match String(evt.type):
+			"ABBAN_RELAY_ACKNOWLEDGED": out.relay_friend = true
 			"COMPANION_JOINED": out.with_you = String(p.get("companion_id", ""))
 			"COMPANION_LEFT": out.with_you = ""
 			"PLAYER_TRAVEL_STARTED": location = ""
@@ -49,13 +50,14 @@ static func state(world) -> Dictionary:
 			"COMPANION_REQUEST_COMPLETED":
 				var valid: bool = out.status == "RECOVERED" and out.with_you == ABBAN and evt.target_id == StringName(ABBAN) and p.size() == 7
 				valid = valid and p.get("companion_id") == ABBAN and p.get("item_id") == "wrench" and integer(p.get("quantity"), 1)
-				valid = valid and integer(p.get("fee_before"), 50) and integer(p.get("fee_after"), 25) and integer(p.get("recovery_index"), int(out.shared.get("recovery_index", -1)))
+				valid = valid and integer(p.get("fee_before"), 25 if out.relay_friend else 50) and integer(p.get("fee_after"), 25) and integer(p.get("recovery_index"), int(out.shared.get("recovery_index", -1)))
 				valid = valid and typeof(p.get("settlement_id")) == TYPE_STRING and p.get("settlement_id") == location and world.get_settlement(StringName(location)) != null
 				if not valid:
 					out.error = "INVALID_COMPANION_REQUEST_RECEIPT"
 					return out
 				out.status = "COMPLETED"
 				out.tool_given = true
+				out.fee_before = int(p.fee_before)
 	return out
 
 static func response_refusal(world, response: String) -> String:
@@ -101,6 +103,8 @@ static func delivery_refusal(world) -> String:
 
 static func note(world) -> String:
 	var s := state(world)
+	if s.relay_friend:
+		return "阿扳的扳手仍可按原本請求找回並交還；中繼站已約定再雇用25瓶蓋，交工具不再降價或退款。" + ("\n已完成找回並交還扳手。" if s.tool_given else "\n請求狀態：" + {"OFFERED": "尚未答覆", "DEFERRED": "暫緩", "ACCEPTED": "已答應找回", "REFUSED": "已拒絕", "RECOVERED": "已找回，可交還或留用"}.get(s.status, s.status))
 	match String(s.status):
 		"REFUSED": return "你拒絕了阿扳的工具請求。他仍照原本的條件同行。"
 		"ACCEPTED": return "已答應阿扳：走灰谷—新希望公路，到翻覆的商隊殘骸找回他的扳手。搜尋要多花 1 天；拿到後可留著，或回鎮交給他，往後簽約金降為 25 瓶蓋。背包只能帶一把扳手，出發前先空出位置。"

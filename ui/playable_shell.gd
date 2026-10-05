@@ -1891,6 +1891,9 @@ func _install_desktop_layout(app_frame: VBoxContainer, center_split: HBoxContain
 	hound_button.tooltip_text = "修復後可充能及切換支援；初次發現需到中繼站入口"
 	hound_button.pressed.connect(_show_relay_hound)
 	toolbar_row.add_child(hound_button)
+	var return_button: Button = DesktopWindow.toolbar_button("回城見聞")
+	return_button.pressed.connect(_show_relay_return)
+	toolbar_row.add_child(return_button)
 	var toolbar_spacer := Control.new()
 	toolbar_spacer.size_flags_horizontal = SIZE_EXPAND_FILL
 	toolbar_row.add_child(toolbar_spacer)
@@ -3036,6 +3039,18 @@ func _show_relay_hound() -> void:
 	var close_dialog: Callable = func() -> void:
 		dialog.queue_free(); set_exploration_paused(false)
 	dialog.confirmed.connect(close_dialog); dialog.canceled.connect(close_dialog)
+	dialog.popup_centered(Vector2i(720, 560)); dialog.get_ok_button().grab_focus()
+
+func _show_relay_return() -> void:
+	if world == null or world.player == null: return
+	set_exploration_paused(true)
+	var dialog: AcceptDialog = preload("res://ui/components/relay_return_dialog.gd").new()
+	add_child(dialog); dialog.setup(world, engine)
+	dialog.world_changed.connect(refresh_ui)
+	var close_dialog: Callable = func() -> void:
+		dialog.queue_free(); set_exploration_paused(false)
+	dialog.confirmed.connect(close_dialog); dialog.canceled.connect(close_dialog)
+	dialog.board_requested.connect(func() -> void: close_dialog.call(); _on_quest_access_pressed())
 	dialog.popup_centered(Vector2i(720, 560)); dialog.get_ok_button().grab_focus()
 
 func _show_relay_target() -> void:
