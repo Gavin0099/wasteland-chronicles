@@ -1,0 +1,75 @@
+{
+  "kind": "actual native Vulkan captures",
+  "captures": 8,
+  "distinct_hashes": 8,
+  "assertions": 1776,
+  "failures": 0,
+  "exit_code": 0,
+  "script_errors": 0,
+  "files": [
+    {
+      "file": "artifacts/rly7-rendered/return_agreed_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "6d6f7699fe4fba99bbfeb14b5c9f96f0017eb95a4091e5ef1bd90d2c82312e55"
+    },
+    {
+      "file": "artifacts/rly7-rendered/return_agreed_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "b356d270c0b7d1f7124e995dca3c348a847380570c4a93d80ada97af10d6d72b"
+    },
+    {
+      "file": "artifacts/rly7-rendered/return_existing_board_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "6e4c81998874b088caf68d3e8b4ad42765bfb3c03b6a11a191c44c60817db96b"
+    },
+    {
+      "file": "artifacts/rly7-rendered/return_existing_board_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "95f9a44212337b7ec93f9a4d962c33c5c307d0c2ed4bfb621132386352c5a812"
+    },
+    {
+      "file": "artifacts/rly7-rendered/return_news_agreement_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "dd1225defd1795388c19e44e311f8c3091cac622b6305ba2095da4f75a2df3b8"
+    },
+    {
+      "file": "artifacts/rly7-rendered/return_news_agreement_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "d010993a00776ac0a1b24b0436d910806e8309159aa4ee5994e70da314a61aa1"
+    },
+    {
+      "file": "artifacts/rly7-rendered/return_no_source_1152x648.png",
+      "size": [
+        1152,
+        648
+      ],
+      "sha256": "97b62ac0d45516a16d22fab08c22b6911b6b8713453b30868d56c4891f126255"
+    },
+    {
+      "file": "artifacts/rly7-rendered/return_no_source_1280x720.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "2a1c40351c51cff7f3c6e43cf863b8a77f3030d6f319b25b8aef0498f3549c91"
+    }
+  ]
+}

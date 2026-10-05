@@ -113,3 +113,5 @@
 - RLY-4 delivered PR83; RLY-5 live/dead/release locally verified and pushed, same-PR evidence companion and exact-head GitHub/CI gates pending; RLY-6–8 not started. <!-- memory_record_projection:active-task-summary:67852f2f0934d57e49c33f99fa313a4f7c771c68904a149c25b7c79fa6735aba -->
 
 - RLY-5 delivered PR84/main fa074818; RLY-6 implementation a2022a0 verified and pushed, canonical same-PR companion and exact-head remote gates pending; RLY-7/8 not started. <!-- memory_record_projection:active-task-summary:fa6d5f8e935a4f42f647d7f995bf09b64e8017a530ddc02aabdbf07ffb66e696 -->
+
+- RLY1-6 delivered PR80-85. RLY7 locally verified at0564f1f with fresh140suites/bound1768/native1776 and independent zeroP0/P1; companion and exact-head remote review/CI/merge pending. RLY8 ordinary50 full journey remains authorized next. Supply-urgency wording P2 and human fun/pacing qualification retained. <!-- memory_record_projection:active-task-summary:5c39c6750ab3cd0b3e9812fd5f9451c54b1e4cbf51a6cfbac6f267ffede67a58 -->

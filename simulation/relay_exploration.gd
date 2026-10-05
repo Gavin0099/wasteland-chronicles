@@ -75,6 +75,7 @@ static func authorize(world: WorldState, payload: Dictionary) -> String:
 	if payload.command in SimulationEngine.RelayCustody.COMMANDS: return SimulationEngine.RelayCustody.authorize(world, payload)
 	if SimulationEngine.RelayCustody.pending(world): return "PURSUIT_ACTIVITY_PENDING"
 	if payload.command in SimulationEngine.RelayHound.COMMANDS: return SimulationEngine.RelayHound.authorize(world, payload)
+	if payload.command in SimulationEngine.RelayReturn.COMMANDS: return SimulationEngine.RelayReturn.authorize(world, payload)
 	if payload.command in SimulationEngine.RelayDisposition.COMMANDS: return SimulationEngine.RelayDisposition.authorize(world, payload)
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.authorize(world, payload)
 	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.authorize(world, payload)
@@ -110,6 +111,7 @@ static func commit(world: WorldState, payload: Dictionary, events: Array[EventRe
 	if error != "": return {"success": false, "error": error}
 	if payload.command in SimulationEngine.RelayCustody.COMMANDS: return SimulationEngine.RelayCustody.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayHound.COMMANDS: return SimulationEngine.RelayHound.commit(world, payload, events, engine)
+	if payload.command in SimulationEngine.RelayReturn.COMMANDS: return SimulationEngine.RelayReturn.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayDisposition.COMMANDS: return SimulationEngine.RelayDisposition.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayTarget.COMMANDS: return SimulationEngine.RelayTarget.commit(world, payload, events, engine)
 	if payload.command in SimulationEngine.RelayPower.COMMANDS: return SimulationEngine.RelayPower.commit(world, payload, events, engine)
@@ -284,7 +286,9 @@ static func validate_world(world: WorldState) -> String:
 	var custody_error: String = SimulationEngine.RelayCustody.validate_world(world)
 	if custody_error != "": return custody_error
 	var disposition_error: String = SimulationEngine.RelayDisposition.validate_world(world)
-	return SimulationEngine.RelayHound.validate_world(world) if disposition_error == "" else disposition_error
+	if disposition_error != "": return disposition_error
+	var hound_error: String = SimulationEngine.RelayHound.validate_world(world)
+	return SimulationEngine.RelayReturn.validate_world(world) if hound_error == "" else hound_error
 
 static func validate_result(combat: Dictionary, p: Dictionary, index: int) -> String:
 	if combat.result_index >= 0 or combat.outcome == "" or not text(p.get("outcome"), combat.outcome) or not number(p.get("hp"), int(combat.hp), int(combat.hp)) or not text(p.get("enemy"), "feral_dog") or not number(p.get("site_enemy_hp"), int(combat.site_enemy_hp), int(combat.site_enemy_hp)) or typeof(p.get("gained")) != TYPE_DICTIONARY or not p.gained.is_empty() or typeof(p.get("left_behind")) != TYPE_DICTIONARY or not p.left_behind.is_empty() or not number(p.get("caps_gained", 0), 0, 0): return "RELAY_INVALID_COMBAT_RESULT"

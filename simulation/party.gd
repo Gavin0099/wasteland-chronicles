@@ -122,7 +122,7 @@ static func validate_personal_history(world) -> String:
 	return String(Request.state(world).error)
 
 static func hire_fee(world, companion_id: String) -> int:
-	if companion_id == ABBAN and bool(personal_state(world).tool_given):
+	if companion_id == ABBAN and (bool(personal_state(world).tool_given) or bool(SimulationEngine.RelayReturn.state(world).friend)):
 		return FRIEND_FEE
 	return int(COMPANIONS[companion_id].fee) if exists(companion_id) else 0
 
@@ -130,7 +130,7 @@ static func request_refusal(world) -> String:
 	return Request.delivery_refusal(world)
 
 static func personal_note(world) -> String:
-	return Request.note(world)
+	return Request.note(world) + "\n" + SimulationEngine.RelayReturn.note(world)
 
 # ── What the party can do ─────────────────────────────────────────────────────
 
