@@ -24,7 +24,7 @@ const COMMAND_SIZES: Dictionary = {"ENTER": 2, "MOVE": 4, "OBSERVE": 3, "EXIT": 
 const ROAD_CLEAR_SCRAP: int = 1
 
 static func state(world: WorldState) -> Dictionary:
-	var s: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "observed": [], "discovered": false, "work_units": 0, "trip_moves": 0, "trip_days": 0, "entries": 0}
+	var s: Dictionary = {"active": false, "room_id": "", "from_room_id": "", "visited": [], "observed": [], "discovered": false, "work_units": 0, "trip_moves": 0, "trip_days": 0, "trip_rules": 1, "entries": 0}
 	if world == null or world.player == null: return s
 	for e: EventRecord in world.event_log:
 		if e.actor_id != world.player.npc_id or e.type not in EVENTS: continue
@@ -56,29 +56,34 @@ static func visit_moves() -> int:
 	# Entrance to the farthest room and back.
 	return 2 * (ROOMS.size() - 1)
 
+# Per-day pack cost on the road and inside the mine, from the same Party data the engine feeds from.
+static func rates(companion: String) -> Dictionary:
+	var info: Dictionary = SimulationEngine.Party.info(companion) if companion != "" and SimulationEngine.Party.exists(companion) else {}
+	var guided: bool = bool(info.get("finds_water", false))
+	return {"road_water": (0 if guided else 1) + int(info.get("road_water", 0)), "road_food": 1 + int(info.get("road_food", 0)),
+		"mine_water": 1 + int(info.get("road_water", 0)), "mine_food": 1 + int(info.get("road_food", 0))}
+
 # The pre-departure and entrance disclosure. Everything is derived from the same
 # rules the engine applies; nothing here is a promise about a particular road.
 # Pinned against the real engine by tests/test_mine_entrance.gd.
-static func forecast(route_days: int, companion: String) -> Dictionary:
-	var info: Dictionary = SimulationEngine.Party.info(companion) if companion != "" and SimulationEngine.Party.exists(companion) else {}
-	var guided: bool = bool(info.get("finds_water", false))
+static func forecast(route_days: int, companion: String, legs: int = 2, with_scrap: bool = true) -> Dictionary:
+	var r: Dictionary = rates(companion)
 	# Each in-transit tick is charged; the arrival tick settles the traveller first.
 	var transit_ticks: int = maxi(0, route_days - 1)
-	var road_water: int = (0 if guided else 1) + int(info.get("road_water", 0))
-	var road_food: int = 1 + int(info.get("road_food", 0))
 	var mine_days: int = int(ceil(float(visit_moves()) / float(MOVES_PER_DAY)))
-	var mine_water: int = 1 + int(info.get("road_water", 0))
-	var mine_food: int = 1 + int(info.get("road_food", 0))
-	var legs: int = 2
 	return {
 		"route_days": route_days, "legs": legs, "transit_days": transit_ticks * legs, "mine_days": mine_days,
-		"water": road_water * transit_ticks * legs + mine_water * mine_days,
-		"food": road_food * transit_ticks * legs + mine_food * mine_days,
-		"scrap": ROAD_CLEAR_SCRAP,
-		"extra_day_water": road_water, "extra_day_food": road_food,
+		"water": r.road_water * transit_ticks * legs + r.mine_water * mine_days,
+		"food": r.road_food * transit_ticks * legs + r.mine_food * mine_days,
+		"scrap": ROAD_CLEAR_SCRAP if with_scrap else 0,
+		"extra_day_water": r.road_water, "extra_day_food": r.road_food,
 		"bribe_caps": TravelEncounter.BANDIT_BRIBE_CAPS,
 		"companion": companion,
 	}
+
+# What is still needed once standing at the mine entrance: the mine day and the way back.
+static func entrance_forecast(route_days: int, companion: String) -> Dictionary:
+	return forecast(route_days, companion, 1, false)
 
 static func forecast_lines(f: Dictionary) -> PackedStringArray:
 	var lines: PackedStringArray = []

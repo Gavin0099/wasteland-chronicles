@@ -39,7 +39,9 @@ func _install_shell() -> void:
 	add_child(shell)
 	shell.setup(world, engine)
 	shell.save_menu_requested.connect(_open_save_menu)
-	if engine.Relay.state(world).active:
+	if engine.Mine.state(world).active:
+		shell._show_mine()
+	elif engine.Relay.state(world).active:
 		shell._show_relay()
 	elif engine.Dungeon.state(world).active:
 		shell._show_dungeon()
